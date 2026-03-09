@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://nbn0asbe4wf3"]
+
+[ext_resource type="Script" uid="uid://bbxkyeqy0amiu" path="res://orc.gd" id="1_3xw0u"]
+[ext_resource type="PackedScene" uid="uid://c4npakimbqk0u" path="res://Dugeon/character-orc.glb" id="1_ws5q1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xw0u"]
+radius = 0.06640625
+height = 0.23902893
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kapy6"]
+radius = 0.16259766
+height = 0.3263855
+
+[node name="Orc" type="CharacterBody3D" unique_id=844430660]
+script = ExtResource("1_3xw0u")
+
+[node name="character-orc2" parent="." unique_id=1281602555 instance=ExtResource("1_ws5q1")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=574247238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10759735, 0)
+shape = SubResource("CapsuleShape3D_3xw0u")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=1211876878]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1609782530]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07307434, -0.006230831)
+shape = SubResource("CapsuleShape3D_kapy6")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1713673120]
+path_desired_distance = 1.5

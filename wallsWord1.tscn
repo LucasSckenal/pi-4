@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://dkwapliiu1mys"]
+
+[ext_resource type="Script" uid="uid://bwou40gkdggrh" path="res://walls_word_1.gd" id="1_c8ps2"]
+[ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Mapa/unit-tower.glb" id="1_ohjqt"]
+[ext_resource type="PackedScene" uid="uid://83rtswsguqjg" path="res://wall_gate.tscn" id="2_c8ps2"]
+[ext_resource type="PackedScene" uid="uid://duluxy1uhfvhk" path="res://canto.tscn" id="3_vkxan"]
+[ext_resource type="PackedScene" uid="uid://cb16s0xdc77hq" path="res://wall.tscn" id="4_40ybk"]
+
+[node name="Node3D" type="Node3D" unique_id=205951365]
+script = ExtResource("1_c8ps2")
+
+[node name="unit-tower5" parent="." unique_id=1301817256 instance=ExtResource("1_ohjqt")]
+transform = Transform3D(1, 0, 0, 0, 1.4626002, 0, 0, 0, 1, 1.9379916, 0.06245643, -2.4695158)
+
+[node name="unit-tower6" parent="." unique_id=2024794460 instance=ExtResource("1_ohjqt")]
+transform = Transform3D(1, 0, 0, 0, 1.4626002, 0, 0, 0, 1, -1.1776506, 0.06245643, -0.5352938)
+
+[node name="wall-gate2" parent="." unique_id=592631620 instance=ExtResource("2_c8ps2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013795018, 0.016778708, -0.029027939)
+
+[node name="Canto" parent="." unique_id=1470956903 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.9867115, 0, -0.16248222, 0, 1, 0, 0.16248222, 0, -0.9867115, 0.46335936, 0.01677847, -0.056196928)
+
+[node name="Canto5" parent="." unique_id=1405581378 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.9867115, 0, -0.16248222, 0, 1, 0, 0.16248222, 0, -0.9867115, 1.8726332, 0.01677847, -0.5321646)
+
+[node name="Canto7" parent="." unique_id=1406690286 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.9867115, 0, -0.16248222, 0, 1, 0, 0.16248222, 0, -0.9867115, 2.281532, 0.01677847, -0.96875954)
+
+[node name="Canto2" parent="." unique_id=1221383979 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.010559104, 0, 0.9999442, 0, 1, 0, -0.9999442, 0, -0.010559104, -0.43056607, 0.01677847, -0.03853774)
+
+[node name="Canto9" parent="." unique_id=415020191 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.010559104, 0, 0.9999442, 0, 1, 0, -0.9999442, 0, -0.010559104, 1.6140852, 0.01677847, -2.442935)
+
+[node name="Canto11" parent="." unique_id=766339464 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.010559104, 0, 0.9999442, 0, 1, 0, -0.9999442, 0, -0.010559104, 1.2089512, 0.01677847, -2.8984041)
+
+[node name="Canto3" parent="." unique_id=1776370314 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.038579796, 0, -0.9992555, 0, 1, 0, 0.9992555, 0, 0.038579796, -0.41929328, 0.01677847, -0.5314219)
+
+[node name="Canto10" parent="." unique_id=482113033 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.038579796, 0, -0.9992555, 0, 1, 0, 0.9992555, 0, 0.038579796, 1.6734872, 0.01677847, -2.8882296)
+
+[node name="Canto12" parent="." unique_id=1098804915 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.038579796, 0, -0.9992555, 0, 1, 0, 0.9992555, 0, 0.038579796, 1.187377, 0.01677847, -3.286759)
+
+[node name="Canto13" parent="." unique_id=1041744298 instance=ExtResource("3_vkxan")]
+transform = Transform3D(-0.010559104, 0, 0.9999442, 0, 1, 0, -0.9999442, 0, -0.010559104, 0.74122095, 0.01677847, -3.2783694)
+
+[node name="Canto14" parent="." unique_id=1856730622 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.038579796, 0, -0.9992555, 0, 1, 0, 0.9992555, 0, 0.038579796, 0.7196467, 0.01677847, -3.6667244)
+
+[node name="Canto8" parent="." unique_id=1849308081 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.16819704, 0, -0.98575336, 0, 1, 0, 0.98575336, 0, 0.16819704, 2.0894277, 0.01677847, -2.4451828)
+
+[node name="Canto4" parent="." unique_id=161810550 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.9999529, 0, -0.009703781, 0, 1, 0, 0.009703781, 0, 0.9999529, 0.43658173, 0.01677847, -0.5314219)
+
+[node name="Canto6" parent="." unique_id=1963813391 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.9999529, 0, -0.009703781, 0, 1, 0, 0.009703781, 0, 0.9999529, 1.8581336, 0.01677847, -1.0024824)
+
+[node name="wall2" parent="." unique_id=364195578 instance=ExtResource("4_40ybk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.93024063, 0.01721543, -0.51749754)
+
+[node name="wall3" parent="." unique_id=2026350756 instance=ExtResource("4_40ybk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4196, 0.01721543, -0.51749754)
+
+[node name="wall4" parent="." unique_id=14869804 instance=ExtResource("4_40ybk")]
+transform = Transform3D(-0.13685672, 0, 0.9905909, 0, 1, 0, -0.9905909, 0, -0.13685672, 2.2199316, 0.01721543, -1.4615434)
+
+[node name="wall5" parent="." unique_id=722753400 instance=ExtResource("4_40ybk")]
+transform = Transform3D(-0.13685672, 0, 0.9905909, 0, 1, 0, -0.9905909, 0, -0.13685672, 2.1538615, 0.01721543, -1.9512373)
+
+[node name="wall6" parent="." unique_id=2101005818 instance=ExtResource("4_40ybk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.91002226, 0.01677835, -0.53186846)
+
+[node name="Canto15" parent="." unique_id=1627665290 instance=ExtResource("3_vkxan")]
+transform = Transform3D(0.08899862, 0, 0.99603176, 0, 1, 0, -0.99603176, 0, 0.08899862, -1.428223, 0.016778708, -0.5853071)

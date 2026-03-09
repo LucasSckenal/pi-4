@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://83rtswsguqjg"]
+
+[ext_resource type="PackedScene" uid="uid://bwo1evew4ch" path="res://Arena/wall-gate.glb" id="1_qjre7"]
+[ext_resource type="Script" uid="uid://dwsl1gaofhtc6" path="res://wall_gate_2.gd" id="2_20t8i"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ktyf3"]
+
+[node name="wall-gate2" unique_id=592631620 instance=ExtResource("1_qjre7")]
+script = ExtResource("2_20t8i")
+
+[node name="Area3D" type="Area3D" parent="." index="1" unique_id=1415890421]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=447112156]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17354012, 0)
+shape = SubResource("SphereShape3D_ktyf3")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://gci73cbqvo6i"]
+
+[ext_resource type="PackedScene" uid="uid://xqf2a2j2mi4r" path="res://Mapa/building-mine.glb" id="1_qdhoj"]
+[ext_resource type="Script" uid="uid://uikt0de4nnku" path="res://building_mine.gd" id="2_b787k"]
+
+[node name="building-mine2" unique_id=1285628340 instance=ExtResource("1_qdhoj")]
+script = ExtResource("2_b787k")
