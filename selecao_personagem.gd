@@ -5,12 +5,15 @@ var slot_cena = preload("res://slot_personagem.tscn")
 @onready var grid = $HBoxContainer/ScrollContainer/GridContainer
 @onready var ponto_spawn = get_node_or_null("HBoxContainer/SubViewportContainer/SubViewport/PontoSpawn")
 
+# VARIÁVEL TEMPORÁRIA: Guarda quem você clicou, mas ainda não confirmou
+var personagem_temporario = ""
+
 func _ready():
-	# 1. Limpa a grade
+	# Limpa a grade
 	for child in grid.get_children():
 		child.queue_free()
 	
-	# 2. Cria os slots (Apenas UMA vez agora)
+	# Cria os slots
 	for caminho in Global.lista_personagens:
 		var novo_slot = slot_cena.instantiate()
 		grid.add_child(novo_slot)
@@ -24,22 +27,22 @@ func _ready():
 		if btn:
 			btn.pressed.connect(_ao_escolher.bind(caminho))
 
+
 func _ao_escolher(caminho):
-	# MUITO IMPORTANTE: Salva a escolha do jogador no Global!
-	# É isso que o botão "Selecionar" vai conferir depois.
-	Global.personagem_escolhido_path = caminho
+	# 1. VISUALIZAR: Salva APENAS no temporário por enquanto!
+	personagem_temporario = caminho
 
 	if ponto_spawn:
-		# Deleta quem estava lá
+		# Deleta quem estava lá na tela grande
 		for n in ponto_spawn.get_children():
 			n.queue_free()
 		
 		# Spawna o personagem grande
 		var grande = load(caminho).instantiate()
 		ponto_spawn.add_child(grande)
-		grande.scale = Vector3(0.8, 0.8, 0.8)
+		grande.scale = Vector3(0.3, 0.3, 0.3) # Tamanho 0.3 como você pediu!
 		
-		# Toca a animação (com o Loop infinito que fizemos antes)
+		# Toca a animação em Loop
 		var anim = grande.get_node_or_null("AnimationPlayer")
 		if anim: 
 			var animacao_idle = anim.get_animation("idle")
@@ -49,23 +52,22 @@ func _ao_escolher(caminho):
 
 
 # ---------------------------------------------------------
-# BOTÕES DE AÇÃO
+# BOTÃO DE VOLTAR (Apenas sai da tela)
 # ---------------------------------------------------------
-
 func _on_btn_back_pressed() -> void:
-	# Se ele cancelou, limpamos a escolha para não bugar
-	Global.personagem_escolhido_path = ""
-	# Volta pro menu principal
+	print("Voltando para o menu principal...")
 	get_tree().change_scene_to_file("res://main_menu.tscn")
 
 
+# ---------------------------------------------------------
+# BOTÃO DE SELECIONAR (Salva no Global e fica na tela)
+# ---------------------------------------------------------
 func _on_btn_select_pressed() -> void:
-	# 1. Verifica se ele realmente clicou em um boneco antes de selecionar
-	if Global.personagem_escolhido_path == "":
-		print("Você precisa clicar em um personagem primeiro!")
-		# DICA: Aqui você pode colocar um Label na tela avisando o erro
-		return # Interrompe a função aqui
+	# Verifica se tem alguém no temporário (se você clicou em alguma miniatura)
+	if personagem_temporario == "":
+		print("Aviso: Você precisa clicar em um personagem primeiro!")
+		return 
 		
-	# 2. Se tudo deu certo, volta pro menu com o personagem salvo!
-	print("Personagem salvo: ", Global.personagem_escolhido_path)
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	# AGORA SIM! O jogador confirmou. Passamos do temporário para o Global!
+	Global.personagem_escolhido_path = personagem_temporario
+	print("Personagem salvo com sucesso para o jogo: ", Global.personagem_escolhido_path)
