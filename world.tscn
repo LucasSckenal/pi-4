@@ -44,6 +44,11 @@ sky_rotation = Vector3(0, 3.1415927, 0)
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_bo7i5"]
+auto_exposure_enabled = true
+dof_blur_far_enabled = true
+dof_blur_far_distance = 3.75
+
 [sub_resource type="NavigationMesh" id="NavigationMesh_bo7i5"]
 vertices = PackedVector3Array(1.6782864, 0.32415605, -2.3981752, 1.6782864, 0.57415605, -1.3981752, 2.6782866, 0.32415605, -1.3981752, 2.6782866, 0.32415605, -2.3981752, 3.1782866, 0.32415605, 1.1018248, 3.6782866, 0.32415605, 2.1018248, 3.1782866, 0.32415605, 0.60182476, 1.4282864, 0.32415605, 3.1018248, 2.6782866, 0.32415605, 3.1018248, 1.9282864, 0.32415605, 2.6018248, 1.1782864, 0.57415605, 2.6018248, 2.1782866, 0.57415605, 1.1018248, 0.92828643, 0.57415605, 0.35182476, 0.17828643, 0.57415605, 1.3518248, 1.4282864, 0.57415605, -0.14817524, 1.4282864, 0.57415605, -1.1481752, 0.67828643, 0.32415605, -1.1481752, -0.07171357, 0.57415605, 2.6018248, -0.32171357, 0.57415605, 0.85182476)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(6, 5, 4), PackedInt32Array(10, 9, 7), PackedInt32Array(7, 9, 8), PackedInt32Array(9, 10, 11), PackedInt32Array(11, 10, 13), PackedInt32Array(11, 13, 12), PackedInt32Array(4, 11, 6), PackedInt32Array(6, 11, 14), PackedInt32Array(14, 11, 12), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 12), PackedInt32Array(10, 17, 13), PackedInt32Array(12, 13, 18)]
@@ -163,6 +168,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2837014, 0.22617066, 0.4097
 
 [node name="Camera3D2" type="Camera3D" parent="." unique_id=2104519124 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.63448775, 0.7729329, 0, -0.7729329, 0.63448775, 0.30905718, 2.363804, 3.0047047)
+attributes = SubResource("CameraAttributesPractical_bo7i5")
 script = ExtResource("26_bo7i5")
 player = NodePath("../Player")
 
