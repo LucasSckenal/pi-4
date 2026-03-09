@@ -59,6 +59,39 @@ func _physics_process(delta):
 func _ready():
 	add_to_group("Player")
 	atualizar_hud()
+	
+	# ---------------------------------------------------------
+	# SISTEMA DE TROCA DE PERSONAGEM
+	# ---------------------------------------------------------
+	# Verifica se tem algum caminho salvo lá no Global
+	if Global.personagem_escolhido_path != "":
+		
+		var modelo_antigo = get_node_or_null("character-male-f2")
+		
+		if modelo_antigo:
+			# 1. Carrega o boneco que o jogador escolheu no menu
+			var cena_novo_modelo = load(Global.personagem_escolhido_path)
+			var modelo_novo = cena_novo_modelo.instantiate()
+			
+			# 2. Renomeia o novo para o nome padrão (mantém a árvore organizada)
+			modelo_novo.name = "character-male-f2"
+			
+			# 3. Adiciona o novo boneco na cena do Player
+			add_child(modelo_novo)
+			modelo_novo.scale = Vector3(0.3, 0.3, 0.3)
+			# 4. O PULO DO GATO: Atualiza a variável de animação para o novo boneco!
+			# Se não fizermos isso, o jogo quebra ao tentar andar.
+			var novo_anim_player = modelo_novo.get_node_or_null("AnimationPlayer")
+			if novo_anim_player:
+				anim_player = novo_anim_player
+				
+				# Força as animações principais a ficarem em loop (opcional, mas recomendado)
+				if anim_player.has_animation("idle"): anim_player.get_animation("idle").loop_mode = Animation.LOOP_LINEAR
+				if anim_player.has_animation("walk"): anim_player.get_animation("walk").loop_mode = Animation.LOOP_LINEAR
+			
+			# 5. Agora que o novo já está pronto, renomeamos e deletamos o antigo
+			modelo_antigo.name = "Boneco_Deletado"
+			modelo_antigo.queue_free()
 
 # ---------------------------------------------------------
 # FUNÇÃO PARA ATUALIZAR O TEXTO NO ECRÃ

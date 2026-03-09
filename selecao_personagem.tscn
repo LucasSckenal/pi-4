@@ -54,3 +54,22 @@ transform = Transform3D(0.9998579, -4.3432008e-10, -0.016859235, 0.0002892334, 0
 
 [node name="PontoSpawn" type="Node3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=435919479]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9700274)
+
+[node name="BtnBack" type="Button" parent="." unique_id=478791273]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 9.0
+offset_right = 103.0
+offset_bottom = 40.0
+text = "← Voltar"
+
+[node name="BtnSelect" type="Button" parent="." unique_id=2015667656]
+layout_mode = 0
+offset_left = 813.0
+offset_top = 592.0
+offset_right = 902.0
+offset_bottom = 623.0
+text = "Selecionar"
+
+[connection signal="pressed" from="BtnBack" to="." method="_on_btn_back_pressed"]
+[connection signal="pressed" from="BtnSelect" to="." method="_on_btn_select_pressed"]
