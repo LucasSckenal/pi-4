@@ -12,13 +12,14 @@ config_version=5
 
 config/name="PI-4"
 config/version="1.0"
-run/main_scene="uid://bwf5ew2pcpn7w"
+run/main_scene="uid://c6q536yvnfjtf"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://dpvk2oj1ksekl"
 
 [autoload]
 
 GameManager="*uid://ddqkxwp801d88"
+Global="*uid://ekneedd48nfl"
 
 [global_group]
 

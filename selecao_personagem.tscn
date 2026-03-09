@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://drwogs8ls2d48"]
+
+[ext_resource type="Script" uid="uid://dmt45itdk5kxy" path="res://selecao_personagem.gd" id="1_l080w"]
+
+[node name="TelaSelecao" type="Control" unique_id=1972340995]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_l080w")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=818732713]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.17254902, 0.17254902, 0.17254902, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1557209633]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer" unique_id=1174293387]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/ScrollContainer" unique_id=341478023]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HBoxContainer" unique_id=138102986]
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HBoxContainer/SubViewportContainer" unique_id=1487482862]
+handle_input_locally = false
+size = Vector2i(574, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1397586359]
+transform = Transform3D(0.9998579, -4.3432008e-10, -0.016859235, 0.0002892334, 0.99985284, 0.017153293, 0.016856752, -0.017155752, 0.99971086, 0, 0.48922646, -2.1259713)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1796887019]
+
+[node name="PontoSpawn" type="Node3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=435919479]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9700274)

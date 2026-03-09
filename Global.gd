@@ -1,9 +1,8 @@
 extends Node
 
-# Aqui vamos guardar o caminho (cena) do personagem escolhido
 var personagem_escolhido_path : String = ""
 
-# Você pode colocar as cenas dos seus personagens aqui depois
+# Verifique se os nomes dos arquivos abaixo estão IGUAIS aos da sua pasta
 var lista_personagens = [
 	"res://Personagens/character-female-a.glb",
 	"res://Personagens/character-female-b.glb",
@@ -18,3 +17,7 @@ var lista_personagens = [
 	"res://Personagens/character-male-e.glb",
 	"res://Personagens/character-male-f.glb"
 ]
+
+func _ready():
+	print("--- DEBUG GLOBAL ---")
+	print("Lista carregada com ", lista_personagens.size(), " personagens.")

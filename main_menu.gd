@@ -8,7 +8,7 @@ func _on_btn_jogar_pressed():
 # Esse botão vai abrir a tela de escolher o boneco
 func _on_btn_customizar_pressed():
 	print("Mudar para a tela de Customização!")
-	# Futuramente vamos colocar o código de trocar a cena de UI aqui
+	get_tree().change_scene_to_file("res://selecao_personagem.tscn")
 
 # Esse botão vai abrir as opções
 func _on_btn_configuracoes_pressed():

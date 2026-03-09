@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dnsccmjrcwfa1"]
+
+[node name="SlotPersonagem" type="Control" unique_id=1982193538]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=203177282]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=570835006]
+transparent_bg = true
+size = Vector2i(40, 40)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1350296405]
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881907, 0, -0.25881907, 0.9659258, 0, 0.52132356, 0.4801643)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1145652515]
+transform = Transform3D(1, 0, 0, 0, 0.58833575, 0.80861676, 0, -0.80861676, 0.5883358, 0, 2.6401665, 2.3199258)
+
+[node name="Button" type="Button" parent="." unique_id=126527247]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
