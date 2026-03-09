@@ -28,8 +28,11 @@
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://build_slot.tscn" id="27_4h6ng"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_il2jm"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
+sky_horizon_color = Color(0.23483449, 0.00023430049, 0.69736916, 1)
+ground_bottom_color = Color(0.1263088, 0, 0.72530735, 1)
+ground_horizon_color = Color(0.060327195, 0.7809794, 0.9999998, 1)
+ground_curve = 0.08574214
 
 [sub_resource type="Sky" id="Sky_wjb0r"]
 sky_material = SubResource("ProceduralSkyMaterial_il2jm")
@@ -37,6 +40,7 @@ sky_material = SubResource("ProceduralSkyMaterial_il2jm")
 [sub_resource type="Environment" id="Environment_mc2jv"]
 background_mode = 2
 sky = SubResource("Sky_wjb0r")
+sky_rotation = Vector3(0, 3.1415927, 0)
 tonemap_mode = 2
 glow_enabled = true
 
@@ -49,6 +53,7 @@ agent_radius = 1.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=276591259]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 1, 0.6509804, 1)
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1332481536]
