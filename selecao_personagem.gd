@@ -6,50 +6,52 @@ var slot_cena = preload("res://slot_personagem.tscn")
 @onready var ponto_spawn = get_node_or_null("HBoxContainer/SubViewportContainer/SubViewport/PontoSpawn")
 
 func _ready():
-	print("Limpando e Gerando a Grade...")
-	
-	# 1. Limpa a grade (essencial!)
+	# 1. Limpa a grade para não duplicar
 	for child in grid.get_children():
 		child.queue_free()
 	
-	# 2. Loop para criar apenas os BOTÕES da grade
+	# 2. O LOOP CORRETO
 	for caminho in Global.lista_personagens:
 		var novo_slot = slot_cena.instantiate()
 		grid.add_child(novo_slot)
 		
-		# --- MINIATURA (Dentro do slot) ---
-		var vp = novo_slot.get_node_or_null("SubViewportContainer/SubViewport")
-		if vp == null: vp = novo_slot.get_node_or_null("SubViewport")
+		# AQUI ESTÁ O SEGREDO: 
+		# Passamos 'caminho' (um por vez), NÃO a 'lista_personagens' (todos)
+		if novo_slot.has_method("configurar_slot"):
+			novo_slot.configurar_slot(caminho) 
 		
-		if vp:
-			var mini = load(caminho).instantiate()
-			vp.add_child(mini)
-			mini.scale = Vector3(0.5, 0.5, 0.5)
-			var anim = mini.get_node_or_null("AnimationPlayer")
-			if anim: anim.play("idle")
-
-		# --- CONEXÃO DO CLIQUE ---
+		# Conecta o botão
 		var btn = novo_slot.get_node_or_null("Button")
 		if btn:
-			# O BIND é o que diz ao botão qual personagem ele representa
+			btn.pressed.connect(_ao_escolher.bind(caminho))
+	# Limpa a grade
+	for child in grid.get_children():
+		child.queue_free()
+	
+	# Cria os slots
+	for caminho in Global.lista_personagens:
+		var novo_slot = slot_cena.instantiate()
+		grid.add_child(novo_slot)
+		
+		# Chama a função que criamos no script do SLOT
+		if novo_slot.has_method("configurar_slot"):
+			novo_slot.configurar_slot(caminho)
+		
+		# Conecta o botão para mostrar o boneco GRANDE
+		var btn = novo_slot.get_node_or_null("Button")
+		if btn:
 			btn.pressed.connect(_ao_escolher.bind(caminho))
 
-# --- ESSA FUNÇÃO DEVE FICAR FORA DO LOOP 'FOR' ---
 func _ao_escolher(caminho):
-	print("Você clicou no personagem: ", caminho)
-	
 	if ponto_spawn:
-		# LIMPEZA: Remove quem já estava lá (para não amontoar)
+		# Deleta quem estava lá (LIMPEZA CRUCIAL)
 		for n in ponto_spawn.get_children():
 			n.queue_free()
-			
-		# SPAWN: Agora sim, coloca o NOVO boneco sozinho
+		
+		# Spawna apenas UM por vez
 		var grande = load(caminho).instantiate()
 		ponto_spawn.add_child(grande)
-		
-		# Ajuste para ele não ficar gigante na tela
-		grande.scale = Vector3(0.8, 0.8, 0.8) 
+		grande.scale = Vector3(0.8, 0.8, 0.8)
 		
 		var anim = grande.get_node_or_null("AnimationPlayer")
-		if anim: 
-			anim.play("idle")
+		if anim: anim.play("idle")
