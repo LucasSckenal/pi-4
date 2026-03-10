@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bn8k3kr2xj05k" path="res://node_3d.tscn" id="2_fu7sn"]
 [ext_resource type="PackedScene" uid="uid://souaq670gocl" path="res://Mapa/grass-forest.glb" id="3_jix8l"]
 [ext_resource type="Script" uid="uid://dpdxsl8wui3rn" path="res://camera_3d.gd" id="4_jix8l"]
+[ext_resource type="AudioStream" uid="uid://bh1xj83yr2o0t" path="res://MenuMusicTeste.mp3" id="5_glbon"]
 
 [node name="MainMenu" type="Control" unique_id=144538788]
 layout_mode = 3
@@ -209,6 +210,11 @@ offset_bottom = 152.24799
 grow_horizontal = 0
 grow_vertical = 2
 flat = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1657012310]
+stream = ExtResource("5_glbon")
+volume_db = -20.0
+autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnJogar" to="." method="_on_btn_jogar_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]

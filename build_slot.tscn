@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://det7oyq61ct6y"]
 
 [ext_resource type="Script" uid="uid://f8n7jkqvkuro" path="res://build_slot.gd" id="1_64b41"]
+[ext_resource type="Texture2D" uid="uid://bdymy3eytauin" path="res://Building icon.png" id="2_w3lxa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_64b41"]
 
@@ -29,5 +30,15 @@ billboard = 1
 no_depth_test = true
 text = "[E] Construir"
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1244953447]
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer" unique_id=16713609]
+offset_right = 64.0
+offset_bottom = 64.0
+texture_normal = ExtResource("2_w3lxa")
+ignore_texture_size = true
+stretch_mode = 5
+
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="pressed" from="CanvasLayer/TextureButton" to="." method="_on_texture_button_pressed"]
