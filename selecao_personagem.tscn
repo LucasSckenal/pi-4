@@ -49,8 +49,8 @@ size = Vector2i(574, 648)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1397586359]
-transform = Transform3D(0.9998579, -5.5071886e-10, -0.016859233, 0.0002892334, 0.99985284, 0.017153313, 0.016856752, -0.017155752, 0.99971074, -0.005544305, 0.36933768, -2.3313224)
-doppler_tracking = 1
+transform = Transform3D(0.9998579, -3.1792133e-10, -0.016859235, 0.0034271944, 0.9791201, 0.20325403, 0.016507214, -0.20328292, 0.9789809, -0.009597778, 0.2905087, -2.414106)
+fov = 45.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="HBoxContainer/SubViewportContainer/SubViewport" unique_id=1796887019]
 

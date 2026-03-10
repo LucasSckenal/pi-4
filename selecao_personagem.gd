@@ -26,6 +26,10 @@ func _ready():
 		var btn = novo_slot.get_node_or_null("Button")
 		if btn:
 			btn.pressed.connect(_ao_escolher.bind(caminho))
+			
+	# ---> O QUE VOCÊ PEDIU: Mostra o personagem global por padrão <---
+	if Global.personagem_escolhido_path != "":
+		_ao_escolher(Global.personagem_escolhido_path)
 
 
 func _ao_escolher(caminho):
@@ -40,7 +44,9 @@ func _ao_escolher(caminho):
 		# Spawna o personagem grande
 		var grande = load(caminho).instantiate()
 		ponto_spawn.add_child(grande)
-		grande.scale = Vector3(0.3, 0.3, 0.3) # Tamanho 0.3 como você pediu!
+		
+		# Use a escala que você já ajustou e achou melhor
+		grande.scale = Vector3(0.3, 0.3, 0.3) 
 		
 		# Toca a animação em Loop
 		var anim = grande.get_node_or_null("AnimationPlayer")
@@ -72,4 +78,3 @@ func _on_btn_select_pressed() -> void:
 	Global.personagem_escolhido_path = personagem_temporario
 	get_tree().change_scene_to_file("res://main_menu.tscn")
 	print("Personagem salvo com sucesso para o jogo: ", Global.personagem_escolhido_path)
-	

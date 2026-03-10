@@ -40,7 +40,8 @@ func _on_btn_customizar_pressed():
 
 func _on_btn_configuracoes_pressed():
 	print("Mudar para a tela de Configurações!")
-
+	get_tree().change_scene_to_file("res://configuracoes.tscn")
 
 func _on_btn_sair_pressed() -> void:
-	pass # Replace with function body.
+	print("Fechando o jogo...")
+	get_tree().quit()
