@@ -6,21 +6,41 @@ extends CharacterBody3D
 @export var rotation_speed = 10.0 
 
 @onready var anim_player = $"character-male-f2/AnimationPlayer"
+@onready var nav_agent = $NavigationAgent3D
+
+# Captura o clique do mouse para definir o destino do pathfinding
+func _unhandled_input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var camera = get_viewport().get_camera_3d()
+		if camera:
+			var ray_origin = camera.project_ray_origin(event.position)
+			var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
+			var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
+			var space_state = get_world_3d().direct_space_state
+			var result = space_state.intersect_ray(query)
+			if result:
+				nav_agent.target_position = result.position
 
 func _physics_process(delta):
 	# 1. Gravidade
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	# 2. O PULO (NOVO)
-	# "ui_accept" é a Barra de Espaço (ou Enter) por padrão no Godot
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = jump_velocity
-
-	# 3. Movimento (Input)
-	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	var direction = Vector3(input_dir.x, 0, input_dir.y).normalized()
+	# 2. O PULO (AUTOMÁTICO) E NAVEGAÇÃO
+	var direction = Vector3.ZERO
 	
+	if not nav_agent.is_navigation_finished():
+		var next_path_pos = nav_agent.get_next_path_position()
+		var current_pos = global_position
+		direction = (next_path_pos - current_pos)
+		direction.y = 0
+		direction = direction.normalized()
+		
+		# Pulo automático ao detectar obstáculo frontal durante a navegação
+		if is_on_floor() and is_on_wall():
+			velocity.y = jump_velocity
+
+	# 3. Movimento (Navegação)
 	if direction.length() > 0:
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
@@ -59,6 +79,10 @@ func _physics_process(delta):
 func _ready():
 	add_to_group("Player")
 	atualizar_hud()
+	
+	# Configurações de distância do NavigationAgent para evitar paradas prematuras
+	nav_agent.path_desired_distance = 0.5
+	nav_agent.target_desired_distance = 0.5
 	
 	# ---------------------------------------------------------
 	# SISTEMA DE TROCA DE PERSONAGEM
