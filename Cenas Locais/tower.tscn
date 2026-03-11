@@ -2,14 +2,16 @@
 
 [ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Mapa/unit-tower.glb" id="1_vedim"]
 [ext_resource type="Script" uid="uid://cficmlihmqg70" path="res://Scripts Locais/tower.gd" id="2_stebd"]
+[ext_resource type="PackedScene" uid="uid://ccr63l42p5nxi" path="res://Cenas Locais/flecha.tscn" id="3_ned14"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jbe1c"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_k1o5i"]
+radius = 0.35557297
+
 [node name="unit-tower2" unique_id=1301817256 instance=ExtResource("1_vedim")]
 script = ExtResource("2_stebd")
-
-[node name="unit-tower" parent="." index="0" unique_id=2138875922]
-script = ExtResource("2_stebd")
+cena_flecha = ExtResource("3_ned14")
 
 [node name="Area3D" type="Area3D" parent="." index="1" unique_id=302779720]
 
@@ -17,5 +19,21 @@ script = ExtResource("2_stebd")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25725985, 0)
 shape = SubResource("SphereShape3D_jbe1c")
 
+[node name="AreaAtaque" type="Area3D" parent="." index="2" unique_id=1159628060]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" index="0" unique_id=696293045]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.24301434, 0)
+shape = SubResource("SphereShape3D_k1o5i")
+
+[node name="TimerAtaque" type="Timer" parent="AreaAtaque" index="1" unique_id=1686606465]
+wait_time = 1.2
+autostart = true
+
+[node name="PontoDeTiro" type="Marker3D" parent="." index="3" unique_id=550286233]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44771555, 0)
+
 [connection signal="body_entered" from="Area3D" to="unit-tower" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="unit-tower" method="_on_area_3d_body_exited"]
+[connection signal="body_entered" from="AreaAtaque" to="." method="_on_area_ataque_body_entered"]
+[connection signal="body_exited" from="AreaAtaque" to="." method="_on_area_ataque_body_exited"]
+[connection signal="timeout" from="AreaAtaque/TimerAtaque" to="." method="_on_timer_ataque_timeout"]
