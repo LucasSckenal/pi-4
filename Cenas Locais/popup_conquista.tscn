@@ -1,0 +1,191 @@
+[gd_scene format=3 uid="uid://ybiau6ne7umr"]
+
+[ext_resource type="Script" uid="uid://bna72hqs6o8xk" path="res://Scripts Globais/popup_conquista.gd" id="1_xtbax"]
+[ext_resource type="Texture2D" uid="uid://ghddkl7t7la5" path="res://Icons/Conquista icon placeholder.png" id="2_q84na"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q84na"]
+bg_color = Color(0.078431375, 0.09803922, 0.13725491, 0.7647059)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.6615197, 0.5337599, 0.10472024, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 20
+expand_margin_left = 12.0
+expand_margin_top = 12.0
+expand_margin_right = 12.0
+expand_margin_bottom = 12.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_jh0h6"]
+font_size = 32
+
+[sub_resource type="Animation" id="Animation_jh0h6"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(300, -0.1665, -6.2156982, 0.24869871, 9.284301),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(44, -0.1665, -9.958618, 0.24869871, 14.875048),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelContainer:anchors_preset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_q84na"]
+resource_name = "show_popup"
+length = 4.0
+step = 3.5
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(),
+"points": PackedFloat32Array(),
+"times": PackedFloat32Array()
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(2, 2, 2, 2, 2, 2),
+"points": PackedFloat32Array(-120, 0, 0, 0.00016666666, 0, -120, -0.0005, 0, 0.0005, 0, 50, -0.1665, 0, 0.41788563, 0, 50, -0.25, 16.95041, 0.16788563, -11.382922, -120, -0.16666667, 28.127615, 0.0012189548, -0.20571774, -120, -0.58438563, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.0009999999, 1, 2.5, 3.5, 3.5073137)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelContainer:modulate:r")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 2, 2),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.083333336, 0, 0, 0, 1, -0.24869871, 0, 0.16963463, 0, 1, -0.085, 0, 0, 0),
+"times": PackedFloat32Array(0, 1, 2.4921923, 3.51)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PanelContainer:modulate:g")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 2),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.083333336, 0, 0, 0, 1, -0.24869871, 0, 0.16963463, 0, 1, -0.085, 0, 0, 0),
+"times": PackedFloat32Array(0, 1, 2.4921923, 3.51)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PanelContainer:modulate:b")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 2, 2),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.083333336, 0, 0, 0, 1, -0.24869871, 0, 0.16963463, 0, 1, -0.085, 0, 0, 0),
+"times": PackedFloat32Array(0, 1, 2.4921923, 3.51)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PanelContainer:modulate:a")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 2, 2),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.083333336, -0.16666667, 0, 0, 1, -0.24869871, 0.099083155, 0.16963463, -0.067583516, 0, -0.085, 0.16666667, 0, 0),
+"times": PackedFloat32Array(0, 1, 2.4921923, 3.51)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PanelContainer:anchors_preset")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(2),
+"points": PackedFloat32Array(5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jh0h6"]
+_data = {
+&"RESET": SubResource("Animation_jh0h6"),
+&"show_popup": SubResource("Animation_q84na")
+}
+
+[node name="PopupConquista" type="CanvasLayer" unique_id=696327876]
+follow_viewport_enabled = true
+script = ExtResource("1_xtbax")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=883386840]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -304.5
+offset_right = 304.5
+offset_bottom = 109.0
+grow_horizontal = 2
+pivot_offset_ratio = Vector2(0, 10)
+theme_override_styles/panel = SubResource("StyleBoxFlat_q84na")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1024348409]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1171652571]
+layout_mode = 2
+
+[node name="Icone" type="TextureRect" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=2053577977]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+texture = ExtResource("2_q84na")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/HBoxContainer" unique_id=30117034]
+layout_mode = 2
+
+[node name="LabelTitulo" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1024063926]
+layout_mode = 2
+text = "Conquista Desbloqueada!"
+label_settings = SubResource("LabelSettings_jh0h6")
+
+[node name="LabelName" type="Label" parent="PanelContainer/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1015661225]
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=809818991]
+libraries/ = SubResource("AnimationLibrary_jh0h6")

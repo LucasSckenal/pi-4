@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c24hpoqubnlm4"]
+
+[ext_resource type="PackedScene" uid="uid://i7cghbm3tfxt" path="res://Mapa/unit-house.glb" id="1_metfq"]
+[ext_resource type="Script" uid="uid://cccru5ser6630" path="res://Scripts Locais/unit_house_2.gd" id="2_6syyc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_o1325"]
+
+[node name="unit-house2" unique_id=1623196517 instance=ExtResource("1_metfq")]
+script = ExtResource("2_6syyc")
+
+[node name="Area3D" type="Area3D" parent="." index="1" unique_id=1004971188]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=701392897]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.076697975, 0)
+shape = SubResource("SphereShape3D_o1325")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

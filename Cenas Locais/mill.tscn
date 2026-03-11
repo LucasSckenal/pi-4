@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d0i607qaiy12s"]
+
+[ext_resource type="PackedScene" uid="uid://bxymhdtuwhoh8" path="res://Mapa/unit-mill.glb" id="1_6f5ni"]
+[ext_resource type="Script" uid="uid://b20r360q7ew8h" path="res://Scripts Locais/unit_mill_2.gd" id="2_pl00u"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_x5qa7"]
+
+[node name="unit-mill2" unique_id=527780894 instance=ExtResource("1_6f5ni")]
+script = ExtResource("2_pl00u")
+
+[node name="Area3D" type="Area3D" parent="." index="2" unique_id=572346562]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=756756662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2124086, 0)
+shape = SubResource("SphereShape3D_x5qa7")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://mpgruuoi13dm"]
+
+[ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Mapa/unit-tower.glb" id="1_vedim"]
+[ext_resource type="Script" uid="uid://cficmlihmqg70" path="res://Scripts Locais/tower.gd" id="2_stebd"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jbe1c"]
+
+[node name="unit-tower2" unique_id=1301817256 instance=ExtResource("1_vedim")]
+script = ExtResource("2_stebd")
+
+[node name="unit-tower" parent="." index="0" unique_id=2138875922]
+script = ExtResource("2_stebd")
+
+[node name="Area3D" type="Area3D" parent="." index="1" unique_id=302779720]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=825667398]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25725985, 0)
+shape = SubResource("SphereShape3D_jbe1c")
+
+[connection signal="body_entered" from="Area3D" to="unit-tower" method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="unit-tower" method="_on_area_3d_body_exited"]

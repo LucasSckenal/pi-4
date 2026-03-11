@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://duluxy1uhfvhk"]
+
+[ext_resource type="Script" uid="uid://dmylpyxfq60i4" path="res://Scripts Locais/canto.gd" id="1_puxjb"]
+[ext_resource type="PackedScene" uid="uid://ddhbnuvf2ry5y" path="res://Arena/wall-corner.glb" id="2_404hu"]
+[ext_resource type="PackedScene" uid="uid://nuhr0vjybcci" path="res://Arena/wall.glb" id="3_g2at0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kc0tf"]
+
+[node name="Canto" type="Node3D" unique_id=1470956903]
+script = ExtResource("1_puxjb")
+
+[node name="wall-corner5" parent="." unique_id=1305508298 instance=ExtResource("2_404hu")]
+unique_name_in_owner = true
+transform = Transform3D(-0.99887335, 0, 0.047455035, 0, 1, 0, -0.047455035, 0, -0.99887335, 0, 0, 0)
+
+[node name="wall8" parent="." unique_id=369536012 instance=ExtResource("3_g2at0")]
+unique_name_in_owner = true
+transform = Transform3D(-0.022879235, 0, 0.9992021, 0, 1, 0, -0.57238436, 0, -0.039939906, 0.05902511, 0, 0.06835091)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1238276784]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1942760196]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05591315, 0.22849393, 0.09819883)
+shape = SubResource("SphereShape3D_kc0tf")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

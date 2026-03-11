@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://q805fk3aftux"]
+
+[ext_resource type="Script" uid="uid://du2oi7ffquc8y" path="res://Scripts Locais/character_body_3d.gd" id="1_onrkg"]
+[ext_resource type="PackedScene" uid="uid://cuc0wxua4eytb" path="res://Personagens/character-male-f.glb" id="2_i3pqv"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fb3t6"]
+radius = 0.21923828
+height = 0.7217407
+
+[node name="Player" type="CharacterBody3D" unique_id=1040113878 groups=["Player"]]
+script = ExtResource("1_onrkg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=617813738]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0049170395, 0.11052972, 0.0059999996)
+shape = SubResource("CapsuleShape3D_fb3t6")
+
+[node name="character-male-f2" parent="." unique_id=2069908664 instance=ExtResource("2_i3pqv")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="TextoMoedas" type="Label3D" parent="." unique_id=376621771]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27749828, 0)
+pixel_size = 0.002
+billboard = 1
+no_depth_test = true
+text = "moedas 50"

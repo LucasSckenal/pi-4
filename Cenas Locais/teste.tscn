@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://b8h6rapg5lftp"]
+
+[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="1_7w86a"]
+[ext_resource type="PackedScene" uid="uid://bxdu1v2t240yw" path="res://Cenas Locais/character_body_3d.tscn" id="2_s2wow"]
+
+[node name="Node3D" type="Node3D" unique_id=1584945139]
+
+[node name="grass2" parent="." unique_id=173861466 instance=ExtResource("1_7w86a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19538474, 0, 0.30900264)
+
+[node name="CharacterBody3D" parent="." unique_id=1040113878 instance=ExtResource("2_s2wow")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.16212845, 0.19999993, 0.26476407)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2013586740]
+transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0.16212845, 1.1999998, 1.2647636)

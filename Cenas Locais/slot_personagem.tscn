@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dnsccmjrcwfa1"]
+
+[ext_resource type="Script" uid="uid://drsu7kmjgv62j" path="res://Scripts Locais/slot_personagem.gd" id="1_5500w"]
+
+[sub_resource type="World3D" id="World3D_5500w"]
+
+[node name="SlotPersonagem" type="AspectRatioContainer" unique_id=1152132732]
+custom_minimum_size = Vector2(180, 150)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_5500w")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=203177282]
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=570835006]
+own_world_3d = true
+world_3d = SubResource("World3D_5500w")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(648, 648)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1350296405]
+transform = Transform3D(-0.9999655, 0.0021502045, -0.008024671, 0, 0.9659259, 0.25881907, 0.008307751, 0.25881013, -0.9658925, 0, 0.52132356, -0.47297776)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport" unique_id=1145652515]
+transform = Transform3D(0.7537557, 0.55237436, -0.35599867, 0.6541683, -0.57910514, 0.48651966, 0.06258031, -0.5995999, -0.7978495, 0, 2.6401665, 2.3199258)
+
+[node name="PontoSpawnSlot" type="Marker3D" parent="SubViewportContainer/SubViewport" unique_id=1280634250]
+transform = Transform3D(-0.9995239, 0, 0.030852575, 0, 1, 0, -0.030852575, 0, -0.9995239, 0, 0, 0)
+
+[node name="Button" type="Button" parent="." unique_id=126527247]
+layout_mode = 2
+flat = true
