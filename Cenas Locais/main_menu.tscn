@@ -186,14 +186,24 @@ layout_mode = 2
 
 [node name="BtnJogar" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=685627042]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Jogar"
 
-[node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=819533763]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1784167864]
 layout_mode = 2
+
+[node name="BtnConquistas" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2044346011]
+layout_mode = 2
+text = "Conquistas"
+
+[node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=819533763]
+layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Configurações"
 
 [node name="BtnSair" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=2138317139]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Sair"
 
 [node name="BtnPersonagemInvisivel" type="Button" parent="CanvasLayer" unique_id=1560747246]
@@ -209,6 +219,7 @@ offset_right = 128.568
 offset_bottom = 152.24799
 grow_horizontal = 0
 grow_vertical = 2
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1657012310]
@@ -217,6 +228,7 @@ volume_db = -20.0
 autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnJogar" to="." method="_on_btn_jogar_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/BtnConquistas" to="." method="_on_btn_conquistas_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnSair" to="." method="_on_btn_sair_pressed"]
 [connection signal="pressed" from="CanvasLayer/BtnPersonagemInvisivel" to="." method="_on_btn_customizar_pressed"]

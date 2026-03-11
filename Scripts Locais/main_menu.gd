@@ -45,3 +45,8 @@ func _on_btn_configuracoes_pressed():
 func _on_btn_sair_pressed() -> void:
 	print("Fechando o jogo...")
 	get_tree().quit()
+
+
+func _on_btn_conquistas_pressed() -> void:
+	print("Mudar para a tela de Conquistas!")
+	get_tree().change_scene_to_file("res://Cenas Locais/tela_conquistas.tscn")

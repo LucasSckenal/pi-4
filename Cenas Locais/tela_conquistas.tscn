@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://d3h6esyusk8kl"]
+
+[ext_resource type="Script" uid="uid://58a8pnam3ssk" path="res://Cenas Locais/tela_conquistas.gd" id="1_pnd5v"]
+
+[node name="TelaConquistas" type="Control" unique_id=479057687]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pnd5v")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1481832516]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10980392, 0.10980392, 0.10980392, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1981135311]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ListaConquistas" type="VBoxContainer" parent="ScrollContainer" unique_id=803858735]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BtnVoltar" type="Button" parent="." unique_id=395051610]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Voltar"
+
+[connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]
