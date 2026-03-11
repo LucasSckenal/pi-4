@@ -3,11 +3,20 @@ extends CharacterBody3D
 @export var velocidade: float = 3.0
 @export var distancia_de_ataque: float = 2.5 # Ajuste se ele estiver a parar muito longe ou muito perto das casas
 
+# --- NOVO: Variáveis de Vida ---
+@export var vida_maxima: int = 100
+var vida_atual: int = 100
+
 var gravidade = ProjectSettings.get_setting("physics/3d/default_gravity")
 var alvo_atual: Node3D = null
 
 # Puxa o nó de GPS que criámos na cena do Orc
 @onready var nav_agent = $NavigationAgent3D
+
+func _ready():
+	# Garante que o Orc começa com a vida cheia
+	vida_atual = vida_maxima
+	add_to_group("inimigos")
 
 func _physics_process(delta):
 	# 1. Aplica a gravidade para o Orc não voar
@@ -94,3 +103,22 @@ func procurar_novo_alvo() -> Node3D:
 		
 	# Se não tem construções e não tem castelo, retorna nulo (ele fica parado)
 	return null
+
+# ==========================================
+# SISTEMA DE VIDA E DANO
+# ==========================================
+func receber_dano(dano_sofrido: int):
+	vida_atual -= dano_sofrido
+	print("Orc sofreu ", dano_sofrido, " de dano! Vida restante: ", vida_atual)
+	
+	# (FUTURO: Aqui podes colocar o AnimationPlayer para piscar vermelho ou tocar som de dor)
+	
+	if vida_atual <= 0:
+		morrer()
+
+func morrer():
+	print("O Orc foi derrotado!")
+	# (FUTURO: Tocar animação de morte, largar moedas, etc)
+	
+	# Destrói o Orc e retira-o do mapa
+	queue_free()
