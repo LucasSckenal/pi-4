@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://by1n5omq0clqs"
-path="res://.godot/imported/rocks.glb-a8e55ee462f77d23f1726bd457eb5363.scn"
+uid="uid://b6lmcitbnrsg8"
+path="res://.godot/imported/wall-opening.glb-e276b1dd07c0fecd5fb42c4d03c485d7.scn"
 
 [deps]
 
-source_file="res://Dugeon/rocks.glb"
-dest_files=["res://.godot/imported/rocks.glb-a8e55ee462f77d23f1726bd457eb5363.scn"]
+source_file="res://Dungeon/wall-opening.glb"
+dest_files=["res://.godot/imported/wall-opening.glb-e276b1dd07c0fecd5fb42c4d03c485d7.scn"]
 
 [params]
 

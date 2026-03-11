@@ -115,6 +115,15 @@ func _on_area_3d_body_exited(body):
 			if estado_toque_mobile == 0 and fantasma: fantasma.hide()
 
 func transformar_em_fantasma(no_atual: Node):
-	if no_atual is MeshInstance3D: no_atual.transparency = 0.5 
-	elif no_atual is CollisionShape3D: no_atual.disabled = true 
-	for filho in no_atual.get_children(): transformar_em_fantasma(filho)
+	if no_atual is MeshInstance3D: 
+		no_atual.transparency = 0.5 
+	elif no_atual is CollisionObject3D:
+		# Remove as camadas e mascaras de colisao do corpo (Area3D, StaticBody3D, etc)
+		no_atual.collision_layer = 0
+		no_atual.collision_mask = 0
+	elif no_atual is CollisionShape3D or no_atual is CollisionPolygon3D: 
+		# Desativa as formas de colisao usando set_deferred para evitar falhas do motor de fisica
+		no_atual.set_deferred("disabled", true)
+		
+	for filho in no_atual.get_children(): 
+		transformar_em_fantasma(filho)

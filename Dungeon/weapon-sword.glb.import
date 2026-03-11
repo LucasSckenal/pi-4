@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b8y2yqux5yp72"
-path="res://.godot/imported/dirt.glb-87034370fc8fa511d3436d4126cffbac.scn"
+uid="uid://bfed22l8qdmqn"
+path="res://.godot/imported/weapon-sword.glb-049f50aea77b866bef63bbb3bf225f2c.scn"
 
 [deps]
 
-source_file="res://Dugeon/dirt.glb"
-dest_files=["res://.godot/imported/dirt.glb-87034370fc8fa511d3436d4126cffbac.scn"]
+source_file="res://Dungeon/weapon-sword.glb"
+dest_files=["res://.godot/imported/weapon-sword.glb-049f50aea77b866bef63bbb3bf225f2c.scn"]
 
 [params]
 

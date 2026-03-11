@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://8xiu2kcu64bu"
-path="res://.godot/imported/stairs.glb-3ae59dfbde91a61e72f322b822cda1b7.scn"
+uid="uid://5wk3w1ggee8"
+path="res://.godot/imported/chest.glb-4e0a93498d9aed4644d7f27b9eecb12f.scn"
 
 [deps]
 
-source_file="res://Dugeon/stairs.glb"
-dest_files=["res://.godot/imported/stairs.glb-3ae59dfbde91a61e72f322b822cda1b7.scn"]
+source_file="res://Dungeon/chest.glb"
+dest_files=["res://.godot/imported/chest.glb-4e0a93498d9aed4644d7f27b9eecb12f.scn"]
 
 [params]
 

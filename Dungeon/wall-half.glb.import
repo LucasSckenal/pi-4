@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b2ja7fe5utk24"
-path="res://.godot/imported/character-human.glb-801d31c9e099e4ec2c2044dec801de92.scn"
+uid="uid://eqjo7fls8n31"
+path="res://.godot/imported/wall-half.glb-4b195c6b88dc67c900db6bb4c987641f.scn"
 
 [deps]
 
-source_file="res://Dugeon/character-human.glb"
-dest_files=["res://.godot/imported/character-human.glb-801d31c9e099e4ec2c2044dec801de92.scn"]
+source_file="res://Dungeon/wall-half.glb"
+dest_files=["res://.godot/imported/wall-half.glb-4b195c6b88dc67c900db6bb4c987641f.scn"]
 
 [params]
 

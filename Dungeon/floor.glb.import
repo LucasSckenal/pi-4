@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://x6th6v451k8a"
-path="res://.godot/imported/wood-support.glb-ae2ca703301c01d7e11d11dbee4ef026.scn"
+uid="uid://cl71vvplyn2kr"
+path="res://.godot/imported/floor.glb-c7648cd5eb94512adc6c4b38b37b0d84.scn"
 
 [deps]
 
-source_file="res://Dugeon/wood-support.glb"
-dest_files=["res://.godot/imported/wood-support.glb-ae2ca703301c01d7e11d11dbee4ef026.scn"]
+source_file="res://Dungeon/floor.glb"
+dest_files=["res://.godot/imported/floor.glb-c7648cd5eb94512adc6c4b38b37b0d84.scn"]
 
 [params]
 

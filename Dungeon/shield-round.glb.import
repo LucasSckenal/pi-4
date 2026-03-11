@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dxp6f4pny7q6y"
-path="res://.godot/imported/column.glb-f25c5ea2164a4b1a6d3e1629ff9d136a.scn"
+uid="uid://bu36jb5qo5aai"
+path="res://.godot/imported/shield-round.glb-d282a1bba8b6ff68bf7419e218e14cdf.scn"
 
 [deps]
 
-source_file="res://Dugeon/column.glb"
-dest_files=["res://.godot/imported/column.glb-f25c5ea2164a4b1a6d3e1629ff9d136a.scn"]
+source_file="res://Dungeon/shield-round.glb"
+dest_files=["res://.godot/imported/shield-round.glb-d282a1bba8b6ff68bf7419e218e14cdf.scn"]
 
 [params]
 

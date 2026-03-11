@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c4npakimbqk0u"
-path="res://.godot/imported/character-orc.glb-cce0b3448a81303695d53b488812d063.scn"
+uid="uid://b8stl4a2nc4f3"
+path="res://.godot/imported/wood-structure.glb-7d51e9c2fde64d87aa14e5aa6a15b46e.scn"
 
 [deps]
 
-source_file="res://Dugeon/character-orc.glb"
-dest_files=["res://.godot/imported/character-orc.glb-cce0b3448a81303695d53b488812d063.scn"]
+source_file="res://Dungeon/wood-structure.glb"
+dest_files=["res://.godot/imported/wood-structure.glb-7d51e9c2fde64d87aa14e5aa6a15b46e.scn"]
 
 [params]
 

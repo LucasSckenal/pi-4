@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cbjrscx5ckcm6"]
+
+[ext_resource type="Script" uid="uid://caed3nj0dqqsy" path="res://Scripts Locais/musica_global.gd" id="1_ikofc"]
+[ext_resource type="AudioStream" uid="uid://bh1xj83yr2o0t" path="res://Musicas/MenuMusicTeste.mp3" id="1_uc8de"]
+
+[node name="MusicaGlobal" type="Node" unique_id=1656235773]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=309634452]
+stream = ExtResource("1_uc8de")
+volume_db = -20.0
+autoplay = true
+script = ExtResource("1_ikofc")

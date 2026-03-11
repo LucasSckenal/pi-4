@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bu36jb5qo5aai"
-path="res://.godot/imported/shield-round.glb-c0c3c293b098e13b7731da14e06a8ee4.scn"
+uid="uid://dphenn0x1u0o2"
+path="res://.godot/imported/weapon-spear.glb-caf6894a310df0682bb1098117818157.scn"
 
 [deps]
 
-source_file="res://Dugeon/shield-round.glb"
-dest_files=["res://.godot/imported/shield-round.glb-c0c3c293b098e13b7731da14e06a8ee4.scn"]
+source_file="res://Dungeon/weapon-spear.glb"
+dest_files=["res://.godot/imported/weapon-spear.glb-caf6894a310df0682bb1098117818157.scn"]
 
 [params]
 

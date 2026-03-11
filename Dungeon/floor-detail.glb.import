@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://eqjo7fls8n31"
-path="res://.godot/imported/wall-half.glb-c1069f046c1078851a7b02035c39eb75.scn"
+uid="uid://dvc0ky8b8uhq3"
+path="res://.godot/imported/floor-detail.glb-17665d3feccbcee01132907716c85cda.scn"
 
 [deps]
 
-source_file="res://Dugeon/wall-half.glb"
-dest_files=["res://.godot/imported/wall-half.glb-c1069f046c1078851a7b02035c39eb75.scn"]
+source_file="res://Dungeon/floor-detail.glb"
+dest_files=["res://.godot/imported/floor-detail.glb-17665d3feccbcee01132907716c85cda.scn"]
 
 [params]
 

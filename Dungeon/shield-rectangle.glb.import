@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cuws60wfs5c1i"
-path="res://.godot/imported/coin.glb-1a69fb3ec93e39ae4ae13f674c261d6f.scn"
+uid="uid://dgt2nntp6ma32"
+path="res://.godot/imported/shield-rectangle.glb-9b9f4dd1bc5a0d2b1e408bb2112cf39a.scn"
 
 [deps]
 
-source_file="res://Dugeon/coin.glb"
-dest_files=["res://.godot/imported/coin.glb-1a69fb3ec93e39ae4ae13f674c261d6f.scn"]
+source_file="res://Dungeon/shield-rectangle.glb"
+dest_files=["res://.godot/imported/shield-rectangle.glb-9b9f4dd1bc5a0d2b1e408bb2112cf39a.scn"]
 
 [params]
 

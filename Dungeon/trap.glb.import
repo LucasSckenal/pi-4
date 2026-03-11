@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dqta745qem8t0"
-path="res://.godot/imported/stones.glb-7bb01a516433a5fec34455550a4938d0.scn"
+uid="uid://damdyb7m3mhks"
+path="res://.godot/imported/trap.glb-0a7e01c40ef57b53e7632ea2274554d3.scn"
 
 [deps]
 
-source_file="res://Dugeon/stones.glb"
-dest_files=["res://.godot/imported/stones.glb-7bb01a516433a5fec34455550a4938d0.scn"]
+source_file="res://Dungeon/trap.glb"
+dest_files=["res://.godot/imported/trap.glb-0a7e01c40ef57b53e7632ea2274554d3.scn"]
 
 [params]
 

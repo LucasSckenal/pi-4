@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://p5l3bp1f4lef"
-path="res://.godot/imported/gate.glb-60b0b9f574168dcb0e748a95722c5a45.scn"
+uid="uid://chgicgqitjygs"
+path="res://.godot/imported/wall-narrow.glb-4bbba6b96b29dd43c1b181f20230db39.scn"
 
 [deps]
 
-source_file="res://Dugeon/gate.glb"
-dest_files=["res://.godot/imported/gate.glb-60b0b9f574168dcb0e748a95722c5a45.scn"]
+source_file="res://Dungeon/wall-narrow.glb"
+dest_files=["res://.godot/imported/wall-narrow.glb-4bbba6b96b29dd43c1b181f20230db39.scn"]
 
 [params]
 

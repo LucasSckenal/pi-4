@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://chgicgqitjygs"
-path="res://.godot/imported/wall-narrow.glb-0b87e2d3d60d5e3ebbbdec0ec86e6e54.scn"
+uid="uid://dxp6f4pny7q6y"
+path="res://.godot/imported/column.glb-725935cb8f2c9f8670eb2f30066a7ac7.scn"
 
 [deps]
 
-source_file="res://Dugeon/wall-narrow.glb"
-dest_files=["res://.godot/imported/wall-narrow.glb-0b87e2d3d60d5e3ebbbdec0ec86e6e54.scn"]
+source_file="res://Dungeon/column.glb"
+dest_files=["res://.godot/imported/column.glb-725935cb8f2c9f8670eb2f30066a7ac7.scn"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dvc0ky8b8uhq3"
-path="res://.godot/imported/floor-detail.glb-183c16ed66681cfead263ef769af07e1.scn"
+uid="uid://c4npakimbqk0u"
+path="res://.godot/imported/character-orc.glb-8f03890fdb4cf0a6cd469de287957364.scn"
 
 [deps]
 
-source_file="res://Dugeon/floor-detail.glb"
-dest_files=["res://.godot/imported/floor-detail.glb-183c16ed66681cfead263ef769af07e1.scn"]
+source_file="res://Dungeon/character-orc.glb"
+dest_files=["res://.godot/imported/character-orc.glb-8f03890fdb4cf0a6cd469de287957364.scn"]
 
 [params]
 

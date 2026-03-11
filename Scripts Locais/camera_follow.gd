@@ -8,7 +8,7 @@ func _ready():
 	if player:
 		offset = global_position - player.global_position
 
-func _process(delta):
+func _process(_delta):
 	# Copia a posição do player e cola na câmera, mantendo a distância
 	if player:
 		global_position = player.global_position + offset

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dphenn0x1u0o2"
-path="res://.godot/imported/weapon-spear.glb-9a498074c202050af82560d0cd91e120.scn"
+uid="uid://b2ja7fe5utk24"
+path="res://.godot/imported/character-human.glb-9fbf786d01a58e9f98db0cb5cfe1bc74.scn"
 
 [deps]
 
-source_file="res://Dugeon/weapon-spear.glb"
-dest_files=["res://.godot/imported/weapon-spear.glb-9a498074c202050af82560d0cd91e120.scn"]
+source_file="res://Dungeon/character-human.glb"
+dest_files=["res://.godot/imported/character-human.glb-9fbf786d01a58e9f98db0cb5cfe1bc74.scn"]
 
 [params]
 

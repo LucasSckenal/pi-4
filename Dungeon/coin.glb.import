@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://56d02j584qr8"
-path="res://.godot/imported/barrel.glb-db459a8092c8cf3f3f9522d06bfea17b.scn"
+uid="uid://cuws60wfs5c1i"
+path="res://.godot/imported/coin.glb-6b1cbc8e7afbdf07e3b260f43d2a8ae4.scn"
 
 [deps]
 
-source_file="res://Dugeon/barrel.glb"
-dest_files=["res://.godot/imported/barrel.glb-db459a8092c8cf3f3f9522d06bfea17b.scn"]
+source_file="res://Dungeon/coin.glb"
+dest_files=["res://.godot/imported/coin.glb-6b1cbc8e7afbdf07e3b260f43d2a8ae4.scn"]
 
 [params]
 

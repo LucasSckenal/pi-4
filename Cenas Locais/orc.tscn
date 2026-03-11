@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://nbn0asbe4wf3"]
 
 [ext_resource type="Script" uid="uid://bbxkyeqy0amiu" path="res://Scripts Locais/orc.gd" id="1_3xw0u"]
-[ext_resource type="PackedScene" uid="uid://c4npakimbqk0u" path="res://Dugeon/character-orc.glb" id="1_ws5q1"]
+[ext_resource type="PackedScene" uid="uid://c4npakimbqk0u" path="res://Dungeon/character-orc.glb" id="1_ws5q1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xw0u"]
 radius = 0.06640625

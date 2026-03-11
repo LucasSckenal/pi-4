@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b8stl4a2nc4f3"
-path="res://.godot/imported/wood-structure.glb-ed9c78d6763247c29660a7c00a4674fd.scn"
+uid="uid://8xiu2kcu64bu"
+path="res://.godot/imported/stairs.glb-da23c58e7d1710faac4936cb49eb8ef1.scn"
 
 [deps]
 
-source_file="res://Dugeon/wood-structure.glb"
-dest_files=["res://.godot/imported/wood-structure.glb-ed9c78d6763247c29660a7c00a4674fd.scn"]
+source_file="res://Dungeon/stairs.glb"
+dest_files=["res://.godot/imported/stairs.glb-da23c58e7d1710faac4936cb49eb8ef1.scn"]
 
 [params]
 

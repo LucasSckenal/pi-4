@@ -18,6 +18,7 @@ config/icon="uid://dpvk2oj1ksekl"
 
 [autoload]
 
+MusicaGlobal="*uid://cbjrscx5ckcm6"
 GameManager="*uid://ddqkxwp801d88"
 Global="*uid://ekneedd48nfl"
 PopupConquista="*uid://ybiau6ne7umr"

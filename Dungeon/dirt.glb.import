@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cl71vvplyn2kr"
-path="res://.godot/imported/floor.glb-e7d050d47836b2db76c42e0b46bc1700.scn"
+uid="uid://b8y2yqux5yp72"
+path="res://.godot/imported/dirt.glb-e600f68dbb5d935afd437ab945b6390e.scn"
 
 [deps]
 
-source_file="res://Dugeon/floor.glb"
-dest_files=["res://.godot/imported/floor.glb-e7d050d47836b2db76c42e0b46bc1700.scn"]
+source_file="res://Dungeon/dirt.glb"
+dest_files=["res://.godot/imported/dirt.glb-e600f68dbb5d935afd437ab945b6390e.scn"]
 
 [params]
 
