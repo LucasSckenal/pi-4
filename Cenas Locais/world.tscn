@@ -70,6 +70,8 @@ dof_blur_far_enabled = true
 dof_blur_far_distance = 3.75
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_bo7i5"]
+vertices = PackedVector3Array(2.3326988, 0.32415605, -1.4006281, 2.3326988, 0.32415605, -0.4006281, 2.5826988, 0.32415605, -0.4006281, 2.8326988, 0.57415605, -2.650628, 0.8326988, 0.57415605, -0.15062809, 1.0826988, 0.57415605, -0.4006281, 1.0826988, 0.32415605, -1.4006281, 0.8326988, 0.32415605, -1.9006281, 2.3326988, 0.57415605, 0.8493719, 3.3326988, 0.32415605, 0.8493719, 3.8326988, 0.32415605, 0.5993719, -1.4173012, 0.32415605, 0.5993719, -1.4173012, 0.32415605, 1.0993719, -0.9173012, 0.57415605, 1.8493719, -0.16730118, 0.82415605, 1.8493719, 0.33269882, 0.57415605, 0.8493719, 2.3326988, 0.57415605, 1.8493719, -0.16730118, 0.57415605, 2.599372, 2.5826988, 0.32415605, 3.099372, 3.3326988, 0.57415605, 1.5993719, 3.5826988, 0.32415605, 2.849372)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(6, 7, 0), PackedInt32Array(0, 7, 3), PackedInt32Array(1, 2, 8), PackedInt32Array(8, 2, 9), PackedInt32Array(9, 2, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 14), PackedInt32Array(14, 11, 15), PackedInt32Array(4, 5, 15), PackedInt32Array(15, 5, 8), PackedInt32Array(15, 8, 16), PackedInt32Array(5, 1, 8), PackedInt32Array(14, 15, 17), PackedInt32Array(17, 15, 16), PackedInt32Array(17, 16, 18), PackedInt32Array(9, 10, 19), PackedInt32Array(19, 10, 20), PackedInt32Array(18, 16, 20), PackedInt32Array(20, 16, 19)]
 
 [node name="World 1" type="Node3D" unique_id=1357575747]
 
@@ -92,6 +94,11 @@ transform = Transform3D(-0.72056323, 0, 0.69338924, 0, 1, 0, -0.69338924, 0, -0.
 
 [node name="statue2" parent="." unique_id=1887048540 instance=ExtResource("25_bo7i5")]
 transform = Transform3D(0.23151068, 0, 0.19079517, 0, 0.29999998, 0, -0.19079517, 0, 0.23151068, 0.5461067, 0.23651183, 0.64034414)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1307926493]
+transform = Transform3D(1, 0, 0, 0, 0.55313, 0.8330951, 0, -0.8330951, 0.55313, 1.1289392, 2.056217, 3.2325754)
+current = true
+fov = 90.0
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("25_mc2jv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2837014, 0.22617066, 0.40977418)
