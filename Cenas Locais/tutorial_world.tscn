@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://cfmqduavmhuvv"]
+
+[ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_bislj"]
+[ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_hvshy"]
+[ext_resource type="MeshLibrary" uid="uid://clww2tc2bnucj" path="res://Mapa/Tiles.meshlib" id="3_hvshy"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7q0h5"]
+sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
+sky_horizon_color = Color(0.23483449, 0.00023430049, 0.69736916, 1)
+ground_bottom_color = Color(0.1263088, 0, 0.72530735, 1)
+ground_horizon_color = Color(0.060327195, 0.7809794, 0.9999998, 1)
+ground_curve = 0.08574214
+
+[sub_resource type="Sky" id="Sky_wjb0r"]
+sky_material = SubResource("ProceduralSkyMaterial_7q0h5")
+
+[sub_resource type="Environment" id="Environment_bmj55"]
+background_mode = 2
+sky = SubResource("Sky_wjb0r")
+sky_rotation = Vector3(0, 3.1415927, 0)
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_38lot"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.01
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+stencil_reference = 3
+metadata/_stencil_owned = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnxgy"]
+next_pass = SubResource("StandardMaterial3D_38lot")
+shading_mode = 0
+stencil_mode = 1
+stencil_flags = 2
+stencil_reference = 3
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_3fexb"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_i46xn"]
+auto_exposure_enabled = true
+dof_blur_far_enabled = true
+dof_blur_far_distance = 3.75
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_i46xn"]
+vertices = PackedVector3Array(1.125, 1.005, 0.29764974, 1.125, 1.005, 0.54764974, 1.375, 1.005, 0.29764974, 1.375, 1.005, 0.04764974, 1.625, 0.505, -0.70235026, -1.375, 0.505, -0.70235026, -0.875, 0.505, 0.54764974, -0.375, 0.505, 1.2976497, 1.875, 1.005, 0.29764974, 1.875, 1.005, 0.04764974, -1.375, 0.505, 0.54764974, 1.625, 0.505, 0.04764974, -0.875, 0.505, 1.2976497, 1.625, 0.755, 1.2976497, 2.125, 0.755, 1.2976497, 2.125, 1.005, 0.29764974, 1.625, 0.505, 2.0476499, -0.375, 0.505, 2.0476499)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(3, 0, 4), PackedInt32Array(4, 0, 7), PackedInt32Array(4, 7, 6), PackedInt32Array(4, 6, 5), PackedInt32Array(2, 3, 8), PackedInt32Array(8, 3, 9), PackedInt32Array(6, 10, 5), PackedInt32Array(1, 2, 8), PackedInt32Array(4, 11, 3), PackedInt32Array(7, 12, 6), PackedInt32Array(8, 15, 1), PackedInt32Array(1, 15, 13), PackedInt32Array(13, 15, 14), PackedInt32Array(0, 1, 7), PackedInt32Array(13, 16, 1), PackedInt32Array(1, 16, 7), PackedInt32Array(7, 16, 17)]
+agent_radius = 0.0
+edge_max_error = 0.22
+
+[node name="Tutorial_World" type="Node3D" unique_id=192295313]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2021010264]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 1, 0.6509804, 1)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1592240212]
+environment = SubResource("Environment_bmj55")
+
+[node name="Player" parent="." unique_id=1040113878 instance=ExtResource("1_bislj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2837014, 0.22617066, 0.40977418)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=474069018]
+target_desired_distance = 0.5
+
+[node name="LinhaCaminho" type="MeshInstance3D" parent="Player" unique_id=1389672206]
+material_override = SubResource("StandardMaterial3D_nnxgy")
+mesh = SubResource("ImmediateMesh_3fexb")
+
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=2003197282]
+transform = Transform3D(1, 0, 0, 0, 0.63448775, 0.7729329, 0, -0.7729329, 0.63448775, 0.30905718, 2.363804, 3.0047047)
+attributes = SubResource("CameraAttributesPractical_i46xn")
+script = ExtResource("2_hvshy")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=2029701393]
+navigation_mesh = SubResource("NavigationMesh_i46xn")
+
+[node name="GridMap" type="GridMap" parent="NavigationRegion3D" unique_id=412339317]
+mesh_library = ExtResource("3_hvshy")
+cell_size = Vector3(0.25, 0.01, 0.25)
+data = {
+"cells": PackedInt32Array(4, 65535, 23, 2, 2, 23, 6, 2, 14, 4, 5, 23, 0, 5, 23, 65534, 2, 23, 0, 65535, 23, 65532, 65535, 23)
+}
