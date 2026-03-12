@@ -22,37 +22,36 @@
 [ext_resource type="PackedScene" uid="uid://wsgtp6ietmtk" path="res://Mapa/unit-mansion.glb" id="20_dhlwf"]
 [ext_resource type="PackedScene" uid="uid://h3b7l8i5cr8o" path="res://Mapa/building-market.glb" id="21_5t8nk"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tuemg"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_08nv4"]
+sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
+sky_horizon_color = Color(0.23483449, 0.00023430049, 0.69736916, 1)
+ground_bottom_color = Color(0.05882353, 0.78039217, 1, 1)
+ground_horizon_color = Color(0.1254902, 0, 0.7254902, 1)
+ground_curve = 2.0085413
 
-[sub_resource type="Sky" id="Sky_i0g27"]
-sky_material = SubResource("ProceduralSkyMaterial_tuemg")
+[sub_resource type="Sky" id="Sky_hnv3o"]
+sky_material = SubResource("ProceduralSkyMaterial_08nv4")
 
-[sub_resource type="Environment" id="Environment_ealrb"]
+[sub_resource type="Environment" id="Environment_p51yl"]
 background_mode = 2
-sky = SubResource("Sky_i0g27")
-ambient_light_source = 3
+sky = SubResource("Sky_hnv3o")
+sky_custom_fov = 180.0
+sky_rotation = Vector3(0, -2.5132742, 0)
 tonemap_mode = 2
 glow_enabled = true
-adjustment_enabled = true
-adjustment_brightness = 0.9
-adjustment_contrast = 1.13
-
-[sub_resource type="Compositor" id="Compositor_jsnrv"]
 
 [node name="Node3D" type="Node3D" unique_id=1898161650]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1780676550]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, -0.5933287, 0)
+light_color = Color(0.994615, 0.9918899, 0.97654074, 1)
 shadow_enabled = true
 shadow_normal_bias = 10.0
 shadow_transmittance_bias = 16.0
-shadow_blur = 0.0
+shadow_blur = 0.75
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=572273876]
-environment = SubResource("Environment_ealrb")
-compositor = SubResource("Compositor_jsnrv")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1981113825]
+environment = SubResource("Environment_p51yl")
 
 [node name="building-castle2" parent="." unique_id=1044152364 instance=ExtResource("1_jka67")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.029073715, 0.93874276, 0.03848672)
