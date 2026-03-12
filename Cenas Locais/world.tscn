@@ -26,6 +26,8 @@
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="26_bo7i5"]
 [ext_resource type="PackedScene" uid="uid://dk4n4qgmeax2x" path="res://Cenas Locais/stairs.tscn" id="26_o3ebs"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="27_4h6ng"]
+[ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="27_38lot"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Scripts Globais/wave_resource.gd" id="28_l5s07"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_il2jm"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -72,6 +74,17 @@ dof_blur_far_distance = 3.75
 [sub_resource type="NavigationMesh" id="NavigationMesh_bo7i5"]
 vertices = PackedVector3Array(2.3326988, 0.32415605, -1.4006281, 2.3326988, 0.32415605, -0.4006281, 2.5826988, 0.32415605, -0.4006281, 2.8326988, 0.57415605, -2.650628, 0.8326988, 0.57415605, -0.15062809, 1.0826988, 0.57415605, -0.4006281, 1.0826988, 0.32415605, -1.4006281, 0.8326988, 0.32415605, -1.9006281, 2.3326988, 0.57415605, 0.8493719, 3.3326988, 0.32415605, 0.8493719, 3.8326988, 0.32415605, 0.5993719, -1.4173012, 0.32415605, 0.5993719, -1.4173012, 0.32415605, 1.0993719, -0.9173012, 0.57415605, 1.8493719, -0.16730118, 0.82415605, 1.8493719, 0.33269882, 0.57415605, 0.8493719, 2.3326988, 0.57415605, 1.8493719, -0.16730118, 0.57415605, 2.599372, 2.5826988, 0.32415605, 3.099372, 3.3326988, 0.57415605, 1.5993719, 3.5826988, 0.32415605, 2.849372)
 polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(6, 7, 0), PackedInt32Array(0, 7, 3), PackedInt32Array(1, 2, 8), PackedInt32Array(8, 2, 9), PackedInt32Array(9, 2, 10), PackedInt32Array(12, 11, 13), PackedInt32Array(13, 11, 14), PackedInt32Array(14, 11, 15), PackedInt32Array(4, 5, 15), PackedInt32Array(15, 5, 8), PackedInt32Array(15, 8, 16), PackedInt32Array(5, 1, 8), PackedInt32Array(14, 15, 17), PackedInt32Array(17, 15, 16), PackedInt32Array(17, 16, 18), PackedInt32Array(9, 10, 19), PackedInt32Array(19, 10, 20), PackedInt32Array(18, 16, 20), PackedInt32Array(20, 16, 19)]
+
+[sub_resource type="Resource" id="Resource_0baal"]
+script = ExtResource("28_l5s07")
+inimigo = ExtResource("26_4h6ng")
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_o3a1e"]
+script = ExtResource("28_l5s07")
+quantidade = 10
+inimigo = ExtResource("26_4h6ng")
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [node name="World 1" type="Node3D" unique_id=1357575747]
 
@@ -296,7 +309,7 @@ transform = Transform3D(0.9862827, 0, 0.16506481, 0, 1, 0, -0.16506481, 0, 0.986
 transform = Transform3D(0.9862827, 0, 0.16506481, 0, 1, 0, -0.16506481, 0, 0.9862827, -0.06650412, -0.18322158, 2.588431)
 
 [node name="grass24" parent="NavigationRegion3D" unique_id=1412596246 instance=ExtResource("4_bo7i5")]
-transform = Transform3D(0.9862827, 0, 0.16506481, 0, 1, 0, -0.16506481, 0, 0.9862827, -1.0309198, -0.18322146, 2.7646863)
+transform = Transform3D(0.98628277, 0, 0.16506481, 0, 1, 0, -0.16506481, 0, 0.98628277, -1.0351351, -0.18322171, 2.7625294)
 
 [node name="grass22" parent="NavigationRegion3D" unique_id=169418280 instance=ExtResource("4_bo7i5")]
 transform = Transform3D(0.9433096, 0, 0.3319142, 0, 1, 0, -0.3319142, 0, 0.9433096, 2.6869347, -0.18, -2.353555)
@@ -371,19 +384,8 @@ transform = Transform3D(0.9609484, 0, 0.2767277, 0, 1, 0, -0.2767277, 0, 0.96094
 transform = Transform3D(0.9862827, 0, 0.16506481, 0, 1, 0, -0.16506481, 0, 0.9862827, 1.4957834, -0.18322158, 3.1242104)
 
 [node name="Orc" parent="." unique_id=844430660 instance=ExtResource("26_4h6ng")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.96145743, 0.20002067, 1.7191261)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0048642, 0.12954903, 1.6140463)
 
-[node name="Orc2" parent="." unique_id=7396452 instance=ExtResource("26_4h6ng")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2407067, 0.20002067, 1.7191261)
-
-[node name="Orc3" parent="." unique_id=1633593804 instance=ExtResource("26_4h6ng")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2407067, 0.20002067, 1.9111229)
-
-[node name="Orc4" parent="." unique_id=1238543815 instance=ExtResource("26_4h6ng")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2407067, 0.20002067, 1.4880842)
-
-[node name="Orc5" parent="." unique_id=315879387 instance=ExtResource("26_4h6ng")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0351375, 0.041267633, 2.2627373)
-
-[node name="Orc6" parent="." unique_id=1754047951 instance=ExtResource("26_4h6ng")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0351375, 0.041267633, 2.4195733)
+[node name="SpawnerInimigos" parent="." unique_id=423161848 instance=ExtResource("27_38lot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5089033, 0.10319215, 3.4531236)
+lista_waves = Array[ExtResource("28_l5s07")]([SubResource("Resource_0baal"), SubResource("Resource_o3a1e"), null, null, null, null, null, null, null, null, null])
