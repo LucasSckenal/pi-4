@@ -2,10 +2,14 @@
 
 [ext_resource type="Script" uid="uid://du2oi7ffquc8y" path="res://Scripts Locais/character_body_3d.gd" id="1_onrkg"]
 [ext_resource type="PackedScene" uid="uid://cuc0wxua4eytb" path="res://Personagens/character-male-f.glb" id="2_i3pqv"]
+[ext_resource type="PackedScene" uid="uid://bkex47laiovqp" path="res://Armas/sword_C.gltf" id="3_tpa7q"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fb3t6"]
 radius = 0.21923828
 height = 0.7217407
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p2025"]
+radius = 0.31929168
 
 [node name="Player" type="CharacterBody3D" unique_id=1040113878 groups=["Player"]]
 script = ExtResource("1_onrkg")
@@ -17,9 +21,31 @@ shape = SubResource("CapsuleShape3D_fb3t6")
 [node name="character-male-f2" parent="." unique_id=2069908664 instance=ExtResource("2_i3pqv")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 
+[node name="Skeleton3D" parent="character-male-f2/character-male-f" parent_id_path=PackedInt32Array(2069908664, 1129413652) index="0" unique_id=539562797]
+bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
+bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="2" unique_id=624303708]
+transform = Transform3D(0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0, 0, 0, 1, 0.09989677, 0.28775, -0.017250001)
+bone_name = "arm-left"
+bone_idx = 4
+
+[node name="sword_C2" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=544451301 instance=ExtResource("3_tpa7q")]
+transform = Transform3D(-0.2367318, -0.1097803, 0.20740621, 0.2230266, -0.013612833, 0.24735568, -0.07299422, 0.31444228, 0.083119586, 0.21972007, 0.012086064, 0.09172059)
+
 [node name="TextoMoedas" type="Label3D" parent="." unique_id=376621771]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27749828, 0)
 pixel_size = 0.002
 billboard = 1
 no_depth_test = true
 text = "moedas 50"
+
+[node name="AreaAtaque" type="Area3D" parent="." unique_id=682289708]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" unique_id=604714878]
+shape = SubResource("SphereShape3D_p2025")
+
+[node name="TimerAtaque" type="Timer" parent="." unique_id=1782474048]
+
+[editable path="character-male-f2"]
+[editable path="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/sword_C2"]

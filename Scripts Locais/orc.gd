@@ -10,6 +10,7 @@ extends CharacterBody3D
 var vida: int = 100
 var esta_morto: bool = false
 var alvo_atual: Node3D = null
+var inimigo_focado: Node3D = null
 var pode_atacar: bool = true
 var escala_original: Vector3
 

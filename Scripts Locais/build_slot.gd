@@ -79,12 +79,20 @@ func _on_texture_button_pressed():
 		tentar_construir(p_mobile)
 
 func tentar_construir(p_ref):
-	if p_ref and p_ref.moedas >= custo_atual:
-		p_ref.moedas -= custo_atual
-		if p_ref.has_method("atualizar_hud"): p_ref.atualizar_hud()
+	# Mudamos de p_ref.moedas para GameManager.moedas
+	if GameManager.moedas >= custo_atual:
+		
+		# DESCONTA DO BANCO CENTRAL
+		GameManager.moedas -= custo_atual
+		
+		# Atualiza a HUD (que agora lê do GameManager)
+		if p_ref and p_ref.has_method("atualizar_hud"): 
+			p_ref.atualizar_hud()
+			
+		print("Construção realizada! Saldo restante: ", GameManager.moedas)
 		build()
 	else:
-		print("Moedas insuficientes!")
+		print("Moedas insuficientes! Você tem: ", GameManager.moedas, " e precisa de: ", custo_atual)
 		cancelar_selecao()
 
 func build():
