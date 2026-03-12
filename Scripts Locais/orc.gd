@@ -1,124 +1,133 @@
 extends CharacterBody3D
 
-@export var velocidade: float = 3.0
-@export var distancia_de_ataque: float = 2.5 # Ajuste se ele estiver a parar muito longe ou muito perto das casas
+# --- CONFIGURAÇÕES DE MOVIMENTO ---
+@export var velocidade: float = 0.5
+@export var jump_velocity: float = 4.5
+@export var gravity: float = 20.0
+@export var rotation_speed: float = 10.0
 
-# --- NOVO: Variáveis de Vida ---
+# --- CONFIGURAÇÕES DE COMBATE ---
+@export var distancia_de_ataque: float = 0.7
+@export var forca_do_ataque: int = 10
+@export var cadencia_ataque: float = 1.5
 @export var vida_maxima: int = 100
+
 var vida_atual: int = 100
-
-var gravidade = ProjectSettings.get_setting("physics/3d/default_gravity")
 var alvo_atual: Node3D = null
+var pode_atacar: bool = true
+var esta_morto: bool = false
+var escala_original: Vector3 # Guarda o tamanho certo dele
 
-# Puxa o nó de GPS que criámos na cena do Orc
+# --- REFERÊNCIAS ---
 @onready var nav_agent = $NavigationAgent3D
+@onready var anim_player = $"character-orc2/AnimationPlayer" 
+@onready var modelo_visual = $"character-orc2"
+@onready var timer_ataque = Timer.new()
 
 func _ready():
-	# Garante que o Orc começa com a vida cheia
 	vida_atual = vida_maxima
+	escala_original = modelo_visual.scale # Salva o tamanho que ele tem no editor
 	add_to_group("inimigos")
+	
+	nav_agent.path_desired_distance = 0.5
+	nav_agent.target_desired_distance = 0.5
+	
+	add_child(timer_ataque)
+	timer_ataque.wait_time = cadencia_ataque
+	timer_ataque.one_shot = true
+	timer_ataque.timeout.connect(func(): pode_atacar = true)
 
 func _physics_process(delta):
-	# 1. Aplica a gravidade para o Orc não voar
-	if not is_on_floor():
-		velocity.y -= gravidade * delta
+	if esta_morto: return
 
-	# 2. Verifica se precisa de um novo alvo (se o atual foi destruído ou não existe)
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
 	if alvo_atual == null or not is_instance_valid(alvo_atual):
 		alvo_atual = procurar_novo_alvo()
 
-	# 3. Movimento Inteligente com o GPS (NavMesh)
-	if alvo_atual != null:
-		# Passa o endereço final do alvo para o GPS do Orc
-		nav_agent.target_position = alvo_atual.global_position
-		
-		# Calcula a distância real em linha reta até ao alvo
-		var distancia_ate_alvo = global_position.distance_to(alvo_atual.global_position)
-		
-		# Se o Orc ainda está longe da casa/castelo...
-		if distancia_ate_alvo > distancia_de_ataque:
-			# Pergunta ao GPS qual é o próximo passo para desviar das paredes e obstáculos
-			var proximo_passo = nav_agent.get_next_path_position()
-			
-			# Calcula a direção para esse próximo passo
-			var direcao = global_position.direction_to(proximo_passo)
-			direcao.y = 0 # Mantém o Orc reto, sem tentar olhar para o chão/céu
-			direcao = direcao.normalized()
-			
-			# Gira o corpo do Orc suavemente para a direção do movimento
-			if direcao.length() > 0.01:
-				look_at(global_position + direcao, Vector3.UP)
-			
-			# Faz as pernas andarem
-			velocity.x = direcao.x * velocidade
-			velocity.z = direcao.z * velocidade
-			
-			# (FUTURO: Aqui vai o AnimationPlayer.play("walk"))
-			
-		else:
-			# Chegou perto o suficiente para atacar!
-			velocity.x = 0
-			velocity.z = 0
-			
-			# (FUTURO: Aqui vai o AnimationPlayer.play("attack") e o código de dar dano)
-	else:
-		# Se não tem alvo nenhum no mapa inteiro, ele fica parado
-		velocity.x = 0
-		velocity.z = 0
+	var direction = Vector3.ZERO
 
-	# Aplica a física no Godot
+	if alvo_atual != null:
+		nav_agent.target_position = alvo_atual.global_position
+		var distancia = global_position.distance_to(alvo_atual.global_position)
+		
+		if distancia > distancia_de_ataque:
+			if not nav_agent.is_navigation_finished():
+				var proximo_passo = nav_agent.get_next_path_position()
+				direction = (proximo_passo - global_position)
+				direction.y = 0
+				direction = direction.normalized()
+				
+				# PULO AUTOMÁTICO (Igual ao teu Player)
+				if is_on_floor() and is_on_wall():
+					velocity.y = jump_velocity
+				
+				if direction.length() > 0.01:
+					var target_angle = atan2(direction.x, direction.z)
+					rotation.y = lerp_angle(rotation.y, target_angle, rotation_speed * delta)
+					velocity.x = direction.x * velocidade
+					velocity.z = direction.z * velocidade
+					if is_on_floor(): _tocar_animacao("walk")
+		else:
+			velocity.x = move_toward(velocity.x, 0, velocidade)
+			velocity.z = move_toward(velocity.z, 0, velocidade)
+			tentar_atacar_alvo()
+	else:
+		velocity.x = move_toward(velocity.x, 0, velocidade)
+		velocity.z = move_toward(velocity.z, 0, velocidade)
+		if is_on_floor(): _tocar_animacao("idle")
+
+	if not is_on_floor() and not esta_morto:
+		_tocar_animacao("jump")
+
 	move_and_slide()
 
+# --- FUNÇÕES DE LÓGICA ---
 
-# ==========================================
-# O CÉREBRO DO ORC (SISTEMA DE FARO)
-# ==========================================
+func _tocar_animacao(anim_name: String):
+	if anim_player and anim_player.has_animation(anim_name):
+		if anim_player.current_animation != anim_name:
+			anim_player.play(anim_name)
+
 func procurar_novo_alvo() -> Node3D:
-	var construcoes_vivas = get_tree().get_nodes_in_group("Construcao")
-	
-	# Se existem casas/torres/minas pelo mapa, ele acha a mais próxima
-	if construcoes_vivas.size() > 0:
-		var alvo_mais_proximo = null
-		var menor_distancia = 999999.0 # Começa com um número gigante
-		
-		for construcao in construcoes_vivas:
-			# Ignora os fantasmas do modo de construção
-			if "is_fantasma" in construcao and construcao.is_fantasma == true:
-				continue
-				
-			var dist = global_position.distance_to(construcao.global_position)
-			if dist < menor_distancia:
-				menor_distancia = dist
-				alvo_mais_proximo = construcao
-				
-		# Retorna a construção real mais próxima que encontrou
-		if alvo_mais_proximo != null:
-			return alvo_mais_proximo
-			
-	# Se o código chegou até aqui, é porque TODAS as construções caíram.
-	# A prioridade máxima agora é o Castelo!
-	var castelo = get_tree().get_first_node_in_group("Castelo")
-	if castelo != null:
-		return castelo
-		
-	# Se não tem construções e não tem castelo, retorna nulo (ele fica parado)
-	return null
+	var construcoes = get_tree().get_nodes_in_group("Construcao")
+	var alvo_proximo = null
+	var menor_dist = 9999.0
+	for c in construcoes:
+		if "is_fantasma" in c and c.is_fantasma: continue
+		var d = global_position.distance_to(c.global_position)
+		if d < menor_dist:
+			menor_dist = d
+			alvo_proximo = c
+	if alvo_proximo: return alvo_proximo
+	return get_tree().get_first_node_in_group("Castelo")
 
-# ==========================================
-# SISTEMA DE VIDA E DANO
-# ==========================================
+func tentar_atacar_alvo():
+	if pode_atacar and is_instance_valid(alvo_atual):
+		if alvo_atual.has_method("receber_dano"):
+			pode_atacar = false
+			_tocar_animacao("attack-melee-right")
+			alvo_atual.receber_dano(forca_do_ataque)
+			timer_ataque.start()
+
 func receber_dano(dano_sofrido: int):
+	if esta_morto: return
 	vida_atual -= dano_sofrido
-	print("Orc sofreu ", dano_sofrido, " de dano! Vida restante: ", vida_atual)
 	
-	# (FUTURO: Aqui podes colocar o AnimationPlayer para piscar vermelho ou tocar som de dor)
+	# CORREÇÃO DO GIGANTE: Usa a escala_original
+	var tween = create_tween()
+	tween.tween_property(modelo_visual, "scale", escala_original * 1.2, 0.05)
+	tween.tween_property(modelo_visual, "scale", escala_original, 0.1)
 	
-	if vida_atual <= 0:
-		morrer()
+	if vida_atual <= 0: morrer()
 
 func morrer():
-	print("O Orc foi derrotado!")
-	# (FUTURO: Tocar animação de morte, largar moedas, etc)
+	esta_morto = true
+	$CollisionShape3D.set_deferred("disabled", true)
+	_tocar_animacao("sit")
 	
-	# Destrói o Orc e retira-o do mapa
-	queue_free()
+	var tween_morte = create_tween()
+	tween_morte.tween_interval(1.0) 
+	tween_morte.tween_property(self, "scale", Vector3.ZERO, 1.5).set_trans(Tween.TRANS_SINE)
+	tween_morte.finished.connect(queue_free)
