@@ -5,6 +5,18 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x5qa7"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_5a1o0"]
+viewport_path = NodePath("HealthBar3D/SubViewport")
+
+[sub_resource type="Gradient" id="Gradient_5a1o0"]
+offsets = PackedFloat32Array(0, 0.0064935065, 0.038961038, 0.045454547)
+colors = PackedColorArray(0, 0, 0, 1, 0, 1, 0, 1, 0.084415585, 0.084415585, 0.084415585, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_1n2p7"]
+gradient = SubResource("Gradient_5a1o0")
+fill_from = Vector2(0.0045871558, 0)
+fill_to = Vector2(0.036697246, 0.041284405)
+
 [node name="unit-mill2" unique_id=527780894 instance=ExtResource("1_6f5ni")]
 script = ExtResource("2_pl00u")
 
@@ -13,6 +25,25 @@ script = ExtResource("2_pl00u")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=756756662]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2124086, 0)
 shape = SubResource("SphereShape3D_x5qa7")
+
+[node name="HealthBar3D" type="Sprite3D" parent="." index="3" unique_id=702624270]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85420346, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_5a1o0")
+
+[node name="SubViewport" type="SubViewport" parent="HealthBar3D" index="0" unique_id=1498635782]
+transparent_bg = true
+size = Vector2i(128, 16)
+render_target_update_mode = 4
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="HealthBar3D/SubViewport" index="0" unique_id=1067056084]
+custom_minimum_size = Vector2(100, 20)
+offset_right = 40.0
+offset_bottom = 40.0
+value = 100.0
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture2D_1n2p7")
+tint_progress = Color(0, 1, 0, 1)
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

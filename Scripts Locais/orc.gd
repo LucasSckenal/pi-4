@@ -1,133 +1,112 @@
 extends CharacterBody3D
 
-# --- CONFIGURAÇÕES DE MOVIMENTO ---
+# --- CONFIGURAÇÕES ---
 @export var velocidade: float = 0.5
 @export var jump_velocity: float = 4.5
 @export var gravity: float = 20.0
-@export var rotation_speed: float = 10.0
+@export var distancia_ataque: float = 0.7
+@export var forca_dano: int = 5
 
-# --- CONFIGURAÇÕES DE COMBATE ---
-@export var distancia_de_ataque: float = 0.7
-@export var forca_do_ataque: int = 10
-@export var cadencia_ataque: float = 1.5
-@export var vida_maxima: int = 100
-
-var vida_atual: int = 100
+var vida: int = 100
+var esta_morto: bool = false
 var alvo_atual: Node3D = null
 var pode_atacar: bool = true
-var esta_morto: bool = false
-var escala_original: Vector3 # Guarda o tamanho certo dele
+var escala_original: Vector3
 
-# --- REFERÊNCIAS ---
 @onready var nav_agent = $NavigationAgent3D
-@onready var anim_player = $"character-orc2/AnimationPlayer" 
-@onready var modelo_visual = $"character-orc2"
-@onready var timer_ataque = Timer.new()
+@onready var anim = $"character-orc2/AnimationPlayer"
+@onready var modelo = $"character-orc2"
 
 func _ready():
-	vida_atual = vida_maxima
-	escala_original = modelo_visual.scale # Salva o tamanho que ele tem no editor
 	add_to_group("inimigos")
-	
+	escala_original = modelo.scale
 	nav_agent.path_desired_distance = 0.5
 	nav_agent.target_desired_distance = 0.5
-	
-	add_child(timer_ataque)
-	timer_ataque.wait_time = cadencia_ataque
-	timer_ataque.one_shot = true
-	timer_ataque.timeout.connect(func(): pode_atacar = true)
 
 func _physics_process(delta):
 	if esta_morto: return
 
+	# 1. Gravidade
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
+	# 2. IA de Alvo
 	if alvo_atual == null or not is_instance_valid(alvo_atual):
 		alvo_atual = procurar_novo_alvo()
 
-	var direction = Vector3.ZERO
-
-	if alvo_atual != null:
+	# 3. Movimento
+	if alvo_atual:
 		nav_agent.target_position = alvo_atual.global_position
-		var distancia = global_position.distance_to(alvo_atual.global_position)
+		var dist = global_position.distance_to(alvo_atual.global_position)
 		
-		if distancia > distancia_de_ataque:
+		if dist > distancia_ataque:
 			if not nav_agent.is_navigation_finished():
-				var proximo_passo = nav_agent.get_next_path_position()
-				direction = (proximo_passo - global_position)
-				direction.y = 0
-				direction = direction.normalized()
+				var next_pos = nav_agent.get_next_path_position()
+				var dir = (next_pos - global_position).normalized()
 				
-				# PULO AUTOMÁTICO (Igual ao teu Player)
+				# PULO AUTOMÁTICO
 				if is_on_floor() and is_on_wall():
 					velocity.y = jump_velocity
 				
-				if direction.length() > 0.01:
-					var target_angle = atan2(direction.x, direction.z)
-					rotation.y = lerp_angle(rotation.y, target_angle, rotation_speed * delta)
-					velocity.x = direction.x * velocidade
-					velocity.z = direction.z * velocidade
-					if is_on_floor(): _tocar_animacao("walk")
+				velocity.x = dir.x * velocidade
+				velocity.z = dir.z * velocidade
+				
+				# ROTAÇÃO
+				var look_dir = Vector2(velocity.z, velocity.x)
+				rotation.y = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
+				
+				if is_on_floor(): anim.play("walk")
 		else:
-			velocity.x = move_toward(velocity.x, 0, velocidade)
-			velocity.z = move_toward(velocity.z, 0, velocidade)
-			tentar_atacar_alvo()
-	else:
-		velocity.x = move_toward(velocity.x, 0, velocidade)
-		velocity.z = move_toward(velocity.z, 0, velocidade)
-		if is_on_floor(): _tocar_animacao("idle")
-
-	if not is_on_floor() and not esta_morto:
-		_tocar_animacao("jump")
+			# ATACAR
+			velocity.x = 0
+			velocity.z = 0
+			atacar()
 
 	move_and_slide()
 
-# --- FUNÇÕES DE LÓGICA ---
-
-func _tocar_animacao(anim_name: String):
-	if anim_player and anim_player.has_animation(anim_name):
-		if anim_player.current_animation != anim_name:
-			anim_player.play(anim_name)
-
-func procurar_novo_alvo() -> Node3D:
+func procurar_novo_alvo():
+	# Prioridade: 1. Construções próximas | 2. Castelo
 	var construcoes = get_tree().get_nodes_in_group("Construcao")
-	var alvo_proximo = null
+	var melhor_alvo = null
 	var menor_dist = 9999.0
+	
 	for c in construcoes:
-		if "is_fantasma" in c and c.is_fantasma: continue
 		var d = global_position.distance_to(c.global_position)
 		if d < menor_dist:
 			menor_dist = d
-			alvo_proximo = c
-	if alvo_proximo: return alvo_proximo
+			melhor_alvo = c
+			
+	if melhor_alvo: return melhor_alvo
 	return get_tree().get_first_node_in_group("Castelo")
 
-func tentar_atacar_alvo():
-	if pode_atacar and is_instance_valid(alvo_atual):
+func atacar():
+	if pode_atacar and alvo_atual:
+		pode_atacar = false
+		anim.play("attack-melee-right")
 		if alvo_atual.has_method("receber_dano"):
-			pode_atacar = false
-			_tocar_animacao("attack-melee-right")
-			alvo_atual.receber_dano(forca_do_ataque)
-			timer_ataque.start()
+			alvo_atual.receber_dano(forca_dano)
+		
+		await get_tree().create_timer(1.5).timeout
+		pode_atacar = true
 
-func receber_dano(dano_sofrido: int):
+func receber_dano(qtd):
 	if esta_morto: return
-	vida_atual -= dano_sofrido
+	vida -= qtd
 	
-	# CORREÇÃO DO GIGANTE: Usa a escala_original
-	var tween = create_tween()
-	tween.tween_property(modelo_visual, "scale", escala_original * 1.2, 0.05)
-	tween.tween_property(modelo_visual, "scale", escala_original, 0.1)
+	# Feedback de dano (não fica gigante!)
+	var tw = create_tween()
+	tw.tween_property(modelo, "scale", escala_original * 1.2, 0.1)
+	tw.tween_property(modelo, "scale", escala_original, 0.1)
 	
-	if vida_atual <= 0: morrer()
+	if vida <= 0: morrer()
 
 func morrer():
 	esta_morto = true
+	remove_from_group("inimigos")
 	$CollisionShape3D.set_deferred("disabled", true)
-	_tocar_animacao("sit")
+	anim.play("sit")
 	
-	var tween_morte = create_tween()
-	tween_morte.tween_interval(1.0) 
-	tween_morte.tween_property(self, "scale", Vector3.ZERO, 1.5).set_trans(Tween.TRANS_SINE)
-	tween_morte.finished.connect(queue_free)
+	var tw = create_tween()
+	tw.tween_interval(1.5) # Espera sentado
+	tw.tween_property(self, "scale", Vector3.ZERO, 1.0)
+	tw.finished.connect(queue_free)

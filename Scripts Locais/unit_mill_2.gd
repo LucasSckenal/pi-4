@@ -1,77 +1,91 @@
 extends Node3D
 
+# --- CONFIGURAÇÕES ---
 @export var custo_moedas: int = 3 
-@export var moedas_por_onda: int = 2 # Quanto a mina/casa paga no fim do turno
+@export var moedas_por_onda: int = 2 
+@export var vida_maxima: int = 20
 
-# =========================================================
-# NOVO: TRAVA CONTRA FANTASMAS (Evita dinheiro grátis)
-# =========================================================
+# --- REFERÊNCIAS ---
+@onready var health_bar = $HealthBar3D/SubViewport/TextureProgressBar
+@onready var health_bar_container = $HealthBar3D
+
+# --- ESTADO ---
+var vida_atual: int
 var is_fantasma: bool = false 
 
-# =========================================================
-# SISTEMA DE VIDA
-# =========================================================
-@export var vida_maxima: int = 20
-var vida_atual: int
-
 func _ready():
-	# A TRAVA: Se for só o holograma do BuildSlot, para o código aqui e não faz mais nada!
-	if is_fantasma == true:
+	# Se for apenas o holograma (fantasma), limpamos e paramos o código
+	if is_fantasma:
+		if health_bar_container: health_bar_container.visible = false
 		return
 		
-	# 1. Quando a construção REAL é feita, a vida começa no máximo
-	vida_atual = vida_maxima
+	# 1. Registro no grupo para os orcs atacarem
+	add_to_group("Construcao")
 	
-	# 2. Fica à escuta do GameManager para o fim da onda (O fantasma nunca chega aqui)
-	GameManager.onda_terminada.connect(_pagar_recompensa)
+	# 2. Inicializa Vida e Barra
+	vida_atual = vida_maxima
+	if health_bar:
+		health_bar.max_value = vida_maxima
+		health_bar.value = vida_atual
+		health_bar_container.visible = false # Escondida até levar dano
+	
+	# 3. Conecta ao sinal de fim de onda para ganhar moedas
+	if GameManager.has_signal("onda_terminada"):
+		GameManager.onda_terminada.connect(_pagar_recompensa)
 
-# =========================================================
-# SISTEMA DE PAGAMENTO 
-# =========================================================
+# --- SISTEMA DE PAGAMENTO ---
 func _pagar_recompensa():
-	# Agora procura o jogador apenas na hora de pagar!
 	var player_ref = get_tree().get_first_node_in_group("Player")
 	
 	if player_ref != null:
 		player_ref.moedas += moedas_por_onda
-		
-		# Atualiza o texto na cabeça do jogador
 		if player_ref.has_method("atualizar_hud"):
 			player_ref.atualizar_hud()
-			
-		print("A construção gerou ", moedas_por_onda, " moedas!")
-	else:
-		print("ERRO: Jogador não encontrado! Confirma se o grupo se chama mesmo 'Player'.")
+		print("Construção gerou ", moedas_por_onda, " moedas!")
 
-# =========================================================
-# FUNÇÃO PARA SOFRER DANO DOS INIMIGOS
-# =========================================================
+# --- SISTEMA DE DANO ---
 func receber_dano(quantidade: int):
+	if is_fantasma: return
+	
 	vida_atual -= quantidade
-	print("A construção sofreu ", quantidade, " de dano! Vida: ", vida_atual)
+	
+	# Mostra a barra de vida ao levar dano
+	if health_bar_container:
+		health_bar_container.visible = true
+	
+	# Atualiza o valor visual da barra
+	if health_bar:
+		health_bar.value = vida_atual
+	
+	# Efeito visual de tremer (Correção do Tween para Godot 4)
+	var tween = create_tween()
+	var original_y = position.y
+	tween.tween_property(self, "position:y", original_y + 0.15, 0.05)
+	tween.tween_property(self, "position:y", original_y, 0.05)
 	
 	if vida_atual <= 0:
 		destruir_construcao()
 
 func destruir_construcao():
 	print("A construção foi destruída!")
-	# O queue_free() apaga o objeto do jogo. 
+	# Desconecta o sinal para evitar erros de memória
+	if GameManager.onda_terminada.is_connected(_pagar_recompensa):
+		GameManager.onda_terminada.disconnect(_pagar_recompensa)
+		
+	remove_from_group("Construcao")
 	queue_free()
 
-# =========================================================
-# O TEU SISTEMA DE TRANSPARÊNCIA (Intacto!)
-# =========================================================
+# --- TRANSPARÊNCIA (PLAYER PASSANDO POR TRÁS) ---
 func _on_area_3d_body_entered(body):
-	if body.name == "Player":
+	if body.is_in_group("Player"):
 		mudar_transparencia(self, 0.75) 
 
 func _on_area_3d_body_exited(body):
-	if body.name == "Player":
+	if body.is_in_group("Player"):
 		mudar_transparencia(self, 0.0)
 
 func mudar_transparencia(no_atual: Node, valor: float):
 	if no_atual is MeshInstance3D:
 		no_atual.transparency = valor
-		
 	for filho in no_atual.get_children():
 		mudar_transparencia(filho, valor)
