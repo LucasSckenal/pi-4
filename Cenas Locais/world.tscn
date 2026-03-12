@@ -85,9 +85,8 @@ size = Vector3(1, 1, 2.0368652)
 size = Vector3(1, 1, 2.8411865)
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_bo7i5"]
-vertices = PackedVector3Array(1.5826988, 0.57415605, -2.400628, 1.8326988, 0.82415605, -3.150628, 1.3326988, 0.82415605, -3.150628, 0.5826988, 0.57415605, -0.4006281, 1.5826988, 0.57415605, -0.4006281, 1.3326988, 0.57415605, -1.1506281, 0.33269882, 0.32415605, -1.4006281, 2.0826988, 0.57415605, -1.1506281, 1.8326988, 0.32415605, -0.4006281, 3.0826988, 0.32415605, -0.4006281, 3.0826988, 0.32415605, -2.900628, 1.8326988, 0.82415605, -2.900628, -0.9173012, 1.074156, -0.6506281, -0.16730118, 0.82415605, -0.4006281, -0.16730118, 0.82415605, -1.1506281, -0.9173012, 0.82415605, -1.1506281, 3.0826988, 0.32415605, 1.0993719, 2.8326988, 0.57415605, 1.5993719, 4.082699, 0.32415605, 1.5993719, 4.082699, 0.32415605, 0.3493719, 0.08269882, 0.57415605, 0.5993719, 2.5826988, 0.82415605, 1.0993719, -1.6673012, 0.32415605, 0.09937191, -1.6673012, 0.32415605, 1.0993719, 3.8326988, 0.32415605, 2.099372, -0.41730118, 0.82415605, 2.099372, 1.8326988, 0.32415605, 3.599372, 3.8326988, 0.32415605, 3.099372, 3.8326988, 0.32415605, 2.599372, 0.8326988, 0.32415605, 2.849372, -1.1673012, 0.57415605, 1.5993719, -0.41730118, 0.57415605, 2.599372, -1.4173012, 0.32415605, 3.099372)
-polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(4, 3, 5), PackedInt32Array(5, 3, 6), PackedInt32Array(7, 5, 0), PackedInt32Array(9, 8, 7), PackedInt32Array(11, 10, 0), PackedInt32Array(0, 10, 7), PackedInt32Array(7, 10, 9), PackedInt32Array(5, 6, 0), PackedInt32Array(0, 6, 2), PackedInt32Array(15, 14, 12), PackedInt32Array(12, 14, 13), PackedInt32Array(17, 16, 18), PackedInt32Array(18, 16, 19), PackedInt32Array(3, 4, 20), PackedInt32Array(16, 21, 19), PackedInt32Array(19, 21, 9), PackedInt32Array(9, 21, 8), PackedInt32Array(23, 22, 20), PackedInt32Array(20, 21, 23), PackedInt32Array(8, 21, 4), PackedInt32Array(4, 21, 20), PackedInt32Array(18, 24, 17), PackedInt32Array(17, 24, 25), PackedInt32Array(27, 26, 28), PackedInt32Array(28, 26, 29), PackedInt32Array(30, 23, 25), PackedInt32Array(25, 23, 21), PackedInt32Array(25, 21, 17), PackedInt32Array(31, 28, 29), PackedInt32Array(31, 29, 32), PackedInt32Array(25, 31, 30), PackedInt32Array(30, 31, 32), PackedInt32Array(25, 24, 31), PackedInt32Array(31, 24, 28)]
-sample_partition_type = 1
+vertices = PackedVector3Array(1.5826988, 0.57415605, -2.400628, 1.8326988, 0.82415605, -3.150628, 1.3326988, 0.82415605, -3.150628, 1.0826988, 0.82415605, -2.400628, 3.8326988, 0.32415605, 3.099372, 3.0826988, 0.57415605, 1.3493719, 2.5826988, 0.57415605, 1.5993719, 0.8326988, 0.32415605, 2.849372, 1.3326988, 0.32415605, 3.599372, 1.5826988, 0.57415605, -1.6506281, -0.6673012, 0.82415605, 2.099372, -0.41730118, 0.57415605, 2.599372, -0.16730118, 0.32415605, 2.849372, 2.5826988, 0.82415605, 1.0993719, 3.8326988, 0.32415605, 0.8493719, 1.3326988, 0.57415605, -0.6506281, 1.8326988, 0.82415605, -2.900628, 3.0826988, 0.32415605, -1.1506281, 2.8326988, 0.32415605, -2.900628, 0.33269882, 0.57415605, 0.5993719, -1.6673012, 0.32415605, 0.09937191, -1.1673012, 0.57415605, 2.099372, 1.3326988, 0.57415605, -1.1506281, 0.33269882, 0.32415605, -1.4006281, -0.9173012, 1.074156, -0.6506281, -0.16730118, 0.82415605, -0.4006281, -0.16730118, 0.82415605, -1.1506281, -0.9173012, 0.82415605, -1.1506281, -1.4173012, 0.32415605, 3.099372)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 8), PackedInt32Array(6, 8, 7), PackedInt32Array(9, 3, 0), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 7), PackedInt32Array(5, 13, 14), PackedInt32Array(14, 13, 15), PackedInt32Array(0, 16, 9), PackedInt32Array(9, 16, 18), PackedInt32Array(9, 18, 17), PackedInt32Array(4, 5, 14), PackedInt32Array(10, 21, 19), PackedInt32Array(19, 21, 20), PackedInt32Array(6, 7, 13), PackedInt32Array(13, 7, 10), PackedInt32Array(13, 10, 19), PackedInt32Array(13, 19, 15), PackedInt32Array(23, 9, 22), PackedInt32Array(22, 9, 17), PackedInt32Array(22, 15, 23), PackedInt32Array(23, 15, 19), PackedInt32Array(27, 26, 24), PackedInt32Array(24, 26, 25), PackedInt32Array(10, 11, 21), PackedInt32Array(11, 12, 21), PackedInt32Array(21, 12, 28)]
 agent_radius = 0.2
 
 [sub_resource type="Resource" id="Resource_0baal"]
@@ -124,10 +123,10 @@ current = true
 fov = 90.0
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("25_mc2jv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2837014, 0.22617066, 0.40977418)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14706466, 0.22617066, 0.9592215)
+floor_snap_length = 1.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=947961055]
-target_desired_distance = 0.1
 
 [node name="LinhaCaminho" type="MeshInstance3D" parent="Player" unique_id=41012468]
 material_override = SubResource("StandardMaterial3D_mhe2x")
@@ -171,6 +170,45 @@ transform = Transform3D(0.9854317, 0, 0.17007191, 0, 1, 0, -0.17007191, 0, 0.985
 
 [node name="stone2" parent="." unique_id=1779118724 instance=ExtResource("10_jjr1n")]
 transform = Transform3D(0.9854317, 0, 0.17007191, 0, 1, 0, -0.17007191, 0, 0.9854317, 1.2494665, -0.08817288, 1.4646679)
+
+[node name="river-straight5" parent="." unique_id=951743274 instance=ExtResource("13_6ah6f")]
+transform = Transform3D(0.7442415, 0, -0.6679107, 0, 1, 0, 0.6679107, 0, 0.7442415, 3.8769057, -0.18321094, 0.64867246)
+
+[node name="river-straight4" parent="." unique_id=1453707192 instance=ExtResource("13_6ah6f")]
+transform = Transform3D(0.7442415, 0, -0.6679107, 0, 1, 0, 0.6679107, 0, 0.7442415, 3.196739, -0.18321094, 0.040768884)
+
+[node name="river-straight3" parent="." unique_id=1519599881 instance=ExtResource("13_6ah6f")]
+transform = Transform3D(0.7442415, 0, -0.6679107, 0, 1, 0, 0.6679107, 0, 0.7442415, 2.4582105, -0.18321094, -0.62141407)
+
+[node name="river-straight2" parent="." unique_id=203708755 instance=ExtResource("13_6ah6f")]
+transform = Transform3D(0.80548364, 0, -0.592618, 0, 1, 0, 0.592618, 0, 0.80548364, 1.016663, -0.1806152, -1.8795526)
+
+[node name="path-intersectionD2" parent="." unique_id=422971427 instance=ExtResource("7_k83mh")]
+transform = Transform3D(0.6395865, 0, -0.7687192, 0, 1, 0, 0.7687192, 0, 0.6395865, 0.5400464, 0.20000006, 0.6766511)
+
+[node name="path-straight2" parent="." unique_id=782828460 instance=ExtResource("8_qktwf")]
+transform = Transform3D(1.1956378, 0, -1.7484557e-07, 0, 1, 0, 2.0905196e-07, 0, 1, 1.4887378, 0.20000006, 0.58935225)
+
+[node name="path-straight5" parent="." unique_id=1890041999 instance=ExtResource("8_qktwf")]
+transform = Transform3D(0.5634397, 0, 0.8261572, 0, 1, 0, -0.8261572, 0, 0.5634397, 2.1926851, 0.014231683, -1.9183207)
+
+[node name="path-straight7" parent="." unique_id=812249463 instance=ExtResource("8_qktwf")]
+transform = Transform3D(0.6504431, 0, 0.7595551, 0, 1, 0, -0.7595551, 0, 0.6504431, 2.6721153, 0.014231683, -2.5349917)
+
+[node name="path-straight6" parent="." unique_id=1663752573 instance=ExtResource("8_qktwf")]
+transform = Transform3D(0.65903294, 0, -0.42110428, 0, 1, 0, 0.5013402, 0, 0.55355936, 2.1690958, 0.02449687, 0.051518213)
+
+[node name="path-straight3" parent="." unique_id=553705041 instance=ExtResource("8_qktwf")]
+transform = Transform3D(0.5264251, 0, -0.8853455, 0, 1.31018, 0, 1.0850941, 0, 0.42951867, 1.0568626, 0.19539009, 1.4767255)
+
+[node name="path-straight4" parent="." unique_id=1009697562 instance=ExtResource("8_qktwf")]
+transform = Transform3D(0.47102633, 0, 0.846342, 0, 1, 0, -1.0744026, 0, 0.37104285, 0.19614825, 0.2000003, 1.5294589)
+
+[node name="path-corner2" parent="." unique_id=2092730576 instance=ExtResource("14_g1i3r")]
+transform = Transform3D(0.23190728, 0, -0.6493888, 0, 1, 0, 0.83890295, 0, 0.17951776, 1.555554, 0.021547128, -0.3267958)
+
+[node name="path-corner3" parent="." unique_id=1440727237 instance=ExtResource("14_g1i3r")]
+transform = Transform3D(-0.5495617, 0, -0.4430845, 0, 1, 0, 0.7841265, 0, -0.3105394, 1.4207597, 0.019432593, -0.9887777)
 
 [node name="Boundaries" type="StaticBody3D" parent="." unique_id=1629518506]
 transform = Transform3D(1.0001031, 0, -1.7486359e-07, 0, 1.0001031, 0, 1.7486359e-07, 0, 1.0001031, 0, 0, 0)
@@ -237,45 +275,6 @@ transform = Transform3D(0.9861811, 0, 0.1650478, 0, 0.99989694, 0, -0.1650478, 0
 
 [node name="grass19" parent="NavigationRegion3D" unique_id=1231845132 instance=ExtResource("4_bo7i5")]
 transform = Transform3D(0.9861811, 0, 0.1650478, 0, 0.99989694, 0, -0.1650478, 0, 0.9861811, -1.3765631, -0.1832027, 0.57872975)
-
-[node name="river-straight5" parent="NavigationRegion3D" unique_id=951743274 instance=ExtResource("13_6ah6f")]
-transform = Transform3D(0.7441649, 0, -0.66784173, 0, 0.99989694, 0, 0.66784173, 0, 0.7441649, 3.8765059, -0.18319204, 0.6486049)
-
-[node name="river-straight4" parent="NavigationRegion3D" unique_id=1453707192 instance=ExtResource("13_6ah6f")]
-transform = Transform3D(0.7441649, 0, -0.66784173, 0, 0.99989694, 0, 0.66784173, 0, 0.7441649, 3.1964095, -0.18319204, 0.040764123)
-
-[node name="river-straight3" parent="NavigationRegion3D" unique_id=1519599881 instance=ExtResource("13_6ah6f")]
-transform = Transform3D(0.7441649, 0, -0.66784173, 0, 0.99989694, 0, 0.66784173, 0, 0.7441649, 2.457957, -0.18319204, -0.6213504)
-
-[node name="river-straight2" parent="NavigationRegion3D" unique_id=203708755 instance=ExtResource("13_6ah6f")]
-transform = Transform3D(0.8054007, 0, -0.5925568, 0, 0.99989694, 0, 0.5925568, 0, 0.8054007, 1.0165578, -0.18059658, -1.8793589)
-
-[node name="path-intersectionD2" parent="NavigationRegion3D" unique_id=422971427 instance=ExtResource("7_k83mh")]
-transform = Transform3D(0.6395207, 0, -0.7686398, 0, 0.99989694, 0, 0.7686398, 0, 0.6395207, 0.53999084, 0.19997944, 0.67658126)
-
-[node name="path-straight2" parent="NavigationRegion3D" unique_id=782828460 instance=ExtResource("8_qktwf")]
-transform = Transform3D(1.1955146, 0, 0, 0, 0.99989694, 0, 0, 0, 0.99989694, 1.4885844, 0.19997944, 0.5892913)
-
-[node name="path-straight5" parent="NavigationRegion3D" unique_id=1890041999 instance=ExtResource("8_qktwf")]
-transform = Transform3D(0.5633815, 0, 0.82607216, 0, 0.99989694, 0, -0.82607216, 0, 0.5633815, 2.1924589, 0.014230215, -1.9181232)
-
-[node name="path-straight7" parent="NavigationRegion3D" unique_id=812249463 instance=ExtResource("8_qktwf")]
-transform = Transform3D(0.6503759, 0, 0.7594769, 0, 0.99989694, 0, -0.7594769, 0, 0.6503759, 2.6718392, 0.014230215, -2.534731)
-
-[node name="path-straight6" parent="NavigationRegion3D" unique_id=1663752573 instance=ExtResource("8_qktwf")]
-transform = Transform3D(0.65896505, 0, -0.42106077, 0, 0.99989694, 0, 0.5012884, 0, 0.5535023, 2.168872, 0.024494344, 0.05151252)
-
-[node name="path-straight3" parent="NavigationRegion3D" unique_id=553705041 instance=ExtResource("8_qktwf")]
-transform = Transform3D(0.526371, 0, -0.8852542, 0, 1.3100449, 0, 1.084982, 0, 0.42947453, 1.0567539, 0.19536994, 1.476573)
-
-[node name="path-straight4" parent="NavigationRegion3D" unique_id=1009697562 instance=ExtResource("8_qktwf")]
-transform = Transform3D(0.47097757, 0, 0.8462548, 0, 0.99989694, 0, -1.074292, 0, 0.37100443, 0.1961283, 0.19997968, 1.5293012)
-
-[node name="path-corner2" parent="NavigationRegion3D" unique_id=2092730576 instance=ExtResource("14_g1i3r")]
-transform = Transform3D(0.2318835, 0, -0.6493218, 0, 0.99989694, 0, 0.83881634, 0, 0.17949937, 1.5553937, 0.021544904, -0.32676232)
-
-[node name="path-corner3" parent="NavigationRegion3D" unique_id=1440727237 instance=ExtResource("14_g1i3r")]
-transform = Transform3D(-0.5495048, 0, -0.44303885, 0, 0.99989694, 0, 0.7840458, 0, -0.3105073, 1.4206129, 0.019430587, -0.988676)
 
 [node name="grass-forest2" parent="NavigationRegion3D" unique_id=239867913 instance=ExtResource("15_my276")]
 transform = Transform3D(0.9361411, 0, 0.35133168, 0, 0.99989694, 0, -0.35133168, 0, 0.9361411, 1.1755357, -0.180012, -2.844505)

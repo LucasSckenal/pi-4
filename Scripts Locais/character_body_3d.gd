@@ -99,7 +99,7 @@ func _ready():
 	
 	# Configurações de distância do NavigationAgent para evitar paradas prematuras
 	nav_agent.path_desired_distance = 0.5
-	nav_agent.target_desired_distance = 0.5
+	nav_agent.target_desired_distance = 0.1
 	
 	# ---------------------------------------------------------
 	# SISTEMA DE TROCA DE PERSONAGEM

@@ -124,6 +124,9 @@ func transformar_em_fantasma(no_atual: Node):
 	elif no_atual is CollisionShape3D or no_atual is CollisionPolygon3D: 
 		# Desativa as formas de colisao usando set_deferred para evitar falhas do motor de fisica
 		no_atual.set_deferred("disabled", true)
+	elif no_atual is NavigationObstacle3D:
+		# Desativa a evasao de obstaculos na navegacao para que o fantasma nao repila o jogador
+		no_atual.avoidance_enabled = false
 		
 	for filho in no_atual.get_children(): 
 		transformar_em_fantasma(filho)
