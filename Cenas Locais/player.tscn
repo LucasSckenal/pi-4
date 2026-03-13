@@ -33,13 +33,6 @@ bone_idx = 4
 [node name="sword_C2" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=544451301 instance=ExtResource("3_tpa7q")]
 transform = Transform3D(-0.2367318, -0.1097803, 0.20740621, 0.2230266, -0.013612833, 0.24735568, -0.07299422, 0.31444228, 0.083119586, 0.21972007, 0.012086064, 0.09172059)
 
-[node name="TextoMoedas" type="Label3D" parent="." unique_id=376621771]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.27749828, 0)
-pixel_size = 0.002
-billboard = 1
-no_depth_test = true
-text = "moedas 50"
-
 [node name="AreaAtaque" type="Area3D" parent="." unique_id=682289708]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" unique_id=604714878]

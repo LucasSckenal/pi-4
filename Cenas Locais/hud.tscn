@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://cri36f13bdtw1"]
+
+[ext_resource type="Script" uid="uid://bdk4hwc1fa0fx" path="res://hud.gd" id="1_fiyi4"]
+[ext_resource type="PackedScene" uid="uid://5wk3w1ggee8" path="res://Dungeon/chest.glb" id="2_o13s8"]
+[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="3_iy34l"]
+
+[sub_resource type="World3D" id="World3D_ebwb2"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1178528872]
+script = ExtResource("1_fiyi4")
+
+[node name="InterfacePrincipal" type="Control" parent="." unique_id=562351409]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="CentroTela" type="CenterContainer" parent="InterfacePrincipal" unique_id=1246110216]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelWave" type="Label" parent="InterfacePrincipal/CentroTela" unique_id=1482058559]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "ONDA 1/10"
+
+[node name="MarginInferior" type="MarginContainer" parent="InterfacePrincipal" unique_id=486124078]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -59.5
+offset_top = -71.0
+offset_right = 59.5
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 40
+
+[node name="CenterContainer" type="CenterContainer" parent="InterfacePrincipal/MarginInferior" unique_id=345088075]
+layout_mode = 2
+
+[node name="BotaoNoite" type="Button" parent="InterfacePrincipal/MarginInferior/CenterContainer" unique_id=513199761]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "INICIAR NOITE"
+
+[node name="MarginDireita" type="MarginContainer" parent="InterfacePrincipal" unique_id=1955128057]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxDireita" type="VBoxContainer" parent="InterfacePrincipal/MarginDireita" unique_id=1732296998]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="ContainerBau" type="SubViewportContainer" parent="InterfacePrincipal/MarginDireita/VBoxDireita" unique_id=270829609]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau" unique_id=1232761435]
+own_world_3d = true
+world_3d = SubResource("World3D_ebwb2")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(120, 120)
+render_target_update_mode = 4
+
+[node name="CameraBau" type="Camera3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=1318374310]
+transform = Transform3D(1, 0, 0, 0, 0.8768359, 0.48078984, 0, -0.48078984, 0.8768359, 0, 0.8348205, 0.5266327)
+
+[node name="LuzBau" type="DirectionalLight3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=1771548868]
+transform = Transform3D(1, 0, 0, 0, 0.74232686, 0.670038, 0, -0.670038, 0.74232686, 0, 1.3098617, 1.6097276)
+
+[node name="chest2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=53500304 instance=ExtResource("2_o13s8")]
+transform = Transform3D(0.9956746, 0, -0.09290931, 0, 1, 0, 0.09290931, 0, 0.9956746, -0.013607115, 0.22566462, -0.10615909)
+
+[node name="grass2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport/chest2" unique_id=1979503599 instance=ExtResource("3_iy34l")]
+transform = Transform3D(0.8030646, 0, -0.44863927, 0, 1, 0, 0.47277692, 0, 0.76206416, -0.010401107, -0.22566473, 0.011875898)
+
+[node name="FundoMoedas" type="PanelContainer" parent="InterfacePrincipal/MarginDireita/VBoxDireita" unique_id=160279703]
+layout_mode = 2
+
+[node name="LabelMoedas" type="Label" parent="InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas" unique_id=1015318735]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "💰 0"
+
+[connection signal="pressed" from="InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite" to="." method="_on_botao_noite_pressed"]
