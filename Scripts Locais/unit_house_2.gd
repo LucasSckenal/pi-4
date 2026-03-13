@@ -29,19 +29,13 @@ func _ready():
 # SISTEMA DE PAGAMENTO 
 # =========================================================
 func _pagar_recompensa():
-	# Agora procura o jogador apenas na hora de pagar!
-	var player_ref = get_tree().get_first_node_in_group("Player")
+	# Agora a casa dá o dinheiro diretamente para o GameManager!
+	GameManager.moedas += moedas_por_onda
 	
-	if player_ref != null:
-		player_ref.moedas += moedas_por_onda
-		
-		# Atualiza o texto na cabeça do jogador
-		if player_ref.has_method("atualizar_hud"):
-			player_ref.atualizar_hud()
-			
-		print("A construção gerou ", moedas_por_onda, " moedas!")
-	else:
-		print("ERRO: Jogador não encontrado! Confirma se o grupo se chama mesmo 'Player'.")
+	# Avisa a interface para atualizar o número na tela
+	get_tree().call_group("Interface", "atualizar_moedas")
+	
+	print("A construção gerou ", moedas_por_onda, " moedas! Total agora é: ", GameManager.moedas)
 
 # =========================================================
 # FUNÇÃO PARA SOFRER DANO DOS INIMIGOS

@@ -19,7 +19,6 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
 [node name="HUD" type="CanvasLayer" unique_id=1178528872]
-layer = 100
 script = ExtResource("1_fiyi4")
 cena_carta_ui = ExtResource("2_iy34l")
 

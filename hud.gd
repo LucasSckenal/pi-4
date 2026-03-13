@@ -95,7 +95,9 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 			nova_carta.pressed.connect(_ao_escolher_upgrade.bind(dados))
 
 func _ao_escolher_upgrade(dados):
-	# Aplica o bônus e fecha tudo
-	GameManager.aplicar_upgrade(dados.id)
+	# CORREÇÃO AQUI: Agora envia o objeto "dados" inteiro, e não apenas o "dados.id"
+	GameManager.aplicar_upgrade(dados)
+	
+	# Esconde o menu e despausa o jogo
 	menu_upgrade.hide()
 	get_tree().paused = false

@@ -8,14 +8,14 @@ signal mostrar_menu_upgrade(cartas_sorteadas)
 enum EstadoJogo { DIA, NOITE }
 var estado_atual = EstadoJogo.DIA
 
-# --- UPGRADES ---
 # --- UPGRADES E MODIFICADORES ---
 var bonus_dano: int = 0 
 var bonus_moedas_onda: int = 0
 var bonus_velocidade_ataque: float = 0.0 # Ex: 0.2 é +20%
-var modificador_custo: float = 1.0       # 1.0 é preço normal, 0.75 é 25% de desconto
+var desconto_construcao: int = 0       # 1.0 é preço normal, 0.75 é 25% de desconto
 var multiplicador_horda: float = 1.0     # 1.0 é normal, 1.5 é 50% mais inimigos
 var multiplicador_velocidade_inimigo: float = 1.0
+
 var baralho_upgrades: Array = [
 	preload("res://PowerUps/BalisticaPesada.tres"),
 	preload("res://PowerUps/EngenhariaEficiente.tres"),
@@ -23,7 +23,6 @@ var baralho_upgrades: Array = [
 	preload("res://PowerUps/ImpostoGuerra.tres"),
 	preload("res://PowerUps/MuralhasReforçadas.tres"),
 	preload("res://PowerUps/TFRICO.tres"),
-
 ]
 
 # --- ECONOMIA ---
@@ -41,6 +40,9 @@ func iniciar_dia():
 	is_night = false
 	dia_iniciado.emit(onda_atual)
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
+	
+	# Cura as torres no início do dia
+	get_tree().call_group("Torres", "curar_totalmente")
 
 func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
@@ -85,31 +87,54 @@ func sortear_cartas():
 	mostrar_menu_upgrade.emit(escolhidas)
 	get_tree().paused = true # Pausa o jogo
 
+# ==========================================
+# SISTEMA DE UPGRADES
+# ==========================================
 func aplicar_upgrade(dados: CartaUpgrade):
-	match dados.tipo:
-		CartaUpgrade.TipoUpgrade.DANO:
-			bonus_dano += int(dados.valor)
-			print("Bónus de Dano agora é: ", bonus_dano)
-			
-		CartaUpgrade.TipoUpgrade.MOEDA:
-			bonus_moedas_onda += int(dados.valor)
-			print("Bónus de Moedas agora é: ", bonus_moedas_onda)
-			
-		CartaUpgrade.TipoUpgrade.VIDA:
-			# Se tiveres uma var de vida na base
-			# vida_base += int(dados.valor)
-			print("Vida da base aumentada em: ", dados.valor)
-			
-		CartaUpgrade.TipoUpgrade.VELOCIDADE_ATAQUE:
-			# Ex: bonus_velocidade_ataque += dados.valor
-			print("Velocidade aumentada!")
-			
-		CartaUpgrade.TipoUpgrade.MOEDA:
-			# Ex: desconto_construcao += dados.valor
-			print("Desconto aplicado!")
+	# 1. Aplica o Efeito Positivo (Bônus)
+	_processar_efeito(dados.tipo_bonus, dados.valor_bonus)
+	
+	# 2. Aplica o Efeito Negativo (Debuff), mas só se o valor não for zero
+	if dados.valor_debuff != 0:
+		_processar_efeito(dados.tipo_debuff, dados.valor_debuff)
 
 	print("Upgrade '", dados.titulo, "' aplicado com sucesso!")
+	
+	# 3. Avisa todas as torres do mapa que os status mudaram!
+	get_tree().call_group("Torres", "atualizar_status")
 
+func _processar_efeito(tipo_efeito, valor):
+	match tipo_efeito:
+		CartaUpgrade.TipoUpgrade.DANO:
+			bonus_dano += int(valor)
+			print("Novo Bônus de Dano: ", bonus_dano)
+			
+		CartaUpgrade.TipoUpgrade.MOEDA:
+			bonus_moedas_onda += int(valor)
+			print("Novo Bônus de Moedas: ", bonus_moedas_onda)
+			
+		CartaUpgrade.TipoUpgrade.VELOCIDADE_ATAQUE:
+			bonus_velocidade_ataque += valor
+			print("Novo Bônus de Velocidade: ", bonus_velocidade_ataque)
+			
+		CartaUpgrade.TipoUpgrade.CUSTO_CONSTRUCAO:
+			desconto_construcao += int(valor) 
+			print("Desconto fixo aplicado! Torres custam -", desconto_construcao, " moedas.")
+			
+		CartaUpgrade.TipoUpgrade.QUANTIDADE_INIMIGOS:
+			multiplicador_horda *= valor # Aumenta a horda
+			print("Novo Multiplicador de Horda: ", multiplicador_horda)
+			
+		CartaUpgrade.TipoUpgrade.VELOCIDADE_INIMIGO:
+			multiplicador_velocidade_inimigo *= valor
+			print("Velocidade dos Inimigos alterada: ", multiplicador_velocidade_inimigo)
+			
+		CartaUpgrade.TipoUpgrade.VIDA:
+			print("Vida aumentada em: ", valor)
+
+# ==========================================
+# COMPRAS
+# ==========================================
 func gastar_moedas(valor_custo: int) -> bool:
 	if moedas >= valor_custo:
 		moedas -= valor_custo
@@ -117,3 +142,11 @@ func gastar_moedas(valor_custo: int) -> bool:
 		get_tree().call_group("Interface", "animar_bau_abrindo")
 		return true
 	return false
+	
+# ==========================================
+# CÁLCULO DE DESCONTO
+# ==========================================
+func obter_custo_com_desconto(custo_base: int) -> int:
+	# Retorna o custo menos o desconto. 
+	# O max(1, ...) garante que o preço nunca seja zero ou negativo (mínimo 1 moeda)!
+	return max(1, custo_base - desconto_construcao)

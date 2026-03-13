@@ -7,8 +7,8 @@
 script = ExtResource("1_8k1fy")
 id = "5"
 titulo = "Engenharia Eficiente"
-descricao = "Construir prédios e torres custa 20% menos moedas."
+descricao = "Construir prédios e torres custa 1 moeda a menos."
 icone = ExtResource("1_lo6sq")
-tipo_bonus = 1
-valor_bonus = 0.2
+tipo_bonus = 5
+valor_bonus = 1.0
 metadata/_custom_type_script = "uid://ckllnh0oimgco"

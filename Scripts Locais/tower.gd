@@ -17,6 +17,7 @@ var inimigos_no_alcance = []
 var alvo_atual: Node3D = null
 var vida_atual: int
 var is_fantasma: bool = false # Fundamental para o holograma não atirar
+var tempo_ataque_base: float = 1.5 # Tempo padrão entre os tiros (ajuste como preferir)
 
 func _ready():
 	# 1. Se for fantasma (holograma de construção), desliga a torre!
@@ -27,15 +28,19 @@ func _ready():
 		
 	print("A torre nasceu e o script está rodando!")
 	
-	# 2. Registra no grupo para os orcs saberem que podem atacar a torre
-	add_to_group("Construcao")
+	# 2. Registra nos grupos
+	add_to_group("Construcao") # Para os orcs saberem que podem atacar
+	add_to_group("Torres")     # NOVO: Para o GameManager aplicar buffs e curar
 	
-	# 3. Inicializa Vida
+	# 3. Inicializa Vida e Status
 	vida_atual = vida_maxima
 	# if health_bar:
-	# 	health_bar.max_value = vida_maxima
-	# 	health_bar.value = vida_atual
-	# 	health_bar_container.visible = false
+	#     health_bar.max_value = vida_maxima
+	#     health_bar.value = vida_atual
+	#     health_bar_container.visible = false
+	
+	# Aplica os buffs atuais caso a torre seja construída no meio do jogo
+	atualizar_status() 
 
 func _process(_delta):
 	if is_fantasma: return # O fantasma não mira
@@ -56,7 +61,7 @@ func _process(_delta):
 func _on_area_ataque_body_entered(body):
 	if is_fantasma: return # O fantasma ignora inimigos
 	
-	if body.is_in_group("inimigos") or body.is_in_group("Inimigos"): # Checa maiúscula e minúscula por segurança
+	if body.is_in_group("inimigos") or body.is_in_group("Inimigos"): 
 		print("INIMIGO DETECTADO! ALVO TRAVADO!")
 		if not body in inimigos_no_alcance:
 			inimigos_no_alcance.append(body)
@@ -86,12 +91,14 @@ func atacar():
 			nova_flecha.global_position = global_position + Vector3(0, 1.5, 0) # Posição reserva
 		
 		# Passa os valores de dano e alvo para a flecha saber o que fazer
-		nova_flecha.dano = dano
+		# Usamos max(1, ...) para garantir que mesmo com debuffs a torre dê no mínimo 1 de dano
+		nova_flecha.dano = max(1, dano + GameManager.bonus_dano)
 		nova_flecha.alvo = alvo_atual
 
 # ==========================================
 # SISTEMA DE DANO (Para a torre ser destruída)
 # ==========================================
+
 func receber_dano(quantidade: int):
 	if is_fantasma: return
 	
@@ -112,6 +119,7 @@ func receber_dano(quantidade: int):
 func destruir_construcao():
 	print("A torre foi destruída!")
 	remove_from_group("Construcao")
+	remove_from_group("Torres")
 	queue_free()
 
 # ==========================================
@@ -119,7 +127,6 @@ func destruir_construcao():
 # ==========================================
 
 func _on_area_transparencia_body_entered(body):
-	# Trocado para verificar por GRUPO, que é muito mais seguro que procurar por nome exato!
 	if body.is_in_group("Player"): 
 		mudar_transparencia(self, 0.75) 
 
@@ -133,3 +140,22 @@ func mudar_transparencia(no_atual: Node, valor: float):
 		
 	for filho in no_atual.get_children():
 		mudar_transparencia(filho, valor)
+
+# ==========================================
+# INTEGRAÇÃO COM UPGRADES E SISTEMA DE DIA
+# ==========================================
+
+func atualizar_status():
+	# Ajusta a Velocidade de Ataque baseada no GameManager
+	if timer_ataque:
+		# Fórmula: Tempo / (1 + Bônus). Se bônus for 0.5 (50%), o tempo cai para 1.0s
+		var novo_tempo = tempo_ataque_base / (1.0 + GameManager.bonus_velocidade_ataque)
+		timer_ataque.wait_time = max(0.1, novo_tempo) # Limite mínimo de 0.1s para não bugar
+		print("Torre atualizada: Velocidade de ataque agora é ", timer_ataque.wait_time)
+
+func curar_totalmente():
+	# Chamado pelo GameManager no início do Dia
+	vida_atual = vida_maxima
+	# if health_bar: health_bar.value = vida_atual
+	# if health_bar_container: health_bar_container.visible = false
+	print("Torre curada para o novo dia!")
