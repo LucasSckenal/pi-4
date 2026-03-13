@@ -33,15 +33,17 @@ func _ready():
 	if GameManager.has_signal("onda_terminada"):
 		GameManager.onda_terminada.connect(_pagar_recompensa)
 
-# --- SISTEMA DE PAGAMENTO ---
+# --- SISTEMA DE PAGAMENTO (NOVO) ---
 func _pagar_recompensa():
-	var player_ref = get_tree().get_first_node_in_group("Player")
+	if is_fantasma: return
 	
-	if player_ref != null:
-		player_ref.moedas += moedas_por_onda
-		if player_ref.has_method("atualizar_hud"):
-			player_ref.atualizar_hud()
-		print("Construção gerou ", moedas_por_onda, " moedas!")
+	# Adiciona o dinheiro no GameManager direto
+	GameManager.moedas += moedas_por_onda
+	print("Construção gerou ", moedas_por_onda, " moedas!")
+	
+	# Grita pelo rádio para a HUD atualizar e o baú abrir
+	get_tree().call_group("Interface", "atualizar_moedas")
+	get_tree().call_group("Interface", "animar_bau_abrindo")
 
 # --- SISTEMA DE DANO ---
 func receber_dano(quantidade: int):
@@ -57,7 +59,7 @@ func receber_dano(quantidade: int):
 	if health_bar:
 		health_bar.value = vida_atual
 	
-	# Efeito visual de tremer (Correção do Tween para Godot 4)
+	# Efeito visual de tremer (Game Juice!)
 	var tween = create_tween()
 	var original_y = position.y
 	tween.tween_property(self, "position:y", original_y + 0.15, 0.05)

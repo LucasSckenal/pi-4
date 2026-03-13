@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 # --- CONFIGURAÇÕES DE MOVIMENTO ---
-@export var speed = 4.0
+@export var speed = 2.0
 @export var jump_velocity = 4.0
 @export var gravity = 20.0
 @export var rotation_speed = 10.0 
@@ -14,7 +14,6 @@ extends CharacterBody3D
 @onready var anim_player = $"character-male-f2/AnimationPlayer"
 @onready var nav_agent = $NavigationAgent3D
 @onready var linha_caminho = $LinhaCaminho
-@onready var texto_moedas = $TextoMoedas
 @onready var area_ataque = $AreaAtaque 
 @onready var timer_ataque = $TimerAtaque
 
@@ -24,7 +23,6 @@ var inimigo_focado: Node3D = null
 
 func _ready():
 	add_to_group("Player")
-	atualizar_hud()
 	
 	# Configura o Timer de Ataque
 	timer_ataque.wait_time = velocidade_ataque
@@ -150,9 +148,7 @@ func _gerenciar_animacoes(direction):
 	else:
 		if anim_player.current_animation != "idle": anim_player.play("idle")
 
-func atualizar_hud():
-	if texto_moedas != null:
-		texto_moedas.text = "Moedas: " + str(GameManager.moedas)
+
 
 
 # ==========================================

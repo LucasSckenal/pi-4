@@ -51,8 +51,9 @@ theme_override_constants/margin_bottom = 40
 [node name="CenterContainer" type="CenterContainer" parent="InterfacePrincipal/MarginInferior" unique_id=345088075]
 layout_mode = 2
 
-[node name="BotaoIniciarNoite" type="Button" parent="InterfacePrincipal/MarginInferior/CenterContainer" unique_id=513199761]
+[node name="BotaoNoite" type="Button" parent="InterfacePrincipal/MarginInferior/CenterContainer" unique_id=513199761]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "INICIAR NOITE"
 
 [node name="MarginDireita" type="MarginContainer" parent="InterfacePrincipal" unique_id=1955128057]
@@ -105,3 +106,5 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "💰 0"
+
+[connection signal="pressed" from="InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite" to="." method="_on_botao_noite_pressed"]
