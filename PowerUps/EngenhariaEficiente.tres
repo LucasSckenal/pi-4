@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://b00jyyc2p3ytd"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1_8k1fy"]
+[ext_resource type="Texture2D" uid="uid://bdymy3eytauin" path="res://Icons/Building icon.png" id="1_lo6sq"]
+
+[resource]
+script = ExtResource("1_8k1fy")
+id = "5"
+titulo = "Engenharia Eficiente"
+descricao = "Construir prédios e torres custa 20% menos moedas."
+icone = ExtResource("1_lo6sq")
+tipo_bonus = 1
+valor_bonus = 0.2
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

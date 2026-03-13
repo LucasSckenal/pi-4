@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://ce356yf2euo7q"]
+
+[ext_resource type="Texture2D" uid="uid://dpvk2oj1ksekl" path="res://Icons/icon.svg" id="1_1pjuq"]
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="2_idhwt"]
+
+[resource]
+script = ExtResource("2_idhwt")
+id = "2"
+titulo = "Imposto de Guerra"
+descricao = " +10 moedas extras ao final de cada noite. Ouro compra a vitória."
+icone = ExtResource("1_1pjuq")
+tipo_bonus = 1
+valor_bonus = 10.0
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

@@ -1,11 +1,17 @@
-extends Node
+extends Resource
+class_name CartaUpgrade
 
+enum TipoUpgrade { DANO, MOEDA, VIDA, VELOCIDADE_ATAQUE, VELOCIDADE_INIMIGO, CUSTO_CONSTRUCAO, QUANTIDADE_INIMIGOS }
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+@export var id: String
+@export var titulo: String
+@export_multiline var descricao: String
+@export var icone: Texture2D
 
+@export_group("Efeito Positivo")
+@export var tipo_bonus: TipoUpgrade
+@export var valor_bonus: float
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+@export_group("Efeito Negativo (Debuff)")
+@export var tipo_debuff: TipoUpgrade
+@export var valor_debuff: float # Use 0 se não houver debuff

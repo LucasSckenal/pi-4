@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://3x5i0uetj3f5"]
+
+[ext_resource type="Texture2D" uid="uid://dpvk2oj1ksekl" path="res://Icons/icon.svg" id="1_fffr2"]
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="2_aqdbg"]
+
+[resource]
+script = ExtResource("2_aqdbg")
+id = "1"
+titulo = "Balística Pesada"
+descricao = "Torres causam +15 de dano. Simples, bruto e eficaz."
+icone = ExtResource("1_fffr2")
+valor_bonus = 0.15
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://cwmw66qb5jxbw"]
+
+[ext_resource type="Texture2D" uid="uid://dpvk2oj1ksekl" path="res://Icons/icon.svg" id="1_sepjp"]
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1_v47va"]
+
+[resource]
+script = ExtResource("1_v47va")
+id = "7"
+titulo = "Ganância"
+descricao = "Recebe 30 moedas instantaneamente, mas a próxima wave terá 20% mais inimigos"
+icone = ExtResource("1_sepjp")
+tipo_bonus = 1
+valor_bonus = 30.0
+tipo_debuff = 6
+valor_debuff = 20.0
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

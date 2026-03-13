@@ -1,13 +1,27 @@
 [gd_scene format=3 uid="uid://cri36f13bdtw1"]
 
 [ext_resource type="Script" uid="uid://bdk4hwc1fa0fx" path="res://hud.gd" id="1_fiyi4"]
+[ext_resource type="PackedScene" uid="uid://c24yx1fwvuwxu" path="res://Cenas Locais/carta_ui.tscn" id="2_iy34l"]
 [ext_resource type="PackedScene" uid="uid://5wk3w1ggee8" path="res://Dungeon/chest.glb" id="2_o13s8"]
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="3_iy34l"]
 
 [sub_resource type="World3D" id="World3D_ebwb2"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fiyi4"]
+bg_color = Color(0.10980392, 0.10980392, 0.10980392, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
 [node name="HUD" type="CanvasLayer" unique_id=1178528872]
+layer = 100
 script = ExtResource("1_fiyi4")
+cena_carta_ui = ExtResource("2_iy34l")
 
 [node name="InterfacePrincipal" type="Control" parent="." unique_id=562351409]
 layout_mode = 3
@@ -73,7 +87,6 @@ theme_override_constants/margin_bottom = 40
 [node name="VBoxDireita" type="VBoxContainer" parent="InterfacePrincipal/MarginDireita" unique_id=1732296998]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
 
 [node name="ContainerBau" type="SubViewportContainer" parent="InterfacePrincipal/MarginDireita/VBoxDireita" unique_id=270829609]
 custom_minimum_size = Vector2(120, 120)
@@ -88,7 +101,8 @@ size = Vector2i(120, 120)
 render_target_update_mode = 4
 
 [node name="CameraBau" type="Camera3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=1318374310]
-transform = Transform3D(0.991941, 0.06335053, -0.10972635, 0, 0.8660254, 0.5, 0.12670107, -0.49597046, 0.8590461, -0.07065117, 0.73867816, 0.42009288)
+transform = Transform3D(0.991941, 0.06335053, -0.10972633, -0.018165346, 0.92818654, 0.37167162, 0.1253921, -0.36668304, 0.92185706, -0.07065117, 0.5341858, 0.59794945)
+fov = 75.7
 
 [node name="LuzBau" type="SpotLight3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=2056183511]
 transform = Transform3D(0.8766763, -0.32234243, 0.35711905, 2.0217249e-10, 0.74232674, 0.6700381, -0.48108074, -0.5874065, 0.6507802, 1.4437957, 2.0878677, 2.2995272)
@@ -100,18 +114,49 @@ shadow_bias = 0.01
 spot_range = 4.605
 spot_attenuation = 0.21
 
-[node name="chest2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=53500304 instance=ExtResource("2_o13s8")]
-transform = Transform3D(0.9956746, 0, -0.09290931, 0, 1, 0, 0.09290931, 0, 0.9956746, -0.013607115, 0.22566462, -0.10615909)
+[node name="grass2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=1979503599 instance=ExtResource("3_iy34l")]
+transform = Transform3D(-0.116942644, 0, -0.87732774, 0, 1, 0, 0.9245297, 0, -0.11097211, -0.027667712, -1.1920929e-07, -0.09898138)
 
-[node name="grass2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport/chest2" unique_id=1979503599 instance=ExtResource("3_iy34l")]
-transform = Transform3D(0.8030646, 0, -0.44863927, 0, 1, 0, 0.47277692, 0, 0.76206416, -0.010401107, -0.22566473, 0.011875898)
+[node name="chest2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=53500304 instance=ExtResource("2_o13s8")]
+transform = Transform3D(0.9288484, 0, -0.37046012, 0, 1, 0, 0.37046012, 0, 0.9288484, 0.010647088, 0.22566462, -0.026457548)
 
 [node name="FundoMoedas" type="PanelContainer" parent="InterfacePrincipal/MarginDireita/VBoxDireita" unique_id=160279703]
+custom_minimum_size = Vector2(90, 50)
 layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_fiyi4")
 
 [node name="LabelMoedas" type="Label" parent="InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas" unique_id=1015318735]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "💰 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuUpgrade" type="ColorRect" parent="InterfacePrincipal" unique_id=1898831811]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0035191667, 0.0035191681, 0.0035191672, 0.627451)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InterfacePrincipal/MenuUpgrade" unique_id=1518823646]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
 
 [connection signal="pressed" from="InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite" to="." method="_on_botao_noite_pressed"]

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://5nm48wysgshl"]
+
+[ext_resource type="Texture2D" uid="uid://dpvk2oj1ksekl" path="res://Icons/icon.svg" id="1_e5rhp"]
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="2_6m1ak"]
+
+[resource]
+script = ExtResource("2_6m1ak")
+id = "3"
+titulo = "Muralhas Reforçadas"
+descricao = "Adiciona 50 de vida extra ao seu castelo. Agente não cai sem lutar!"
+icone = ExtResource("1_e5rhp")
+tipo_bonus = 2
+valor_bonus = 0.05
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

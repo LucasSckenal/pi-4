@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bnrnfd3a7kurm"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1_4lqsm"]
+[ext_resource type="Texture2D" uid="uid://dpvk2oj1ksekl" path="res://Icons/icon.svg" id="1_7s1oi"]
+
+[resource]
+script = ExtResource("1_4lqsm")
+id = "4"
+titulo = "Frequência Crítica"
+descricao = "Suas torres disparam 20% mais rápido. Chova flechas nos orcs!"
+icone = ExtResource("1_7s1oi")
+tipo_bonus = 3
+valor_bonus = 0.2
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

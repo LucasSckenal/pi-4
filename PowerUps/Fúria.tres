@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://clrp8rut5nr6e"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1_78uu3"]
+
+[resource]
+script = ExtResource("1_78uu3")
+id = "6"
+titulo = "Fúria"
+descricao = "Torres dão o dobro do dano, mas a vida delas é cortada pela metade"
+valor_bonus = 2.0
+tipo_debuff = 2
+valor_debuff = -0.5
+metadata/_custom_type_script = "uid://ckllnh0oimgco"
