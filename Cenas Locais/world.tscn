@@ -47,7 +47,7 @@ sky_rotation = Vector3(0, 3.1415927, 0)
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_38lot"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0baal"]
 render_priority = 1
 transparency = 1
 shading_mode = 0
@@ -60,7 +60,7 @@ stencil_compare = 5
 metadata/_stencil_owned = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mhe2x"]
-next_pass = SubResource("StandardMaterial3D_38lot")
+next_pass = SubResource("StandardMaterial3D_0baal")
 shading_mode = 0
 stencil_mode = 1
 stencil_flags = 2
@@ -257,6 +257,7 @@ debug_color = Color(1, 0.3137255, 0.21960784, 1)
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1189429827]
 transform = Transform3D(1.0001031, 0, -1.7486359e-07, 0, 1.0001031, 0, 1.7486359e-07, 0, 1.0001031, 0, 0, 0)
 navigation_mesh = SubResource("NavigationMesh_bo7i5")
+enabled = false
 
 [node name="building-sheep2" parent="NavigationRegion3D" unique_id=993129312 instance=ExtResource("16_yx0jh")]
 transform = Transform3D(0.73357123, 0, -0.67946094, 0, 0.99989694, 0, 0.67946094, 0, 0.73357123, 2.6838346, -0.1805894, 1.9947623)
