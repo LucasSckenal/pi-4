@@ -88,10 +88,17 @@ size = Vector2i(120, 120)
 render_target_update_mode = 4
 
 [node name="CameraBau" type="Camera3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=1318374310]
-transform = Transform3D(1, 0, 0, 0, 0.8768359, 0.48078984, 0, -0.48078984, 0.8768359, 0, 0.8348205, 0.5266327)
+transform = Transform3D(0.991941, 0.06335053, -0.10972635, 0, 0.8660254, 0.5, 0.12670107, -0.49597046, 0.8590461, -0.07065117, 0.73867816, 0.42009288)
 
-[node name="LuzBau" type="DirectionalLight3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=1771548868]
-transform = Transform3D(1, 0, 0, 0, 0.74232686, 0.670038, 0, -0.670038, 0.74232686, 0, 1.3098617, 1.6097276)
+[node name="LuzBau" type="SpotLight3D" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=2056183511]
+transform = Transform3D(0.8766763, -0.32234243, 0.35711905, 2.0217249e-10, 0.74232674, 0.6700381, -0.48108074, -0.5874065, 0.6507802, 1.4437957, 2.0878677, 2.2995272)
+light_color = Color(1, 1, 0.72156864, 1)
+light_energy = 4.306
+light_specular = 0.0
+shadow_enabled = true
+shadow_bias = 0.01
+spot_range = 4.605
+spot_attenuation = 0.21
 
 [node name="chest2" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport" unique_id=53500304 instance=ExtResource("2_o13s8")]
 transform = Transform3D(0.9956746, 0, -0.09290931, 0, 1, 0, 0.09290931, 0, 0.9956746, -0.013607115, 0.22566462, -0.10615909)

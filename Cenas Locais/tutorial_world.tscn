@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cfmqduavmhuvv"]
 
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_bislj"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_l2f7a"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_hvshy"]
 [ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_7q0h5"]
 [ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Cenas Locais/castle.tscn" id="4_bmj55"]
@@ -9,6 +10,7 @@
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Scripts Globais/wave_resource.gd" id="6_l2f7a"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="6_nnxgy"]
 [ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="7_ro1kq"]
+[ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7q0h5"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -91,7 +93,7 @@ shader_parameter/WATER_COL = Color(0.019607844, 0.29803923, 1, 1)
 shader_parameter/WATER2_COL = Color(0.010983076, 0.20016176, 0.47505146, 1)
 shader_parameter/FOAM_COL = Color(0.8125, 0.9609, 0.9648, 1)
 shader_parameter/distortion_speed = 2.0
-shader_parameter/tile = Vector2(5, 5)
+shader_parameter/tile = Vector2(20, 10)
 shader_parameter/wave_speed = 1.0
 shader_parameter/wave_amplitude = 0.1
 shader_parameter/wave_frequency = 1.5
@@ -112,6 +114,8 @@ subdivide_width = 32
 subdivide_depth = 32
 
 [node name="Tutorial_World" type="Node3D" unique_id=192295313]
+
+[node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_l2f7a")]
 
 [node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=97888466]
 transform = Transform3D(1, 5.3414418e-08, 2.7479542e-08, -5.975536e-08, 0.83793795, 0.54576546, 6.1255947e-09, -0.54576546, 0.83793795, -1.4401067, 3.6413417, 8.542782)
@@ -139,19 +143,11 @@ light_color = Color(1, 1, 0.6509804, 1)
 light_energy = 1.35
 shadow_enabled = true
 
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=1377760818]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-visible = false
-light_color = Color(0.1764706, 1, 0.9843137, 1)
-light_energy = 1.35
-shadow_enabled = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1592240212]
 environment = SubResource("Environment_bmj55")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("1_bislj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0285158, 0.26542044, 0.40977418)
-speed = 2.0
 rotation_speed = 20.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=474069018]
@@ -187,8 +183,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.40847194, 0.35864472, 5.310324)
 lista_waves = Array[ExtResource("6_l2f7a")]([SubResource("Resource_0baal"), null, null, null, null, null, null, null, null, null, null])
 
-[node name="Ramp" type="GridMap" parent="." unique_id=663562939]
+[node name="Decoration Gridmaps" type="Node3D" parent="." unique_id=1832974679]
 transform = Transform3D(0.9612617, -0.27563736, 0, 0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Ramp" type="GridMap" parent="Decoration Gridmaps" unique_id=663562939]
 mesh_library = ExtResource("3_7q0h5")
 cell_size = Vector3(0.1, 0.01, 0.1)
 cell_scale = 0.33
@@ -197,8 +195,8 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, -3, 0)
 
-[node name="Ramp2" type="GridMap" parent="." unique_id=230771413]
-transform = Transform3D(1.1605041e-08, -2.7433156e-09, -1, 0.23004973, 0.97317886, 0, 0.97317886, -0.23004973, 1.1924881e-08, 0, 0, 0)
+[node name="Ramp2" type="GridMap" parent="Decoration Gridmaps" unique_id=230771413]
+transform = Transform3D(0.063410304, 0.26824445, -0.9612617, 0.22113799, 0.9354796, 0.27563736, 0.97317886, -0.23004973, 1.1924881e-08, 0, 0, 0)
 mesh_library = ExtResource("3_7q0h5")
 cell_size = Vector3(0.1, 0.01, 0.1)
 cell_scale = 0.33
@@ -207,7 +205,8 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 18, 0)
 
-[node name="GridMapDeco" type="GridMap" parent="." unique_id=1516710417]
+[node name="GridMapDeco" type="GridMap" parent="Decoration Gridmaps" unique_id=1516710417]
+transform = Transform3D(0.9612617, 0.27563736, 0, -0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
 mesh_library = ExtResource("3_7q0h5")
 cell_size = Vector3(0.05, 0.33, 0.05)
 cell_scale = 0.33
@@ -226,3 +225,17 @@ mesh = SubResource("PlaneMesh_i46xn")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Water" unique_id=901764034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029073954, -0.33921278, -0.008241653)
 mesh = SubResource("PlaneMesh_3fexb")
+
+[node name="BuildSlots" type="Node3D" parent="." unique_id=1741010296]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.313, 0.2, -0.607)
+
+[node name="BuildSlot" parent="BuildSlots" unique_id=612575103 instance=ExtResource("11_ro1kq")]
+
+[node name="BuildSlot2" parent="BuildSlots" unique_id=1801494296 instance=ExtResource("11_ro1kq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04100001, 0, 1.8836155)
+
+[node name="BuildSlot3" parent="BuildSlots" unique_id=141428971 instance=ExtResource("11_ro1kq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.423, 0, 3.217)
+
+[node name="BuildSlot4" parent="BuildSlots" unique_id=2119894188 instance=ExtResource("11_ro1kq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8709999, 0, -0.80411935)
