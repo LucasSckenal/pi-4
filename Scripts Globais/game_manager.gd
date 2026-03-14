@@ -1,9 +1,12 @@
 extends Node
 
+# Sinais
 signal dia_iniciado(onda_atual)
 signal noite_iniciada(onda_atual)
 signal onda_terminada
 signal mostrar_menu_upgrade(cartas_sorteadas)
+signal upgrade_aplicado
+signal upgrade_base_aplicado
 
 enum EstadoJogo { DIA, NOITE }
 var estado_atual = EstadoJogo.DIA
@@ -11,11 +14,31 @@ var estado_atual = EstadoJogo.DIA
 # --- UPGRADES E MODIFICADORES ---
 var bonus_dano: int = 0 
 var bonus_moedas_onda: int = 0
-var bonus_velocidade_ataque: float = 0.0 # Ex: 0.2 é +20%
-var desconto_construcao: int = 0       # 1.0 é preço normal, 0.75 é 25% de desconto
-var multiplicador_horda: float = 1.0     # 1.0 é normal, 1.5 é 50% mais inimigos
+var bonus_velocidade_ataque: float = 0.0
+var desconto_construcao: int = 0
+var multiplicador_horda: float = 1.0
 var multiplicador_velocidade_inimigo: float = 1.0
 
+# --- NÍVEL DA BASE E CONSTRUÇÕES LIBERADAS ---
+var nivel_base: int = 1 : set = _set_nivel_base
+
+func _set_nivel_base(valor):
+	nivel_base = valor
+	upgrade_base_aplicado.emit()
+	print("Nível da base agora é: ", nivel_base)
+
+var construcoes_por_nivel: Dictionary = {
+	1: [preload("res://Cenas Locais/tower.tscn"), preload("res://Cenas Locais/building_mine.tscn"), preload("res://Cenas Locais/house.tscn"), preload("res://Cenas Locais/mill.tscn")],
+}
+
+func get_construcoes_disponiveis() -> Array:
+	var disponiveis = []
+	for nivel in construcoes_por_nivel:
+		if nivel <= nivel_base:
+			disponiveis += construcoes_por_nivel[nivel]
+	return disponiveis
+
+# --- BARALHO DE UPGRADES ---
 var baralho_upgrades: Array = [
 	preload("res://PowerUps/BalisticaPesada.tres"),
 	preload("res://PowerUps/EngenhariaEficiente.tres"),
@@ -40,8 +63,6 @@ func iniciar_dia():
 	is_night = false
 	dia_iniciado.emit(onda_atual)
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
-	
-	# Cura as torres no início do dia
 	get_tree().call_group("Torres", "curar_totalmente")
 
 func iniciar_noite():
@@ -62,9 +83,7 @@ func terminar_onda():
 	
 	onda_terminada.emit() 
 	
-	# --- VERIFICAÇÃO DE UPGRADE ---
-	# Teste na onda 1, depois mude para (onda_atual % 5 == 0)
-	if onda_atual == 1:
+	if onda_atual == 1:  # Mude para onda_atual % 5 == 0 se quiser a cada 5 ondas
 		sortear_cartas()
 	
 	onda_atual += 1
@@ -85,22 +104,20 @@ func sortear_cartas():
 			escolhidas.append(copia[i])
 	
 	mostrar_menu_upgrade.emit(escolhidas)
-	get_tree().paused = true # Pausa o jogo
+	get_tree().paused = true
 
 # ==========================================
 # SISTEMA DE UPGRADES
 # ==========================================
 func aplicar_upgrade(dados: CartaUpgrade):
-	# 1. Aplica o Efeito Positivo (Bônus)
 	_processar_efeito(dados.tipo_bonus, dados.valor_bonus)
 	
-	# 2. Aplica o Efeito Negativo (Debuff), mas só se o valor não for zero
 	if dados.valor_debuff != 0:
 		_processar_efeito(dados.tipo_debuff, dados.valor_debuff)
 
 	print("Upgrade '", dados.titulo, "' aplicado com sucesso!")
 	
-	# 3. Avisa todas as torres do mapa que os status mudaram!
+	upgrade_aplicado.emit()
 	get_tree().call_group("Torres", "atualizar_status")
 
 func _processar_efeito(tipo_efeito, valor):
@@ -122,7 +139,7 @@ func _processar_efeito(tipo_efeito, valor):
 			print("Desconto fixo aplicado! Torres custam -", desconto_construcao, " moedas.")
 			
 		CartaUpgrade.TipoUpgrade.QUANTIDADE_INIMIGOS:
-			multiplicador_horda *= valor # Aumenta a horda
+			multiplicador_horda *= valor
 			print("Novo Multiplicador de Horda: ", multiplicador_horda)
 			
 		CartaUpgrade.TipoUpgrade.VELOCIDADE_INIMIGO:
@@ -142,11 +159,9 @@ func gastar_moedas(valor_custo: int) -> bool:
 		get_tree().call_group("Interface", "animar_bau_abrindo")
 		return true
 	return false
-	
+
 # ==========================================
 # CÁLCULO DE DESCONTO
 # ==========================================
 func obter_custo_com_desconto(custo_base: int) -> int:
-	# Retorna o custo menos o desconto. 
-	# O max(1, ...) garante que o preço nunca seja zero ou negativo (mínimo 1 moeda)!
 	return max(1, custo_base - desconto_construcao)

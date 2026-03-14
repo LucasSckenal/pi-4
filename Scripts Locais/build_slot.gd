@@ -1,138 +1,221 @@
 extends Node3D
 
-@export var building_scene: PackedScene 
+# ==========================================
+# CONFIGURAÇÕES EXPORTADAS
+# ==========================================
+@export var nivel_necessario: int = 1           # Nível mínimo da base para este slot ficar disponível
+@export var ui_construcao_prefab: PackedScene   # Cena da UI (radial ou grade) que será instanciada
 
+# ==========================================
+# REFERÊNCIAS (ajuste os nomes conforme sua cena)
+# ==========================================
+@onready var area = $Area3D
 @onready var base_mesh = $BaseMesh
 @onready var prompt_label = $PromptLabel
 @onready var bolha_btn = $CanvasLayer/TextureButton
 @onready var canvas_mobile = $CanvasLayer
 
-var fantasma: Node3D
-var is_built = false
-var custo_atual = 0
-var estado_toque_mobile = 0 
-var player_ref_teclado = null 
+# ==========================================
+# VARIÁVEIS DE ESTADO
+# ==========================================
+var is_built = false                # Já construiu algo aqui?
+var estado_toque_mobile = 0         # 0 = nenhum toque, 1 = primeiro toque (esperando confirmação)
+var player_ref_teclado = null       # Referência ao jogador (para PC)
+var pode_construir: bool = true     # Controlado pelo ciclo dia/noite
+var slot_disponivel: bool = false   # Controlado pelo nível da base
+var ui_atual: Control = null        # Referência à UI instanciada
 
 func _ready():
-	# Ativa interface apenas em Mobile ou no Editor para testes
+	# Configura visibilidade inicial baseada na plataforma
 	if canvas_mobile:
 		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
 	if prompt_label:
 		prompt_label.hide()
 	
-	if building_scene != null:
-		fantasma = building_scene.instantiate()
-		fantasma.set("is_fantasma", true)
-		add_child(fantasma)
-		if "custo_moedas" in fantasma: 
-			custo_atual = fantasma.custo_moedas
-		transformar_em_fantasma(fantasma)
-		fantasma.hide()
+	# Conecta sinais do GameManager
+	if GameManager.has_signal("dia_iniciado"):
+		GameManager.dia_iniciado.connect(_ao_iniciar_dia)
+	if GameManager.has_signal("noite_iniciada"):
+		GameManager.noite_iniciada.connect(_ao_iniciar_noite)
+	if GameManager.has_signal("upgrade_base_aplicado"):
+		GameManager.upgrade_base_aplicado.connect(_verificar_disponibilidade)
+	
+	# Verifica disponibilidade inicial
+	_verificar_disponibilidade()
+	
+	# Conecta o sinal de input da área (para clique no PC)
+	if area:
+		area.input_event.connect(_on_area_input_event)
 
+# ==========================================
+# CONTROLE DE DISPONIBILIDADE POR NÍVEL DA BASE
+# ==========================================
+func _verificar_disponibilidade():
+	var nivel_base = GameManager.nivel_base if "nivel_base" in GameManager else 1
+	slot_disponivel = (nivel_base >= nivel_necessario)
+	
+	if not is_built:
+		if slot_disponivel:
+			_atualizar_visibilidade_por_tempo()
+		else:
+			_esconder_todos_elementos()
+
+# ==========================================
+# CONTROLE DE VISIBILIDADE POR DIA/NOITE
+# ==========================================
+func _ao_iniciar_dia(_onda):
+	pode_construir = true
+	_atualizar_visibilidade_por_tempo()
+
+func _ao_iniciar_noite(_onda):
+	pode_construir = false
+	cancelar_selecao()
+	_atualizar_visibilidade_por_tempo()
+	fechar_ui()
+
+func _atualizar_visibilidade_por_tempo():
+	if is_built or not slot_disponivel:
+		return
+	
+	var dia = not GameManager.is_night
+	pode_construir = dia
+	
+	if dia:
+		if base_mesh: base_mesh.show()
+		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
+		if prompt_label and player_ref_teclado != null: prompt_label.show()
+	else:
+		_esconder_todos_elementos()
+
+func _esconder_todos_elementos():
+	if base_mesh: base_mesh.hide()
+	if canvas_mobile: canvas_mobile.hide()
+	if prompt_label: prompt_label.hide()
+	fechar_ui()
+
+# ==========================================
+# LÓGICA DE ABERTURA DA UI
+# ==========================================
+func _abrir_ui():
+	if ui_atual:
+		return
+	if not ui_construcao_prefab:
+		print("ERRO: ui_construcao_prefab não atribuída no slot!")
+		return
+	
+	ui_atual = ui_construcao_prefab.instantiate()
+	get_tree().current_scene.add_child(ui_atual)
+	ui_atual.abrir(self)  # A UI deve ter um método "abrir(slot)"
+	
+	# Esconde elementos locais enquanto a UI está aberta
+	if bolha_btn: bolha_btn.hide()
+	if prompt_label: prompt_label.hide()
+
+func fechar_ui():
+	if ui_atual:
+		ui_atual.fechar()  # A UI deve ter um método "fechar()"
+		ui_atual.queue_free()
+		ui_atual = null
+		
+		if bolha_btn: bolha_btn.show()
+		if prompt_label and player_ref_teclado != null: prompt_label.show()
+
+# ==========================================
+# CONSTRUÇÃO (chamada pela UI após compra)
+# ==========================================
+func construir(cena: PackedScene):
+	if is_built:
+		return
+	
+	var nova_const = cena.instantiate()
+	add_child(nova_const)
+	nova_const.global_position = global_position
+	nova_const.is_fantasma = false  # Se suas construções usarem essa variável
+	is_built = true
+	
+	# Esconde ou remove elementos do slot
+	if base_mesh: base_mesh.hide()
+	if prompt_label: prompt_label.hide()
+	if canvas_mobile: canvas_mobile.queue_free()  # Remove a bolha permanentemente
+	
+	fechar_ui()
+
+# ==========================================
+# INTERAÇÕES (PC E MOBILE)
+# ==========================================
 func _process(_delta):
-	if is_built: return
-
-	# Posicionamento da Bolha (segue o mundo 3D)
+	if is_built or not pode_construir or not slot_disponivel or ui_atual:
+		return
+	
+	# Posicionamento da bolha mobile (segue o mundo 3D)
 	if canvas_mobile and canvas_mobile.visible and is_instance_valid(bolha_btn):
 		var camera = get_viewport().get_camera_3d()
 		if camera and not camera.is_position_behind(global_position):
 			var pos_2d = camera.unproject_position(global_position)
 			bolha_btn.position = pos_2d - (bolha_btn.size / 2)
-			# Se estiver no estado 0, garante que a bolha está visível
-			if estado_toque_mobile == 0: bolha_btn.show()
+			if estado_toque_mobile == 0:
+				bolha_btn.show()
 		else:
 			bolha_btn.hide()
-
-	# Teclado (PC)
-	if player_ref_teclado != null and Input.is_action_just_pressed("interact"):
-		tentar_construir()
+	
+	# Tecla "E" no PC
+	if pode_construir and player_ref_teclado != null and Input.is_action_just_pressed("interact"):
+		_abrir_ui()
 
 func _input(event):
-	# Detecta clique fora para cancelar a seleção no Mobile
+	if not pode_construir or not slot_disponivel or ui_atual:
+		return
+	
+	# Clique fora para cancelar a seleção no mobile (primeiro toque)
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
 		if event.pressed and estado_toque_mobile == 1 and is_instance_valid(bolha_btn):
-			# Aguarda um microssegundo para não conflitar com o clique do próprio botão
 			get_tree().create_timer(0.05).timeout.connect(func():
-				if is_instance_valid(bolha_btn):
-					if not bolha_btn.get_global_rect().has_point(event.position):
-						cancelar_selecao()
+				if is_instance_valid(bolha_btn) and not bolha_btn.get_global_rect().has_point(event.position):
+					cancelar_selecao()
 			)
+
+func _on_area_input_event(camera, event, position, normal, shape_idx):
+	if not pode_construir or is_built or not slot_disponivel or ui_atual:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_abrir_ui()
+
+func _on_texture_button_pressed():
+	if is_built or not pode_construir or not slot_disponivel or ui_atual:
+		return
+	
+	if estado_toque_mobile == 0:
+		# Primeiro toque: prepara para confirmação
+		estado_toque_mobile = 1
+		bolha_btn.modulate.a = 0.0  # Torna a bolha invisível mas ainda clicável
+		if prompt_label:
+			prompt_label.text = "Toque no slot\npara escolher"
+			prompt_label.show()
+	else:
+		# Segundo toque: abre a UI
+		_abrir_ui()
 
 func cancelar_selecao():
 	estado_toque_mobile = 0
-	if is_instance_valid(fantasma): fantasma.hide()
 	if prompt_label: prompt_label.hide()
-	if is_instance_valid(bolha_btn):
-		bolha_btn.modulate.a = 1.0 # Torna a bolha visível de novo
+	if bolha_btn:
+		bolha_btn.modulate.a = 1.0
 		bolha_btn.show()
 
-func _on_texture_button_pressed():
-	if is_built: return
-	
-	if estado_toque_mobile == 0:
-		# Primeiro Toque: Mostra o fantasma e torna a bolha invisível (mas clicável)
-		estado_toque_mobile = 1
-		if fantasma: fantasma.show()
-		bolha_btn.modulate.a = 0.0 
-		if prompt_label:
-			prompt_label.text = "Custo: " + str(custo_atual) + "\nToque na torre para confirmar"
-			prompt_label.show()
-	else:
-		# Segundo Toque: Confirmação
-		tentar_construir()
-
 # ==========================================
-# A MÁGICA FOI ARRUMADA AQUI NESTA FUNÇÃO:
+# DETECÇÃO DE PROXIMIDADE DO JOGADOR (PC)
 # ==========================================
-func tentar_construir():
-	# O GameManager tenta gastar o dinheiro. Se ele retornar true,
-	# significa que o dinheiro foi descontado, a HUD atualizou e o baú abriu!
-	if GameManager.gastar_moedas(custo_atual):
-		print("Construção realizada! Saldo restante: ", GameManager.moedas)
-		build()
-	else:
-		print("Moedas insuficientes! Você precisa de: ", custo_atual)
-		cancelar_selecao()
-
-func build():
-	if building_scene != null:
-		var new_building = building_scene.instantiate()
-		add_child(new_building)
-		is_built = true
-		
-		if base_mesh: base_mesh.hide()
-		if prompt_label: prompt_label.hide()
-		
-		# Limpa os elementos de interface e fantasma com segurança
-		if is_instance_valid(canvas_mobile): canvas_mobile.queue_free()
-		if is_instance_valid(fantasma): fantasma.queue_free()
-
 func _on_area_3d_body_entered(body):
-	if body.is_in_group("Player") and not is_built:
+	if body.is_in_group("Player") and not is_built and pode_construir and slot_disponivel:
 		player_ref_teclado = body
-		if not OS.has_feature("mobile"):
+		if not OS.has_feature("mobile") and not ui_atual:
 			if prompt_label:
-				prompt_label.text = "[E] Construir (" + str(custo_atual) + ")"
+				prompt_label.text = "[E] Construir"
 				prompt_label.show()
-			if fantasma: fantasma.show()
 
 func _on_area_3d_body_exited(body):
 	if body == player_ref_teclado:
 		player_ref_teclado = null
-		if not is_built:
-			if prompt_label: prompt_label.hide()
-			if estado_toque_mobile == 0 and fantasma: fantasma.hide()
-
-func transformar_em_fantasma(no_atual: Node):
-	if no_atual is MeshInstance3D: 
-		no_atual.transparency = 0.5 
-	elif no_atual is CollisionObject3D:
-		no_atual.collision_layer = 0
-		no_atual.collision_mask = 0
-	elif no_atual is CollisionShape3D or no_atual is CollisionPolygon3D: 
-		no_atual.set_deferred("disabled", true)
-	elif no_atual is NavigationObstacle3D:
-		no_atual.avoidance_enabled = false
-		
-	for filho in no_atual.get_children(): 
-		transformar_em_fantasma(filho)
+		if not is_built and pode_construir:
+			if prompt_label:
+				prompt_label.hide()

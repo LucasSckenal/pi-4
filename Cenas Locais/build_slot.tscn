@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://det7oyq61ct6y"]
 
 [ext_resource type="Script" uid="uid://f8n7jkqvkuro" path="res://Scripts Locais/build_slot.gd" id="1_64b41"]
+[ext_resource type="PackedScene" uid="uid://drevxhatl2ay7" path="res://Cenas Locais/radial_menu.tscn" id="2_ckx2x"]
 [ext_resource type="Texture2D" uid="uid://bdymy3eytauin" path="res://Icons/Building icon.png" id="2_w3lxa"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_64b41"]
@@ -13,6 +14,7 @@ material = SubResource("StandardMaterial3D_64b41")
 
 [node name="BuildSlot" type="Node3D" unique_id=612575103]
 script = ExtResource("1_64b41")
+ui_construcao_prefab = ExtResource("2_ckx2x")
 
 [node name="Area3D" type="Area3D" parent="." unique_id=771383889]
 

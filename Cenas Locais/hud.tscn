@@ -135,6 +135,7 @@ vertical_alignment = 1
 [node name="MenuUpgrade" type="ColorRect" parent="InterfacePrincipal" unique_id=1898831811]
 process_mode = 3
 visible = false
+z_index = 10
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

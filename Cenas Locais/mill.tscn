@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0i607qaiy12s"]
 
 [ext_resource type="PackedScene" uid="uid://bxymhdtuwhoh8" path="res://Mapa/unit-mill.glb" id="1_6f5ni"]
-[ext_resource type="Script" uid="uid://b20r360q7ew8h" path="res://Scripts Locais/unit_mill_2.gd" id="2_pl00u"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_5a1o0"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_x5qa7"]
 
@@ -18,7 +18,12 @@ fill_from = Vector2(0.0045871558, 0)
 fill_to = Vector2(0.036697246, 0.041284405)
 
 [node name="unit-mill2" unique_id=527780894 instance=ExtResource("1_6f5ni")]
-script = ExtResource("2_pl00u")
+script = ExtResource("2_5a1o0")
+tipo = 3
+custo_moedas = 3
+tem_barra_vida = true
+caminho_barra_vida = NodePath("HealthBar3D/SubViewport/TextureProgressBar")
+caminho_container_barra = NodePath("HealthBar3D")
 
 [node name="Area3D" type="Area3D" parent="." index="2" unique_id=572346562]
 

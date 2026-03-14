@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://c5gb181s2tmj3"]
+
+[ext_resource type="Script" path="res://menu_radial.gd" id="1_c3yhh"]
+
+[node name="CamadaUI" type="CanvasLayer" unique_id=461068581]
+
+[node name="MenuRadial" type="Control" parent="." unique_id=1153833455]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_c3yhh")
+
+[node name="CentroVisual" type="Node2D" parent="MenuRadial" unique_id=1116850297]
+
+[node name="LabelNome" type="Label" parent="MenuRadial/CentroVisual" unique_id=1466124417]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="LabelPreco" type="Label" parent="MenuRadial/CentroVisual" unique_id=468688324]
+offset_right = 40.0
+offset_bottom = 23.0

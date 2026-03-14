@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://mpgruuoi13dm"]
 
 [ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Mapa/unit-tower.glb" id="1_vedim"]
-[ext_resource type="Script" uid="uid://cficmlihmqg70" path="res://Scripts Locais/tower.gd" id="2_stebd"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_ned14"]
 [ext_resource type="PackedScene" uid="uid://ccr63l42p5nxi" path="res://Cenas Locais/flecha.tscn" id="3_ned14"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ned14"]
@@ -12,8 +12,12 @@ height = 0.9489746
 radius = 0.35557297
 
 [node name="unit-tower2" unique_id=1301817256 instance=ExtResource("1_vedim")]
-script = ExtResource("2_stebd")
+script = ExtResource("2_ned14")
+custo_moedas = 3
+vida_maxima = 30
 cena_flecha = ExtResource("3_ned14")
+ponto_de_tiro = NodePath("PontoDeTiro")
+area_ataque_path = NodePath("AreaAtaque")
 
 [node name="Area3D" type="Area3D" parent="." index="1" unique_id=302779720]
 
