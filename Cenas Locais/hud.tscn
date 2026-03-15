@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cri36f13bdtw1"]
 
 [ext_resource type="Script" uid="uid://bdk4hwc1fa0fx" path="res://hud.gd" id="1_fiyi4"]
-[ext_resource type="PackedScene" uid="uid://c24yx1fwvuwxu" path="res://Cenas Locais/carta_ui.tscn" id="2_iy34l"]
 [ext_resource type="PackedScene" uid="uid://5wk3w1ggee8" path="res://Dungeon/chest.glb" id="2_o13s8"]
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="3_iy34l"]
 
@@ -20,7 +19,14 @@ corner_radius_bottom_left = 50
 
 [node name="HUD" type="CanvasLayer" unique_id=1178528872]
 script = ExtResource("1_fiyi4")
-cena_carta_ui = ExtResource("2_iy34l")
+
+[node name="ContainerDirecoes" type="Control" parent="." unique_id=1423487210]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="InterfacePrincipal" type="Control" parent="." unique_id=562351409]
 layout_mode = 3
@@ -49,17 +55,15 @@ text = "ONDA 1/10"
 
 [node name="MarginInferior" type="MarginContainer" parent="InterfacePrincipal" unique_id=486124078]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -59.5
-offset_top = -71.0
-offset_right = 59.5
+anchors_preset = -1
+anchor_left = 0.45052084
+anchor_top = 0.7777778
+anchor_right = 0.5538194
+anchor_bottom = 0.8873457
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_bottom = 40
+metadata/_edit_use_anchors_ = true
 
 [node name="CenterContainer" type="CenterContainer" parent="InterfacePrincipal/MarginInferior" unique_id=345088075]
 layout_mode = 2

@@ -19,9 +19,11 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=574247238]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.10759735, 0)
+visible = false
 shape = SubResource("CapsuleShape3D_3xw0u")
 
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=1211876878]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1609782530]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07307434, -0.006230831)

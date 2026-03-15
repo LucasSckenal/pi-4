@@ -29,7 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://dk4n4qgmeax2x" path="res://Cenas Locais/stairs.tscn" id="26_o3ebs"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="27_4h6ng"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="27_38lot"]
-[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Scripts Globais/wave_resource.gd" id="28_l5s07"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="28_l5s07"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_il2jm"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)

@@ -8,10 +8,13 @@
 [ext_resource type="Shader" uid="uid://1pn1krwgpox6" path="res://Shaders/WaterFlat.gdshader" id="5_bmj55"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="6_cg12i"]
-[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Scripts Globais/wave_resource.gd" id="6_l2f7a"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="6_l2f7a"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="6_nnxgy"]
 [ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="7_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bsmufotireqrl" path="res://Gridmap/InvisibleTilesKit.meshlib" id="9_cg12i"]
+[ext_resource type="Resource" uid="uid://tdnreo806l35" path="res://Waves/wave1.tres" id="9_yane2"]
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_ucd3c"]
+[ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="11_e0en3"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7q0h5"]
@@ -66,20 +69,39 @@ agent_radius = 0.0
 region_merge_size = 5.0
 edge_max_error = 0.1
 
-[sub_resource type="Resource" id="Resource_ro1kq"]
+[sub_resource type="Resource" id="Resource_bfgkp"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 2
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_jr3je"]
 script = ExtResource("6_l2f7a")
-inimigo = ExtResource("7_ro1kq")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_cg12i"]
+[sub_resource type="Resource" id="Resource_ucd3c"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 5
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_5f4a7"]
 script = ExtResource("6_l2f7a")
-inimigo = ExtResource("7_ro1kq")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_ucd3c")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_oeg6m"]
+[sub_resource type="Resource" id="Resource_e0en3"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 5
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_ww2ee"]
 script = ExtResource("6_l2f7a")
-quantidade = 1
-inimigo = ExtResource("7_ro1kq")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_e0en3")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3fexb"]
@@ -195,47 +217,44 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 [node name="building-castle2" parent="NavigationRegion3D" unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
 script = ExtResource("6_cg12i")
-tipo = 5
-custo_moedas = 0
-vida_maxima = 500
-dano = 0
-tempo_ataque_base = 0.0
-alcance = 0.0
+tipo = 0
+custo_moedas = 5
+vida_maxima = 20
+dano = 30
+tempo_ataque_base = 1.5
+alcance = 10.0
 cena_flecha = null
 ponto_de_tiro = NodePath("")
 area_ataque_path = NodePath("")
 cena_aliado = null
 numero_aliados_base = 1
 ponto_spawn_path = NodePath("")
-moedas_por_onda = 0
+moedas_por_onda = 2
 tem_barra_vida = false
 caminho_barra_vida = NodePath("")
 caminho_container_barra = NodePath("")
 nivel_atual = 0
-upgrade_custos = Array[int]([4, 6, 8])
+upgrade_custos = Array[int]([])
 upgrade_dano_por_nivel = Array[int]([])
 upgrade_moedas_por_nivel = Array[int]([])
 upgrade_aliados_por_nivel = Array[int]([])
 upgrade_velocidade_por_nivel = Array[int]([])
 upgrade_alcance_por_nivel = Array[int]([])
-upgrade_vida_por_nivel = Array[int]([600, 750, 800])
+upgrade_vida_por_nivel = Array[int]([])
 nome_construcao = "Construção"
 icone = null
 
 [node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
-transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.40847194, 0.35864472, 5.310324)
-lista_waves = Array[ExtResource("6_l2f7a")]([SubResource("Resource_ro1kq")])
-direcao_spawn = "Leste"
+transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.41631967, 0.28148788, 6.305473)
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je")])
 
 [node name="SpawnerInimigos2" parent="NavigationRegion3D" unique_id=1847794852 instance=ExtResource("5_hfgki")]
-transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -4.744418)
-lista_waves = Array[ExtResource("6_l2f7a")]([SubResource("Resource_cg12i")])
-direcao_spawn = "Oeste"
+transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -5.213997)
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_5f4a7")])
 
 [node name="SpawnerInimigos3" parent="NavigationRegion3D" unique_id=1900024786 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, -3.1590438, -0.14955395, 0.35552764)
-lista_waves = Array[ExtResource("6_l2f7a")]([SubResource("Resource_oeg6m")])
-direcao_spawn = "Sul"
+ondas = Array[ExtResource("6_l2f7a")]([ExtResource("9_yane2"), SubResource("Resource_ww2ee")])
 
 [node name="WorldBoundaries" type="GridMap" parent="." unique_id=2094957108 groups=["Barreiras"]]
 visible = false

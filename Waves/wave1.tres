@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://tdnreo806l35"]
+
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_ssj4e"]
+[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="2_g1f2q"]
+[ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="3_g1f2q"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="3_xi31f"]
+
+[sub_resource type="Resource" id="Resource_vf2yq"]
+script = ExtResource("1_ssj4e")
+cena = ExtResource("2_g1f2q")
+quantidade = 5
+cor = Color(0, 0.39229715, 0.13624734, 1)
+icone = ExtResource("3_g1f2q")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[resource]
+script = ExtResource("3_xi31f")
+nome_da_onda = "1"
+inimigos = Array[ExtResource("1_ssj4e")]([SubResource("Resource_vf2yq")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="InimigoConfig" format=3 uid="uid://x66ik4yo5554"]
+
+[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="1_7kr62"]
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_jrxc3"]
+[ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="2_d7wbh"]
+
+[resource]
+script = ExtResource("1_jrxc3")
+cena = ExtResource("1_7kr62")
+cor = Color(0, 0.20896336, 9.62615e-08, 1)
+icone = ExtResource("2_d7wbh")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
