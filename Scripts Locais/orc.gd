@@ -6,6 +6,7 @@ extends CharacterBody3D
 @export var gravity: float = 20.0
 @export var distancia_ataque: float = 0.7
 @export var forca_dano: int = 5
+@export var raio_visao_construcao: float = 2.0
 
 var vida: int = 100
 var esta_morto: bool = false
@@ -32,7 +33,7 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# 2. IA de Alvo
-	if alvo_atual == null or not is_instance_valid(alvo_atual):
+	if alvo_atual == null or not is_instance_valid(alvo_atual) or alvo_atual.is_in_group("Castelo"):
 		alvo_atual = procurar_novo_alvo()
 
 	# 3. Movimento
@@ -47,7 +48,18 @@ func _physics_process(delta):
 				
 				# PULO AUTOMÁTICO
 				if is_on_floor() and is_on_wall():
-					velocity.y = jump_velocity
+					var eh_barreira: bool = false
+					for i in get_slide_collision_count():
+						var colisao = get_slide_collision(i)
+						var colisor = colisao.get_collider()
+						
+						# Verifica se a parede colidida pertence ao grupo de barreiras de limite do mapa
+						if colisor and colisor.is_in_group("Barreiras"):
+							eh_barreira = true
+							break
+					
+					if not eh_barreira:
+						velocity.y = jump_velocity
 				
 				velocity.x = dir.x * velocidade
 				velocity.z = dir.z * velocidade
@@ -69,7 +81,7 @@ func procurar_novo_alvo():
 	# Prioridade: 1. Construções próximas | 2. Castelo
 	var construcoes = get_tree().get_nodes_in_group("Construcao")
 	var melhor_alvo = null
-	var menor_dist = 9999.0
+	var menor_dist = raio_visao_construcao
 	
 	for c in construcoes:
 		var d = global_position.distance_to(c.global_position)

@@ -127,3 +127,36 @@ func _limpar_botoes() -> void:
 		if is_instance_valid(botao):
 			botao.queue_free()
 	_botoes_ativos.clear()
+	
+# ==========================================
+# LÓGICA DE DETECÇÃO DE CLIQUE FORA (PC E MOBILE)
+# ==========================================
+func _input(event: InputEvent) -> void:
+	# Só tenta detectar cliques se o menu estiver aberto na tela
+	if not visible:
+		return
+		
+	var clicou: bool = false
+	var pos_clique: Vector2 = Vector2.ZERO
+	
+	# Detecta clique esquerdo do mouse (PC)
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		clicou = true
+		pos_clique = event.position
+	# Detecta toque na tela (Mobile)
+	elif event is InputEventScreenTouch and event.pressed:
+		clicou = true
+		pos_clique = event.position
+		
+	if clicou:
+		# Calcula a distância exata entre o clique e o centro do menu radial
+		var distancia = pos_clique.distance_to(global_position)
+		
+		# (raio_menu + 70.0) é exatamente o tamanho do círculo de fundo que desenhamos no _draw()
+		if distancia > (raio_menu + 70.0):
+			# Usa call_deferred por segurança para o Godot não deletar a UI no meio do clique
+			if _slot_alvo and _slot_alvo.has_method("fechar_ui"):
+				_slot_alvo.call_deferred("fechar_ui")
+				
+				# (Opcional) Impede que o clique vaze e faça o personagem andar ou atirar sem querer
+				get_viewport().set_input_as_handled()

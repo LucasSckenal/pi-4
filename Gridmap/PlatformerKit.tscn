@@ -3212,6 +3212,7 @@ shape = SubResource("ConcavePolygonShape3D_whlay")
 
 [node name="platform" type="MeshInstance3D" parent="platform2" unique_id=897740989]
 mesh = SubResource("ArrayMesh_eomfy")
+metadata/_edit_lock_ = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="platform2/platform" unique_id=940002225]
 

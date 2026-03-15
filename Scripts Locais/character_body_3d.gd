@@ -102,6 +102,13 @@ func _physics_process(delta):
 
 	move_and_slide()
 
+	# 6. Sistema de Respawn (Prevenção de queda do mapa)
+	# Verifica se o personagem caiu abaixo de um limite vertical seguro
+	if global_position.y < -50.0:
+		# Retorna o jogador para o centro do mapa (um pouco acima do chão para não prender a colisão)
+		global_position = Vector3(0, 1.0, 0)
+		velocity = Vector3.ZERO # Zera a velocidade acumulada da queda livre
+		nav_agent.target_position = global_position # Reseta a rota do NavigationAgent para ele não tentar correr de volta para o buraco
 
 # ==========================================
 # LÓGICA DE COMBATE
