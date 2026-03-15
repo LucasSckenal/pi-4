@@ -9,9 +9,9 @@ extends CanvasLayer
 @onready var anim_bau = $InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport/chest2/AnimationPlayer
 
 # --- REFERÊNCIAS DO SISTEMA DE UPGRADE ---
-# Ajustado para o caminho correto dentro de InterfacePrincipal
 @onready var menu_upgrade = $InterfacePrincipal/MenuUpgrade
 @onready var container_cartas = $InterfacePrincipal/MenuUpgrade/HBoxContainer
+@onready var botao_reroll = $InterfacePrincipal/MenuUpgrade/BotaoReroll  # Botão de reroll
 
 func _ready():
 	# Entra no grupo para escutar os comandos do jogo!
@@ -29,6 +29,10 @@ func _ready():
 	if botao_noite != null:
 		if not botao_noite.pressed.is_connected(_on_botao_noite_pressed):
 			botao_noite.pressed.connect(_on_botao_noite_pressed)
+	
+	# Conecta o botão de reroll
+	if botao_reroll != null:
+		botao_reroll.pressed.connect(_on_botao_reroll_pressed)
 	
 	atualizar_moedas()
 	verificar_estado_dia_noite()
@@ -73,7 +77,7 @@ func animar_bau_abrindo():
 # SISTEMA DE UPGRADES (ROGUELIKE)
 # =======================================
 func _on_abrir_menu_upgrade(cartas_sorteadas):
-	# 1. Limpa cartas antigas para não acumular botões na tela
+	# 1. Limpa cartas antigas
 	for crianca in container_cartas.get_children():
 		crianca.queue_free()
 	
@@ -87,17 +91,28 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 			var nova_carta = cena_carta_ui.instantiate()
 			container_cartas.add_child(nova_carta)
 			
-			# Preenche a carta (Certifique-se que o script da CartaUI tem a função 'configurar')
 			if nova_carta.has_method("configurar"):
 				nova_carta.configurar(dados) 
 			
-			# Conecta o clique da carta
 			nova_carta.pressed.connect(_ao_escolher_upgrade.bind(dados))
+	
+	# 4. Atualiza o estado do botão de reroll
+	if botao_reroll != null:
+		botao_reroll.disabled = GameManager.reroll_usado
+		# Feedback visual se tiver moedas suficientes
+		if GameManager.moedas < GameManager.custo_reroll:
+			botao_reroll.modulate = Color(0.5, 0.5, 0.5)
+		else:
+			botao_reroll.modulate = Color(1, 1, 1)
 
 func _ao_escolher_upgrade(dados):
-	# CORREÇÃO AQUI: Agora envia o objeto "dados" inteiro, e não apenas o "dados.id"
 	GameManager.aplicar_upgrade(dados)
-	
-	# Esconde o menu e despausa o jogo
 	menu_upgrade.hide()
 	get_tree().paused = false
+
+# =======================================
+# REROLL
+# =======================================
+func _on_botao_reroll_pressed():
+	GameManager.rerolar_cartas()
+	# O menu será atualizado automaticamente quando o sinal for emitido novamente
