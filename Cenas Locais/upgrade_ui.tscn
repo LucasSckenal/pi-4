@@ -1,8 +1,10 @@
 [gd_scene format=3 uid="uid://dohjc8tx4wt0n"]
 
 [ext_resource type="Script" uid="uid://cb2u6080fe5i1" path="res://Cenas Locais/upgrade_ui.gd" id="1_rm7i3"]
+[ext_resource type="PackedScene" uid="uid://c2e015n0sa8ni" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="2_fqelm"]
 
-[node name="UpgradeUI" type="Control" unique_id=2109975037]
+[node name="UpgradeUI" type="Control" unique_id=116485068]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,23 +12,58 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rm7i3")
+cena_opcao_button = ExtResource("2_fqelm")
 
-[node name="Panel" type="Panel" parent="." unique_id=1917897097]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="FundoEscuro" type="ColorRect" parent="." unique_id=720619783]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=840247232]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Panel" type="Panel" parent="." unique_id=536242800]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -150.0
+offset_right = 300.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Titulo" type="Label" parent="VBoxContainer" unique_id=1137342524]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1654433912]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="Titulo" type="Label" parent="Panel/VBoxContainer" unique_id=1617485018]
 layout_mode = 2
+theme_override_font_sizes/font_size = 24
 text = "Upgrade da Construção"
+horizontal_alignment = 1
 
-[node name="OpcoesContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1205550613]
+[node name="OpcoesContainer" type="HBoxContainer" parent="Panel/VBoxContainer" unique_id=695437789]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="BotaoFechar" type="Button" parent="VBoxContainer" unique_id=463192509]
+[node name="BotaoFechar" type="Button" parent="Panel/VBoxContainer" unique_id=1882662210]
+custom_minimum_size = Vector2(150, 40)
 layout_mode = 2
+size_flags_horizontal = 4
+text = "FECHAR"

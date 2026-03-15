@@ -1,8 +1,8 @@
 extends Control
 
-@onready var titulo = $VBoxContainer/Titulo
-@onready var opcoes_container = $VBoxContainer/OpcoesContainer
-@onready var botao_fechar = $VBoxContainer/BotaoFechar
+@onready var titulo = $Panel/VBoxContainer/Titulo
+@onready var opcoes_container = $Panel/VBoxContainer/OpcoesContainer
+@onready var botao_fechar = $Panel/VBoxContainer/BotaoFechar
 
 @export var cena_opcao_button: PackedScene
 

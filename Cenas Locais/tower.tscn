@@ -31,35 +31,19 @@ height = 0.9489746
 [sub_resource type="SphereShape3D" id="SphereShape3D_k1o5i"]
 radius = 0.35557297
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_772tj"]
+height = 0.8329468
+radius = 0.2290039
+
 [node name="unit-tower2" unique_id=1301817256 instance=ExtResource("1_vedim")]
 script = ExtResource("2_ned14")
-tipo = null
 custo_moedas = 3
 vida_maxima = 30
-dano = null
-tempo_ataque_base = null
-alcance = null
 cena_flecha = ExtResource("3_ned14")
 ponto_de_tiro = NodePath("PontoDeTiro")
 area_ataque_path = NodePath("AreaAtaque")
-numero_aliados_base = null
-ponto_spawn_path = null
-moedas_por_onda = null
-tem_barra_vida = null
-caminho_barra_vida = null
-caminho_container_barra = null
-nivel_atual = null
-upgrade_custos = null
-upgrade_dano_por_nivel = null
-upgrade_moedas_por_nivel = null
-upgrade_aliados_por_nivel = null
-upgrade_velocidade_por_nivel = null
-upgrade_alcance_por_nivel = null
-upgrade_vida_por_nivel = null
-modelos_por_nivel = null
 tem_paths = true
 upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), SubResource("Resource_1qiv1")])
-nome_construcao = null
 
 [node name="Area3D" type="Area3D" parent="." index="1" unique_id=302779720]
 
@@ -79,6 +63,12 @@ autostart = true
 
 [node name="PontoDeTiro" type="Marker3D" parent="." index="3" unique_id=550286233]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44771555, 0)
+
+[node name="AreaClique" type="Area3D" parent="." index="4" unique_id=1105837787]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=1458051811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42453003, 0)
+shape = SubResource("CylinderShape3D_772tj")
 
 [connection signal="body_entered" from="Area3D" to="unit-tower" method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="unit-tower" method="_on_area_3d_body_exited"]

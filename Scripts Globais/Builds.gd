@@ -152,6 +152,11 @@ func _ready():
 	# Área de clique (se existir)
 	if has_node("AreaClique"):
 		$AreaClique.input_event.connect(_on_area_clique)
+	
+	# Notifica a interface sobre a existência desta construção após a inicialização dos grupos
+	for interface_node in get_tree().get_nodes_in_group("Interface"):
+		if interface_node.has_method("_conectar_construcao"):
+			interface_node._conectar_construcao(self)
 
 func _on_area_clique(camera, event, position, normal, shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
