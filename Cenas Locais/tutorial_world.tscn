@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Cenas Locais/castle.tscn" id="4_bmj55"]
 [ext_resource type="Shader" uid="uid://1pn1krwgpox6" path="res://Shaders/WaterFlat.gdshader" id="5_bmj55"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="6_cg12i"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Scripts Globais/wave_resource.gd" id="6_l2f7a"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="6_nnxgy"]
 [ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="7_ro1kq"]
@@ -166,7 +167,6 @@ attributes = SubResource("CameraAttributesPractical_i46xn")
 script = ExtResource("2_hvshy")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=2029701393]
-visible = false
 navigation_mesh = SubResource("NavigationMesh_i46xn")
 use_edge_connections = false
 
@@ -182,16 +182,46 @@ metadata/_editor_floor_ = Vector3(0, 23, 0)
 
 [node name="building-castle2" parent="NavigationRegion3D" unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
+script = ExtResource("6_cg12i")
+tipo = 5
+custo_moedas = 0
+vida_maxima = 500
+dano = 0
+tempo_ataque_base = 0.0
+alcance = 0.0
+cena_flecha = null
+ponto_de_tiro = NodePath("")
+area_ataque_path = NodePath("")
+cena_aliado = null
+numero_aliados_base = 1
+ponto_spawn_path = NodePath("")
+moedas_por_onda = 0
+tem_barra_vida = false
+caminho_barra_vida = NodePath("")
+caminho_container_barra = NodePath("")
+nivel_atual = 0
+upgrade_custos = Array[int]([4, 6, 8])
+upgrade_dano_por_nivel = Array[int]([])
+upgrade_moedas_por_nivel = Array[int]([])
+upgrade_aliados_por_nivel = Array[int]([])
+upgrade_velocidade_por_nivel = Array[int]([])
+upgrade_alcance_por_nivel = Array[int]([])
+upgrade_vida_por_nivel = Array[int]([600, 750, 800])
+nome_construcao = "Construção"
+icone = null
 
 [node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.40847194, 0.35864472, 5.310324)
+direcao_spawn = "Leste"
 
 [node name="SpawnerInimigos2" parent="NavigationRegion3D" unique_id=1847794852 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -4.744418)
+direcao_spawn = "Oeste"
 
 [node name="SpawnerInimigos3" parent="NavigationRegion3D" unique_id=1900024786 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, -3.1590438, -0.14955395, 0.35552764)
 lista_waves = Array[ExtResource("6_l2f7a")]([SubResource("Resource_oeg6m")])
+direcao_spawn = "Sul"
 
 [node name="Decoration Gridmaps" type="Node3D" parent="." unique_id=1832974679]
 transform = Transform3D(0.9612617, -0.27563736, 0, 0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
