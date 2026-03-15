@@ -9,7 +9,7 @@ enum TipoConstrucao {
 	CASA,
 	MOINHO,
 	QUARTEL,
-	BASE   # <-- Novo tipo para a base principal
+	BASE
 }
 
 # ==========================================
@@ -57,18 +57,26 @@ enum TipoConstrucao {
 @export var caminho_container_barra: NodePath
 
 # ==========================================
-# SISTEMA DE UPGRADES (INDIVIDUAIS)
+# SISTEMA DE UPGRADES (BASE)
 # ==========================================
-@export_group("Upgrades")
+@export_group("Upgrades Base")
 @export var nivel_atual: int = 0
-@export var upgrade_custos: Array[int] = []
+@export var upgrade_custos: Array[int] = []          # Usado se não tiver paths
 @export var upgrade_dano_por_nivel: Array[int] = []
 @export var upgrade_moedas_por_nivel: Array[int] = []
 @export var upgrade_aliados_por_nivel: Array[int] = []
 @export var upgrade_velocidade_por_nivel: Array[float] = []
 @export var upgrade_alcance_por_nivel: Array[float] = []
-# Para a BASE: upgrade de vida e/ou desbloqueio de construções (o desbloqueio é global, não individual)
 @export var upgrade_vida_por_nivel: Array[int] = []
+@export var modelos_por_nivel: Array[PackedScene] = []  # Modelos visuais para cada nível
+
+# ==========================================
+# SISTEMA DE PATHS (MÚLTIPLOS CAMINHOS)
+# ==========================================
+@export_group("Sistema de Paths")
+@export var tem_paths: bool = false
+@export var upgrade_paths: Array[UpgradePathData] = []
+var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 
 # ==========================================
 # REFERÊNCIAS
@@ -79,14 +87,13 @@ enum TipoConstrucao {
 @onready var barra_vida = get_node_or_null(caminho_barra_vida) if tem_barra_vida else null
 @onready var container_barra = get_node_or_null(caminho_container_barra) if tem_barra_vida else null
 @onready var timer_ataque = get_node_or_null("TimerAtaque") if tipo == TipoConstrucao.TORRE else null
+@onready var modelo_anchor = $ModeloAnchor  # Nó vazio para conter o modelo 3D
 
 # ==========================================
 # INFORMAÇÕES DE INTERFACE
 # ==========================================
 @export_group("Interface")
-## Nome que aparecerá no menu radial
 @export var nome_construcao: String = "Construção"
-## Ícone PNG que aparecerá no botão do menu radial
 @export var icone: Texture2D
 
 # ==========================================
@@ -96,21 +103,32 @@ var is_fantasma: bool = false
 var vida_atual: int
 var inimigos_no_alcance = []
 var alvo_atual: Node3D = null
-# Valores atuais após upgrades
+
+# Valores atuais após upgrades (calculados dinamicamente)
 var dano_atual: int
 var moedas_por_onda_atual: int
 var numero_aliados_atual: int
 var tempo_ataque_atual: float
 var alcance_atual: float
 
+signal construcao_selecionada(construcao: Node)
+
 func _ready():
 	if is_fantasma:
 		_modo_fantasma()
 		return
+		
+	if modelo_anchor == null:
+		modelo_anchor = Node3D.new()
+		modelo_anchor.name = "ModeloAnchor"
+		add_child(modelo_anchor)
 	
 	_atualizar_valores_pos_upgrades()
 	vida_atual = vida_maxima
 	_inicializar_barra_vida()
+	
+	# Carrega o modelo do nível atual (se houver)
+	_trocar_modelo(nivel_atual)
 	
 	match tipo:
 		TipoConstrucao.TORRE:
@@ -128,11 +146,224 @@ func _ready():
 			GameManager.noite_iniciada.connect(_spawn_aliados)
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
-			add_to_group("Base")  # Grupo específico para identificar a base
-			# Se a base puder atacar após upgrades, você pode ativar timer etc.
-			# Por enquanto, apenas registra
+			add_to_group("Base")
 			print("Base principal estabelecida. Nível: ", nivel_atual)
+	
+	# Área de clique (se existir)
+	if has_node("AreaClique"):
+		$AreaClique.input_event.connect(_on_area_clique)
 
+func _on_area_clique(camera, event, position, normal, shape_idx):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		construcao_selecionada.emit(self)
+
+# ==========================================
+# SISTEMA DE UPGRADES (LÓGICA PRINCIPAL)
+# ==========================================
+func _atualizar_valores_pos_upgrades():
+	# Se tem paths e já escolheu um caminho, usa os valores do path
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		var idx = nivel_atual - 1  # arrays começam em 0 para nível 1
+		if idx >= 0:
+			dano_atual = dano + (path.dano_por_nivel[idx] if idx < path.dano_por_nivel.size() else 0)
+			moedas_por_onda_atual = moedas_por_onda + (path.moedas_por_nivel[idx] if idx < path.moedas_por_nivel.size() else 0)
+			numero_aliados_atual = numero_aliados_base + (path.aliados_por_nivel[idx] if idx < path.aliados_por_nivel.size() else 0)
+			tempo_ataque_atual = tempo_ataque_base - (path.velocidade_por_nivel[idx] if idx < path.velocidade_por_nivel.size() else 0.0)
+			alcance_atual = alcance + (path.alcance_por_nivel[idx] if idx < path.alcance_por_nivel.size() else 0.0)
+			vida_maxima += (path.vida_por_nivel[idx] if idx < path.vida_por_nivel.size() else 0)
+		else:
+			# Nível 0 (antes do primeiro upgrade) – valores base
+			dano_atual = dano
+			moedas_por_onda_atual = moedas_por_onda
+			numero_aliados_atual = numero_aliados_base
+			tempo_ataque_atual = tempo_ataque_base
+			alcance_atual = alcance
+	else:
+		# Sem paths ou ainda não escolheu – usa os arrays base
+		var idx = nivel_atual - 1
+		if idx >= 0:
+			dano_atual = dano + (upgrade_dano_por_nivel[idx] if idx < upgrade_dano_por_nivel.size() else 0)
+			moedas_por_onda_atual = moedas_por_onda + (upgrade_moedas_por_nivel[idx] if idx < upgrade_moedas_por_nivel.size() else 0)
+			numero_aliados_atual = numero_aliados_base + (upgrade_aliados_por_nivel[idx] if idx < upgrade_aliados_por_nivel.size() else 0)
+			tempo_ataque_atual = tempo_ataque_base - (upgrade_velocidade_por_nivel[idx] if idx < upgrade_velocidade_por_nivel.size() else 0.0)
+			alcance_atual = alcance + (upgrade_alcance_por_nivel[idx] if idx < upgrade_alcance_por_nivel.size() else 0.0)
+			vida_maxima += (upgrade_vida_por_nivel[idx] if idx < upgrade_vida_por_nivel.size() else 0)
+		else:
+			# Nível 0
+			dano_atual = dano
+			moedas_por_onda_atual = moedas_por_onda
+			numero_aliados_atual = numero_aliados_base
+			tempo_ataque_atual = tempo_ataque_base
+			alcance_atual = alcance
+	
+	# Garante valores mínimos
+	tempo_ataque_atual = max(0.1, tempo_ataque_atual)
+
+func get_custo_proximo_upgrade() -> int:
+	# Retorna o custo do próximo upgrade, ou -1 se não houver
+	if tem_paths:
+		if caminho_atual == -1:
+			# Primeira escolha: retorna o menor custo entre os caminhos? Melhor deixar a UI lidar com múltiplos.
+			# Para compatibilidade, retorna -1, indicando que há múltiplas opções.
+			return -1
+		else:
+			var path = upgrade_paths[caminho_atual]
+			if nivel_atual < path.custos.size():
+				return path.custos[nivel_atual]
+	else:
+		if nivel_atual < upgrade_custos.size():
+			return upgrade_custos[nivel_atual]
+	return -1
+
+func get_opcoes_proximo_upgrade() -> Array:
+	# Retorna lista de dicionários com as opções disponíveis (para UI)
+	var opcoes = []
+	if tem_paths and caminho_atual == -1:
+		# Primeira escolha: todos os caminhos disponíveis
+		for i in range(upgrade_paths.size()):
+			var path = upgrade_paths[i]
+			if path.custos.size() > 0:
+				opcoes.append({
+					"index": i,
+					"nome": path.nome,
+					"descricao": path.descricao,
+					"icone": path.icone,
+					"custo": path.custos[0],
+					"beneficio": _descrever_beneficio(path, 0)
+				})
+	elif tem_paths and caminho_atual >= 0:
+		# Já tem caminho: próximo nível desse caminho
+		var path = upgrade_paths[caminho_atual]
+		var prox_nivel = nivel_atual
+		if prox_nivel < path.custos.size():
+			opcoes.append({
+				"index": caminho_atual,
+				"nome": path.nome,
+				"icone": path.icone,
+				"custo": path.custos[prox_nivel],
+				"beneficio": _descrever_beneficio(path, prox_nivel)
+			})
+	else:
+		# Sem paths: opção única
+		var custo = get_custo_proximo_upgrade()
+		if custo != -1:
+			opcoes.append({
+				"index": 0,
+				"nome": "Upgrade",
+				"custo": custo,
+				"beneficio": _descrever_beneficio_simples()
+			})
+	return opcoes
+
+func _descrever_beneficio(path: UpgradePathData, nivel: int) -> String:
+	var partes = []
+	if nivel < path.dano_por_nivel.size() and path.dano_por_nivel[nivel] != 0:
+		partes.append("Dano +%d" % path.dano_por_nivel[nivel])
+	if nivel < path.moedas_por_nivel.size() and path.moedas_por_nivel[nivel] != 0:
+		partes.append("Moedas +%d" % path.moedas_por_nivel[nivel])
+	if nivel < path.aliados_por_nivel.size() and path.aliados_por_nivel[nivel] != 0:
+		partes.append("Aliados +%d" % path.aliados_por_nivel[nivel])
+	if nivel < path.velocidade_por_nivel.size() and path.velocidade_por_nivel[nivel] != 0:
+		partes.append("Vel. -%.2f" % path.velocidade_por_nivel[nivel])
+	if nivel < path.alcance_por_nivel.size() and path.alcance_por_nivel[nivel] != 0:
+		partes.append("Alcance +%.1f" % path.alcance_por_nivel[nivel])
+	if nivel < path.vida_por_nivel.size() and path.vida_por_nivel[nivel] != 0:
+		partes.append("Vida +%d" % path.vida_por_nivel[nivel])
+	if partes.size() == 0:
+		return "Melhora geral"
+	return " | ".join(partes)
+
+func _descrever_beneficio_simples() -> String:
+	# Para upgrades sem path, descreve com base nos arrays base
+	var nivel = nivel_atual
+	var partes = []
+	if nivel < upgrade_dano_por_nivel.size() and upgrade_dano_por_nivel[nivel] != 0:
+		partes.append("Dano +%d" % upgrade_dano_por_nivel[nivel])
+	if nivel < upgrade_moedas_por_nivel.size() and upgrade_moedas_por_nivel[nivel] != 0:
+		partes.append("Moedas +%d" % upgrade_moedas_por_nivel[nivel])
+	if nivel < upgrade_aliados_por_nivel.size() and upgrade_aliados_por_nivel[nivel] != 0:
+		partes.append("Aliados +%d" % upgrade_aliados_por_nivel[nivel])
+	if nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] != 0:
+		partes.append("Vel. -%.2f" % upgrade_velocidade_por_nivel[nivel])
+	if nivel < upgrade_alcance_por_nivel.size() and upgrade_alcance_por_nivel[nivel] != 0:
+		partes.append("Alcance +%.1f" % upgrade_alcance_por_nivel[nivel])
+	if nivel < upgrade_vida_por_nivel.size() and upgrade_vida_por_nivel[nivel] != 0:
+		partes.append("Vida +%d" % upgrade_vida_por_nivel[nivel])
+	if partes.size() == 0:
+		return "Melhora geral"
+	return " | ".join(partes)
+
+func aplicar_upgrade(index: int = 0) -> bool:
+	# index é o índice do caminho escolhido (usado apenas se tem_paths e caminho_atual == -1)
+	if tem_paths and caminho_atual == -1:
+		# Primeira escolha de caminho
+		if index < 0 or index >= upgrade_paths.size():
+			return false
+		var path = upgrade_paths[index]
+		var custo = path.custos[0] if path.custos.size() > 0 else 0
+		if GameManager.gastar_moedas(custo):
+			caminho_atual = index
+			nivel_atual = 1
+			_atualizar_valores_pos_upgrades()
+			_trocar_modelo(nivel_atual)
+			if tipo == TipoConstrucao.BASE:
+				GameManager.nivel_base = nivel_atual
+				GameManager.upgrade_base_aplicado.emit()
+			if tipo == TipoConstrucao.TORRE:
+				_configurar_alcance()
+				atualizar_status()
+			print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
+			return true
+		else:
+			return false
+	else:
+		# Upgrade normal (com ou sem path já escolhido)
+		var custo = get_custo_proximo_upgrade()
+		if custo == -1:
+			return false
+		if GameManager.gastar_moedas(custo):
+			nivel_atual += 1
+			_atualizar_valores_pos_upgrades()
+			_trocar_modelo(nivel_atual)
+			if tipo == TipoConstrucao.BASE:
+				GameManager.nivel_base = nivel_atual
+				GameManager.upgrade_base_aplicado.emit()
+			if tipo == TipoConstrucao.TORRE:
+				_configurar_alcance()
+				atualizar_status()
+			print("%s upgrade para nível %d" % [name, nivel_atual])
+			return true
+	return false
+
+func _trocar_modelo(nivel: int):
+	# Remove modelo antigo
+	for child in modelo_anchor.get_children():
+		child.queue_free()
+	
+	# Escolhe o modelo baseado na configuração
+	var modelo_scene = null
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		var idx = nivel - 1
+		if idx >= 0 and idx < path.modelos_por_nivel.size():
+			modelo_scene = path.modelos_por_nivel[idx]
+	else:
+		var idx = nivel - 1
+		if idx >= 0 and idx < modelos_por_nivel.size():
+			modelo_scene = modelos_por_nivel[idx]
+	
+	# Aplica o modelo
+	if modelo_scene:
+		var modelo = modelo_scene.instantiate()
+		modelo_anchor.add_child(modelo)
+	else:
+		# APENAS avisa no console, sem instanciar a própria cena!
+		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
+
+# ==========================================
+# DEMAIS FUNÇÕES (MANTIDAS IGUAIS)
+# ==========================================
 func _modo_fantasma():
 	for child in get_children():
 		_desativar_fantasma(child)
@@ -160,53 +391,6 @@ func _inicializar_barra_vida():
 		barra_vida.value = vida_atual
 		container_barra.visible = false
 
-# ==========================================
-# SISTEMA DE UPGRADES (INDIVIDUAIS)
-# ==========================================
-func _atualizar_valores_pos_upgrades():
-	match tipo:
-		TipoConstrucao.TORRE:
-			dano_atual = dano + (upgrade_dano_por_nivel[nivel_atual-1] if nivel_atual > 0 and nivel_atual-1 < upgrade_dano_por_nivel.size() else 0)
-			tempo_ataque_atual = tempo_ataque_base - (upgrade_velocidade_por_nivel[nivel_atual-1] if nivel_atual > 0 and nivel_atual-1 < upgrade_velocidade_por_nivel.size() else 0.0)
-			alcance_atual = alcance + (upgrade_alcance_por_nivel[nivel_atual-1] if nivel_atual > 0 and nivel_atual-1 < upgrade_alcance_por_nivel.size() else 0.0)
-		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
-			moedas_por_onda_atual = moedas_por_onda + (upgrade_moedas_por_nivel[nivel_atual-1] if nivel_atual > 0 and nivel_atual-1 < upgrade_moedas_por_nivel.size() else 0)
-		TipoConstrucao.QUARTEL:
-			numero_aliados_atual = numero_aliados_base + (upgrade_aliados_por_nivel[nivel_atual-1] if nivel_atual > 0 and nivel_atual-1 < upgrade_aliados_por_nivel.size() else 0)
-		TipoConstrucao.BASE:
-			# A base pode ganhar mais vida, e também aumentar o nível global (ver em aplicar_upgrade)
-			vida_maxima += (upgrade_vida_por_nivel[nivel_atual-1] if nivel_atual > 0 and nivel_atual-1 < upgrade_vida_por_nivel.size() else 0)
-			vida_atual = vida_maxima  # cura ao upar
-
-func get_custo_proximo_upgrade() -> int:
-	if nivel_atual >= upgrade_custos.size():
-		return -1
-	return upgrade_custos[nivel_atual]
-
-func aplicar_upgrade() -> bool:
-	var custo = get_custo_proximo_upgrade()
-	if custo <= 0:
-		return false
-	if GameManager.gastar_moedas(custo):
-		nivel_atual += 1
-		_atualizar_valores_pos_upgrades()
-		
-		# Se for a BASE, também atualiza o nível global no GameManager
-		if tipo == TipoConstrucao.BASE:
-			GameManager.nivel_base = nivel_atual
-			GameManager.upgrade_base_aplicado.emit()  # Sinal para UI atualizar construções liberadas
-		
-		if tipo == TipoConstrucao.TORRE:
-			_configurar_alcance()
-			atualizar_status()
-		
-		print("%s upgrade para nível %d" % [name, nivel_atual])
-		return true
-	return false
-
-# ==========================================
-# CONFIGURAÇÃO DE ALCANCE (TORRE)
-# ==========================================
 func _configurar_alcance():
 	if area_ataque and area_ataque.has_node("CollisionShape3D"):
 		var shape = area_ataque.get_node("CollisionShape3D").shape
@@ -299,7 +483,6 @@ func destruir():
 	print("%s destruída!" % name)
 	if tipo == TipoConstrucao.BASE:
 		GameManager.game_over()  # Você precisa implementar isso no GameManager
-	# Desconectar sinais
 	if GameManager.onda_terminada.is_connected(_pagar_recompensa):
 		GameManager.onda_terminada.disconnect(_pagar_recompensa)
 	if GameManager.noite_iniciada.is_connected(_spawn_aliados):

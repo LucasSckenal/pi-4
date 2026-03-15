@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://c2e015n0sa8ni"]
+
+[ext_resource type="Script" uid="uid://bt01g878m5yvs" path="res://Scripts Locais/opcao_upgrade_button.gd" id="1_s13y7"]
+
+[node name="OpcaoUpgradeButton" type="Button" unique_id=254853000]
+offset_right = 150.0
+offset_bottom = 100.0
+script = ExtResource("1_s13y7")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1728366933]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Nome" type="Label" parent="." unique_id=1126343047]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Custo" type="Label" parent="." unique_id=1320729381]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Custo: 0"

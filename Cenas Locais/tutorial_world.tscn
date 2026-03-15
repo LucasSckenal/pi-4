@@ -84,7 +84,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_ucd3c"]
 script = ExtResource("10_ucd3c")
 cena = ExtResource("7_ro1kq")
-quantidade = 5
+quantidade = 2
 icone = ExtResource("11_e0en3")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
@@ -97,11 +97,20 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_ucd3c")
 cena = ExtResource("7_ro1kq")
 quantidade = 5
+icone = ExtResource("11_e0en3")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ww2ee"]
 script = ExtResource("6_l2f7a")
 inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_e0en3")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_7oign"]
+script = ExtResource("6_l2f7a")
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_xas8i"]
+script = ExtResource("6_l2f7a")
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3fexb"]
@@ -246,15 +255,15 @@ icone = null
 
 [node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.41631967, 0.28148788, 6.305473)
-ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je")])
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je"), null, null, null, null, null, null, null, null, null])
 
 [node name="SpawnerInimigos2" parent="NavigationRegion3D" unique_id=1847794852 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -5.213997)
-ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_5f4a7")])
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_5f4a7"), null, null, null, null, null, null, null, null, null])
 
 [node name="SpawnerInimigos3" parent="NavigationRegion3D" unique_id=1900024786 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, -3.1590438, -0.14955395, 0.35552764)
-ondas = Array[ExtResource("6_l2f7a")]([ExtResource("9_yane2"), SubResource("Resource_ww2ee")])
+ondas = Array[ExtResource("6_l2f7a")]([ExtResource("9_yane2"), SubResource("Resource_ww2ee"), SubResource("Resource_7oign"), SubResource("Resource_xas8i"), null, null, null, null, null, null])
 
 [node name="WorldBoundaries" type="GridMap" parent="." unique_id=2094957108 groups=["Barreiras"]]
 visible = false

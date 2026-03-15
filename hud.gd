@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 # ==========================================
-# REFERÊNCIAS DA INTERFACE
+# REFERÊNCIAS DA INTERFACE PRINCIPAL
 # ==========================================
 @onready var label_wave = $InterfacePrincipal/CentroTela/LabelWave
 @onready var botao_noite = $InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite
@@ -11,30 +11,54 @@ extends CanvasLayer
 @onready var anim_bau = $InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport/chest2/AnimationPlayer
 
 # ==========================================
-# SISTEMA DE UPGRADE
+# SISTEMA DE UPGRADE POR CARTAS (ROGUELIKE)
 # ==========================================
 @onready var menu_upgrade = $InterfacePrincipal/MenuUpgrade
 @onready var container_cartas = $InterfacePrincipal/MenuUpgrade/HBoxContainer
 @onready var botao_reroll = $InterfacePrincipal/MenuUpgrade/BotaoReroll
 
 # ==========================================
-# INDICADORES DE DIREÇÃO
+# INDICADORES DE ONDA (BOLINHAS NA BORDA)
 # ==========================================
 @onready var container_direcoes = $ContainerDirecoes
 @export var cena_enemy_icon: PackedScene
-@export var tamanho_container: Vector2 = Vector2(80, 100)  # Tamanho do container de cada direção
-@export var margem_borda: float = 20.0  # Distância mínima da borda da tela
+@export var tamanho_container: Vector2 = Vector2(80, 100)
+@export var margem_borda: float = 20.0
 
 var containers_por_direcao = {}
+
+# ==========================================
+# UI DE UPGRADE INDIVIDUAL (PATHS)
+# ==========================================
+@export var upgrade_ui_scene: PackedScene          # Arraste a cena UpgradeUI.tscn aqui
+@export var cena_opcao_button: PackedScene         # Arraste a cena OpcaoUpgradeButton.tscn aqui
+var upgrade_ui_instance: Control = null
 
 func _ready():
 	add_to_group("Interface")
 	
+	# Conecta sinais do GameManager (upgrade de cartas)
 	if GameManager.has_signal("mostrar_menu_upgrade"):
 		GameManager.mostrar_menu_upgrade.connect(_on_abrir_menu_upgrade)
 	
 	menu_upgrade.hide()
 	
+	# Instancia a UI de upgrade individual
+	if upgrade_ui_scene:
+		upgrade_ui_instance = upgrade_ui_scene.instantiate()
+		add_child(upgrade_ui_instance)
+		upgrade_ui_instance.hide()
+		# Conecta o sinal de fechamento (se existir)
+		if upgrade_ui_instance.has_signal("fechado"):
+			upgrade_ui_instance.fechado.connect(_on_upgrade_ui_fechado)
+		# Passa a cena do botão de opção para a UI
+		if upgrade_ui_instance.has_method("set_cena_opcao_button"):
+			upgrade_ui_instance.set_cena_opcao_button(cena_opcao_button)
+		print("UI de upgrade instanciada com sucesso.")
+	else:
+		print("ERRO: upgrade_ui_scene não atribuída na HUD!")
+	
+	# Configurações iniciais da interface
 	if label_wave != null:
 		label_wave.modulate.a = 0.0
 	
@@ -48,7 +72,7 @@ func _ready():
 	atualizar_moedas()
 	verificar_estado_dia_noite()
 	
-	# Garante que o container_direcoes existe
+	# Configura o container de direções (para os ícones de onda)
 	if container_direcoes == null:
 		container_direcoes = Control.new()
 		container_direcoes.name = "ContainerDirecoes"
@@ -57,23 +81,52 @@ func _ready():
 	container_direcoes.z_index = 100
 	container_direcoes.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	# Carrega a cena do ícone se necessário (ajuste o caminho!)
+	# Carrega a cena do ícone de inimigo se necessário (fallback)
 	if cena_enemy_icon == null:
 		cena_enemy_icon = preload("res://Enemys/enemy_icon.tscn")
 		if cena_enemy_icon == null:
 			print("ERRO: Não foi possível carregar enemy_icon.tscn")
 	
-	# Conecta aos spawners
+	# Conecta aos spawners (indicadores de onda)
 	_conectar_spawners()
 	get_tree().create_timer(1.0).timeout.connect(_conectar_spawners)
+	
+	# Conecta às construções (upgrade individual)
+	_conectar_construcoes()
 	get_tree().node_added.connect(_on_node_added)
 
+# ==========================================
+# CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
+# ==========================================
 func _on_node_added(node: Node):
 	if node.is_in_group("Spawner"):
 		_conectar_spawners()
+	if node.is_in_group("Construcao"):
+		_conectar_construcao(node)
+
+func _conectar_construcoes():
+	for construcao in get_tree().get_nodes_in_group("Construcao"):
+		_conectar_construcao(construcao)
+
+func _conectar_construcao(construcao: Node):
+	if not construcao.is_connected("construcao_selecionada", _on_construcao_selecionada):
+		construcao.connect("construcao_selecionada", _on_construcao_selecionada)
+		print("HUD conectada à construção: ", construcao.name)
+
+func _on_construcao_selecionada(construcao):
+	print("Construção selecionada: ", construcao.name)
+	if upgrade_ui_instance:
+		print("Chamando upgrade_ui_instance.abrir()")
+		upgrade_ui_instance.abrir(construcao)
+	else:
+		print("ERRO: upgrade_ui_instance é null")
+
+func _on_upgrade_ui_fechado():
+	print("UI de upgrade fechada")
+	get_tree().paused = false
 
 # ==========================================
-# FUNÇÕES EXISTENTES
+# FUNÇÕES DE DIA/NOITE E MOEDAS
 # ==========================================
 func verificar_estado_dia_noite():
 	if botao_noite != null:
@@ -101,6 +154,9 @@ func animar_bau_abrindo():
 		await get_tree().create_timer(1.0).timeout 
 		anim_bau.play_backwards("open")
 
+# ==========================================
+# SISTEMA DE UPGRADE POR CARTAS
+# ==========================================
 func _on_abrir_menu_upgrade(cartas_sorteadas):
 	for crianca in container_cartas.get_children():
 		crianca.queue_free()
@@ -129,7 +185,7 @@ func _on_botao_reroll_pressed():
 	GameManager.rerolar_cartas()
 
 # ==========================================
-# FUNÇÕES DOS INDICADORES DE DIREÇÃO
+# INDICADORES DE ONDA (CONEXÃO COM SPAWNERS)
 # ==========================================
 func _conectar_spawners():
 	var spawners = get_tree().get_nodes_in_group("Spawner")
@@ -157,17 +213,17 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 		print("ERRO: cena_enemy_icon é null")
 		return
 	
-	# Cria um container principal (transparente) para esta direção
+	# Cria container para esta direção
 	var container_dir = Control.new()
 	container_dir.name = "Direcao_" + direcao
 	container_direcoes.add_child(container_dir)
 	
-	# Calcula a posição na borda baseada na posição do spawner
+	# Calcula posição na borda
 	var pos_tela = _calcular_posicao_borda(posicao_mundo, tamanho_container)
 	container_dir.position = pos_tela
 	container_dir.size = tamanho_container
 	
-	# Cria um VBoxContainer para empilhar os ícones verticalmente
+	# VBox para empilhar os ícones
 	var vbox = VBoxContainer.new()
 	vbox.size = tamanho_container
 	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -183,7 +239,7 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 		else:
 			print("ERRO: enemy_icon não tem método configurar")
 	
-	# Armazena o container
+	# Armazena referência
 	containers_por_direcao[direcao] = container_dir
 	print("Container criado para ", direcao, " com ", inimigos.size(), " ícones")
 
