@@ -78,7 +78,16 @@ enum TipoConstrucao {
 @onready var area_ataque = get_node_or_null(area_ataque_path)
 @onready var barra_vida = get_node_or_null(caminho_barra_vida) if tem_barra_vida else null
 @onready var container_barra = get_node_or_null(caminho_container_barra) if tem_barra_vida else null
-@onready var timer_ataque = $TimerAtaque if tipo == TipoConstrucao.TORRE else null
+@onready var timer_ataque = get_node_or_null("TimerAtaque") if tipo == TipoConstrucao.TORRE else null
+
+# ==========================================
+# INFORMAÇÕES DE INTERFACE
+# ==========================================
+@export_group("Interface")
+## Nome que aparecerá no menu radial
+@export var nome_construcao: String = "Construção"
+## Ícone PNG que aparecerá no botão do menu radial
+@export var icone: Texture2D
 
 # ==========================================
 # VARIÁVEIS DE ESTADO

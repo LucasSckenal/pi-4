@@ -1,18 +1,39 @@
 [gd_scene format=3 uid="uid://dtvgx1hmd44ji"]
 
-[ext_resource type="Script" uid="uid://bsf0bx1chj3gu" path="res://radial_button.gd" id="2_3p7tr"]
+[ext_resource type="Script" uid="uid://dc85ngp8kir1" path="res://Scripts Locais/radial_button.gd" id="1_poqym"]
 
-[node name="RadialButton" type="TextureButton" unique_id=1719175479]
-custom_minimum_size = Vector2(64, 64)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -64.0
-offset_top = -64.0
-offset_right = 64.0
-offset_bottom = 64.0
+[node name="RadialButton" type="TextureButton" unique_id=1910119001]
+z_index = 4096
+offset_right = 80.0
+offset_bottom = 80.0
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("1_poqym")
+
+[node name="IconeTorre" type="TextureRect" parent="." unique_id=1295179615]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_3p7tr")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=243016099]
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport" unique_id=1145719582]
+transform = Transform3D(0.40992305, 0.23607408, -0.8810404, 0, 0.9659259, 0.25881907, 0.91212016, -0.10609589, 0.39595523, -0.6155854, 0.52147806, 0.25536317)
+fov = 60.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport" unique_id=1187778263]
+transform = Transform3D(0.84789157, 0.5230837, -0.08639055, -0.3191431, 0.63369703, 0.7046813, 0.4233527, -0.56992245, 0.704245, 0, 0.042518735, 0)
+shadow_enabled = true
+shadow_opacity = 0.51
+shadow_blur = 2.485
+
+[node name="ModelContainer" type="Node3D" parent="SubViewport" unique_id=1154183965]

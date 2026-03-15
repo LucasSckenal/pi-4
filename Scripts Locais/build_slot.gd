@@ -104,18 +104,31 @@ func _abrir_ui():
 		return
 	
 	ui_atual = ui_construcao_prefab.instantiate()
-	get_tree().current_scene.add_child(ui_atual)
-	ui_atual.abrir(self)  # A UI deve ter um método "abrir(slot)"
 	
-	# Esconde elementos locais enquanto a UI está aberta
+	# Adiciona ao CanvasLayer do slot para garantir que renderize sobre o mundo 3D
+	if canvas_mobile:
+		canvas_mobile.layer = 100 # Eleva a camada para sobrepor outros CanvasLayers
+		canvas_mobile.add_child(ui_atual)
+	else:
+		get_tree().current_scene.add_child(ui_atual)
+	
+	# Calcula o centro exato da tela para posicionar o menu estático
+	var tamanho_tela = get_viewport().get_visible_rect().size
+	ui_atual.position = tamanho_tela / 2.0
+	
+	ui_atual.abrir_menu(self)
+	
 	if bolha_btn: bolha_btn.hide()
 	if prompt_label: prompt_label.hide()
 
 func fechar_ui():
 	if ui_atual:
-		ui_atual.fechar()  # A UI deve ter um método "fechar()"
+		ui_atual.fechar_menu()  # A UI deve ter um método "fechar_menu()"
 		ui_atual.queue_free()
 		ui_atual = null
+		
+		if canvas_mobile:
+			canvas_mobile.layer = 1 # Retorna a camada ao nível padrão
 		
 		if bolha_btn: bolha_btn.show()
 		if prompt_label and player_ref_teclado != null: prompt_label.show()
@@ -127,18 +140,23 @@ func construir(cena: PackedScene):
 	if is_built:
 		return
 	
-	var nova_const = cena.instantiate()
-	add_child(nova_const)
-	nova_const.global_position = global_position
-	nova_const.is_fantasma = false  # Se suas construções usarem essa variável
-	is_built = true
+	var temp_instancia = cena.instantiate()
+	var custo_final = GameManager.obter_custo_com_desconto(temp_instancia.custo_moedas)
+	temp_instancia.queue_free()
 	
-	# Esconde ou remove elementos do slot
-	if base_mesh: base_mesh.hide()
-	if prompt_label: prompt_label.hide()
-	if canvas_mobile: canvas_mobile.queue_free()  # Remove a bolha permanentemente
-	
-	fechar_ui()
+	if GameManager.gastar_moedas(custo_final):
+		var nova_const = cena.instantiate()
+		add_child(nova_const)
+		nova_const.global_position = global_position
+		nova_const.is_fantasma = false  # Se suas construções usarem essa variável
+		is_built = true
+		
+		# Esconde ou remove elementos do slot
+		if base_mesh: base_mesh.hide()
+		if prompt_label: prompt_label.hide()
+		if canvas_mobile: canvas_mobile.queue_free()  # Remove a bolha permanentemente
+		
+		fechar_ui()
 
 # ==========================================
 # INTERAÇÕES (PC E MOBILE)
@@ -174,10 +192,10 @@ func _input(event):
 					cancelar_selecao()
 			)
 
-func _on_area_input_event(camera, event, position, normal, shape_idx):
+func _on_area_input_event(_camera, _event, position, _normal, _shape_idx):
 	if not pode_construir or is_built or not slot_disponivel or ui_atual:
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT and _event.pressed:
 		_abrir_ui()
 
 func _on_texture_button_pressed():
