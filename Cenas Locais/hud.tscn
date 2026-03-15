@@ -134,7 +134,6 @@ vertical_alignment = 1
 
 [node name="MenuUpgrade" type="ColorRect" parent="InterfacePrincipal" unique_id=1898831811]
 process_mode = 3
-visible = false
 z_index = 10
 layout_mode = 1
 anchors_preset = 15
@@ -158,5 +157,20 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
+
+[node name="BotaoReroll" type="Button" parent="InterfacePrincipal/MenuUpgrade" unique_id=1100744267]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.86200005
+anchor_right = 0.5
+anchor_bottom = 0.86200005
+offset_left = -72.0
+offset_top = -16.57605
+offset_right = 80.0
+offset_bottom = 14.42395
+grow_horizontal = 2
+grow_vertical = 0
+text = "Reroll (2 moedas)"
 
 [connection signal="pressed" from="InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite" to="." method="_on_botao_noite_pressed"]

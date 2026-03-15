@@ -53,6 +53,10 @@ var moedas: int = 113
 var onda_atual: int = 1
 var is_night: bool = false
 
+# --- SISTEMA DE REROLL ---
+var reroll_usado: bool = false          # true se o jogador já usou o reroll nesta rodada
+var custo_reroll: int = 2               # custo em moedas para realizar o reroll
+
 func _process(_delta):
 	if Input.is_action_just_pressed("passar_onda"): 
 		if estado_atual == EstadoJogo.DIA:
@@ -94,6 +98,9 @@ func sortear_cartas():
 	if baralho_upgrades.size() == 0:
 		print("ERRO: O baralho está vazio no Inspetor!")
 		return
+
+	# Resetar o reroll para a nova rodada
+	reroll_usado = false
 
 	var copia = baralho_upgrades.duplicate()
 	copia.shuffle()
@@ -148,6 +155,39 @@ func _processar_efeito(tipo_efeito, valor):
 			
 		CartaUpgrade.TipoUpgrade.VIDA:
 			print("Vida aumentada em: ", valor)
+
+# ==========================================
+# SISTEMA DE REROLL
+# ==========================================
+func rerolar_cartas():
+	if reroll_usado:
+		print("Reroll já foi usado nesta oportunidade.")
+		return
+	if moedas < custo_reroll:
+		print("Moedas insuficientes para reroll.")
+		# Opcional: emitir um sinal para feedback visual (ex: mostrar mensagem)
+		return
+	if baralho_upgrades.size() == 0:
+		print("ERRO: O baralho está vazio!")
+		return
+
+	# Deduzir o custo
+	moedas -= custo_reroll
+	get_tree().call_group("Interface", "atualizar_moedas")
+
+	# Sortear novas 3 cartas (ou menos se o baralho tiver menos)
+	var copia = baralho_upgrades.duplicate()
+	copia.shuffle()
+	var escolhidas = []
+	for i in range(3):
+		if i < copia.size():
+			escolhidas.append(copia[i])
+
+	# Marcar que o reroll foi usado
+	reroll_usado = true
+
+	# Emitir novamente o sinal com as novas cartas
+	mostrar_menu_upgrade.emit(escolhidas)
 
 # ==========================================
 # COMPRAS
