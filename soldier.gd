@@ -91,6 +91,57 @@ func _physics_process(delta):
 			velocity.x = 0
 			velocity.z = 0
 			
+			# Olha para o inimigo (Segurança para não dar erro se estiverem na mesma posição exata)
+			var pos_alvo = Vector3(alvo_atual.global_position.x, global_position.y, alvo_atual.global_position.z)
+			if global_position.distance_to(pos_alvo) > 0.1:
+				look_at(pos_alvo, Vector3.UP)
+			
+			# CHAMA A FUNÇÃO CERTA QUE TOCA A ANIMAÇÃO DE MIRAR E ATIRAR!
+			if pode_atacar and not esta_atacando:
+				_iniciar_ataque() 
+				
+		else:
+			# ESTÁ LONGE: Corre até o alvo
+			if not esta_atacando: 
+				navigation_agent.target_position = alvo_atual.global_position
+				var proxima_posicao = navigation_agent.get_next_path_position()
+				var direcao = global_position.direction_to(proxima_posicao)
+				
+				velocity.x = direcao.x * velocidade
+				velocity.z = direcao.z * velocidade
+				
+				# TOCA A ANIMAÇÃO DE ANDAR AQUI
+				if animation_player and animation_player.has_animation("walk"):
+					animation_player.play("walk")
+				elif animation_player and animation_player.has_animation("run"):
+					animation_player.play("run") # Fallback caso você use "run"
+				
+				# Olha para o caminho onde está indo
+				var pos_olhar = Vector3(proxima_posicao.x, global_position.y, proxima_posicao.z)
+				if global_position.distance_to(pos_olhar) > 0.1:
+					look_at(pos_olhar, Vector3.UP)
+	else:
+		# SE NÃO TEM ALVO: Fica parado e descansa
+		velocity.x = 0
+		velocity.z = 0
+		if animation_player and animation_player.has_animation("idle") and not esta_atacando:
+			animation_player.play("idle")
+			
+	# 3. Mágica do CharacterBody3D que aplica a velocidade na física do jogo
+	move_and_slide()
+	# 1. Aplica a gravidade se o soldado estiver no ar
+	if not is_on_floor():
+		velocity.y -= gravidade * delta
+		
+	# 2. Lógica de perseguir e atacar o inimigo
+	if alvo_atual and is_instance_valid(alvo_atual):
+		var distancia = global_position.distance_to(alvo_atual.global_position)
+		
+		if distancia <= alcance_ataque:
+			# CHEGOU PERTO: Para de andar e ataca
+			velocity.x = 0
+			velocity.z = 0
+			
 			# Olha para o inimigo
 			look_at(Vector3(alvo_atual.global_position.x, global_position.y, alvo_atual.global_position.z), Vector3.UP)
 			

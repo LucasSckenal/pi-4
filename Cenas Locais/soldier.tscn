@@ -16,18 +16,18 @@ radius = 0.5225242
 [node name="Soldier" type="CharacterBody3D" unique_id=888778159]
 transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, 0, 0, 0)
 script = ExtResource("1_j7su8")
-alcance_ataque = 3.0
+velocidade = 1.0
+alcance_ataque = 1.0
 dano = 5
 vida_maxima = 30
 cena_flecha = ExtResource("2_r0nhb")
-alcance_deteccao = 6.0
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=959899015]
 transform = Transform3D(1.0000004, 0, -4.656613e-10, 0, 1, 0, 4.656613e-10, 0, 1.0000004, 0, 0.06768799, 0)
 shape = SubResource("CapsuleShape3D_bcefr")
 
 [node name="character-soldier2" parent="." unique_id=2098176869 instance=ExtResource("3_ijs4u")]
-transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+transform = Transform3D(-0.21911842, 0, -0.01967529, 0, 0.22, 0, 0.01967529, 0, -0.21911842, 0, 0, 0)
 
 [node name="character-soldier" parent="character-soldier2" index="0" unique_id=312604812]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)

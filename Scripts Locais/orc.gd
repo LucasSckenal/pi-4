@@ -39,6 +39,9 @@ func _physics_process(delta):
 	   alvo_atual.is_in_group("Castelo") or (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
 
+	if alvo_atual == null or not is_instance_valid(alvo_atual) or alvo_morto or alvo_atual.is_in_group("Castelo"):
+		alvo_atual = procurar_novo_alvo()
+		
 	# 3. Movimento
 	if alvo_atual:
 		nav_agent.target_position = alvo_atual.global_position
@@ -81,20 +84,18 @@ func _physics_process(delta):
 	move_and_slide()
 
 func procurar_novo_alvo():
-	# Prioridade: 1. Aliados e Construções próximas | 2. Castelo
-	var construcoes = get_tree().get_nodes_in_group("Construcao")
 	var aliados = get_tree().get_nodes_in_group("aliados")
+	var construcoes = get_tree().get_nodes_in_group("Construcao")
 	
 	var melhor_alvo = null
-	var menor_dist_encontrada = INF # Começa com infinito para podermos achar o menor valor
+	var menor_dist = 1000.0 
 	
-	# Verifica os soldados (aliados) próximos
-	for a in aliados:
-		if is_instance_valid(a):
-			var d = global_position.distance_to(a.global_position)
-			if d <= raio_visao_aliados and d < menor_dist_encontrada:
-				menor_dist_encontrada = d
-				melhor_alvo = a
+	# ==========================================
+	# 1. PRIORIDADE MÁXIMA: Procurar Aliados
+	# ==========================================
+	for aliado in aliados:
+		if "vida_atual" in aliado and aliado.vida_atual <= 0:
+			continue 
 			
 	# Verifica as construções próximas
 	for c in construcoes:
@@ -109,11 +110,30 @@ func procurar_novo_alvo():
 				menor_dist_encontrada = d
 				melhor_alvo = c
 			
-	# Se achou um soldado ou construção, foca nele!
+	# Se ele achou algum aliado vivo, já escolhe ele como alvo e para de pensar!
 	if melhor_alvo: 
 		return melhor_alvo
 		
-	# Se não tem nada perto, continua marchando para o Castelo
+	# ==========================================
+	# 2. SEGUNDA OPÇÃO: Procurar Construções
+	# ==========================================
+	menor_dist = 1000.0 # Resetamos a distância para procurar de novo
+	
+	for c in construcoes:
+		if "vida_atual" in c and c.vida_atual <= 0:
+			continue 
+			
+		var d = global_position.distance_to(c.global_position)
+		if d < menor_dist:
+			menor_dist = d
+			melhor_alvo = c
+			
+	if melhor_alvo: 
+		return melhor_alvo
+		
+	# ==========================================
+	# 3. ÚLTIMA OPÇÃO: Castelo
+	# ==========================================
 	return get_tree().get_first_node_in_group("Castelo")
 
 func atacar():

@@ -588,9 +588,11 @@ func destruir():
 		GameManager.game_over() 
 		return
 
-	# Ao invés de queue_free(), vamos desativar a construção
 	esta_destruida = true
-	visible = false # Esconde o modelo 3D
+	visible = false 
+	
+	# ESCONDE DOS ORCS
+	remove_from_group("Construcao") 
 	
 	# Remove do grupo para os Orcs pararem de focar nela
 	remove_from_group("Construcao")
@@ -598,11 +600,9 @@ func destruir():
 	if timer_ataque:
 		timer_ataque.stop()
 		
-	# Desativa a colisão para os inimigos passarem direto
 	if has_node("CollisionShape3D"):
 		$CollisionShape3D.set_deferred("disabled", true)
 		
-	# Conecta ao sinal de amanhecer para a construção ser reconstruída
 	if not GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.connect(reviver)
 
@@ -611,6 +611,10 @@ func reviver():
 	esta_destruida = false
 	visible = true
 	vida_atual = vida_maxima
+	
+	# MOSTRA AOS ORCS NOVAMENTE
+	add_to_group("Construcao")
+	
 	_inicializar_barra_vida()
 	
 	# Retorna ao grupo para poder ser alvo novamente
@@ -622,7 +626,6 @@ func reviver():
 	if has_node("CollisionShape3D"):
 		$CollisionShape3D.set_deferred("disabled", false)
 		
-	# Desconecta o sinal para não chamar de novo sem precisar
 	if GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.disconnect(reviver)
 

@@ -226,7 +226,7 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
 
 [node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
-transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.41631967, 0.28148788, 6.305473)
+transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.70521796, 0.28148788, 5.645242)
 ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je"), null, null, null, null, null, null, null, null, null])
 
 [node name="SpawnerInimigos2" parent="NavigationRegion3D" unique_id=1847794852 instance=ExtResource("5_hfgki")]
