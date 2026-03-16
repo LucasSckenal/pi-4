@@ -24,7 +24,7 @@ enum TipoConstrucao {
 @export var vida_maxima: int = 20
 
 # Define a escala padrão aplicada aos modelos 3D instanciados por esta construção.
-@export var escala_modelo: Vector3 = Vector3(0.33, 0.33, 0.33)
+@export var escala_modelo: Vector3 = Vector3(0.44, 0.44, 0.44)
 
 # ==========================================
 # CONFIGURAÇÕES ESPECÍFICAS PARA TORRES
@@ -467,8 +467,13 @@ func atacar():
 # ==========================================
 func _pagar_recompensa():
 	if is_fantasma: return
-	GameManager.moedas += moedas_por_onda_atual
-	print("%s gerou %d moedas! Total: %d" % [name, moedas_por_onda_atual, GameManager.moedas])
+	var ondas_restantes = GameManager.onda_atual
+	var bonus_onda = max(1, 6 - GameManager.onda_atual)  # Ajuste conforme balanceamento
+	
+	var moedas_geradas = moedas_por_onda_atual + bonus_onda
+	GameManager.moedas += moedas_geradas
+	
+	print("%s gerou %d moedas" % [name, moedas_geradas])
 	get_tree().call_group("Interface", "atualizar_moedas")
 	if tipo == TipoConstrucao.MOINHO:
 		get_tree().call_group("Interface", "animar_bau_abrindo")

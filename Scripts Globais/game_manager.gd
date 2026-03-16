@@ -28,7 +28,9 @@ func _set_nivel_base(valor):
 	print("Nível da base agora é: ", nivel_base)
 
 var construcoes_por_nivel: Dictionary = {
-	1: [preload("res://Cenas Locais/tower.tscn"), preload("res://Cenas Locais/building_mine.tscn"), preload("res://Cenas Locais/house.tscn"), preload("res://Cenas Locais/mill.tscn")],
+	0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
+	1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+	2: []
 }
 
 func get_construcoes_disponiveis() -> Array:

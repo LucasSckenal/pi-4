@@ -4,10 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_l2f7a"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_hvshy"]
 [ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_7q0h5"]
-[ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Cenas Locais/castle.tscn" id="4_bmj55"]
+[ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Builds/castle.tscn" id="4_bmj55"]
 [ext_resource type="Shader" uid="uid://1pn1krwgpox6" path="res://Shaders/WaterFlat.gdshader" id="5_bmj55"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
-[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="6_cg12i"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="6_l2f7a"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="6_nnxgy"]
 [ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="7_ro1kq"]
@@ -225,36 +224,6 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="building-castle2" parent="NavigationRegion3D" unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
-script = ExtResource("6_cg12i")
-tipo = 5
-custo_moedas = 5
-escala_modelo = Vector3(0.33, 0.33, 0.33)
-dano = 30
-tempo_ataque_base = 1.5
-alcance = 10.0
-cena_flecha = null
-ponto_de_tiro = NodePath("")
-area_ataque_path = NodePath("")
-cena_aliado = null
-numero_aliados_base = 1
-ponto_spawn_path = NodePath("")
-moedas_por_onda = 2
-tem_barra_vida = false
-caminho_barra_vida = NodePath("")
-caminho_container_barra = NodePath("")
-nivel_atual = 0
-upgrade_custos = Array[int]([])
-upgrade_dano_por_nivel = Array[int]([])
-upgrade_moedas_por_nivel = Array[int]([])
-upgrade_aliados_por_nivel = Array[int]([])
-upgrade_velocidade_por_nivel = Array[int]([])
-upgrade_alcance_por_nivel = Array[int]([])
-upgrade_vida_por_nivel = Array[int]([])
-modelos_por_nivel = Array[int]([])
-tem_paths = false
-upgrade_paths = Array[int]([])
-nome_construcao = "Construção"
-icone = null
 
 [node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.41631967, 0.28148788, 6.305473)
@@ -362,70 +331,61 @@ nivel_necessario = 3
 
 [node name="BuildSlot14" parent="BuildSlots" unique_id=1018346462 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6779697, -0.33609104, 1.5583209)
-nivel_necessario = 3
+nivel_necessario = 2
 
 [node name="BuildSlot15" parent="BuildSlots" unique_id=482253268 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.9855087, 0, 0.16962472, 0, 1, 0, -0.16962472, 0, -0.9855087, -1.5618589, -0.33609104, 0.3124467)
-nivel_necessario = 3
+nivel_necessario = 2
 
 [node name="BuildSlot16" parent="BuildSlots" unique_id=1916961092 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.6507345, 0, 0.75930536, 0, 1, 0, -0.75930536, 0, -0.6507345, -1.0030364, -0.33609104, -0.63867855)
-nivel_necessario = 3
+nivel_necessario = 2
 
 [node name="BuildSlot17" parent="BuildSlots" unique_id=833274648 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.9177962, 0, -0.39705178, 0, 1, 0, 0.39705178, 0, 0.9177962, -0.16264054, -0.33609104, -0.88250136)
-nivel_necessario = 2
 
 [node name="BuildSlot18" parent="BuildSlots" unique_id=89624728 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7918587, -0.33609104, -2.3794303)
-nivel_necessario = 3
+nivel_necessario = 2
 
 [node name="BuildSlot19" parent="BuildSlots" unique_id=1037192866 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.67076313, 0, 0.7416716, 0, 1, 0, -0.7416716, 0, -0.67076313, 0.43604803, -0.33609104, -2.3794303)
-nivel_necessario = 3
+nivel_necessario = 2
 
 [node name="BuildSlot20" parent="BuildSlots" unique_id=768997752 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.5485705, 0, -0.8361043, 0, 1, 0, 0.8361043, 0, -0.5485705, 0.43604803, -0.33609104, -1.3000958)
-nivel_necessario = 2
 
 [node name="BuildSlot21" parent="BuildSlots" unique_id=151234541 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.91256315, 0, 0.4089358, 0, 1, 0, -0.4089358, 0, 0.91256315, 2.0000803, -0.33609104, -1.3000958)
-nivel_necessario = 2
 
 [node name="BuildSlot22" parent="BuildSlots" unique_id=2005883132 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.50641, 0, 0.86229277, 0, 1, 0, -0.86229277, 0, 0.50641, 1.5698646, -0.33609104, -2.2575607)
-nivel_necessario = 3
+nivel_necessario = 2
 
 [node name="BuildSlot23" parent="BuildSlots" unique_id=1645413876 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 0.2527057)
-nivel_necessario = 2
 
 [node name="BuildSlot24" parent="BuildSlots" unique_id=1811368833 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 1.6935269)
-nivel_necessario = 2
 
 [node name="BuildSlot25" parent="BuildSlots" unique_id=1001433311 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 2.2470012)
-nivel_necessario = 2
 
 [node name="BuildSlot26" parent="BuildSlots" unique_id=795383114 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, -0.23502684)
-nivel_necessario = 2
 
 [node name="BuildSlot2" parent="BuildSlots" unique_id=1801494296 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04100001, 0, 1.6783695)
+nivel_necessario = 0
 
 [node name="BuildSlot6" parent="BuildSlots" unique_id=2044560644 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.84810364, 0, -0.5298304, 0, 1, 0, 0.5298304, 0, -0.84810364, -0.04100001, 0, 2.212057)
-nivel_necessario = 2
 
 [node name="BuildSlot7" parent="BuildSlots" unique_id=952946713 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.81443965, 0, -0.58024824, 0, 1, 0, 0.58024824, 0, -0.81443965, 0.47808325, 0, 2.6985273)
-nivel_necessario = 2
 
 [node name="BuildSlot8" parent="BuildSlots" unique_id=1479036521 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47808325, 0, 3.092256)
-nivel_necessario = 2
 
 [node name="BuildSlot3" parent="BuildSlots" unique_id=141428971 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.423, 0, 3.217)

@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://q88m868cdvrf"]
+
+[ext_resource type="PackedScene" uid="uid://cac3htq5qixtj" path="res://Mapa/building-castle.glb" id="1_xtwgx"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_07545"]
+[ext_resource type="PackedScene" uid="uid://t15rehnw8bmg" path="res://Medieval/buildings/blue/building_barracks_blue.gltf" id="3_lgj1g"]
+[ext_resource type="PackedScene" uid="uid://b3ie3nack6nax" path="res://Medieval/buildings/blue/building_castle_blue.gltf" id="4_3oq81"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_07545"]
+radius = 0.6071644
+
+[node name="building-castle2" unique_id=1806970837 groups=["Base", "Castelo"] instance=ExtResource("1_xtwgx")]
+script = ExtResource("2_07545")
+tipo = 5
+vida_maxima = 400
+upgrade_custos = Array[int]([5, 7])
+upgrade_vida_por_nivel = Array[int]([500, 750])
+modelos_por_nivel = Array[PackedScene]([ExtResource("3_lgj1g"), ExtResource("4_3oq81")])
+
+[node name="AreaClique" type="Area3D" parent="." index="1" unique_id=440299272]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=60864668]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38858128, 0)
+shape = SubResource("SphereShape3D_07545")

@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://q88m868cdvrf"]
-
-[ext_resource type="PackedScene" uid="uid://cac3htq5qixtj" path="res://Mapa/building-castle.glb" id="1_xtwgx"]
-[ext_resource type="Script" uid="uid://chv8dldk53abu" path="res://Scripts Locais/castle.gd" id="2_vm22h"]
-
-[node name="building-castle2" unique_id=1806970837 groups=["Base", "Castelo"] instance=ExtResource("1_xtwgx")]
-script = ExtResource("2_vm22h")

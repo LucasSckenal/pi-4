@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://crlseyxhymdsl"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_ug5hj"]
+[ext_resource type="PackedScene" uid="uid://bbv12tx1i4mrr" path="res://Medieval/buildings/blue/building_mine_blue.gltf" id="2_eav52"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ug5hj"]
+radius = 1.0
+
+[node name="Mina" type="Node3D" unique_id=1922887772]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+script = ExtResource("1_ug5hj")
+tipo = 1
+
+[node name="building_mine_blue2" parent="." unique_id=1584945338 instance=ExtResource("2_eav52")]
+transform = Transform3D(0.051952526, 0, -0.99864954, 0, 1, 0, 0.99864954, 0, 0.051952526, 0, 0, 0)
+
+[node name="AreaClique" type="Area3D" parent="." unique_id=1914039510]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=40572941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0061701536, 0.45635056, -0.174034)
+shape = SubResource("SphereShape3D_ug5hj")

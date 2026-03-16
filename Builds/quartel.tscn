@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://be7edqt2mmq5q"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_6wxgo"]
+[ext_resource type="PackedScene" uid="uid://8jv7i52nhbgl" path="res://Medieval/buildings/blue/building_archeryrange_blue.gltf" id="1_486cl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6wxgo"]
+size = Vector3(1.8242188, 2.2930908, 1.6751709)
+
+[node name="Quartel" type="Node3D" unique_id=1810185110]
+script = ExtResource("1_6wxgo")
+tipo = 4
+custo_moedas = 6
+vida_maxima = 60
+numero_aliados_base = 3
+ponto_spawn_path = NodePath("Spawn")
+
+[node name="building_archeryrange_blue2" parent="." unique_id=1337676271 instance=ExtResource("1_486cl")]
+
+[node name="AreaClique" type="Area3D" parent="." unique_id=60161341]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=1003745257]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001953125, 0.6465454, -0.13983154)
+shape = SubResource("BoxShape3D_6wxgo")
+
+[node name="Spawn" type="Node3D" parent="." unique_id=1483033927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.63812745)
