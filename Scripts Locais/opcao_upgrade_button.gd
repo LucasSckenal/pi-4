@@ -1,8 +1,8 @@
 extends Button
 
-@onready var icone = $Icone
-@onready var nome_label = $Nome
-@onready var custo_label = $Custo
+@onready var icone = $VBoxContainer/Icone
+@onready var nome_label = $VBoxContainer/Nome
+@onready var custo_label = $VBoxContainer/Custo
 
 func configurar(opcao: Dictionary):
 	if opcao.has("icone") and opcao.icone:

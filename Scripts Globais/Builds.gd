@@ -23,6 +23,9 @@ enum TipoConstrucao {
 @export var custo_moedas: int = 5
 @export var vida_maxima: int = 20
 
+# Define a escala padrão aplicada aos modelos 3D instanciados por esta construção.
+@export var escala_modelo: Vector3 = Vector3(0.33, 0.33, 0.33)
+
 # ==========================================
 # CONFIGURAÇÕES ESPECÍFICAS PARA TORRES
 # ==========================================
@@ -228,12 +231,15 @@ func get_opcoes_proximo_upgrade() -> Array:
 		# Primeira escolha: todos os caminhos disponíveis
 		for i in range(upgrade_paths.size()):
 			var path = upgrade_paths[i]
-			if path.custos.size() > 0:
+			if path and path.custos.size() > 0:
+				var nome_path = path.get("nome")
+				if nome_path == null or nome_path == "":
+					nome_path = "Caminho " + str(i + 1)
+				
 				opcoes.append({
 					"index": i,
-					"nome": path.nome,
-					"descricao": path.descricao,
-					"icone": path.icone,
+					"nome": nome_path,
+					"icone": path.get("icone"),
 					"custo": path.custos[0],
 					"beneficio": _descrever_beneficio(path, 0)
 				})
@@ -241,11 +247,15 @@ func get_opcoes_proximo_upgrade() -> Array:
 		# Já tem caminho: próximo nível desse caminho
 		var path = upgrade_paths[caminho_atual]
 		var prox_nivel = nivel_atual
-		if prox_nivel < path.custos.size():
+		if path and prox_nivel < path.custos.size():
+			var nome_path = path.get("nome")
+			if nome_path == null or nome_path == "":
+				nome_path = "Upgrade"
+			
 			opcoes.append({
 				"index": caminho_atual,
-				"nome": path.nome,
-				"icone": path.icone,
+				"nome": nome_path,
+				"icone": path.get("icone"),
 				"custo": path.custos[prox_nivel],
 				"beneficio": _descrever_beneficio(path, prox_nivel)
 			})
@@ -362,9 +372,23 @@ func _trocar_modelo(nivel: int):
 	if modelo_scene:
 		var modelo = modelo_scene.instantiate()
 		modelo_anchor.add_child(modelo)
+		modelo.scale = escala_modelo
+		
+		# Esconde as malhas da torre base para evitar sobreposição
+		_esconder_malhas_originais(self)
 	else:
 		# APENAS avisa no console, sem instanciar a própria cena!
 		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
+
+# Nova função para ocultar o modelo 3D original que veio do .glb
+func _esconder_malhas_originais(no: Node):
+	for filho in no.get_children():
+		if filho == modelo_anchor:
+			continue # Ignora o nosso anchor com os modelos de upgrade
+		if filho is MeshInstance3D:
+			filho.hide()
+		elif filho.get_child_count() > 0:
+			_esconder_malhas_originais(filho)
 
 # ==========================================
 # DEMAIS FUNÇÕES (MANTIDAS IGUAIS)

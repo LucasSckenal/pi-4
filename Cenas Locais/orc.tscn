@@ -13,6 +13,7 @@ height = 0.3263855
 
 [node name="Orc" type="CharacterBody3D" unique_id=844430660]
 script = ExtResource("1_3xw0u")
+raio_visao_construcao = 1.5
 
 [node name="character-orc2" parent="." unique_id=1281602555 instance=ExtResource("1_ws5q1")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

@@ -226,9 +226,9 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 [node name="building-castle2" parent="NavigationRegion3D" unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
 script = ExtResource("6_cg12i")
-tipo = 0
+tipo = 5
 custo_moedas = 5
-vida_maxima = 20
+escala_modelo = Vector3(0.33, 0.33, 0.33)
 dano = 30
 tempo_ataque_base = 1.5
 alcance = 10.0

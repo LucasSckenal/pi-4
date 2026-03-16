@@ -1,60 +1,93 @@
 extends Control
 
-@onready var titulo = $Panel/VBoxContainer/Titulo
-@onready var opcoes_container = $Panel/VBoxContainer/OpcoesContainer
-@onready var botao_fechar = $Panel/VBoxContainer/BotaoFechar
+signal fechado
 
 @export var cena_opcao_button: PackedScene
 
+# ==========================================
+# REFERÊNCIAS
+# ==========================================
+@onready var opcoes_container = $Control/Panel/VBoxContainer/OpcoesContainer
+@onready var titulo = $Control/Panel/VBoxContainer/Titulo
+@onready var botao_fechar = $Control/Panel/VBoxContainer/BotaoFechar
+
+# ==========================================
+# VARIÁVEIS DE ESTADO
+# ==========================================
 var construcao_atual: Node = null
-signal fechado
 
 func _ready():
-	botao_fechar.pressed.connect(_fechar)
+	# Esconde a UI ao iniciar e conecta o botão de fechar
 	hide()
+	botao_fechar.pressed.connect(fechar)
 
+# Chamado pela HUD para injetar a cena do botão
+func set_cena_opcao_button(cena: PackedScene):
+	if cena != null:
+		cena_opcao_button = cena
+
+# ==========================================
+# LÓGICA DE ABERTURA E POPULAÇÃO
+# ==========================================
 func abrir(construcao: Node):
 	construcao_atual = construcao
 	
-	# Atualiza título
-	if construcao.has_method("get_nome_construcao"):
-		titulo.text = "Upgrade: " + construcao.nome_construcao
+	# Atualiza o título se a construção tiver nome
+	if construcao_atual.get("nome_construcao"):
+		titulo.text = "Upgrade: " + construcao_atual.nome_construcao
 	else:
 		titulo.text = "Upgrade da Construção"
-	
-	# Limpa opções antigas
-	for child in opcoes_container.get_children():
-		child.queue_free()
-	
-	# Pega opções da construção
-	if construcao.has_method("get_opcoes_upgrade"):
-		var opcoes = construcao.get_opcoes_upgrade()
 		
-		if opcoes.size() == 0:
-			# Sem upgrades disponíveis
-			var label = Label.new()
-			label.text = "Nível máximo atingido!"
-			opcoes_container.add_child(label)
-		else:
-			# Cria um botão para cada opção
-			for opcao in opcoes:
-				var btn = cena_opcao_button.instantiate()
-				opcoes_container.add_child(btn)
-				btn.configurar(opcao)
-				btn.pressed.connect(_on_upgrade_pressed.bind(opcao.index))
+	_atualizar_opcoes()
 	
+	# Mostra a tela e pausa o jogo para o jogador escolher em paz
 	show()
 	get_tree().paused = true
 
-func _on_upgrade_pressed(index: int):
-	if construcao_atual and construcao_atual.has_method("aplicar_upgrade"):
-		if construcao_atual.aplicar_upgrade(index):
-			# Se aplicou, recarrega a UI
-			abrir(construcao_atual)
-		else:
-			print("Falha ao aplicar upgrade (moedas insuficientes?)")
+func _atualizar_opcoes():
+	# Limpa os botões antigos
+	for child in opcoes_container.get_children():
+		child.queue_free()
+		
+	if not construcao_atual.has_method("get_opcoes_proximo_upgrade"):
+		return
+		
+	var opcoes = construcao_atual.get_opcoes_proximo_upgrade()
+	
+	# Caso a torre já esteja no nível máximo
+	if opcoes.size() == 0:
+		var label_max = Label.new()
+		label_max.text = "Nível Máximo Alcançado!"
+		opcoes_container.add_child(label_max)
+		return
+		
+	# Instancia um botão para cada opção de upgrade disponível (Paths ou Linha Única)
+	for opcao in opcoes:
+		if cena_opcao_button:
+			var btn = cena_opcao_button.instantiate()
+			# A mágica que impede o botão de sumir: forçamos um tamanho!
+			btn.custom_minimum_size = Vector2(160, 180) 
+			opcoes_container.add_child(btn)
+			
+			if btn.has_method("configurar"):
+				btn.configurar(opcao)
+				
+			btn.pressed.connect(_on_opcao_escolhida.bind(opcao.get("index", 0)))
 
-func _fechar():
+# ==========================================
+# AÇÕES DO JOGADOR
+# ==========================================
+func _on_opcao_escolhida(index: int):
+	if construcao_atual and construcao_atual.has_method("aplicar_upgrade"):
+		var sucesso = construcao_atual.aplicar_upgrade(index)
+		
+		if sucesso:
+			fechar()
+		else:
+			print("Sem moedas suficientes para esse upgrade!")
+			# Aqui você pode adicionar um feedback visual no futuro se o jogador não tiver moedas
+
+func fechar():
+	construcao_atual = null
 	hide()
-	fechado.emit()
-	get_tree().paused = false
+	fechado.emit() # A HUD escuta isso para despausar o jogo
