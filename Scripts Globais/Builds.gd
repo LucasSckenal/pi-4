@@ -107,6 +107,7 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 # ==========================================
 # VARIÁVEIS DE ESTADO
 # ==========================================
+var y_inicial: float
 var is_fantasma: bool = false
 var vida_atual: int
 var inimigos_no_alcance = []
@@ -123,6 +124,9 @@ var alcance_atual: float
 signal construcao_selecionada(construcao: Node)
 
 func _ready():
+	
+	y_inicial = position.y
+	
 	if is_fantasma:
 		_modo_fantasma()
 		return
@@ -505,32 +509,35 @@ func _criar_um_aliado():
 	var aliado = cena_aliado.instantiate()
 	get_tree().current_scene.add_child(aliado)
 	
-	# 1. Pega a posição base (do quartel ou do ponto de spawn)
+	# 1. Pega a posição base
 	var posicao_base = global_position
 	if ponto_spawn:
 		posicao_base = ponto_spawn.global_position
 		
 	# 2. Sorteia um ponto ao redor
-	var pos_aleatoria = posicao_base + Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
+	var pos_aleatoria = posicao_base + Vector3(randf_range(-1, 1), 0, randf_range(-1, 1))
 	
-	# 3. MÁGICA NOVA: Raio da Física (RayCast) atirando para baixo
+	# 3. Raio da Física (RayCast)
 	var espaco_fisica = get_world_3d().direct_space_state
-	var origem_raio = pos_aleatoria + Vector3(0, 5.0, 0) # Começa 5 metros acima do ponto
-	var destino_raio = pos_aleatoria + Vector3(0, -10.0, 0) # Vai até 10 metros para baixo
+	var origem_raio = pos_aleatoria + Vector3(0, 5.0, 0)
+	var destino_raio = pos_aleatoria + Vector3(0, -10.0, 0)
 	var query = PhysicsRayQueryParameters3D.create(origem_raio, destino_raio)
 	
 	var colisao = espaco_fisica.intersect_ray(query)
 	
-	# 4. Posiciona o soldado exatamente no ponto de impacto do chão
+	# 4. Posiciona o soldado (Validação de terreno)
 	if colisao:
-		aliado.global_position = colisao.position
+		# Se colidir com água, tenta centralizar no ponto de spawn original
+		if colisao.collider.is_in_group("Agua"):
+			aliado.global_position = posicao_base
+		else:
+			aliado.global_position = colisao.position
 	else:
-		aliado.global_position = pos_aleatoria # Fallback caso falhe
+		aliado.global_position = pos_aleatoria
 	
 	aliado.add_to_group("aliados")
 	soldados_vivos += 1
 	
-	# Reconecta o sinal para o sistema de respawn funcionar
 	if aliado.has_signal("morreu"):
 		aliado.morreu.connect(_on_aliado_morreu)
 
@@ -540,28 +547,28 @@ func _on_aliado_morreu(aliado_morto: Node):
 	# 1. MOSTRA A BARRA E INICIA A ANIMAÇÃO
 	if sprite_respawn and barra_respawn:
 		sprite_respawn.visible = true
-		barra_respawn.value = 100.0 # <--- Começa CHEIA (100)
+		barra_respawn.value = 0.0 # <--- Alterado para começar vazia (0)
 		
 		var tween = create_tween()
-		# <--- Vai esvaziando até o ZERO (0.0) no tempo exato
-		tween.tween_property(barra_respawn, "value", 0.0, tempo_respawn)
+		# <--- Agora ela ENCHE até 100 no tempo de respawn
+		tween.tween_property(barra_respawn, "value", 100.0, tempo_respawn)
 	
 	# 2. AGUARDA O TEMPO DO TIMER DO JOGO
 	await get_tree().create_timer(tempo_respawn).timeout
 	
-	# 3. ESCONDE A BARRA
-	if sprite_respawn:
-		sprite_respawn.visible = false
-	
-	# 4. CRIA O NOVO SOLDADO
+	# 3. CRIA O NOVO SOLDADO
 	if is_instance_valid(self) and soldados_vivos < numero_aliados_atual:
 		_criar_um_aliado()
+		
+	# 4. ESCONDE A BARRA (Apenas se o quartel estiver com todos os soldados vivos novamente)
+	if sprite_respawn and soldados_vivos >= numero_aliados_atual:
+		sprite_respawn.visible = false
 
 # ==========================================
 # SISTEMA DE DANO (COMUM A TODOS)
 # ==========================================
 func receber_dano(quantidade: int):
-	if is_fantasma: return
+	if is_fantasma or esta_destruida: return
 	vida_atual -= quantidade
 	if tem_barra_vida and container_barra:
 		container_barra.visible = true
@@ -569,9 +576,8 @@ func receber_dano(quantidade: int):
 			barra_vida.value = vida_atual
 	
 	var tween = create_tween()
-	var original_y = position.y
-	tween.tween_property(self, "position:y", original_y + 0.15, 0.05)
-	tween.tween_property(self, "position:y", original_y, 0.05)
+	tween.tween_property(self, "position:y", y_inicial + 0.15, 0.05)
+	tween.tween_property(self, "position:y", y_inicial, 0.05)
 	
 	if vida_atual <= 0:
 		destruir()
@@ -585,6 +591,9 @@ func destruir():
 	# Ao invés de queue_free(), vamos desativar a construção
 	esta_destruida = true
 	visible = false # Esconde o modelo 3D
+	
+	# Remove do grupo para os Orcs pararem de focar nela
+	remove_from_group("Construcao")
 	
 	if timer_ataque:
 		timer_ataque.stop()
@@ -603,6 +612,9 @@ func reviver():
 	visible = true
 	vida_atual = vida_maxima
 	_inicializar_barra_vida()
+	
+	# Retorna ao grupo para poder ser alvo novamente
+	add_to_group("Construcao")
 	
 	if timer_ataque and tipo == TipoConstrucao.TORRE:
 		timer_ataque.start()

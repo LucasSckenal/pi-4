@@ -33,6 +33,7 @@ no_depth_test = true
 text = "[E] Construir"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1244953447]
+layer = 0
 
 [node name="TextureButton" type="TextureButton" parent="CanvasLayer" unique_id=16713609]
 offset_right = 64.0

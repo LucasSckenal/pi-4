@@ -34,7 +34,9 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# 2. IA de Alvo
-	if alvo_atual == null or not is_instance_valid(alvo_atual) or alvo_atual.is_in_group("Castelo"):
+	# Verifica se o alvo atual foi destruído para procurar um novo
+	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
+	   alvo_atual.is_in_group("Castelo") or (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
 
 	# 3. Movimento
@@ -97,6 +99,11 @@ func procurar_novo_alvo():
 	# Verifica as construções próximas
 	for c in construcoes:
 		if is_instance_valid(c):
+			# Pula construções que estão no estado de destruídas
+			if "esta_destruida" in c and c.esta_destruida:
+				continue
+			
+			# Caso contrário vai atrás das construções
 			var d = global_position.distance_to(c.global_position)
 			if d <= raio_visao_construcao and d < menor_dist_encontrada:
 				menor_dist_encontrada = d

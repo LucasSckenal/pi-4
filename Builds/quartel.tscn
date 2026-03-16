@@ -53,9 +53,15 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 value = 50.0
 fill_mode = 5
+nine_patch_stretch = true
 texture_under = ExtResource("4_ch61e")
+texture_progress = ExtResource("4_ch61e")
 tint_over = Color(0.10980392, 0.10980392, 0.10980392, 0.627451)
+tint_progress = Color(0.14117648, 0.5411765, 1, 1)
 
 [node name="SpriteRespawn" type="Sprite3D" parent="." unique_id=662183245]
 transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, -0.1725673, 1.2218943, 0.2904309)
+billboard = 1
+no_depth_test = true
+alpha_cut = 1
 texture = SubResource("ViewportTexture_ch61e")
