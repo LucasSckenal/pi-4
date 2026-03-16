@@ -13,6 +13,7 @@ radius = 0.31929168
 
 [node name="Player" type="CharacterBody3D" unique_id=1040113878 groups=["Player"]]
 script = ExtResource("1_onrkg")
+dano_ataque = 50
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=617813738]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.0049170395, 0.11052972, 0.0059999996)
@@ -21,7 +22,7 @@ shape = SubResource("CapsuleShape3D_fb3t6")
 [node name="character-male-f2" parent="." unique_id=2069908664 instance=ExtResource("2_i3pqv")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 
-[node name="Skeleton3D" parent="character-male-f2/character-male-f" parent_id_path=PackedInt32Array(2069908664, 937786380) index="0" unique_id=1164919438]
+[node name="Skeleton3D" parent="character-male-f2/character-male-f" parent_id_path=PackedInt32Array(2069908664, 1129413652) index="0" unique_id=539562797]
 bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
 bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
 

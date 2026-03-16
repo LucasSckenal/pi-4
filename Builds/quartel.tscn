@@ -2,15 +2,22 @@
 
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_6wxgo"]
 [ext_resource type="PackedScene" uid="uid://8jv7i52nhbgl" path="res://Medieval/buildings/blue/building_archeryrange_blue.gltf" id="1_486cl"]
+[ext_resource type="PackedScene" uid="uid://cnywugbxqu2pg" path="res://Cenas Locais/soldier.tscn" id="2_yitiu"]
+[ext_resource type="Texture2D" uid="uid://d11p2585w531y" path="res://Icons/white-circle-frame-with-shadow-free-png.png" id="4_ch61e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6wxgo"]
 size = Vector3(1.8242188, 2.2930908, 1.6751709)
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_ch61e"]
+viewport_path = NodePath("RespawnViewport")
+
 [node name="Quartel" type="Node3D" unique_id=1810185110]
+transform = Transform3D(0.01280612, 0, -0.32975146, 0, 0.33, 0, 0.32975146, 0, 0.01280612, 0, 0, 0)
 script = ExtResource("1_6wxgo")
 tipo = 4
 custo_moedas = 6
 vida_maxima = 60
+cena_aliado = ExtResource("2_yitiu")
 numero_aliados_base = 3
 ponto_spawn_path = NodePath("Spawn")
 
@@ -24,3 +31,31 @@ shape = SubResource("BoxShape3D_6wxgo")
 
 [node name="Spawn" type="Node3D" parent="." unique_id=1483033927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.63812745)
+
+[node name="RespawnViewport" type="SubViewport" parent="." unique_id=654681796]
+transparent_bg = true
+size = Vector2i(128, 128)
+render_target_update_mode = 4
+
+[node name="BarraRespawn" type="TextureProgressBar" parent="RespawnViewport" unique_id=1138545142]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+value = 50.0
+fill_mode = 5
+texture_under = ExtResource("4_ch61e")
+tint_over = Color(0.10980392, 0.10980392, 0.10980392, 0.627451)
+
+[node name="SpriteRespawn" type="Sprite3D" parent="." unique_id=662183245]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, -0.1725673, 1.2218943, 0.2904309)
+texture = SubResource("ViewportTexture_ch61e")

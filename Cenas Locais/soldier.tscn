@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://cnywugbxqu2pg"]
+
+[ext_resource type="Script" uid="uid://ckw06c2mcrwbe" path="res://soldier.gd" id="1_j7su8"]
+[ext_resource type="PackedScene" uid="uid://ccr63l42p5nxi" path="res://Cenas Locais/flecha.tscn" id="2_r0nhb"]
+[ext_resource type="PackedScene" uid="uid://nba6juc3u5wm" path="res://Arena/character-soldier.glb" id="3_ijs4u"]
+[ext_resource type="PackedScene" uid="uid://dael1lcp5fmbo" path="res://Armas/bow_A_withString.gltf" id="4_tcdm2"]
+[ext_resource type="PackedScene" uid="uid://bpwujo5ihqv1q" path="res://Armas/arrow_A.gltf" id="5_lteqp"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bcefr"]
+radius = 0.05029297
+height = 0.24279785
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_podeo"]
+radius = 0.5225242
+
+[node name="Soldier" type="CharacterBody3D" unique_id=888778159]
+transform = Transform3D(-0.9999788, 0, -0.0065101245, 0, 1, 0, 0.0065101245, 0, -0.9999788, 0, 0, 0)
+script = ExtResource("1_j7su8")
+alcance_ataque = 3.0
+cena_flecha = ExtResource("2_r0nhb")
+alcance_deteccao = 6.0
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=959899015]
+transform = Transform3D(1.0000004, 0, -4.656613e-10, 0, 1, 0, 4.656613e-10, 0, 1.0000004, 0, 0.06768799, 0)
+shape = SubResource("CapsuleShape3D_bcefr")
+
+[node name="character-soldier2" parent="." unique_id=2098176869 instance=ExtResource("3_ijs4u")]
+transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+
+[node name="Skeleton3D" parent="character-soldier2/character-soldier" parent_id_path=PackedInt32Array(2098176869, 1947010768) index="0" unique_id=228039166]
+bones/4/rotation = Quaternion(0, -0.5, 0, 0.8660254)
+bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
+
+[node name="MaoDireita" type="BoneAttachment3D" parent="character-soldier2/character-soldier/Skeleton3D" index="2" unique_id=1860449654]
+transform = Transform3D(0.5, 0, -0.8660254, 0, 1, 0, 0.8660254, 0, 0.5, 0.09989677, 0.28775, -0.01225)
+bone_name = "arm-left"
+bone_idx = 4
+
+[node name="bow_A_withString2" parent="character-soldier2/character-soldier/Skeleton3D/MaoDireita" unique_id=1232081697 instance=ExtResource("4_tcdm2")]
+transform = Transform3D(-0.0012209725, -0.21458955, 0.40070125, 0.45453817, -0.002586232, 1.4336559e-17, 0.0022798732, 0.40069473, 0.21459305, 0.23116675, 0.02638024, 0.057411805)
+
+[node name="MaoEsquerda" type="BoneAttachment3D" parent="character-soldier2/character-soldier/Skeleton3D" index="3" unique_id=1807179436]
+transform = Transform3D(0.7071067, -0.70710677, 0, 0.70710677, 0.7071067, 0, 0, 0, 1, -0.09989677, 0.28775, -0.01225)
+bone_name = "arm-right"
+bone_idx = 5
+
+[node name="arrow_A2" parent="character-soldier2/character-soldier/Skeleton3D/MaoEsquerda" unique_id=803702549 instance=ExtResource("5_lteqp")]
+transform = Transform3D(0.32999998, 0, 0, 0, -0.01170679, 0.3297923, 0, -0.3297923, -0.01170679, -0.24480866, 0.044736207, 0.082547724)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1710923256]
+
+[node name="Timer" type="Timer" parent="." unique_id=31718044]
+
+[node name="AreaAtk" type="Area3D" parent="." unique_id=2135940439]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtk" unique_id=716367690]
+shape = SubResource("SphereShape3D_podeo")
+
+[node name="PontoDeTiro" type="Marker3D" parent="." unique_id=5875526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.036430173, 0.068894126, 0.06536279)
+
+[node name="Hitbox" type="Area3D" parent="." unique_id=59433265]
+transform = Transform3D(1.0000001, 0, 0, 0, 1, 0, 0, 0, 1.0000001, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox" unique_id=200846309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06768799, 0)
+shape = SubResource("CapsuleShape3D_bcefr")
+
+[editable path="character-soldier2"]

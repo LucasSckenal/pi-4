@@ -43,7 +43,12 @@ enum TipoConstrucao {
 @export_group("Atributos de Quartel")
 @export var cena_aliado: PackedScene
 @export var numero_aliados_base: int = 1
+@export var tempo_respawn: float = 5.0 # Tempo em segundos para respawnar
 @export var ponto_spawn_path: NodePath
+@onready var sprite_respawn = $SpriteRespawn
+@onready var barra_respawn = $RespawnViewport/BarraRespawn
+
+var soldados_vivos: int = 0 # Controle interno
 
 # ==========================================
 # CONFIGURAÇÕES ECONÔMICAS (MINA, CASA, MOINHO)
@@ -106,6 +111,7 @@ var is_fantasma: bool = false
 var vida_atual: int
 var inimigos_no_alcance = []
 var alvo_atual: Node3D = null
+var esta_destruida: bool = false
 
 # Valores atuais após upgrades (calculados dinamicamente)
 var dano_atual: int
@@ -132,7 +138,9 @@ func _ready():
 	
 	# Carrega o modelo do nível atual (se houver)
 	_trocar_modelo(nivel_atual)
-	
+	if sprite_respawn:
+		sprite_respawn.visible = false
+		
 	match tipo:
 		TipoConstrucao.TORRE:
 			add_to_group("Torres")
@@ -484,15 +492,70 @@ func _pagar_recompensa():
 func _spawn_aliados(_onda_atual):
 	if is_fantasma or cena_aliado == null:
 		return
-	for i in range(numero_aliados_atual):
-		var aliado = cena_aliado.instantiate()
-		get_tree().current_scene.add_child(aliado)
-		if ponto_spawn:
-			aliado.global_position = ponto_spawn.global_position + Vector3(randf_range(-2, 2), 0, randf_range(-2, 2))
-		else:
-			aliado.global_position = global_position + Vector3(randf_range(-2, 2), 0, randf_range(-2, 2))
-		aliado.add_to_group("aliados")
-	print("%s spawnou %d aliados" % [name, numero_aliados_atual])
+		
+	# Trava de segurança: só spawna o que falta para completar o limite
+	var quantidade_para_spawnar = numero_aliados_atual - soldados_vivos
+	if quantidade_para_spawnar <= 0:
+		return
+		
+	for i in range(quantidade_para_spawnar):
+		_criar_um_aliado()
+
+func _criar_um_aliado():
+	var aliado = cena_aliado.instantiate()
+	get_tree().current_scene.add_child(aliado)
+	
+	# 1. Pega a posição base (do quartel ou do ponto de spawn)
+	var posicao_base = global_position
+	if ponto_spawn:
+		posicao_base = ponto_spawn.global_position
+		
+	# 2. Sorteia um ponto ao redor
+	var pos_aleatoria = posicao_base + Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
+	
+	# 3. MÁGICA NOVA: Raio da Física (RayCast) atirando para baixo
+	var espaco_fisica = get_world_3d().direct_space_state
+	var origem_raio = pos_aleatoria + Vector3(0, 5.0, 0) # Começa 5 metros acima do ponto
+	var destino_raio = pos_aleatoria + Vector3(0, -10.0, 0) # Vai até 10 metros para baixo
+	var query = PhysicsRayQueryParameters3D.create(origem_raio, destino_raio)
+	
+	var colisao = espaco_fisica.intersect_ray(query)
+	
+	# 4. Posiciona o soldado exatamente no ponto de impacto do chão
+	if colisao:
+		aliado.global_position = colisao.position
+	else:
+		aliado.global_position = pos_aleatoria # Fallback caso falhe
+	
+	aliado.add_to_group("aliados")
+	soldados_vivos += 1
+	
+	# Reconecta o sinal para o sistema de respawn funcionar
+	if aliado.has_signal("morreu"):
+		aliado.morreu.connect(_on_aliado_morreu)
+
+func _on_aliado_morreu(aliado_morto: Node):
+	soldados_vivos -= 1
+	
+	# 1. MOSTRA A BARRA E INICIA A ANIMAÇÃO
+	if sprite_respawn and barra_respawn:
+		sprite_respawn.visible = true
+		barra_respawn.value = 100.0 # <--- Começa CHEIA (100)
+		
+		var tween = create_tween()
+		# <--- Vai esvaziando até o ZERO (0.0) no tempo exato
+		tween.tween_property(barra_respawn, "value", 0.0, tempo_respawn)
+	
+	# 2. AGUARDA O TEMPO DO TIMER DO JOGO
+	await get_tree().create_timer(tempo_respawn).timeout
+	
+	# 3. ESCONDE A BARRA
+	if sprite_respawn:
+		sprite_respawn.visible = false
+	
+	# 4. CRIA O NOVO SOLDADO
+	if is_instance_valid(self) and soldados_vivos < numero_aliados_atual:
+		_criar_um_aliado()
 
 # ==========================================
 # SISTEMA DE DANO (COMUM A TODOS)
@@ -516,14 +579,40 @@ func receber_dano(quantidade: int):
 func destruir():
 	print("%s destruída!" % name)
 	if tipo == TipoConstrucao.BASE:
-		GameManager.game_over()  # Você precisa implementar isso no GameManager
-	if GameManager.onda_terminada.is_connected(_pagar_recompensa):
-		GameManager.onda_terminada.disconnect(_pagar_recompensa)
-	if GameManager.noite_iniciada.is_connected(_spawn_aliados):
-		GameManager.noite_iniciada.disconnect(_spawn_aliados)
-	remove_from_group("Construcao")
-	remove_from_group("Torres")
-	queue_free()
+		GameManager.game_over() 
+		return
+
+	# Ao invés de queue_free(), vamos desativar a construção
+	esta_destruida = true
+	visible = false # Esconde o modelo 3D
+	
+	if timer_ataque:
+		timer_ataque.stop()
+		
+	# Desativa a colisão para os inimigos passarem direto
+	if has_node("CollisionShape3D"):
+		$CollisionShape3D.set_deferred("disabled", true)
+		
+	# Conecta ao sinal de amanhecer para a construção ser reconstruída
+	if not GameManager.onda_terminada.is_connected(reviver):
+		GameManager.onda_terminada.connect(reviver)
+
+func reviver():
+	print("%s reconstruída!" % name)
+	esta_destruida = false
+	visible = true
+	vida_atual = vida_maxima
+	_inicializar_barra_vida()
+	
+	if timer_ataque and tipo == TipoConstrucao.TORRE:
+		timer_ataque.start()
+		
+	if has_node("CollisionShape3D"):
+		$CollisionShape3D.set_deferred("disabled", false)
+		
+	# Desconecta o sinal para não chamar de novo sem precisar
+	if GameManager.onda_terminada.is_connected(reviver):
+		GameManager.onda_terminada.disconnect(reviver)
 
 # ==========================================
 # BUFFS GLOBAIS (apenas para TORRE)

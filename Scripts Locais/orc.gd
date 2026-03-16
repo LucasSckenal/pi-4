@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var distancia_ataque: float = 0.7
 @export var forca_dano: int = 5
 @export var raio_visao_construcao: float = 2.0
+@export var raio_visao_aliados: float = 1.0
 
 var vida: int = 100
 var esta_morto: bool = false
@@ -78,18 +79,34 @@ func _physics_process(delta):
 	move_and_slide()
 
 func procurar_novo_alvo():
-	# Prioridade: 1. Construções próximas | 2. Castelo
+	# Prioridade: 1. Aliados e Construções próximas | 2. Castelo
 	var construcoes = get_tree().get_nodes_in_group("Construcao")
-	var melhor_alvo = null
-	var menor_dist = raio_visao_construcao
+	var aliados = get_tree().get_nodes_in_group("aliados")
 	
-	for c in construcoes:
-		var d = global_position.distance_to(c.global_position)
-		if d < menor_dist:
-			menor_dist = d
-			melhor_alvo = c
+	var melhor_alvo = null
+	var menor_dist_encontrada = INF # Começa com infinito para podermos achar o menor valor
+	
+	# Verifica os soldados (aliados) próximos
+	for a in aliados:
+		if is_instance_valid(a):
+			var d = global_position.distance_to(a.global_position)
+			if d <= raio_visao_aliados and d < menor_dist_encontrada:
+				menor_dist_encontrada = d
+				melhor_alvo = a
 			
-	if melhor_alvo: return melhor_alvo
+	# Verifica as construções próximas
+	for c in construcoes:
+		if is_instance_valid(c):
+			var d = global_position.distance_to(c.global_position)
+			if d <= raio_visao_construcao and d < menor_dist_encontrada:
+				menor_dist_encontrada = d
+				melhor_alvo = c
+			
+	# Se achou um soldado ou construção, foca nele!
+	if melhor_alvo: 
+		return melhor_alvo
+		
+	# Se não tem nada perto, continua marchando para o Castelo
 	return get_tree().get_first_node_in_group("Castelo")
 
 func atacar():
