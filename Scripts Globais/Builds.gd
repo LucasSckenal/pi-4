@@ -511,7 +511,7 @@ func _criar_um_aliado():
 		posicao_base = ponto_spawn.global_position
 		
 	# 2. Sorteia um ponto ao redor
-	var pos_aleatoria = posicao_base + Vector3(randf_range(-1.5, 1.5), 0, randf_range(-1.5, 1.5))
+	var pos_aleatoria = posicao_base + Vector3(randf_range(-0.3, 0.3), 0, randf_range(-0.3, 0.3))
 	
 	# 3. MÁGICA NOVA: Raio da Física (RayCast) atirando para baixo
 	var espaco_fisica = get_world_3d().direct_space_state
@@ -582,18 +582,18 @@ func destruir():
 		GameManager.game_over() 
 		return
 
-	# Ao invés de queue_free(), vamos desativar a construção
 	esta_destruida = true
-	visible = false # Esconde o modelo 3D
+	visible = false 
+	
+	# ESCONDE DOS ORCS
+	remove_from_group("Construcao") 
 	
 	if timer_ataque:
 		timer_ataque.stop()
 		
-	# Desativa a colisão para os inimigos passarem direto
 	if has_node("CollisionShape3D"):
 		$CollisionShape3D.set_deferred("disabled", true)
 		
-	# Conecta ao sinal de amanhecer para a construção ser reconstruída
 	if not GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.connect(reviver)
 
@@ -602,6 +602,10 @@ func reviver():
 	esta_destruida = false
 	visible = true
 	vida_atual = vida_maxima
+	
+	# MOSTRA AOS ORCS NOVAMENTE
+	add_to_group("Construcao")
+	
 	_inicializar_barra_vida()
 	
 	if timer_ataque and tipo == TipoConstrucao.TORRE:
@@ -610,7 +614,6 @@ func reviver():
 	if has_node("CollisionShape3D"):
 		$CollisionShape3D.set_deferred("disabled", false)
 		
-	# Desconecta o sinal para não chamar de novo sem precisar
 	if GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.disconnect(reviver)
 

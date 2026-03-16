@@ -19,7 +19,7 @@ custo_moedas = 6
 vida_maxima = 60
 cena_aliado = ExtResource("2_yitiu")
 numero_aliados_base = 3
-ponto_spawn_path = NodePath("Spawn")
+ponto_spawn_path = NodePath("PontoSpawn")
 
 [node name="building_archeryrange_blue2" parent="." unique_id=1337676271 instance=ExtResource("1_486cl")]
 
@@ -29,8 +29,8 @@ ponto_spawn_path = NodePath("Spawn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001953125, 0.6465454, -0.13983154)
 shape = SubResource("BoxShape3D_6wxgo")
 
-[node name="Spawn" type="Node3D" parent="." unique_id=1483033927]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.63812745)
+[node name="PontoSpawn" type="Marker3D" parent="." unique_id=1011528824]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, -0.11880413, 0.04468465, 0.5289761)
 
 [node name="RespawnViewport" type="SubViewport" parent="." unique_id=654681796]
 transparent_bg = true
@@ -43,19 +43,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 916.0
+offset_bottom = 916.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-value = 50.0
+scale = Vector2(0.05, 0.05)
+step = 0.01
+value = 100.0
 fill_mode = 5
 texture_under = ExtResource("4_ch61e")
 tint_over = Color(0.10980392, 0.10980392, 0.10980392, 0.627451)
 
 [node name="SpriteRespawn" type="Sprite3D" parent="." unique_id=662183245]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, -0.1725673, 1.2218943, 0.2904309)
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 1, 0.12954381, 0.69711924, 0.3021636)
 texture = SubResource("ViewportTexture_ch61e")

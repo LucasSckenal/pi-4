@@ -14,18 +14,19 @@ height = 0.24279785
 radius = 0.5225242
 
 [node name="Soldier" type="CharacterBody3D" unique_id=888778159]
-transform = Transform3D(-0.9999788, 0, -0.0065101245, 0, 1, 0, 0.0065101245, 0, -0.9999788, 0, 0, 0)
+transform = Transform3D(0.999378, 0, -0.035265762, 0, 1, 0, 0.035265762, 0, 0.999378, 0, 0, 0)
 script = ExtResource("1_j7su8")
-alcance_ataque = 3.0
+velocidade = 1.0
+alcance_ataque = 1.0
 cena_flecha = ExtResource("2_r0nhb")
-alcance_deteccao = 6.0
+alcance_deteccao = 3.0
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=959899015]
 transform = Transform3D(1.0000004, 0, -4.656613e-10, 0, 1, 0, 4.656613e-10, 0, 1.0000004, 0, 0.06768799, 0)
 shape = SubResource("CapsuleShape3D_bcefr")
 
 [node name="character-soldier2" parent="." unique_id=2098176869 instance=ExtResource("3_ijs4u")]
-transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+transform = Transform3D(-0.21911842, 0, -0.01967529, 0, 0.22, 0, 0.01967529, 0, -0.21911842, 0, 0, 0)
 
 [node name="Skeleton3D" parent="character-soldier2/character-soldier" parent_id_path=PackedInt32Array(2098176869, 1947010768) index="0" unique_id=228039166]
 bones/4/rotation = Quaternion(0, -0.5, 0, 0.8660254)
