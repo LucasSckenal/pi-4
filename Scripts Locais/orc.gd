@@ -39,7 +39,7 @@ func _physics_process(delta):
 	   alvo_atual.is_in_group("Castelo") or (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
 
-	if alvo_atual == null or not is_instance_valid(alvo_atual) or alvo_morto or alvo_atual.is_in_group("Castelo"):
+	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
 		alvo_atual = procurar_novo_alvo()
 		
 	# 3. Movimento
@@ -94,21 +94,14 @@ func procurar_novo_alvo():
 	# 1. PRIORIDADE MÁXIMA: Procurar Aliados
 	# ==========================================
 	for aliado in aliados:
-		if "vida_atual" in aliado and aliado.vida_atual <= 0:
-			continue 
+		if is_instance_valid(aliado):
+			if "vida_atual" in aliado and aliado.vida_atual <= 0:
+				continue 
 			
-	# Verifica as construções próximas
-	for c in construcoes:
-		if is_instance_valid(c):
-			# Pula construções que estão no estado de destruídas
-			if "esta_destruida" in c and c.esta_destruida:
-				continue
-			
-			# Caso contrário vai atrás das construções
-			var d = global_position.distance_to(c.global_position)
-			if d <= raio_visao_construcao and d < menor_dist_encontrada:
-				menor_dist_encontrada = d
-				melhor_alvo = c
+			var d = global_position.distance_to(aliado.global_position)
+			if d <= raio_visao_aliados and d < menor_dist:
+				menor_dist = d
+				melhor_alvo = aliado
 			
 	# Se ele achou algum aliado vivo, já escolhe ele como alvo e para de pensar!
 	if melhor_alvo: 
@@ -120,13 +113,18 @@ func procurar_novo_alvo():
 	menor_dist = 1000.0 # Resetamos a distância para procurar de novo
 	
 	for c in construcoes:
-		if "vida_atual" in c and c.vida_atual <= 0:
-			continue 
-			
-		var d = global_position.distance_to(c.global_position)
-		if d < menor_dist:
-			menor_dist = d
-			melhor_alvo = c
+		if is_instance_valid(c):
+			# Pula construções que estão no estado de destruídas
+			if "esta_destruida" in c and c.esta_destruida:
+				continue
+				
+			if "vida_atual" in c and c.vida_atual <= 0:
+				continue 
+				
+			var d = global_position.distance_to(c.global_position)
+			if d <= raio_visao_construcao and d < menor_dist:
+				menor_dist = d
+				melhor_alvo = c
 			
 	if melhor_alvo: 
 		return melhor_alvo
