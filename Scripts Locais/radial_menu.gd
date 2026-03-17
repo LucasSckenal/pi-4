@@ -94,6 +94,10 @@ func abrir_menu(slot: Node) -> void:
 		var custo = temp_instancia.get("custo_moedas") if "custo_moedas" in temp_instancia else 0
 		temp_instancia.queue_free()
 		
+		# A MÁGICA PARA O TUTORIAL ESTÁ AQUI: Dá o nome exato da construção ao botão!
+		novo_botao.name = nome 
+		# ================================
+		
 		novo_botao.configurar(cena_torre, icone, nome, custo, self)
 		
 	# Garante que as divisórias sejam desenhadas
@@ -117,7 +121,9 @@ func atualizar_informacoes(nome: String, custo: int) -> void:
 func limpar_informacoes() -> void:
 	info_label.text = "Selecione\numa torre"
 
-func _solicitar_construcao(cena_torre: PackedScene, custo: int) -> void:
+func _solicitar_construcao(cena_torre: PackedScene, _custo: int) -> void:
+	# Como o TutorialManager já bloqueia os cliques nos outros botões, 
+	# se chegou aqui, é porque o jogador clicou no sítio certo!
 	if _slot_alvo and _slot_alvo.has_method("construir"):
 		_slot_alvo.construir(cena_torre)
 		fechar_menu()
@@ -135,6 +141,17 @@ func _input(event: InputEvent) -> void:
 	# Só tenta detectar cliques se o menu estiver aberto na tela
 	if not visible:
 		return
+		
+	# ==========================================
+	# TRAVA DO TUTORIAL (MENU)
+	# ==========================================
+	if GameManager.is_tutorial_ativo:
+		var tutorial = get_tree().get_first_node_in_group("TutorialManager")
+		if tutorial and tutorial.visible and tutorial.alvo_2d_atual != null:
+			# Se o tutorial está a mandar clicar num botão deste menu, 
+			# IMPEDE o jogador de fechar o menu clicando fora!
+			return 
+	# ==========================================
 		
 	var clicou: bool = false
 	var pos_clique: Vector2 = Vector2.ZERO

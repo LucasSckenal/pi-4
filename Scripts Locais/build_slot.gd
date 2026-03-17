@@ -50,6 +50,21 @@ func _ready():
 		area.input_event.connect(_on_area_input_event)
 
 # ==========================================
+# TRAVA CENTRAL DO TUTORIAL
+# ==========================================
+func _pode_interagir_tutorial() -> bool:
+	if GameManager.is_tutorial_ativo:
+		var tutorial = get_tree().get_first_node_in_group("TutorialManager")
+		if tutorial and tutorial.visible:
+			# REGRA 1: Se o tutorial manda clicar na UI, BLOQUEIA o 3D
+			if tutorial.alvo_2d_atual != null:
+				return false
+			# REGRA 2: Se o tutorial manda clicar noutro lote que não este, BLOQUEIA
+			if tutorial.alvo_3d_atual != null and tutorial.alvo_3d_atual != self:
+				return false
+	return true # Se passar pelas travas (ou não tiver tutorial), permite clicar!
+
+# ==========================================
 # CONTROLE DE DISPONIBILIDADE POR NÍVEL DA BASE
 # ==========================================
 func _verificar_disponibilidade():
@@ -104,6 +119,7 @@ func _abrir_ui():
 	if not ui_construcao_prefab:
 		print("ERRO: ui_construcao_prefab não atribuída no slot!")
 		return
+		
 	slot_clicado.emit()
 	ui_atual = ui_construcao_prefab.instantiate()
 	
@@ -180,7 +196,8 @@ func _process(_delta):
 	
 	# Tecla "E" no PC
 	if pode_construir and player_ref_teclado != null and Input.is_action_just_pressed("interact"):
-		_abrir_ui()
+		if _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
+			_abrir_ui()
 
 func _input(event):
 	if not pode_construir or not slot_disponivel or ui_atual:
@@ -198,10 +215,14 @@ func _on_area_input_event(_camera, _event, position, _normal, _shape_idx):
 	if not pode_construir or is_built or not slot_disponivel or ui_atual:
 		return
 	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT and _event.pressed:
-		_abrir_ui()
+		if _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
+			_abrir_ui()
 
 func _on_texture_button_pressed():
 	if is_built or not pode_construir or not slot_disponivel or ui_atual:
+		return
+		
+	if not _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
 		return
 	
 	if estado_toque_mobile == 0:

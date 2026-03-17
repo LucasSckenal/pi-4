@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_l2f7a"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_hvshy"]
 [ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_7q0h5"]
+[ext_resource type="PackedScene" uid="uid://c1y37e1p5n5er" path="res://Cenas Locais/tutorial_manager.tscn" id="3_ww2ee"]
 [ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Builds/castle.tscn" id="4_bmj55"]
 [ext_resource type="Shader" uid="uid://1pn1krwgpox6" path="res://Shaders/WaterFlat.gdshader" id="5_bmj55"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
@@ -158,6 +159,8 @@ subdivide_depth = 32
 
 [node name="Tutorial_World" type="Node3D" unique_id=192295313]
 script = ExtResource("1_e0en3")
+
+[node name="TutorialManager" parent="." unique_id=885285123 instance=ExtResource("3_ww2ee")]
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_l2f7a")]
 
