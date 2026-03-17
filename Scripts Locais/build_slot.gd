@@ -1,5 +1,7 @@
 extends Node3D
 
+signal slot_clicado
+
 # ==========================================
 # CONFIGURAÇÕES EXPORTADAS
 # ==========================================
@@ -102,7 +104,7 @@ func _abrir_ui():
 	if not ui_construcao_prefab:
 		print("ERRO: ui_construcao_prefab não atribuída no slot!")
 		return
-	
+	slot_clicado.emit()
 	ui_atual = ui_construcao_prefab.instantiate()
 	
 	# Adiciona ao CanvasLayer do slot para garantir que renderize sobre o mundo 3D

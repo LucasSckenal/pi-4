@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://c1y37e1p5n5er"]
+
+[ext_resource type="Script" uid="uid://droioh0h3ivkm" path="res://Cenas Locais/tutorial_manager.gd" id="1_8kacx"]
+
+[node name="TutorialManager" type="CanvasLayer" unique_id=885285123]
+layer = 100
+script = ExtResource("1_8kacx")
+
+[node name="FundoEscuro" type="ColorRect" parent="." unique_id=1144211205]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10980392, 0.10980392, 0.10980392, 0.627451)
+
+[node name="CaixaTexto" type="Label" parent="." unique_id=300327054]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Seta" type="TextureRect" parent="." unique_id=1808561704]
+offset_right = 40.0
+offset_bottom = 40.0

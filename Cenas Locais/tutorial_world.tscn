@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cfmqduavmhuvv"]
 
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_bislj"]
+[ext_resource type="Script" uid="uid://86fmvi2ukonw" path="res://Cenas Locais/tutorial_world.gd" id="1_e0en3"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_l2f7a"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_hvshy"]
 [ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_7q0h5"]
@@ -156,6 +157,7 @@ subdivide_width = 32
 subdivide_depth = 32
 
 [node name="Tutorial_World" type="Node3D" unique_id=192295313]
+script = ExtResource("1_e0en3")
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_l2f7a")]
 
@@ -306,10 +308,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.313, 0.2, -0.607)
 
 [node name="BuildSlot" parent="BuildSlots" unique_id=612575103 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09520054)
+nivel_necessario = 0
 
 [node name="BuildSlot5" parent="BuildSlots" unique_id=56936684 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.8351552, 0, 0.55001444, 0, 1, 0, -0.55001444, 0, -0.8351552, 0, 0, -0.31268764)
-nivel_necessario = 2
 
 [node name="BuildSlot9" parent="BuildSlots" unique_id=20874095 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4480908, 0, -0.8111186)
@@ -317,13 +319,14 @@ nivel_necessario = 2
 
 [node name="BuildSlot10" parent="BuildSlots" unique_id=397158082 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.9274452, 0, 0.37395924, 0, 1, 0, -0.37395924, 0, 0.9274452, 1.8745488, 0, -0.12188935)
-nivel_necessario = 2
 
 [node name="BuildSlot11" parent="BuildSlots" unique_id=1365735055 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.98082614, 0, -0.1948849, 0, 1, 0, 0.1948849, 0, 0.98082614, 1.8745488, 0, 0.38037884)
+nivel_necessario = 0
 
 [node name="BuildSlot12" parent="BuildSlots" unique_id=488717227 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.881839, 0, -0.47155067, 0, 1, 0, 0.47155067, 0, 0.881839, 1.5291252, 0, 2.2028127)
+nivel_necessario = 0
 
 [node name="BuildSlot13" parent="BuildSlots" unique_id=1631030943 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.82392836, 0, -0.56669384, 0, 1, 0, 0.56669384, 0, 0.82392836, -0.4180132, -0.33609104, 2.9778233)
@@ -383,6 +386,7 @@ transform = Transform3D(-0.84810364, 0, -0.5298304, 0, 1, 0, 0.5298304, 0, -0.84
 
 [node name="BuildSlot7" parent="BuildSlots" unique_id=952946713 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.81443965, 0, -0.58024824, 0, 1, 0, 0.58024824, 0, -0.81443965, 0.47808325, 0, 2.6985273)
+nivel_necessario = 0
 
 [node name="BuildSlot8" parent="BuildSlots" unique_id=1479036521 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47808325, 0, 3.092256)

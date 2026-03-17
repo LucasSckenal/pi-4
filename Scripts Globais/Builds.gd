@@ -174,6 +174,7 @@ func _ready():
 			interface_node._conectar_construcao(self)
 
 func _on_area_clique(camera, event, position, normal, shape_idx):
+	if esta_destruida: return  # ← IMPEDE CLIQUE EM CONSTRUÇÃO DESTRUÍDA
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		construcao_selecionada.emit(self)
 
@@ -445,23 +446,23 @@ func _configurar_alcance():
 # SISTEMA DE ATAQUE (TORRE)
 # ==========================================
 func _on_area_ataque_body_entered(body):
-	if tipo != TipoConstrucao.TORRE or is_fantasma: return
+	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	if body.is_in_group("inimigos") or body.is_in_group("Inimigos"):
 		if not body in inimigos_no_alcance:
 			inimigos_no_alcance.append(body)
 
 func _on_area_ataque_body_exited(body):
-	if tipo != TipoConstrucao.TORRE or is_fantasma: return
+	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	if body in inimigos_no_alcance:
 		inimigos_no_alcance.erase(body)
 
 func _process(_delta):
-	if tipo != TipoConstrucao.TORRE or is_fantasma: return
+	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	inimigos_no_alcance = inimigos_no_alcance.filter(func(inimigo): return is_instance_valid(inimigo))
 	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
 
 func _on_timer_ataque_timeout():
-	if tipo != TipoConstrucao.TORRE or is_fantasma: return
+	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	if alvo_atual != null and is_instance_valid(alvo_atual):
 		atacar()
 
@@ -478,7 +479,7 @@ func atacar():
 # SISTEMA ECONÔMICO (MINA, CASA, MOINHO)
 # ==========================================
 func _pagar_recompensa():
-	if is_fantasma: return
+	if is_fantasma or esta_destruida: return
 	var ondas_restantes = GameManager.onda_atual
 	var bonus_onda = max(1, 6 - GameManager.onda_atual)  # Ajuste conforme balanceamento
 	
@@ -494,7 +495,7 @@ func _pagar_recompensa():
 # SISTEMA DO QUARTEL (SPAWN DE ALIADOS)
 # ==========================================
 func _spawn_aliados(_onda_atual):
-	if is_fantasma or cena_aliado == null:
+	if is_fantasma or esta_destruida or cena_aliado == null:
 		return
 		
 	# Trava de segurança: só spawna o que falta para completar o limite
@@ -547,20 +548,22 @@ func _on_aliado_morreu(aliado_morto: Node):
 	# 1. MOSTRA A BARRA E INICIA A ANIMAÇÃO
 	if sprite_respawn and barra_respawn:
 		sprite_respawn.visible = true
-		barra_respawn.value = 0.0 # <--- Alterado para começar vazia (0)
+		barra_respawn.value = 0.0
 		
 		var tween = create_tween()
-		# <--- Agora ela ENCHE até 100 no tempo de respawn
 		tween.tween_property(barra_respawn, "value", 100.0, tempo_respawn)
 	
 	# 2. AGUARDA O TEMPO DO TIMER DO JOGO
 	await get_tree().create_timer(tempo_respawn).timeout
 	
-	# 3. CRIA O NOVO SOLDADO
-	if is_instance_valid(self) and soldados_vivos < numero_aliados_atual:
-		_criar_um_aliado()
-		
-	# 4. ESCONDE A BARRA (Apenas se o quartel estiver com todos os soldados vivos novamente)
+	# 3. VERIFICA SE A CONSTRUÇÃO AINDA EXISTE E NÃO ESTÁ DESTRUÍDA
+	if not is_instance_valid(self) or esta_destruida or soldados_vivos >= numero_aliados_atual:
+		return
+	
+	# 4. CRIA O NOVO SOLDADO
+	_criar_um_aliado()
+	
+	# 5. ESCONDE A BARRA (Apenas se o quartel estiver com todos os soldados vivos novamente)
 	if sprite_respawn and soldados_vivos >= numero_aliados_atual:
 		sprite_respawn.visible = false
 
@@ -591,11 +594,16 @@ func destruir():
 	esta_destruida = true
 	visible = false 
 	
-	# ESCONDE DOS ORCS
-	remove_from_group("Construcao") 
-	
 	# Remove do grupo para os Orcs pararem de focar nela
 	remove_from_group("Construcao")
+	
+	# Desconectar sinais para evitar chamadas após destruição
+	if tipo in [TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO]:
+		if GameManager.onda_terminada.is_connected(_pagar_recompensa):
+			GameManager.onda_terminada.disconnect(_pagar_recompensa)
+	elif tipo == TipoConstrucao.QUARTEL:
+		if GameManager.noite_iniciada.is_connected(_spawn_aliados):
+			GameManager.noite_iniciada.disconnect(_spawn_aliados)
 	
 	if timer_ataque:
 		timer_ataque.stop()
@@ -615,10 +623,16 @@ func reviver():
 	# MOSTRA AOS ORCS NOVAMENTE
 	add_to_group("Construcao")
 	
-	_inicializar_barra_vida()
+	# Reconectar sinais específicos
+	match tipo:
+		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
+			if not GameManager.onda_terminada.is_connected(_pagar_recompensa):
+				GameManager.onda_terminada.connect(_pagar_recompensa)
+		TipoConstrucao.QUARTEL:
+			if not GameManager.noite_iniciada.is_connected(_spawn_aliados):
+				GameManager.noite_iniciada.connect(_spawn_aliados)
 	
-	# Retorna ao grupo para poder ser alvo novamente
-	add_to_group("Construcao")
+	_inicializar_barra_vida()
 	
 	if timer_ataque and tipo == TipoConstrucao.TORRE:
 		timer_ataque.start()

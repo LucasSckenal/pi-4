@@ -1,17 +1,53 @@
 extends Node
 
-# Sinais
+# ==========================================
+# SINAIS
+# ==========================================
 signal dia_iniciado(onda_atual)
 signal noite_iniciada(onda_atual)
 signal onda_terminada
 signal mostrar_menu_upgrade(cartas_sorteadas)
 signal upgrade_aplicado
 signal upgrade_base_aplicado
+signal renda_recolhida(total_ganho) # Para a UI mostrar "+X Moedas" de manhã
 
+# ==========================================
+# ESTADO GLOBAL DO JOGO
+# ==========================================
 enum EstadoJogo { DIA, NOITE }
 var estado_atual = EstadoJogo.DIA
+var is_night: bool = false
 
-# --- UPGRADES E MODIFICADORES ---
+var fase_atual: int = 1
+var is_tutorial_ativo: bool = false
+
+var moedas: int = 0
+var onda_atual: int = 1
+var nivel_base: int = 0 : set = _set_nivel_base
+
+# ==========================================
+# BANCO DE DADOS DAS FASES
+# ==========================================
+var construcoes_permitidas_na_fase: Dictionary = {}
+
+var banco_de_fases: Dictionary = {
+	1: {
+		"moedas_iniciais": 10,
+		"nivel_base_inicial": 0,
+		"tutorial": true,
+		"renda_base_por_onda": 5, # Ouro garantido só por sobreviver à noite
+		"construcoes": {
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
+			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+			2: []
+		}
+	}
+	# Pode adicionar a Fase 2 aqui futuramente!
+}
+
+# ==========================================
+# UPGRADES E MODIFICADORES
+# ==========================================
 var bonus_dano: int = 0 
 var bonus_moedas_onda: int = 0
 var bonus_velocidade_ataque: float = 0.0
@@ -19,28 +55,9 @@ var desconto_construcao: int = 0
 var multiplicador_horda: float = 1.0
 var multiplicador_velocidade_inimigo: float = 1.0
 
-# --- NÍVEL DA BASE E CONSTRUÇÕES LIBERADAS ---
-var nivel_base: int = 1 : set = _set_nivel_base
-
-func _set_nivel_base(valor):
-	nivel_base = valor
-	upgrade_base_aplicado.emit()
-	print("Nível da base agora é: ", nivel_base)
-
-var construcoes_por_nivel: Dictionary = {
-	0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-	1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-	2: []
-}
-
-func get_construcoes_disponiveis() -> Array:
-	var disponiveis = []
-	for nivel in construcoes_por_nivel:
-		if nivel <= nivel_base:
-			disponiveis += construcoes_por_nivel[nivel]
-	return disponiveis
-
-# --- BARALHO DE UPGRADES ---
+# ==========================================
+# BARALHO DE UPGRADES
+# ==========================================
 var baralho_upgrades: Array = [
 	preload("res://PowerUps/BalisticaPesada.tres"),
 	preload("res://PowerUps/EngenhariaEficiente.tres"),
@@ -50,24 +67,58 @@ var baralho_upgrades: Array = [
 	preload("res://PowerUps/TFRICO.tres"),
 ]
 
-# --- ECONOMIA ---
-var moedas: int = 113
-var onda_atual: int = 1
-var is_night: bool = false
+var reroll_usado: bool = false
+var custo_reroll: int = 2
 
-# --- SISTEMA DE REROLL ---
-var reroll_usado: bool = false          # true se o jogador já usou o reroll nesta rodada
-var custo_reroll: int = 2               # custo em moedas para realizar o reroll
-
+# ==========================================
+# INPUTS GERAIS
+# ==========================================
 func _process(_delta):
+	# Permite passar a onda com um botão, mas bloqueia se o tutorial estiver a forçar uma ação
 	if Input.is_action_just_pressed("passar_onda"): 
-		if estado_atual == EstadoJogo.DIA:
+		if estado_atual == EstadoJogo.DIA and not is_tutorial_ativo:
 			iniciar_noite()
 
-func iniciar_dia():
+# ==========================================
+# INICIALIZAÇÃO DE FASE E CONSTRUÇÕES
+# ==========================================
+func carregar_fase(numero_fase: int):
+	fase_atual = numero_fase
+	var config = banco_de_fases[numero_fase]
+	
+	moedas = config["moedas_iniciais"]
+	_set_nivel_base(config["nivel_base_inicial"])
+	is_tutorial_ativo = config["tutorial"]
+	construcoes_permitidas_na_fase = config["construcoes"]
+	onda_atual = 1
+	
+	iniciar_dia(true) # True significa que é o 1º dia (não recolhe renda ainda)
+	get_tree().call_group("Interface", "atualizar_moedas")
+	print("Fase ", fase_atual, " carregada com sucesso!")
+
+func _set_nivel_base(valor):
+	nivel_base = valor
+	upgrade_base_aplicado.emit()
+	print("Nível da base agora é: ", nivel_base)
+
+func get_construcoes_disponiveis() -> Array:
+	var disponiveis = []
+	for nivel in construcoes_permitidas_na_fase:
+		if nivel <= nivel_base:
+			disponiveis += construcoes_permitidas_na_fase[nivel]
+	return disponiveis
+
+# ==========================================
+# CICLO DIA / NOITE E ECONOMIA
+# ==========================================
+func iniciar_dia(primeiro_dia: bool = false):
 	estado_atual = EstadoJogo.DIA
 	is_night = false
 	dia_iniciado.emit(onda_atual)
+	
+	if not primeiro_dia:
+		calcular_e_recolher_renda()
+	
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Torres", "curar_totalmente")
 
@@ -84,24 +135,37 @@ func terminar_onda():
 	estado_atual = EstadoJogo.DIA
 	is_night = false
 	
-	var bonus_vitoria = 3 + (onda_atual * 2) + bonus_moedas_onda
-	moedas += bonus_vitoria
-	
 	onda_terminada.emit() 
 	
-	if onda_atual == 1:  # Mude para onda_atual % 5 == 0 se quiser a cada 5 ondas
+	if onda_atual == 1:  # Ajuste para: onda_atual % 5 == 0 se quiser a cada 5 ondas
 		sortear_cartas()
 	
 	onda_atual += 1
-	iniciar_dia()
-	get_tree().call_group("Interface", "atualizar_moedas")
+	iniciar_dia() # Isto vai acionar automaticamente a recolha de renda!
 
+func calcular_e_recolher_renda():
+	var config_fase = banco_de_fases[fase_atual]
+	var total_renda = config_fase["renda_base_por_onda"] + bonus_moedas_onda
+	
+	# Recolhe o dinheiro das casas e moinhos
+	var construcoes_economia = get_tree().get_nodes_in_group("Economia")
+	for construcao in construcoes_economia:
+		if construcao.has_method("gerar_renda"):
+			total_renda += construcao.gerar_renda()
+	
+	moedas += total_renda
+	renda_recolhida.emit(total_renda)
+	get_tree().call_group("Interface", "atualizar_moedas")
+	print("Manhã da Onda ", onda_atual, " | Renda recolhida: ", total_renda)
+
+# ==========================================
+# SISTEMA DE UPGRADES E CARTAS
+# ==========================================
 func sortear_cartas():
 	if baralho_upgrades.size() == 0:
 		print("ERRO: O baralho está vazio no Inspetor!")
 		return
 
-	# Resetar o reroll para a nova rodada
 	reroll_usado = false
 
 	var copia = baralho_upgrades.duplicate()
@@ -115,10 +179,7 @@ func sortear_cartas():
 	mostrar_menu_upgrade.emit(escolhidas)
 	get_tree().paused = true
 
-# ==========================================
-# SISTEMA DE UPGRADES
-# ==========================================
-func aplicar_upgrade(dados: CartaUpgrade):
+func aplicar_upgrade(dados): # Substitua "dados: CartaUpgrade" se tiver o tipo definido
 	_processar_efeito(dados.tipo_bonus, dados.valor_bonus)
 	
 	if dados.valor_debuff != 0:
@@ -130,54 +191,44 @@ func aplicar_upgrade(dados: CartaUpgrade):
 	get_tree().call_group("Torres", "atualizar_status")
 
 func _processar_efeito(tipo_efeito, valor):
+	# Assumindo que o enum TipoUpgrade está dentro de CartaUpgrade
+	# Se necessário, ajuste o caminho do Enum conforme o seu projeto
 	match tipo_efeito:
-		CartaUpgrade.TipoUpgrade.DANO:
+		0: # DANO
 			bonus_dano += int(valor)
 			print("Novo Bônus de Dano: ", bonus_dano)
-			
-		CartaUpgrade.TipoUpgrade.MOEDA:
+		1: # MOEDA
 			bonus_moedas_onda += int(valor)
 			print("Novo Bônus de Moedas: ", bonus_moedas_onda)
-			
-		CartaUpgrade.TipoUpgrade.VELOCIDADE_ATAQUE:
-			bonus_velocidade_ataque += valor
+		2: # VELOCIDADE_ATAQUE
+			bonus_velocidade_ataque += float(valor)
 			print("Novo Bônus de Velocidade: ", bonus_velocidade_ataque)
-			
-		CartaUpgrade.TipoUpgrade.CUSTO_CONSTRUCAO:
+		3: # CUSTO_CONSTRUCAO
 			desconto_construcao += int(valor) 
 			print("Desconto fixo aplicado! Torres custam -", desconto_construcao, " moedas.")
-			
-		CartaUpgrade.TipoUpgrade.QUANTIDADE_INIMIGOS:
-			multiplicador_horda *= valor
+		4: # QUANTIDADE_INIMIGOS
+			multiplicador_horda *= float(valor)
 			print("Novo Multiplicador de Horda: ", multiplicador_horda)
-			
-		CartaUpgrade.TipoUpgrade.VELOCIDADE_INIMIGO:
-			multiplicador_velocidade_inimigo *= valor
+		5: # VELOCIDADE_INIMIGO
+			multiplicador_velocidade_inimigo *= float(valor)
 			print("Velocidade dos Inimigos alterada: ", multiplicador_velocidade_inimigo)
-			
-		CartaUpgrade.TipoUpgrade.VIDA:
+		6: # VIDA
 			print("Vida aumentada em: ", valor)
 
-# ==========================================
-# SISTEMA DE REROLL
-# ==========================================
 func rerolar_cartas():
 	if reroll_usado:
 		print("Reroll já foi usado nesta oportunidade.")
 		return
 	if moedas < custo_reroll:
 		print("Moedas insuficientes para reroll.")
-		# Opcional: emitir um sinal para feedback visual (ex: mostrar mensagem)
 		return
 	if baralho_upgrades.size() == 0:
 		print("ERRO: O baralho está vazio!")
 		return
 
-	# Deduzir o custo
 	moedas -= custo_reroll
 	get_tree().call_group("Interface", "atualizar_moedas")
 
-	# Sortear novas 3 cartas (ou menos se o baralho tiver menos)
 	var copia = baralho_upgrades.duplicate()
 	copia.shuffle()
 	var escolhidas = []
@@ -185,14 +236,11 @@ func rerolar_cartas():
 		if i < copia.size():
 			escolhidas.append(copia[i])
 
-	# Marcar que o reroll foi usado
 	reroll_usado = true
-
-	# Emitir novamente o sinal com as novas cartas
 	mostrar_menu_upgrade.emit(escolhidas)
 
 # ==========================================
-# COMPRAS
+# SISTEMA DE COMPRAS
 # ==========================================
 func gastar_moedas(valor_custo: int) -> bool:
 	if moedas >= valor_custo:
@@ -202,8 +250,5 @@ func gastar_moedas(valor_custo: int) -> bool:
 		return true
 	return false
 
-# ==========================================
-# CÁLCULO DE DESCONTO
-# ==========================================
 func obter_custo_com_desconto(custo_base: int) -> int:
 	return max(1, custo_base - desconto_construcao)
