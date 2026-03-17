@@ -74,7 +74,7 @@ metadata/_edit_use_anchors_ = true
 [node name="CenterContainer" type="CenterContainer" parent="InterfacePrincipal/MarginInferior" unique_id=345088075]
 layout_mode = 2
 
-[node name="BotaoNoite" type="Button" parent="InterfacePrincipal/MarginInferior/CenterContainer" unique_id=513199761]
+[node name="BotaoNoite" type="Button" parent="InterfacePrincipal/MarginInferior/CenterContainer" unique_id=513199761 groups=["BotaoIniciarNoite"]]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "INICIAR NOITE"
