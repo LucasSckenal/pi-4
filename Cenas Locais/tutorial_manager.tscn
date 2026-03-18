@@ -2,12 +2,37 @@
 
 [ext_resource type="Script" uid="uid://droioh0h3ivkm" path="res://Cenas Locais/tutorial_manager.gd" id="1_8kacx"]
 [ext_resource type="Texture2D" uid="uid://cfwqaluwadvca" path="res://Icons/seta.png" id="2_qy4gi"]
+[ext_resource type="Shader" path="res://Cenas Locais/tutorial_manager.gdshader" id="2_wsspp"]
+[ext_resource type="PackedScene" uid="uid://clww287nh4jrb" path="res://Personagens/character-female-c.glb" id="3_iojbm"]
+[ext_resource type="PackedScene" uid="uid://bl6xi3ijx2f4t" path="res://Personagens/character-male-b.glb" id="4_wsspp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ivfh5"]
+shader = ExtResource("2_wsspp")
+shader_parameter/center = Vector2(0, 0)
+shader_parameter/radius = 0.0
+shader_parameter/feather = 0.0
+
+[sub_resource type="World3D" id="World3D_ivfh5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qy4gi"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="World3D" id="World3D_dgg8f"]
 
 [node name="TutorialManager" type="CanvasLayer" unique_id=885285123 groups=["TutorialManager"]]
+process_mode = 3
 layer = 100
 script = ExtResource("1_8kacx")
 
 [node name="FundoEscuro" type="ColorRect" parent="." unique_id=1144211205]
+material = SubResource("ShaderMaterial_ivfh5")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,12 +41,91 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.10980392, 0.10980392, 0.10980392, 0.627451)
 
-[node name="CaixaTexto" type="Label" parent="." unique_id=300327054]
-offset_right = 40.0
-offset_bottom = 23.0
+[node name="CaixaDialogo" type="MarginContainer" parent="." unique_id=50702287]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CaixaDialogo" unique_id=369135792]
+layout_mode = 2
+
+[node name="RetratoEsquerda" type="SubViewportContainer" parent="CaixaDialogo/HBoxContainer" unique_id=1440117573]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda" unique_id=1176989320]
+own_world_3d = true
+world_3d = SubResource("World3D_ivfh5")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=1445730468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36030763, 0.94395804)
+
+[node name="character-female-c2" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=945034479 instance=ExtResource("3_iojbm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.41070533)
+
+[node name="Camera3D" type="Camera3D" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=1115397937]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4763685, 0)
+
+[node name="FundoTexto" type="PanelContainer" parent="CaixaDialogo/HBoxContainer" unique_id=1969352468]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_qy4gi")
+
+[node name="CaixaTexto" type="RichTextLabel" parent="CaixaDialogo/HBoxContainer/FundoTexto" unique_id=1991632927]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_separation = 8
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
+theme_override_font_sizes/mono_font_size = 32
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+
+[node name="RetratoDireita" type="SubViewportContainer" parent="CaixaDialogo/HBoxContainer" unique_id=2007253883]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+
+[node name="SubViewport" type="SubViewport" parent="CaixaDialogo/HBoxContainer/RetratoDireita" unique_id=1249944673]
+own_world_3d = true
+world_3d = SubResource("World3D_dgg8f")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(200, 200)
+render_target_update_mode = 4
+
+[node name="character-male-b2" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=2004813500 instance=ExtResource("4_wsspp")]
+
+[node name="Skeleton3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/character-male-b" parent_id_path=PackedInt32Array(2004813500, 919003855) index="0" unique_id=985075035]
+bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
+bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=458441951]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36030763, 0.94395804)
+
+[node name="Camera3D" type="Camera3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=479457597]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4763685, 0.4496616)
 
 [node name="Seta" type="TextureRect" parent="." unique_id=1808561704]
+top_level = true
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_qy4gi")
 expand_mode = 1
+
+[editable path="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2"]
+[editable path="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2"]

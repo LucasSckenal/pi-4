@@ -160,15 +160,32 @@ func animar_bau_abrindo():
 func _on_abrir_menu_upgrade(cartas_sorteadas):
 	for crianca in container_cartas.get_children():
 		crianca.queue_free()
+	
 	menu_upgrade.show()
+	
+	# PAUSAR O JOGO
 	get_tree().paused = true
+	
+	var indice_carta = 0 # <--- CRIAMOS UM CONTADOR AQUI
+	
 	for dados in cartas_sorteadas:
 		if cena_carta_ui != null:
 			var nova_carta = cena_carta_ui.instantiate()
+			
+			# ==========================================
+			# MÁGICA DO TUTORIAL: NOMEAR A CARTA
+			# ==========================================
+			nova_carta.name = "CartaTutorial" + str(indice_carta)
+			indice_carta += 1
+			# ==========================================
+			
 			container_cartas.add_child(nova_carta)
+			
 			if nova_carta.has_method("configurar"):
 				nova_carta.configurar(dados) 
+				
 			nova_carta.pressed.connect(_ao_escolher_upgrade.bind(dados))
+			
 	if botao_reroll != null:
 		botao_reroll.disabled = GameManager.reroll_usado
 		if GameManager.moedas < GameManager.custo_reroll:

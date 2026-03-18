@@ -59,8 +59,8 @@ var multiplicador_velocidade_inimigo: float = 1.0
 # BARALHO DE UPGRADES
 # ==========================================
 var baralho_upgrades: Array = [
-	preload("res://PowerUps/BalisticaPesada.tres"),
 	preload("res://PowerUps/EngenhariaEficiente.tres"),
+	preload("res://PowerUps/BalisticaPesada.tres"),
 	preload("res://PowerUps/FrequenciaCritica.tres"),
 	preload("res://PowerUps/ImpostoGuerra.tres"),
 	preload("res://PowerUps/MuralhasReforçadas.tres"),
@@ -175,6 +175,15 @@ func sortear_cartas():
 	for i in range(3):
 		if i < copia.size():
 			escolhidas.append(copia[i])
+			
+	# ==========================================
+	# MÁGICA DO TUTORIAL: FORÇAR A PRIMEIRA CARTA
+	# ==========================================
+	if is_tutorial_ativo and onda_atual == 1:
+		# Pega a carta que está na posição 0 da tua lista original (podes mudar o número)
+		escolhidas[0] = baralho_upgrades[0] 
+		print("Tutorial Ativo: Forçando a primeira carta do baralho!")
+	# ==========================================
 	
 	mostrar_menu_upgrade.emit(escolhidas)
 	get_tree().paused = true

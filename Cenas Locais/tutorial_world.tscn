@@ -410,3 +410,6 @@ mesh = SubResource("PlaneMesh_i46xn")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Water" unique_id=901764034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029073954, -0.33921278, -0.008241653)
 mesh = SubResource("PlaneMesh_3fexb")
+
+[node name="PontoDefesaPlayer" type="Marker3D" parent="." unique_id=1878003170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9548728, -0.1997248, 0.39469963)

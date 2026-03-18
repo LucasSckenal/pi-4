@@ -30,6 +30,15 @@ func set_cena_opcao_button(cena: PackedScene):
 # LÓGICA DE ABERTURA E POPULAÇÃO
 # ==========================================
 func abrir(construcao: Node):
+	# ==========================================
+	# TRAVA DE SEGURANÇA: SÓ ABRE DE DIA!
+	# (Substitua "is_dia" ou "fase_atual" pela variável que 
+	# você realmente usa no seu GameManager para saber se é dia)
+	# ==========================================
+	if GameManager.is_night == true: 
+		print("Está muito escuro e perigoso para fazer obras agora!")
+		return
+		
 	construcao_atual = construcao
 	
 	# Atualiza o título se a construção tiver nome
@@ -40,9 +49,8 @@ func abrir(construcao: Node):
 		
 	_atualizar_opcoes()
 	
-	# Mostra a tela e pausa o jogo para o jogador escolher em paz
+	# Mostra a tela (O jogo continua rodando normalmente agora!)
 	show()
-	get_tree().paused = true
 
 func _atualizar_opcoes():
 	# Limpa os botões antigos
@@ -65,6 +73,7 @@ func _atualizar_opcoes():
 	for opcao in opcoes:
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
+			btn.name = "Upgrade"
 			# A mágica que impede o botão de sumir: forçamos um tamanho!
 			btn.custom_minimum_size = Vector2(160, 180) 
 			opcoes_container.add_child(btn)

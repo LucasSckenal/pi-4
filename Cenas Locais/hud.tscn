@@ -62,10 +62,10 @@ text = "ONDA 1/10"
 [node name="MarginInferior" type="MarginContainer" parent="InterfacePrincipal" unique_id=486124078]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.45052084
-anchor_top = 0.7777778
-anchor_right = 0.5538194
-anchor_bottom = 0.8873457
+anchor_left = 0.4496528
+anchor_top = 0.66512346
+anchor_right = 0.5529514
+anchor_bottom = 0.77469134
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/margin_bottom = 40
