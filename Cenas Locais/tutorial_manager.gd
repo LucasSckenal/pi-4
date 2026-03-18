@@ -1,16 +1,15 @@
 extends CanvasLayer
 
+signal clicou_na_tela # Necessário para o sistema estilo Genshin
+
 @onready var fundo_escuro = $FundoEscuro
 @onready var seta = $Seta
-# Adicionamos a referência da CaixaDialogo aqui para o script
 @onready var caixa_dialogo_node = $CaixaDialogo 
 
-# === REFERÊNCIAS DA UI ===
 @onready var caixa_texto = $CaixaDialogo/HBoxContainer/FundoTexto/CaixaTexto
 @onready var retrato_esquerda = $CaixaDialogo/HBoxContainer/RetratoEsquerda
 @onready var retrato_direita = $CaixaDialogo/HBoxContainer/RetratoDireita
 
-# === REFERÊNCIAS DOS ANIMATION PLAYERS 3D ===
 @onready var anim_avo = $"CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2/AnimationPlayer"
 @onready var anim_afonso = $"CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/AnimationPlayer"
 
@@ -18,33 +17,38 @@ var alvo_3d_atual: Node3D = null
 var alvo_2d_atual: Control = null
 var material_fundo: ShaderMaterial
 
-# Configurações de Acessibilidade
 var velocidade_texto: float = 0.05 
 var tamanho_fonte: int = 32
+var tween_texto: Tween # Animação do texto estilo Genshin
 
 func _ready():
-	# Garante que o tutorial continue rodando e animando mesmo com o jogo pausado!
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	
 	visible = false
-	
-	# --- CORREÇÃO DE PRIORIDADE (LAYER/ORDEM) ---
-	layer = 128 # Valor alto para ficar acima de qualquer outra interface (UI)
-	
+	layer = 128 
 	seta.top_level = true 
-	seta.z_index = 1000 # Valor máximo absoluto para garantir que a seta fica À FRENTE DE TUDO
-
-	# NOVA CORREÇÃO: Colocamos a caixa de diálogo à frente do fundo escuro
+	seta.z_index = 1000 
 	caixa_dialogo_node.z_index = 999 
+	fundo_escuro.z_index = 998 
 	
-	fundo_escuro.z_index = 998 # O shader fica no fundo, cobrindo o jogo mas não a UI do tutorial
-	# --------------------------------------------
+	# Permite que o rato passe através da UI do tutorial
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	caixa_dialogo_node.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	if fundo_escuro.material is ShaderMaterial:
 		material_fundo = fundo_escuro.material as ShaderMaterial
 	
 	configurar_estilo_acessivel()
 	configurar_animacoes_loop()
+
+# === SISTEMA GENSHIN: PULAR/ACELERAR TEXTO ===
+func _input(event):
+	if visible and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if caixa_texto.visible_ratio < 1.0:
+			if tween_texto and tween_texto.is_valid():
+				tween_texto.kill()
+			caixa_texto.visible_ratio = 1.0
+		else:
+			clicou_na_tela.emit()
 
 func configurar_estilo_acessivel():
 	caixa_texto.bbcode_enabled = true
@@ -62,6 +66,14 @@ func configurar_animacoes_loop():
 func _process(_delta):
 	if not visible: return
 	
+	# Oculta a seta se for só diálogo de história
+	if alvo_3d_atual == null and alvo_2d_atual == null:
+		seta.visible = false
+		if material_fundo:
+			material_fundo.set_shader_parameter("radius", 0.0)
+		return
+		
+	seta.visible = true
 	var pos_global = Vector2.ZERO
 	
 	if alvo_3d_atual:
@@ -69,18 +81,15 @@ func _process(_delta):
 		if camera:
 			pos_global = camera.unproject_position(alvo_3d_atual.global_position)
 	elif alvo_2d_atual and is_instance_valid(alvo_2d_atual):
-		# Usa a transformação de tela para ignorar escalas de outras cenas
 		var t = alvo_2d_atual.get_screen_transform()
 		pos_global = t.get_origin() + (alvo_2d_atual.size * t.get_scale() / 2.0)
 	
 	if pos_global != Vector2.ZERO:
-		# Atualiza a posição da seta
 		seta.global_position = pos_global + Vector2(-seta.size.x / 2, -110)
 		
 		if material_fundo:
 			var tamanho_tela = get_viewport().get_visible_rect().size
 			var pos_uv = pos_global / tamanho_tela
-			
 			material_fundo.set_shader_parameter("center", pos_uv)
 			material_fundo.set_shader_parameter("radius", 0.025) 
 			material_fundo.set_shader_parameter("feather", 0.015)
@@ -95,7 +104,7 @@ func configurar_dialogo(texto_completo: String):
 		fala = partes[1].strip_edges()
 		caixa_texto.text = "[color=yellow][b]" + nome + ":[/b][/color]\n"
 		
-		retrato_esquerda.visible = ("Avó Berta" in nome)
+		retrato_esquerda.visible = ("Berta" in nome)
 		retrato_direita.visible = ("Afonso" in nome)
 		
 		if retrato_esquerda.visible and anim_avo: anim_avo.play("idle")
@@ -107,19 +116,32 @@ func configurar_dialogo(texto_completo: String):
 	caixa_texto.text += fala
 	caixa_texto.visible_ratio = 0.0
 	
-	var tween = create_tween()
-	# Garante que as letras vão aparecer mesmo se o jogo estiver pausado (ex: nos menus)
-	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS) 
-	tween.tween_property(caixa_texto, "visible_ratio", 1.0, fala.length() * velocidade_texto)
+	if tween_texto and tween_texto.is_valid():
+		tween_texto.kill()
+		
+	tween_texto = create_tween()
+	tween_texto.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS) 
+	tween_texto.tween_property(caixa_texto, "visible_ratio", 1.0, fala.length() * velocidade_texto)
 
+# Função limpa apenas para contar história (sem focar no Castelo)
+func mostrar_dialogo(texto: String):
+	visible = true
+	fundo_escuro.visible = true
+	alvo_3d_atual = null
+	alvo_2d_atual = null
+	configurar_dialogo(texto)
+	await clicou_na_tela
+	esconder()
+
+# As tuas funções originais de foco inalteradas (apenas usam o fundo_escuro)
 func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 	if slot_alvo == null: return
 	visible = true
+	fundo_escuro.visible = true
 	configurar_dialogo(texto)
 	alvo_3d_atual = slot_alvo
 	alvo_2d_atual = null
 	
-	# ESPERA O CLIQUE DEPENDENDO DO TIPO DO OBJETO
 	if slot_alvo.has_signal("slot_clicado"):
 		await slot_alvo.slot_clicado
 	elif slot_alvo.has_signal("construcao_selecionada"):
@@ -132,6 +154,7 @@ func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 func focar_em_ui_2d(botao_alvo: Control, texto: String):
 	if botao_alvo == null: return
 	visible = true
+	fundo_escuro.visible = true
 	configurar_dialogo(texto)
 	alvo_2d_atual = botao_alvo
 	alvo_3d_atual = null
@@ -147,7 +170,7 @@ func focar_em_ui_2d(botao_alvo: Control, texto: String):
 	while not estado.clicado and is_instance_valid(botao_alvo):
 		await get_tree().create_timer(0.1).timeout
 	
-	if is_instance_valid(botao_alvo) and botao_alvo.pressed.is_connected(ao_clicar):
+	if is_instance_valid(botao_alvo) and botao_alvo.has_signal("pressed") and botao_alvo.pressed.is_connected(ao_clicar):
 		botao_alvo.pressed.disconnect(ao_clicar)
 		
 	esconder()
@@ -163,5 +186,6 @@ func bloquear_outros_botoes(botao_alvo):
 
 func esconder():
 	visible = false
+	fundo_escuro.visible = false
 	alvo_3d_atual = null
 	alvo_2d_atual = null
