@@ -67,7 +67,18 @@ func _physics_process(delta):
 		direction = direction.normalized()
 		
 		if is_on_floor() and is_on_wall():
-			velocity.y = jump_velocity
+					var eh_barreira: bool = false
+					for i in get_slide_collision_count():
+						var colisao = get_slide_collision(i)
+						var colisor = colisao.get_collider()
+						
+						# Verifica se a parede colidida pertence ao grupo de barreiras de limite do mapa
+						if colisor and colisor.is_in_group("Barreiras"):
+							eh_barreira = true
+							break
+					
+					if not eh_barreira:
+						velocity.y = jump_velocity
 			
 		if linha_caminho and linha_caminho.mesh is ImmediateMesh:
 			_desenhar_caminho(nav_agent.get_current_navigation_path())

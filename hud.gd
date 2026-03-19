@@ -233,6 +233,7 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 	# Cria container para esta direção
 	var container_dir = Control.new()
 	container_dir.name = "Direcao_" + direcao
+	container_dir.set_meta("posicao_mundo", posicao_mundo) # Adicione esta linha 
 	container_direcoes.add_child(container_dir)
 	
 	# Calcula posição na borda
@@ -301,3 +302,13 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 	ponto_borda.y = clamp(ponto_borda.y, min_y, max_y)
 	
 	return ponto_borda - metade
+
+func _process(_delta: float) -> void:
+	for direcao in containers_por_direcao:
+		var container = containers_por_direcao[direcao]
+		
+		# Verifica se o container ainda é válido antes de atualizar
+		if is_instance_valid(container) and container.has_meta("posicao_mundo"):
+			var pos_mundo = container.get_meta("posicao_mundo")
+			# Recalcula a posição com base no tamanho atual da tela 
+			container.position = _calcular_posicao_borda(pos_mundo, tamanho_container)
