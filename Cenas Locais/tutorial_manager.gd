@@ -124,13 +124,23 @@ func configurar_dialogo(texto_completo: String):
 	tween_texto.tween_property(caixa_texto, "visible_ratio", 1.0, fala.length() * velocidade_texto)
 
 # Função limpa apenas para contar história (sem focar no Castelo)
+# Função limpa apenas para contar história (sem focar no Castelo)
 func mostrar_dialogo(texto: String):
 	visible = true
 	fundo_escuro.visible = true
+	
+	# === NOVO: Ativa o "Escudo" bloqueando cliques nos botões de trás ===
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_STOP 
+	
 	alvo_3d_atual = null
 	alvo_2d_atual = null
 	configurar_dialogo(texto)
+	
 	await clicou_na_tela
+	
+	# === NOVO: Desativa o "Escudo" para que o jogador consiga clicar no cenário depois ===
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE 
+	
 	esconder()
 
 # As tuas funções originais de foco inalteradas (apenas usam o fundo_escuro)
