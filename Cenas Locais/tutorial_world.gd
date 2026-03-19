@@ -2,14 +2,20 @@ extends Node3D
 
 @onready var tutorial = $TutorialManager
 
-# Referências dos slots
+# Referências dos slots (todas as quatro construções)
 @onready var slot_torre_1 = $BuildSlots/BuildSlot12
 @onready var slot_torre_2 = $BuildSlots/BuildSlot
-@onready var slot_casa_1 = $BuildSlots/BuildSlot11
-@onready var slot_casa_2 = $BuildSlots/BuildSlot7
+@onready var slot_casa_1 = $BuildSlots/BuildSlot11   # casa da frente (não usada no tutorial)
+@onready var slot_casa_2 = $BuildSlots/BuildSlot7    # casa segura (atrás)
 @onready var castelo = $"NavigationRegion3D/building-castle2"
 @onready var slot_quartel = $BuildSlots/BuildSlot24
 @onready var ponto_defesa = $PontoDefesaPlayer   # Pode ser Marker3D
+
+# Referências das construções que serão criadas
+var torre_1: Node3D = null
+var torre_2: Node3D = null
+var casa_2: Node3D = null
+var quartel: Node3D = null
 
 func _ready():
 	GameManager.carregar_fase(1)
@@ -17,36 +23,41 @@ func _ready():
 		iniciar_sequencia_tutorial()
 
 func iniciar_sequencia_tutorial():
-	# DIA 1
+	# ------------------------------------------------------------
+	# DIA 1 – Chegada e primeiras construções
+	# ------------------------------------------------------------
+	
 	await tutorial.mostrar_dialogo("Afonso: Minhas costas... Berta, onde viemos parar?! Levaram nossos netos pra dentro desse jogo!")
 	await tutorial.mostrar_dialogo("Berta: Calma, Afonso. Olha aqueles ícones ali embaixo. De noite, monstros verdes vão sair dali e vão tentar destruir tudo até chegar no nosso Castelo.")
 	
-	await passo_construcao(slot_torre_1, 0, "Berta: Afonso, constrói a primeira Torre aqui!")
-	await passo_construcao(slot_torre_2, 0, "Berta: Outra torre para reforçar a entrada.")
+	torre_1 = await passo_construcao(slot_torre_1, 0, "Berta: Afonso, constrói a primeira Torre aqui!")
+	torre_2 = await passo_construcao(slot_torre_2, 0, "Berta: Outra torre para reforçar a entrada.")
 	
 	await tutorial.mostrar_dialogo("Afonso: Legal, mas olha esse menu! Dá pra fazer uma Casa por só 2 moedas. O tabuleiro diz que ela gera ouro todo dia. Eu adoro um bom investimento!")
 	await tutorial.mostrar_dialogo("Berta: Tá bom, mas não coloca na frente! Aqueles bichos destroem as casas. Constrói lá atrás, perto do Castelo, onde é seguro!")
 	
-	await passo_construcao(slot_casa_2, 1, "Afonso: Vou fazer uma Casa aqui para ganhar ouro.")
+	casa_2 = await passo_construcao(slot_casa_2, 1, "Afonso: Vou fazer uma Casa aqui para ganhar ouro.")
 	
+	# Botão "Iniciar Noite"
 	var btn_noite = get_tree().get_first_node_in_group("BotaoIniciarNoite")
 	while btn_noite == null:
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(btn_noite, "Berta: Tudo pronto! Clica aqui para começar!")
 	
-	# NOITE
+	# ------------------------------------------------------------
+	# NOITE 1 – Foco no ponto de defesa
+	# ------------------------------------------------------------
 	tutorial.visible = true
 	tutorial.fundo_escuro.visible = true
 	tutorial.alvo_3d_atual = ponto_defesa
 	tutorial.configurar_dialogo("Afonso: Vou lutar ali com a minha espada onde as torres não chegam!")
 	
-	# Encontra o jogador
+	# Encontra o jogador (grupo "Player")
 	var player = get_tree().get_first_node_in_group("Player")
 	if player == null:
 		player = get_tree().root.find_child("Player", true, false)
 	
-	# Aguarda 1.5 segundos para o jogador ver a seta antes de começar a verificar
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1.5).timeout  # tempo para ver a seta
 	
 	var player_chegou = false
 	var tempo_espera = 0.0
@@ -64,7 +75,9 @@ func iniciar_sequencia_tutorial():
 	# Aguarda o fim da noite
 	await GameManager.dia_iniciado
 	
-	# DIA 2
+	# ------------------------------------------------------------
+	# DIA 2 – Carta, Upgrade do Castelo e Quartel
+	# ------------------------------------------------------------
 	await tutorial.mostrar_dialogo("Afonso: Sobrevivemos! E olha o dinheiro entrando! Agora já posso construir o Quartel pra chamar soldados!")
 	await tutorial.mostrar_dialogo("Berta: Ainda não. O Quartel é Nível 1. Nosso Castelo é Nível 0. Precisamos gastar 5 moedas pra evoluir ele primeiro.")
 	
@@ -81,17 +94,116 @@ func iniciar_sequencia_tutorial():
 	
 	await tutorial.mostrar_dialogo("Berta: Pronto! Agora a escolha é sua, Afonso. Posiciona o Quartel e vamos salvar nossos netos!")
 	
-	await tutorial.focar_em_slot_3d(slot_quartel, "Constrói o Quartel neste novo lote!")
-	while slot_quartel.get("ui_atual") == null:
-		await get_tree().create_timer(0.01).timeout
-	var btn_quartel = slot_quartel.ui_atual._botoes_ativos[4]
-	await tutorial.focar_em_ui_2d(btn_quartel, "O Quartel vai dar-nos soldados!")
+	quartel = await passo_construcao(slot_quartel, 4, "Constrói o Quartel neste novo lote!")
 	
+	# ------------------------------------------------------------
+	# NOITE 2 – (aguarda outra noite para preparar upgrades)
+	# ------------------------------------------------------------
+	await tutorial.mostrar_dialogo("Agora que temos um exército, precisamos fortalecer nossas defesas para a próxima noite.")
+	
+	var btn_noite2 = get_tree().get_first_node_in_group("BotaoIniciarNoite")
+	while btn_noite2 == null:
+		await get_tree().create_timer(0.01).timeout
+	await tutorial.focar_em_ui_2d(btn_noite2, "Clique para iniciar a próxima noite.")
+	
+	# Aguarda o fim da noite
+	await GameManager.dia_iniciado
+	
+	# ------------------------------------------------------------
+	# DIA 3 – Upgrades (Torre com paths, Casa linear)
+	# ------------------------------------------------------------
+	await tutorial.mostrar_dialogo("Chegou o dia! Agora podemos melhorar nossas construções.")
+	
+	# Upgrade na torre (dois paths)
+	await passo_upgrade(torre_1, "Clique na torre para abrir o menu de upgrade. Ela tem dois caminhos: escolha um!")
+	
+	# Upgrade na casa (linear)
+	await passo_upgrade(casa_2, "Agora clique na casa. Ela tem apenas um upgrade linear.")
+	
+	# Final do tutorial
 	GameManager.is_tutorial_ativo = false
 	print("✅ Tutorial Completo")
 
-func passo_construcao(slot, indice_botao, texto):
+# ==========================================
+# FUNÇÕES AUXILIARES
+# ==========================================
+
+# Aguarda a construção aparecer no slot e retorna sua referência
+func aguardar_construcao_no_slot(slot: Node3D, timeout: float = 5.0) -> Node3D:
+	var tempo = 0.0
+	while tempo < timeout:
+		var c = get_construcao_no_slot(slot)
+		if c:
+			return c
+		await get_tree().create_timer(0.1).timeout
+		tempo += 0.1
+	push_error("Timeout aguardando construção no slot: ", slot.name)
+	return null
+
+# Retorna a construção que está na posição do slot (procurando no grupo "Construcao")
+func get_construcao_no_slot(slot: Node3D) -> Node3D:
+	var construcoes = get_tree().get_nodes_in_group("Construcao")
+	for c in construcoes:
+		if c.global_position.distance_to(slot.global_position) < 1.0:
+			return c
+	return null
+
+# Passo de construção: foca no slot, clica no botão e retorna a construção criada
+func passo_construcao(slot, indice_botao, texto) -> Node3D:
 	await tutorial.focar_em_slot_3d(slot, texto)
 	while slot.get("ui_atual") == null:
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(slot.ui_atual._botoes_ativos[indice_botao], "Escolha a construção.")
+	var construcao = await aguardar_construcao_no_slot(slot)
+	return construcao
+
+# Passo de upgrade: foca na construção, aguarda a UI abrir e o upgrade ser concluído
+func passo_upgrade(construcao: Node3D, texto: String):
+	var hud = get_tree().get_first_node_in_group("Interface")
+	if not hud:
+		push_error("HUD não encontrada")
+		return
+	
+	# Acessa a instância da UI de upgrade diretamente da HUD (variável pública)
+	var upgrade_ui = hud.upgrade_ui_instance
+	if not upgrade_ui:
+		push_error("UI de upgrade não encontrada na HUD")
+		return
+	
+	var upgrade_feito = false
+	var tentativas = 0
+	while not upgrade_feito and tentativas < 3:
+		tentativas += 1
+		print("Tentativa ", tentativas, " de upgrade para ", construcao.name)
+		
+		# Foca na construção e aguarda o clique
+		await tutorial.focar_em_slot_3d(construcao, texto)
+		var nivel_antes = construcao.nivel_atual
+		print("Nível antes: ", nivel_antes)
+		
+		# Aguarda a UI ficar visível (com timeout)
+		var tempo_ui = 0.0
+		while not upgrade_ui.visible and tempo_ui < 5.0:
+			await get_tree().create_timer(0.1).timeout
+			tempo_ui += 0.1
+		
+		if not upgrade_ui.visible:
+			print("UI de upgrade não apareceu. Tentando novamente.")
+			continue
+		
+		# Aguarda o sinal de fechamento da UI (resposta imediata)
+		await upgrade_ui.fechado
+		print("Sinal fechado recebido")
+		
+		# Verifica se o nível aumentou
+		print("Nível depois: ", construcao.nivel_atual)
+		if construcao.nivel_atual > nivel_antes:
+			upgrade_feito = true
+			print("Upgrade realizado com sucesso!")
+		else:
+			print("Upgrade não realizado. Tentativa ", tentativas, " de 3.")
+			if tentativas < 3:
+				await tutorial.mostrar_dialogo("Você precisa escolher um upgrade! Tente novamente.")
+	
+	if not upgrade_feito:
+		push_warning("Jogador não conseguiu fazer o upgrade após várias tentativas. Prosseguindo.")
