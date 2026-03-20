@@ -32,7 +32,7 @@ height = 0.9489746
 radius = 0.35557297
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_772tj"]
-height = 0.8329468
+height = 0.6894226
 radius = 0.2290039
 
 [node name="unit-tower2" unique_id=1301817256 instance=ExtResource("1_vedim")]
@@ -67,7 +67,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44771555, 0)
 [node name="AreaClique" type="Area3D" parent="." index="4" unique_id=1105837787]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=1458051811]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42453003, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35276794, 0)
 shape = SubResource("CylinderShape3D_772tj")
 
 [connection signal="body_entered" from="Area3D" to="unit-tower" method="_on_area_3d_body_entered"]

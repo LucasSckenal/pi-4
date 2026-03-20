@@ -157,8 +157,17 @@ func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 	elif slot_alvo.has_signal("construcao_selecionada"):
 		await slot_alvo.construcao_selecionada
 	else:
-		await get_tree().create_timer(3.0).timeout 
-		
+		# === SOLUÇÃO DO BUG AQUI ===
+		# Em vez de esperar 3 segundos e pular sozinho, o tutorial vai 
+		# entrar em loop até que a Janela de Upgrade fique visível na tela!
+		var hud = get_tree().get_first_node_in_group("HUD")
+		if hud and hud.upgrade_ui_instance:
+			while not hud.upgrade_ui_instance.visible:
+				await get_tree().create_timer(0.1).timeout
+		else:
+			# Fallback de segurança apenas se a HUD tiver algum erro grave
+			await get_tree().create_timer(3.0).timeout 
+			
 	esconder()
 
 func focar_em_ui_2d(botao_alvo: Control, texto: String):
