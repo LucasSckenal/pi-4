@@ -1,8 +1,45 @@
-[gd_scene format=3 uid="uid://dohjc8tx4wt0n"]
+[gd_scene format=3 uid="uid://b5l8slqarfs0i"]
 
 [ext_resource type="Script" uid="uid://cb2u6080fe5i1" path="res://Cenas Locais/upgrade_ui.gd" id="1_rm7i3"]
+[ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="2_fqelm"]
 
-[node name="UpgradeUI" type="Control" unique_id=592104865]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.12, 0.13, 0.18, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.35, 0.45, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 20
+shadow_offset = Vector2(0, 10)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.8, 0.2, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+bg_color = Color(0.6, 0.1, 0.1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.9, 0.3, 0.3, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="UpgradeUI" type="Control" unique_id=1721223735]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -11,16 +48,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rm7i3")
+cena_opcao_button = ExtResource("2_fqelm")
 
-[node name="Control" type="Control" parent="." unique_id=1588390567]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="FundoEscuro" type="ColorRect" parent="Control" unique_id=359349951]
+[node name="FundoEscuro" type="ColorRect" parent="." unique_id=211220198]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,47 +59,72 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Panel" type="Panel" parent="Control" unique_id=573285851]
+[node name="PainelPrincipal" type="PanelContainer" parent="." unique_id=986618846]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -300.0
-offset_top = -150.0
-offset_right = 300.0
-offset_bottom = 150.0
+offset_left = -320.0
+offset_top = -220.0
+offset_right = 320.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Panel" unique_id=1577559726]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = -20.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
-
-[node name="Titulo" type="Label" parent="Control/Panel/VBoxContainer" unique_id=1860190980]
+[node name="VBoxContainer" type="VBoxContainer" parent="PainelPrincipal" unique_id=1066269726]
 layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "Upgrade da Construção"
-horizontal_alignment = 1
+theme_override_constants/separation = 15
+alignment = 1
 
-[node name="OpcoesContainer" type="HBoxContainer" parent="Control/Panel/VBoxContainer" unique_id=1415077258]
+[node name="SpacerTop" type="Control" parent="PainelPrincipal/VBoxContainer" unique_id=534115095]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Titulo" type="Label" parent="PainelPrincipal/VBoxContainer" unique_id=1192642402]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 28
+text = "Melhorar Construção"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinhaSeparadora1" type="HSeparator" parent="PainelPrincipal/VBoxContainer" unique_id=891910259]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="StatusContainer" type="HBoxContainer" parent="PainelPrincipal/VBoxContainer" unique_id=1234447454]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="LinhaSeparadora2" type="HSeparator" parent="PainelPrincipal/VBoxContainer" unique_id=1060018052]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="OpcoesContainer" type="HBoxContainer" parent="PainelPrincipal/VBoxContainer" unique_id=1948368700]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="BotaoFechar" type="Button" parent="Control/Panel/VBoxContainer" unique_id=1544105219]
-custom_minimum_size = Vector2(150, 40)
+[node name="SpacerBottom" type="Control" parent="PainelPrincipal/VBoxContainer" unique_id=762948971]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BotaoFechar" type="Button" parent="PainelPrincipal/VBoxContainer" unique_id=1647004386]
+custom_minimum_size = Vector2(200, 45)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
 text = "FECHAR"
+
+[node name="SpacerFim" type="Control" parent="PainelPrincipal/VBoxContainer" unique_id=32770196]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2

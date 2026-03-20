@@ -3,10 +3,10 @@ extends Node3D
 @onready var tutorial = $TutorialManager
 
 # Referências dos slots (todas as quatro construções)
-@onready var slot_torre_1 = $BuildSlots/BuildSlot12
-@onready var slot_torre_2 = $BuildSlots/BuildSlot
+@onready var slot_torre_1 = $BuildSlots/BuildSlot
+@onready var slot_torre_2 = $BuildSlots/BuildSlot2
 @onready var slot_casa_1 = $BuildSlots/BuildSlot11   # casa da frente (não usada no tutorial)
-@onready var slot_casa_2 = $BuildSlots/BuildSlot7    # casa segura (atrás)
+@onready var slot_casa_2 = $BuildSlots/BuildSlot12    # casa segura (atrás)
 @onready var castelo = $"NavigationRegion3D/building-castle2"
 @onready var slot_quartel = $BuildSlots/BuildSlot24
 @onready var ponto_defesa = $PontoDefesaPlayer   # Pode ser Marker3D
@@ -86,11 +86,8 @@ func iniciar_sequencia_tutorial():
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
 	
-	await tutorial.focar_em_slot_3d(castelo, "Afonso: Toca no Castelo para melhorá-lo.")
-	var btn_up = get_tree().root.find_child("Upgrade", true, false)
-	while btn_up == null:
-		await get_tree().create_timer(0.01).timeout
-	await tutorial.focar_em_ui_2d(btn_up, "Clica em Upgrade!")
+	# Upgrade do Castelo usando passo_upgrade (mais confiável)
+	await passo_upgrade(castelo, "Afonso: Toca no Castelo para melhorá-lo.")
 	
 	await tutorial.mostrar_dialogo("Berta: Pronto! Agora a escolha é sua, Afonso. Posiciona o Quartel e vamos salvar nossos netos!")
 	

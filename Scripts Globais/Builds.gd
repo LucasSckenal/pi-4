@@ -237,53 +237,110 @@ func get_custo_proximo_upgrade() -> int:
 			return upgrade_custos[nivel_atual]
 	return -1
 
+# FUNÇÃO ATUALIZADA NO BUILDS.GD
 func get_opcoes_proximo_upgrade() -> Array:
-	# Retorna lista de dicionários com as opções disponíveis (para UI)
 	var opcoes = []
+	var escala_perfeita_ui = _calcular_escala_ideal_para_ui()
+
 	if tem_paths and caminho_atual == -1:
 		# Primeira escolha: todos os caminhos disponíveis
 		for i in range(upgrade_paths.size()):
 			var path = upgrade_paths[i]
 			if path and path.custos.size() > 0:
-				var nome_path = path.get("nome")
+				var nome_path = path.nome
 				if nome_path == null or nome_path == "":
 					nome_path = "Caminho " + str(i + 1)
 				
+				var escala_deste_path = _calcular_escala_ideal_para_ui(path)
+				
+				# Pega o modelo do NÍVEL 0 deste caminho específico
+				var modelo_correto = null
+				if path.modelos_por_nivel.size() > 0:
+					modelo_correto = path.modelos_por_nivel[0]
+
 				opcoes.append({
 					"index": i,
 					"nome": nome_path,
-					"icone": path.get("icone"),
+					"icone": path.icone,
 					"custo": path.custos[0],
-					"beneficio": _descrever_beneficio(path, 0)
+					"beneficio": _descrever_beneficio(path, 0),
+					"modelo_3d": modelo_correto, # <-- AGORA ENVIA SÓ 1 MODELO
+					"escala_modelo": escala_deste_path
 				})
 	elif tem_paths and caminho_atual >= 0:
 		# Já tem caminho: próximo nível desse caminho
 		var path = upgrade_paths[caminho_atual]
 		var prox_nivel = nivel_atual
 		if path and prox_nivel < path.custos.size():
-			var nome_path = path.get("nome")
+			var nome_path = path.nome
 			if nome_path == null or nome_path == "":
 				nome_path = "Upgrade"
 			
+			var escala_deste_path = _calcular_escala_ideal_para_ui(path)
+			
+			# Pega o modelo do PRÓXIMO NÍVEL exato!
+			var modelo_correto = null
+			if prox_nivel < path.modelos_por_nivel.size():
+				modelo_correto = path.modelos_por_nivel[prox_nivel]
+
 			opcoes.append({
 				"index": caminho_atual,
 				"nome": nome_path,
-				"icone": path.get("icone"),
+				"icone": path.icone,
 				"custo": path.custos[prox_nivel],
-				"beneficio": _descrever_beneficio(path, prox_nivel)
+				"beneficio": _descrever_beneficio(path, prox_nivel),
+				"modelo_3d": modelo_correto, # <-- AGORA ENVIA SÓ 1 MODELO
+				"escala_modelo": escala_deste_path
 			})
 	else:
-		# Sem paths: opção única
+		# Sem paths: opção única (upgrade linear)
 		var custo = get_custo_proximo_upgrade()
 		if custo != -1:
+			
+			# Pega o modelo do PRÓXIMO NÍVEL na lista geral
+			var modelo_correto = null
+			if nivel_atual < modelos_por_nivel.size():
+				modelo_correto = modelos_por_nivel[nivel_atual]
+				
 			opcoes.append({
 				"index": 0,
 				"nome": "Upgrade",
+				"icone": icone,
 				"custo": custo,
-				"beneficio": _descrever_beneficio_simples()
+				"beneficio": _descrever_beneficio_simples(),
+				"modelo_3d": modelo_correto, # <-- AGORA ENVIA SÓ 1 MODELO
+				"escala_modelo": escala_perfeita_ui
 			})
 	return opcoes
-
+# NOVA FUNÇÃO AUXILIAR NO BUILDS.GD
+func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
+	# 1. Tenta pegar a escala específica definida no PathData (se existir no futuro)
+	if path_data and path_data.get("escala_ui_customizada") != null:
+		return path_data.escala_ui_customizada
+		
+	# 2. Senão, calcula baseado no Tipo de Construção (Enum do Builds.gd)
+	var tipo_construcao = self.tipo # Acessa o tipo da tua construção atual
+	
+	# Valores base sugeridos (Ajuste aqui conforme necessário)
+	var escala_padrao_pequena = Vector3(1.2, 1.2, 1.2) # Bom para Casas
+	var escala_padrao_media = Vector3(0.8, 0.8, 0.8)   # Bom para Minas/Moinhos
+	var escala_padrao_grande = Vector3(0.5, 0.5, 0.5)  # Bom para Torres/Quartéis
+	
+	match tipo_construcao:
+		0: # TORRE
+			return escala_padrao_grande
+		1: # MINA
+			return escala_padrao_pequena
+		2: # CASA
+			return escala_padrao_pequena
+		3: # MOINHO
+			return escala_padrao_media
+		4: # QUARTEL
+			return escala_padrao_grande
+		5: # BASE
+			return escala_padrao_grande
+		_:
+			return Vector3(1, 1, 1) # Fallback seguro
 func _descrever_beneficio(path: UpgradePathData, nivel: int) -> String:
 	var partes = []
 	if nivel < path.dano_por_nivel.size() and path.dano_por_nivel[nivel] != 0:

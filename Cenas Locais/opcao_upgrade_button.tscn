@@ -1,25 +1,152 @@
-[gd_scene format=3 uid="uid://c2e015n0sa8ni"]
+[gd_scene format=3 uid="uid://b1vxy8eat0f8p"]
 
 [ext_resource type="Script" uid="uid://bt01g878m5yvs" path="res://Scripts Locais/opcao_upgrade_button.gd" id="1_s13y7"]
 
-[node name="OpcaoUpgradeButton" type="Button" unique_id=254853000]
-offset_right = 150.0
-offset_bottom = 100.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.15, 0.16, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.45, 0.55, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 5
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
+bg_color = Color(0.1, 0.11, 0.16, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.65, 0.2, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+bg_color = Color(0.2, 0.21, 0.28, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.3, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_size = 8
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_disabled"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.2, 0.2, 1)
+border_blend = true
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="ImageTexture" id="ImageTexture_ouro"]
+
+[node name="OpcaoUpgradeButton" type="Button" unique_id=1505631107]
+custom_minimum_size = Vector2(180, 240)
+anchors_preset = -1
+anchor_right = 0.156
+anchor_bottom = 0.37
+offset_right = 0.319992
+offset_bottom = 0.199982
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_disabled")
 script = ExtResource("1_s13y7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1954660405]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=88641876]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+alignment = 1
 
-[node name="Icone" type="TextureRect" parent="VBoxContainer" unique_id=1728366933]
+[node name="Titulo" type="Label" parent="VBoxContainer" unique_id=799717177]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "Upgrade"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LinhaSeparator1" type="HSeparator" parent="VBoxContainer" unique_id=493787045]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="ViewportContainer" type="SubViewportContainer" parent="VBoxContainer" unique_id=1422205194]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="VBoxContainer/ViewportContainer" unique_id=475393906]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(120, 120)
+render_target_update_mode = 4
+
+[node name="LinhaSeparator2" type="HSeparator" parent="VBoxContainer" unique_id=183856356]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="StatusContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1314974882]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="LabelDano" type="Label" parent="VBoxContainer/StatusContainer" unique_id=404618295]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "Dano +10"
+horizontal_alignment = 1
+
+[node name="LabelVida" type="Label" parent="VBoxContainer/StatusContainer" unique_id=572185267]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 1, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "Vida +20"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="VBoxContainer" unique_id=1529634594]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxPreco" type="HBoxContainer" parent="VBoxContainer" unique_id=1008019441]
+layout_mode = 2
+alignment = 1
+
+[node name="IconeOuro" type="TextureRect" parent="VBoxContainer/HBoxPreco" unique_id=92205017]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = SubResource("ImageTexture_ouro")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Nome" type="Label" parent="VBoxContainer" unique_id=1126343047]
+[node name="Preco" type="Label" parent="VBoxContainer/HBoxPreco" unique_id=423365206]
 layout_mode = 2
-
-[node name="Custo" type="Label" parent="VBoxContainer" unique_id=1320729381]
-layout_mode = 2
-text = "Custo: 0"
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "50"
