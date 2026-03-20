@@ -7,6 +7,7 @@ extends CharacterBody3D
 @export var rotation_speed = 10.0 
 
 const TEXTURA_CORTE = preload("res://Icons/HalfMoon.png")
+const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 
 # --- CONFIGURAÇÕES DE COMBATE ---
 @export var dano_ataque: int = 5
@@ -41,10 +42,8 @@ func _ready():
 	nav_agent.target_desired_distance = 0.1
 	
 	# Configura o personagem salvo (e anexa a espada)
+	# O shader agora é aplicado automaticamente ao final desta função
 	_configurar_modelo_escolhido()
-	
-	# Ajusta os parâmetros do shader para a visão do jogo e prepara o cache
-	_configurar_shader_outline()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
@@ -206,7 +205,7 @@ func _criar_efeito_visual_corte():
 	# Cria uma malha simples para simular o rastro brilhante da espada
 	var efeito = MeshInstance3D.new()
 	var malha = PlaneMesh.new()
-	malha.size = Vector2(1.2, 0.4)
+	malha.size = Vector2(0.6, 1.0)
 	efeito.mesh = malha
 	
 	var material = StandardMaterial3D.new()
@@ -222,11 +221,11 @@ func _criar_efeito_visual_corte():
 	add_child(efeito)
 	
 	# Posiciona o efeito à frente do personagem na altura média do corpo
-	efeito.position = Vector3(0.0, 0.2, 0.3)
+	efeito.position = Vector3(0.0, 0.2, 0.3) 
 	
 	# Anima o corte esticando para as laterais e sumindo rapidamente
 	var tween = create_tween()
-	tween.tween_property(efeito, "scale", Vector3(0.8, 1.0, 0.8), 0.2).set_ease(Tween.EASE_OUT)
+	tween.tween_property(efeito, "scale", Vector3(0.6, 1.0, 0.6), 0.2).set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(material, "albedo_color:a", 0.0, 0.2)
 	tween.tween_callback(efeito.queue_free)
 
@@ -257,10 +256,15 @@ func _gerenciar_animacoes(direction):
 # ==========================================
 
 func _configurar_modelo_escolhido():
-	if Global.personagem_escolhido_path == "": return
+	var modelo_antigo = get_node_or_null("character-male-f2")
+	
+	if Global.personagem_escolhido_path == "":
+		# Aplica o shader diretamente no modelo padrão caso nenhum tenha sido escolhido
+		if modelo_antigo:
+			_configurar_shader_outline(modelo_antigo)
+		return
 	
 	var espada = find_child("sword_C2", true, false)
-	var modelo_antigo = get_node_or_null("character-male-f2")
 	
 	if modelo_antigo:
 		if espada:
@@ -297,18 +301,34 @@ func _configurar_modelo_escolhido():
 				
 				espada.show() 
 		
+		# Aplica o shader diretamente na referência exata do novo modelo instanciado
+		_configurar_shader_outline(modelo_novo)
+		
 		modelo_antigo.queue_free()
 
 # ==========================================
 # EFEITOS VISUAIS E SHADERS
 # ==========================================
 
-func _configurar_shader_outline():
-	var modelo = get_node_or_null("character-male-f2")
-	if not modelo: return
+func _configurar_shader_outline(modelo_alvo: Node):
+	if not modelo_alvo: return
 	
 	materiais_outline.clear()
-	_percorrer_e_ajustar_materiais(modelo)
+	
+	# Cria uma única instância do material de outline de forma totalmente automatizada via código
+	var mat_outline = ShaderMaterial.new()
+	if OUTLINE_SHADER:
+		mat_outline.shader = OUTLINE_SHADER
+		mat_outline.set_shader_parameter("scale", 1.0)
+		mat_outline.set_shader_parameter("outline_spread", 5.0)
+		mat_outline.set_shader_parameter("_Color", Color(0, 0, 0, 1))
+		mat_outline.set_shader_parameter("_DepthNormalThreshold", 0.1)
+		mat_outline.set_shader_parameter("_DepthNormalThresholdScale", 3.0)
+		mat_outline.set_shader_parameter("_DepthThreshold", 1.5)
+		mat_outline.set_shader_parameter("_NormalThreshold", 2.0)
+		
+		materiais_outline.append(mat_outline)
+		_percorrer_e_ajustar_materiais(modelo_alvo, mat_outline)
 	
 	# Configura a escala inicial baseada na posição atual da câmera
 	var camera = get_viewport().get_camera_3d()
@@ -322,30 +342,21 @@ func _atualizar_escala_outline(valor_zoom: float):
 	var camera = get_viewport().get_camera_3d()
 	if camera:
 		if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
-			nova_escala = remap(valor_zoom, 20.0, 90.0, 1.0, 6.0)
+			nova_escala = remap(valor_zoom, 20.0, 90.0, 1.0, 4.5)
 		else:
-			nova_escala = remap(valor_zoom, 5.0, 30.0, 1.0, 6.0)
+			nova_escala = remap(valor_zoom, 5.0, 30.0, 1.0, 4.5)
 			
 	for mat in materiais_outline:
 		if is_instance_valid(mat):
 			mat.set_shader_parameter("scale", nova_escala)
 
-func _percorrer_e_ajustar_materiais(no_atual: Node):
-	if no_atual is MeshInstance3D:
-		if no_atual.mesh:
-			for i in range(no_atual.mesh.get_surface_count()):
-				var material = no_atual.get_surface_override_material(i)
-				if material == null:
-					material = no_atual.mesh.surface_get_material(i)
-					
-				if material is ShaderMaterial:
-					materiais_outline.append(material)
-					
-		if no_atual.material_overlay is ShaderMaterial:
-			materiais_outline.append(no_atual.material_overlay)
+func _percorrer_e_ajustar_materiais(no_atual: Node, mat_outline: ShaderMaterial = null):
+	# Aplica o overlay do shader em todas as partes do personagem que são malhas visíveis
+	if no_atual is MeshInstance3D and mat_outline != null:
+		no_atual.material_overlay = mat_outline
 			
 	for filho in no_atual.get_children():
-		_percorrer_e_ajustar_materiais(filho)
+		_percorrer_e_ajustar_materiais(filho, mat_outline)
 
 # ==========================================
 # CAMINHO VISUAL (PATHFINDING)
@@ -369,8 +380,8 @@ func _desenhar_caminho(caminho: PackedVector3Array):
 		var p1_local = linha_caminho.to_local(caminho[i])
 		var p2_local = linha_caminho.to_local(caminho[i+1])
 		
-		p1_local.y += 0.05
-		p2_local.y += 0.05
+		p1_local.y -= 0.25
+		p2_local.y -= 0.25
 		
 		var direcao = (p2_local - p1_local).normalized()
 		var distancia = p1_local.distance_to(p2_local)

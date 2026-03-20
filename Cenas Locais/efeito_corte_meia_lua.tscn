@@ -17,13 +17,14 @@ point_count = 3
 curve = SubResource("Curve_lw4qo")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h5aua"]
+gravity = Vector3(0, 0, 0)
 scale_curve = SubResource("CurveTexture_j0mg7")
 alpha_curve = SubResource("CurveTexture_6d6y0")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gi6kt"]
 transparency = 1
 shading_mode = 0
-albedo_color = Color(1, 1, 0, 1)
+albedo_color = Color(0.72156864, 1, 1, 1)
 albedo_texture = ExtResource("1_w6sqw")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dwksd"]
@@ -32,6 +33,7 @@ size = Vector2(1, 1.5)
 orientation = 2
 
 [node name="EfeitoCorteMeiaLua" type="GPUParticles3D" unique_id=1180519281]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
 emitting = false
 amount = 1
 lifetime = 0.3

@@ -7,7 +7,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ycepd"]
 render_priority = 0
 shader = ExtResource("3_2scqa")
-shader_parameter/scale = 1.0
+shader_parameter/scale = 2.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
 shader_parameter/_DepthNormalThreshold = 0.1
@@ -69,7 +69,7 @@ bind/6/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34324998, -0.00263881
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vpr1b"]
 render_priority = 0
 shader = ExtResource("3_2scqa")
-shader_parameter/scale = 1.0
+shader_parameter/scale = 2.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
 shader_parameter/_DepthNormalThreshold = 0.1
