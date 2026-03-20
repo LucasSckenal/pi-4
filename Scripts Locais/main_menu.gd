@@ -9,7 +9,7 @@ func _ready():
 	
 	# 2. Se for a primeira vez abrindo o jogo (caminho vazio), escolhemos um padrão!
 	if caminho == "":
-		caminho = "res://Personagens/character-male-b.glb" 
+		caminho = "res://Personagens/character_male_b_2.tscn" 
 		# (Opcional: já salvar no Global para ele jogar com esse se não mudar)
 		Global.personagem_escolhido_path = caminho
 

@@ -6,6 +6,8 @@ extends CharacterBody3D
 @export var gravity = 20.0
 @export var rotation_speed = 10.0 
 
+const TEXTURA_CORTE = preload("res://Icons/HalfMoon.png")
+
 # --- CONFIGURAÇÕES DE COMBATE ---
 @export var dano_ataque: int = 5
 @export var velocidade_ataque: float = 0.8 # Tempo entre os golpes
@@ -20,6 +22,8 @@ extends CharacterBody3D
 # --- ESTADOS ---
 var pode_atacar: bool = true
 var inimigo_focado: Node3D = null
+var tween_clique: Tween
+var materiais_outline: Array[ShaderMaterial] = [] # Cache dos materiais para otimizar o zoom
 
 func _ready():
 	add_to_group("Player")
@@ -38,20 +42,70 @@ func _ready():
 	
 	# Configura o personagem salvo (e anexa a espada)
 	_configurar_modelo_escolhido()
+	
+	# Ajusta os parâmetros do shader para a visão do jogo e prepara o cache
+	_configurar_shader_outline()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().change_scene_to_file("res://Cenas locais/main_menu.tscn")
 	
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var camera = get_viewport().get_camera_3d()
-		if camera:
-			var ray_origin = camera.project_ray_origin(event.position)
-			var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
-			var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
-			var result = get_world_3d().direct_space_state.intersect_ray(query)
-			if result:
-				nav_agent.target_position = result.position
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var camera = get_viewport().get_camera_3d()
+			if camera:
+				var ray_origin = camera.project_ray_origin(event.position)
+				var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
+				var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
+				var result = get_world_3d().direct_space_state.intersect_ray(query)
+				if result:
+					nav_agent.target_position = result.position
+					
+					# Feedback visual do clique no destino com animação de pulso
+					if linha_caminho:
+						# Interrompe a animação anterior caso haja múltiplos cliques em sequência
+						if tween_clique and tween_clique.is_valid():
+							tween_clique.kill()
+							
+						linha_caminho.global_position = result.position
+						linha_caminho.scale = Vector3.ZERO
+						
+						tween_clique = create_tween()
+						tween_clique.set_parallel(true)
+						tween_clique.tween_property(linha_caminho, "scale", Vector3(1, 1, 1), 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+						
+						# Suaviza a transparência assumindo que o nó seja um Sprite3D ou Decal
+						if "modulate" in linha_caminho:
+							linha_caminho.modulate.a = 1.0
+							tween_clique.tween_property(linha_caminho, "modulate:a", 0.0, 0.5).set_delay(0.2)
+						elif "albedo_mix" in linha_caminho:
+							linha_caminho.albedo_mix = 1.0
+							tween_clique.tween_property(linha_caminho, "albedo_mix", 0.0, 0.5).set_delay(0.2)
+		
+		# Sistema de Zoom da Câmera e ajuste dinâmico do Outline
+		var camera_zoom = get_viewport().get_camera_3d()
+		if camera_zoom and event.pressed:
+			var mudou_zoom = false
+			
+			var limite_fov = camera_zoom.get("fov_inicial") if "fov_inicial" in camera_zoom else 90.0
+			var limite_size = camera_zoom.get("size_inicial") if "size_inicial" in camera_zoom else 30.0
+			
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				if camera_zoom.projection == Camera3D.PROJECTION_PERSPECTIVE:
+					camera_zoom.fov = clamp(camera_zoom.fov - 5.0, 20.0, limite_fov)
+				else:
+					camera_zoom.size = clamp(camera_zoom.size - 2.0, 5.0, limite_size)
+				mudou_zoom = true
+			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				if camera_zoom.projection == Camera3D.PROJECTION_PERSPECTIVE:
+					camera_zoom.fov = clamp(camera_zoom.fov + 5.0, 20.0, limite_fov)
+				else:
+					camera_zoom.size = clamp(camera_zoom.size + 2.0, 5.0, limite_size)
+				mudou_zoom = true
+				
+			if mudou_zoom:
+				var parametro_zoom = camera_zoom.fov if camera_zoom.projection == Camera3D.PROJECTION_PERSPECTIVE else camera_zoom.size
+				_atualizar_escala_outline(parametro_zoom)
 
 func _physics_process(delta):
 	# 1. Gravidade
@@ -79,12 +133,6 @@ func _physics_process(delta):
 					
 					if not eh_barreira:
 						velocity.y = jump_velocity
-			
-		if linha_caminho and linha_caminho.mesh is ImmediateMesh:
-			_desenhar_caminho(nav_agent.get_current_navigation_path())
-	else:
-		if linha_caminho and linha_caminho.mesh is ImmediateMesh:
-			linha_caminho.mesh.clear_surfaces()
 
 	# 3. Movimento e Rotação Inteligente
 	var angulo_destino = rotation.y # Mantém a rotação atual por padrão
@@ -129,21 +177,58 @@ func _verificar_ataque_automatico():
 	if not pode_atacar: return
 	
 	var inimigos = area_ataque.get_overlapping_bodies()
+	var alvos_validos = []
+	
 	for corpo in inimigos:
 		if corpo.is_in_group("inimigos"):
-			_executar_ataque(corpo)
-			break # Ataca apenas um por vez
+			alvos_validos.append(corpo)
+			
+	# Se houver inimigos na área, ataca todos de uma vez
+	if alvos_validos.size() > 0:
+		_executar_ataque_area(alvos_validos)
 
-func _executar_ataque(inimigo):
+func _executar_ataque_area(inimigos: Array):
 	pode_atacar = false
-	inimigo_focado = inimigo # Salva quem o personagem deve olhar
+	inimigo_focado = inimigos[0] # Salva o primeiro inimigo para o personagem virar para ele
 	timer_ataque.start()
 	
 	if anim_player.has_animation("attack-melee-left"):
 		anim_player.play("attack-melee-left")
+		
+	_criar_efeito_visual_corte()
 	
-	if inimigo.has_method("receber_dano"):
-		inimigo.receber_dano(dano_ataque)
+	# Aplica dano em todos os inimigos capturados na área de ataque
+	for inimigo in inimigos:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_ataque)
+
+func _criar_efeito_visual_corte():
+	# Cria uma malha simples para simular o rastro brilhante da espada
+	var efeito = MeshInstance3D.new()
+	var malha = PlaneMesh.new()
+	malha.size = Vector2(1.2, 0.4)
+	efeito.mesh = malha
+	
+	var material = StandardMaterial3D.new()
+	material.albedo_color = Color(1.0, 1.0, 0.9, 0.8)
+	material.albedo_texture = TEXTURA_CORTE
+	material.emission_enabled = true
+	material.emission = Color(0.8, 0.8, 0.2)
+	material.emission_texture = TEXTURA_CORTE
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	malha.surface_set_material(0, material)
+	
+	add_child(efeito)
+	
+	# Posiciona o efeito à frente do personagem na altura média do corpo
+	efeito.position = Vector3(0.0, 0.2, 0.3)
+	
+	# Anima o corte esticando para as laterais e sumindo rapidamente
+	var tween = create_tween()
+	tween.tween_property(efeito, "scale", Vector3(0.8, 1.0, 0.8), 0.2).set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(material, "albedo_color:a", 0.0, 0.2)
+	tween.tween_callback(efeito.queue_free)
 
 func _on_timer_ataque_timeout():
 	pode_atacar = true
@@ -165,8 +250,6 @@ func _gerenciar_animacoes(direction):
 		if anim_player.current_animation != "walk": anim_player.play("walk")
 	else:
 		if anim_player.current_animation != "idle": anim_player.play("idle")
-
-
 
 
 # ==========================================
@@ -216,6 +299,53 @@ func _configurar_modelo_escolhido():
 		
 		modelo_antigo.queue_free()
 
+# ==========================================
+# EFEITOS VISUAIS E SHADERS
+# ==========================================
+
+func _configurar_shader_outline():
+	var modelo = get_node_or_null("character-male-f2")
+	if not modelo: return
+	
+	materiais_outline.clear()
+	_percorrer_e_ajustar_materiais(modelo)
+	
+	# Configura a escala inicial baseada na posição atual da câmera
+	var camera = get_viewport().get_camera_3d()
+	if camera:
+		var parametro_zoom = camera.fov if camera.projection == Camera3D.PROJECTION_PERSPECTIVE else camera.size
+		_atualizar_escala_outline(parametro_zoom)
+
+func _atualizar_escala_outline(valor_zoom: float):
+	# Mapeia o zoom para a escala do outline dependendo do tipo da câmera
+	var nova_escala = 1.0
+	var camera = get_viewport().get_camera_3d()
+	if camera:
+		if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+			nova_escala = remap(valor_zoom, 20.0, 90.0, 1.0, 6.0)
+		else:
+			nova_escala = remap(valor_zoom, 5.0, 30.0, 1.0, 6.0)
+			
+	for mat in materiais_outline:
+		if is_instance_valid(mat):
+			mat.set_shader_parameter("scale", nova_escala)
+
+func _percorrer_e_ajustar_materiais(no_atual: Node):
+	if no_atual is MeshInstance3D:
+		if no_atual.mesh:
+			for i in range(no_atual.mesh.get_surface_count()):
+				var material = no_atual.get_surface_override_material(i)
+				if material == null:
+					material = no_atual.mesh.surface_get_material(i)
+					
+				if material is ShaderMaterial:
+					materiais_outline.append(material)
+					
+		if no_atual.material_overlay is ShaderMaterial:
+			materiais_outline.append(no_atual.material_overlay)
+			
+	for filho in no_atual.get_children():
+		_percorrer_e_ajustar_materiais(filho)
 
 # ==========================================
 # CAMINHO VISUAL (PATHFINDING)

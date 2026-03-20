@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://ckjl327pvjqnq"]
+
+[ext_resource type="Texture2D" uid="uid://dxg7vgo5d0v0w" path="res://Icons/HalfMoon.png" id="1_w6sqw"]
+
+[sub_resource type="Curve" id="Curve_254l4"]
+_data = [Vector2(0.052238807, 0), 0.0, 0.0, 0, 0, Vector2(0.49253735, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_6d6y0"]
+curve = SubResource("Curve_254l4")
+
+[sub_resource type="Curve" id="Curve_lw4qo"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.4179105, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.50561804), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_j0mg7"]
+curve = SubResource("Curve_lw4qo")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_h5aua"]
+scale_curve = SubResource("CurveTexture_j0mg7")
+alpha_curve = SubResource("CurveTexture_6d6y0")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gi6kt"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+albedo_texture = ExtResource("1_w6sqw")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dwksd"]
+material = SubResource("StandardMaterial3D_gi6kt")
+size = Vector2(1, 1.5)
+orientation = 2
+
+[node name="EfeitoCorteMeiaLua" type="GPUParticles3D" unique_id=1180519281]
+emitting = false
+amount = 1
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_h5aua")
+draw_pass_1 = SubResource("PlaneMesh_dwksd")

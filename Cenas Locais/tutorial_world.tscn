@@ -7,6 +7,7 @@
 [ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_7q0h5"]
 [ext_resource type="PackedScene" uid="uid://c1y37e1p5n5er" path="res://Cenas Locais/tutorial_manager.tscn" id="3_ww2ee"]
 [ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Builds/castle.tscn" id="4_bmj55"]
+[ext_resource type="Texture2D" uid="uid://d11p2585w531y" path="res://Icons/white-circle-frame-with-shadow-free-png.png" id="5_bfgkp"]
 [ext_resource type="Shader" uid="uid://1pn1krwgpox6" path="res://Shaders/WaterFlat.gdshader" id="5_bmj55"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="6_l2f7a"]
@@ -17,6 +18,7 @@
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_ucd3c"]
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="11_e0en3"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
+[ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="15_5f4a7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7q0h5"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -35,28 +37,6 @@ sky_rotation = Vector3(0, 3.1415927, 0)
 tonemap_mode = 2
 glow_enabled = true
 volumetric_fog_density = 0.0912
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_38lot"]
-render_priority = 1
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 0, 0, 1)
-grow = true
-grow_amount = 0.01
-stencil_mode = 3
-stencil_flags = 1
-stencil_compare = 5
-stencil_reference = 3
-metadata/_stencil_owned = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nnxgy"]
-next_pass = SubResource("StandardMaterial3D_38lot")
-shading_mode = 0
-stencil_mode = 1
-stencil_flags = 2
-stencil_reference = 3
-
-[sub_resource type="ImmediateMesh" id="ImmediateMesh_3fexb"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_i46xn"]
 dof_blur_far_distance = 3.75
@@ -198,21 +178,23 @@ shadow_blur = 2.5
 environment = SubResource("Environment_bmj55")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("1_bislj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0285158, 0.26542044, 0.40977418)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.0285158, 0.26542044, 0.40977418)
 rotation_speed = 20.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=474069018]
 max_neighbors = 20
 
-[node name="LinhaCaminho" type="MeshInstance3D" parent="Player" unique_id=1389672206]
-material_override = SubResource("StandardMaterial3D_nnxgy")
-cast_shadow = 0
-mesh = SubResource("ImmediateMesh_3fexb")
+[node name="LinhaCaminho" type="Decal" parent="Player" unique_id=2088349575]
+size = Vector3(0.5, 0.5, 0.5)
+texture_albedo = ExtResource("5_bfgkp")
+modulate = Color(1, 0, 0, 1)
 
-[node name="Camera3D2" type="Camera3D" parent="." unique_id=2003197282]
+[node name="Camera3D2" type="Camera3D" parent="." unique_id=2003197282 node_paths=PackedStringArray("player")]
 transform = Transform3D(-4.371139e-08, 0.77293295, -0.6344878, 0, 0.6344878, 0.77293295, 1, 3.3785973e-08, -2.7734343e-08, -2.8013535, 2.363804, 0.45228863)
 attributes = SubResource("CameraAttributesPractical_i46xn")
+current = true
 script = ExtResource("2_hvshy")
+player = NodePath("../Player")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=2029701393]
 navigation_mesh = SubResource("NavigationMesh_i46xn")
@@ -300,7 +282,7 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="GridMapDeco" type="GridMap" parent="Decoration Gridmaps" unique_id=1516710417]
 transform = Transform3D(0.9612617, 0.27563736, 0, -0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
-mesh_library = ExtResource("3_7q0h5")
+mesh_library = ExtResource("15_5f4a7")
 cell_size = Vector3(0.05, 0.33, 0.05)
 cell_scale = 0.33
 data = {
