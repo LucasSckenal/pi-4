@@ -2,6 +2,38 @@
 
 [ext_resource type="Script" uid="uid://58a8pnam3ssk" path="res://Cenas Locais/tela_conquistas.gd" id="1_pnd5v"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_FundoLista"]
+bg_color = Color(0.08, 0.08, 0.1, 0.8)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 5
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltar"]
+bg_color = Color(0.2, 0.2, 0.25, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltarHover"]
+bg_color = Color(0.3, 0.3, 0.35, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+
 [node name="TelaConquistas" type="Control" unique_id=479057687]
 layout_mode = 3
 anchors_preset = 15
@@ -18,13 +50,47 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.10980392, 0.10980392, 0.10980392, 1)
+color = Color(0.15, 0.15, 0.18, 1)
+
+[node name="LabelTitulo" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 30.0
+offset_right = 150.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 32
+text = "🏆 Conquistas"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelFundoLista" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 100.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_FundoLista")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1981135311]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = 120.0
+offset_right = -60.0
+offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -32,13 +98,20 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 15
 
 [node name="BtnVoltar" type="Button" parent="." unique_id=395051610]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 140.0
+offset_bottom = 75.0
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 24
-text = "Voltar"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnVoltar")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnVoltarHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnVoltar")
+text = "◀ Voltar"
 
 [connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]

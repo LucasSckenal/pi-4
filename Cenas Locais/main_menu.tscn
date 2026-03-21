@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bn8k3kr2xj05k" path="res://Cenas Locais/node_3d.tscn" id="2_fu7sn"]
 [ext_resource type="PackedScene" uid="uid://souaq670gocl" path="res://Mapa/grass-forest.glb" id="3_jix8l"]
 [ext_resource type="Script" uid="uid://dpdxsl8wui3rn" path="res://Scripts Locais/camera_3d.gd" id="4_jix8l"]
+[ext_resource type="PackedScene" uid="uid://d3cdnd7wk3m3s" path="res://Cenas Locais/configuracoes.tscn" id="5_wr2lu"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_aaagv"]
 exposure_multiplier = 0.8
@@ -224,6 +225,10 @@ text = "Configurações"
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Sair"
+
+[node name="Configuracoes" parent="CanvasLayer/MarginContainer" unique_id=635436861 instance=ExtResource("5_wr2lu")]
+visible = false
+layout_mode = 2
 
 [node name="BtnPersonagemInvisivel" type="Button" parent="CanvasLayer" unique_id=1560747246]
 layout_direction = 4
