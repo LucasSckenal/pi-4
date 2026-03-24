@@ -24,6 +24,7 @@ const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 var pode_atacar: bool = true
 var inimigo_focado: Node3D = null
 var tween_clique: Tween
+var rotation_tween: Tween = null
 var materiais_outline: Array[ShaderMaterial] = [] # Cache dos materiais para otimizar o zoom
 
 func _ready():
@@ -37,6 +38,7 @@ func _ready():
 	
 	if linha_caminho:
 		linha_caminho.top_level = true
+		linha_caminho.hide()
 	
 	nav_agent.path_desired_distance = 0.5
 	nav_agent.target_desired_distance = 0.1
@@ -46,8 +48,30 @@ func _ready():
 	_configurar_modelo_escolhido()
 
 func _unhandled_input(event):
+	# Adiciona trava para ignorar input se o tutorial estiver com diálogo aberto
+	var tutorial = get_tree().get_first_node_in_group("TutorialManager")
+	if tutorial and tutorial.visible and tutorial.alvo_2d_atual == null:
+		return
+
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().change_scene_to_file("res://Cenas locais/main_menu.tscn")
+	
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			# Bloqueia clique de andar durante o dia (fase de construção)
+			if not GameManager.is_night:
+				return
+				
+			var camera = get_viewport().get_camera_3d()
+			if camera:
+				var ray_origin = camera.project_ray_origin(event.position)
+				var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
+				
+				# MÁSCARA DE COLISÃO: Definida para 1 (Chão), ignorando torres (Layer 3)
+				var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target, 1) 
+				var result = get_world_3d().direct_space_state.intersect_ray(query)
+				if result:
+					nav_agent.target_position = result.position
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -62,6 +86,22 @@ func _unhandled_input(event):
 					
 					# Feedback visual do clique no destino com animação de pulso
 					if linha_caminho:
+						# Mostrando após primeiro clique
+						linha_caminho.show()
+						
+						#GERENCIA A ROTAÇÃO CONTÍNUA E LEVE
+						if rotation_tween:
+							rotation_tween.kill() # Mata a rotação anterior antes de começar a nova
+						
+						# Cria um novo Tween infinito
+						rotation_tween = create_tween().set_loops() 
+						
+						# Anima a rotação Y (para girar no chão) de 0 até 360 graus
+						# A duração de 5.0 segundos define a velocidade; aumente para girar mais devagar.
+						# O método set_trans(Tween.TRANS_LINEAR) garante que a velocidade seja constante.
+						rotation_tween.tween_property(linha_caminho, "rotation:y", deg_to_rad(360.0), 5.0).from(0.0).set_trans(Tween.TRANS_LINEAR)
+						
+						
 						# Interrompe a animação anterior caso haja múltiplos cliques em sequência
 						if tween_clique and tween_clique.is_valid():
 							tween_clique.kill()
@@ -82,8 +122,11 @@ func _unhandled_input(event):
 							tween_clique.tween_property(linha_caminho, "albedo_mix", 0.0, 0.5).set_delay(0.2)
 		
 		# Sistema de Zoom da Câmera e ajuste dinâmico do Outline
+		# Bloqueia Zoom durante diálogos do tutorial
 		var camera_zoom = get_viewport().get_camera_3d()
 		if camera_zoom and event.pressed:
+			if tutorial and tutorial.visible: return
+			
 			var mudou_zoom = false
 			
 			var limite_fov = camera_zoom.get("fov_inicial") if "fov_inicial" in camera_zoom else 90.0

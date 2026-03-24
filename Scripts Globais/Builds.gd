@@ -173,10 +173,26 @@ func _ready():
 		if interface_node.has_method("_conectar_construcao"):
 			interface_node._conectar_construcao(self)
 
+# ==========================================
+# TRAVA CENTRAL DO TUTORIAL
+# ==========================================
+func _pode_interagir_tutorial() -> bool:
+	if GameManager.is_tutorial_ativo:
+		var tutorial = get_tree().get_first_node_in_group("TutorialManager")
+		if tutorial and tutorial.visible:
+			# REGRA 1: Se o tutorial manda clicar na UI, BLOQUEIA o 3D
+			if tutorial.alvo_2d_atual != null:
+				return false
+			# REGRA 2: Se o tutorial manda clicar noutro objeto que não este, BLOQUEIA
+			if tutorial.alvo_3d_atual != null and tutorial.alvo_3d_atual != self:
+				return false
+	return true
+
 func _on_area_clique(camera, event, position, normal, shape_idx):
 	if esta_destruida: return  # ← IMPEDE CLIQUE EM CONSTRUÇÃO DESTRUÍDA
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		construcao_selecionada.emit(self)
+		if _pode_interagir_tutorial(): # Adicionado para respeitar o foco do tutorial
+			construcao_selecionada.emit(self)
 
 # ==========================================
 # SISTEMA DE UPGRADES (LÓGICA PRINCIPAL)

@@ -126,14 +126,20 @@ func configurar_dialogo(texto_completo: String):
 # Função limpa apenas para contar história (sem focar no Castelo)
 # Função limpa apenas para contar história (sem focar no Castelo)
 func mostrar_dialogo(texto: String):
+	var camera = get_viewport().get_camera_3d()
+	if camera and camera.has_method("reset_zoom_tutorial"):
+		camera.reset_zoom_tutorial()
+	
 	visible = true
 	fundo_escuro.visible = true
+	
 	
 	# === NOVO: Ativa o "Escudo" bloqueando cliques nos botões de trás ===
 	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_STOP 
 	
 	alvo_3d_atual = null
 	alvo_2d_atual = null
+	
 	configurar_dialogo(texto)
 	
 	await clicou_na_tela

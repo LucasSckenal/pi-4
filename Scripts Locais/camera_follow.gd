@@ -49,3 +49,13 @@ func _process(delta):
 		
 		# Interpola a posição copiando e colando de forma suave
 		global_position = global_position.lerp(posicao_alvo, velocidade_suavizacao * delta)
+
+func reset_zoom_tutorial():
+	fov = fov_inicial
+	size = size_inicial
+	_atualizar_escala_outline_global() # Se houver função de atualização de outline
+
+func _atualizar_escala_outline_global():
+	var player = get_tree().get_first_node_in_group("Player")
+	if player and player.has_method("_atualizar_escala_outline"):
+		player._atualizar_escala_outline(fov if projection == PROJECTION_PERSPECTIVE else size)
