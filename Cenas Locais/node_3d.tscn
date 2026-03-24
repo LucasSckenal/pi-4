@@ -157,6 +157,7 @@ subdivide_depth = 32
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1780676550]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 2.5918362, 0)
+visible = false
 light_color = Color(0.99607843, 0.99215686, 0.4117647, 1)
 light_energy = 1.158
 light_specular = 13.198

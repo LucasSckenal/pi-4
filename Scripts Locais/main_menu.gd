@@ -92,3 +92,7 @@ func _varrer_malhas_e_aplicar(no_atual: Node, material_shader: ShaderMaterial):
 		no_atual.material_overlay = material_shader
 	for filho in no_atual.get_children():
 		_varrer_malhas_e_aplicar(filho, material_shader)
+
+
+func _on_btn_personagem_invisivel_pressed() -> void:
+	get_tree().change_scene_to_file("res://Cenas Locais/selecao_personagem.tscn")

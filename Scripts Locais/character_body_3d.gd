@@ -205,7 +205,7 @@ func _criar_efeito_visual_corte():
 	# Cria uma malha simples para simular o rastro brilhante da espada
 	var efeito = MeshInstance3D.new()
 	var malha = PlaneMesh.new()
-	malha.size = Vector2(0.6, 1.0)
+	malha.size = Vector2(0.8, 0.5)
 	efeito.mesh = malha
 	
 	var material = StandardMaterial3D.new()

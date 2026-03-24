@@ -250,4 +250,4 @@ flat = true
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/BtnConquistas" to="." method="_on_btn_conquistas_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnSair" to="." method="_on_btn_sair_pressed"]
-[connection signal="pressed" from="CanvasLayer/BtnPersonagemInvisivel" to="." method="_on_btn_customizar_pressed"]
+[connection signal="pressed" from="CanvasLayer/BtnPersonagemInvisivel" to="." method="_on_btn_personagem_invisivel_pressed"]
