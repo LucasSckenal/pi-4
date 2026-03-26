@@ -1,0 +1,223 @@
+[gd_scene format=3 uid="uid://c2swwxgmi1uaj"]
+
+[ext_resource type="PackedScene" uid="uid://deo21eoddwc5y" path="res://Mapa5/Axe_001.glb" id="1_c5aya"]
+[ext_resource type="PackedScene" uid="uid://bea2bsyrftc8a" path="res://Mapa5/BaseSmall_001.glb" id="2_l528p"]
+[ext_resource type="PackedScene" uid="uid://bnn0mio7sylke" path="res://Mapa5/Bone_003.glb" id="3_p6qrb"]
+[ext_resource type="PackedScene" uid="uid://sucrrvykqn2t" path="res://Mapa5/Bone_004.glb" id="4_nefcd"]
+[ext_resource type="PackedScene" uid="uid://whn3f7f3libd" path="res://Mapa5/Bone_006.glb" id="5_fma5c"]
+[ext_resource type="PackedScene" uid="uid://bv1ml607tv4uu" path="res://Mapa5/Box_001.glb" id="6_5oqc2"]
+[ext_resource type="PackedScene" uid="uid://dg7m3cjmh4uc4" path="res://Mapa5/Brazier_002.glb" id="7_synn0"]
+[ext_resource type="PackedScene" uid="uid://dhr6qahe1nx7l" path="res://Mapa5/Brazier_004.glb" id="8_1xx8p"]
+[ext_resource type="PackedScene" uid="uid://b7hji38ww43g3" path="res://Mapa5/ChestBig_001.glb" id="9_qqy2s"]
+[ext_resource type="PackedScene" uid="uid://b7kbe0f6hkrwp" path="res://Mapa5/CirclePlatformSmall_001.glb" id="10_3eivq"]
+[ext_resource type="PackedScene" uid="uid://ccm77kpr2ichu" path="res://Mapa5/Cliff_003.glb" id="11_c02ge"]
+[ext_resource type="PackedScene" uid="uid://c38fubdp8b5qq" path="res://Mapa5/Cliff_004.glb" id="12_0y3ea"]
+[ext_resource type="PackedScene" uid="uid://dbry6k1r4megy" path="res://Mapa5/Cliff_005.glb" id="13_lj78l"]
+[ext_resource type="PackedScene" uid="uid://bkgry6nqp7f3" path="res://Mapa5/Coin_001.glb" id="14_ub0cr"]
+[ext_resource type="PackedScene" uid="uid://devbiv2cwk645" path="res://Mapa5/ColumnBigBroken_001.glb" id="15_c34ya"]
+[ext_resource type="PackedScene" uid="uid://bv47yyq5n4kcr" path="res://Mapa5/ColumnBigBroken_002.glb" id="16_i28r5"]
+[ext_resource type="PackedScene" uid="uid://137pcocdr1sa" path="res://Mapa5/ColumnBig_001.glb" id="17_b0pxj"]
+[ext_resource type="PackedScene" uid="uid://cuvrn2uf03ubc" path="res://Mapa5/Crag_001.glb" id="18_t2qug"]
+[ext_resource type="PackedScene" uid="uid://cmo5xe02oirq2" path="res://Mapa5/Crag_003.glb" id="19_3oq0u"]
+[ext_resource type="PackedScene" uid="uid://ddag6v36ye655" path="res://Mapa5/Cup_001.glb" id="20_2pxqk"]
+[ext_resource type="PackedScene" uid="uid://dq6gcexte1if2" path="res://Mapa5/Cup_002.glb" id="21_17fsd"]
+[ext_resource type="PackedScene" uid="uid://laj1rx4ainws" path="res://Mapa5/Gear_001.glb" id="22_r211w"]
+[ext_resource type="PackedScene" uid="uid://bqk1wfp7ewvg1" path="res://Mapa5/Gear_002.glb" id="23_qohq8"]
+[ext_resource type="PackedScene" uid="uid://bqwldmntg8md1" path="res://Mapa5/Gem_001.glb" id="24_hfh4v"]
+[ext_resource type="PackedScene" uid="uid://ba4rocy4x8l1k" path="res://Mapa5/Gem_002.glb" id="25_idqpm"]
+[ext_resource type="PackedScene" uid="uid://bckfwbkw084d1" path="res://Mapa5/Gem_003.glb" id="26_7wdkr"]
+[ext_resource type="PackedScene" uid="uid://t6e7ervxmbyt" path="res://Mapa5/Gem_004.glb" id="27_yygiw"]
+[ext_resource type="PackedScene" uid="uid://g73u8ai15r2i" path="res://Mapa5/Gem_005.glb" id="28_s6cs7"]
+[ext_resource type="PackedScene" uid="uid://cmi2juxqgs7wl" path="res://Mapa5/GoldPileBig_001.glb" id="29_yh2cx"]
+[ext_resource type="PackedScene" uid="uid://b82v6xj0vvejp" path="res://Mapa5/GoldPileSmall_001.glb" id="30_cps1q"]
+[ext_resource type="PackedScene" uid="uid://lxwodnj6k1k1" path="res://Mapa5/Grass_001.glb" id="31_4lkm1"]
+[ext_resource type="PackedScene" uid="uid://cntov5186m7js" path="res://Mapa5/Grass_002.glb" id="32_85trv"]
+[ext_resource type="PackedScene" uid="uid://dpincopt5jerf" path="res://Mapa5/Grass_003.glb" id="33_n1ui5"]
+[ext_resource type="PackedScene" uid="uid://3uhyu6fw0pf1" path="res://Mapa5/Grass_004.glb" id="34_16sc3"]
+[ext_resource type="PackedScene" uid="uid://c5w6mt1bqvy5v" path="res://Mapa5/Meshy_AI_Golden_Flame_Dragon_0324225050_texture.glb" id="35_6qiyw"]
+[ext_resource type="PackedScene" uid="uid://big81f6guud86" path="res://Mapa5/Mound_005.glb" id="36_i228p"]
+[ext_resource type="PackedScene" uid="uid://d0sir6b8xua8e" path="res://Mapa5/Mound_008.glb" id="37_f61gm"]
+[ext_resource type="PackedScene" uid="uid://cbbicce6j6hio" path="res://Mapa5/PedestalBig_001.glb" id="38_vdy8k"]
+[ext_resource type="PackedScene" uid="uid://dkcc51i4llms" path="res://Mapa5/Pedestal_001.glb" id="39_o2chi"]
+[ext_resource type="PackedScene" uid="uid://bvak1u1n7cngi" path="res://Mapa5/PlatformSmall_001.glb" id="40_ahixm"]
+[ext_resource type="PackedScene" uid="uid://dka38od8o7w21" path="res://Mapa5/PlatformSmall_002.glb" id="41_8tsnj"]
+[ext_resource type="PackedScene" uid="uid://bvo4wek3xniho" path="res://Mapa5/PlatformSmall_003.glb" id="42_6ja50"]
+[ext_resource type="PackedScene" uid="uid://b8hx7wh7bln7w" path="res://Mapa5/PlatformSmall_004.glb" id="43_gjbdc"]
+[ext_resource type="PackedScene" uid="uid://cqjl1685c8qh1" path="res://Mapa5/PlatformStar_001.glb" id="44_orcrl"]
+[ext_resource type="PackedScene" uid="uid://bmieimw0x0uoy" path="res://Mapa5/PlatformStar_001_002.glb" id="45_ojgon"]
+[ext_resource type="PackedScene" uid="uid://mron6w050dqn" path="res://Mapa5/Platform_003.glb" id="46_ggacm"]
+[ext_resource type="PackedScene" uid="uid://bgfckmvr2pwqn" path="res://Mapa5/RockBig_001.glb" id="47_0ur35"]
+[ext_resource type="PackedScene" uid="uid://c7oqxsgvj377l" path="res://Mapa5/RockBig_003.glb" id="48_vxi7l"]
+[ext_resource type="PackedScene" uid="uid://dk10qyk7u5eal" path="res://Mapa5/RockBig_004.glb" id="49_lf847"]
+[ext_resource type="PackedScene" uid="uid://cmj70m4r0vfkf" path="res://Mapa5/RockMid_001.glb" id="50_qdqa7"]
+[ext_resource type="PackedScene" uid="uid://cvwbjdavy61i6" path="res://Mapa5/RockMid_002.glb" id="51_g8thb"]
+[ext_resource type="PackedScene" uid="uid://b3m5e0gsuyxnw" path="res://Mapa5/RockMid_003.glb" id="52_l7mug"]
+[ext_resource type="PackedScene" uid="uid://ftseqesrv0ef" path="res://Mapa5/RockMid_004.glb" id="53_yt10y"]
+[ext_resource type="PackedScene" uid="uid://1tekp2rd8bd2" path="res://Mapa5/RockSmall_001.glb" id="54_45bh4"]
+[ext_resource type="PackedScene" uid="uid://6pha5u18bmi3" path="res://Mapa5/RockSmall_002.glb" id="55_2f530"]
+[ext_resource type="PackedScene" uid="uid://unbxpaa6pwu6" path="res://Mapa5/RockSmall_003.glb" id="56_22j3q"]
+[ext_resource type="PackedScene" uid="uid://cls8evlhilbu6" path="res://Mapa5/RockSmall_004.glb" id="57_8hlde"]
+[ext_resource type="PackedScene" uid="uid://lmub3j0bb5xl" path="res://Mapa5/StairsMiddle_001.glb" id="58_rut8w"]
+[ext_resource type="PackedScene" uid="uid://bu0slklqqxgr2" path="res://Mapa5/StatueKnight_002.glb" id="59_ixm7g"]
+[ext_resource type="PackedScene" uid="uid://ce5m6iokx4b81" path="res://Mapa5/StoneSmall_001.glb" id="60_js2mv"]
+[ext_resource type="PackedScene" uid="uid://68gvtlk2bexi" path="res://Mapa5/StoneSmall_002.glb" id="61_ige3o"]
+[ext_resource type="PackedScene" uid="uid://dpb44c7badpxt" path="res://Mapa5/StoneSmall_004.glb" id="62_0yjk4"]
+[ext_resource type="PackedScene" uid="uid://dvpbno7efk3c" path="res://Mapa5/StoneSmall_005.glb" id="63_aj1n0"]
+[ext_resource type="PackedScene" uid="uid://buc64i6angr3h" path="res://Mapa5/Stone_001.glb" id="64_vj0sh"]
+[ext_resource type="PackedScene" uid="uid://s1lbtvi2s46j" path="res://Mapa5/Stone_002.glb" id="65_xfwme"]
+[ext_resource type="PackedScene" uid="uid://d344fqc2bp16i" path="res://Mapa5/Stone_003.glb" id="66_p68cn"]
+[ext_resource type="PackedScene" uid="uid://ospn8ux1dbh5" path="res://Mapa5/Stone_004.glb" id="67_is6w7"]
+[ext_resource type="PackedScene" uid="uid://vo6ceap8l8pj" path="res://Mapa5/Stone_005.glb" id="68_jr27d"]
+[ext_resource type="PackedScene" uid="uid://dg332shrkhwfk" path="res://Mapa5/Stone_006.glb" id="69_pv843"]
+[ext_resource type="PackedScene" uid="uid://dspyui2sa26ny" path="res://Mapa5/TowerBig_001.glb" id="70_52rng"]
+[ext_resource type="PackedScene" uid="uid://qpixa41f675l" path="res://Mapa5/Vase_001.glb" id="71_g42ev"]
+[ext_resource type="PackedScene" uid="uid://smw8xmi0y1go" path="res://Mapa5/Vase_002.glb" id="72_gdsyl"]
+[ext_resource type="PackedScene" uid="uid://82j5wkovwf2g" path="res://Mapa5/WellSmall_001.glb" id="73_xiute"]
+
+[node name="Map5kit" type="Node3D" unique_id=758243480]
+
+[node name="Axe_0012" parent="." unique_id=1290618882 instance=ExtResource("1_c5aya")]
+
+[node name="BaseSmall_0012" parent="." unique_id=1624164017 instance=ExtResource("2_l528p")]
+
+[node name="Bone_0032" parent="." unique_id=1624990147 instance=ExtResource("3_p6qrb")]
+
+[node name="Bone_0042" parent="." unique_id=1076689229 instance=ExtResource("4_nefcd")]
+
+[node name="Bone_0062" parent="." unique_id=1622436508 instance=ExtResource("5_fma5c")]
+
+[node name="Box_0012" parent="." unique_id=1531845315 instance=ExtResource("6_5oqc2")]
+
+[node name="Brazier_0022" parent="." unique_id=1426869119 instance=ExtResource("7_synn0")]
+
+[node name="Brazier_0042" parent="." unique_id=970754393 instance=ExtResource("8_1xx8p")]
+
+[node name="ChestBig_0012" parent="." unique_id=1894281501 instance=ExtResource("9_qqy2s")]
+
+[node name="CirclePlatformSmall_0012" parent="." unique_id=493804961 instance=ExtResource("10_3eivq")]
+
+[node name="Cliff_0032" parent="." unique_id=1301231606 instance=ExtResource("11_c02ge")]
+
+[node name="Cliff_0042" parent="." unique_id=1746663470 instance=ExtResource("12_0y3ea")]
+
+[node name="Cliff_0052" parent="." unique_id=1466747485 instance=ExtResource("13_lj78l")]
+
+[node name="Coin_0012" parent="." unique_id=1760915688 instance=ExtResource("14_ub0cr")]
+
+[node name="ColumnBigBroken_0012" parent="." unique_id=131960767 instance=ExtResource("15_c34ya")]
+
+[node name="ColumnBigBroken_0022" parent="." unique_id=1941567428 instance=ExtResource("16_i28r5")]
+
+[node name="ColumnBig_0012" parent="." unique_id=1282310767 instance=ExtResource("17_b0pxj")]
+
+[node name="Crag_0012" parent="." unique_id=1533581897 instance=ExtResource("18_t2qug")]
+
+[node name="Crag_0032" parent="." unique_id=1960344179 instance=ExtResource("19_3oq0u")]
+
+[node name="Cup_0012" parent="." unique_id=162729635 instance=ExtResource("20_2pxqk")]
+
+[node name="Cup_0022" parent="." unique_id=620199338 instance=ExtResource("21_17fsd")]
+
+[node name="Gear_0012" parent="." unique_id=1712077473 instance=ExtResource("22_r211w")]
+
+[node name="Gear_0022" parent="." unique_id=624502852 instance=ExtResource("23_qohq8")]
+
+[node name="Gem_0012" parent="." unique_id=654932264 instance=ExtResource("24_hfh4v")]
+
+[node name="Gem_0022" parent="." unique_id=234935122 instance=ExtResource("25_idqpm")]
+
+[node name="Gem_0032" parent="." unique_id=2022139284 instance=ExtResource("26_7wdkr")]
+
+[node name="Gem_0042" parent="." unique_id=689424038 instance=ExtResource("27_yygiw")]
+
+[node name="Gem_0052" parent="." unique_id=1494148029 instance=ExtResource("28_s6cs7")]
+
+[node name="GoldPileBig_0012" parent="." unique_id=1853481289 instance=ExtResource("29_yh2cx")]
+
+[node name="GoldPileSmall_0012" parent="." unique_id=620504914 instance=ExtResource("30_cps1q")]
+
+[node name="Grass_0012" parent="." unique_id=346090525 instance=ExtResource("31_4lkm1")]
+
+[node name="Grass_0022" parent="." unique_id=1683422784 instance=ExtResource("32_85trv")]
+
+[node name="Grass_0032" parent="." unique_id=201320539 instance=ExtResource("33_n1ui5")]
+
+[node name="Grass_0042" parent="." unique_id=166295096 instance=ExtResource("34_16sc3")]
+
+[node name="Meshy_AI_Golden_Flame_Dragon_0324225050_texture" parent="." unique_id=571973358 instance=ExtResource("35_6qiyw")]
+
+[node name="Mound_0052" parent="." unique_id=740826172 instance=ExtResource("36_i228p")]
+
+[node name="Mound_0082" parent="." unique_id=1945351689 instance=ExtResource("37_f61gm")]
+
+[node name="PedestalBig_0012" parent="." unique_id=1282837543 instance=ExtResource("38_vdy8k")]
+
+[node name="Pedestal_0012" parent="." unique_id=2044748087 instance=ExtResource("39_o2chi")]
+
+[node name="PlatformSmall_0012" parent="." unique_id=1923008511 instance=ExtResource("40_ahixm")]
+
+[node name="PlatformSmall_0022" parent="." unique_id=2092057391 instance=ExtResource("41_8tsnj")]
+
+[node name="PlatformSmall_0032" parent="." unique_id=1195949554 instance=ExtResource("42_6ja50")]
+
+[node name="PlatformSmall_0042" parent="." unique_id=1071789676 instance=ExtResource("43_gjbdc")]
+
+[node name="PlatformStar_0012" parent="." unique_id=880732144 instance=ExtResource("44_orcrl")]
+
+[node name="PlatformStar_001_0022" parent="." unique_id=594279722 instance=ExtResource("45_ojgon")]
+
+[node name="Platform_0032" parent="." unique_id=703145393 instance=ExtResource("46_ggacm")]
+
+[node name="RockBig_0012" parent="." unique_id=1250950890 instance=ExtResource("47_0ur35")]
+
+[node name="RockBig_0032" parent="." unique_id=1355224265 instance=ExtResource("48_vxi7l")]
+
+[node name="RockBig_0042" parent="." unique_id=364887114 instance=ExtResource("49_lf847")]
+
+[node name="RockMid_0012" parent="." unique_id=1552312134 instance=ExtResource("50_qdqa7")]
+
+[node name="RockMid_0022" parent="." unique_id=810694029 instance=ExtResource("51_g8thb")]
+
+[node name="RockMid_0032" parent="." unique_id=1767880802 instance=ExtResource("52_l7mug")]
+
+[node name="RockMid_0042" parent="." unique_id=606967167 instance=ExtResource("53_yt10y")]
+
+[node name="RockSmall_0012" parent="." unique_id=520781187 instance=ExtResource("54_45bh4")]
+
+[node name="RockSmall_0022" parent="." unique_id=1256098522 instance=ExtResource("55_2f530")]
+
+[node name="RockSmall_0032" parent="." unique_id=507506283 instance=ExtResource("56_22j3q")]
+
+[node name="RockSmall_0042" parent="." unique_id=2107692638 instance=ExtResource("57_8hlde")]
+
+[node name="StairsMiddle_0012" parent="." unique_id=397784334 instance=ExtResource("58_rut8w")]
+
+[node name="StatueKnight_0022" parent="." unique_id=165385690 instance=ExtResource("59_ixm7g")]
+
+[node name="StoneSmall_0012" parent="." unique_id=596571339 instance=ExtResource("60_js2mv")]
+
+[node name="StoneSmall_0022" parent="." unique_id=1695871055 instance=ExtResource("61_ige3o")]
+
+[node name="StoneSmall_0042" parent="." unique_id=1993864873 instance=ExtResource("62_0yjk4")]
+
+[node name="StoneSmall_0052" parent="." unique_id=27751864 instance=ExtResource("63_aj1n0")]
+
+[node name="Stone_0012" parent="." unique_id=1128761820 instance=ExtResource("64_vj0sh")]
+
+[node name="Stone_0022" parent="." unique_id=136264024 instance=ExtResource("65_xfwme")]
+
+[node name="Stone_0032" parent="." unique_id=1901703421 instance=ExtResource("66_p68cn")]
+
+[node name="Stone_0042" parent="." unique_id=1784439862 instance=ExtResource("67_is6w7")]
+
+[node name="Stone_0052" parent="." unique_id=569195308 instance=ExtResource("68_jr27d")]
+
+[node name="Stone_0062" parent="." unique_id=1098525053 instance=ExtResource("69_pv843")]
+
+[node name="TowerBig_0012" parent="." unique_id=1244895078 instance=ExtResource("70_52rng")]
+
+[node name="Vase_0012" parent="." unique_id=976927224 instance=ExtResource("71_g42ev")]
+
+[node name="Vase_0022" parent="." unique_id=2014335425 instance=ExtResource("72_gdsyl")]
+
+[node name="WellSmall_0012" parent="." unique_id=185462585 instance=ExtResource("73_xiute")]
