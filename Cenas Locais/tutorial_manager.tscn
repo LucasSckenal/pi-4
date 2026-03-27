@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://droioh0h3ivkm" path="res://Cenas Locais/tutorial_manager.gd" id="1_8kacx"]
 [ext_resource type="Texture2D" uid="uid://cfwqaluwadvca" path="res://Icons/seta.png" id="2_qy4gi"]
-[ext_resource type="Shader" path="res://Cenas Locais/tutorial_manager.gdshader" id="2_wsspp"]
+[ext_resource type="Shader" uid="uid://c07c3ymo8xv0w" path="res://Cenas Locais/tutorial_manager.gdshader" id="2_wsspp"]
 [ext_resource type="PackedScene" uid="uid://clww287nh4jrb" path="res://Personagens/character-female-c.glb" id="3_iojbm"]
 [ext_resource type="PackedScene" uid="uid://bl6xi3ijx2f4t" path="res://Personagens/character-male-b.glb" id="4_wsspp"]
 
@@ -110,7 +110,7 @@ render_target_update_mode = 4
 
 [node name="character-male-b2" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=2004813500 instance=ExtResource("4_wsspp")]
 
-[node name="Skeleton3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/character-male-b" parent_id_path=PackedInt32Array(2004813500, 919003855) index="0" unique_id=985075035]
+[node name="Skeleton3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/character-male-b" parent_id_path=PackedInt32Array(2004813500, 1859515817) index="0" unique_id=652004563]
 bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
 bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
 
@@ -126,6 +126,21 @@ offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_qy4gi")
 expand_mode = 1
+
+[node name="BotaoPular" type="Button" parent="." unique_id=2055384221]
+z_index = 1000
+z_as_relative = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -180.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+mouse_default_cursor_shape = 2
+text = "PULAR DIÁLOGO"
+
+[connection signal="pressed" from="BotaoPular" to="." method="_on_botao_pular_pressed"]
 
 [editable path="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2"]
 [editable path="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2"]

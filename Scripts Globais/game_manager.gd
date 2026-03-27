@@ -25,6 +25,8 @@ var moedas: int = 0
 var onda_atual: int = 1
 var nivel_base: int = 0 : set = _set_nivel_base
 
+var modo_dev: bool = false
+
 # ==========================================
 # BANCO DE DADOS DAS FASES
 # ==========================================
@@ -78,6 +80,13 @@ func _process(_delta):
 	if Input.is_action_just_pressed("passar_onda"): 
 		if estado_atual == EstadoJogo.DIA and not is_tutorial_ativo:
 			iniciar_noite()
+
+	# Ativa o modo de desenvolvedor para testes e recursos adicionais
+	if Input.is_physical_key_pressed(KEY_F2) and not modo_dev:
+		modo_dev = true
+		moedas += 10000
+		get_tree().call_group("Interface", "atualizar_moedas")
+		print("Modo Dev ativado: Moedas concedidas e restrições de movimento removidas.")
 
 # ==========================================
 # INICIALIZAÇÃO DE FASE E CONSTRUÇÕES

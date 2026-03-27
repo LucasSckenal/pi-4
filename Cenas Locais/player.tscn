@@ -102,6 +102,7 @@ shader_parameter/_NormalThreshold = 2.0
 resource_name = "weapons"
 next_pass = SubResource("ShaderMaterial_s4yu8")
 albedo_texture = ExtResource("6_s51um")
+metallic = 1.0
 roughness = 0.5
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ghwwx"]

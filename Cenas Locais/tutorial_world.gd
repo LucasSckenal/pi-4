@@ -41,6 +41,7 @@ func iniciar_sequencia_tutorial():
 	# Botão "Iniciar Noite"
 	var btn_noite = get_tree().get_first_node_in_group("BotaoIniciarNoite")
 	while btn_noite == null:
+		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(btn_noite, "Berta: Tudo pronto! Clica aqui para começar!")
 	
@@ -64,6 +65,7 @@ func iniciar_sequencia_tutorial():
 	var raio_chegada = 5.0
 	
 	while not player_chegou and tempo_espera < 15.0:
+		if not GameManager.is_tutorial_ativo: break
 		if player and player.global_position.distance_to(ponto_defesa.global_position) < raio_chegada:
 			player_chegou = true
 			print("Jogador chegou ao ponto de defesa!")
@@ -83,6 +85,7 @@ func iniciar_sequencia_tutorial():
 	
 	var carta = get_tree().root.find_child("CartaTutorial0", true, false)
 	while carta == null:
+		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
 	
@@ -100,6 +103,7 @@ func iniciar_sequencia_tutorial():
 	
 	var btn_noite2 = get_tree().get_first_node_in_group("BotaoIniciarNoite")
 	while btn_noite2 == null:
+		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(btn_noite2, "Clique para iniciar a próxima noite.")
 	
@@ -129,6 +133,7 @@ func iniciar_sequencia_tutorial():
 func aguardar_construcao_no_slot(slot: Node3D, timeout: float = 5.0) -> Node3D:
 	var tempo = 0.0
 	while tempo < timeout:
+		if not GameManager.is_tutorial_ativo: return null
 		var c = get_construcao_no_slot(slot)
 		if c:
 			return c
@@ -147,8 +152,10 @@ func get_construcao_no_slot(slot: Node3D) -> Node3D:
 
 # Passo de construção: foca no slot, clica no botão e retorna a construção criada
 func passo_construcao(slot, indice_botao, texto) -> Node3D:
+	if not GameManager.is_tutorial_ativo: return null
 	await tutorial.focar_em_slot_3d(slot, texto)
 	while slot.get("ui_atual") == null:
+		if not GameManager.is_tutorial_ativo: return null
 		await get_tree().create_timer(0.01).timeout
 	await tutorial.focar_em_ui_2d(slot.ui_atual._botoes_ativos[indice_botao], "Escolha a construção.")
 	var construcao = await aguardar_construcao_no_slot(slot)
@@ -156,6 +163,7 @@ func passo_construcao(slot, indice_botao, texto) -> Node3D:
 
 # Passo de upgrade: foca na construção, aguarda a UI abrir e o upgrade ser concluído
 func passo_upgrade(construcao: Node3D, texto: String):
+	if not GameManager.is_tutorial_ativo: return
 	var hud = get_tree().get_first_node_in_group("Interface")
 	if not hud:
 		push_error("HUD não encontrada")
@@ -181,6 +189,7 @@ func passo_upgrade(construcao: Node3D, texto: String):
 		# Aguarda a UI ficar visível (com timeout)
 		var tempo_ui = 0.0
 		while not upgrade_ui.visible and tempo_ui < 5.0:
+			if not GameManager.is_tutorial_ativo: return
 			await get_tree().create_timer(0.1).timeout
 			tempo_ui += 0.1
 		

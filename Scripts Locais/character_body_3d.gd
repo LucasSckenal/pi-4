@@ -59,7 +59,7 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			# Bloqueia clique de andar durante o dia (fase de construção)
-			if not GameManager.is_night:
+			if not GameManager.is_night and not GameManager.modo_dev:
 				return
 				
 			var camera = get_viewport().get_camera_3d()

@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 signal clicou_na_tela # Necessário para o sistema estilo Genshin
+signal tutorial_pulado # Emitido quando o jogador decide pular o tutorial
 
 @onready var fundo_escuro = $FundoEscuro
 @onready var seta = $Seta
@@ -36,6 +37,8 @@ func _ready():
 	
 	if fundo_escuro.material is ShaderMaterial:
 		material_fundo = fundo_escuro.material as ShaderMaterial
+	
+	$BotaoPular.visible = true
 	
 	configurar_estilo_acessivel()
 	configurar_animacoes_loop()
@@ -124,7 +127,6 @@ func configurar_dialogo(texto_completo: String):
 	tween_texto.tween_property(caixa_texto, "visible_ratio", 1.0, fala.length() * velocidade_texto)
 
 # Função limpa apenas para contar história (sem focar no Castelo)
-# Função limpa apenas para contar história (sem focar no Castelo)
 func mostrar_dialogo(texto: String):
 	var camera = get_viewport().get_camera_3d()
 	if camera and camera.has_method("reset_zoom_tutorial"):
@@ -169,6 +171,7 @@ func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 		var hud = get_tree().get_first_node_in_group("HUD")
 		if hud and hud.upgrade_ui_instance:
 			while not hud.upgrade_ui_instance.visible:
+				if not GameManager.is_tutorial_ativo: break
 				await get_tree().create_timer(0.1).timeout
 		else:
 			# Fallback de segurança apenas se a HUD tiver algum erro grave
@@ -193,6 +196,7 @@ func focar_em_ui_2d(botao_alvo: Control, texto: String):
 		botao_alvo.pressed.connect(ao_clicar)
 		
 	while not estado.clicado and is_instance_valid(botao_alvo):
+		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.1).timeout
 	
 	if is_instance_valid(botao_alvo) and botao_alvo.has_signal("pressed") and botao_alvo.pressed.is_connected(ao_clicar):
@@ -214,3 +218,13 @@ func esconder():
 	fundo_escuro.visible = false
 	alvo_3d_atual = null
 	alvo_2d_atual = null
+
+# Função conectada ao botão de pular tutorial na interface
+func _on_botao_pular_pressed():
+	GameManager.is_tutorial_ativo = false
+	tutorial_pulado.emit()
+	clicou_na_tela.emit()
+	esconder()
+	
+	if fundo_escuro:
+		fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
