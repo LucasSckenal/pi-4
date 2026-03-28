@@ -7,6 +7,7 @@
 [resource]
 script = ExtResource("1_jrxc3")
 cena = ExtResource("1_7kr62")
+quantidade = 3
 cor = Color(0, 0.20896336, 9.62615e-08, 1)
 icone = ExtResource("2_d7wbh")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
