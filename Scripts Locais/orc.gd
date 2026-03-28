@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+# --- SONS ---
+const SOM_HIT = preload("res://Sons/EnemyHurt.wav")
+
 # --- CONFIGURAÇÕES ---
 @export var velocidade: float = 0.5
 @export var jump_velocity: float = 4.5
@@ -148,10 +151,35 @@ func receber_dano(qtd):
 	if esta_morto: return
 	vida -= qtd
 	
-	# Feedback de dano (não fica gigante!)
+	# Som do hit
+	var som_hit = AudioStreamPlayer3D.new()
+	som_hit.stream = SOM_HIT
+	som_hit.volume_db = -25
+	add_child(som_hit)
+	som_hit.play()
+	som_hit.finished.connect(som_hit.queue_free)
+	
+	# 1. Feedback de Escala (Preservado) 
 	var tw = create_tween()
+	tw.set_parallel(true)
 	tw.tween_property(modelo, "scale", escala_original * 1.2, 0.1)
-	tw.tween_property(modelo, "scale", escala_original, 0.1)
+	tw.chain().tween_property(modelo, "scale", escala_original, 0.1)
+	
+	# 2. Pulso de Cor (Flash de Dano)
+	# Percorre as malhas para aplicar um brilho temporário
+	for child in modelo.find_children("*", "MeshInstance3D"):
+		var mat = child.get_active_material(0)
+		if mat is StandardMaterial3D:
+			# Cria uma cópia única do material se necessário para não afetar outros orcs
+			var mat_local = mat.duplicate()
+			child.set_surface_override_material(0, mat_local)
+			
+			mat_local.emission_enabled = true
+			mat_local.emission = Color.WHITE
+			mat_local.emission_energy_multiplier = 2.0
+			
+			var tw_color = create_tween()
+			tw_color.tween_property(mat_local, "emission_energy_multiplier", 0.0, 0.2)
 	
 	if vida <= 0: morrer()
 
