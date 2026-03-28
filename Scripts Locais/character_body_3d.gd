@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+# --- SONS ---
+const SOM_PULO = preload("res://Sons/jump.wav")
+
 # --- CONFIGURAÇÕES DE MOVIMENTO ---
 @export var speed = 2.0
 @export var jump_velocity = 4.0
@@ -175,6 +178,19 @@ func _physics_process(delta):
 					
 					if not eh_barreira:
 						velocity.y = jump_velocity
+						var player_som = AudioStreamPlayer3D.new()
+						player_som.stream = SOM_PULO
+						player_som.volume_db = -25
+						player_som.bus = "SFX" # Use um barramento de áudio para controle de volume
+						add_child(player_som)
+						player_som.play()
+						player_som.finished.connect(player_som.queue_free)
+
+	# 2.5 Se a navegação terminou, esconde o feedback visual e para a rotação
+	if nav_agent.is_navigation_finished() and linha_caminho.visible:
+		linha_caminho.hide()
+		if rotation_tween:
+			rotation_tween.kill()
 
 	# 3. Movimento e Rotação Inteligente
 	var angulo_destino = rotation.y # Mantém a rotação atual por padrão
@@ -211,6 +227,12 @@ func _physics_process(delta):
 		velocity = Vector3.ZERO # Zera a velocidade acumulada da queda livre
 		nav_agent.target_position = global_position # Reseta a rota do NavigationAgent para ele não tentar correr de volta para o buraco
 
+		# Limpa o caminho visual ao cair
+		if linha_caminho:
+			linha_caminho.hide()
+			if rotation_tween:
+				rotation_tween.kill()
+
 # ==========================================
 # LÓGICA DE COMBATE
 # ==========================================
@@ -245,33 +267,66 @@ func _executar_ataque_area(inimigos: Array):
 			inimigo.receber_dano(dano_ataque)
 
 func _criar_efeito_visual_corte():
-	# Cria uma malha simples para simular o rastro brilhante da espada
+	# Cria uma malha simples para o rastro da espada
 	var efeito = MeshInstance3D.new()
 	var malha = PlaneMesh.new()
-	malha.size = Vector2(0.8, 0.5)
+	malha.size = Vector2(0.8, 0.8) # Aumentado para acomodar o rastro circular
 	efeito.mesh = malha
 	
-	var material = StandardMaterial3D.new()
-	material.albedo_color = Color(1.0, 1.0, 0.9, 0.8)
-	material.albedo_texture = TEXTURA_CORTE
-	material.emission_enabled = true
-	material.emission = Color(0.8, 0.8, 0.2)
-	material.emission_texture = TEXTURA_CORTE
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	malha.surface_set_material(0, material)
+	# Shader adaptada para Spatial (3D) baseada na lógica fornecida
+	var shader = Shader.new()
+	shader.code = """
+		shader_type spatial;
+		render_mode unshaded, cull_disabled;
+
+		uniform sampler2D tex_albedo;
+		uniform float inner_radius : hint_range(0.0, 1.0) = 0.2;
+		uniform float outer_radius : hint_range(0.0, 1.0) = 0.5;
+		uniform float lead_angle : hint_range(0.0, 2.0) = 0.0;
+		uniform float tail_angle : hint_range(0.0, 2.0) = 0.5;
+		uniform vec4 slash_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+
+		void fragment() {
+			vec2 pos = UV - 0.5;
+			float dist = length(pos);
+			float angle = (atan(pos.y, pos.x) + PI) / TAU; 
+			
+			float angle_mask = step(angle, lead_angle);
+			float inner_mask = step(inner_radius, dist);
+			float outer_mask = step(dist, outer_radius);
+			
+			float alpha_fade = smoothstep(lead_angle - tail_angle, lead_angle, angle);
+			
+			ALBEDO = slash_color.rgb;
+			ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
+		}
+	"""
 	
+	var material = ShaderMaterial.new()
+	material.shader = shader
+	# Configurações iniciais
+	material.set_shader_parameter("inner_radius", 0.3)
+	material.set_shader_parameter("outer_radius", 0.5)
+	material.set_shader_parameter("lead_angle", 0.0)
+	material.set_shader_parameter("slash_color", Color(1.0, 1.0, 1.0, 0.5))
+	
+	efeito.material_override = material
 	add_child(efeito)
 	
-	# Posiciona o efeito à frente do personagem na altura média do corpo
-	efeito.position = Vector3(0.0, 0.2, 0.3) 
+	# Posicionamento e rotação (ajustado para horizontal à frente do player)
+	efeito.position = Vector3(0.0, 0.2, 0.0)
+	efeito.rotation_degrees = Vector3(180, 0, 0)
 	
-	# Anima o corte esticando para as laterais e sumindo rapidamente
+	# Animação do "lead_angle" para fazer o corte aparecer circulando
 	var tween = create_tween()
-	tween.tween_property(efeito, "scale", Vector3(0.6, 1.0, 0.6), 0.2).set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(material, "albedo_color:a", 0.0, 0.2)
-	tween.tween_callback(efeito.queue_free)
-
+	tween.set_parallel(true)
+	# O corte "gira" de 0 a 0.8 (quase meio círculo)
+	tween.tween_property(material, "shader_parameter/lead_angle", 0.5, 0.2).set_ease(Tween.EASE_OUT)
+	# Desvanece a opacidade
+	tween.tween_property(material, "shader_parameter/slash_color:a", 0.0, 0.25).set_delay(0.1)
+	
+	tween.chain().tween_callback(efeito.queue_free)
+	
 func _on_timer_ataque_timeout():
 	pode_atacar = true
 	inimigo_focado = null # Limpa o alvo quando termina o golpe
