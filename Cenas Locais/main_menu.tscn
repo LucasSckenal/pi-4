@@ -214,6 +214,7 @@ layout_mode = 2
 
 [node name="BtnConquistas" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2044346011]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Conquistas"
 
 [node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=819533763]
