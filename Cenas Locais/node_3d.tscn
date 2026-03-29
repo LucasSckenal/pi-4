@@ -43,12 +43,12 @@ shader_parameter/ground_bottom_color = Color(0.2, 0.16862746, 0.6666667, 1)
 shader_parameter/ground_curve = 0.04
 shader_parameter/exposure = 1.0
 
-[sub_resource type="Sky" id="Sky_vemgx"]
+[sub_resource type="Sky" id="Sky_o1118"]
 sky_material = SubResource("ShaderMaterial_vemgx")
 
 [sub_resource type="Environment" id="Environment_p51yl"]
 background_mode = 2
-sky = SubResource("Sky_vemgx")
+sky = SubResource("Sky_o1118")
 sky_rotation = Vector3(0, -2.5132742, 0)
 ambient_light_source = 3
 ambient_light_color = Color(0.34901962, 0, 0.5176471, 1)
@@ -288,7 +288,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.0173283, 1.593998, 2.69637
 mesh_library = ExtResource("3_v36gq")
 cell_size = Vector3(0.25, 0.05, 0.25)
 data = {
-"cells": PackedInt32Array(-983037, 65524, 5, -983034, 65528, 0, -983036, 65530, 1441792, -983036, 65520, 1048576, -983034, 65522, 0, -917505, 65530, 5, -720886, 65520, 5, -720885, 65528, 5, -917514, 65525, 1441793, -1048588, 65523, 1048580, -851971, 65525, 655362, -851969, 65520, 1048577, -851971, 65522, 655361, -851977, 65520, 1048579)
+"cells": PackedInt32Array(-983037, 65524, 5, -983034, 65528, 0, -983036, 65530, 1441792, -983036, 65520, 1048576, -983034, 65522, 0, -917505, 65530, 5, -720886, 65520, 5, -720885, 65528, 5, -917514, 65525, 1441793, -1048588, 65523, 1048580, -851977, 65520, 1048579, -917507, 65525, 655362, -917507, 65522, 655361, -917505, 65520, 1048577)
 }
 metadata/_editor_floor_ = Vector3(0, -14, 0)
 
