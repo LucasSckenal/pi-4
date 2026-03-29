@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://gay3185ml7vb"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_jbdxe"]
+[ext_resource type="PackedScene" uid="uid://c5w6mt1bqvy5v" path="res://Mapa5/Meshy_AI_Golden_Flame_Dragon_0324225050_texture.glb" id="2_yxduj"]
+
+[node name="Node3D" type="Node3D" unique_id=2080283946]
+script = ExtResource("1_jbdxe")
+
+[node name="Meshy_AI_Golden_Flame_Dragon_0324225050_texture" parent="." unique_id=1014432942 instance=ExtResource("2_yxduj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15367496, 0, -0.38703704)
