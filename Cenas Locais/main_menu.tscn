@@ -17,6 +17,7 @@ dof_blur_far_enabled = true
 dof_blur_far_distance = 0.03
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bege"]
+content_margin_left = 16.0
 bg_color = Color(0.90196, 0.83921, 0.72156, 1)
 border_width_left = 4
 border_width_top = 4
@@ -37,6 +38,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1fi58"]
+content_margin_left = 16.0
 bg_color = Color(0.57254905, 0.4862745, 0.32156864, 1)
 border_width_left = 4
 border_width_top = 4
@@ -54,6 +56,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3eshw"]
+content_margin_left = 16.0
 bg_color = Color(0.9019608, 0.8392157, 0.72156864, 1)
 border_width_left = 4
 border_width_top = 4
@@ -75,6 +78,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uol58"]
+content_margin_left = 16.0
 bg_color = Color(0.9019608, 0.8392157, 0.22352941, 1)
 border_width_left = 4
 border_width_top = 4
@@ -92,6 +96,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_krtp0"]
+content_margin_left = 16.0
 bg_color = Color(0.6313726, 0.58431375, 0.11372549, 1)
 border_width_left = 4
 border_width_top = 4
@@ -109,6 +114,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yo1mr"]
+content_margin_left = 16.0
 bg_color = Color(0.9019608, 0.8392157, 0.22352941, 1)
 border_width_left = 4
 border_width_top = 4
@@ -130,6 +136,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cinza"]
+content_margin_left = 16.0
 bg_color = Color(0.6235, 0.6313, 0.6509, 1)
 border_width_left = 4
 border_width_top = 4
@@ -151,6 +158,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xsw65"]
+content_margin_left = 16.0
 bg_color = Color(0.36862746, 0.37254903, 0.39215687, 1)
 border_width_left = 4
 border_width_top = 4
@@ -168,6 +176,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqqrd"]
+content_margin_left = 16.0
 bg_color = Color(0.62352943, 0.6313726, 0.6509804, 1)
 border_width_left = 4
 border_width_top = 4
@@ -188,6 +197,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_laranja"]
+content_margin_left = 16.0
 bg_color = Color(0.8313, 0.4196, 0.2313, 1)
 border_width_left = 4
 border_width_top = 4
@@ -209,6 +219,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btggu"]
+content_margin_left = 16.0
 bg_color = Color(0.44705883, 0.2, 0.08235294, 1)
 border_width_left = 4
 border_width_top = 4
@@ -226,6 +237,7 @@ shadow_size = 1
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dtel2"]
+content_margin_left = 16.0
 bg_color = Color(0.83137256, 0.41960785, 0.23137255, 1)
 border_width_left = 4
 border_width_top = 4
@@ -304,9 +316,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=703772984]
-custom_minimum_size = Vector2(300, 400)
+custom_minimum_size = Vector2(400, 400)
 layout_mode = 2
-theme_override_constants/separation = 25
+theme_override_constants/separation = 30
 
 [node name="BtnJogar" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1102113439]
 custom_minimum_size = Vector2(280, 85)
@@ -351,8 +363,9 @@ theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_cinza")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_xsw65")
 theme_override_styles/hover = SubResource("StyleBoxFlat_iqqrd")
-text = "    Configurações"
+text = "       Configurações"
 icon = ExtResource("11_krtp0")
+alignment = 0
 autowrap_trim_flags = 0
 expand_icon = true
 

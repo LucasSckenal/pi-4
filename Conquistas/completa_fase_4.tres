@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://taylvj1vct4w"]
+
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_r34bu"]
+
+[resource]
+script = ExtResource("1_r34bu")
+id = "completa_fase_4"
+nome = "Vamos Precisar de um Barco Maior... e de Toalhas!"
+descricao = "Sobreviva a todas as ondas no Navio Submerso, proteja o Mapa do Tesouro e mande os Peixes Mutantes de volta para o aquário."
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"

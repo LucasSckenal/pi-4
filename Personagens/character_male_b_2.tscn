@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bdol5548ge6g0"]
 
 [ext_resource type="PackedScene" uid="uid://bl6xi3ijx2f4t" path="res://Personagens/character-male-b.glb" id="1_1l0jf"]
-[ext_resource type="Texture2D" uid="uid://clf0w5ov3w6ds" path="res://Personagens/Textures/colormap.png" id="2_lru4j"]
+[ext_resource type="Texture2D" uid="uid://bpfgoxxe3u811" path="res://Assets/Wepons/Textures/colormap.png" id="2_lru4j"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_3gcsc"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5w3wx"]
@@ -82,8 +82,8 @@ blend_shape_mode = 0
 
 [node name="character-male-b2" unique_id=807596320 instance=ExtResource("1_1l0jf")]
 
-[node name="body-mesh" parent="character-male-b/Skeleton3D" parent_id_path=PackedInt32Array(652004563) index="0" unique_id=1860991642]
+[node name="body-mesh" parent="character-male-b/Skeleton3D" parent_id_path=PackedInt32Array(985075035) index="0" unique_id=1135071537]
 mesh = SubResource("ArrayMesh_nv2di")
 
-[node name="head-mesh" parent="character-male-b/Skeleton3D" parent_id_path=PackedInt32Array(652004563) index="1" unique_id=1186068199]
+[node name="head-mesh" parent="character-male-b/Skeleton3D" parent_id_path=PackedInt32Array(985075035) index="1" unique_id=64808323]
 mesh = SubResource("ArrayMesh_gumwa")

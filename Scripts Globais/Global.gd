@@ -3,61 +3,73 @@ extends Node
 # --- CONFIGURAÇÕES DE CAMINHO ---
 const SAVE_PATH = "user://save_game.cfg"
 
-# --- SISTEMA DE PERSONAGENS ---
-var personagem_escolhido_path : String = ""
+# --- NOVO SISTEMA DE CUSTOMIZAÇÃO ---
+# Qual personagem o jogador escolheu para jogar na fase atual (ex: "avo_m" ou "avo_f")
+var personagem_jogado_atualmente : String = "avo_m"
 
-# Lista com 12 personagens. O index 0 (Feminino A) e 6 (Masculino A) são livres.
-var lista_personagens = [
-	"res://Personagens/character-female-c.glb", # Index 0: Livre
-	"res://Personagens/character-female-b.glb", # Index 1: Trancado
-	"res://Personagens/character-female-a.glb", # Index 2: Trancado
-	"res://Personagens/character-female-d.glb", # Index 3: Trancado
-	"res://Personagens/character-female-e.glb", # Index 4: Trancado
-	"res://Personagens/character-female-f.glb", # Index 5: Trancado
-	
-	"res://Personagens/character-male-b.glb",   # Index 6: Livre
-	"res://Personagens/character-male-a.glb",   # Index 7: Trancado
-	"res://Personagens/character-male-c.glb",   # Index 8: Trancado
-	"res://Personagens/character-male-d.glb",   # Index 9: Trancado
-	"res://Personagens/character-male-e.glb",   # Index 10: Trancado
-	"res://Personagens/character-male-f.glb"    # Index 11: Trancado
+# O nosso inventário de armas partilhado (A Katana já vem de fábrica!)
+# CHEAT: Todas as armas desbloqueadas para teste!
+var armas_desbloqueadas: Array = [
+	"arma_cajado", 
+	"arma_lanca", 
+	"arma_rolo_massa", 
+	"arma_baguete", 
+	"arma_baguete2", 
+	"arma_peixe", 
+	"arma_colher_pau", 
+	"arma_espatula", 
+	"arma_faca", 
+	"arma_machado", 
+	"arma_katana", 
+	"arma_espada_longa", 
+	"arma_garfo_gigante", 
+	"arma_presunto"
 ]
+
+# O que cada um tem equipado neste momento
+var equip_avo_m = {
+	"arma": "arma_katana"
+}
+
+var equip_avo_f = {
+	"arma": "arma_katana"
+}
 
 # --- SISTEMA DE CONQUISTAS (RESOURCES) ---
-signal conquista_desbloqueada(nome_conquista, index_liberado, icone_conquista)
+# O sinal agora envia o id da arma em vez do index do personagem
+signal conquista_desbloqueada(nome_conquista, id_arma_liberada, icone_conquista)
 
-# 1. Carregamos os arquivos visuais (Resources) que você criou na pasta
 var banco_conquistas: Array = [
-	preload("res://Conquistas/engenheiro.tres"),     # O seu arquivo antigo da torre
-	preload("res://Conquistas/vitoria_1.tres"),      # O seu arquivo antigo rico/vitoria
-	preload("res://Conquistas/economia.tres"),       # <-- AQUI ESTÁ O NOVO!
+	preload("res://Conquistas/acumula_1000_moedas.tres"),
+	preload("res://Conquistas/chega_fase_final.tres"),
+	preload("res://Conquistas/completa_fase_4.tres"),
 	preload("res://Conquistas/defesa_perfeita.tres"),
-	preload("res://Conquistas/mao_na_massa.tres"),
-	preload("res://Conquistas/sobrevivente.tres"),
-	preload("res://Conquistas/muralhas.tres"),
-	preload("res://Conquistas/general.tres"),
-	preload("res://Conquistas/matar_boss.tres"),
-	preload("res://Conquistas/zerar_jogo.tres")
+	preload("res://Conquistas/derrota_boss_sem_dano_base.tres"),
+	preload("res://Conquistas/fuga_piramide.tres"),
+	preload("res://Conquistas/guarda_dinheiro_ondas.tres"),
+	preload("res://Conquistas/inicio_aventura.tres"),
+	preload("res://Conquistas/pagamento_20_ondas.tres"),
+	preload("res://Conquistas/poder_espacial.tres"),
+	preload("res://Conquistas/primeira_compra.tres"),
+	preload("res://Conquistas/primeiros_passos.tres"),
+	preload("res://Conquistas/Querida_Encolhi_os_Avos.tres")
 ]
 
-# 2. Esse dicionário vai guardar APENAS o status (true/false) na memória para o Save
+# Esse dicionário vai guardar o status (true/false) na memória para o Save [cite: 4]
 var status_conquistas: Dictionary = {}
 
 func _ready():
-	# Prepara o dicionário de status dinamicamente baseado nos arquivos .tres
 	for conquista in banco_conquistas:
 		if conquista != null:
 			status_conquistas[conquista.id] = false
 		
 	carregar_progresso()
 	print("--- DEBUG GLOBAL ---")
-	print("Lista de personagens: ", lista_personagens.size())
-	print("Banco de conquistas carregado com sucesso.")
+	print("Armas desbloqueadas no inventário: ", armas_desbloqueadas)
 
 # --- LÓGICA DE DESBLOQUEIO E VERIFICAÇÃO ---
 
 func desbloquear_conquista(id_procurado: String):
-	# Busca a conquista no nosso banco de dados
 	var conquista_encontrada = null
 	for c in banco_conquistas:
 		if c != null and c.id == id_procurado:
@@ -65,47 +77,53 @@ func desbloquear_conquista(id_procurado: String):
 			break
 			
 	if conquista_encontrada == null:
-		print("[ERRO] Conquista não encontrada no banco: ", id_procurado)
 		return
 		
-	# Verifica se já não foi liberada
 	if status_conquistas.has(id_procurado) and status_conquistas[id_procurado] == false:
-		status_conquistas[id_procurado] = true # Muda para verdadeiro!
+		status_conquistas[id_procurado] = true
 		
 		var nome = conquista_encontrada.nome
-		var index = conquista_encontrada.libera_personagem_index
-		var icone = conquista_encontrada.icone # NOVO: Pega a imagem do arquivo .tres!
+		# ATENÇÃO: O teu arquivo de conquistas (.tres) agora deve ter a variável 'libera_arma_id' em vez de 'libera_personagem_index' [cite: 5]
+		var arma_id = conquista_encontrada.libera_arma_id 
+		var icone = conquista_encontrada.icone 
 		
-		# Dispara o sinal para o Popup UI (agora com 3 informações)
-		emit_signal("conquista_desbloqueada", nome, index, icone)
+		# Se a conquista der uma arma e ela ainda não estiver no inventário, adiciona!
+		if arma_id != "" and not armas_desbloqueadas.has(arma_id):
+			armas_desbloqueadas.append(arma_id)
+			print("[INVENTÁRIO] Nova arma ganha: ", arma_id)
+		
+		emit_signal("conquista_desbloqueada", nome, arma_id, icone) 
 		salvar_progresso()
-		
-		print("[SUCESSO] Conquista Liberada e Salva: ", nome)
 	else:
 		print("[INFO] A conquista '", conquista_encontrada.nome, "' já estava liberada.")
 
-# Essa função a Tela de Personagens vai usar para saber se mostra o cadeado
-func is_personagem_liberado(index: int) -> bool:
-	# 1. Os personagens 0 e 6 já nascem liberados
-	if index == 0 or index == 6:
-		return true
-		
-	# 2. Procura se tem alguma conquista atrelada a este personagem
-	for conquista in banco_conquistas:
-		if conquista != null and conquista.libera_personagem_index == index:
-			# Retorna true se já tem no save, false se não tem
-			if status_conquistas.has(conquista.id):
-				return status_conquistas[conquista.id]
-			
-	# 3. Se não achou nenhuma conquista que libere ele, tranca por segurança
-	return false
+# A UI vai usar isto para saber se desenha o cadeado ou a arma colorida
+func is_arma_liberada(id_arma: String) -> bool:
+	return armas_desbloqueadas.has(id_arma)
+
+# Função para quando o jogador clica numa arma na tela de customização
+func equipar_arma(personagem: String, id_arma: String):
+	if personagem == "avo_m":
+		equip_avo_m["arma"] = id_arma
+	elif personagem == "avo_f":
+		equip_avo_f["arma"] = id_arma
+	
+	salvar_progresso()
+	print("[EQUIPAMENTO] ", personagem, " agora está a usar: ", id_arma)
 
 # --- SISTEMA DE SAVE / LOAD ---
 
 func salvar_progresso():
 	var config = ConfigFile.new()
+	
+	# 1. Salva as conquistas
 	for id in status_conquistas.keys():
 		config.set_value("conquistas", id, status_conquistas[id])
+		
+	# 2. Salva o Inventário e os Equipamentos
+	config.set_value("inventario", "armas_ganhas", armas_desbloqueadas)
+	config.set_value("equipamentos", "avo_m", equip_avo_m)
+	config.set_value("equipamentos", "avo_f", equip_avo_f)
 	
 	var err = config.save(SAVE_PATH)
 	if err != OK:
@@ -116,43 +134,44 @@ func carregar_progresso():
 	var err = config.load(SAVE_PATH)
 	
 	if err != OK:
-		print("[INFO] Nenhum save encontrado. Iniciando do zero.")
+		print("[INFO] Nenhum save encontrado. Iniciando do zero.") 
 		return
 	
+	# Carrega conquistas
 	for id in status_conquistas.keys():
-		var status_salvo = config.get_value("conquistas", id, false)
-		status_conquistas[id] = status_salvo
+		status_conquistas[id] = config.get_value("conquistas", id, false)
+		
+	# Carrega Inventário e Equipamentos (Se não existir no save, devolve a Katana por defeito)
+	armas_desbloqueadas = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
+	equip_avo_m = config.get_value("equipamentos", "avo_m", {"arma": "arma_katana"})
+	equip_avo_f = config.get_value("equipamentos", "avo_f", {"arma": "arma_katana"})
 
 # --- SISTEMA DE DEBUG (TESTE COM TECLADO) ---
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
 		
-		# Tecla J: APAGA O SAVE E ZERA TUDO
 		if event.keycode == KEY_J:
 			resetar_tudo()
 
-		# Tecla K: TENTA DESBLOQUEAR A CONQUISTA
-		if event.keycode == KEY_K:
-			print("\n[DEBUG] Testando desbloqueio via tecla K...")
-			desbloquear_conquista("mestre_economia")
-			
-		# Tecla L: LISTA O STATUS NO CONSOLE
 		if event.keycode == KEY_L:
-			print("\n--- STATUS DAS CONQUISTAS NO SAVE ---")
-			for id in status_conquistas:
-				print("- ", id, " [", status_conquistas[id], "]")
-			print("-------------------------------------")
+			print("\n--- STATUS DO SAVE ---")
+			print("Armas Desbloqueadas: ", armas_desbloqueadas)
+			print("Equip Avô: ", equip_avo_m)
+			print("Equip Avó: ", equip_avo_f)
+			print("----------------------")
 
 func resetar_tudo():
-	print("\n[DEBUG] Resetando progresso...")
 	var dir = DirAccess.open("user://")
 	if dir.file_exists("save_game.cfg"):
 		dir.remove("save_game.cfg")
-		print("[DEBUG] Arquivo 'save_game.cfg' removido.")
 	
 	for id in status_conquistas.keys():
 		status_conquistas[id] = false
+		
+	armas_desbloqueadas = ["arma_katana"]
+	equip_avo_m = {"arma": "arma_katana"}
+	equip_avo_f = {"arma": "arma_katana"}
 	
 	salvar_progresso()
-	print("[DEBUG] Save limpo! Personagens trancados novamente.")
+	print("[DEBUG] Save limpo! Inventário resetado.") 

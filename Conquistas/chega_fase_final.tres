@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://ca20tossy4qx5"]
+
+[ext_resource type="Texture2D" uid="uid://cwxya3tj0fpd5" path="res://Icons/image-removebg-preview(3).png" id="1_8cu02"]
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_iyqt0"]
+
+[resource]
+script = ExtResource("1_iyqt0")
+id = "chega_fase_final"
+nome = "O Retorno do Rei (e da Rainha)"
+icone = ExtResource("1_8cu02")
+descricao = "Chegue ao Covil do Dragão (Fase 6) e prepare-se para a batalha final."
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://cifdj3s8ryffu"]
+
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_u462j"]
+
+[resource]
+script = ExtResource("1_u462j")
+id = "guarda_dinheiro_ondas"
+nome = "Por um Punhado de Moedas"
+descricao = "O verdadeiro Mão de Vaca! Sobreviva a 3 ondas seguidas sem gastar absolutamente nada em melhorias ou armadilhas."
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"

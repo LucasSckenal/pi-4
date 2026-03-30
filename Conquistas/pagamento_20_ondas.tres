@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://hrhmin55nq1h"]
+
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_46g1b"]
+
+[resource]
+script = ExtResource("1_46g1b")
+id = "pagamento_20_ondas"
+nome = "Não É Pessoal, São Apenas Negócios"
+descricao = "Sobreviva e receba o pagamento de 20 ondas de inimigos na mesma partida. Limpar o quintal de monstros é apenas trabalho."
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"

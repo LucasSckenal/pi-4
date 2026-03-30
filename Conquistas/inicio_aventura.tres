@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://chsnscgwjuv8v"]
+
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_lnwhs"]
+
+[resource]
+script = ExtResource("1_lnwhs")
+id = "inicio_aventura"
+nome = "Não Estamos Mais no Sofá, Querida..."
+descricao = "Seja sugado pelo tabuleiro mágico e sobreviva à primeira onda de inimigos na Planície."
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"

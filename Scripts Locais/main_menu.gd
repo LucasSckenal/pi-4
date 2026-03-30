@@ -19,10 +19,12 @@ func _ready():
 		cena_seletor.fechar_seletor.connect(_voltar_para_menu_do_seletor)
 	
 	# 3. Lógica do teu Personagem 3D
-	var caminho = Global.personagem_escolhido_path
-	if caminho == "":
-		caminho = "res://Personagens/character-male-b.glb" 
-		Global.personagem_escolhido_path = caminho
+	var caminho = ""
+	
+	if Global.personagem_jogado_atualmente == "avo_m":
+		caminho = "res://Personagens/character-male-b.glb" # Modelo do Avô
+	else:
+		caminho = "res://Personagens/character-female-c.glb" # Modelo da Avó
 
 	var modelo = load(caminho).instantiate()
 	

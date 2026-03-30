@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bxdu1v2t240yw"]
 
-[ext_resource type="Script" uid="uid://du2oi7ffquc8y" path="res://Scripts Locais/character_body_3d.gd" id="1_fb3t6"]
-[ext_resource type="PackedScene" uid="uid://cuc0wxua4eytb" path="res://Personagens/character-male-f.glb" id="2_vd578"]
+[ext_resource type="Script" uid="uid://du2oi7ffquc8y" path="res://Scripts Locais/Player.gd" id="1_fb3t6"]
+[ext_resource type="PackedScene" uid="uid://bqpummuvwtmot" path="res://Personagens/character-male-f.glb" id="2_vd578"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fb3t6"]
 radius = 0.21923828
