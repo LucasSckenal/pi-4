@@ -28,11 +28,13 @@ var armas_desbloqueadas: Array = [
 
 # O que cada um tem equipado neste momento
 var equip_avo_m = {
-	"arma": "arma_katana"
+	"arma": "arma_katana",
+	"chapeu": "Nenhum" 
 }
 
 var equip_avo_f = {
-	"arma": "arma_katana"
+	"arma": "arma_katana",
+	"chapeu": "Nenhum" 
 }
 
 # --- SISTEMA DE CONQUISTAS (RESOURCES) ---
@@ -143,8 +145,8 @@ func carregar_progresso():
 		
 	# Carrega Inventário e Equipamentos (Se não existir no save, devolve a Katana por defeito)
 	armas_desbloqueadas = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
-	equip_avo_m = config.get_value("equipamentos", "avo_m", {"arma": "arma_katana"})
-	equip_avo_f = config.get_value("equipamentos", "avo_f", {"arma": "arma_katana"})
+	equip_avo_m = config.get_value("equipamentos", "avo_m", {"arma": "arma_katana", "chapeu": ""})
+	equip_avo_f = config.get_value("equipamentos", "avo_f", {"arma": "arma_katana", "chapeu": ""})
 
 # --- SISTEMA DE DEBUG (TESTE COM TECLADO) ---
 
@@ -170,8 +172,8 @@ func resetar_tudo():
 		status_conquistas[id] = false
 		
 	armas_desbloqueadas = ["arma_katana"]
-	equip_avo_m = {"arma": "arma_katana"}
-	equip_avo_f = {"arma": "arma_katana"}
+	equip_avo_m = {"arma": "arma_katana", "chapeu": "Nenhum"}
+	equip_avo_f = {"arma": "arma_katana", "chapeu": "Nenhum"}
 	
 	salvar_progresso()
 	print("[DEBUG] Save limpo! Inventário resetado.") 

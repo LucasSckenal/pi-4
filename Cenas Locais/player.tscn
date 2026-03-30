@@ -20,6 +20,11 @@
 [ext_resource type="PackedScene" uid="uid://bviky5fkmc7xk" path="res://Assets/Wepons/cooking-knife.glb" id="14_0fce2"]
 [ext_resource type="PackedScene" uid="uid://dmk2jb50f2vk8" path="res://Assets/Wepons/sword_D.gltf" id="18_e5rqd"]
 [ext_resource type="PackedScene" uid="uid://823lhhxkrt6u" path="res://Assets/Wepons/whole-ham.glb" id="20_r116l"]
+[ext_resource type="PackedScene" uid="uid://d023uypct5rvp" path="res://Assets/Hats/Crown.glb" id="21_ohhix"]
+[ext_resource type="PackedScene" uid="uid://dvmdg0nuk704x" path="res://Assets/Hats/Witch Hat.glb" id="22_4yhib"]
+[ext_resource type="PackedScene" uid="uid://bj4uleftgyn5y" path="res://Assets/Hats/Pirate hat.glb" id="23_0fce2"]
+[ext_resource type="PackedScene" uid="uid://ctrmlr13rjdng" path="res://Assets/Hats/Graduation cap.glb" id="24_l0gc4"]
+[ext_resource type="PackedScene" uid="uid://dfsoth50jhm3n" path="res://Assets/Hats/Cowboy Hat.glb" id="25_1ca8a"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fb3t6"]
 radius = 0.21923828
@@ -629,6 +634,30 @@ visible = false
 
 [node name="whole-ham" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_presunto" index="0" unique_id=993215]
 mesh = SubResource("ArrayMesh_wnb4d")
+
+[node name="BoneAttachment3D_Cabeca" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="3" unique_id=548242284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8196878e-09, 0.34324998, -0.002361223)
+bone_name = "head"
+bone_idx = 6
+
+[node name="Crown" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=284706006 instance=ExtResource("21_ohhix")]
+transform = Transform3D(0.26430672, 0.19759007, 0, -0.19759007, 0.26430672, 0, 0, 0, 0.3299998, 0.13159047, 0.32000962, 0.070111506)
+visible = false
+
+[node name="Witch Hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=1069151633 instance=ExtResource("22_4yhib")]
+transform = Transform3D(-0.4442842, -4.4374597e-09, -0.6042446, -0.014351804, 0.7497883, 0.010552458, 0.6040741, 0.017813716, -0.44415873, 0.043887984, 0.2966576, 0.025759919)
+
+[node name="Pirate hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=2106847982 instance=ExtResource("23_0fce2")]
+transform = Transform3D(0.048891276, 0, 0.04637323, 0, 0.06, 0, -0.03477992, 0, 0.06518837, 0.00480686, 0.26011768, 0.009441018)
+visible = false
+
+[node name="Graduation cap" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=2132172597 instance=ExtResource("24_l0gc4")]
+transform = Transform3D(0.21202716, 0, -0.25287235, 0, 0.32999986, 0, 0.25287235, 0, 0.21202716, -0.003095159, 0.26483276, 0)
+visible = false
+
+[node name="Cowboy Hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=1263523761 instance=ExtResource("25_1ca8a")]
+transform = Transform3D(0.42999995, 0, 0, 0, 0.42999995, 0, 0, 0, 0.42999995, -0.0018886944, 0.2634597, 0.00026953802)
+visible = false
 
 [node name="AreaAtaque" type="Area3D" parent="." unique_id=682289708]
 

@@ -364,8 +364,10 @@ func _gerenciar_animacoes(direction):
 
 func _configurar_modelo_escolhido():
 	var modelo_antigo = get_node_or_null("character-male-f2") 
-	# 1. CORREÇÃO: Procura pelo nome exato do teu nó de armas
+	# Procura os DOIS pontos de anexo (Arma e Cabeça)
 	var ponto_arma = find_child("BoneAttachment3D", true, false)
+	# Atenção: Crie um segundo BoneAttachment3D na sua cena chamado exatamente "BoneAttachment3D_Cabeca"
+	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
 	
 	var caminho_novo_modelo = ""
 	if Global.personagem_jogado_atualmente == "avo_m":
@@ -379,13 +381,11 @@ func _configurar_modelo_escolhido():
 		modelo_novo.name = "character-male-f2" 
 		add_child(modelo_novo)
 		
-		# 2. CORREÇÃO DO TAMANHO: Copia a escala exata do modelo anterior
 		if modelo_antigo:
 			modelo_novo.scale = modelo_antigo.scale
 		else:
-			modelo_novo.scale = Vector3(1, 1, 1) # Se falhar, tenta o tamanho original
+			modelo_novo.scale = Vector3(1, 1, 1) 
 			
-		# 3. CORREÇÃO DA T-POSE: Configura e inicia a animação
 		var novo_anim_player = modelo_novo.find_child("AnimationPlayer", true)
 		if novo_anim_player:
 			anim_player = novo_anim_player
@@ -393,20 +393,26 @@ func _configurar_modelo_escolhido():
 				if anim_player.has_animation(anim_name):
 					anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
 			
-			# Tira da T-Pose imediatamente dando play no "idle"!
 			if anim_player.has_animation("idle"):
 				anim_player.play("idle")
 				
-		# 4. CORREÇÃO DAS ARMAS: Move o BoneAttachment3D inteiro para o novo esqueleto
-		if ponto_arma:
-			if modelo_antigo:
-				ponto_arma.get_parent().remove_child(ponto_arma)
-				
-			var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
-			if novo_skeleton:
+		# --- CORREÇÃO: Transfere os anexos para o novo corpo ---
+		var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
+		if novo_skeleton:
+			# Transfere a Arma
+			if ponto_arma:
+				if modelo_antigo:
+					ponto_arma.get_parent().remove_child(ponto_arma)
 				novo_skeleton.add_child(ponto_arma)
-				# Garante que ele se cola ao osso do braço no novo modelo
 				ponto_arma.bone_name = "arm-left" 
+				
+			# Transfere o Chapéu
+			if ponto_chapeu:
+				if modelo_antigo:
+					ponto_chapeu.get_parent().remove_child(ponto_chapeu)
+				novo_skeleton.add_child(ponto_chapeu)
+				# IMPORTANTE: Coloque aqui o nome exato do osso da cabeça do seu modelo 3D!
+				ponto_chapeu.bone_name = "head" 
 
 		if modelo_antigo:
 			modelo_antigo.queue_free()
@@ -417,6 +423,7 @@ func _configurar_modelo_escolhido():
 		_configurar_shader_outline(modelo_antigo)
 	
 	_atualizar_arma_visivel()
+	_atualizar_chapeu_visivel() # <-- Chama a função para ligar o chapéu certo
 
 func _atualizar_arma_visivel():
 	# Lembra de procurar por BoneAttachment3D aqui também!
@@ -435,6 +442,24 @@ func _atualizar_arma_visivel():
 		else:
 			arma.hide()
 
+func _atualizar_chapeu_visivel():
+	# Procura a pasta que segura os chapéus na cabeça do personagem
+	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
+	if not ponto_chapeu: return 
+	
+	var id_chapeu = "Nenhum"
+	if Global.personagem_jogado_atualmente == "avo_m":
+		id_chapeu = Global.equip_avo_m.get("chapeu", "Nenhum")
+	else:
+		id_chapeu = Global.equip_avo_f.get("chapeu", "Nenhum")
+		
+	# Passa por todos os chapéus e só mostra o escolhido
+	for chapeu in ponto_chapeu.get_children():
+		# Se a opção for "Nenhum", ele esconde todos os chapéus que encontrar!
+		if chapeu.name == id_chapeu and id_chapeu != "Nenhum" and id_chapeu != "":
+			chapeu.show()
+		else:
+			chapeu.hide()
 # ==========================================
 # EFEITOS VISUAIS E SHADERS
 # ==========================================

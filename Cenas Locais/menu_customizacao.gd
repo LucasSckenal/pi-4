@@ -31,9 +31,14 @@ var todas_as_armas = [
 	"arma_espada_longa", "arma_garfo_gigante", "arma_presunto"
 ]
 
+var todos_os_chapeus = [
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat"
+]
+
 func _ready():
 	_instanciar_personagem()
 	_gerar_botoes_armas()
+	_gerar_botoes_chapeus()
 	_atualizar_botoes_genero()
 
 # --- LÓGICA 3D (Spawning e Rotação) ---
@@ -79,7 +84,7 @@ func _gerar_botoes_armas():
 		
 	for id in todas_as_armas:
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(90, 90)
+		btn.custom_minimum_size = Vector2(120, 120)
 		btn.expand_icon = true
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		
@@ -136,18 +141,78 @@ func _on_arma_selecionada(id_arma):
 		
 	_gerar_botoes_armas()
 
+func _gerar_botoes_chapeus():
+	for filho in grid_chapeus.get_children():
+		filho.queue_free()
+		
+	# Pega o chapéu atual salvo no Global (Usando .get caso você ainda não tenha criado a chave "chapeu")
+	var chapeu_equipado = Global.equip_avo_m.get("chapeu", "") if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f.get("chapeu", "")
+		
+	for id in todos_os_chapeus:
+		var btn = Button.new()
+		btn.custom_minimum_size = Vector2(120, 120)
+		btn.expand_icon = true
+		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		btn.modulate = Color(1, 1, 1)
+		
+		# Procura o ícone do chapéu na mesma pasta
+		var caminho_icone = PASTA_ICONES + id + ".png"
+		if FileAccess.file_exists(caminho_icone):
+			btn.icon = load(caminho_icone)
+		else:
+			btn.text = id # Como os nomes já estão bonitos (ex: Cowboy Hat), usamos direto
+		
+		btn.pressed.connect(func(): _on_chapeu_selecionado(id))
+		
+		# --- ESTILO DA BORDA BRANCA ---
+		var estilo = StyleBoxFlat.new()
+		estilo.bg_color = Color(0.2, 0.2, 0.22, 1)
+		estilo.set_corner_radius_all(8)
+		
+		if id == chapeu_equipado:
+			estilo.set_border_width_all(4)
+			estilo.border_color = Color(1.0, 1.0, 1.0, 1.0)
+			label_nome_item.text = id
+		else:
+			estilo.set_border_width_all(2)
+			estilo.border_color = Color(0.1, 0.1, 0.12, 1)
+			
+		btn.add_theme_stylebox_override("normal", estilo)
+		btn.add_theme_stylebox_override("hover", estilo)
+		btn.add_theme_stylebox_override("pressed", estilo)
+		btn.add_theme_stylebox_override("focus", estilo)
+			
+		grid_chapeus.add_child(btn)
+
+func _on_chapeu_selecionado(id_chapeu):
+	# Salva o chapéu no dicionário Global
+	if Global.personagem_jogado_atualmente == "avo_m":
+		Global.equip_avo_m["chapeu"] = id_chapeu
+	else:
+		Global.equip_avo_f["chapeu"] = id_chapeu
+		
+	label_nome_item.text = id_chapeu
+	
+	# Chama uma função no player para atualizar o 3D (igual fizemos com a arma)
+	if is_instance_valid(player_instanciado) and player_instanciado.has_method("_atualizar_chapeu_visivel"):
+		player_instanciado.call("_atualizar_chapeu_visivel")
+		
+	_gerar_botoes_chapeus()
+
 # --- SINAIS DO EDITOR ---
 func _on_btn_avo_m_pressed():
 	Global.personagem_jogado_atualmente = "avo_m"
 	_instanciar_personagem()
 	_atualizar_botoes_genero()
 	_gerar_botoes_armas()
+	_gerar_botoes_chapeus() # <-- ADICIONE AQUI
 
 func _on_btn_avo_f_pressed():
 	Global.personagem_jogado_atualmente = "avo_f"
 	_instanciar_personagem()
 	_atualizar_botoes_genero()
 	_gerar_botoes_armas()
+	_gerar_botoes_chapeus()
 
 func _on_btn_voltar_pressed():
 	print("[INFO] Botão Voltar clicado")
