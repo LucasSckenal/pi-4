@@ -7,6 +7,7 @@
 script = ExtResource("1_pg6rk")
 id = "primeiros_passos"
 nome = "Esqueceram dos Meus Netos!"
-icone = ExtResource("1_x3h2j")
 descricao = "Encontre a primeira pista no tabuleiro de onde as crianças foram parar."
+icone = ExtResource("1_x3h2j")
+libera_chapeu_id = "Graduation cap"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

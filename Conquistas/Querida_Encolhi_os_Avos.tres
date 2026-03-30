@@ -7,7 +7,8 @@
 script = ExtResource("1_jl81m")
 id = "completa_fase_3"
 nome = "Querida, Encolhi os Avós!"
-icone = ExtResource("1_gullm")
-libera_personagem_index = 3
 descricao = "Quebre a estante da bruxa por acidente, fuja de dentro dos frascos e defenda o Caldeirão dos Experimentos Falhos até a cura ficar pronta!"
+icone = ExtResource("1_gullm")
+libera_chapeu_id = "Witch hat"
+libera_arma_id = "arma_cajado"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

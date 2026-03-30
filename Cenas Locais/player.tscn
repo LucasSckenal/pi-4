@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://bviky5fkmc7xk" path="res://Assets/Wepons/cooking-knife.glb" id="14_0fce2"]
 [ext_resource type="PackedScene" uid="uid://dmk2jb50f2vk8" path="res://Assets/Wepons/sword_D.gltf" id="18_e5rqd"]
 [ext_resource type="PackedScene" uid="uid://823lhhxkrt6u" path="res://Assets/Wepons/whole-ham.glb" id="20_r116l"]
+[ext_resource type="PackedScene" uid="uid://cbgxutvk4pq5a" path="res://Assets/Wepons/Light saber.glb" id="21_4yhib"]
 [ext_resource type="PackedScene" uid="uid://d023uypct5rvp" path="res://Assets/Hats/Crown.glb" id="21_ohhix"]
 [ext_resource type="PackedScene" uid="uid://dvmdg0nuk704x" path="res://Assets/Hats/Witch Hat.glb" id="22_4yhib"]
 [ext_resource type="PackedScene" uid="uid://bj4uleftgyn5y" path="res://Assets/Hats/Pirate hat.glb" id="23_0fce2"]
@@ -635,6 +636,10 @@ visible = false
 [node name="whole-ham" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_presunto" index="0" unique_id=993215]
 mesh = SubResource("ArrayMesh_wnb4d")
 
+[node name="arma_light_saber" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1710690403 instance=ExtResource("21_4yhib")]
+transform = Transform3D(0.006642431, -0.79335773, 0.10266083, -0.79335773, 0.006641984, 0.10266088, -0.10266083, -0.10266085, -0.78671557, 0.1994409, 0.0064391494, 0.14212845)
+visible = false
+
 [node name="BoneAttachment3D_Cabeca" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="3" unique_id=548242284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8196878e-09, 0.34324998, -0.002361223)
 bone_name = "head"
@@ -646,6 +651,7 @@ visible = false
 
 [node name="Witch Hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=1069151633 instance=ExtResource("22_4yhib")]
 transform = Transform3D(-0.4442842, -4.4374597e-09, -0.6042446, -0.014351804, 0.7497883, 0.010552458, 0.6040741, 0.017813716, -0.44415873, 0.043887984, 0.2966576, 0.025759919)
+visible = false
 
 [node name="Pirate hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=2106847982 instance=ExtResource("23_0fce2")]
 transform = Transform3D(0.048891276, 0, 0.04637323, 0, 0.06, 0, -0.03477992, 0, 0.06518837, 0.00480686, 0.26011768, 0.009441018)

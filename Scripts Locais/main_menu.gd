@@ -110,4 +110,4 @@ func _varrer_malhas_e_aplicar(no_atual: Node, material_shader: ShaderMaterial):
 		_varrer_malhas_e_aplicar(filho, material_shader)
 
 func _on_btn_personagem_invisivel_pressed() -> void:
-	get_tree().change_scene_to_file("res://Cenas Locais/selecao_personagem.tscn")
+	get_tree().change_scene_to_file("res://Cenas Locais/menu_customizacao.tscn")

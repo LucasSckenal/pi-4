@@ -28,7 +28,7 @@ var todas_as_armas = [
 	"arma_katana", "arma_cajado", "arma_lanca", "arma_rolo_massa",
 	"arma_baguete", "arma_frigideira", "arma_peixe", "arma_colher_pau",
 	"arma_espatula", "arma_faca", "arma_machado",
-	"arma_espada_longa", "arma_garfo_gigante", "arma_presunto"
+	"arma_espada_longa", "arma_garfo_gigante", "arma_presunto", "arma_light_saber"
 ]
 
 var todos_os_chapeus = [
@@ -84,35 +84,39 @@ func _gerar_botoes_armas():
 		
 	for id in todas_as_armas:
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(120, 120)
+		btn.custom_minimum_size = Vector2(120, 120) # Tamanho mobile/idoso [cite: 11]
 		btn.expand_icon = true
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		
-		# Mantém a cor normal do botão (sem aquele verde radioativo)
-		btn.modulate = Color(1, 1, 1)
+		# --- VERIFICAÇÃO DE DESBLOQUEIO ---
+		var esta_desbloqueada = id in Global.armas_desbloqueadas 
 		
 		var caminho_icone = PASTA_ICONES + id + ".png"
 		if FileAccess.file_exists(caminho_icone):
 			btn.icon = load(caminho_icone)
 		else:
-			btn.text = id.replace("arma_", "").capitalize()
+			btn.text = _obter_nome_formatado(id)
 		
-		btn.pressed.connect(func(): _on_arma_selecionada(id))
-		
-		# --- CRIANDO O ESTILO DA BORDA BRANCA ---
+		# --- ESTILO E ACESSIBILIDADE ---
 		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color(0.2, 0.2, 0.22, 1) # Cor de fundo dark mode
-		estilo.set_corner_radius_all(8) # Deixa os cantos arredondados
+		estilo.bg_color = Color(0.2, 0.2, 0.22, 1)
+		estilo.set_corner_radius_all(8)
 		
-		if id == arma_equipada:
-			# Se a arma estiver selecionada, coloca a borda branca!
-			estilo.set_border_width_all(4)
-			estilo.border_color = Color(1.0, 1.0, 1.0, 1.0)
-			label_nome_item.text = _obter_nome_formatado(id)
+		if esta_desbloqueada:
+			btn.pressed.connect(func(): _on_arma_selecionada(id))
+			btn.modulate = Color(1, 1, 1) # Cor normal
+			
+			if id == arma_equipada:
+				estilo.set_border_width_all(6) # Borda mais grossa para idosos [cite: 11]
+				estilo.border_color = Color(1.0, 1.0, 1.0, 1.0)
 		else:
-			# Se não estiver selecionada, bota uma bordinha sutil escura
-			estilo.set_border_width_all(2)
-			estilo.border_color = Color(0.1, 0.1, 0.12, 1)
+			# Se estiver bloqueada, o botão fica escuro e não clica
+			btn.modulate = Color(0.2, 0.2, 0.2, 0.8) 
+			btn.disabled = true 
+			# Opcional: colocar um ícone de cadeado aqui 
+			btn.icon = load("res://Icons/cadeado.png")
+		btn.add_theme_stylebox_override("normal", estilo)
+		grid_itens.add_child(btn)
 			
 		# Aplica o estilo visual ao botão
 		btn.add_theme_stylebox_override("normal", estilo)
@@ -145,43 +149,42 @@ func _gerar_botoes_chapeus():
 	for filho in grid_chapeus.get_children():
 		filho.queue_free()
 		
-	# Pega o chapéu atual salvo no Global (Usando .get caso você ainda não tenha criado a chave "chapeu")
-	var chapeu_equipado = Global.equip_avo_m.get("chapeu", "") if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f.get("chapeu", "")
+	var chapeu_equipado = Global.equip_avo_m.get("chapeu", "Nenhum") if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f.get("chapeu", "Nenhum")
 		
 	for id in todos_os_chapeus:
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(120, 120)
+		btn.custom_minimum_size = Vector2(120, 120) # Tamanho para idosos/mobile
 		btn.expand_icon = true
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		btn.modulate = Color(1, 1, 1)
 		
-		# Procura o ícone do chapéu na mesma pasta
+		# --- LÓGICA DE BLOQUEIO ---
+		var esta_desbloqueado = id in Global.chapeus_desbloqueados
+		
 		var caminho_icone = PASTA_ICONES + id + ".png"
 		if FileAccess.file_exists(caminho_icone):
 			btn.icon = load(caminho_icone)
 		else:
-			btn.text = id # Como os nomes já estão bonitos (ex: Cowboy Hat), usamos direto
+			btn.text = id
 		
-		btn.pressed.connect(func(): _on_chapeu_selecionado(id))
-		
-		# --- ESTILO DA BORDA BRANCA ---
 		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color(0.2, 0.2, 0.22, 1)
-		estilo.set_corner_radius_all(8)
+		estilo.bg_color = Color(0.15, 0.15, 0.17, 1)
+		estilo.set_corner_radius_all(10)
 		
-		if id == chapeu_equipado:
-			estilo.set_border_width_all(4)
-			estilo.border_color = Color(1.0, 1.0, 1.0, 1.0)
-			label_nome_item.text = id
+		if esta_desbloqueado:
+			btn.modulate = Color(1, 1, 1) # Cor normal
+			btn.pressed.connect(func(): _on_chapeu_selecionado(id))
+			
+			if id == chapeu_equipado:
+				estilo.set_border_width_all(6)
+				estilo.border_color = Color.WHITE
 		else:
-			estilo.set_border_width_all(2)
-			estilo.border_color = Color(0.1, 0.1, 0.12, 1)
-			
+			# Visual de item bloqueado
+			btn.modulate = Color(0.2, 0.2, 0.2, 0.7) # Fica bem escuro
+			btn.disabled = true 
+			# Se tiver um ícone de cadeado, poderia carregar aqui:
+			btn.icon = load("res://Icons/cadeado.png")
+
 		btn.add_theme_stylebox_override("normal", estilo)
-		btn.add_theme_stylebox_override("hover", estilo)
-		btn.add_theme_stylebox_override("pressed", estilo)
-		btn.add_theme_stylebox_override("focus", estilo)
-			
 		grid_chapeus.add_child(btn)
 
 func _on_chapeu_selecionado(id_chapeu):
@@ -215,4 +218,4 @@ func _on_btn_avo_f_pressed():
 	_gerar_botoes_chapeus()
 
 func _on_btn_voltar_pressed():
-	print("[INFO] Botão Voltar clicado")
+	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
