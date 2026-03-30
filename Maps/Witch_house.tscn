@@ -23,6 +23,264 @@
 [ext_resource type="PackedScene" uid="uid://c8htt1o8vuysa" path="res://Assets/graveyard/detail-chalice.glb" id="16_7wwxt"]
 [ext_resource type="PackedScene" uid="uid://cao6qi8p6xmbk" path="res://Assets/graveyard/Box_02.fbx" id="17_2h26j"]
 
+[sub_resource type="Animation" id="Animation_lblfm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WorldEnvironment:environment:ssao_enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WorldEnvironment:environment:ssao_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [4.2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WorldEnvironment:environment:ssao_intensity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.5]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WorldEnvironment:environment:ssao_power")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [11.999979]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("WorldEnvironment:environment:ssao_detail")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [5.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("WorldEnvironment:environment:fog_enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("WorldEnvironment:environment:glow_enabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("WorldEnvironment:environment:fog_light_color")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.65932333, 0.32582715, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("WorldEnvironment:environment:fog_light_energy")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [16.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("WorldEnvironment:environment:fog_aerial_perspective")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.822]
+}
+
+[sub_resource type="Animation" id="Animation_553vb"]
+resource_name = "transicao_para_dia"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WorldEnvironment:environment:ssao_enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WorldEnvironment:environment:ssao_radius")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [4.2, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WorldEnvironment:environment:ssao_intensity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [2.5, 2.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WorldEnvironment:environment:ssao_power")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [11.999979, 1.5]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("WorldEnvironment:environment:ssao_detail")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5.0, 0.5]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("WorldEnvironment:environment:fog_enabled")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("WorldEnvironment:environment:glow_enabled")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("WorldEnvironment:environment:fog_light_color")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.65932333, 0.32582715, 1)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("WorldEnvironment:environment:fog_light_energy")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [16.0, 1.0]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("WorldEnvironment:environment:fog_aerial_perspective")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.822, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_kb83g"]
+resource_name = "transicao_para_noite"
+length = 2.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oxycu"]
+_data = {
+&"RESET": SubResource("Animation_lblfm"),
+&"transicao_para_dia": SubResource("Animation_553vb"),
+&"transicao_para_noite": SubResource("Animation_kb83g")
+}
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lgdko"]
 shader = ExtResource("1_gh72r")
 shader_parameter/use_directional_light = false
@@ -71,39 +329,27 @@ vertices_per_polygon = 12.0
 
 [node name="Node3D" type="Node3D" unique_id=1831006418]
 
+[node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=875634976]
+libraries/ = SubResource("AnimationLibrary_oxycu")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1364139838]
 environment = SubResource("Environment_lblfm")
 
-[node name="Player" parent="WorldEnvironment" unique_id=1040113878 instance=ExtResource("3_lblfm")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1375964, 0.60615665, 1.9745929)
-rotation_speed = 20.0
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="WorldEnvironment/Player" unique_id=1908486518]
-max_neighbors = 20
-
-[node name="LinhaCaminho" type="Decal" parent="WorldEnvironment/Player" unique_id=1755658475]
-transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
-size = Vector3(0.25, 0.1, 0.25)
-texture_albedo = ExtResource("4_553vb")
-texture_normal = ExtResource("4_553vb")
-texture_emission = ExtResource("4_553vb")
-emission_energy = 2.0
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="." unique_id=746428490]
-transform = Transform3D(0.14680684, 0.67056674, 0.7271782, -0.96623605, -0.060152076, 0.25053832, 0.2117439, -0.73940665, 0.6390949, 1.5566385, 0.6129869, 2.112993)
+[node name="SpotLight3D4" type="SpotLight3D" parent="WorldEnvironment" unique_id=746428490]
+transform = Transform3D(0.14680685, 0.6705667, 0.72717816, -0.9662361, -0.06015204, 0.25053838, 0.21174392, -0.7394066, 0.63909507, 1.5566385, 0.6129869, 2.112993)
 light_color = Color(1, 1, 0.1764706, 1)
 light_specular = 0.0
 spot_range = 0.07
 spot_attenuation = 3.18
 spot_angle = 87.77
 
-[node name="SpotLight3D5" type="SpotLight3D" parent="." unique_id=1285119005]
-transform = Transform3D(0.14680684, 0.67056674, 0.7271782, -0.96623605, -0.060152076, 0.25053832, 0.2117439, -0.73940665, 0.6390949, 1.5566385, 0.6129869, 2.112993)
+[node name="SpotLight3D5" type="SpotLight3D" parent="WorldEnvironment" unique_id=1285119005]
+transform = Transform3D(0.14680685, 0.6705667, 0.72717816, -0.9662361, -0.06015204, 0.25053838, 0.21174392, -0.7394066, 0.63909507, 1.5566385, 0.6129869, 2.112993)
 light_color = Color(1, 1, 0.1764706, 1)
 light_specular = 0.0
 spot_angle = 87.77
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="." unique_id=1975115949]
+[node name="SpotLight3D2" type="SpotLight3D" parent="WorldEnvironment" unique_id=1975115949]
 transform = Transform3D(-0.9977175, -0.06698731, -0.008518665, 0.009717452, -0.017590314, -0.9997981, 0.066823944, -0.99759877, 0.018201109, 1.0982305, 0.21388477, 2.635361)
 light_color = Color(0, 1, 0.05882353, 1)
 light_energy = 0.707
@@ -111,14 +357,14 @@ light_specular = 7.47
 spot_range = 1.583
 spot_angle = 160.0
 
-[node name="SpotLight3D3" type="SpotLight3D" parent="." unique_id=1330628085]
-transform = Transform3D(-0.9977175, -0.06698735, -0.008518669, -0.009717452, 0.017590225, 0.99979806, -0.06682398, 0.99759877, -0.01820102, 1.0982305, 0.7394712, 2.635361)
+[node name="SpotLight3D3" type="SpotLight3D" parent="WorldEnvironment" unique_id=1330628085]
+transform = Transform3D(-0.9977175, -0.06698735, -0.00851867, -0.009717452, 0.017590225, 0.99979806, -0.06682398, 0.99759877, -0.018201021, 1.0982305, 0.7394712, 2.635361)
 light_color = Color(0, 1, 0.05882353, 1)
 light_energy = 2.585
 light_specular = 16.0
 
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=358487803]
-transform = Transform3D(-0.9977175, -0.06698731, -0.00851865, -0.054122932, 0.71784717, 0.6940938, -0.04038039, 0.6929706, -0.7198342, 1.1873301, 4.403883, -1.8170923)
+[node name="SpotLight3D" type="SpotLight3D" parent="WorldEnvironment" unique_id=358487803]
+transform = Transform3D(-0.9977175, -0.06698731, -0.008518652, -0.054122932, 0.71784717, 0.6940938, -0.04038039, 0.6929706, -0.7198342, 1.1873301, 4.403883, -1.8170923)
 light_color = Color(1.3235956e-06, 0.5054883, 0.14968812, 1)
 light_energy = 8.079
 light_negative = true
@@ -130,6 +376,21 @@ spot_range = 972.725
 transform = Transform3D(-0.99953467, -5.3095134e-10, -0.0305037, -0.020833042, 0.73044837, 0.68265, 0.022281377, 0.6829677, -0.7301085, 1.0427314, 1.0944428, 1.3362631)
 current = true
 fov = 79.7
+
+[node name="Player" parent="." unique_id=1040113878 instance=ExtResource("3_lblfm")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1375964, 0.60615665, 1.9745929)
+rotation_speed = 20.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=1908486518]
+max_neighbors = 20
+
+[node name="LinhaCaminho" type="Decal" parent="Player" unique_id=1755658475]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+size = Vector3(0.25, 0.1, 0.25)
+texture_albedo = ExtResource("4_553vb")
+texture_normal = ExtResource("4_553vb")
+texture_emission = ExtResource("4_553vb")
+emission_energy = 2.0
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1298432368]
 navigation_mesh = SubResource("NavigationMesh_gyldj")

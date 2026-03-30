@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var tutorial = $TutorialManager
+@onready var anim_player = $DayNightAnimator
 
 # Referências dos slots (todas as quatro construções)
 @onready var slot_torre_1 = $BuildSlots/BuildSlot
@@ -18,6 +19,13 @@ var casa_2: Node3D = null
 var quartel: Node3D = null
 
 func _ready():
+	get_tree().paused = false
+	
+	GameManager.dia_iniciado.connect(_on_dia_iniciado)
+	GameManager.noite_iniciada.connect(_on_noite_iniciada)
+	
+	await get_tree().process_frame
+	
 	GameManager.carregar_fase(1)
 	if GameManager.is_tutorial_ativo:
 		iniciar_sequencia_tutorial()
@@ -213,3 +221,15 @@ func passo_upgrade(construcao: Node3D, texto: String):
 	
 	if not upgrade_feito:
 		push_warning("Jogador não conseguiu fazer o upgrade após várias tentativas. Prosseguindo.")
+
+# Executa a transição de iluminação e ambiente para o ciclo do dia
+func _on_dia_iniciado(_onda_atual: int) -> void:
+	print("Dia iniciado!!!!")
+	if anim_player and anim_player.has_animation("transicao_para_dia"):
+		anim_player.play("transicao_para_dia")
+
+# Executa a transição de iluminação e ambiente para o ciclo da noite
+func _on_noite_iniciada(_onda_atual: int) -> void:
+	print("Noite iniciada!!!!")
+	if anim_player and anim_player.has_animation("transicao_para_noite"):
+		anim_player.play("transicao_para_noite")

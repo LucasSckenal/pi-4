@@ -272,58 +272,66 @@ func _criar_efeito_visual_corte():
 	# Cria uma malha simples para o rastro da espada
 	var efeito = MeshInstance3D.new()
 	var malha = PlaneMesh.new()
-	malha.size = Vector2(0.8, 0.8) # Aumentado para acomodar o rastro circular
+	malha.size = Vector2(1.0, 1.0) # Aumentado para acomodar o rastro circular
 	efeito.mesh = malha
 	
 	# Shader adaptada para Spatial (3D) baseada na lógica fornecida
 	var shader = Shader.new()
 	shader.code = """
 		shader_type spatial;
-		render_mode unshaded, cull_disabled;
+        render_mode unshaded, cull_disabled;
 
-		uniform sampler2D tex_albedo;
-		uniform float inner_radius : hint_range(0.0, 1.0) = 0.2;
-		uniform float outer_radius : hint_range(0.0, 1.0) = 0.5;
-		uniform float lead_angle : hint_range(0.0, 2.0) = 0.0;
-		uniform float tail_angle : hint_range(0.0, 2.0) = 0.5;
-		uniform vec4 slash_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+        uniform sampler2D tex_albedo;
+        uniform float inner_radius : hint_range(0.0, 1.0) = 0.2;
+        uniform float outer_radius : hint_range(0.0, 1.0) = 0.5;
+        uniform float lead_angle : hint_range(0.0, 2.0) = 0.0;
+        uniform float tail_angle : hint_range(0.0, 2.0) = 0.5;
+        uniform vec4 slash_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+        // Define a espessura minima das pontas do rastro
+        uniform float tips_thickness : hint_range(0.0, 1.0) = 0.0;
 
-		void fragment() {
-			vec2 pos = UV - 0.5;
-			float dist = length(pos);
-			float angle = (atan(pos.y, pos.x) + PI) / TAU; 
-			
-			float angle_mask = step(angle, lead_angle);
-			float inner_mask = step(inner_radius, dist);
-			float outer_mask = step(dist, outer_radius);
-			
-			float alpha_fade = smoothstep(lead_angle - tail_angle, lead_angle, angle);
-			
-			ALBEDO = slash_color.rgb;
-			ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
-		}
+        void fragment() {
+            vec2 pos = UV - 0.5;
+            float dist = length(pos);
+            float angle = (atan(pos.y, pos.x) + PI) / TAU; 
+            
+            float angle_mask = step(angle, lead_angle);
+            float inner_mask = step(inner_radius, dist);
+            
+            float alpha_fade = smoothstep(lead_angle - tail_angle, lead_angle, angle);
+            
+            // Calcula a curva de espessura (0 nas pontas, 1 no centro do rastro)
+            float thickness_curve = sin(alpha_fade * PI);
+            
+            // Interpola o raio externo entre o limite das pontas e o raio maximo do corte
+            float current_outer_radius = mix(inner_radius + tips_thickness, outer_radius, thickness_curve);
+            float outer_mask = step(dist, current_outer_radius);
+            
+            ALBEDO = slash_color.rgb;
+            ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
+        }
 	"""
 	
 	var material = ShaderMaterial.new()
 	material.shader = shader
 	# Configurações iniciais
 	material.set_shader_parameter("inner_radius", 0.3)
-	material.set_shader_parameter("outer_radius", 0.5)
+	material.set_shader_parameter("outer_radius", 0.4)
 	material.set_shader_parameter("lead_angle", 0.0)
-	material.set_shader_parameter("slash_color", Color(1.0, 1.0, 1.0, 0.5))
+	material.set_shader_parameter("slash_color", Color(1.0, 1.0, 1.0, 0.8))
 	
 	efeito.material_override = material
 	add_child(efeito)
 	
 	# Posicionamento e rotação (ajustado para horizontal à frente do player)
-	efeito.position = Vector3(0.0, 0.2, 0.0)
+	efeito.position = Vector3(0.0, 0.15, 0.0)
 	efeito.rotation_degrees = Vector3(180, 0, 0)
 	
 	# Animação do "lead_angle" para fazer o corte aparecer circulando
 	var tween = create_tween()
 	tween.set_parallel(true)
 	# O corte "gira" de 0 a 0.8 (quase meio círculo)
-	tween.tween_property(material, "shader_parameter/lead_angle", 0.5, 0.2).set_ease(Tween.EASE_OUT)
+	tween.tween_property(material, "shader_parameter/lead_angle", 0.5, 0.1).set_ease(Tween.EASE_OUT)
 	# Desvanece a opacidade
 	tween.tween_property(material, "shader_parameter/slash_color:a", 0.0, 0.25).set_delay(0.1)
 	
