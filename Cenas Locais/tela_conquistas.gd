@@ -1,70 +1,74 @@
 extends Control
 
 var painel_cena = preload("res://Cenas Locais/painel_conquista.tscn")
-var slot_cena = preload("res://Cenas Locais/slot_personagem.tscn") # <-- Puxamos seu slot aqui!
+
+# Lista que vai guardar as conquistas
+var banco_conquistas: Array[ConquistaData] = []
 
 @onready var lista_container = $ScrollContainer/ListaConquistas
 
 func _ready():
+	# 1. Carrega automaticamente os ficheiros .tres da sua pasta!
+	# IMPORTANTE: Altere "res://Conquistas/" para a pasta real onde guarda as suas conquistas.
+	_carregar_conquistas_da_pasta("res://Conquistas/") 
+	
+	# 2. Limpa os itens de teste que possam estar no editor
 	for child in lista_container.get_children():
 		child.queue_free()
 		
-	for conquista in Global.banco_conquistas:
+	# 3. Cria os painéis no ecrã
+	for conquista in banco_conquistas:
 		if conquista != null:
 			criar_painel(conquista)
 
-func criar_painel(conquista):
+# Função nova para poupar trabalho: Carrega todos os ficheiros da pasta sozinhos!
+func _carregar_conquistas_da_pasta(caminho_pasta: String):
+	var dir = DirAccess.open(caminho_pasta)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			# Procura por ficheiros de conquistas (.tres ou .res)
+			if file_name.ends_with(".tres") or file_name.ends_with(".res"):
+				var resource = load(caminho_pasta + "/" + file_name)
+				if resource is ConquistaData:
+					banco_conquistas.append(resource)
+			file_name = dir.get_next()
+
+func criar_painel(conquista: ConquistaData):
 	var novo_painel = painel_cena.instantiate()
 	lista_container.add_child(novo_painel)
 	
-	# Busca os nós dentro da nova estrutura com MarginContainer
-	# Ajuste o caminho se a sua árvore estiver um pouquinho diferente
+	# Procura os nós (textos e imagens)
 	var icone_rect = novo_painel.get_node_or_null("MarginContainer/HBoxContainer/Icone")
 	var nome_label = novo_painel.get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/NomeLabel")
 	var desc_label = novo_painel.get_node_or_null("MarginContainer/HBoxContainer/VBoxContainer/DescricaoLabel")
 	var miniatura_container = novo_painel.get_node_or_null("MarginContainer/HBoxContainer/MiniaturaContainer")
 	
-	var esta_liberada = Global.status_conquistas.get(conquista.id, false)
+	# Verifica no Global se esta conquista já foi ganha
+	var esta_liberada = conquista.id in Global.conquistas_desbloqueadas
 	
-	# --- 1. PREENCHENDO TEXTOS E ÍCONE ---
+	# Preenche o Nome, Descrição e Ícone
 	if nome_label: nome_label.text = conquista.nome
 	if desc_label: desc_label.text = conquista.descricao
 	if icone_rect and conquista.icone != null: icone_rect.texture = conquista.icone
 		
-	# --- 2. A MÁGICA DA SILHUETA DO PERSONAGEM ---
-	var index = conquista.libera_personagem_index
-	
-	# Verifica se essa conquista dá um personagem (index >= 0)
-	if index >= 0 and index < Global.lista_personagens.size() and miniatura_container:
-		var caminho_personagem = Global.lista_personagens[index]
+	# Esconde o antigo "slot_personagem" que já não existe no seu jogo atual
+	if miniatura_container:
+		miniatura_container.hide()
 		
-		# Cria o quadradinho do personagem e coloca na tela
-		var miniatura = slot_cena.instantiate()
-		miniatura_container.add_child(miniatura)
-		
-		# Força a miniatura a ficar centralizada e com tamanho fixo
-		miniatura.custom_minimum_size = Vector2(320, 320) # Troque 80 pelo tamanho que achar melhor
-		
-		# Faz o boneco aparecer
-		if miniatura.has_method("configurar_slot"):
-			miniatura.configurar_slot(caminho_personagem)
-			
-		# Desativa o botão (já que é só para visualizar, não para jogar)
-		var btn = miniatura.get_node_or_null("Button")
-		if btn: btn.disabled = true
-			
-		# O SEGREDO DA SILHUETA: Se estiver bloqueado, pinta quase tudo de preto
-		if not esta_liberada:
-			miniatura.modulate = Color(0.05, 0.05, 0.05, 1.0) # Preto misterioso
-		else:
-			miniatura.modulate = Color(1.0, 1.0, 1.0, 1.0) # Cores normais
-			
-	# --- 3. COR DO PAINEL GERAL ---
-	if esta_liberada:
-		novo_painel.modulate = Color(1.0, 1.0, 1.0, 1.0)
+	# Faz a magia da silhueta escurecida
+	if not esta_liberada:
+		# Se estiver bloqueada, o painel fica escuro/cinzento
+		novo_painel.modulate = Color(0.3, 0.3, 0.3, 0.8) 
 	else:
-		novo_painel.modulate = Color(0.5, 0.5, 0.5, 1.0) # Painel escurinho
+		# Se já ganhou, fica com a cor normal e brilhante
+		novo_painel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
-
-func _on_btn_voltar_pressed() -> void:
-	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
+# ---------------------------------------------------------
+# NOTA: Se tinha um botão para voltar ao Menu ou fechar o ecrã, 
+# adicione o código dele aqui em baixo! Exemplo:
+#
+# func _on_button_voltar_pressed():
+#     queue_free() 
+# ---------------------------------------------------------

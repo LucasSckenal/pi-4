@@ -5,8 +5,10 @@
 
 [resource]
 script = ExtResource("1_iyqt0")
-id = "chega_fase_final"
+id = "fase_final"
 nome = "O Retorno do Rei (e da Rainha)"
+descricao = "Complete a fase final e volte ao mundo normal."
 icone = ExtResource("1_8cu02")
-descricao = "Chegue ao Covil do Dragão (Fase 6) e prepare-se para a batalha final."
+libera_chapeu_id = "Crown"
+libera_arma_id = "arma_machado"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

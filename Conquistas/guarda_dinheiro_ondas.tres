@@ -7,4 +7,5 @@ script = ExtResource("1_u462j")
 id = "guarda_dinheiro_ondas"
 nome = "Por um Punhado de Moedas"
 descricao = "O verdadeiro Mão de Vaca! Sobreviva a 3 ondas seguidas sem gastar absolutamente nada em melhorias ou armadilhas."
+libera_arma_id = "arma_baguete"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

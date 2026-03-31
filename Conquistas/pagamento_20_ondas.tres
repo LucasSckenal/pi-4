@@ -7,4 +7,5 @@ script = ExtResource("1_46g1b")
 id = "pagamento_20_ondas"
 nome = "Não É Pessoal, São Apenas Negócios"
 descricao = "Sobreviva e receba o pagamento de 20 ondas de inimigos na mesma partida. Limpar o quintal de monstros é apenas trabalho."
+libera_arma_id = "arma_lanca"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

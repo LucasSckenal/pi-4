@@ -1,5 +1,8 @@
 extends Node3D
 
+@export var conquista_sobreviver_onda: ConquistaData
+@export var conquista_fim_tutorial: ConquistaData
+
 @onready var tutorial = $TutorialManager
 @onready var anim_player = $DayNightAnimator
 
@@ -132,6 +135,8 @@ func iniciar_sequencia_tutorial():
 	# Final do tutorial
 	GameManager.is_tutorial_ativo = false
 	print("✅ Tutorial Completo")
+	if conquista_fim_tutorial:
+		Global.processar_recompensa(conquista_fim_tutorial)
 
 # ==========================================
 # FUNÇÕES AUXILIARES
@@ -227,6 +232,9 @@ func _on_dia_iniciado(_onda_atual: int) -> void:
 	print("Dia iniciado!!!!")
 	if anim_player and anim_player.has_animation("transicao_para_dia"):
 		anim_player.play("transicao_para_dia")
+		
+	if _onda_atual == 2 and conquista_sobreviver_onda:
+		Global.processar_recompensa(conquista_sobreviver_onda)
 
 # Executa a transição de iluminação e ambiente para o ciclo da noite
 func _on_noite_iniciada(_onda_atual: int) -> void:

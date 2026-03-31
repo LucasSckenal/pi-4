@@ -7,6 +7,7 @@
 script = ExtResource("1_x0c1r")
 id = "defesa_perfeita"
 nome = "No Meu Tempo Era Mais Difícil!"
-icone = ExtResource("1_og83g")
 descricao = "Termina uma fase inteira sem que o teu Núcleo sofra um único ponto de dano. (Mostra a esses monstros como se limpa a casa!)"
+icone = ExtResource("1_og83g")
+libera_arma_id = "arma_frigideira"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

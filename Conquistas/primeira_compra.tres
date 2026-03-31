@@ -7,7 +7,8 @@
 script = ExtResource("1_kgljd")
 id = "primeira_compra"
 nome = "Uma Oferta Irrecusável"
-descricao = "Compra a tua primeira melhoria para o Núcleo de Defesa (Castelo, Pirâmide, etc.). O vendedor fez-te um preço de amigo!"
+descricao = "Compra a sua primeira construção."
 icone = ExtResource("1_aq7wp")
-libera_arma_id = "arma_faca"
+libera_chapeu_id = "Hard hat"
+libera_arma_id = "arma_colher_pau"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

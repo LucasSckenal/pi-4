@@ -32,10 +32,11 @@ var todas_as_armas = [
 ]
 
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat"
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat"
 ]
 
 func _ready():
+	add_to_group("MenuCustomizacao")
 	_instanciar_personagem()
 	_gerar_botoes_armas()
 	_gerar_botoes_chapeus()

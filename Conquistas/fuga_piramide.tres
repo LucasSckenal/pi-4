@@ -7,6 +7,8 @@
 script = ExtResource("1_48uxl")
 id = "fuga_piramide"
 nome = "Os Caçadores da Prótese Perdida"
-icone = ExtResource("1_15s6u")
 descricao = "Escapa da Pirâmide (Fase 2) e sobrevive à Tempestade de Areia sem deixares que as múmias te toquem."
+icone = ExtResource("1_15s6u")
+libera_chapeu_id = "Cowboy Hat"
+libera_arma_id = "arma_garfo_gigante"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

@@ -7,4 +7,5 @@ script = ExtResource("1_lnwhs")
 id = "inicio_aventura"
 nome = "Não Estamos Mais no Sofá, Querida..."
 descricao = "Seja sugado pelo tabuleiro mágico e sobreviva à primeira onda de inimigos na Planície."
+libera_arma_id = "arma_rolo_massa"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

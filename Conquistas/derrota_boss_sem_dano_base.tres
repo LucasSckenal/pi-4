@@ -7,4 +7,5 @@ script = ExtResource("1_2nvfu")
 id = "derrota_boss_sem_dano_base"
 nome = "Você Não Vai Passar!"
 descricao = "Derrote um Boss sem que ele consiga encostar no seu Núcleo."
+libera_arma_id = "arma_espada_longa"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"

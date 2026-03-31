@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://bj4uleftgyn5y" path="res://Assets/Hats/Pirate hat.glb" id="23_0fce2"]
 [ext_resource type="PackedScene" uid="uid://ctrmlr13rjdng" path="res://Assets/Hats/Graduation cap.glb" id="24_l0gc4"]
 [ext_resource type="PackedScene" uid="uid://dfsoth50jhm3n" path="res://Assets/Hats/Cowboy Hat.glb" id="25_1ca8a"]
+[ext_resource type="PackedScene" uid="uid://ibvdftvgreyw" path="res://Assets/Hats/Hard hat.glb" id="27_0fce2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fb3t6"]
 radius = 0.21923828
@@ -663,6 +664,10 @@ visible = false
 
 [node name="Cowboy Hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=1263523761 instance=ExtResource("25_1ca8a")]
 transform = Transform3D(0.42999995, 0, 0, 0, 0.42999995, 0, 0, 0, 0.42999995, -0.0018886944, 0.2634597, 0.00026953802)
+visible = false
+
+[node name="Hard hat" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=1467821162 instance=ExtResource("27_0fce2")]
+transform = Transform3D(0.43999997, 0, 0, 0, 0.43999997, 0, 0, 0, 0.43999997, 0, 0.27507082, -0.0010126145)
 visible = false
 
 [node name="AreaAtaque" type="Area3D" parent="." unique_id=682289708]

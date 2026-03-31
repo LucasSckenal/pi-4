@@ -7,6 +7,7 @@
 script = ExtResource("1_ifigp")
 id = "poder_espacial"
 nome = "Eu Sou o Teu Avô!"
-icone = ExtResource("1_apf17")
 descricao = "Completa a Fase 5 (Sci-fi) e mostra aos Sapos Astronautas quem é que manda na galáxia (e lá em casa)."
+icone = ExtResource("1_apf17")
+libera_arma_id = "arma_light_saber"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"
