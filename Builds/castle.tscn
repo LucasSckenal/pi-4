@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://q88m868cdvrf"]
 
-[ext_resource type="PackedScene" uid="uid://cac3htq5qixtj" path="res://Mapa/building-castle.glb" id="1_xtwgx"]
+[ext_resource type="PackedScene" uid="uid://cac3htq5qixtj" path="res://Map/building-castle.glb" id="1_xtwgx"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_07545"]
 [ext_resource type="PackedScene" uid="uid://t15rehnw8bmg" path="res://Medieval/buildings/blue/building_barracks_blue.gltf" id="3_lgj1g"]
 [ext_resource type="PackedScene" uid="uid://b3ie3nack6nax" path="res://Medieval/buildings/blue/building_castle_blue.gltf" id="4_3oq81"]
-[ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Mapa/Textures/colormap.png" id="5_jswcr"]
+[ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="5_jswcr"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="6_pin27"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m5xot"]

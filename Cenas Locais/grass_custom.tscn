@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ddetb666qyl0r"]
 
-[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="1_q57m5"]
+[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="1_q57m5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_xy4xs"]
 height = 0.200531

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c24hpoqubnlm4"]
 
-[ext_resource type="PackedScene" uid="uid://i7cghbm3tfxt" path="res://Mapa/unit-house.glb" id="1_metfq"]
+[ext_resource type="PackedScene" uid="uid://i7cghbm3tfxt" path="res://Map/unit-house.glb" id="1_metfq"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_61xxl"]
 [ext_resource type="PackedScene" uid="uid://cfcsojiaq12o1" path="res://Medieval/buildings/blue/building_home_A_blue.gltf" id="3_cg5e5"]
 [ext_resource type="PackedScene" uid="uid://ct7es5b68sksi" path="res://Medieval/buildings/blue/building_home_B_blue.gltf" id="4_x3kc2"]

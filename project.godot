@@ -24,6 +24,29 @@ Global="*uid://ekneedd48nfl"
 PopupConquista="*uid://ybiau6ne7umr"
 BuildSlotManager="*uid://crqu4gymu8x62"
 
+[display]
+
+window/size/viewport_height=720
+window/size/window_width_override=1280
+window/size/window_height_override=720
+
+[file_customization]
+
+folder_colors={
+"res://Cenas Locais/": "gray",
+"res://Conquistas/": "gray",
+"res://Map/": "purple",
+"res://Map3/": "purple",
+"res://Map4/": "purple",
+"res://Map5/": "purple",
+"res://Map6/": "purple",
+"res://Maps/": "purple",
+"res://PowerUps/": "gray",
+"res://Scripts Globais/": "teal",
+"res://Scripts Locais/": "teal",
+"res://Upgrades/": "gray"
+}
+
 [global_group]
 
 Player=""

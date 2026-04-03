@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://cefakjhc0rq1l"]
 
 [ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_rfcf2"]
-[ext_resource type="Texture2D" uid="uid://dh28dp1ijwke6" path="res://Mapa5/Coin_001_Coin_color.png" id="1_ta65u"]
+[ext_resource type="Texture2D" uid="uid://dh28dp1ijwke6" path="res://Map6/Coin_001_Coin_color.png" id="1_ta65u"]
 
 [resource]
 script = ExtResource("1_rfcf2")

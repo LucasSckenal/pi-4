@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://doiiopf6mkyyj" path="res://Armas/weapons_bits_texture.png" id="6_s51um"]
 [ext_resource type="PackedScene" uid="uid://bjv11tufldu23" path="res://Assets/Wepons/rollingPin.glb" id="7_r116l"]
 [ext_resource type="PackedScene" uid="uid://unvy5y7eexk8" path="res://Assets/Wepons/cooking-fork.glb" id="8_7cpla"]
-[ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Mapa/Textures/colormap.png" id="8_ek46n"]
+[ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="8_ek46n"]
 [ext_resource type="PackedScene" uid="uid://d1v02mq02juiy" path="res://Assets/Wepons/loaf-baguette.glb" id="9_wnb4d"]
 [ext_resource type="PackedScene" uid="uid://c4fnqi3nvbhsm" path="res://Assets/Wepons/frying-pan.glb" id="10_k2xwa"]
 [ext_resource type="PackedScene" uid="uid://cfdkj7utbtqs0" path="res://Assets/Wepons/fish.glb" id="11_l5s7e"]

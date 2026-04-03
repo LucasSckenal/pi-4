@@ -13,26 +13,26 @@ shadow_size = 5
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltar"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
 bg_color = Color(0.2, 0.2, 0.25, 0.9)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltarHover"]
 content_margin_left = 20.0
 content_margin_top = 10.0
 content_margin_right = 20.0
 content_margin_bottom = 10.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltarHover"]
 bg_color = Color(0.3, 0.3, 0.35, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-content_margin_left = 20.0
-content_margin_top = 10.0
-content_margin_right = 20.0
-content_margin_bottom = 10.0
 
 [node name="TelaConquistas" type="Control" unique_id=479057687]
 layout_mode = 3
@@ -52,7 +52,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.15, 0.15, 0.18, 1)
 
-[node name="LabelTitulo" type="Label" parent="."]
+[node name="LabelTitulo" type="Label" parent="." unique_id=1048512826]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -69,7 +69,7 @@ text = "🏆 Conquistas"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PanelFundoLista" type="Panel" parent="."]
+[node name="PanelFundoLista" type="Panel" parent="." unique_id=1892002275]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -110,8 +110,8 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnVoltar")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnVoltarHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnVoltar")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnVoltarHover")
 text = "◀ Voltar"
 
 [connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dkwapliiu1mys"]
 
 [ext_resource type="Script" uid="uid://bwou40gkdggrh" path="res://Scripts Locais/walls_word_1.gd" id="1_c8ps2"]
-[ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Mapa/unit-tower.glb" id="1_ohjqt"]
+[ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Map/unit-tower.glb" id="1_ohjqt"]
 [ext_resource type="PackedScene" uid="uid://83rtswsguqjg" path="res://Cenas Locais/wall_gate.tscn" id="2_c8ps2"]
 [ext_resource type="PackedScene" uid="uid://duluxy1uhfvhk" path="res://Cenas Locais/canto.tscn" id="3_vkxan"]
 [ext_resource type="PackedScene" uid="uid://cb16s0xdc77hq" path="res://Cenas Locais/wall.tscn" id="4_40ybk"]

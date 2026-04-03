@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://d324ksduj1tkn"]
 
-[ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Mapa/Textures/colormap.png" id="1_ve454"]
+[ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="1_ve454"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_6o50l"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kjqr8"]

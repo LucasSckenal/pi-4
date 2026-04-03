@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d0i607qaiy12s"]
 
-[ext_resource type="PackedScene" uid="uid://bxymhdtuwhoh8" path="res://Mapa/unit-mill.glb" id="1_6f5ni"]
+[ext_resource type="PackedScene" uid="uid://bxymhdtuwhoh8" path="res://Map/unit-mill.glb" id="1_6f5ni"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_5a1o0"]
 [ext_resource type="PackedScene" uid="uid://btpfydaibdtuv" path="res://Medieval/buildings/blue/building_windmill_blue.gltf" id="3_n4g08"]
 

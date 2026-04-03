@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b8h6rapg5lftp"]
 
-[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="1_7w86a"]
+[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="1_7w86a"]
 [ext_resource type="PackedScene" uid="uid://bxdu1v2t240yw" path="res://Cenas Locais/character_body_3d.tscn" id="2_s2wow"]
 
 [node name="Node3D" type="Node3D" unique_id=1584945139]

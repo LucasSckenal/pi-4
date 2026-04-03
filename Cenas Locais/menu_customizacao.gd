@@ -65,15 +65,18 @@ func _instanciar_personagem():
 		
 
 func _input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			a_arrastar_rato = true
-		else:
-			a_arrastar_rato = false
-			
-	if event is InputEventMouseMotion and a_arrastar_rato:
-		if is_instance_valid(player_instanciado):
-			player_instanciado.rotate_y(deg_to_rad(-event.relative.x * sensibilidade_rotacao))
+	# 1. Detecta quando o jogador TOCA ou SOLTA a tela (Mobile) ou clica com o mouse (PC)
+	if event is InputEventScreenTouch:
+		a_arrastar_rato = event.pressed
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		a_arrastar_rato = event.pressed
+
+	# 2. Detecta o movimento de ARRASTAR o dedo na tela (Mobile) ou mover o mouse (PC)
+	if a_arrastar_rato:
+		if event is InputEventScreenDrag:
+			manequim_ponto.rotate_y(deg_to_rad(-event.relative.x * sensibilidade_rotacao))
+		elif event is InputEventMouseMotion:
+			manequim_ponto.rotate_y(deg_to_rad(-event.relative.x * sensibilidade_rotacao))
 
 # --- LÓGICA DE INTERFACE (UI em pt-br) ---
 
@@ -81,44 +84,53 @@ func _gerar_botoes_armas():
 	for filho in grid_itens.get_children():
 		filho.queue_free()
 		
+	# --- NOVO: Ordenar a lista (Desbloqueados primeiro) ---
+	var lista_ordenada = todas_as_armas.duplicate()
+	lista_ordenada.sort_custom(func(a, b):
+		var a_tem = a in Global.armas_desbloqueadas
+		var b_tem = b in Global.armas_desbloqueadas
+		if a_tem != b_tem:
+			return a_tem
+		return a < b
+	)
+		
 	var arma_equipada = Global.equip_avo_m["arma"] if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f["arma"]
 		
-	for id in todas_as_armas:
+	for id in lista_ordenada:
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(120, 120) # Tamanho mobile/idoso [cite: 11]
+		btn.custom_minimum_size = Vector2(115, 115) # Tamanho ideal para mobile
 		btn.expand_icon = true
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		
 		# --- VERIFICAÇÃO DE DESBLOQUEIO ---
 		var esta_desbloqueada = id in Global.armas_desbloqueadas 
 		
-		var caminho_icone = PASTA_ICONES + id + ".png"
-		if FileAccess.file_exists(caminho_icone):
-			btn.icon = load(caminho_icone)
-		else:
-			btn.text = _obter_nome_formatado(id)
-		
-		# --- ESTILO E ACESSIBILIDADE ---
+		# --- ESTILO ---
 		var estilo = StyleBoxFlat.new()
 		estilo.bg_color = Color(0.2, 0.2, 0.22, 1)
 		estilo.set_corner_radius_all(8)
 		
 		if esta_desbloqueada:
+			# Carrega ícone se existir, senão usa texto
+			var caminho_icone = PASTA_ICONES + id + ".png"
+			if FileAccess.file_exists(caminho_icone):
+				btn.icon = load(caminho_icone)
+			else:
+				btn.text = _obter_nome_formatado(id)
+				
 			btn.pressed.connect(func(): _on_arma_selecionada(id))
 			btn.modulate = Color(1, 1, 1) # Cor normal
 			
 			if id == arma_equipada:
-				estilo.set_border_width_all(6) # Borda mais grossa para idosos [cite: 11]
-				estilo.border_color = Color(1.0, 1.0, 1.0, 1.0)
+				estilo.set_border_width_all(6) 
+				estilo.border_color = Color.GOLD # Destaque dourado para arma equipada
 		else:
 			# Se estiver bloqueada, o botão fica escuro e não clica
 			btn.modulate = Color(0.2, 0.2, 0.2, 0.8) 
 			btn.disabled = true 
-			# Opcional: colocar um ícone de cadeado aqui 
-			btn.icon = load("res://Icons/cadeado.png")
-		btn.add_theme_stylebox_override("normal", estilo)
-		grid_itens.add_child(btn)
-			
+			var cadeado = load("res://Icons/cadeado.png")
+			if cadeado: btn.icon = cadeado
+
 		# Aplica o estilo visual ao botão
 		btn.add_theme_stylebox_override("normal", estilo)
 		btn.add_theme_stylebox_override("hover", estilo)
@@ -139,65 +151,81 @@ func _on_arma_selecionada(id_arma):
 	Global.equipar_arma(Global.personagem_jogado_atualmente, id_arma)
 	label_nome_item.text = _obter_nome_formatado(id_arma)
 	
-	# ERRO ESTAVA AQUI: Estava chamando _configurar_modelo_escolhido (que gera um corpo novo)
-	# SOLUÇÃO: Chamar APENAS _atualizar_arma_visivel (que só liga/desliga a malha da arma)
 	if is_instance_valid(player_instanciado) and player_instanciado.has_method("_atualizar_arma_visivel"):
 		player_instanciado.call("_atualizar_arma_visivel")
 		
 	_gerar_botoes_armas()
 
 func _gerar_botoes_chapeus():
-	for filho in grid_chapeus.get_children():
-		filho.queue_free()
+	for child in grid_chapeus.get_children():
+		child.queue_free()
+
+	# Mesma lógica de ordenação, mas o "Nenhum" tem VIP e fura a fila
+	var lista_ordenada = todos_os_chapeus.duplicate()
+	
+	lista_ordenada.sort_custom(func(a, b):
+		if a == "Nenhum": return true  # 'a' vem primeiro
+		if b == "Nenhum": return false # 'b' vem primeiro
 		
-	var chapeu_equipado = Global.equip_avo_m.get("chapeu", "Nenhum") if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f.get("chapeu", "Nenhum")
-		
-	for id in todos_os_chapeus:
+		var a_tem = a in Global.chapeus_desbloqueados
+		var b_tem = b in Global.chapeus_desbloqueados
+		if a_tem != b_tem:
+			return a_tem
+		return a < b
+	)
+
+	var chapeu_equipado = ""
+	if Global.personagem_jogado_atualmente == "avo_m":
+		chapeu_equipado = Global.equip_avo_m["chapeu"]
+	else:
+		chapeu_equipado = Global.equip_avo_f["chapeu"]
+
+	for id in lista_ordenada:
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(120, 120) # Tamanho para idosos/mobile
+		btn.custom_minimum_size = Vector2(115, 115) 
 		btn.expand_icon = true
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		
-		# --- LÓGICA DE BLOQUEIO ---
-		var esta_desbloqueado = id in Global.chapeus_desbloqueados
-		
-		var caminho_icone = PASTA_ICONES + id + ".png"
-		if FileAccess.file_exists(caminho_icone):
-			btn.icon = load(caminho_icone)
-		else:
-			btn.text = id
-		
 		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color(0.15, 0.15, 0.17, 1)
-		estilo.set_corner_radius_all(10)
+		estilo.set_corner_radius_all(8)
+		estilo.bg_color = Color(0.2, 0.2, 0.23, 1)
 		
-		if esta_desbloqueado:
-			btn.modulate = Color(1, 1, 1) # Cor normal
+		# "Nenhum" é grátis e sempre está liberado
+		if id in Global.chapeus_desbloqueados or id == "Nenhum":
+			var caminho_icone = PASTA_ICONES + id + ".png"
+			if FileAccess.file_exists(caminho_icone):
+				btn.icon = load(caminho_icone)
+			else:
+				btn.text = _obter_nome_formatado(id)
+				
 			btn.pressed.connect(func(): _on_chapeu_selecionado(id))
 			
 			if id == chapeu_equipado:
 				estilo.set_border_width_all(6)
-				estilo.border_color = Color.WHITE
+				estilo.border_color = Color.WHITE # Destaque branco para o chapéu
 		else:
-			# Visual de item bloqueado
-			btn.modulate = Color(0.2, 0.2, 0.2, 0.7) # Fica bem escuro
+			btn.modulate = Color(0.2, 0.2, 0.2, 0.8)
 			btn.disabled = true 
-			# Se tiver um ícone de cadeado, poderia carregar aqui:
-			btn.icon = load("res://Icons/cadeado.png")
+			var cadeado = load("res://Icons/cadeado.png")
+			if cadeado: btn.icon = cadeado
 
 		btn.add_theme_stylebox_override("normal", estilo)
+		btn.add_theme_stylebox_override("hover", estilo)
+		btn.add_theme_stylebox_override("pressed", estilo)
+		btn.add_theme_stylebox_override("focus", estilo)
+		
 		grid_chapeus.add_child(btn)
 
+# --- NOVO: Função para o clique do chapéu ---
 func _on_chapeu_selecionado(id_chapeu):
-	# Salva o chapéu no dicionário Global
 	if Global.personagem_jogado_atualmente == "avo_m":
 		Global.equip_avo_m["chapeu"] = id_chapeu
 	else:
 		Global.equip_avo_f["chapeu"] = id_chapeu
 		
-	label_nome_item.text = id_chapeu
+	Global.salvar_progresso() # Garante que salva no ficheiro cfg!
+	label_nome_item.text = _obter_nome_formatado(id_chapeu)
 	
-	# Chama uma função no player para atualizar o 3D (igual fizemos com a arma)
 	if is_instance_valid(player_instanciado) and player_instanciado.has_method("_atualizar_chapeu_visivel"):
 		player_instanciado.call("_atualizar_chapeu_visivel")
 		
@@ -209,7 +237,7 @@ func _on_btn_avo_m_pressed():
 	_instanciar_personagem()
 	_atualizar_botoes_genero()
 	_gerar_botoes_armas()
-	_gerar_botoes_chapeus() # <-- ADICIONE AQUI
+	_gerar_botoes_chapeus()
 
 func _on_btn_avo_f_pressed():
 	Global.personagem_jogado_atualmente = "avo_f"

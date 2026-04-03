@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://bdk4hwc1fa0fx" path="res://hud.gd" id="1_fiyi4"]
 [ext_resource type="PackedScene" uid="uid://c24yx1fwvuwxu" path="res://Cenas Locais/carta_ui.tscn" id="2_iy34l"]
 [ext_resource type="PackedScene" uid="uid://5wk3w1ggee8" path="res://Dungeon/chest.glb" id="2_o13s8"]
-[ext_resource type="PackedScene" uid="uid://dohjc8tx4wt0n" path="res://Cenas Locais/upgrade_ui.tscn" id="3_ebwb2"]
-[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Mapa/grass.glb" id="3_iy34l"]
-[ext_resource type="PackedScene" uid="uid://c2e015n0sa8ni" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="4_8v21c"]
+[ext_resource type="PackedScene" uid="uid://b5l8slqarfs0i" path="res://Cenas Locais/upgrade_ui.tscn" id="3_ebwb2"]
+[ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="3_iy34l"]
+[ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="4_8v21c"]
 
 [sub_resource type="World3D" id="World3D_ebwb2"]
 

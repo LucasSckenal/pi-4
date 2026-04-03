@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://mpgruuoi13dm"]
 
-[ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Mapa/unit-tower.glb" id="1_vedim"]
+[ext_resource type="PackedScene" uid="uid://c8octc5vyl5tf" path="res://Map/unit-tower.glb" id="1_vedim"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_ned14"]
 [ext_resource type="PackedScene" uid="uid://ccr63l42p5nxi" path="res://Cenas Locais/flecha.tscn" id="3_ned14"]
 [ext_resource type="Script" uid="uid://cj7setbrccrxh" path="res://Upgrades/upgrade_path_data.gd" id="4_772tj"]
