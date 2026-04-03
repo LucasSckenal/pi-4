@@ -65,10 +65,5 @@ func criar_painel(conquista: ConquistaData):
 		# Se já ganhou, fica com a cor normal e brilhante
 		novo_painel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
-# ---------------------------------------------------------
-# NOTA: Se tinha um botão para voltar ao Menu ou fechar o ecrã, 
-# adicione o código dele aqui em baixo! Exemplo:
-#
-# func _on_button_voltar_pressed():
-#     queue_free() 
-# ---------------------------------------------------------
+func _on_btn_voltar_pressed() -> void:
+	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")

@@ -261,6 +261,22 @@ func _executar_ataque_area(inimigos: Array):
 	if anim_player.has_animation("attack-melee-left"):
 		anim_player.play("attack-melee-left")
 		
+	# --- EFEITO DE ESCALA DINÂMICA NA ARMA ---
+	var ponto_arma = find_child("BoneAttachment3D", true, false)
+	if ponto_arma:
+		for arma in ponto_arma.get_children():
+			if arma.visible:
+				var escala_original = arma.scale
+				var escala_alvo = escala_original
+				escala_alvo *= 1.3 # Aumenta o comprimento em 30%
+				
+				await get_tree().create_timer(0.2).timeout
+				var tw_escala = create_tween()
+				# Estica a arma rapidamente
+				tw_escala.tween_property(arma, "scale", escala_alvo, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+				# Retorna ao tamanho original logo em seguida
+				tw_escala.tween_property(arma, "scale", escala_original, 0.2).set_delay(0.05)
+		
 	_criar_efeito_visual_corte()
 	
 	# Aplica dano em todos os inimigos capturados na área de ataque
@@ -371,9 +387,9 @@ func _configurar_modelo_escolhido():
 	
 	var caminho_novo_modelo = ""
 	if Global.personagem_jogado_atualmente == "avo_m":
-		caminho_novo_modelo = "res://Personagens/character-male-b.glb"
+		caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
 	else:
-		caminho_novo_modelo = "res://Personagens/character-female-c.glb"
+		caminho_novo_modelo = "res://Assets/Personagens/personagem_f.tscn"
 
 	if caminho_novo_modelo != "":
 		var cena_novo_modelo = load(caminho_novo_modelo)
