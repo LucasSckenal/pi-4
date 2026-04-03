@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b5l8slqarfs0i" path="res://Cenas Locais/upgrade_ui.tscn" id="3_ebwb2"]
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="3_iy34l"]
 [ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="4_8v21c"]
+[ext_resource type="PackedScene" uid="uid://c5pxe6bsjuyx7" path="res://Cenas Locais/controles_mobile.tscn" id="5_8v21c"]
 
 [sub_resource type="World3D" id="World3D_ebwb2"]
 
@@ -44,6 +45,11 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
+
+[node name="HudMobileCompleto" parent="InterfacePrincipal" unique_id=768701112 instance=ExtResource("5_8v21c")]
+layout_mode = 1
+offset_left = -620.0
+offset_bottom = 320.0
 
 [node name="CentroTela" type="CenterContainer" parent="InterfacePrincipal" unique_id=1246110216]
 layout_mode = 1
