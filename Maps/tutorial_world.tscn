@@ -20,6 +20,8 @@
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="11_e0en3"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="15_5f4a7"]
+[ext_resource type="PackedScene" uid="uid://cid3a47wgbk7" path="res://Enemys/mushroom.tscn" id="16_hj1xp"]
+[ext_resource type="Texture2D" uid="uid://blfmrgwo1mg4f" path="res://Icons/MushroomPreview.png" id="17_gwkev"]
 
 [sub_resource type="Animation" id="Animation_bfgkp"]
 length = 0.001
@@ -334,6 +336,33 @@ script = ExtResource("6_l2f7a")
 inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
+[sub_resource type="Resource" id="Resource_gwkev"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("16_hj1xp")
+quantidade = 3
+icone = ExtResource("17_gwkev")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_qmdqv"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_hj1xp"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_it188"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_gxr63"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
 [sub_resource type="Resource" id="Resource_ucd3c"]
 script = ExtResource("10_ucd3c")
 cena = ExtResource("7_ro1kq")
@@ -346,24 +375,58 @@ script = ExtResource("6_l2f7a")
 inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_ucd3c")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_e0en3"]
+[sub_resource type="Resource" id="Resource_vbs5l"]
 script = ExtResource("10_ucd3c")
-cena = ExtResource("7_ro1kq")
-quantidade = 5
-icone = ExtResource("11_e0en3")
+cena = ExtResource("16_hj1xp")
+quantidade = 3
+icone = ExtResource("17_gwkev")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_6ak85"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_vbs5l")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_csu6n"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_20gje"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_a3xla"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_m1uej"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("16_hj1xp")
+quantidade = 3
+icone = ExtResource("17_gwkev")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ww2ee"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_e0en3")])
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_m1uej")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_7oign"]
 script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_xas8i"]
 script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_dx84t"]
+script = ExtResource("6_l2f7a")
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nnxgy"]
@@ -469,18 +532,19 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="building-castle2" parent="NavigationRegion3D" unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
+tem_barra_vida = true
 
 [node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.61954373, 0.28148788, 5.2015567)
-ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je"), null, null, null, null, null, null, null, null, null])
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je"), SubResource("Resource_qmdqv"), SubResource("Resource_hj1xp"), SubResource("Resource_it188"), SubResource("Resource_gxr63")])
 
 [node name="SpawnerInimigos2" parent="NavigationRegion3D" unique_id=1325641903 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -5.213997)
-ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_5f4a7"), null, null, null, null, null, null, null, null, null])
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_5f4a7"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje"), SubResource("Resource_a3xla")])
 
 [node name="SpawnerInimigos3" parent="NavigationRegion3D" unique_id=1775097973 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, -3.1590438, -0.14955395, 0.35552764)
-ondas = Array[ExtResource("6_l2f7a")]([ExtResource("9_yane2"), SubResource("Resource_ww2ee"), SubResource("Resource_7oign"), SubResource("Resource_xas8i"), null, null, null, null, null, null])
+ondas = Array[ExtResource("6_l2f7a")]([ExtResource("9_yane2"), SubResource("Resource_ww2ee"), SubResource("Resource_7oign"), SubResource("Resource_xas8i"), SubResource("Resource_dx84t")])
 
 [node name="WorldBoundaries" type="GridMap" parent="." unique_id=577249041 groups=["Barreiras"]]
 visible = false

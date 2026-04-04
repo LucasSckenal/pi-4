@@ -146,7 +146,7 @@ func terminar_onda():
 	
 	onda_terminada.emit() 
 	
-	if onda_atual == 1:  # Ajuste para: onda_atual % 5 == 0 se quiser a cada 5 ondas
+	if onda_atual % 2 != 0: # Se impar? Receba carta (se fosse par quebraria o tutorial)
 		sortear_cartas()
 	
 	onda_atual += 1

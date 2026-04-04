@@ -21,6 +21,10 @@ var estilo_caixa_vazia: StyleBoxFlat
 var estilo_vel_ativa: StyleBoxFlat
 var estilo_vel_inativa: StyleBoxFlat
 
+# Controle de Tempo e Estado
+var jogo_pausado: bool = false
+var ultima_velocidade: float = 1.0
+
 func _ready():
 	# Garante que as quebras de linha sejam respeitadas pelo motor
 	btn_lento.text = ">\nLENTO"
@@ -42,6 +46,17 @@ func _ready():
 	btn_lento.pressed.connect(func(): _alterar_velocidade(0.5, btn_lento))
 	btn_normal.pressed.connect(func(): _alterar_velocidade(1.0, btn_normal))
 	btn_rapido.pressed.connect(func(): _alterar_velocidade(2.0, btn_rapido))
+	
+	# Conexões para atualizar o botão de acordo com a fase do jogo
+	if GameManager.has_signal("dia_iniciado"):
+		GameManager.dia_iniciado.connect(_ao_iniciar_dia)
+	if GameManager.has_signal("noite_iniciada"):
+		GameManager.noite_iniciada.connect(_ao_iniciar_noite)
+
+	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
+		btn_menu_gigante.text = "▶"
+	else:
+		btn_menu_gigante.text = "❚❚"
 	
 	# Inicia visual
 	_atualizar_caixas_zoom()
@@ -77,13 +92,43 @@ func _aplicar_fov_na_camera():
 		var fov_calculado = 90.0 - ((nivel_zoom_atual) * 15.0)
 		camera.fov = fov_calculado
 
+# --- GERENCIAMENTO DE ESTADO DIA/NOITE ---
+func _ao_iniciar_dia(_onda):
+	jogo_pausado = false
+	Engine.time_scale = ultima_velocidade
+	btn_menu_gigante.text = "▶"
+
+func _ao_iniciar_noite(_onda):
+	jogo_pausado = false
+	btn_menu_gigante.text = "❚❚"
+
 # --- VELOCIDADE & MENU ---
 func _on_menu_pressionado():
-	print("Menu Pressionado")
-	# Código para abrir o menu de pausa do jogo entra aqui
+	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
+		if not GameManager.is_tutorial_ativo:
+			GameManager.iniciar_noite()
+	else:
+		if jogo_pausado:
+			_retomar_jogo()
+		else:
+			_pausar_jogo()
+
+func _pausar_jogo():
+	jogo_pausado = true
+	ultima_velocidade = Engine.time_scale
+	Engine.time_scale = 0.0
+	btn_menu_gigante.text = "▶❚"
+
+func _retomar_jogo():
+	jogo_pausado = false
+	Engine.time_scale = ultima_velocidade
+	btn_menu_gigante.text = "❚❚"
 
 func _alterar_velocidade(multiplicador: float, botao_clicado: Button):
-	Engine.time_scale = multiplicador
+	ultima_velocidade = multiplicador
+	
+	if not jogo_pausado:
+		Engine.time_scale = multiplicador
 	
 	var botoes = [btn_lento, btn_normal, btn_rapido]
 	for b in botoes:
