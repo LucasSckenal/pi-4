@@ -65,10 +65,6 @@ func _ready():
 	if label_wave != null:
 		label_wave.modulate.a = 0.0
 	
-	if botao_noite != null:
-		if not botao_noite.pressed.is_connected(_on_botao_noite_pressed):
-			botao_noite.pressed.connect(_on_botao_noite_pressed)
-	
 	if botao_reroll != null:
 		botao_reroll.pressed.connect(_on_botao_reroll_pressed)
 	
@@ -134,10 +130,6 @@ func _on_upgrade_ui_fechado():
 func verificar_estado_dia_noite():
 	if botao_noite != null:
 		botao_noite.visible = not GameManager.is_night
-
-func _on_botao_noite_pressed():
-	if not GameManager.is_night:
-		GameManager.iniciar_noite()
 
 func mostrar_wave_na_tela(texto: String):
 	if label_wave == null: return

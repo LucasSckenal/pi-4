@@ -1,12 +1,26 @@
 [gd_scene format=4 uid="uid://c0w7h11dt0g84"]
 
 [ext_resource type="Texture2D" uid="uid://dst6pwj24eslm" path="res://Personagens/Textures/colormap.png" id="1_mkvex"]
+[ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_fohdo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uh5j4"]
+render_priority = 0
+shader = ExtResource("2_fohdo")
+shader_parameter/scale = 1.0
+shader_parameter/outline_spread = 5.0
+shader_parameter/_Color = Color(0, 0, 0, 1)
+shader_parameter/_DepthNormalThreshold = 0.1
+shader_parameter/_DepthNormalThresholdScale = 3.0
+shader_parameter/_DepthThreshold = 1.5
+shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rtk0f"]
 resource_name = "colormap"
+next_pass = SubResource("ShaderMaterial_uh5j4")
 cull_mode = 2
 albedo_texture = ExtResource("1_mkvex")
 texture_filter = 2
+stencil_flags = 2
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ujxm8"]
 resource_name = "character-male-b_body-mesh"

@@ -1,9 +1,22 @@
 [gd_scene format=4 uid="uid://3tgphiuuop8i"]
 
 [ext_resource type="Texture2D" uid="uid://dst6pwj24eslm" path="res://Personagens/Textures/colormap.png" id="1_qh37w"]
+[ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_bw1m7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5rayv"]
+render_priority = 0
+shader = ExtResource("2_bw1m7")
+shader_parameter/scale = 1.0
+shader_parameter/outline_spread = 5.0
+shader_parameter/_Color = Color(0, 0, 0, 1)
+shader_parameter/_DepthNormalThreshold = 0.1
+shader_parameter/_DepthNormalThresholdScale = 3.0
+shader_parameter/_DepthThreshold = 1.5
+shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mpntf"]
 resource_name = "colormap"
+next_pass = SubResource("ShaderMaterial_5rayv")
 cull_mode = 2
 albedo_texture = ExtResource("1_qh37w")
 texture_filter = 2
