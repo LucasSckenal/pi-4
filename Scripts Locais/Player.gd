@@ -413,7 +413,7 @@ func _configurar_modelo_escolhido():
 	
 	if Global.usando_set_bloodborne:
 		# ATENÇÃO: Coloca aqui o caminho real da cena do teu Hunter!
-		caminho_novo_modelo = "res://Personagens/BloodBorne_male.glb" 
+		caminho_novo_modelo = "res://Assets/Personagens/blood_borne_male.tscn" 
 	elif Global.personagem_jogado_atualmente == "avo_m":
 		caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
 	else:

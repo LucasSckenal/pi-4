@@ -24,7 +24,7 @@ own_world_3d = true
 world_3d = SubResource("World3D_5500w")
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(648, 648)
+size = Vector2i(720, 720)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" unique_id=1350296405]

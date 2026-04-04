@@ -231,7 +231,7 @@ func _on_chapeu_selecionado(id_chapeu):
 			modelo_normal.visible = false
 			
 		if not modelo_bb:
-			var cena_bb = load("res://Personagens/BloodBorne_male.glb") 
+			var cena_bb = load("res://Assets/Personagens/blood_borne_male.tscn") 
 			modelo_bb = cena_bb.instantiate()
 			modelo_bb.name = "ModeloBloodborneMenu"
 			
