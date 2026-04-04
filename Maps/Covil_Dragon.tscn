@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://26avdqm5cc58" path="res://Enemys/Meshy_AI_Large_brute_elemental_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="11_i0ikx"]
 [ext_resource type="Resource" uid="uid://x66ik4yo5554" path="res://Enemys/Orc.tres" id="11_nceek"]
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="12_nceek"]
+[ext_resource type="PackedScene" uid="uid://d3qvctdridhwo" path="res://Assets/bonfire__dark_souls.glb" id="14_nceek"]
 [ext_resource type="PackedScene" uid="uid://gay3185ml7vb" path="res://Builds/Dragon.tscn" id="14_nekdb"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_8jsou"]
@@ -227,3 +228,6 @@ ondas = Array[ExtResource("9_x6lc8")]([SubResource("Resource_nekdb"), null, null
 [node name="Node3D2" parent="." unique_id=2080283946 instance=ExtResource("14_nekdb")]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -0.4471743, 1.8534969, 0.585619)
 tipo = 5
+
+[node name="Sketchfab_Scene" parent="." unique_id=1550367612 instance=ExtResource("14_nceek")]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 9.63154, 0.46111012, 2.032345)
