@@ -1328,11 +1328,11 @@ transform = Transform3D(0.1755179, -0.032265484, -0.46706796, -0.22339934, 0.432
 mesh = SubResource("ArrayMesh_ovba6")
 
 [node name="DarkS2" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=587520809]
-transform = Transform3D(-0.15524912, -0.051945895, -0.4084105, -0.19850174, 0.39184266, 0.025617674, 0.36068636, 0.19328974, -0.16169214, -0.19637519, -0.29247195, 0.7388206)
+transform = Transform3D(-0.24352701, -0.122030385, -0.34554738, -0.2867798, 0.32175824, 0.088480696, 0.22814861, 0.27419007, -0.2576197, -0.3448394, -0.4628556, 0.49989355)
 mesh = SubResource("ArrayMesh_o7xyp")
 
 [node name="DarkS3" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1842360878]
-transform = Transform3D(-0.03084743, -0.0037880032, 0.32853323, 0.32850814, 0.005220107, 0.03090538, -0.005551661, 0.32993692, 0.0032829177, -0.17970172, 0.53653264, 0.030622225)
+transform = Transform3D(-0.041129917, -0.0050506704, 0.4380443, 0.43801087, 0.006960143, 0.041207016, -0.0074022133, 0.43991593, 0.004377224, -0.29672337, 0.704324, 0.030622225)
 mesh = SubResource("ArrayMesh_fspfk")
 
 [node name="BoneAttachment3D_Cabeca" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="3" unique_id=548242284]
@@ -1405,11 +1405,11 @@ transform = Transform3D(-0.19383699, 0.088685036, 0.4522852, -0.19144532, 0.4308
 mesh = SubResource("ArrayMesh_ovba6")
 
 [node name="DarkS2" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D2" unique_id=382053399]
-transform = Transform3D(-0.079142004, 0.056552544, 0.5413301, -0.003111381, 0.5469671, -0.057596266, -0.5442673, -0.011350114, -0.07838567, -0.24307662, 0.13974646, -0.798094)
+transform = Transform3D(-0.079142004, 0.056552544, 0.5413301, -0.003111381, 0.5469671, -0.057596266, -0.5442673, -0.011350114, -0.07838567, -0.33657232, 0.15076256, -0.798094)
 mesh = SubResource("ArrayMesh_ynmns")
 
 [node name="DarkS3" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D2" unique_id=1168959995]
-transform = Transform3D(-0.030847415, -0.0037880028, 0.32853323, 0.32850814, 0.005220107, 0.030905351, -0.005551661, 0.32993698, 0.003282918, -0.40398368, 0.59328175, 0.0325091)
+transform = Transform3D(-0.041129887, -0.00505067, 0.43804428, 0.43801084, 0.006960143, 0.041207016, -0.0074022138, 0.43991596, 0.004377224, -0.5520594, 0.74135745, 0.0325091)
 mesh = SubResource("ArrayMesh_fspfk")
 
 [node name="AreaAtaque" type="Area3D" parent="." unique_id=682289708]
