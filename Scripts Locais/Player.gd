@@ -134,6 +134,8 @@ func _unhandled_input(event):
 			
 			var mudou_zoom = false
 			
+			# Precisa acrescentar uma função que usa o NOVO estilo de zoom aqui, com os 4 níveis
+			
 			var limite_fov = camera_zoom.get("fov_inicial") if "fov_inicial" in camera_zoom else 90.0
 			var limite_size = camera_zoom.get("size_inicial") if "size_inicial" in camera_zoom else 30.0
 			

@@ -46,7 +46,47 @@ corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_MenuBtnGigante"]
-bg_color = Color(0.05, 0.05, 0.05, 0.95)
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.83137256)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 200
+corner_radius_top_right = 200
+corner_radius_bottom_right = 200
+corner_radius_bottom_left = 200
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohsd6"]
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.8666667)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 200
+corner_radius_top_right = 200
+corner_radius_bottom_right = 200
+corner_radius_bottom_left = 200
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rsojh"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 0.68235296)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udtqn"]
+bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.8862745)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -61,6 +101,18 @@ shadow_offset = Vector2(0, 5)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SpeedInactivePill"]
 bg_color = Color(0.15, 0.15, 0.15, 0.8)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnp6r"]
+bg_color = Color(0.14901961, 0.14901961, 0.14901961, 0.94509804)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -112,11 +164,6 @@ alignment = 1
 layout_mode = 2
 theme_override_constants/separation = 6
 alignment = 1
-
-[node name="Box5" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1953769286]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_BoxEmpty")
 
 [node name="Box4" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1247784580]
 custom_minimum_size = Vector2(16, 16)
@@ -171,9 +218,13 @@ offset_left = 380.0
 offset_top = 20.0
 offset_right = 540.0
 offset_bottom = 180.0
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 80
 theme_override_styles/normal = SubResource("StyleBoxFlat_MenuBtnGigante")
-text = "≡"
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ohsd6")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_udtqn")
+text = "❚❚"
 
 [node name="GrupoVelocidades" type="Control" parent="AreaInterativa" unique_id=2143394960]
 anchors_preset = 0
@@ -194,6 +245,9 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_SpeedInactivePill")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mnp6r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mnp6r")
 text = "<<
 LENTO"
 
@@ -208,6 +262,9 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_SpeedActivePill")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mnp6r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mnp6r")
 text = ">
 NORMAL"
 
@@ -222,5 +279,8 @@ mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 14
 theme_override_styles/normal = SubResource("StyleBoxFlat_SpeedInactivePill")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mnp6r")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mnp6r")
 text = ">>
 RÁPIDO"

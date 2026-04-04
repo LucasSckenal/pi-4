@@ -303,20 +303,22 @@ spot_angle = 25.85
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1765247065]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=1169369597]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -147.5
-offset_top = -50.5
-offset_right = 69.5
-offset_bottom = 50.5
+anchors_preset = -1
+anchor_left = 0.314
+anchor_top = 0.216
+anchor_right = 0.683
+anchor_bottom = 0.77800006
+offset_left = 66.77197
+offset_top = 153.98
+offset_right = -141.31604
+offset_bottom = -149.66003
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=703772984]
-custom_minimum_size = Vector2(400, 400)
+custom_minimum_size = Vector2(200, 180)
 layout_mode = 2
 theme_override_constants/separation = 30
 
@@ -331,7 +333,7 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_bege")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1fi58")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3eshw")
-text = "    Jogar"
+text = " Jogar"
 icon = ExtResource("9_iqqrd")
 alignment = 0
 expand_icon = true
@@ -347,7 +349,7 @@ theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_uol58")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_krtp0")
 theme_override_styles/hover = SubResource("StyleBoxFlat_yo1mr")
-text = "        Troféus"
+text = "     Troféus"
 icon = ExtResource("10_1fi58")
 alignment = 0
 expand_icon = true
@@ -363,10 +365,9 @@ theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_cinza")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_xsw65")
 theme_override_styles/hover = SubResource("StyleBoxFlat_iqqrd")
-text = "       Configurações"
+text = "   Configurações"
 icon = ExtResource("11_krtp0")
 alignment = 0
-autowrap_trim_flags = 0
 expand_icon = true
 
 [node name="BtnSair" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1721980212]
@@ -380,7 +381,7 @@ theme_override_font_sizes/font_size = 26
 theme_override_styles/normal = SubResource("StyleBoxFlat_laranja")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btggu")
 theme_override_styles/hover = SubResource("StyleBoxFlat_dtel2")
-text = "        Sair do Jogo"
+text = "     Sair do Jogo"
 icon = ExtResource("12_xsw65")
 alignment = 0
 expand_icon = true
