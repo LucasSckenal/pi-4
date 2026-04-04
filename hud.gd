@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+#OBS.: NÃO MOVER PARA CIMA DO TUTORIALMANAGER, QUEBRA NA HORA A LÓGICA DE MOVIMENTAÇÃO DO PERSONAGEM
+# E EU NÂO TENHO A MENOR IDEIA DO POR QUÊ
+
 # ==========================================
 # REFERÊNCIAS DA INTERFACE PRINCIPAL
 # ==========================================

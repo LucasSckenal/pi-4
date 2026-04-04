@@ -12,8 +12,8 @@ extends MarginContainer
 @onready var btn_rapido = $AreaInterativa/GrupoVelocidades/BtnRapido
 
 # Lógica do Zoom
-var nivel_zoom_atual = 3
-const MAX_NIVEIS_ZOOM = 5
+var nivel_zoom_atual = 1
+const MAX_NIVEIS_ZOOM = 4
 
 # Estilos recuperados da cena
 var estilo_caixa_cheia: StyleBoxFlat
@@ -29,7 +29,7 @@ func _ready():
 
 	# Guarda os estilos
 	estilo_caixa_vazia = indicador_caixas[0].get_theme_stylebox("panel")
-	estilo_caixa_cheia = indicador_caixas[4].get_theme_stylebox("panel")
+	estilo_caixa_cheia = indicador_caixas[3].get_theme_stylebox("panel")
 	estilo_vel_ativa = btn_normal.get_theme_stylebox("normal")
 	estilo_vel_inativa = btn_lento.get_theme_stylebox("normal")
 
@@ -74,7 +74,7 @@ func _aplicar_fov_na_camera():
 	var camera = get_viewport().get_camera_3d()
 	if camera:
 		# Lógica simples de FOV (ajuste os valores conforme o seu jogo)
-		var fov_calculado = 90.0 - ((nivel_zoom_atual - 1) * 15.0)
+		var fov_calculado = 90.0 - ((nivel_zoom_atual) * 15.0)
 		camera.fov = fov_calculado
 
 # --- VELOCIDADE & MENU ---

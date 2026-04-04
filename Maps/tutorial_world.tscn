@@ -62,58 +62,46 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("SpotLight3D2:light_color")
+tracks/3/path = NodePath("DirectionalLight3D:light_color")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0.6324106, 0.397988, 1, 1)]
+"values": [Color(1, 1, 0.6509804, 1)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("DirectionalLight3D:light_color")
+tracks/4/path = NodePath(".:environment:adjustment_enabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 0.6509804, 1)]
+"update": 1,
+"values": [true]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath(".:environment:adjustment_enabled")
+tracks/5/path = NodePath(".:environment:adjustment_contrast")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [1.25]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath(".:environment:adjustment_contrast")
+tracks/6/path = NodePath(".:environment:adjustment_saturation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.25]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".:environment:adjustment_saturation")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -162,58 +150,46 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("SpotLight3D2:light_color")
+tracks/3/path = NodePath("DirectionalLight3D:light_color")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0.22190759, 0.17605379, 1, 1), Color(0.6324106, 0.397988, 1, 1)]
+"values": [Color(0.4470806, 0.59430265, 1, 1), Color(1, 1, 0.6509804, 1)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("DirectionalLight3D:light_color")
+tracks/4/path = NodePath(".:environment:adjustment_enabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0.4470806, 0.59430265, 1, 1), Color(1, 1, 0.6509804, 1)]
+"update": 1,
+"values": [true, true]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath(".:environment:adjustment_enabled")
+tracks/5/path = NodePath(".:environment:adjustment_contrast")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
+"update": 0,
+"values": [1.25, 1.0]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath(".:environment:adjustment_contrast")
+tracks/6/path = NodePath(".:environment:adjustment_saturation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.25, 1.0]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".:environment:adjustment_saturation")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
@@ -262,58 +238,46 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("SpotLight3D2:light_color")
+tracks/3/path = NodePath("DirectionalLight3D:light_color")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0.6324106, 0.397988, 1, 1), Color(0.22190759, 0.17605379, 1, 1)]
+"values": [Color(1, 1, 0.6509804, 1), Color(0.4470806, 0.59430265, 1, 1)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("DirectionalLight3D:light_color")
+tracks/4/path = NodePath(".:environment:adjustment_enabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 0.6509804, 1), Color(0.4470806, 0.59430265, 1, 1)]
+"update": 1,
+"values": [true, true]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath(".:environment:adjustment_enabled")
+tracks/5/path = NodePath(".:environment:adjustment_contrast")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
+"update": 0,
+"values": [1.0, 1.25]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath(".:environment:adjustment_contrast")
+tracks/6/path = NodePath(".:environment:adjustment_saturation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 1.25]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".:environment:adjustment_saturation")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
 "times": PackedFloat32Array(0, 2.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
@@ -341,8 +305,7 @@ sky_material = SubResource("ProceduralSkyMaterial_gtwgk")
 background_mode = 2
 sky = SubResource("Sky_wjb0r")
 sky_rotation = Vector3(0, 3.1415927, 0)
-tonemap_mode = 2
-glow_enabled = true
+tonemap_mode = 1
 adjustment_enabled = true
 adjustment_contrast = 1.25
 adjustment_saturation = 0.55
@@ -458,16 +421,6 @@ shadow_enabled = true
 shadow_blur = 0.3
 spot_range = 223.896
 spot_attenuation = 0.9
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="WorldEnvironment" unique_id=809819035]
-transform = Transform3D(-1, -5.7020877e-09, -1.00734404e-07, -5.975536e-08, 0.83793795, 0.54576546, 8.129718e-08, 0.54576546, -0.83793795, -1.4401067, 3.6413417, -8.7297945)
-light_color = Color(0.6324106, 0.397988, 1, 1)
-light_energy = 10.0
-light_specular = 0.0
-shadow_blur = 0.5
-spot_range = 4096.0
-spot_attenuation = 0.8
-spot_angle = 95.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=260689349]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)

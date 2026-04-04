@@ -113,11 +113,6 @@ layout_mode = 2
 theme_override_constants/separation = 6
 alignment = 1
 
-[node name="Box5" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1953769286]
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_BoxEmpty")
-
 [node name="Box4" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1247784580]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
