@@ -379,12 +379,32 @@ func _gerenciar_animacoes(direction):
 # ==========================================
 
 func _configurar_modelo_escolhido():
-	var modelo_antigo = get_node_or_null("character-male-f2") 
-	# Procura os DOIS pontos de anexo (Arma e Cabeça)
-	var ponto_arma = find_child("BoneAttachment3D", true, false)
-	# Atenção: Crie um segundo BoneAttachment3D na sua cena chamado exatamente "BoneAttachment3D_Cabeca"
-	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
+	var modelo_antigo = get_node_or_null("character-male-f2")
 	
+	# --- 1. PEGAR AS 6 PASTAS DE ANEXOS ANTES QUE O BONECO SEJA APAGADO ---
+	var ponto_arma = find_child("BoneAttachment3D", true, false)
+	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
+	var torso = find_child("BoneAttachment3D_torso", true, false)
+	var perna_esq = find_child("BoneAttachment3D_leg_left", true, false)
+	var perna_dir = find_child("BoneAttachment3D_leg_right", true, false)
+	var extra = find_child("BoneAttachment3D2", true, false)
+	
+	# --- 2. SALVAR O NOME DO OSSO ONDE ELAS ESTÃO COLADAS ---
+	var osso_arma = ponto_arma.bone_name if ponto_arma else ""
+	var osso_chapeu = ponto_chapeu.bone_name if ponto_chapeu else ""
+	var osso_torso = torso.bone_name if torso else ""
+	var osso_perna_esq = perna_esq.bone_name if perna_esq else ""
+	var osso_perna_dir = perna_dir.bone_name if perna_dir else ""
+	var osso_extra = extra.bone_name if extra else ""
+	
+	# --- 3. ARRANCAR AS PASTAS DO MODELO ANTIGO ---
+	if ponto_arma and ponto_arma.get_parent(): ponto_arma.get_parent().remove_child(ponto_arma)
+	if ponto_chapeu and ponto_chapeu.get_parent(): ponto_chapeu.get_parent().remove_child(ponto_chapeu)
+	if torso and torso.get_parent(): torso.get_parent().remove_child(torso)
+	if perna_esq and perna_esq.get_parent(): perna_esq.get_parent().remove_child(perna_esq)
+	if perna_dir and perna_dir.get_parent(): perna_dir.get_parent().remove_child(perna_dir)
+	if extra and extra.get_parent(): extra.get_parent().remove_child(extra)
+
 	var caminho_novo_modelo = ""
 	if Global.personagem_jogado_atualmente == "avo_m":
 		caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
@@ -394,52 +414,125 @@ func _configurar_modelo_escolhido():
 	if caminho_novo_modelo != "":
 		var cena_novo_modelo = load(caminho_novo_modelo)
 		var modelo_novo = cena_novo_modelo.instantiate()
-		modelo_novo.name = "character-male-f2" 
-		add_child(modelo_novo)
 		
 		if modelo_antigo:
 			modelo_novo.scale = modelo_antigo.scale
+			modelo_antigo.name = "modelo_a_ser_apagado" 
 		else:
-			modelo_novo.scale = Vector3(1, 1, 1) 
+			modelo_novo.scale = Vector3(1, 1, 1)
 			
+		modelo_novo.name = "character-male-f2"
+		add_child(modelo_novo)
+		
 		var novo_anim_player = modelo_novo.find_child("AnimationPlayer", true)
 		if novo_anim_player:
 			anim_player = novo_anim_player
 			for anim_name in ["idle", "walk"]:
 				if anim_player.has_animation(anim_name):
 					anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
-			
 			if anim_player.has_animation("idle"):
 				anim_player.play("idle")
-				
-		# --- CORREÇÃO: Transfere os anexos para o novo corpo ---
+		
+		# --- 4. DEVOLVER TUDO AO ESQUELETO NOVO (Sem lixo) ---
 		var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
 		if novo_skeleton:
-			# Transfere a Arma
+			
 			if ponto_arma:
-				if modelo_antigo:
-					ponto_arma.get_parent().remove_child(ponto_arma)
+				var lixo = novo_skeleton.find_child(ponto_arma.name, true, false)
+				if lixo:
+					lixo.name = "lixo_arma"
+					lixo.free()
 				novo_skeleton.add_child(ponto_arma)
-				ponto_arma.bone_name = "arm-left" 
+				ponto_arma.bone_name = "arm-left" if osso_arma == "" else osso_arma
 				
-			# Transfere o Chapéu
 			if ponto_chapeu:
-				if modelo_antigo:
-					ponto_chapeu.get_parent().remove_child(ponto_chapeu)
+				var lixo = novo_skeleton.find_child(ponto_chapeu.name, true, false)
+				if lixo:
+					lixo.name = "lixo_chapeu"
+					lixo.free()
 				novo_skeleton.add_child(ponto_chapeu)
-				# IMPORTANTE: Coloque aqui o nome exato do osso da cabeça do seu modelo 3D!
-				ponto_chapeu.bone_name = "head" 
+				ponto_chapeu.bone_name = "head" if osso_chapeu == "" else osso_chapeu
+				
+			if torso:
+				var lixo = novo_skeleton.find_child(torso.name, true, false)
+				if lixo:
+					lixo.name = "lixo_torso"
+					lixo.free()
+				novo_skeleton.add_child(torso)
+				torso.bone_name = osso_torso
+				
+			if perna_esq:
+				var lixo = novo_skeleton.find_child(perna_esq.name, true, false)
+				if lixo:
+					lixo.name = "lixo_perna_e"
+					lixo.free()
+				novo_skeleton.add_child(perna_esq)
+				perna_esq.bone_name = osso_perna_esq
+				
+			if perna_dir:
+				var lixo = novo_skeleton.find_child(perna_dir.name, true, false)
+				if lixo:
+					lixo.name = "lixo_perna_d"
+					lixo.free()
+				novo_skeleton.add_child(perna_dir)
+				perna_dir.bone_name = osso_perna_dir
+				
+			if extra:
+				var lixo = novo_skeleton.find_child(extra.name, true, false)
+				if lixo:
+					lixo.name = "lixo_extra"
+					lixo.free()
+				novo_skeleton.add_child(extra)
+				extra.bone_name = osso_extra
 
 		if modelo_antigo:
 			modelo_antigo.queue_free()
-			
-		modelo_antigo = modelo_novo 
-
-	if modelo_antigo:
-		_configurar_shader_outline(modelo_antigo)
-	
+		
+	# Atualiza a arma e o chapéu normais
 	_atualizar_arma_visivel()
-	_atualizar_chapeu_visivel() # <-- Chama a função para ligar o chapéu certo
+	_atualizar_chapeu_visivel()
+	
+	# --- A CARTA NA MANGA ---
+	call_deferred("_forcar_visual_darksouls")
+
+# --- NOVA FUNÇÃO (Copia também isto) ---
+func _forcar_visual_darksouls():
+	var modelo = get_node_or_null("character-male-f2")
+	if not modelo: return
+	
+	var is_darksouls = Global.armadura_darksouls_desbloqueada and Global.usando_set_especial
+	
+	# Pega ABSOLUTAMENTE TODOS os nós do personagem, não importa a profundidade
+	var todos_nos = modelo.find_children("*", "", true, false)
+	
+	for no in todos_nos:
+		var nome_min = no.name.to_lower()
+		
+		# 1. ESCONDE A CABEÇA NORMAL
+		if "head-mesh" in nome_min or "headmesh" in nome_min:
+			if "visible" in no:
+				no.visible = not is_darksouls
+				
+		if "body-mesh" in nome_min or "bodymesh" in nome_min:
+			if "visible" in no:
+				no.visible = not is_darksouls
+		
+		# 2. ENCONTRA A ARMADURA (Procura por qualquer pedaço do nome)
+		var eh_armadura = ("darks" in nome_min) or ("torso" in nome_min) or ("leg" in nome_min) or ("boneattachment3d2" in nome_min)
+		
+		if eh_armadura:
+			if "visible" in no:
+				no.visible = is_darksouls
+			
+			# A MÁGICA FINAL: Se a armadura deve aparecer, obriga todos os pais dela a aparecerem também!
+			# Isso impede que o Torso fique escondido porque o osso acima dele estava desligado.
+			if is_darksouls:
+				var pai = no.get_parent()
+				# Sobe na árvore de nós ligando tudo até chegar ao topo do personagem
+				while pai != null and pai != get_parent():
+					if "visible" in pai:
+						pai.visible = true
+					pai = pai.get_parent()
 
 func _atualizar_arma_visivel():
 	# Lembra de procurar por BoneAttachment3D aqui também!
@@ -459,23 +552,52 @@ func _atualizar_arma_visivel():
 			arma.hide()
 
 func _atualizar_chapeu_visivel():
-	# Procura a pasta que segura os chapéus na cabeça do personagem
+	# 1. Procura a pasta que segura os chapéus na cabeça do personagem
 	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
 	if not ponto_chapeu: return 
 	
 	var id_chapeu = "Nenhum"
-	if Global.personagem_jogado_atualmente == "avo_m":
+	
+	# Verifica se é o Easter Egg para forçar o capacete a aparecer
+	if Global.armadura_darksouls_desbloqueada and Global.usando_set_especial:
+		id_chapeu = "Set Dark Souls"
+	elif Global.personagem_jogado_atualmente == "avo_m":
 		id_chapeu = Global.equip_avo_m.get("chapeu", "Nenhum")
 	else:
 		id_chapeu = Global.equip_avo_f.get("chapeu", "Nenhum")
 		
-	# Passa por todos os chapéus e só mostra o escolhido
+	# Passa por todos os chapéus e só mostra o escolhido (Capacete Dark Souls ou chapéu normal)
 	for chapeu in ponto_chapeu.get_children():
-		# Se a opção for "Nenhum", ele esconde todos os chapéus que encontrar!
 		if chapeu.name == id_chapeu and id_chapeu != "Nenhum" and id_chapeu != "":
 			chapeu.show()
 		else:
 			chapeu.hide()
+			
+	# --- 2. LIGA/DESLIGA AS OUTRAS PEÇAS DA ARMADURA (O SEGREDO ESTÁ AQUI) ---
+	var is_darksouls = Global.armadura_darksouls_desbloqueada and Global.usando_set_especial
+	
+	# Esconde ou mostra a cabeça careca do personagem
+	var head_mesh = find_child("head-mesh", true, false)
+	if not head_mesh: head_mesh = find_child("HeadMesh", true, false)
+	if head_mesh:
+		head_mesh.visible = not is_darksouls
+		
+	# Procura os ossos do corpo onde a armadura está guardada
+	var ossos_armadura = [
+		find_child("BoneAttachment3D_torso", true, false),
+		find_child("BoneAttachment3D_leg_left", true, false),
+		find_child("BoneAttachment3D_leg_right", true, false),
+		find_child("BoneAttachment3D2", true, false)
+	]
+	
+	# Liga ou desliga tudo
+	for osso in ossos_armadura:
+		if osso:
+			osso.visible = is_darksouls
+			# Garante que as tuas malhas DarkS dentro do osso também obedeçam
+			for filho in osso.get_children():
+				if "visible" in filho:
+					filho.visible = is_darksouls
 # ==========================================
 # EFEITOS VISUAIS E SHADERS
 # ==========================================

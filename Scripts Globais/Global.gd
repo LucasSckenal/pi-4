@@ -10,6 +10,8 @@ var personagem_jogado_atualmente : String = "avo_m"
 var conquistas_desbloqueadas: Array = [] 
 var armas_desbloqueadas: Array = ["arma_katana"]
 var chapeus_desbloqueados: Array = ["Nenhum"]
+var armadura_darksouls_desbloqueada: bool = true # Mude de false para true para testar
+var usando_set_especial: bool = false
 
 # O que cada um tem equipado neste momento
 var equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }

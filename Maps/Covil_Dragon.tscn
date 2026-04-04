@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_1q4q1"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_mb5xg"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="2_1q4q1"]
-[ext_resource type="MeshLibrary" uid="uid://oinygid1j201" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]
+[ext_resource type="MeshLibrary" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]
 [ext_resource type="Shader" uid="uid://dj3wiq8u2pdq0" path="res://Shaders/Lava.gdshader" id="5_3l4lc"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="6_vfgjs"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="8_mukah"]
@@ -12,7 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://26avdqm5cc58" path="res://Enemys/Meshy_AI_Large_brute_elemental_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="11_i0ikx"]
 [ext_resource type="Resource" uid="uid://x66ik4yo5554" path="res://Enemys/Orc.tres" id="11_nceek"]
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="12_nceek"]
-[ext_resource type="PackedScene" uid="uid://crleyiaceehic" path="res://Enemys/Lava_golem.tscn" id="14_nceek"]
 [ext_resource type="PackedScene" uid="uid://gay3185ml7vb" path="res://Builds/Dragon.tscn" id="14_nekdb"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_8jsou"]
@@ -224,9 +223,6 @@ ondas = Array[ExtResource("9_x6lc8")]([null, null, null, null, null, null, null,
 [node name="SpawnerInimigos3" parent="Spawners" unique_id=971361423 instance=ExtResource("8_mukah")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9934936, 0.61426646, 12.0816765)
 ondas = Array[ExtResource("9_x6lc8")]([SubResource("Resource_nekdb"), null, null, null, null, null, null, null, null, null])
-
-[node name="Node3D" parent="." unique_id=869792546 instance=ExtResource("14_nceek")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6272578, 0.7033763, 3.1452913)
 
 [node name="Node3D2" parent="." unique_id=2080283946 instance=ExtResource("14_nekdb")]
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -0.4471743, 1.8534969, 0.585619)

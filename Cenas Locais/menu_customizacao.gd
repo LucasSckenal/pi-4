@@ -31,8 +31,9 @@ var todas_as_armas = [
 	"arma_espada_longa", "arma_garfo_gigante", "arma_presunto", "arma_light_saber"
 ]
 
+# ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat"
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls"
 ]
 
 func _ready():
@@ -84,7 +85,7 @@ func _gerar_botoes_armas():
 	for filho in grid_itens.get_children():
 		filho.queue_free()
 		
-	# --- NOVO: Ordenar a lista (Desbloqueados primeiro) ---
+	# --- Ordenar a lista (Desbloqueados primeiro) ---
 	var lista_ordenada = todas_as_armas.duplicate()
 	lista_ordenada.sort_custom(func(a, b):
 		var a_tem = a in Global.armas_desbloqueadas
@@ -160,22 +161,27 @@ func _gerar_botoes_chapeus():
 	for child in grid_chapeus.get_children():
 		child.queue_free()
 
-	# Mesma lógica de ordenação, mas o "Nenhum" tem VIP e fura a fila
 	var lista_ordenada = todos_os_chapeus.duplicate()
 	
+	# Lógica de Ordenação dos chapéus
 	lista_ordenada.sort_custom(func(a, b):
-		if a == "Nenhum": return true  # 'a' vem primeiro
-		if b == "Nenhum": return false # 'b' vem primeiro
+		if a == "Nenhum": return true  
+		if b == "Nenhum": return false 
 		
-		var a_tem = a in Global.chapeus_desbloqueados
-		var b_tem = b in Global.chapeus_desbloqueados
+		# Trata o Easter Egg Dark Souls de forma especial
+		var a_tem = (a in Global.chapeus_desbloqueados) or (a == "Set Dark Souls" and Global.armadura_darksouls_desbloqueada)
+		var b_tem = (b in Global.chapeus_desbloqueados) or (b == "Set Dark Souls" and Global.armadura_darksouls_desbloqueada)
+		
 		if a_tem != b_tem:
 			return a_tem
 		return a < b
 	)
 
 	var chapeu_equipado = ""
-	if Global.personagem_jogado_atualmente == "avo_m":
+	# Se o Easter Egg estiver ativo, forçamos o destaque do botão
+	if Global.usando_set_especial:
+		chapeu_equipado = "Set Dark Souls"
+	elif Global.personagem_jogado_atualmente == "avo_m":
 		chapeu_equipado = Global.equip_avo_m["chapeu"]
 	else:
 		chapeu_equipado = Global.equip_avo_f["chapeu"]
@@ -190,8 +196,16 @@ func _gerar_botoes_chapeus():
 		estilo.set_corner_radius_all(8)
 		estilo.bg_color = Color(0.2, 0.2, 0.23, 1)
 		
-		# "Nenhum" é grátis e sempre está liberado
-		if id in Global.chapeus_desbloqueados or id == "Nenhum":
+		# Verifica se o item específico está liberado
+		var esta_desbloqueado = false
+		if id == "Nenhum":
+			esta_desbloqueado = true
+		elif id == "Set Dark Souls":
+			esta_desbloqueado = Global.armadura_darksouls_desbloqueada
+		else:
+			esta_desbloqueado = id in Global.chapeus_desbloqueados
+		
+		if esta_desbloqueado:
 			var caminho_icone = PASTA_ICONES + id + ".png"
 			if FileAccess.file_exists(caminho_icone):
 				btn.icon = load(caminho_icone)
@@ -202,7 +216,7 @@ func _gerar_botoes_chapeus():
 			
 			if id == chapeu_equipado:
 				estilo.set_border_width_all(6)
-				estilo.border_color = Color.WHITE # Destaque branco para o chapéu
+				estilo.border_color = Color.WHITE # Destaque branco para o chapéu/Set
 		else:
 			btn.modulate = Color(0.2, 0.2, 0.2, 0.8)
 			btn.disabled = true 
@@ -216,18 +230,29 @@ func _gerar_botoes_chapeus():
 		
 		grid_chapeus.add_child(btn)
 
-# --- NOVO: Função para o clique do chapéu ---
+# --- FUNÇÃO ATUALIZADA PARA O CLIQUE DO CHAPÉU/ARMADURA ---
 func _on_chapeu_selecionado(id_chapeu):
-	if Global.personagem_jogado_atualmente == "avo_m":
-		Global.equip_avo_m["chapeu"] = id_chapeu
+	# LÓGICA DO EASTER EGG (Ativa/Desativa toda a armadura)
+	if id_chapeu == "Set Dark Souls":
+		Global.usando_set_especial = true
 	else:
-		Global.equip_avo_f["chapeu"] = id_chapeu
+		Global.usando_set_especial = false
+		if Global.personagem_jogado_atualmente == "avo_m":
+			Global.equip_avo_m["chapeu"] = id_chapeu
+		else:
+			Global.equip_avo_f["chapeu"] = id_chapeu
 		
-	Global.salvar_progresso() # Garante que salva no ficheiro cfg!
+	Global.salvar_progresso()
 	label_nome_item.text = _obter_nome_formatado(id_chapeu)
 	
-	if is_instance_valid(player_instanciado) and player_instanciado.has_method("_atualizar_chapeu_visivel"):
-		player_instanciado.call("_atualizar_chapeu_visivel")
+	if is_instance_valid(player_instanciado):
+		if player_instanciado.has_method("_configurar_modelo_escolhido"):
+			player_instanciado.call("_configurar_modelo_escolhido")
+			
+		# AQUI ESTÁ A PROTEÇÃO: Só tenta atualizar chapéus normais se não for o Easter Egg!
+		if not Global.usando_set_especial:
+			if player_instanciado.has_method("_atualizar_chapeu_visivel"):
+				player_instanciado.call("_atualizar_chapeu_visivel")
 		
 	_gerar_botoes_chapeus()
 
