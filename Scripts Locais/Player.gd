@@ -260,8 +260,11 @@ func _executar_ataque_area(inimigos: Array):
 	inimigo_focado = inimigos[0] # Salva o primeiro inimigo para o personagem virar para ele
 	timer_ataque.start()
 	
-	if anim_player.has_animation("attack-melee-left"):
-		anim_player.play("attack-melee-left")
+	# --- TRADUTOR DO ATAQUE ---
+	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
+	
+	if anim_player.has_animation(anim_ataque):
+		anim_player.play(anim_ataque)
 		
 	# --- EFEITO DE ESCALA DINÂMICA NA ARMA ---
 	var ponto_arma = find_child("BoneAttachment3D", true, false)
@@ -365,16 +368,28 @@ func _on_timer_ataque_timeout():
 # ==========================================
 
 func _gerenciar_animacoes(direction):
-	# Se estiver atacando, não interrompe com a animação de andar/parado
-	if anim_player.current_animation == "attack-melee-left" and anim_player.is_playing():
+	if not anim_player: return # Proteção caso ainda não tenha carregado
+	
+	# 1. Define os nomes corretos dependendo se é o Bloodborne ou o Avô/Avó
+	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
+	var anim_andar = "Walking" if Global.usando_set_bloodborne else "walk"
+	var anim_parado = "Idle" if Global.usando_set_bloodborne else "idle"
+	var anim_pulo = "jump"
+	
+	# 2. Se estiver a atacar, não interrompe com a animação de andar/parado
+	if anim_player.current_animation == anim_ataque and anim_player.is_playing():
 		return
 		
+	# 3. Dá play na animação correta com o nome traduzido
 	if not is_on_floor():
-		if anim_player.current_animation != "jump": anim_player.play("jump")
+		if anim_player.has_animation(anim_pulo) and anim_player.current_animation != anim_pulo: 
+			anim_player.play(anim_pulo)
 	elif direction.length() > 0:
-		if anim_player.current_animation != "walk": anim_player.play("walk")
+		if anim_player.has_animation(anim_andar) and anim_player.current_animation != anim_andar: 
+			anim_player.play(anim_andar)
 	else:
-		if anim_player.current_animation != "idle": anim_player.play("idle")
+		if anim_player.has_animation(anim_parado) and anim_player.current_animation != anim_parado: 
+			anim_player.play(anim_parado)
 
 # ==========================================
 # TROCA DE PERSONAGEM E ARMA (POR CÓDIGO)
@@ -382,120 +397,92 @@ func _gerenciar_animacoes(direction):
 
 func _configurar_modelo_escolhido():
 	var modelo_antigo = get_node_or_null("character-male-f2")
+	var ossos_salvos = []
 	
-	# --- 1. PEGAR AS 6 PASTAS DE ANEXOS ANTES QUE O BONECO SEJA APAGADO ---
-	var ponto_arma = find_child("BoneAttachment3D", true, false)
-	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
-	var torso = find_child("BoneAttachment3D_torso", true, false)
-	var perna_esq = find_child("BoneAttachment3D_leg_left", true, false)
-	var perna_dir = find_child("BoneAttachment3D_leg_right", true, false)
-	var extra = find_child("BoneAttachment3D2", true, false)
-	
-	# --- 2. SALVAR O NOME DO OSSO ONDE ELAS ESTÃO COLADAS ---
-	var osso_arma = ponto_arma.bone_name if ponto_arma else ""
-	var osso_chapeu = ponto_chapeu.bone_name if ponto_chapeu else ""
-	var osso_torso = torso.bone_name if torso else ""
-	var osso_perna_esq = perna_esq.bone_name if perna_esq else ""
-	var osso_perna_dir = perna_dir.bone_name if perna_dir else ""
-	var osso_extra = extra.bone_name if extra else ""
-	
-	# --- 3. ARRANCAR AS PASTAS DO MODELO ANTIGO ---
-	if ponto_arma and ponto_arma.get_parent(): ponto_arma.get_parent().remove_child(ponto_arma)
-	if ponto_chapeu and ponto_chapeu.get_parent(): ponto_chapeu.get_parent().remove_child(ponto_chapeu)
-	if torso and torso.get_parent(): torso.get_parent().remove_child(torso)
-	if perna_esq and perna_esq.get_parent(): perna_esq.get_parent().remove_child(perna_esq)
-	if perna_dir and perna_dir.get_parent(): perna_dir.get_parent().remove_child(perna_dir)
-	if extra and extra.get_parent(): extra.get_parent().remove_child(extra)
+	# --- 1. SALVAR AS PEÇAS ATUAIS ANTES DE APAGAR O BONECO ---
+	if modelo_antigo:
+		var todos_os_ossos = modelo_antigo.find_children("*", "BoneAttachment3D", true, false)
+		for osso in todos_os_ossos:
+			var ancora = osso.bone_name
+			ossos_salvos.append({"node": osso, "ancora": ancora})
+			if osso.get_parent():
+				osso.get_parent().remove_child(osso)
 
+	# --- 2. O GODOT DECIDE QUAL CENA CARREGAR AQUI ---
 	var caminho_novo_modelo = ""
-	if Global.personagem_jogado_atualmente == "avo_m":
+	
+	if Global.usando_set_bloodborne:
+		# ATENÇÃO: Coloca aqui o caminho real da cena do teu Hunter!
+		caminho_novo_modelo = "res://Personagens/BloodBorne_male.glb" 
+	elif Global.personagem_jogado_atualmente == "avo_m":
 		caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
 	else:
 		caminho_novo_modelo = "res://Assets/Personagens/personagem_f.tscn"
 
-	if caminho_novo_modelo != "":
-		var cena_novo_modelo = load(caminho_novo_modelo)
-		var modelo_novo = cena_novo_modelo.instantiate()
+	var modelo_novo = load(caminho_novo_modelo).instantiate()
+	
+	# --- 3. TROCAR O BONECO VELHO PELO NOVO ---
+	if modelo_antigo:
+		modelo_novo.scale = modelo_antigo.scale
+		modelo_antigo.name = "modelo_a_ser_apagado"
+		modelo_antigo.queue_free()
+	else:
+		modelo_novo.scale = Vector3(1, 1, 1)
 		
-		if modelo_antigo:
-			modelo_novo.scale = modelo_antigo.scale
-			modelo_antigo.name = "modelo_a_ser_apagado" 
-		else:
-			modelo_novo.scale = Vector3(1, 1, 1)
+	modelo_novo.name = "character-male-f2"
+	add_child(modelo_novo)
+	
+	# Restaurar Animações
+	var novo_anim_player = modelo_novo.find_child("AnimationPlayer", true)
+	if novo_anim_player:
+		if "anim_player" in self: self.anim_player = novo_anim_player
+		
+		# Define quais animações devem ficar em repetição contínua (Loop)
+		for anim_name in ["idle", "walk", "Idle", "Walking"]:
+			if novo_anim_player.has_animation(anim_name):
+				novo_anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
+				
+		# Tenta dar play na animação de ficar parado inicial
+		if novo_anim_player.has_animation("idle"):
+			novo_anim_player.play("idle")
+		elif novo_anim_player.has_animation("Idle"):
+			novo_anim_player.play("Idle")
+		
+	# --- 4. DEVOLVER AS PEÇAS SALVAS AO ESQUELETO NOVO ---
+	var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
+	if novo_skeleton:
+		for dado in ossos_salvos:
+			var osso_node = dado["node"]
+			var nome_ancora = dado["ancora"]
 			
-		modelo_novo.name = "character-male-f2"
-		add_child(modelo_novo)
-		
-		var novo_anim_player = modelo_novo.find_child("AnimationPlayer", true)
-		if novo_anim_player:
-			anim_player = novo_anim_player
-			for anim_name in ["idle", "walk"]:
-				if anim_player.has_animation(anim_name):
-					anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
-			if anim_player.has_animation("idle"):
-				anim_player.play("idle")
-		
-		# --- 4. DEVOLVER TUDO AO ESQUELETO NOVO (Sem lixo) ---
-		var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
-		if novo_skeleton:
+			var lixo = novo_skeleton.find_child(osso_node.name, true, false)
+			if lixo:
+				lixo.name = "lixo_" + osso_node.name
+				lixo.free()
+				
+			novo_skeleton.add_child(osso_node)
+			osso_node.bone_name = nome_ancora
 			
-			if ponto_arma:
-				var lixo = novo_skeleton.find_child(ponto_arma.name, true, false)
-				if lixo:
-					lixo.name = "lixo_arma"
-					lixo.free()
-				novo_skeleton.add_child(ponto_arma)
-				ponto_arma.bone_name = "arm-left" if osso_arma == "" else osso_arma
-				
-			if ponto_chapeu:
-				var lixo = novo_skeleton.find_child(ponto_chapeu.name, true, false)
-				if lixo:
-					lixo.name = "lixo_chapeu"
-					lixo.free()
-				novo_skeleton.add_child(ponto_chapeu)
-				ponto_chapeu.bone_name = "head" if osso_chapeu == "" else osso_chapeu
-				
-			if torso:
-				var lixo = novo_skeleton.find_child(torso.name, true, false)
-				if lixo:
-					lixo.name = "lixo_torso"
-					lixo.free()
-				novo_skeleton.add_child(torso)
-				torso.bone_name = osso_torso
-				
-			if perna_esq:
-				var lixo = novo_skeleton.find_child(perna_esq.name, true, false)
-				if lixo:
-					lixo.name = "lixo_perna_e"
-					lixo.free()
-				novo_skeleton.add_child(perna_esq)
-				perna_esq.bone_name = osso_perna_esq
-				
-			if perna_dir:
-				var lixo = novo_skeleton.find_child(perna_dir.name, true, false)
-				if lixo:
-					lixo.name = "lixo_perna_d"
-					lixo.free()
-				novo_skeleton.add_child(perna_dir)
-				perna_dir.bone_name = osso_perna_dir
-				
-			if extra:
-				var lixo = novo_skeleton.find_child(extra.name, true, false)
-				if lixo:
-					lixo.name = "lixo_extra"
-					lixo.free()
-				novo_skeleton.add_child(extra)
-				extra.bone_name = osso_extra
+			if osso_node.bone_name == "":
+				if osso_node.name == "BoneAttachment3D_Cabeca": osso_node.bone_name = "head"
+				elif osso_node.name == "BoneAttachment3D": osso_node.bone_name = "arm-left"
 
-		if modelo_antigo:
-			modelo_antigo.queue_free()
-		
-	# Atualiza a arma e o chapéu normais
+	# Atualiza o visual base
 	_atualizar_arma_visivel()
 	_atualizar_chapeu_visivel()
 	
-	# --- A CARTA NA MANGA ---
+	# Aplica as regras do Dark Souls
 	call_deferred("_forcar_visual_darksouls")
+	
+	# --- 5. LÓGICA FINAL DO BLOODBORNE (Esconder armas) ---
+	if Global.usando_set_bloodborne:
+		var osso_arma = find_child("BoneAttachment3D", true, false)
+		if osso_arma:
+			osso_arma.visible = false
+			
+		var osso_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
+		if osso_chapeu:
+			osso_chapeu.visible = false
 
 # --- NOVA FUNÇÃO (Copia também isto) ---
 func _forcar_visual_darksouls():

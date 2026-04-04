@@ -33,7 +33,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls"
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls", "Set Bloodborne"
 ]
 
 func _ready():
@@ -158,103 +158,111 @@ func _on_arma_selecionada(id_arma):
 	_gerar_botoes_armas()
 
 func _gerar_botoes_chapeus():
-	for child in grid_chapeus.get_children():
-		child.queue_free()
-
-	var lista_ordenada = todos_os_chapeus.duplicate()
-	
-	# Lógica de Ordenação dos chapéus
-	lista_ordenada.sort_custom(func(a, b):
-		if a == "Nenhum": return true  
-		if b == "Nenhum": return false 
+	# Limpa os atuais
+	for filho in grid_chapeus.get_children():
+		filho.queue_free()
 		
-		# Trata o Easter Egg Dark Souls de forma especial
-		var a_tem = (a in Global.chapeus_desbloqueados) or (a == "Set Dark Souls" and Global.armadura_darksouls_desbloqueada)
-		var b_tem = (b in Global.chapeus_desbloqueados) or (b == "Set Dark Souls" and Global.armadura_darksouls_desbloqueada)
-		
-		if a_tem != b_tem:
-			return a_tem
-		return a < b
-	)
-
-	var chapeu_equipado = ""
-	# Se o Easter Egg estiver ativo, forçamos o destaque do botão
-	if Global.usando_set_especial:
-		chapeu_equipado = "Set Dark Souls"
-	elif Global.personagem_jogado_atualmente == "avo_m":
-		chapeu_equipado = Global.equip_avo_m["chapeu"]
-	else:
-		chapeu_equipado = Global.equip_avo_f["chapeu"]
-
-	for id in lista_ordenada:
-		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(115, 115) 
-		btn.expand_icon = true
-		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		
-		var estilo = StyleBoxFlat.new()
-		estilo.set_corner_radius_all(8)
-		estilo.bg_color = Color(0.2, 0.2, 0.23, 1)
-		
-		# Verifica se o item específico está liberado
-		var esta_desbloqueado = false
-		if id == "Nenhum":
-			esta_desbloqueado = true
-		elif id == "Set Dark Souls":
-			esta_desbloqueado = Global.armadura_darksouls_desbloqueada
-		else:
-			esta_desbloqueado = id in Global.chapeus_desbloqueados
-		
-		if esta_desbloqueado:
-			var caminho_icone = PASTA_ICONES + id + ".png"
-			if FileAccess.file_exists(caminho_icone):
-				btn.icon = load(caminho_icone)
-			else:
-				btn.text = _obter_nome_formatado(id)
-				
-			btn.pressed.connect(func(): _on_chapeu_selecionado(id))
+	for id in todos_os_chapeus:
+		# Regra do Dark Souls
+		if id == "Set Dark Souls" and not Global.armadura_darksouls_desbloqueada:
+			continue
 			
-			if id == chapeu_equipado:
-				estilo.set_border_width_all(6)
-				estilo.border_color = Color.WHITE # Destaque branco para o chapéu/Set
-		else:
-			btn.modulate = Color(0.2, 0.2, 0.2, 0.8)
-			btn.disabled = true 
-			var cadeado = load("res://Icons/cadeado.png")
-			if cadeado: btn.icon = cadeado
-
-		btn.add_theme_stylebox_override("normal", estilo)
-		btn.add_theme_stylebox_override("hover", estilo)
-		btn.add_theme_stylebox_override("pressed", estilo)
-		btn.add_theme_stylebox_override("focus", estilo)
+		# Regra do Bloodborne
+		if id == "Set Bloodborne" and not Global.armadura_bloodborne_desbloqueada:
+			continue
+			
+		# Cria o botão visualmente
+		var btn = Button.new()
+		btn.custom_minimum_size = Vector2(120, 120)
+		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		btn.expand_icon = true
 		
+		# Tenta carregar o ícone
+		var caminho_icone = PASTA_ICONES + id + ".png"
+		if ResourceLoader.exists(caminho_icone):
+			btn.icon = load(caminho_icone)
+		else:
+			btn.text = id
+			
+		# Conecta o clique do botão
+		btn.pressed.connect(_on_chapeu_selecionado.bind(id))
 		grid_chapeus.add_child(btn)
 
-# --- FUNÇÃO ATUALIZADA PARA O CLIQUE DO CHAPÉU/ARMADURA ---
+
 func _on_chapeu_selecionado(id_chapeu):
-	# LÓGICA DO EASTER EGG (Ativa/Desativa toda a armadura)
+	# --- LÓGICA DOS EASTER EGGS ---
 	if id_chapeu == "Set Dark Souls":
 		Global.usando_set_especial = true
-	else:
+		Global.usando_set_bloodborne = false
+	elif id_chapeu == "Set Bloodborne":
+		Global.usando_set_bloodborne = true
 		Global.usando_set_especial = false
+	else:
+		# Se for normal, desliga Easter Eggs
+		Global.usando_set_especial = false
+		Global.usando_set_bloodborne = false
+		
 		if Global.personagem_jogado_atualmente == "avo_m":
 			Global.equip_avo_m["chapeu"] = id_chapeu
 		else:
 			Global.equip_avo_f["chapeu"] = id_chapeu
-		
+			
 	Global.salvar_progresso()
 	label_nome_item.text = _obter_nome_formatado(id_chapeu)
 	
+	# --- ATUALIZAR BONECO DO JOGO (Se já existir) ---
 	if is_instance_valid(player_instanciado):
 		if player_instanciado.has_method("_configurar_modelo_escolhido"):
 			player_instanciado.call("_configurar_modelo_escolhido")
 			
-		# AQUI ESTÁ A PROTEÇÃO: Só tenta atualizar chapéus normais se não for o Easter Egg!
-		if not Global.usando_set_especial:
+		# Só atualiza chapéus normais se não for Easter Egg
+		if not Global.usando_set_especial and not Global.usando_set_bloodborne:
 			if player_instanciado.has_method("_atualizar_chapeu_visivel"):
 				player_instanciado.call("_atualizar_chapeu_visivel")
-		
+				
 	_gerar_botoes_chapeus()
+	
+# --- LÓGICA VISUAL EXCLUSIVA DO MENU ---
+	var modelo_normal = find_child("character-male-f2", true, false) 
+	var modelo_bb = find_child("ModeloBloodborneMenu", true, false)
+	
+	if Global.usando_set_bloodborne:
+		if modelo_normal:
+			modelo_normal.visible = false
+			
+		if not modelo_bb:
+			var cena_bb = load("res://Personagens/BloodBorne_male.glb") 
+			modelo_bb = cena_bb.instantiate()
+			modelo_bb.name = "ModeloBloodborneMenu"
+			
+			# --- CORREÇÃO 1: TAMANHO DO BONECO NO MENU ---
+			# (Usa o mesmo valor que escolheste lá no Player.gd para não ficar gigante)
+			modelo_bb.scale = Vector3(0.33, 0.33, 0.33) 
+			
+			if modelo_normal:
+				modelo_normal.get_parent().add_child(modelo_bb)
+				modelo_bb.global_position = modelo_normal.global_position
+				modelo_bb.rotation = modelo_normal.rotation
+				
+			# --- CORREÇÃO 2: ATIVAR A ANIMAÇÃO "IDLE" NO MENU ---
+			var anim_player_menu = modelo_bb.find_child("AnimationPlayer", true)
+			if anim_player_menu:
+				if anim_player_menu.has_animation("Idle"):
+					anim_player_menu.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+					anim_player_menu.play("Idle")
+				
+		modelo_bb.visible = true
+		
+		var osso_arma_menu = modelo_bb.find_child("BoneAttachment3D", true, false)
+		if osso_arma_menu: osso_arma_menu.visible = false
+		var osso_chapeu_menu = modelo_bb.find_child("BoneAttachment3D_Cabeca", true, false)
+		if osso_chapeu_menu: osso_chapeu_menu.visible = false
+		
+	else:
+		if modelo_normal:
+			modelo_normal.visible = true
+		if modelo_bb:
+			modelo_bb.visible = false
 
 # --- SINAIS DO EDITOR ---
 func _on_btn_avo_m_pressed():

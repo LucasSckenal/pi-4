@@ -1374,7 +1374,7 @@ bone_name = "torso"
 bone_idx = 3
 
 [node name="DarkS" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_torso" unique_id=100083999]
-transform = Transform3D(0.48, 0, 0, 0, -0.007927047, 0.3299712, 0, -0.5999477, -0.004359876, 0.1403923, -0.5348945, 0.060789317)
+transform = Transform3D(0.48, 0, 0, 0, -0.007927047, 0.3299712, 0, -0.5999477, -0.004359876, 0.14039229, -0.48185226, 0.060789317)
 mesh = SubResource("ArrayMesh_l0gc4")
 
 [node name="BoneAttachment3D_leg_left" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="5" unique_id=648468285]
@@ -1392,7 +1392,7 @@ bone_name = "leg-right"
 bone_idx = 2
 
 [node name="DarkS" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_leg_right" unique_id=970845874]
-transform = Transform3D(-0.83299994, 0, -1.1067992e-07, 0, 0.49999988, 0, 1.2577951e-07, 0, -0.73299974, -2.6905572, -0.06532797, 1.1089814)
+transform = Transform3D(-0.83299994, 0, -1.10679885e-07, 0, 0.49999988, 0, 1.257795e-07, 0, -0.73299974, -2.6905572, -0.06532797, 1.1089814)
 mesh = SubResource("ArrayMesh_hd7dg")
 
 [node name="BoneAttachment3D2" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="7" unique_id=1662835227]
