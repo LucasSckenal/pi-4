@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="3_iy34l"]
 [ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="4_8v21c"]
 [ext_resource type="PackedScene" uid="uid://c5pxe6bsjuyx7" path="res://Cenas Locais/controles_mobile.tscn" id="5_8v21c"]
+[ext_resource type="Texture2D" uid="uid://blksu1rcamgta" path="res://Icons/AmpulhetaDiaBorda.png" id="8_o14n6"]
+[ext_resource type="Texture2D" uid="uid://dg3s442t7ls8l" path="res://Icons/AmpulhetaNoiteBorda.png" id="9_0fpak"]
 
 [sub_resource type="World3D" id="World3D_ebwb2"]
 
@@ -20,6 +22,20 @@ corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o14n6"]
+bg_color = Color(0.15, 0.15, 0.15, 0.8)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+expand_margin_left = 8.0
+expand_margin_right = 8.0
 
 [node name="HUD" type="CanvasLayer" unique_id=1178528872]
 script = ExtResource("1_fiyi4")
@@ -183,3 +199,60 @@ text = "Reroll (2 moedas)"
 layout_mode = 1
 offset_left = -620.0
 offset_bottom = 320.0
+
+[node name="MarginEsquerda" type="MarginContainer" parent="InterfacePrincipal" unique_id=1790859775]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 30.0
+offset_top = 45.0
+offset_right = 289.0
+offset_bottom = 184.0
+
+[node name="HBoxTempo" type="HBoxContainer" parent="InterfacePrincipal/MarginEsquerda" unique_id=1718043392]
+layout_mode = 2
+
+[node name="PivotAmpulheta" type="Control" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo" unique_id=1609279580]
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+
+[node name="Dia" type="TextureRect" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta" unique_id=71453623]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_o14n6")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Noite" type="TextureRect" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta" unique_id=141135915]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_0fpak")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="VBoxTextos" type="VBoxContainer" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo" unique_id=79853452]
+layout_mode = 2
+size_flags_horizontal = 6
+alignment = 1
+
+[node name="LabelOnda" type="Label" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos" unique_id=538206937]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_o14n6")
+text = "ONDA 1"
+horizontal_alignment = 2
+
+[node name="LabelTurno" type="Label" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos" unique_id=920234852]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_o14n6")
+text = "DIA"
+horizontal_alignment = 1

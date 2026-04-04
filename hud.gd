@@ -37,6 +37,15 @@ var containers_por_direcao = {}
 @export var cena_opcao_button: PackedScene         # Arraste a cena OpcaoUpgradeButton.tscn aqui
 var upgrade_ui_instance: Control = null
 
+# ==========================================
+# UI DE AMPULHETA E PROGRESSÃO
+# ==========================================
+@onready var pivot_ampulheta: Control = $InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta
+@onready var ampulheta_dia: TextureRect = $InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta/Dia
+@onready var ampulheta_noite: TextureRect = $InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta/Noite
+@onready var label_onda: Label = $InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos/LabelOnda
+@onready var label_turno: Label = $InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos/LabelTurno
+
 func _ready():
 	add_to_group("Interface")
 	
@@ -93,6 +102,11 @@ func _ready():
 	# Conecta às construções (upgrade individual)
 	_conectar_construcoes()
 	get_tree().node_added.connect(_on_node_added)
+	
+	if GameManager.has_signal("dia_iniciado"):
+		GameManager.dia_iniciado.connect(_ao_iniciar_dia_hud)
+	if GameManager.has_signal("noite_iniciada"):
+		GameManager.noite_iniciada.connect(_ao_iniciar_noite_hud)
 
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
@@ -297,6 +311,48 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 	ponto_borda.y = clamp(ponto_borda.y, min_y, max_y)
 	
 	return ponto_borda - metade
+
+# Atualiza os rótulos de texto e inicia a transição visual para o Dia
+func _ao_iniciar_dia_hud(onda: int) -> void:
+	label_onda.text = "ONDA " + str(onda)
+	label_turno.text = "DIA"
+	_animar_transicao_ampulheta(true)
+
+# Atualiza os rótulos de texto e inicia a transição visual para a Noite
+func _ao_iniciar_noite_hud(onda: int) -> void:
+	label_onda.text = "ONDA " + str(onda)
+	label_turno.text = "NOITE"
+	_animar_transicao_ampulheta(false)
+
+# Executa a animação de rotação e distorção ("smear") da ampulheta.
+# A troca entre as texturas ocorre instantaneamente no meio da rotação para mascarar a mudança.
+func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
+	# Define o ponto de origem da rotação e escala para o centro absoluto do controle
+	pivot_ampulheta.pivot_offset = pivot_ampulheta.size / 2.0
+	
+	# Calcula a rotação alvo (gira 180 graus / PI radianos a partir da rotação atual)
+	var rotacao_alvo = pivot_ampulheta.rotation + PI  * 2
+	
+	var tween = create_tween()
+	tween.set_parallel(true)
+	
+	# Animação principal de rotação (0.5 segundos de duração)
+	tween.tween_property(pivot_ampulheta, "rotation", rotacao_alvo, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
+	
+	# Efeito "Smear": Estica a ampulheta no eixo Y durante a primeira metade do giro
+	tween.tween_property(pivot_ampulheta, "scale", Vector2(0.7, 1.4), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	# Retorna a ampulheta ao tamanho normal na segunda metade do giro
+	tween.chain().tween_property(pivot_ampulheta, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	
+	# Lógica paralela para gerenciar a visibilidade (Alpha) das texturas no meio do giro (0.25s)
+	var tween_fade = create_tween()
+	tween_fade.tween_interval(0.25) 
+	if indo_para_dia:
+		tween_fade.tween_property(ampulheta_noite, "modulate:a", 0.0, 0.0)
+		tween_fade.tween_property(ampulheta_dia, "modulate:a", 1.0, 0.0)
+	else:
+		tween_fade.tween_property(ampulheta_dia, "modulate:a", 0.0, 0.0)
+		tween_fade.tween_property(ampulheta_noite, "modulate:a", 1.0, 0.0)
 
 func _process(_delta: float) -> void:
 	for direcao in containers_por_direcao:
