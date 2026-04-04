@@ -3,51 +3,61 @@ extends Control
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
 # Referências para a interface
-@onready var menu_botoes = $CanvasLayer/MarginContainer/VBoxContainer # A tua lista de botões
-@onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes # A cena instanciada
-@onready var cena_seletor = $CanvasLayer/MarginContainer/SeletorFases # A NOVA CENA DO SELETOR INSTANCIADA!
+@onready var menu_botoes = $CanvasLayer/MarginContainer/VBoxContainer
+@onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes
+@onready var cena_seletor = $CanvasLayer/MarginContainer/SeletorFases
 
 func _ready():
-	# 1. Garante que as configs começam invisíveis e liga o sinal
+	# 1. Configurações iniciais de interface 
 	if cena_configuracoes:
 		cena_configuracoes.hide()
 		cena_configuracoes.fechar_configuracoes.connect(_voltar_para_menu)
 		
-	# 2. Garante que o seletor de fases começa invisível e liga o sinal
 	if cena_seletor:
 		cena_seletor.hide()
 		cena_seletor.fechar_seletor.connect(_voltar_para_menu_do_seletor)
 	
-	# 3. Lógica do teu Personagem 3D
-	var caminho = ""
-	
-	if Global.personagem_jogado_atualmente == "avo_m":
-		caminho = "res://Personagens/character-male-b.glb" # Modelo do Avô
-	else:
-		caminho = "res://Personagens/character-female-c.glb" # Modelo da Avó
+	# 2. Instancia o Player no Menu (Estilo Minecraft)
+	_instanciar_player_no_menu()
 
-	var modelo = load(caminho).instantiate()
+func _instanciar_player_no_menu():
+	# Carrega a cena do Player 
+	# AJUSTE O CAMINHO ABAIXO para o caminho real da sua cena .tscn
+	var cena_p = load("res://Cenas Locais/player.tscn")
 	
-	if ponto_lobby:
-		ponto_lobby.add_child(modelo)
-		_aplicar_outline_automatico(modelo)
-		modelo.scale = Vector3(0.3, 0.3, 0.3)
-		var anim = modelo.get_node_or_null("AnimationPlayer")
-		if anim and anim.has_animation("idle"):
-			anim.get_animation("idle").loop_mode = Animation.LOOP_LINEAR
-			anim.play("idle")
+	if cena_p and ponto_lobby:
+		var player_instancia = cena_p.instantiate()
+		ponto_lobby.add_child(player_instancia)
+		
+		# POSICIONAMENTO
+		player_instancia.global_position = ponto_lobby.global_position
+		
+		# ESCALA ORIGINAL: Revertido para (1, 1, 1) para usar o tamanho real da cena
+		player_instancia.scale = Vector3(1, 1, 1)
+		
+		# TRAVA DE SEGURANÇA PARA MENU: 
+		# Desativa física e scripts de movimento para ele ficar estático 
+		player_instancia.set_physics_process(false)
+		player_instancia.set_process(false)
+		
+		if player_instancia is CharacterBody3D:
+			player_instancia.motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
+		
+		# Aplica o visual salvo (Avô/Avó) chamando a função do Player.gd 
+		if player_instancia.has_method("_configurar_modelo_escolhido"):
+			player_instancia._configurar_modelo_escolhido()
+			
+		# Aplica o outline automático em todas as malhas [cite: 38]
+		_aplicar_outline_automatico(player_instancia)
 
 # ---------------------------------------------------------
-# BOTÕES DO MENU
+# BOTÕES DO MENU (Lógica original de animações restaurada) [cite: 37]
 # ---------------------------------------------------------
 
-# Quando clica no botão "Jogar" do menu
 func _on_btn_jogar_pressed():
-	# Em vez de carregar a fase, abre o Seletor de Fases com animação!
 	menu_botoes.hide()
 	cena_seletor.show()
 	
-	# --- ANIMAÇÃO DE ENTRADA (POP-UP) DO SELETOR ---
 	cena_seletor.pivot_offset = cena_seletor.size / 2
 	cena_seletor.scale = Vector2(0.8, 0.8)
 	cena_seletor.modulate.a = 0.0
@@ -61,12 +71,10 @@ func _on_btn_conquistas_pressed() -> void:
 func _on_btn_sair_pressed() -> void:
 	get_tree().quit()
 
-# Quando clica no botão "Configurações" do menu
 func _on_btn_configuracoes_pressed():
 	menu_botoes.hide()
 	cena_configuracoes.show()
 	
-	# --- ANIMAÇÃO DE ENTRADA (POP-UP) DAS CONFIGS ---
 	cena_configuracoes.pivot_offset = cena_configuracoes.size / 2
 	cena_configuracoes.scale = Vector2(0.8, 0.8)
 	cena_configuracoes.modulate.a = 0.0
@@ -74,19 +82,16 @@ func _on_btn_configuracoes_pressed():
 	tween.tween_property(cena_configuracoes, "scale", Vector2(1, 1), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(cena_configuracoes, "modulate:a", 1.0, 0.2)
 
-# Função para fechar as configurações
 func _voltar_para_menu():
 	cena_configuracoes.hide()
 	menu_botoes.show()
 
-# Função para fechar o seletor de fases
 func _voltar_para_menu_do_seletor():
 	cena_seletor.hide()
 	menu_botoes.show()
 
-
 # ---------------------------------------------------------
-# SHADER DE OUTLINE E CUSTOMIZAÇÃO
+# SHADER DE OUTLINE (Lógica original de varredura) [cite: 38]
 # ---------------------------------------------------------
 const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 
