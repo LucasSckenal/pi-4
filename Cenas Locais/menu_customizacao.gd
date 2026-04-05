@@ -33,7 +33,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls", "Set Bloodborne"
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls", "Set Bloodborne", "Set Hollow Knight", "Set Kakashi"
 ]
 
 func _ready():
@@ -170,6 +170,14 @@ func _gerar_botoes_chapeus():
 		# Regra do Bloodborne
 		if id == "Set Bloodborne" and not Global.armadura_bloodborne_desbloqueada:
 			continue
+		
+		# Regra do Hollow Knight
+		if id == "Set Hollow Knight" and not Global.armadura_hollow_knight_desbloqueada:
+			continue
+			
+		# Regra do Kakashi
+		if id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
+			continue
 			
 		# Cria o botão visualmente
 		var btn = Button.new()
@@ -190,18 +198,14 @@ func _gerar_botoes_chapeus():
 
 
 func _on_chapeu_selecionado(id_chapeu):
-	# --- LÓGICA DOS EASTER EGGS ---
-	if id_chapeu == "Set Dark Souls":
-		Global.usando_set_especial = true
-		Global.usando_set_bloodborne = false
-	elif id_chapeu == "Set Bloodborne":
-		Global.usando_set_bloodborne = true
-		Global.usando_set_especial = false
-	else:
-		# Se for normal, desliga Easter Eggs
-		Global.usando_set_especial = false
-		Global.usando_set_bloodborne = false
+	# --- 1. LÓGICA DOS EASTER EGGS NO GLOBAL ---
+	Global.usando_set_especial = (id_chapeu == "Set Dark Souls")
+	Global.usando_set_bloodborne = (id_chapeu == "Set Bloodborne")
+	Global.usando_set_hollow_knight = (id_chapeu == "Set Hollow Knight")
+	Global.usando_set_kakashi = (id_chapeu == "Set Kakashi")
 		
+	if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_hollow_knight or Global.usando_set_kakashi):
+		# Se for normal (nenhum Easter Egg)
 		if Global.personagem_jogado_atualmente == "avo_m":
 			Global.equip_avo_m["chapeu"] = id_chapeu
 		else:
@@ -210,59 +214,77 @@ func _on_chapeu_selecionado(id_chapeu):
 	Global.salvar_progresso()
 	label_nome_item.text = _obter_nome_formatado(id_chapeu)
 	
-	# --- ATUALIZAR BONECO DO JOGO (Se já existir) ---
+	# --- 2. ATUALIZAR BONECO DO JOGO (Se já existir instanciado) ---
 	if is_instance_valid(player_instanciado):
 		if player_instanciado.has_method("_configurar_modelo_escolhido"):
 			player_instanciado.call("_configurar_modelo_escolhido")
 			
 		# Só atualiza chapéus normais se não for Easter Egg
-		if not Global.usando_set_especial and not Global.usando_set_bloodborne:
+		if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_hollow_knight or Global.usando_set_kakashi):
 			if player_instanciado.has_method("_atualizar_chapeu_visivel"):
 				player_instanciado.call("_atualizar_chapeu_visivel")
 				
 	_gerar_botoes_chapeus()
 	
-# --- LÓGICA VISUAL EXCLUSIVA DO MENU ---
+	# --- 3. LÓGICA VISUAL EXCLUSIVA DO MENU 3D ---
 	var modelo_normal = find_child("character-male-f2", true, false) 
 	var modelo_bb = find_child("ModeloBloodborneMenu", true, false)
+	var modelo_hk = find_child("ModeloHollowKnightMenu", true, false)
+	var modelo_kak = find_child("ModeloKakashiMenu", true, false)
 	
+	# Esconde todos primeiro
+	if modelo_normal: modelo_normal.visible = false
+	if modelo_bb: modelo_bb.visible = false
+	if modelo_hk: modelo_hk.visible = false
+	if modelo_kak: modelo_kak.visible = false
+	
+	# Mostra apenas o selecionado
 	if Global.usando_set_bloodborne:
-		if modelo_normal:
-			modelo_normal.visible = false
-			
 		if not modelo_bb:
-			var cena_bb = load("res://Assets/Personagens/blood_borne_male.tscn") 
-			modelo_bb = cena_bb.instantiate()
-			modelo_bb.name = "ModeloBloodborneMenu"
-			
-			# --- CORREÇÃO 1: TAMANHO DO BONECO NO MENU ---
-			# (Usa o mesmo valor que escolheste lá no Player.gd para não ficar gigante)
-			modelo_bb.scale = Vector3(0.33, 0.33, 0.33) 
-			
-			if modelo_normal:
-				modelo_normal.get_parent().add_child(modelo_bb)
-				modelo_bb.global_position = modelo_normal.global_position
-				modelo_bb.rotation = modelo_normal.rotation
-				
-			# --- CORREÇÃO 2: ATIVAR A ANIMAÇÃO "IDLE" NO MENU ---
-			var anim_player_menu = modelo_bb.find_child("AnimationPlayer", true)
-			if anim_player_menu:
-				if anim_player_menu.has_animation("Idle"):
-					anim_player_menu.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
-					anim_player_menu.play("Idle")
-				
+			var cena = load("res://Assets/Personagens/blood_borne_male.tscn") 
+			modelo_bb = _instanciar_easter_egg_menu(cena, "ModeloBloodborneMenu", modelo_normal)
 		modelo_bb.visible = true
-		
-		var osso_arma_menu = modelo_bb.find_child("BoneAttachment3D", true, false)
-		if osso_arma_menu: osso_arma_menu.visible = false
-		var osso_chapeu_menu = modelo_bb.find_child("BoneAttachment3D_Cabeca", true, false)
-		if osso_chapeu_menu: osso_chapeu_menu.visible = false
-		
+
+	elif Global.usando_set_hollow_knight:
+		if not modelo_hk:
+			# MUDE AQUI PARA O CAMINHO DO SEU BONECO DO HOLLOW KNIGHT:
+			var cena = load("res://Personagens/Hollow_knight.glb") 
+			modelo_hk = _instanciar_easter_egg_menu(cena, "ModeloHollowKnightMenu", modelo_normal)
+		modelo_hk.visible = true
+
+	elif Global.usando_set_kakashi:
+		if not modelo_kak:
+			# MUDE AQUI PARA O CAMINHO DO SEU BONECO DO KAKASHI:
+			var cena = load("res://Personagens/Kakashi.glb") 
+			modelo_kak = _instanciar_easter_egg_menu(cena, "ModeloKakashiMenu", modelo_normal)
+		modelo_kak.visible = true
+
 	else:
-		if modelo_normal:
-			modelo_normal.visible = true
-		if modelo_bb:
-			modelo_bb.visible = false
+		if modelo_normal: modelo_normal.visible = true
+
+
+# --- FUNÇÃO AUXILIAR PARA NÃO REPETIR CÓDIGO ---
+func _instanciar_easter_egg_menu(cena_carregada, nome_node, modelo_referencia) -> Node3D:
+	var modelo = cena_carregada.instantiate()
+	modelo.name = nome_node
+	modelo.scale = Vector3(0.33, 0.33, 0.33) 
+	
+	if modelo_referencia:
+		modelo_referencia.get_parent().add_child(modelo)
+		modelo.global_position = modelo_referencia.global_position
+		modelo.rotation = modelo_referencia.rotation
+		
+	var anim_player_menu = modelo.find_child("AnimationPlayer", true)
+	if anim_player_menu and anim_player_menu.has_animation("Idle"):
+		anim_player_menu.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+		anim_player_menu.play("Idle")
+		
+	var osso_arma = modelo.find_child("BoneAttachment3D", true, false)
+	if osso_arma: osso_arma.visible = false
+	var osso_chapeu = modelo.find_child("BoneAttachment3D_Cabeca", true, false)
+	if osso_chapeu: osso_chapeu.visible = false
+	
+	return modelo
 
 # --- SINAIS DO EDITOR ---
 func _on_btn_avo_m_pressed():

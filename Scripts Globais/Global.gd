@@ -14,6 +14,11 @@ var armadura_darksouls_desbloqueada: bool = true
 var armadura_bloodborne_desbloqueada: bool = true # Deixa true para aparecer já no menu!
 var usando_set_especial: bool = false
 var usando_set_bloodborne: bool = false
+var armadura_hollow_knight_desbloqueada: bool = true
+var usando_set_hollow_knight: bool = false
+
+var armadura_kakashi_desbloqueada: bool = true
+var usando_set_kakashi: bool = false
 
 # O que cada um tem equipado neste momento
 var equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }

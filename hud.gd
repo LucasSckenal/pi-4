@@ -47,6 +47,12 @@ var torre_atual = null
 @onready var label_onda: Label = $InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos/LabelOnda
 @onready var label_turno: Label = $InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos/LabelTurno
 
+# ==========================================
+# UI DE GAME OVER
+# ==========================================
+@export var cena_game_over: PackedScene
+var game_over_instance: Control = null
+
 func _ready():
 	add_to_group("Interface")
 	
@@ -108,6 +114,17 @@ func _ready():
 		GameManager.dia_iniciado.connect(_ao_iniciar_dia_hud)
 	if GameManager.has_signal("noite_iniciada"):
 		GameManager.noite_iniciada.connect(_ao_iniciar_noite_hud)
+		
+	# Instancia a UI de Game Over escondida
+	if cena_game_over:
+		game_over_instance = cena_game_over.instantiate()
+		add_child(game_over_instance)
+	else:
+		print("ERRO: cena_game_over não atribuída na HUD!")
+		
+	# Conecta o sinal de morte do GameManager à HUD
+	if GameManager.has_signal("game_over"):
+		GameManager.game_over.connect(_on_game_over_hud)	
 
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
@@ -408,3 +425,10 @@ func _process(_delta: float) -> void:
 					for icon in box.get_children():
 						if icon.has_method("atualizar_seta"):
 							icon.atualizar_seta(angulo)
+							
+# ==========================================
+# EVENTOS DE GAME OVER
+# ==========================================
+func _on_game_over_hud():
+	if game_over_instance and game_over_instance.has_method("mostrar"):
+		game_over_instance.mostrar()

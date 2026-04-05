@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b5l8slqarfs0i" path="res://Cenas Locais/upgrade_ui.tscn" id="3_ebwb2"]
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="3_iy34l"]
 [ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="4_8v21c"]
+[ext_resource type="PackedScene" uid="uid://cbryxi4nq2e8q" path="res://Cenas Locais/game_over_ui.tscn" id="5_0fpak"]
 [ext_resource type="PackedScene" uid="uid://c5pxe6bsjuyx7" path="res://Cenas Locais/controles_mobile.tscn" id="5_8v21c"]
 [ext_resource type="Texture2D" uid="uid://blksu1rcamgta" path="res://Icons/AmpulhetaDiaBorda.png" id="8_o14n6"]
 [ext_resource type="Texture2D" uid="uid://dg3s442t7ls8l" path="res://Icons/AmpulhetaNoiteBorda.png" id="9_0fpak"]
@@ -42,6 +43,7 @@ script = ExtResource("1_fiyi4")
 cena_carta_ui = ExtResource("2_iy34l")
 upgrade_ui_scene = ExtResource("3_ebwb2")
 cena_opcao_button = ExtResource("4_8v21c")
+cena_game_over = ExtResource("5_0fpak")
 
 [node name="ContainerDirecoes" type="Control" parent="." unique_id=1423487210]
 layout_mode = 3

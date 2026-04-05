@@ -1,0 +1,214 @@
+[gd_scene format=3 uid="uid://cbryxi4nq2e8q"]
+
+[ext_resource type="Script" uid="uid://bkif50hokxb6g" path="res://Cenas Locais/game_over_ui.gd" id="1_jya48"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fundo_noite"]
+content_margin_left = 60.0
+content_margin_top = 60.0
+content_margin_right = 60.0
+content_margin_bottom = 60.0
+bg_color = Color(0.09, 0.11, 0.16, 0.98)
+border_width_top = 4
+border_color = Color(0.2, 0.25, 0.35, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+shadow_color = Color(0, 0, 0, 0.7)
+shadow_size = 60
+shadow_offset = Vector2(0, 20)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_separador"]
+color = Color(0.35, 0.4, 0.5, 0.6)
+thickness = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_painel_pedra"]
+content_margin_left = 30.0
+content_margin_top = 20.0
+content_margin_right = 30.0
+content_margin_bottom = 20.0
+bg_color = Color(0.05, 0.06, 0.09, 0.8)
+border_width_top = 2
+border_color = Color(0.15, 0.18, 0.25, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_botao_verde"]
+content_margin_top = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.2, 0.6, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 8
+border_color = Color(0.1, 0.4, 0.15, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.3)
+shadow_size = 10
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_botao_hover"]
+content_margin_top = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.25, 0.65, 0.3, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 4
+border_color = Color(0.1, 0.4, 0.15, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="GameOverUI" type="Control" unique_id=1217381669]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jya48")
+
+[node name="EscurecerFundo" type="ColorRect" parent="." unique_id=884337755]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.8)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1197858115]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PainelPrincipal" type="PanelContainer" parent="CenterContainer" unique_id=1907584913]
+custom_minimum_size = Vector2(850, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_fundo_noite")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PainelPrincipal" unique_id=1827261136]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Titulo" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=887886268]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.9, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 56
+text = "A Noite Venceu"
+horizontal_alignment = 1
+
+[node name="Espaco1" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=2014885394]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="LinhaDivisoria1" type="HSeparator" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=1127536777]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_separador")
+
+[node name="Espaco2" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=1021249863]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="SubTitulo" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=1021565683]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.8, 1)
+theme_override_font_sizes/font_size = 28
+text = "As defesas caíram. Descanse, prepare a sua estratégia e tente de novo."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Espaco3" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=397707236]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="HBoxStatus" type="HBoxContainer" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=147749807]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="PainelDias" type="PanelContainer" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus" unique_id=1020147098]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_painel_pedra")
+
+[node name="VBoxDias" type="VBoxContainer" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelDias" unique_id=424959767]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TextoDias" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelDias/VBoxDias" unique_id=1690937646]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
+theme_override_font_sizes/font_size = 24
+text = "Dias protegidos:"
+horizontal_alignment = 1
+
+[node name="ValorDias" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelDias/VBoxDias" unique_id=539475111]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "5"
+horizontal_alignment = 1
+
+[node name="PainelMoedas" type="PanelContainer" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus" unique_id=424835086]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_painel_pedra")
+
+[node name="VBoxMoedas" type="VBoxContainer" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelMoedas" unique_id=203529669]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="TextoMoedas" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelMoedas/VBoxMoedas" unique_id=1929794094]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
+theme_override_font_sizes/font_size = 24
+text = "Moedas na bolsa:"
+horizontal_alignment = 1
+
+[node name="ValorMoedas" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelMoedas/VBoxMoedas" unique_id=140025805]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "120"
+horizontal_alignment = 1
+
+[node name="Espaco4" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=1860738528]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="LinhaDivisoria2" type="HSeparator" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=1592084929]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_separador")
+
+[node name="Espaco5" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=142619403]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="BotaoReiniciar" type="Button" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=382457053]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.3)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_botao_verde")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")
+text = "TENTAR NOVAMENTE"
+
+[connection signal="pressed" from="CenterContainer/PainelPrincipal/VBoxContainer/BotaoReiniciar" to="." method="_on_botao_reiniciar_pressed"]

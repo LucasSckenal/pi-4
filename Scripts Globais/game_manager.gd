@@ -10,6 +10,7 @@ signal mostrar_menu_upgrade(cartas_sorteadas)
 signal upgrade_aplicado
 signal upgrade_base_aplicado
 signal renda_recolhida(total_ganho) # Para a UI mostrar "+X Moedas" de manhã
+signal game_over
 
 # ==========================================
 # ESTADO GLOBAL DO JOGO
@@ -270,3 +271,33 @@ func gastar_moedas(valor_custo: int) -> bool:
 
 func obter_custo_com_desconto(custo_base: int) -> int:
 	return max(1, custo_base - desconto_construcao)
+	
+	
+# ==========================================
+# SISTEMA DE GAME OVER E REINÍCIO
+# ==========================================
+func acionar_game_over():
+	print("Game Over acionado!")
+	game_over.emit() # Dispara o sinal para a HUD abrir a tela
+	get_tree().paused = true # Pausa o jogo (inimigos, tempo, torres)
+
+func reiniciar_partida():
+	print("Reiniciando a partida...")
+	# 1. Tira o jogo da pausa
+	get_tree().paused = false
+	
+	# 2. Reseta a onda e as moedas para os valores iniciais da fase 1
+	onda_atual = 1
+	moedas = banco_de_fases[1]["moedas_iniciais"] # Volta para 10 moedas
+	nivel_base = banco_de_fases[1]["nivel_base_inicial"]
+	
+	# 3. Limpa todos os bônus das cartas (Para não recomeçar roubado!)
+	bonus_dano = 0 
+	bonus_moedas_onda = 0
+	bonus_velocidade_ataque = 0.0
+	desconto_construcao = 0
+	multiplicador_horda = 1.0
+	multiplicador_velocidade_inimigo = 1.0
+	
+	# 4. Recarrega o mapa do zero
+	get_tree().reload_current_scene()

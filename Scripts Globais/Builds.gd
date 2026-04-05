@@ -692,7 +692,7 @@ func receber_dano(quantidade: int):
 func destruir():
 	print("%s destruída!" % name)
 	if tipo == TipoConstrucao.BASE:
-		GameManager.game_over() 
+		GameManager.acionar_game_over() 
 		return
 
 	esta_destruida = true
