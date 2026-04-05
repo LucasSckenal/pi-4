@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var label_wave = $InterfacePrincipal/CentroTela/LabelWave
 @onready var botao_noite = $InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite
 @onready var label_moedas = $InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas/LabelMoedas
+@onready var margin_direita = $InterfacePrincipal/MarginDireita
 @export var cena_carta_ui: PackedScene
 
 @onready var anim_bau = $InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport/chest2/AnimationPlayer
@@ -251,22 +252,30 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 	container_dir.set_meta("posicao_mundo", posicao_mundo) # Adicione esta linha 
 	container_direcoes.add_child(container_dir)
 	
-	# Calcula posição na borda
-	var pos_tela = _calcular_posicao_borda(posicao_mundo, tamanho_container)
-	container_dir.position = pos_tela
-	container_dir.size = tamanho_container
+	# Define se os ícones serão empilhados na horizontal ou vertical dependendo da direção
+	var tamanho_real = tamanho_container
+	var box = null
+	if direcao == "Leste" or direcao == "Oeste":
+		tamanho_real = Vector2(tamanho_container.y, tamanho_container.x)
+		box = HBoxContainer.new()
+	else:
+		box = VBoxContainer.new()
 	
-	# VBox para empilhar os ícones
-	var vbox = VBoxContainer.new()
-	vbox.size = tamanho_container
-	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
-	vbox.add_theme_constant_override("separation", 5)
-	container_dir.add_child(vbox)
+	# Calcula posição na borda
+	var pos_tela = _calcular_posicao_borda(posicao_mundo, tamanho_real)
+	container_dir.position = pos_tela
+	container_dir.size = tamanho_real
+	
+	# Configura o container para empilhar os ícones
+	box.size = tamanho_real
+	box.alignment = BoxContainer.ALIGNMENT_CENTER
+	box.add_theme_constant_override("separation", 5)
+	container_dir.add_child(box)
 	
 	# Adiciona os ícones dos inimigos
 	for info in inimigos:
 		var icon = cena_enemy_icon.instantiate()
-		vbox.add_child(icon)
+		box.add_child(icon)
 		if icon.has_method("configurar"):
 			icon.configurar(info.get("icone"), info.get("cor"), info.qtd)
 		else:
@@ -323,21 +332,27 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 	
 	return ponto_borda - metade
 
-# Atualiza os rótulos de texto, inicia a transição visual e exibe os indicadores
+# Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 func _ao_iniciar_dia_hud(onda: int) -> void:
 	label_onda.text = "ONDA " + str(onda)
 	label_turno.text = "DIA"
 	_animar_transicao_ampulheta(true)
+	
 	if container_direcoes:
 		container_direcoes.show()
+	if margin_direita:
+		margin_direita.show()
 
-# Atualiza os rótulos de texto, inicia a transição visual e oculta os indicadores
+# Atualiza os rótulos de texto, inicia a transição visual e oculta os controles de preparação
 func _ao_iniciar_noite_hud(onda: int) -> void:
 	label_onda.text = "ONDA " + str(onda)
 	label_turno.text = "NOITE"
 	_animar_transicao_ampulheta(false)
+	
 	if container_direcoes:
 		container_direcoes.hide()
+	if margin_direita:
+		margin_direita.hide()
 
 # Executa a animação de rotação e distorção ("smear") da ampulheta.
 # A troca entre as texturas ocorre instantaneamente no meio da rotação para mascarar a mudança.
@@ -376,8 +391,8 @@ func _process(_delta: float) -> void:
 		# Verifica se o container ainda é válido antes de atualizar
 		if is_instance_valid(container) and container.has_meta("posicao_mundo"):
 			var pos_mundo = container.get_meta("posicao_mundo")
-			# Recalcula a posição com base no tamanho atual da tela 
-			container.position = _calcular_posicao_borda(pos_mundo, tamanho_container)
+			# Recalcula a posição com base no tamanho atual da tela utilizando o tamanho dinâmico do container
+			container.position = _calcular_posicao_borda(pos_mundo, container.size)
 			
 			# Calcula a rotação da seta apontando para a posição real do spawner
 			var camera = get_viewport().get_camera_3d()
@@ -388,8 +403,8 @@ func _process(_delta: float) -> void:
 				var angulo = dir_vetor.angle()
 				
 				# Atualiza a rotação da seta nos ícones filhos deste container
-				var vbox = container.get_child(0)
-				if vbox:
-					for icon in vbox.get_children():
+				var box = container.get_child(0)
+				if box:
+					for icon in box.get_children():
 						if icon.has_method("atualizar_seta"):
 							icon.atualizar_seta(angulo)

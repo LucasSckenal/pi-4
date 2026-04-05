@@ -98,7 +98,7 @@ func _aplicar_fov_na_camera():
 # --- GERENCIAMENTO DE ESTADO DIA/NOITE ---
 func _ao_iniciar_dia(_onda):
 	jogo_pausado = false
-	Engine.time_scale = ultima_velocidade
+	_alterar_velocidade(1.0, btn_normal)
 	btn_menu_gigante.text = "▶"
 	grupo_velocidades.hide()
 
