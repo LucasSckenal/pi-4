@@ -132,25 +132,22 @@ func _unhandled_input(event):
 		if camera_zoom and event.pressed:
 			if tutorial and tutorial.visible: return
 			
+			if get_tree().current_scene and get_tree().current_scene.name.to_lower().contains("menu"):
+				return
+			
 			var mudou_zoom = false
 			
 			# Precisa acrescentar uma função que usa o NOVO estilo de zoom aqui, com os 4 níveis
-			
-			var limite_fov = camera_zoom.get("fov_inicial") if "fov_inicial" in camera_zoom else 90.0
-			var limite_size = camera_zoom.get("size_inicial") if "size_inicial" in camera_zoom else 30.0
+			var hud_mobile = get_tree().root.find_child("HudMobileCompleto", true, false)
 			
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				if camera_zoom.projection == Camera3D.PROJECTION_PERSPECTIVE:
-					camera_zoom.fov = clamp(camera_zoom.fov - 5.0, 20.0, limite_fov)
-				else:
-					camera_zoom.size = clamp(camera_zoom.size - 2.0, 5.0, limite_size)
-				mudou_zoom = true
+				if hud_mobile and hud_mobile.has_method("_zoom_aproximar"):
+					hud_mobile._zoom_aproximar()
+					mudou_zoom = true
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				if camera_zoom.projection == Camera3D.PROJECTION_PERSPECTIVE:
-					camera_zoom.fov = clamp(camera_zoom.fov + 5.0, 20.0, limite_fov)
-				else:
-					camera_zoom.size = clamp(camera_zoom.size + 2.0, 5.0, limite_size)
-				mudou_zoom = true
+				if hud_mobile and hud_mobile.has_method("_zoom_afastar"):
+					hud_mobile._zoom_afastar()
+					mudou_zoom = true
 				
 			if mudou_zoom:
 				var parametro_zoom = camera_zoom.fov if camera_zoom.projection == Camera3D.PROJECTION_PERSPECTIVE else camera_zoom.size

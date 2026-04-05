@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_1q4q1"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_mb5xg"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="2_1q4q1"]
-[ext_resource type="MeshLibrary" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]
+[ext_resource type="MeshLibrary" uid="uid://oinygid1j201" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]
 [ext_resource type="Shader" uid="uid://dj3wiq8u2pdq0" path="res://Shaders/Lava.gdshader" id="5_3l4lc"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="6_vfgjs"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="8_mukah"]
@@ -183,33 +183,43 @@ transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.8047767, 0.7427156, 4.2601
 
 [node name="BuildSlot" parent="BuildSlots" unique_id=612575103 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5090492, 0, 0.103242874)
+ui_construcao_prefab = null
 
 [node name="BuildSlot2" parent="BuildSlots" unique_id=988142283 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47336996, 0, 0.103242874)
+ui_construcao_prefab = null
 
 [node name="BuildSlot4" parent="BuildSlots" unique_id=2026369193 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5364684, 0, -0.2834978)
+ui_construcao_prefab = null
 
 [node name="BuildSlot5" parent="BuildSlots" unique_id=749522518 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5364684, 0, -1.1905563)
+ui_construcao_prefab = null
 
 [node name="BuildSlot7" parent="BuildSlots" unique_id=1635298765 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0951107, 0, -1.8213843)
+ui_construcao_prefab = null
 
 [node name="BuildSlot8" parent="BuildSlots" unique_id=1124846379 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1387366, 0, -1.8213843)
+ui_construcao_prefab = null
 
 [node name="BuildSlot9" parent="BuildSlots" unique_id=1597144935 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4687295, 0, -1.0602349)
+ui_construcao_prefab = null
 
 [node name="BuildSlot10" parent="BuildSlots" unique_id=1112033527 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.3185873, 0, -0.33240676)
+ui_construcao_prefab = null
 
 [node name="BuildSlot12" parent="BuildSlots" unique_id=810218500 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2066283, 0, 0.42786753)
+ui_construcao_prefab = null
 
 [node name="BuildSlot13" parent="BuildSlots" unique_id=1998343865 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.136376, 0.614285, -2.7242563)
+ui_construcao_prefab = null
 
 [node name="Spawners" type="Node3D" parent="." unique_id=2079467093]
 
@@ -229,5 +239,5 @@ ondas = Array[ExtResource("9_x6lc8")]([SubResource("Resource_nekdb"), null, null
 transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -0.4471743, 1.8534969, 0.585619)
 tipo = 5
 
-[node name="Sketchfab_Scene" parent="." unique_id=1550367612 instance=ExtResource("14_nceek")]
+[node name="Bonfire" parent="." unique_id=1550367612 instance=ExtResource("14_nceek")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 9.63154, 0.46111012, 2.032345)

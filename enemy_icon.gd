@@ -1,46 +1,37 @@
 extends Control
 
-@onready var fundo = $Fundo
-@onready var container = $Container
-@onready var label = $Container/Quantidade
-@onready var texture_rect = $Container/TextureRect
-@onready var color_rect = $Container/ColorRect
+@onready var label = $BolhaNumero/Quantidade
+@onready var texture_rect = $Fundo/TextureRect
+@onready var color_rect = $Fundo/ColorRect
+@onready var seta = $Seta
+
+# Atualiza a rotação e a posição do indicador visual de direção (órbita)
+func atualizar_seta(angulo_radianos: float):
+	if seta:
+		# Rotação da seta para apontar para o alvo
+		seta.rotation = angulo_radianos
+		
+		# Define o raio da órbita (distância do centro do ícone até a seta)
+		# Aumente esse valor se a seta estiver colidindo com o círculo
+		var raio_orbita = 45.0 
+		var centro = size / 2.0
+		
+		# Calcula a posição orbital usando trigonometria
+		var pos_x = cos(angulo_radianos) * raio_orbita
+		var pos_y = sin(angulo_radianos) * raio_orbita
+		
+		# Posiciona a seta subtraindo a metade do próprio tamanho para centralizá-la no ponto exato
+		seta.position = centro + Vector2(pos_x, pos_y) - (seta.size / 2.0)
 
 func configurar(icone: Texture2D, cor: Color, qtd: int):
-	# Fundo mais circular (aumentei o corner radius)
-	var style_fundo = StyleBoxFlat.new()
-	style_fundo.bg_color = Color(0, 0, 0, 0.6)
-	style_fundo.corner_radius_top_left = 40
-	style_fundo.corner_radius_top_right = 40
-	style_fundo.corner_radius_bottom_left = 40
-	style_fundo.corner_radius_bottom_right = 40
-	fundo.add_theme_stylebox_override("panel", style_fundo)
-	
 	# Ícone ou fallback colorido
 	if icone:
 		texture_rect.show()
 		color_rect.hide()
 		texture_rect.texture = icone
-		texture_rect.size = Vector2(32, 32)
 	else:
 		texture_rect.hide()
 		color_rect.show()
-		var style = StyleBoxFlat.new()
-		style.bg_color = cor
-		style.corner_radius_top_left = 20
-		style.corner_radius_top_right = 20
-		style.corner_radius_bottom_left = 20
-		style.corner_radius_bottom_right = 20
-		color_rect.add_theme_stylebox_override("panel", style)
-		color_rect.size = Vector2(32, 32)
+		color_rect.color = cor
 	
 	label.text = str(qtd)
-	label.add_theme_color_override("font_color", Color.WHITE)
-	
-	# Garante a ordem: ícone em cima, label embaixo
-	# Move o ícone para a posição 0 e o label para a posição 1
-	if icone:
-		container.move_child(texture_rect, 0)
-	else:
-		container.move_child(color_rect, 0)
-	container.move_child(label, 1)

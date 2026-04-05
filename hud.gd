@@ -300,12 +300,17 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 	var t = min(t_x, t_y)
 	var ponto_borda = centro + dir * t
 	
-	# Aplica margem
+	# Margens de segurança customizadas para evitar sobreposição com os elementos de interface
+	var margem_topo: float = 200.0
+	var margem_baixo: float = 120.0
+	var margem_esq: float = 120.0
+	var margem_dir: float = 280.0
+	
 	var metade = tamanho / 2
-	var min_x = metade.x + margem_borda
-	var max_x = viewport_size.x - metade.x - margem_borda
-	var min_y = metade.y + margem_borda
-	var max_y = viewport_size.y - metade.y - margem_borda
+	var min_x = metade.x + margem_esq
+	var max_x = viewport_size.x - metade.x - margem_dir
+	var min_y = metade.y + margem_topo
+	var max_y = viewport_size.y - metade.y - margem_baixo
 	
 	ponto_borda.x = clamp(ponto_borda.x, min_x, max_x)
 	ponto_borda.y = clamp(ponto_borda.y, min_y, max_y)
@@ -336,11 +341,11 @@ func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 	var tween = create_tween()
 	tween.set_parallel(true)
 	
-	# Animação principal de rotação (0.5 segundos de duração)
+	# Animação principal de rotação (0.5 segundos de duração para esconder troca de imagens)
 	tween.tween_property(pivot_ampulheta, "rotation", rotacao_alvo, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN_OUT)
 	
 	# Efeito "Smear": Estica a ampulheta no eixo Y durante a primeira metade do giro
-	tween.tween_property(pivot_ampulheta, "scale", Vector2(0.7, 1.4), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween.tween_property(pivot_ampulheta, "scale", Vector2(0.9, 1.1), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	# Retorna a ampulheta ao tamanho normal na segunda metade do giro
 	tween.chain().tween_property(pivot_ampulheta, "scale", Vector2(1.0, 1.0), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
@@ -363,3 +368,18 @@ func _process(_delta: float) -> void:
 			var pos_mundo = container.get_meta("posicao_mundo")
 			# Recalcula a posição com base no tamanho atual da tela 
 			container.position = _calcular_posicao_borda(pos_mundo, tamanho_container)
+			
+			# Calcula a rotação da seta apontando para a posição real do spawner
+			var camera = get_viewport().get_camera_3d()
+			if camera:
+				var pos_tela = camera.unproject_position(pos_mundo)
+				var centro = get_viewport().get_visible_rect().size / 2.0
+				var dir_vetor = (pos_tela - centro).normalized()
+				var angulo = dir_vetor.angle()
+				
+				# Atualiza a rotação da seta nos ícones filhos deste container
+				var vbox = container.get_child(0)
+				if vbox:
+					for icon in vbox.get_children():
+						if icon.has_method("atualizar_seta"):
+							icon.atualizar_seta(angulo)
