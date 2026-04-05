@@ -36,6 +36,7 @@ enum TipoConstrucao {
 @export var cena_flecha: PackedScene
 @export var ponto_de_tiro: NodePath
 @export var area_ataque_path: NodePath
+@export var indicador_alcance: MeshInstance3D
 
 # ==========================================
 # CONFIGURAÇÕES ESPECÍFICAS PARA QUARTEL
@@ -131,6 +132,11 @@ func _ready():
 		_modo_fantasma()
 		return
 		
+	# if indicador_alcance:
+#     indicador_alcance.visible = false
+	
+	
+		
 	if modelo_anchor == null:
 		modelo_anchor = Node3D.new()
 		modelo_anchor.name = "ModeloAnchor"
@@ -189,10 +195,19 @@ func _pode_interagir_tutorial() -> bool:
 	return true
 
 func _on_area_clique(camera, event, position, normal, shape_idx):
-	if esta_destruida: return  # ← IMPEDE CLIQUE EM CONSTRUÇÃO DESTRUÍDA
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if _pode_interagir_tutorial(): # Adicionado para respeitar o foco do tutorial
+	if esta_destruida: return  
+	
+	var clicou_mouse = (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
+	var tocou_tela = (event is InputEventScreenTouch and event.pressed)
+	
+	if clicou_mouse or tocou_tela:
+		if _pode_interagir_tutorial(): 
 			construcao_selecionada.emit(self)
+			
+			# ACENDE O ANEL
+			if tipo == TipoConstrucao.TORRE and indicador_alcance:
+				indicador_alcance.visible = true
+				print("Anel foi ligado!")
 
 # ==========================================
 # SISTEMA DE UPGRADES (LÓGICA PRINCIPAL)
@@ -470,7 +485,12 @@ func _trocar_modelo(nivel: int):
 func _esconder_malhas_originais(no: Node):
 	for filho in no.get_children():
 		if filho == modelo_anchor:
-			continue # Ignora o nosso anchor com os modelos de upgrade
+			continue 
+		
+		# Protege o anel para ele não ser apagado!
+		if indicador_alcance and filho == indicador_alcance:
+			continue 
+			
 		if filho is MeshInstance3D:
 			filho.hide()
 		elif filho.get_child_count() > 0:
@@ -508,12 +528,23 @@ func _inicializar_barra_vida():
 
 func _configurar_alcance():
 	if area_ataque and area_ataque.has_node("CollisionShape3D"):
-		var shape = area_ataque.get_node("CollisionShape3D").shape
-		if shape is SphereShape3D:
-			shape.radius = alcance_atual
-		elif shape is CylinderShape3D:
-			shape.radius = alcance_atual
+		
+		# 1. CONSRETA O BUG DO CLIQUE: O mouse vai ignorar essa área gigante
+		area_ataque.input_ray_pickable = false 
+		
+		# 2. CONSERTA O BUG DE ATIRAR LONGE: Separa a área de cada torre
+		var shape_original = area_ataque.get_node("CollisionShape3D").shape
+		var shape_unica = shape_original.duplicate() # <- A mágica acontece aqui!
+		area_ataque.get_node("CollisionShape3D").shape = shape_unica
+		
+		if shape_unica is SphereShape3D or shape_unica is CylinderShape3D:
+			shape_unica.radius = alcance_atual
+			
 		print("Alcance da torre ajustado para: ", alcance_atual)
+
+	# 3. FAZ O ANEL APARECER NO TAMANHO CERTO
+	if indicador_alcance:
+		indicador_alcance.scale = Vector3(alcance_atual * 2, 1, alcance_atual * 2)
 
 # ==========================================
 # SISTEMA DE ATAQUE (TORRE)
@@ -749,3 +780,7 @@ func _set_transparencia(no: Node, valor: float):
 		no.transparency = valor
 	for filho in no.get_children():
 		_set_transparencia(filho, valor)
+
+func esconder_indicador():
+	if indicador_alcance:
+		indicador_alcance.visible = false

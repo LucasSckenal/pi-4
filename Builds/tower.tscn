@@ -31,17 +31,22 @@ height = 0.9489746
 [sub_resource type="SphereShape3D" id="SphereShape3D_k1o5i"]
 radius = 0.35557297
 
+[sub_resource type="TorusMesh" id="TorusMesh_hmmrv"]
+outer_radius = 0.48
+
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_772tj"]
 height = 0.6894226
 radius = 0.2290039
 
-[node name="unit-tower2" unique_id=1301817256 instance=ExtResource("1_vedim")]
+[node name="unit-tower2" unique_id=1529538931 node_paths=PackedStringArray("indicador_alcance") instance=ExtResource("1_vedim")]
 script = ExtResource("2_ned14")
 custo_moedas = 3
 vida_maxima = 30
+alcance = 1.5
 cena_flecha = ExtResource("3_ned14")
 ponto_de_tiro = NodePath("PontoDeTiro")
 area_ataque_path = NodePath("AreaAtaque")
+indicador_alcance = NodePath("IndicadorAlcance")
 tem_paths = true
 upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), SubResource("Resource_1qiv1")])
 
@@ -54,7 +59,7 @@ shape = SubResource("CapsuleShape3D_ned14")
 [node name="AreaAtaque" type="Area3D" parent="." index="2" unique_id=1159628060]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" index="0" unique_id=696293045]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0.24301434, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24301434, 0)
 shape = SubResource("SphereShape3D_k1o5i")
 
 [node name="TimerAtaque" type="Timer" parent="AreaAtaque" index="1" unique_id=1686606465]
@@ -64,14 +69,16 @@ autostart = true
 [node name="PontoDeTiro" type="Marker3D" parent="." index="3" unique_id=550286233]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44771555, 0)
 
-[node name="AreaClique" type="Area3D" parent="." index="4" unique_id=1105837787]
+[node name="IndicadorAlcance" type="MeshInstance3D" parent="." index="4" unique_id=930690582]
+visible = false
+mesh = SubResource("TorusMesh_hmmrv")
+
+[node name="AreaClique" type="Area3D" parent="." index="5" unique_id=1105837787]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=1458051811]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35276794, 0)
 shape = SubResource("CylinderShape3D_772tj")
 
-[connection signal="body_entered" from="Area3D" to="unit-tower" method="_on_area_3d_body_entered"]
-[connection signal="body_exited" from="Area3D" to="unit-tower" method="_on_area_3d_body_exited"]
 [connection signal="body_entered" from="AreaAtaque" to="." method="_on_area_ataque_body_entered"]
 [connection signal="body_exited" from="AreaAtaque" to="." method="_on_area_ataque_body_exited"]
 [connection signal="timeout" from="AreaAtaque/TimerAtaque" to="." method="_on_timer_ataque_timeout"]
