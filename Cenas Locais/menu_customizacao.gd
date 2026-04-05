@@ -1,7 +1,6 @@
 extends Node3D
 
 # --- CONFIGURAÇÕES ---
-# ARR_AQUI O CAMINHO DA TUA CENA DO PLAYER (ex: "res://Cenas/Player.tscn")
 @export var cena_player_caminho: String = "res://Cenas Locais/player.tscn"
 
 # Pasta onde vais guardar os ícones (.png) com o nome exato dos IDs
@@ -247,15 +246,13 @@ func _on_chapeu_selecionado(id_chapeu):
 
 	elif Global.usando_set_hollow_knight:
 		if not modelo_hk:
-			# MUDE AQUI PARA O CAMINHO DO SEU BONECO DO HOLLOW KNIGHT:
-			var cena = load("res://Personagens/Hollow_knight.glb") 
+			var cena = load("res://Assets/Personagens/hollow_knight.tscn") 
 			modelo_hk = _instanciar_easter_egg_menu(cena, "ModeloHollowKnightMenu", modelo_normal)
 		modelo_hk.visible = true
 
 	elif Global.usando_set_kakashi:
 		if not modelo_kak:
-			# MUDE AQUI PARA O CAMINHO DO SEU BONECO DO KAKASHI:
-			var cena = load("res://Personagens/Kakashi.glb") 
+			var cena = load("res://Assets/Personagens/kakashi.tscn") 
 			modelo_kak = _instanciar_easter_egg_menu(cena, "ModeloKakashiMenu", modelo_normal)
 		modelo_kak.visible = true
 
