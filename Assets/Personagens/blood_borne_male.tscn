@@ -48,6 +48,21 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
+[sub_resource type="Animation" id="Animation_8furk"]
+resource_name = "attack-melee-left"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Armature/Skeleton3D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bmuvj"]
+_data = {
+&"attack-melee-left": SubResource("Animation_8furk")
+}
+
 [node name="BloodBorne_male" unique_id=671058536 instance=ExtResource("1_rj4y5")]
 
 [node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(500989969) index="0" unique_id=1535191564]
@@ -80,3 +95,6 @@ bones/23/rotation = Quaternion(0.56883085, 9.312504e-08, -0.04723531, 0.821097)
 
 [node name="char1" parent="Armature/Skeleton3D" index="0" unique_id=1595074359]
 mesh = SubResource("ArrayMesh_8furk")
+
+[node name="AnimationPlayer" parent="." index="1" unique_id=1495037723]
+libraries/Bloodborne_Attack = SubResource("AnimationLibrary_bmuvj")

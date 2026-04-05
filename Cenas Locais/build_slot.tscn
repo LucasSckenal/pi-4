@@ -7,7 +7,8 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_64b41"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64b41"]
-albedo_color = Color(0.8666667, 0.5372549, 0.15294118, 1)
+transparency = 1
+albedo_color = Color(0.8666667, 0.5372549, 0.15294118, 0)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_w3lxa"]
 material = SubResource("StandardMaterial3D_64b41")
@@ -24,10 +25,12 @@ shape = SubResource("SphereShape3D_64b41")
 
 [node name="BaseMesh" type="MeshInstance3D" parent="." unique_id=104872137]
 transform = Transform3D(-0.2, 0, 1.7484556e-08, 0, 0.02, 0, -1.7484556e-08, 0, -0.2, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_w3lxa")
 
 [node name="PromptLabel" type="Label3D" parent="." unique_id=1916682363]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28337383, 0)
+visible = false
 billboard = 1
 no_depth_test = true
 text = "[E] Construir"

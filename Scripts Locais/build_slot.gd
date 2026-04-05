@@ -13,7 +13,6 @@ signal slot_clicado
 # ==========================================
 @onready var area = $Area3D
 @onready var base_mesh = $BaseMesh
-@onready var prompt_label = $PromptLabel
 @onready var bolha_btn = $CanvasLayer/TextureButton
 @onready var canvas_mobile = $CanvasLayer
 
@@ -31,8 +30,6 @@ func _ready():
 	# Configura visibilidade inicial baseada na plataforma
 	if canvas_mobile:
 		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
-	if prompt_label:
-		prompt_label.hide()
 	
 	# Conecta sinais do GameManager
 	if GameManager.has_signal("dia_iniciado"):
@@ -100,14 +97,12 @@ func _atualizar_visibilidade_por_tempo():
 	if dia:
 		if base_mesh: base_mesh.show()
 		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
-		if prompt_label and player_ref_teclado != null: prompt_label.show()
 	else:
 		_esconder_todos_elementos()
 
 func _esconder_todos_elementos():
 	if base_mesh: base_mesh.hide()
 	if canvas_mobile: canvas_mobile.hide()
-	if prompt_label: prompt_label.hide()
 	fechar_ui()
 
 # ==========================================
@@ -137,7 +132,6 @@ func _abrir_ui():
 	ui_atual.abrir_menu(self)
 	
 	if bolha_btn: bolha_btn.hide()
-	if prompt_label: prompt_label.hide()
 
 func fechar_ui():
 	if ui_atual:
@@ -149,7 +143,6 @@ func fechar_ui():
 			canvas_mobile.layer = 1 # Retorna a camada ao nível padrão
 		
 		if bolha_btn: bolha_btn.show()
-		if prompt_label and player_ref_teclado != null: prompt_label.show()
 
 # ==========================================
 # CONSTRUÇÃO (chamada pela UI após compra)
@@ -171,7 +164,6 @@ func construir(cena: PackedScene):
 		
 		# Esconde ou remove elementos do slot
 		if base_mesh: base_mesh.hide()
-		if prompt_label: prompt_label.hide()
 		if canvas_mobile: canvas_mobile.queue_free()  # Remove a bolha permanentemente
 		
 		fechar_ui()
@@ -229,16 +221,12 @@ func _on_texture_button_pressed():
 		# Primeiro toque: prepara para confirmação
 		estado_toque_mobile = 1
 		bolha_btn.modulate.a = 0.0  # Torna a bolha invisível mas ainda clicável
-		if prompt_label:
-			prompt_label.text = "Toque no slot\npara escolher"
-			prompt_label.show()
 	else:
 		# Segundo toque: abre a UI
 		_abrir_ui()
 
 func cancelar_selecao():
 	estado_toque_mobile = 0
-	if prompt_label: prompt_label.hide()
 	if bolha_btn:
 		bolha_btn.modulate.a = 1.0
 		bolha_btn.show()
@@ -249,14 +237,7 @@ func cancelar_selecao():
 func _on_area_3d_body_entered(body):
 	if body.is_in_group("Player") and not is_built and pode_construir and slot_disponivel:
 		player_ref_teclado = body
-		if not OS.has_feature("mobile") and not ui_atual:
-			if prompt_label:
-				prompt_label.text = "[E] Construir"
-				prompt_label.show()
 
 func _on_area_3d_body_exited(body):
 	if body == player_ref_teclado:
 		player_ref_teclado = null
-		if not is_built and pode_construir:
-			if prompt_label:
-				prompt_label.hide()

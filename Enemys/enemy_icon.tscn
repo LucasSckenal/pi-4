@@ -1,50 +1,122 @@
 [gd_scene format=3 uid="uid://cdvsh7diw68vo"]
 
 [ext_resource type="Script" uid="uid://6av726v2j8sj" path="res://enemy_icon.gd" id="1_vslor"]
+[ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="2_jjbde"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vslor"]
+bg_color = Color(0.2051174, 0.20511746, 0.20511732, 0.7294118)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjbde"]
+bg_color = Color(0.14406255, 0.14406255, 0.14406249, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
 
 [node name="EnemyIcon" type="Control" unique_id=1606896230]
-custom_minimum_size = Vector2(60, 80)
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
-anchors_preset = 0
-offset_right = 64.0
-offset_bottom = 64.0
+anchor_right = 0.056
+anchor_bottom = 0.089
+offset_right = -0.51200104
+offset_bottom = -0.08000183
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 script = ExtResource("1_vslor")
 
 [node name="Fundo" type="Panel" parent="." unique_id=48536128]
+clip_contents = true
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.8
+offset_bottom = 12.799999
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vslor")
 
-[node name="Container" type="VBoxContainer" parent="." unique_id=1935775797]
+[node name="ColorRect" type="ColorRect" parent="Fundo" unique_id=466379349]
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.40300003
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -73.0
-offset_top = -32.0
-offset_right = 75.0
-offset_bottom = 129.0
+anchor_bottom = 0.40300003
+offset_left = -16.0
+offset_top = -15.992002
+offset_right = 16.0
+offset_bottom = 16.007998
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 5
 
-[node name="TextureRect" type="TextureRect" parent="Container" unique_id=1846006800]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
+[node name="TextureRect" type="TextureRect" parent="Fundo" unique_id=1846006800]
+clip_contents = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.40300003
+anchor_right = 0.5
+anchor_bottom = 0.40300003
+offset_left = -16.0
+offset_top = -15.992002
+offset_right = 16.0
+offset_bottom = 16.007998
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ColorRect" type="ColorRect" parent="Container" unique_id=466379349]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
+[node name="BolhaNumero" type="PanelContainer" parent="." unique_id=432846771]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -21.0
+offset_right = 20.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjbde")
 
-[node name="Quantidade" type="Label" parent="Container" unique_id=487531309]
+[node name="Quantidade" type="Label" parent="BolhaNumero" unique_id=487531309]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 text = "0"
 horizontal_alignment = 1
+
+[node name="Seta" type="TextureRect" parent="." unique_id=52786589]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.44500002
+anchor_right = 0.5
+anchor_bottom = 0.44500002
+offset_left = -20.0
+offset_top = -20.480001
+offset_right = 20.0
+offset_bottom = 19.519999
+texture = ExtResource("2_jjbde")
+expand_mode = 2
