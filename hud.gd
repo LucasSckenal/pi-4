@@ -323,17 +323,21 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 	
 	return ponto_borda - metade
 
-# Atualiza os rótulos de texto e inicia a transição visual para o Dia
+# Atualiza os rótulos de texto, inicia a transição visual e exibe os indicadores
 func _ao_iniciar_dia_hud(onda: int) -> void:
 	label_onda.text = "ONDA " + str(onda)
 	label_turno.text = "DIA"
 	_animar_transicao_ampulheta(true)
+	if container_direcoes:
+		container_direcoes.show()
 
-# Atualiza os rótulos de texto e inicia a transição visual para a Noite
+# Atualiza os rótulos de texto, inicia a transição visual e oculta os indicadores
 func _ao_iniciar_noite_hud(onda: int) -> void:
 	label_onda.text = "ONDA " + str(onda)
 	label_turno.text = "NOITE"
 	_animar_transicao_ampulheta(false)
+	if container_direcoes:
+		container_direcoes.hide()
 
 # Executa a animação de rotação e distorção ("smear") da ampulheta.
 # A troca entre as texturas ocorre instantaneamente no meio da rotação para mascarar a mudança.

@@ -5,6 +5,11 @@ extends Control
 @onready var color_rect = $Fundo/ColorRect
 @onready var seta = $Seta
 
+# Configura o ponto de pivô da seta para o seu centro exato, garantindo a rotação no próprio eixo
+func _ready():
+	if seta:
+		seta.pivot_offset = seta.size / 2.0
+
 # Atualiza a rotação e a posição do indicador visual de direção (órbita)
 func atualizar_seta(angulo_radianos: float):
 	if seta:
@@ -13,8 +18,10 @@ func atualizar_seta(angulo_radianos: float):
 		
 		# Define o raio da órbita (distância do centro do ícone até a seta)
 		# Aumente esse valor se a seta estiver colidindo com o círculo
-		var raio_orbita = 45.0 
-		var centro = size / 2.0
+		var raio_orbita = 60.0 
+		
+		# Utiliza custom_minimum_size pois a propriedade size é alterada dinamicamente pelo container
+		var centro = custom_minimum_size / 2.0
 		
 		# Calcula a posição orbital usando trigonometria
 		var pos_x = cos(angulo_radianos) * raio_orbita

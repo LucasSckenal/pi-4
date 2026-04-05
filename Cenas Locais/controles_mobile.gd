@@ -10,6 +10,7 @@ extends MarginContainer
 @onready var btn_lento = $AreaInterativa/GrupoVelocidades/BtnLento
 @onready var btn_normal = $AreaInterativa/GrupoVelocidades/BtnNormal
 @onready var btn_rapido = $AreaInterativa/GrupoVelocidades/BtnRapido
+@onready var grupo_velocidades = $AreaInterativa/GrupoVelocidades 
 
 # Lógica do Zoom
 var nivel_zoom_atual = 1
@@ -55,8 +56,10 @@ func _ready():
 
 	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
 		btn_menu_gigante.text = "▶"
+		grupo_velocidades.hide()
 	else:
 		btn_menu_gigante.text = "❚❚"
+		grupo_velocidades.show()
 	
 	# Inicia visual
 	_atualizar_caixas_zoom()
@@ -97,10 +100,12 @@ func _ao_iniciar_dia(_onda):
 	jogo_pausado = false
 	Engine.time_scale = ultima_velocidade
 	btn_menu_gigante.text = "▶"
+	grupo_velocidades.hide()
 
 func _ao_iniciar_noite(_onda):
 	jogo_pausado = false
 	btn_menu_gigante.text = "❚❚"
+	grupo_velocidades.show()
 
 # --- VELOCIDADE & MENU ---
 func _on_menu_pressionado():
