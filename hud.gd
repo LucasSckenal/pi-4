@@ -36,7 +36,7 @@ var containers_por_direcao = {}
 @export var upgrade_ui_scene: PackedScene          # Arraste a cena UpgradeUI.tscn aqui
 @export var cena_opcao_button: PackedScene         # Arraste a cena OpcaoUpgradeButton.tscn aqui
 var upgrade_ui_instance: Control = null
-
+var torre_atual = null
 # ==========================================
 # UI DE AMPULHETA E PROGRESSÃO
 # ==========================================
@@ -128,6 +128,8 @@ func _conectar_construcao(construcao: Node):
 
 func _on_construcao_selecionada(construcao):
 	print("Construção selecionada: ", construcao.name)
+	
+	torre_atual = construcao
 	if upgrade_ui_instance:
 		print("Chamando upgrade_ui_instance.abrir()")
 		upgrade_ui_instance.abrir(construcao)
@@ -135,7 +137,11 @@ func _on_construcao_selecionada(construcao):
 		print("ERRO: upgrade_ui_instance é null")
 
 func _on_upgrade_ui_fechado():
-	print("UI de upgrade fechada")
+	if torre_atual:
+		if torre_atual.has_method("esconder_indicador"):
+			torre_atual.esconder_indicador()
+		torre_atual = null # Limpa a memória para o próximo clique
+	
 	get_tree().paused = false
 
 # ==========================================
