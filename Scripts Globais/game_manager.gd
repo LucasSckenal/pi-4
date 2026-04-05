@@ -301,3 +301,8 @@ func reiniciar_partida():
 	
 	# 4. Recarrega o mapa do zero
 	get_tree().reload_current_scene()
+	
+func adicionar_moedas(quantidade: int):
+	moedas += quantidade
+	# É esta linha mágica que avisa a HUD para mudar o texto na tela!
+	get_tree().call_group("Interface", "atualizar_moedas")

@@ -784,3 +784,21 @@ func _set_transparencia(no: Node, valor: float):
 func esconder_indicador():
 	if indicador_alcance:
 		indicador_alcance.visible = false
+		
+# ==========================================
+# SISTEMA DE VENDA
+# ==========================================
+func vender_construcao():
+	# SISTEMA DE PROTEÇÃO: Impede vender a base principal
+	if tipo == TipoConstrucao.BASE:
+		print("Operação cancelada: A Base não pode ser vendida!")
+		return
+	
+	# Calcula o retorno (metade do custo)
+	var valor_de_venda = custo_moedas / 2
+	
+	# Entrega o dinheiro usando a função nova (que já atualiza a HUD)
+	GameManager.adicionar_moedas(valor_de_venda)
+	
+	# Remove a construção
+	queue_free()

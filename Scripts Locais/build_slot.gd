@@ -162,11 +162,33 @@ func construir(cena: PackedScene):
 		nova_const.is_fantasma = false  # Se suas construções usarem essa variável
 		is_built = true
 		
-		# Esconde ou remove elementos do slot
+		# Esconde os elementos do slot em vez de apagar (para poder reaproveitar depois)
 		if base_mesh: base_mesh.hide()
-		if canvas_mobile: canvas_mobile.queue_free()  # Remove a bolha permanentemente
+		if canvas_mobile: canvas_mobile.hide() 
+		
+		# NOVO: Se a construção for vendida/destruída, reativa o slot!
+		nova_const.tree_exited.connect(reativar_slot)
 		
 		fechar_ui()
+
+# ==========================================
+# NOVO: REATIVAÇÃO DO SLOT APÓS VENDA
+# ==========================================
+func reativar_slot():
+	is_built = false
+	estado_toque_mobile = 0
+	
+	# Garante que o Canvas (bolha) e a malha do chão voltem a aparecer
+	if base_mesh: base_mesh.show()
+	if canvas_mobile: 
+		canvas_mobile.show() # Mostra o pai
+		if bolha_btn:
+			bolha_btn.modulate.a = 1.0 # Garante que a bolha não esteja transparente
+			bolha_btn.show()
+			
+	# Reavalia se deve estar disponível (nível da base/dia/noite)
+	_verificar_disponibilidade()
+
 
 # ==========================================
 # INTERAÇÕES (PC E MOBILE)
@@ -211,19 +233,16 @@ func _on_area_input_event(_camera, _event, position, _normal, _shape_idx):
 			_abrir_ui()
 
 func _on_texture_button_pressed():
+	# Se já tem algo construído, se está de noite ou se a UI já está aberta, não faz nada
 	if is_built or not pode_construir or not slot_disponivel or ui_atual:
 		return
 		
-	if not _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
+	# Verifica a trava do tutorial
+	if not _pode_interagir_tutorial(): 
 		return
 	
-	if estado_toque_mobile == 0:
-		# Primeiro toque: prepara para confirmação
-		estado_toque_mobile = 1
-		bolha_btn.modulate.a = 0.0  # Torna a bolha invisível mas ainda clicável
-	else:
-		# Segundo toque: abre a UI
-		_abrir_ui()
+	# ABRE DIRETAMENTE (Sem precisar de dois cliques)
+	_abrir_ui()
 
 func cancelar_selecao():
 	estado_toque_mobile = 0
