@@ -254,15 +254,11 @@ func _verificar_ataque_automatico():
 
 func _executar_ataque_area(inimigos: Array):
 	pode_atacar = false
-	inimigo_focado = inimigos[0] 
+	inimigo_focado = inimigos[0] # Salva o primeiro inimigo para o personagem virar para ele
 	timer_ataque.start()
 	
-	# --- TRADUTOR DO ATAQUE ATUALIZADO ---
-	var anim_ataque = "attack-melee-left" # Padrão (Avô)
-	if Global.usando_set_bloodborne:
-		anim_ataque = "Triple_Combo_Attack"
-	elif Global.usando_set_hollow_knight or Global.usando_set_kakashi:
-		anim_ataque = "Attack" # <-- A sua nova animação aqui!
+	# --- TRADUTOR DO ATAQUE ---
+	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
 	
 	if anim_player.has_animation(anim_ataque):
 		anim_player.play(anim_ataque)
@@ -274,15 +270,18 @@ func _executar_ataque_area(inimigos: Array):
 			if arma.visible:
 				var escala_original = arma.scale
 				var escala_alvo = escala_original
-				escala_alvo *= 1.3 
+				escala_alvo *= 1.3 # Aumenta o comprimento em 30%
 				
 				await get_tree().create_timer(0.2).timeout
 				var tw_escala = create_tween()
+				# Estica a arma rapidamente
 				tw_escala.tween_property(arma, "scale", escala_alvo, 0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+				# Retorna ao tamanho original logo em seguida
 				tw_escala.tween_property(arma, "scale", escala_original, 0.2).set_delay(0.05)
 		
 	_criar_efeito_visual_corte()
 	
+	# Aplica dano em todos os inimigos capturados na área de ataque
 	for inimigo in inimigos:
 		if inimigo.has_method("receber_dano"):
 			inimigo.receber_dano(dano_ataque)
@@ -366,20 +365,19 @@ func _on_timer_ataque_timeout():
 # ==========================================
 
 func _gerenciar_animacoes(direction):
-	if not anim_player: return 
+	if not anim_player: return # Proteção caso ainda não tenha carregado
 	
-	# 1. Define os nomes corretos dependendo se é Easter Egg ou normal
-	var eh_easter_egg = Global.usando_set_bloodborne or Global.usando_set_hollow_knight or Global.usando_set_kakashi
-	var anim_ataque = "Triple_Combo_Attack" if eh_easter_egg else "attack-melee-left"
-	var anim_andar = "Walking" if eh_easter_egg else "walk"
-	var anim_parado = "Idle" if eh_easter_egg else "idle"
+	# 1. Define os nomes corretos dependendo se é o Bloodborne ou o Avô/Avó
+	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
+	var anim_andar = "Walking" if Global.usando_set_bloodborne else "walk"
+	var anim_parado = "Idle" if Global.usando_set_bloodborne else "idle"
 	var anim_pulo = "jump"
 	
 	# 2. Se estiver a atacar, não interrompe com a animação de andar/parado
 	if anim_player.current_animation == anim_ataque and anim_player.is_playing():
 		return
 		
-	# 3. Dá play na animação correta
+	# 3. Dá play na animação correta com o nome traduzido
 	if not is_on_floor():
 		if anim_player.has_animation(anim_pulo) and anim_player.current_animation != anim_pulo: 
 			anim_player.play(anim_pulo)
@@ -398,7 +396,7 @@ func _configurar_modelo_escolhido():
 	var modelo_antigo = get_node_or_null("character-male-f2")
 	var ossos_salvos = []
 	
-	# --- 1. SALVAR AS PEÇAS ---
+	# --- 1. SALVAR AS PEÇAS ATUAIS ANTES DE APAGAR O BONECO ---
 	if modelo_antigo:
 		var todos_os_ossos = modelo_antigo.find_children("*", "BoneAttachment3D", true, false)
 		for osso in todos_os_ossos:
@@ -407,17 +405,20 @@ func _configurar_modelo_escolhido():
 			if osso.get_parent():
 				osso.get_parent().remove_child(osso)
 
-	# --- 2. CARREGAR NOVO MODELO ---
+	# --- 2. O GODOT DECIDE QUAL CENA CARREGAR AQUI ---
 	var caminho_novo_modelo = ""
-	if Global.usando_set_bloodborne: caminho_novo_modelo = "res://Assets/Personagens/blood_borne_male.tscn" 
-	elif Global.usando_set_hollow_knight: caminho_novo_modelo = "res://Personagens/Hollow_knight.glb"
-	elif Global.usando_set_kakashi: caminho_novo_modelo = "res://Personagens/Kakashi.glb"
-	elif Global.personagem_jogado_atualmente == "avo_m": caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
-	else: caminho_novo_modelo = "res://Assets/Personagens/personagem_f.tscn"
+	
+	if Global.usando_set_bloodborne:
+		# ATENÇÃO: Coloca aqui o caminho real da cena do teu Hunter!
+		caminho_novo_modelo = "res://Assets/Personagens/blood_borne_male.tscn" 
+	elif Global.personagem_jogado_atualmente == "avo_m":
+		caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
+	else:
+		caminho_novo_modelo = "res://Assets/Personagens/personagem_f.tscn"
 
 	var modelo_novo = load(caminho_novo_modelo).instantiate()
 	
-	# --- 3. TROCAR O BONECO ---
+	# --- 3. TROCAR O BONECO VELHO PELO NOVO ---
 	if modelo_antigo:
 		modelo_novo.scale = modelo_antigo.scale
 		modelo_antigo.name = "modelo_a_ser_apagado"
@@ -428,86 +429,57 @@ func _configurar_modelo_escolhido():
 	modelo_novo.name = "character-male-f2"
 	add_child(modelo_novo)
 	
+	# Restaurar Animações
 	var novo_anim_player = modelo_novo.find_child("AnimationPlayer", true)
 	if novo_anim_player:
 		if "anim_player" in self: self.anim_player = novo_anim_player
+		
+		# Define quais animações devem ficar em repetição contínua (Loop)
 		for anim_name in ["idle", "walk", "Idle", "Walking"]:
 			if novo_anim_player.has_animation(anim_name):
 				novo_anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
-		if novo_anim_player.has_animation("idle"): novo_anim_player.play("idle")
-		elif novo_anim_player.has_animation("Idle"): novo_anim_player.play("Idle")
+				
+		# Tenta dar play na animação de ficar parado inicial
+		if novo_anim_player.has_animation("idle"):
+			novo_anim_player.play("idle")
+		elif novo_anim_player.has_animation("Idle"):
+			novo_anim_player.play("Idle")
 		
-	# --- 4. DEVOLVER AS PEÇAS ---
-	var novo_skeleton = null
-	var todos_esqueletos = modelo_novo.find_children("*", "Skeleton3D", true, false)
-	
-	if todos_esqueletos.size() > 0:
-		novo_skeleton = todos_esqueletos[0]
-		
+	# --- 4. DEVOLVER AS PEÇAS SALVAS AO ESQUELETO NOVO ---
+	var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
 	if novo_skeleton:
-		var nome_osso_cabeca = "head"
-		var nome_osso_mao = "arm-left"
-		
-		if Global.usando_set_hollow_knight or Global.usando_set_kakashi:
-			nome_osso_cabeca = "Head"
-			nome_osso_mao = "RightHand"
-			
 		for dado in ossos_salvos:
 			var osso_node = dado["node"]
+			var nome_ancora = dado["ancora"]
+			
 			var lixo = novo_skeleton.find_child(osso_node.name, true, false)
 			if lixo:
 				lixo.name = "lixo_" + osso_node.name
 				lixo.free()
 				
 			novo_skeleton.add_child(osso_node)
+			osso_node.bone_name = nome_ancora
 			
-			if osso_node.name == "BoneAttachment3D_Cabeca": osso_node.bone_name = nome_osso_cabeca
-			elif osso_node.name == "BoneAttachment3D": osso_node.bone_name = nome_osso_mao
-			else: osso_node.bone_name = dado["ancora"]
-			
-			# --- CORREÇÃO DO GODOT 4: FORÇA O VÍNCULO FÍSICO DO OSSO ---
-			var indice = novo_skeleton.find_bone(osso_node.bone_name)
-			print("OSSO DA MAO:", nome_osso_mao)
-			print("INDICE:", indice)
-			if indice != -1:
-				osso_node.bone_idx = indice 
-			
-			# --- CORREÇÃO DO GLTF: Reseta qualquer posição maluca ---
-			osso_node.transform = Transform3D() 
-			osso_node.scale = Vector3(1, 1, 1)
+			if osso_node.bone_name == "":
+				if osso_node.name == "BoneAttachment3D_Cabeca": osso_node.bone_name = "head"
+				elif osso_node.name == "BoneAttachment3D": osso_node.bone_name = "arm-left"
 
+	# Atualiza o visual base
 	_atualizar_arma_visivel()
 	_atualizar_chapeu_visivel()
+	
+	# Aplica as regras do Dark Souls
 	call_deferred("_forcar_visual_darksouls")
 	
-	# --- 5. REGRAS DE EASTER EGGS ---
+	# --- 5. LÓGICA FINAL DO BLOODBORNE (Esconder armas) ---
 	if Global.usando_set_bloodborne:
 		var osso_arma = find_child("BoneAttachment3D", true, false)
-		if osso_arma: osso_arma.visible = false
-			
-	if Global.usando_set_hollow_knight:
-		var arma_padrao_hk = find_child("Nail_Mesh", true, false)
-		if arma_padrao_hk: arma_padrao_hk.visible = false
-			
-	var eh_easter_egg = Global.usando_set_bloodborne or Global.usando_set_hollow_knight or Global.usando_set_kakashi
-	if eh_easter_egg:
-		var osso_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
-		if osso_chapeu: osso_chapeu.visible = false
-		
-	# --- CORREÇÃO DA INVISIBILIDADE ---
-	# --- FORÇA A ARMA A APARECER NOS BONECOS IA (AGRESSIVO) ---
-	if Global.usando_set_hollow_knight or Global.usando_set_kakashi:
-		var osso_arma = modelo_novo.find_child("BoneAttachment3D", true, false)
 		if osso_arma:
-			osso_arma.visible = true
-			osso_arma.scale = Vector3(1, 1, 1)
+			osso_arma.visible = false
 			
-			# Vai procurar a malha da espada dentro do osso e forçá-la a aparecer!
-			for filho in osso_arma.get_children():
-				if "scale" in filho:
-					
-					filho.scale = Vector3(0.33, 0.33, 0.33) # Tira a espada do tamanho microscópico, se for o caso
-
+		var osso_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
+		if osso_chapeu:
+			osso_chapeu.visible = false
 
 # --- NOVA FUNÇÃO (Copia também isto) ---
 func _forcar_visual_darksouls():
@@ -549,36 +521,25 @@ func _forcar_visual_darksouls():
 					pai = pai.get_parent()
 
 func _atualizar_arma_visivel():
-	var modelo_ativo = get_node_or_null("character-male-f2")
-	if not modelo_ativo: return 
-	
-	var ponto_arma = modelo_ativo.find_child("BoneAttachment3D", true, false)
+	# Lembra de procurar por BoneAttachment3D aqui também!
+	var ponto_arma = find_child("BoneAttachment3D", true, false)
 	if not ponto_arma: return 
 	
-	ponto_arma.visible = true 
-	
 	var id_arma = "Nenhuma"
-	
-	if Global.usando_set_bloodborne:
-		id_arma = "Nenhuma"
-	elif Global.personagem_jogado_atualmente == "avo_m":
+	if Global.personagem_jogado_atualmente == "avo_m":
 		id_arma = Global.equip_avo_m["arma"]
 	else:
 		id_arma = Global.equip_avo_f["arma"]
 		
 	for arma in ponto_arma.get_children():
-		if arma.name == id_arma and id_arma != "Nenhuma":
+		if arma.name == id_arma:
 			arma.show()
 		else:
 			arma.hide()
 
 func _atualizar_chapeu_visivel():
-	# 1. Pega EXCLUSIVAMENTE o modelo ativo
-	var modelo_ativo = get_node_or_null("character-male-f2")
-	if not modelo_ativo: return 
-	
-	# 2. Procura o osso do chapéu APENAS dentro dele
-	var ponto_chapeu = modelo_ativo.find_child("BoneAttachment3D_Cabeca", true, false)
+	# 1. Procura a pasta que segura os chapéus na cabeça do personagem
+	var ponto_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
 	if not ponto_chapeu: return 
 	
 	var id_chapeu = "Nenhum"
@@ -591,7 +552,7 @@ func _atualizar_chapeu_visivel():
 	else:
 		id_chapeu = Global.equip_avo_f.get("chapeu", "Nenhum")
 		
-	# Sincroniza a flag global para garantir que o jogo saiba 
+	# A CORREÇÃO ESTÁ AQUI: Sincroniza a flag global para garantir que o jogo saiba 
 	# que está usando o Hollow Knight mesmo ao carregar o save logo que abre o jogo
 	Global.usando_set_hollow_knight = (id_chapeu == "HollowKnight Head")
 		
@@ -602,28 +563,32 @@ func _atualizar_chapeu_visivel():
 		else:
 			chapeu.hide()
 			
-	# --- LIGA/DESLIGA AS OUTRAS PEÇAS DA ARMADURA ---
+	# --- 2. LIGA/DESLIGA AS OUTRAS PEÇAS DA ARMADURA (O SEGREDO ESTÁ AQUI) ---
 	var is_darksouls = Global.armadura_darksouls_desbloqueada and Global.usando_set_especial
 	
-	var head_mesh = modelo_ativo.find_child("head-mesh", true, false)
-	if not head_mesh: head_mesh = modelo_ativo.find_child("HeadMesh", true, false)
+	# Esconde ou mostra a cabeça careca do personagem
+	var head_mesh = find_child("head-mesh", true, false)
+	if not head_mesh: head_mesh = find_child("HeadMesh", true, false)
 	if head_mesh:
 		head_mesh.visible = not (is_darksouls or Global.usando_set_hollow_knight)
 		
+	# Procura os ossos do corpo onde a armadura está guardada
 	var ossos_armadura = [
-		modelo_ativo.find_child("BoneAttachment3D_torso", true, false),
-		modelo_ativo.find_child("BoneAttachment3D_leg_left", true, false),
-		modelo_ativo.find_child("BoneAttachment3D_leg_right", true, false),
-		modelo_ativo.find_child("BoneAttachment3D2", true, false)
+		find_child("BoneAttachment3D_torso", true, false),
+		find_child("BoneAttachment3D_leg_left", true, false),
+		find_child("BoneAttachment3D_leg_right", true, false),
+		find_child("BoneAttachment3D2", true, false)
 	]
 	
+	# Liga ou desliga tudo
 	for osso in ossos_armadura:
 		if osso:
 			osso.visible = is_darksouls
+			# Garante que as tuas malhas DarkS dentro do osso também obedeçam
 			for filho in osso.get_children():
 				if "visible" in filho:
 					filho.visible = is_darksouls
-
+					
 # ==========================================
 # EFEITOS VISUAIS E SHADERS
 # ==========================================

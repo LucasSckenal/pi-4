@@ -41,7 +41,7 @@ _subresources={
 "animations": {
 "Attack": {
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Personagens/Textures/Attack.res",
+"save_to_file/fallback_path": "res://Assets/Personagens/Animations/Running.anim",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "uid://bj5bc771cy24e",
 "settings/loop_mode": 0,
@@ -2097,9 +2097,9 @@ _subresources={
 },
 "Idle": {
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Personagens/Textures/Idle.res",
+"save_to_file/fallback_path": "res://Assets/Personagens/Animations/Triple_Combo_Attack.anim",
 "save_to_file/keep_custom_tracks": "",
-"save_to_file/path": "uid://c6t8ifl5vqtcw",
+"save_to_file/path": "uid://cjafkxkhk28g",
 "settings/loop_mode": 0,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
@@ -4153,7 +4153,7 @@ _subresources={
 },
 "Running": {
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Personagens/Textures/Running.res",
+"save_to_file/fallback_path": "res://Assets/Personagens/Animations/Walking.anim",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "uid://cflu4y8hxpwyn",
 "settings/loop_mode": 0,
@@ -6209,7 +6209,7 @@ _subresources={
 },
 "Triple_Combo_Attack": {
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Personagens/Textures/Triple_Combo_Attack.res",
+"save_to_file/fallback_path": "res://Assets/Personagens/Animations/Attack.anim",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "uid://c4bghyycu8fgh",
 "settings/loop_mode": 0,
@@ -8265,7 +8265,7 @@ _subresources={
 },
 "Walking": {
 "save_to_file/enabled": true,
-"save_to_file/fallback_path": "res://Personagens/Textures/Idle.res",
+"save_to_file/fallback_path": "res://Assets/Personagens/Animations/Idle.anim",
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "uid://c6t8ifl5vqtcw",
 "settings/loop_mode": 0,

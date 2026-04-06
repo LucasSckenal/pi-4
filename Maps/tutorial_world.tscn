@@ -20,10 +20,10 @@
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="11_e0en3"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="15_5f4a7"]
-[ext_resource type="PackedScene" path="res://Enemys/mushroom.tscn" id="16_hj1xp"]
+[ext_resource type="PackedScene" uid="uid://cid3a47wgbk7" path="res://Enemys/mushroom.tscn" id="16_hj1xp"]
 [ext_resource type="Texture2D" uid="uid://blfmrgwo1mg4f" path="res://Icons/MushroomPreview.png" id="17_gwkev"]
 [ext_resource type="PackedScene" uid="uid://cx752aosqwapy" path="res://Enemys/golem_boss.tscn" id="19_it188"]
-[ext_resource type="Texture2D" uid="uid://ctwihwfbfohj8" path="res://Icons/image-removebg-preview(4).png" id="20_gxr63"]
+[ext_resource type="Texture2D" uid="uid://bjq4gjwdlobb1" path="res://Icons/GolemBossPreview.png" id="20_it188"]
 
 [sub_resource type="Animation" id="Animation_bfgkp"]
 length = 0.001
@@ -430,7 +430,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_ucd3c")
 cena = ExtResource("19_it188")
 cor = Color(0, 1, 0, 1)
-icone = ExtResource("20_gxr63")
+icone = ExtResource("20_it188")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_dx84t"]

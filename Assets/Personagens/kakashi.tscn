@@ -48,7 +48,35 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[node name="Kakashi" unique_id=433330043 instance=ExtResource("1_5b2m5")]
+[node name="Kakashi" unique_id=1271149809 instance=ExtResource("1_5b2m5")]
 
-[node name="char1" parent="Armature/Skeleton3D" parent_id_path=PackedInt32Array(173185224) index="0" unique_id=1493561783]
+[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(486189935) index="0" unique_id=90981281]
+bones/0/position = Vector3(6.6258073, 17.972858, 35.38282)
+bones/0/rotation = Quaternion(0.8664901, 0.18253665, -0.11834951, -0.44929793)
+bones/0/scale = Vector3(1.0000001, 0.99999994, 0.9999999)
+bones/1/rotation = Quaternion(-0.80202955, 0.24450172, 0.079281874, 0.53914917)
+bones/2/rotation = Quaternion(0.6156394, 0.09400986, 0.005380183, 0.78238183)
+bones/3/rotation = Quaternion(-0.5962247, 0.02920448, 0.23007384, 0.7685892)
+bones/4/rotation = Quaternion(-0.4340926, 0.08608802, 0.017050495, 0.8965834)
+bones/5/rotation = Quaternion(-0.40273324, 0.73692393, 0.23073155, 0.49143887)
+bones/6/rotation = Quaternion(0.43442658, -0.085026994, -0.011878545, 0.89660627)
+bones/7/rotation = Quaternion(-0.46853316, -0.10512942, -0.28939727, 0.8280543)
+bones/8/rotation = Quaternion(-0.49756536, -0.092855476, -0.045099337, 0.8612623)
+bones/9/rotation = Quaternion(0.67185, -0.074050896, -0.6368681, 0.37085456)
+bones/10/rotation = Quaternion(0.06283754, -0.055731516, 0.032057974, 0.99595076)
+bones/11/rotation = Quaternion(0.0006717134, 0.009729044, -0.019442199, 0.9997635)
+bones/12/rotation = Quaternion(0.607854, 0.4521098, -0.39030737, 0.5232308)
+bones/13/rotation = Quaternion(0.5691288, 0.17016526, 0.13489015, 0.793058)
+bones/14/rotation = Quaternion(-0.38717672, 0.443416, 0.38532838, 0.71063256)
+bones/15/rotation = Quaternion(-0.07725198, 0.13964365, 0.54843175, 0.82082546)
+bones/16/rotation = Quaternion(-0.61344004, 0.45469397, -0.52559435, -0.37509385)
+bones/17/rotation = Quaternion(0.63367385, -0.20481643, -0.11285822, 0.7374082)
+bones/18/rotation = Quaternion(-0.118114166, -0.14030886, -0.17339393, 0.9676245)
+bones/19/rotation = Quaternion(0.12955272, -0.4465645, -0.17603688, 0.8676448)
+bones/20/rotation = Quaternion(-0.11321225, 0.122557394, 0.038892917, 0.9852158)
+bones/21/rotation = Quaternion(0.34455353, 0.13029878, -0.1234364, 0.9214492)
+bones/22/rotation = Quaternion(-0.2104357, 5.2033307e-08, -0.0030848512, 0.97760284)
+bones/23/rotation = Quaternion(0.5164113, -1.3481538e-08, 0.0075701578, 0.85630727)
+
+[node name="char1" parent="Armature/Skeleton3D" index="0" unique_id=297390384]
 mesh = SubResource("ArrayMesh_sc767")
