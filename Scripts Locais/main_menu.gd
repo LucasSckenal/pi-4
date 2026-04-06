@@ -47,11 +47,21 @@ func _instanciar_player_no_menu():
 		if player_instancia.has_method("_configurar_modelo_escolhido"):
 			player_instancia._configurar_modelo_escolhido()
 			
-		# Aplica o outline automático em todas as malhas [cite: 38]
+		call_deferred("_atualizar_estado_cabeca", player_instancia)
+			
+		# Aplica o outline automático em todas as malhas
 		_aplicar_outline_automatico(player_instancia)
 
+# Processa a visibilidade da malha da cabeca base garantindo o estado visual apos instanciar o modelo
+func _atualizar_estado_cabeca(player_instancia: Node):
+	if is_instance_valid(player_instancia):
+		var todos_os_nos = player_instancia.find_children("*", "", true, false)
+		for no in todos_os_nos:
+			if "head-mesh" in no.name.to_lower():
+				no.visible = not Global.usando_set_hollow_knight
+
 # ---------------------------------------------------------
-# BOTÕES DO MENU (Lógica original de animações restaurada) [cite: 37]
+# BOTÕES DO MENU (Lógica original de animações restaurada)
 # ---------------------------------------------------------
 
 func _on_btn_jogar_pressed():
@@ -91,7 +101,7 @@ func _voltar_para_menu_do_seletor():
 	menu_botoes.show()
 
 # ---------------------------------------------------------
-# SHADER DE OUTLINE (Lógica original de varredura) [cite: 38]
+# SHADER DE OUTLINE (Lógica original de varredura)
 # ---------------------------------------------------------
 const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 

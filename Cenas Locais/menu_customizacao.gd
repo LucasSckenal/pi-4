@@ -32,7 +32,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls", "Set Bloodborne", "Set Hollow Knight", "Set Kakashi"
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls", "Set Bloodborne", "HollowKnight Head", "Set Kakashi"
 ]
 
 func _ready():
@@ -63,6 +63,8 @@ func _instanciar_personagem():
 	if player_instanciado.has_method("_configurar_modelo_escolhido"):
 		player_instanciado.call("_configurar_modelo_escolhido")
 		
+	call_deferred("_atualizar_estado_cabeca")
+		
 
 func _input(event):
 	# 1. Detecta quando o jogador TOCA ou SOLTA a tela (Mobile) ou clica com o mouse (PC)
@@ -74,9 +76,9 @@ func _input(event):
 	# 2. Detecta o movimento de ARRASTAR o dedo na tela (Mobile) ou mover o mouse (PC)
 	if a_arrastar_rato:
 		if event is InputEventScreenDrag:
-			manequim_ponto.rotate_y(deg_to_rad(-event.relative.x * sensibilidade_rotacao))
+			manequim_ponto.rotate_y(-deg_to_rad(-event.relative.x * sensibilidade_rotacao))
 		elif event is InputEventMouseMotion:
-			manequim_ponto.rotate_y(deg_to_rad(-event.relative.x * sensibilidade_rotacao))
+			manequim_ponto.rotate_y(-deg_to_rad(-event.relative.x * sensibilidade_rotacao))
 
 # --- LÓGICA DE INTERFACE (UI em pt-br) ---
 
@@ -147,8 +149,9 @@ func _atualizar_botoes_genero():
 	btn_avo_f.disabled = (Global.personagem_jogado_atualmente == "avo_f")
 
 func _on_arma_selecionada(id_arma):
-	# Salva a arma no Global
-	Global.equipar_arma(Global.personagem_jogado_atualmente, id_arma)
+	# Equipar a mesma arma para ambos os personagens para manter sincronia
+	Global.equipar_arma("avo_m", id_arma)
+	Global.equipar_arma("avo_f", id_arma)
 	label_nome_item.text = _obter_nome_formatado(id_arma)
 	
 	if is_instance_valid(player_instanciado) and player_instanciado.has_method("_atualizar_arma_visivel"):
@@ -171,7 +174,7 @@ func _gerar_botoes_chapeus():
 			continue
 		
 		# Regra do Hollow Knight
-		if id == "Set Hollow Knight" and not Global.armadura_hollow_knight_desbloqueada:
+		if id == "HollowKnight Head" and not Global.armadura_hollow_knight_desbloqueada:
 			continue
 			
 		# Regra do Kakashi
@@ -200,15 +203,14 @@ func _on_chapeu_selecionado(id_chapeu):
 	# --- 1. LÓGICA DOS EASTER EGGS NO GLOBAL ---
 	Global.usando_set_especial = (id_chapeu == "Set Dark Souls")
 	Global.usando_set_bloodborne = (id_chapeu == "Set Bloodborne")
-	Global.usando_set_hollow_knight = (id_chapeu == "Set Hollow Knight")
 	Global.usando_set_kakashi = (id_chapeu == "Set Kakashi")
+	
+	Global.usando_set_hollow_knight = (id_chapeu == "HollowKnight Head")
 		
-	if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_hollow_knight or Global.usando_set_kakashi):
-		# Se for normal (nenhum Easter Egg)
-		if Global.personagem_jogado_atualmente == "avo_m":
-			Global.equip_avo_m["chapeu"] = id_chapeu
-		else:
-			Global.equip_avo_f["chapeu"] = id_chapeu
+	if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_kakashi):
+		# Equipar o mesmo chapeu para ambos os personagens para manter sincronia
+		Global.equip_avo_m["chapeu"] = id_chapeu
+		Global.equip_avo_f["chapeu"] = id_chapeu
 			
 	Global.salvar_progresso()
 	label_nome_item.text = _obter_nome_formatado(id_chapeu)
@@ -219,22 +221,22 @@ func _on_chapeu_selecionado(id_chapeu):
 			player_instanciado.call("_configurar_modelo_escolhido")
 			
 		# Só atualiza chapéus normais se não for Easter Egg
-		if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_hollow_knight or Global.usando_set_kakashi):
+		if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_kakashi):
 			if player_instanciado.has_method("_atualizar_chapeu_visivel"):
 				player_instanciado.call("_atualizar_chapeu_visivel")
+				
+		call_deferred("_atualizar_estado_cabeca")
 				
 	_gerar_botoes_chapeus()
 	
 	# --- 3. LÓGICA VISUAL EXCLUSIVA DO MENU 3D ---
 	var modelo_normal = find_child("character-male-f2", true, false) 
 	var modelo_bb = find_child("ModeloBloodborneMenu", true, false)
-	var modelo_hk = find_child("ModeloHollowKnightMenu", true, false)
 	var modelo_kak = find_child("ModeloKakashiMenu", true, false)
 	
 	# Esconde todos primeiro
 	if modelo_normal: modelo_normal.visible = false
 	if modelo_bb: modelo_bb.visible = false
-	if modelo_hk: modelo_hk.visible = false
 	if modelo_kak: modelo_kak.visible = false
 	
 	# Mostra apenas o selecionado
@@ -244,12 +246,6 @@ func _on_chapeu_selecionado(id_chapeu):
 			modelo_bb = _instanciar_easter_egg_menu(cena, "ModeloBloodborneMenu", modelo_normal)
 		modelo_bb.visible = true
 
-	elif Global.usando_set_hollow_knight:
-		if not modelo_hk:
-			var cena = load("res://Assets/Personagens/hollow_knight.tscn") 
-			modelo_hk = _instanciar_easter_egg_menu(cena, "ModeloHollowKnightMenu", modelo_normal)
-		modelo_hk.visible = true
-
 	elif Global.usando_set_kakashi:
 		if not modelo_kak:
 			var cena = load("res://Assets/Personagens/kakashi.tscn") 
@@ -258,6 +254,15 @@ func _on_chapeu_selecionado(id_chapeu):
 
 	else:
 		if modelo_normal: modelo_normal.visible = true
+
+
+# Processa a visibilidade da malha da cabeca base garantindo o estado visual apos qualquer configuracao interna do personagem
+func _atualizar_estado_cabeca():
+	if is_instance_valid(player_instanciado):
+		var todos_os_nos = player_instanciado.find_children("*", "", true, false)
+		for no in todos_os_nos:
+			if "head-mesh" in no.name.to_lower():
+				no.visible = not Global.usando_set_hollow_knight
 
 
 # --- FUNÇÃO AUXILIAR PARA NÃO REPETIR CÓDIGO ---
