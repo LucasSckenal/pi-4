@@ -12,7 +12,7 @@ const SOM_HIT = preload("res://Sons/EnemyHurt.wav")
 @export var raio_visao_construcao: float = 2.0
 @export var raio_visao_aliados: float = 1.0
 
-var vida: int = 100
+var vida: int = 120
 var esta_morto: bool = false
 var alvo_atual: Node3D = null
 var inimigo_focado: Node3D = null

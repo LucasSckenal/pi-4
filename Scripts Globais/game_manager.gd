@@ -11,6 +11,7 @@ signal upgrade_aplicado
 signal upgrade_base_aplicado
 signal renda_recolhida(total_ganho) # Para a UI mostrar "+X Moedas" de manhã
 signal game_over
+signal vitoria
 
 # ==========================================
 # ESTADO GLOBAL DO JOGO
@@ -32,6 +33,12 @@ var modo_dev: bool = false
 # BANCO DE DADOS DAS FASES
 # ==========================================
 var construcoes_permitidas_na_fase: Dictionary = {}
+
+# ==========================================
+# CONTROLO DOS SPAWNERS
+# ==========================================
+var total_spawners: int = 3 
+var spawners_concluidos: int = 0
 
 var banco_de_fases: Dictionary = {
 	1: {
@@ -134,20 +141,36 @@ func iniciar_dia(primeiro_dia: bool = false):
 
 func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
+	spawners_concluidos = 0
 	is_night = true
 	noite_iniciada.emit(onda_atual)
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
 
+func registrar_spawner_concluido():
+	spawners_concluidos += 1
+	print("Spawner concluído! Total: ", spawners_concluidos, "/", total_spawners)
+	
+	# Só termina a onda quando os 3 terminarem!
+	if spawners_concluidos >= total_spawners:
+		terminar_onda()
+		
 func terminar_onda():
 	if estado_atual == EstadoJogo.DIA: return 
 	
+	# Verifica se era a última onda da fase (Ex: fase 1 tem 5 ondas)
+	# Você pode definir esse valor no seu banco_de_fases [cite: 2]
+	var ultima_onda = 5 
+	
+	if onda_atual >= ultima_onda:
+		acionar_vitoria()
+		return
+
 	estado_atual = EstadoJogo.DIA
 	is_night = false
-	
 	onda_terminada.emit() 
 	
-	if onda_atual % 2 != 0: # Se impar? Receba carta (se fosse par quebraria o tutorial)
+	if onda_atual % 2 != 0: 
 		sortear_cartas()
 	
 	onda_atual += 1
@@ -280,6 +303,11 @@ func acionar_game_over():
 	print("Game Over acionado!")
 	game_over.emit() # Dispara o sinal para a HUD abrir a tela
 	get_tree().paused = true # Pausa o jogo (inimigos, tempo, torres)
+
+func acionar_vitoria():
+	print("Vitória acionada!")
+	vitoria.emit() 
+	get_tree().paused = true 
 
 func reiniciar_partida():
 	print("Reiniciando a partida...")

@@ -1,6 +1,6 @@
-[gd_scene format=4 uid="uid://cid3a47wgbk7"]
+[gd_scene format=4 uid="uid://0jci587j1mhe"]
 
-[ext_resource type="Script" path="res://Enemys/inimigo_base.gd" id="1_2qmqr"]
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_2qmqr"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_p3svf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txane"]
@@ -4965,7 +4965,7 @@ height = 0.3263855
 [node name="Mushroom" type="CharacterBody3D" unique_id=661191931 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_2qmqr")
 nome_inimigo = "Cogumelão"
-vida_maxima = 200
+vida_maxima = 450
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Walk"

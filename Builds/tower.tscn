@@ -11,8 +11,8 @@
 script = ExtResource("4_772tj")
 nome = "Morteiro"
 custos = Array[int]([5])
-dano_por_nivel = Array[int]([60])
-velocidade_por_nivel = Array[float]([-0.5])
+dano_por_nivel = Array[int]([150])
+velocidade_por_nivel = Array[float]([2.0])
 modelos_por_nivel = Array[PackedScene]([ExtResource("5_b4ib5")])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
@@ -20,6 +20,7 @@ metadata/_custom_type_script = "uid://cj7setbrccrxh"
 script = ExtResource("4_772tj")
 nome = "Sniper"
 custos = Array[int]([5])
+velocidade_por_nivel = Array[float]([0.0])
 alcance_por_nivel = Array[float]([2.0])
 modelos_por_nivel = Array[PackedScene]([ExtResource("6_k2ohk")])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
@@ -65,7 +66,9 @@ radius = 0.2290039
 [node name="unit-tower2" unique_id=1529538931 node_paths=PackedStringArray("indicador_alcance") instance=ExtResource("1_vedim")]
 script = ExtResource("2_ned14")
 custo_moedas = 3
-vida_maxima = 30
+vida_maxima = 500
+dano = 60
+tempo_ataque_base = 1.2
 alcance = 1.5
 cena_flecha = ExtResource("3_ned14")
 ponto_de_tiro = NodePath("PontoDeTiro")
@@ -94,6 +97,7 @@ autostart = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44771555, 0)
 
 [node name="IndicadorAlcance" type="MeshInstance3D" parent="." index="4" unique_id=930690582]
+visible = false
 mesh = SubResource("TorusMesh_hmmrv")
 
 [node name="AreaClique" type="Area3D" parent="." index="5" unique_id=1105837787]

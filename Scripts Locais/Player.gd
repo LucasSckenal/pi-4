@@ -328,7 +328,7 @@ func _criar_efeito_visual_corte():
             ALBEDO = slash_color.rgb;
             ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
         }
-    """
+	"""
 	
 	var material = ShaderMaterial.new()
 	material.shader = shader

@@ -85,7 +85,11 @@ func _esperar_limpeza():
 func _finalizar_onda():
 	print(name, " finalizando onda. Próxima onda: ", onda_atual + 1)
 	onda_atual += 1
-	GameManager.terminar_onda()
+	
+	# EM VEZ DE: GameManager.terminar_onda()
+	# AGORA USAMOS A NOVA FUNÇÃO:
+	GameManager.registrar_spawner_concluido()
+	
 	emitir_info()
 
 func emitir_info():

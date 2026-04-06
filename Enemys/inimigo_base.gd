@@ -9,6 +9,7 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export_category("Identificação do Inimigo")
 @export var tipo_inimigo: Categoria = Categoria.NORMAL
 @export var nome_inimigo: String = "Monstro Desconhecido"
+@export var eh_aereo: bool = false
 
 # ==========================================
 # CONFIGURAÇÕES
@@ -44,6 +45,7 @@ var esta_morto: bool = false
 var alvo_atual: Node3D = null
 var pode_atacar: bool = true
 var escala_original: Vector3
+var posicao_de_spawn: Vector3
 
 @onready var nav_agent = $NavigationAgent3D
 
@@ -167,15 +169,22 @@ func atacar():
 		await get_tree().create_timer(tempo_recarga_ataque).timeout
 		pode_atacar = true
 
-func receber_dano(qtd):
+func receber_dano(qtd, origem = "torre"):
 	if esta_morto: return
+	
+	# Se o inimigo for aéreo e a origem for o player, ignoramos o dano
+	if eh_aereo and origem == "player":
+		# Opcional: criar um efeito visual de "Miss" aqui
+		return 
+
 	vida_atual -= qtd
 	
-	# Atualiza a barra do Boss se ela existir na tela
+	# Atualiza a barra do Boss se ela existir
 	if barra_vida_boss:
 		var tw_barra = create_tween()
 		tw_barra.tween_property(barra_vida_boss, "value", vida_atual, 0.2).set_trans(Tween.TRANS_SINE)
 	
+	# Efeitos de som e visual (seu código original)
 	if som_dano_stream:
 		var som_hit = AudioStreamPlayer3D.new()
 		som_hit.stream = som_dano_stream
@@ -183,6 +192,15 @@ func receber_dano(qtd):
 		add_child(som_hit)
 		som_hit.play()
 		som_hit.finished.connect(som_hit.queue_free)
+	
+	# Feedback visual de piscar (seu código original) 
+	if modelo_3d:
+		var tw = create_tween()
+		tw.set_parallel(true)
+		tw.tween_property(modelo_3d, "scale", escala_original * 1.2, 0.1)
+		tw.chain().tween_property(modelo_3d, "scale", escala_original, 0.1)
+	
+	if vida_atual <= 0: morrer()
 	
 	if modelo_3d:
 		var tw = create_tween()

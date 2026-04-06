@@ -13,15 +13,16 @@
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="6_l2f7a"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="6_nnxgy"]
-[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="7_ro1kq"]
+[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Enemys/orc.tscn" id="7_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bsmufotireqrl" path="res://Gridmap/InvisibleTilesKit.meshlib" id="9_cg12i"]
-[ext_resource type="Resource" uid="uid://tdnreo806l35" path="res://Waves/wave1.tres" id="9_yane2"]
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_ucd3c"]
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="11_e0en3"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="15_5f4a7"]
-[ext_resource type="PackedScene" uid="uid://cid3a47wgbk7" path="res://Enemys/mushroom.tscn" id="16_hj1xp"]
+[ext_resource type="PackedScene" uid="uid://0jci587j1mhe" path="res://Enemys/mushroom.tscn" id="16_hj1xp"]
 [ext_resource type="Texture2D" uid="uid://blfmrgwo1mg4f" path="res://Icons/MushroomPreview.png" id="17_gwkev"]
+[ext_resource type="PackedScene" uid="uid://ttnjie5wa74a" path="res://Enemys/Bee.tscn" id="18_gwkev"]
+[ext_resource type="Texture2D" uid="uid://dkfkqq0yxns2b" path="res://Icons/BeePreview.png" id="19_gxr63"]
 [ext_resource type="PackedScene" uid="uid://cx752aosqwapy" path="res://Enemys/golem_boss.tscn" id="19_it188"]
 [ext_resource type="Texture2D" uid="uid://bjq4gjwdlobb1" path="res://Icons/GolemBossPreview.png" id="20_it188"]
 
@@ -326,116 +327,225 @@ agent_radius = 0.0
 region_merge_size = 5.0
 edge_max_error = 0.1
 
-[sub_resource type="Resource" id="Resource_bfgkp"]
+[sub_resource type="Resource" id="Resource_gtwgk"]
 script = ExtResource("10_ucd3c")
 cena = ExtResource("7_ro1kq")
-quantidade = 2
+quantidade = 6
+cor = Color(0, 0.28235295, 0, 1)
 icone = ExtResource("11_e0en3")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
-[sub_resource type="Resource" id="Resource_jr3je"]
+[sub_resource type="Resource" id="Resource_1adak"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp")])
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_gtwgk")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_gwkev"]
+[sub_resource type="Resource" id="Resource_flogr"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 4
+cor = Color(0, 0.21176471, 0, 1)
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_hj1xp"]
+script = ExtResource("6_l2f7a")
+nome_da_onda = "Onda 2"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_flogr")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_8eam0"]
 script = ExtResource("10_ucd3c")
 cena = ExtResource("16_hj1xp")
 quantidade = 3
+cor = Color(0, 0.313239, 0.31323883, 1)
 icone = ExtResource("17_gwkev")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_gwkev"]
+script = ExtResource("6_l2f7a")
+nome_da_onda = "Onda 3"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_8eam0")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_ysulq"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("16_hj1xp")
+quantidade = 3
+cor = Color(0, 0.23952305, 0.23952308, 1)
+icone = ExtResource("17_gwkev")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_cgfr2"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("18_gwkev")
+quantidade = 4
+cor = Color(0.6666067, 0.6666064, 7.70092e-07, 1)
+icone = ExtResource("19_gxr63")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_qmdqv"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_gwkev")])
+nome_da_onda = "Onda 4"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_ysulq"), SubResource("Resource_cgfr2")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_hj1xp"]
-script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+[sub_resource type="Resource" id="Resource_2r26d"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("19_it188")
+icone = ExtResource("20_it188")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_3xhf0"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("18_gwkev")
+quantidade = 6
+cor = Color(0.54510397, 0.5450415, 5.7756904e-07, 1)
+icone = ExtResource("19_gxr63")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_it188"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+nome_da_onda = "Onda Final"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_2r26d"), SubResource("Resource_3xhf0")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_gxr63"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_ucd3c"]
+[sub_resource type="Resource" id="Resource_7osw8"]
 script = ExtResource("10_ucd3c")
 cena = ExtResource("7_ro1kq")
-quantidade = 2
+quantidade = 4
+cor = Color(0, 0.2901961, 0, 1)
 icone = ExtResource("11_e0en3")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
-[sub_resource type="Resource" id="Resource_5f4a7"]
+[sub_resource type="Resource" id="Resource_vbs5l"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_ucd3c")])
+nome_da_onda = "Onda 2"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_7osw8")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_vbs5l"]
+[sub_resource type="Resource" id="Resource_2163i"]
 script = ExtResource("10_ucd3c")
-cena = ExtResource("16_hj1xp")
-quantidade = 3
-icone = ExtResource("17_gwkev")
+cena = ExtResource("7_ro1kq")
+quantidade = 4
+cor = Color(0, 0.32941177, 0, 1)
+icone = ExtResource("11_e0en3")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_6ak85"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_vbs5l")])
+nome_da_onda = "Onda 3"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_2163i")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_ie0f7"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 8
+cor = Color(0, 0.3019608, 0, 1)
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_03h73"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("16_hj1xp")
+quantidade = 2
+cor = Color(0, 0.4480524, 0.4480521, 1)
+icone = ExtResource("17_gwkev")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_csu6n"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+nome_da_onda = "Onda 4"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_ie0f7"), SubResource("Resource_03h73")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_il2bk"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 6
+cor = Color(0, 0.38039216, 0, 1)
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_csbm0"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("16_hj1xp")
+quantidade = 3
+cor = Color(0, 0.37576166, 0.37576166, 1)
+icone = ExtResource("17_gwkev")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_20gje"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
+nome_da_onda = "Onda Fiinal"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_il2bk"), SubResource("Resource_csbm0")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_a3xla"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_m1uej"]
+script = ExtResource("6_l2f7a")
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_afqxu"]
 script = ExtResource("10_ucd3c")
-cena = ExtResource("16_hj1xp")
-quantidade = 3
-icone = ExtResource("17_gwkev")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_ww2ee"]
-script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_m1uej")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_7oign"]
-script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_xas8i"]
-script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_7aht3"]
-script = ExtResource("10_ucd3c")
-cena = ExtResource("19_it188")
-cor = Color(0, 1, 0, 1)
-icone = ExtResource("20_it188")
+cena = ExtResource("18_gwkev")
+quantidade = 6
+cor = Color(0.71802807, 0.71802795, 0, 1)
+icone = ExtResource("19_gxr63")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_dx84t"]
 script = ExtResource("6_l2f7a")
-inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_bfgkp"), SubResource("Resource_gwkev"), SubResource("Resource_7aht3")])
+nome_da_onda = "Onda 3"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_afqxu")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_6tlvc"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("18_gwkev")
+quantidade = 6
+icone = ExtResource("19_gxr63")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_dodhq"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("7_ro1kq")
+quantidade = 4
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_7aht3"]
+script = ExtResource("6_l2f7a")
+nome_da_onda = "Onda 4"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_6tlvc"), SubResource("Resource_dodhq")])
+metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
+
+[sub_resource type="Resource" id="Resource_k6sui"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("18_gwkev")
+quantidade = 5
+icone = ExtResource("19_gxr63")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_wppfb"]
+script = ExtResource("10_ucd3c")
+cena = ExtResource("16_hj1xp")
+quantidade = 3
+icone = ExtResource("11_e0en3")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_6oh1h"]
+script = ExtResource("6_l2f7a")
+nome_da_onda = "Onda Final"
+inimigos = Array[ExtResource("10_ucd3c")]([SubResource("Resource_k6sui"), SubResource("Resource_wppfb")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nnxgy"]
@@ -537,23 +647,23 @@ bake_navigation = true
 data = {
 "cells": PackedInt32Array(-65532, 2, 655393, -65532, 0, 655393, -65532, 65534, 655393, -65530, 65534, 655393, -65530, 0, 655393, -65530, 2, 655393, -65530, 4, 655393, -65532, 4, 655393, -65528, 4, 655393, -65528, 2, 655393, -65528, 0, 655393, -65528, 65534, 655393, -65530, 65532, 655393, -65528, 65532, 655393, -65532, 6, 655393, -65530, 6, 655393, -65528, 6, 655393, -65534, 0, 1441809, -65534, 2, 1441809, -65534, 4, 1441809, -65534, 6, 1441809, -65536, 0, 1441825, -65536, 65534, 1441825, -2, 65534, 1441825, -65540, 65534, 1441825, -65538, 0, 1441825, -65538, 2, 1441825, -65540, 0, 1441825, -65540, 2, 1441825, -65540, 4, 1441825, -65540, 6, 1441825, -65540, 65532, 1441825, -65540, 65530, 1441825, -65536, 8, 1441825, -65534, 8, 1441825, -65532, 8, 1441825, -65530, 8, 1441825, -65528, 8, 1441825, -65540, 8, 1048609, -65540, 10, 1048609, -65538, 10, 1048609, -65534, 10, 1048609, -65536, 2, 1048609, -65536, 4, 1048609, -2, 4, 1048609, -2, 6, 1048609, -65536, 6, 1048609, -65532, 65532, 1048609, -65534, 65534, 1048609, -65534, 19, 1048593, -65532, 19, 1048593, -65536, 19, 1048593, -65530, 19, 1048593, -65528, 19, 1048593, -65542, 8, 1441825, -65542, 6, 1441825, -65542, 4, 1048593, -65542, 2, 1048593, -65542, 0, 1048593, -65542, 65534, 1048593, -65550, 65530, 1441825, -65550, 65532, 1441825, -65550, 65534, 1048593, -65550, 0, 1048593, -65550, 2, 1048593, -65550, 4, 1048593, -65550, 6, 1441825, -65550, 8, 1441825, -65538, 21, 1048592, -65538, 23, 1048592, -65538, 25, 1048592, -65538, 27, 1048592, -65536, 21, 1048609, -65534, 21, 1048609, -65532, 21, 1048609, -65536, 23, 1048609, -65534, 23, 1048609, -65532, 23, 1048609, -65536, 25, 1048609, -65536, 27, 1048609, -65534, 25, 1048609, -65534, 27, 1048609, -65532, 25, 1048609, -65532, 27, 1048609, -65530, 21, 1048609, -65528, 21, 1048609, -65530, 23, 1048609, -65530, 25, 1048609, -65530, 27, 1048609, -65528, 23, 1048609, -65528, 25, 1048609, -65528, 27, 1048609, -65538, 65526, 1048609, -65540, 65528, 1048609, -65542, 65530, 1048609, -65528, 65530, 1048609, -131070, 65512, 1048609, -131068, 65512, 1048609, -131066, 65512, 1048609, -131064, 65510, 1048609, -131066, 65510, 1048609, -131068, 65510, 1048609, -131070, 65510, 1048609, -131072, 65510, 1048609, -131072, 65512, 1048609, -65534, 65532, 33, -65536, 65532, 33, -2, 65532, 655393, -65536, 65530, 655393, -65532, 10, 1048609, -65536, 10, 1048609, -65538, 8, 1048609, -65538, 65530, 1048609, -65538, 65528, 1048609, -131072, 65528, 1048609, -131072, 65526, 1048609, -131070, 65528, 1048609, -131070, 65526, 1048609, -131068, 65528, 1048609, -131068, 65526, 1048609, -131066, 65528, 1048609, -131064, 65528, 1048609, -131064, 65526, 1048609, -131066, 65526, 1048609, -65530, 65530, 655393, -131070, 65514, 33, -131070, 65516, 33, -131068, 65514, 33, -131066, 65514, 33, -131066, 65516, 33, -131068, 65516, 33, -131068, 65518, 33, -131072, 65524, 1441825, -131070, 65524, 1441825, -131068, 65524, 1441825, -131066, 65524, 1441825, -65540, 65526, 1441825, -131064, 65512, 1441825, -131064, 65514, 1441825, -131072, 65514, 1441825, -131064, 65516, 1441825, -131072, 65516, 1441825, -65548, 2, 655393, -65548, 0, 655393, -65544, 4, 1441825, -65544, 2, 1441825, -65544, 0, 1441825, -65544, 65534, 1441825, -65542, 65532, 1441825)
 }
-metadata/_editor_floor_ = Vector3(0, -2, 0)
+metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="building-castle2" parent="NavigationRegion3D" unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)
 tem_barra_vida = true
 
-[node name="SpawnerInimigos" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
-transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.61954373, 0.28148788, 5.2015567)
-ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_jr3je"), SubResource("Resource_qmdqv"), SubResource("Resource_hj1xp"), SubResource("Resource_it188"), SubResource("Resource_gxr63")])
-
-[node name="SpawnerInimigos2" parent="NavigationRegion3D" unique_id=1325641903 instance=ExtResource("5_hfgki")]
-transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -5.213997)
-ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_5f4a7"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje"), SubResource("Resource_a3xla")])
-
-[node name="SpawnerInimigos3" parent="NavigationRegion3D" unique_id=1775097973 instance=ExtResource("5_hfgki")]
+[node name="Spawner A" parent="NavigationRegion3D" unique_id=1775097973 instance=ExtResource("5_hfgki")]
 transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, -3.1590438, -0.14955395, 0.35552764)
-ondas = Array[ExtResource("6_l2f7a")]([ExtResource("9_yane2"), SubResource("Resource_ww2ee"), SubResource("Resource_7oign"), SubResource("Resource_xas8i"), SubResource("Resource_dx84t")])
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_1adak"), SubResource("Resource_hj1xp"), SubResource("Resource_gwkev"), SubResource("Resource_qmdqv"), SubResource("Resource_it188")])
+
+[node name="Spawner B" parent="NavigationRegion3D" unique_id=1325641903 instance=ExtResource("5_hfgki")]
+transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.9510524, -0.08054459, -5.213997)
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_gxr63"), SubResource("Resource_vbs5l"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje")])
+
+[node name="Spawner C" parent="NavigationRegion3D" unique_id=423161848 instance=ExtResource("5_hfgki")]
+transform = Transform3D(0.47864592, 0, 0.878008, 0, 1, 0, -0.878008, 0, 0.47864592, 0.61954373, 0.28148788, 5.2015567)
+ondas = Array[ExtResource("6_l2f7a")]([SubResource("Resource_a3xla"), SubResource("Resource_m1uej"), SubResource("Resource_dx84t"), SubResource("Resource_7aht3"), SubResource("Resource_6oh1h")])
 
 [node name="WorldBoundaries" type="GridMap" parent="." unique_id=577249041 groups=["Barreiras"]]
 visible = false
@@ -561,9 +671,9 @@ mesh_library = ExtResource("9_cg12i")
 cell_size = Vector3(0.15, 0.15, 0.15)
 cell_scale = 0.33
 data = {
-"cells": PackedInt32Array(131074, 19, 196608, 131074, 20, 196608, 131074, 21, 196608, 131074, 22, 196608, 131077, 19, 196608, 131077, 20, 196608, 131077, 21, 196608, 131077, 22, 196608, 131077, 23, 196608, 131077, 24, 196608, 131077, 25, 196608, 131077, 26, 196608, 131074, 23, 196608, 131074, 24, 196608, 131074, 25, 196608, 131074, 26, 196608, 131074, 27, 196608, 131074, 28, 196608, 131074, 29, 196608, 131077, 27, 196608, 131077, 28, 196608, 131077, 29, 196608, 131077, 30, 196608, 131074, 30, 196608, 131074, 31, 196608, 131073, 31, 196608, 131077, 31, 196608, 196610, 31, 196608, 196609, 31, 196608, 196610, 30, 196608, 196610, 29, 196608, 196610, 28, 196608, 196610, 27, 196608, 196613, 31, 196608, 196613, 30, 196608, 196613, 29, 196608, 196613, 28, 196608, 196613, 27, 196608, 196613, 26, 196608, 196610, 19, 196608, 196610, 20, 196608, 196610, 21, 196608, 196610, 22, 196608, 196610, 23, 196608, 196610, 24, 196608, 196610, 25, 196608, 196610, 26, 196608, 196613, 25, 196608, 196613, 24, 196608, 196613, 23, 196608, 196613, 22, 196608, 196613, 21, 196608, 196613, 20, 196608, 196613, 19, 196608, 262146, 31, 196608, 262147, 31, 196608, 262148, 31, 196608, 262149, 31, 196608, 262149, 30, 196608, 262148, 29, 196608, 262147, 29, 196608, 262147, 30, 196608, 262146, 30, 196608, 262146, 29, 196608, 262148, 30, 196608, 262148, 28, 196608, 262149, 28, 196608, 262149, 29, 196608, 262149, 19, 196608, 262148, 19, 196608, 262147, 19, 196608, 262146, 19, 196608, 262146, 20, 196608, 262147, 20, 196608, 262148, 20, 196608, 262149, 20, 196608, 262149, 21, 196608, 262148, 21, 196608, 262147, 21, 196608, 262146, 21, 196608, 262146, 22, 196608, 262147, 22, 196608, 262148, 22, 196608, 262149, 22, 196608, 262149, 23, 196608, 262149, 24, 196608, 262148, 24, 196608, 262148, 23, 196608, 262147, 23, 196608, 262146, 23, 196608, 262146, 24, 196608, 262147, 24, 196608, 262147, 25, 196608, 262148, 25, 196608, 262148, 26, 196608, 262149, 26, 196608, 262149, 25, 196608, 262149, 27, 196608, 262148, 27, 196608, 262147, 27, 196608, 262146, 27, 196608, 262146, 26, 196608, 262147, 26, 196608, 262146, 25, 196608, 262147, 28, 196608, 262146, 28, 196608, 7, 65508, 196608, 7, 65509, 196608, 7, 65510, 196608, 4, 65508, 196608, 4, 65509, 196608, 4, 65510, 196608, 4, 65511, 196608, 7, 65512, 196608, 7, 65511, 196608, 7, 65513, 196608, 7, 65514, 196608, 4, 65512, 196608, 4, 65513, 196608, 4, 65514, 196608, 65540, 65514, 196608, 65540, 65513, 196608, 65540, 65512, 196608, 65540, 65511, 196608, 65540, 65510, 196608, 65540, 65509, 196608, 65540, 65508, 196608, 65543, 65514, 196608, 65543, 65513, 196608, 65543, 65512, 196608, 65543, 65511, 196608, 65543, 65510, 196608, 65543, 65509, 196608, 65543, 65508, 196608, -65527, 65508, 196608, -65528, 65508, 196608, -65529, 65508, 196608, -65532, 65508, 196608, 8, 65508, 196608, 9, 65508, 196608, 65544, 65508, 196608, 65545, 65508, 196608, 131076, 65508, 196608, 131077, 65508, 196608, 131078, 65508, 196608, 131079, 65508, 196608, 131079, 65509, 196608, 131078, 65509, 196608, 131077, 65509, 196608, 131076, 65509, 196608, 131076, 65514, 196608, 131077, 65514, 196608, 131078, 65514, 196608, 131079, 65514, 196608, 131079, 65513, 196608, 131078, 65513, 196608, 131077, 65513, 196608, 131076, 65513, 196608, 131076, 65512, 196608, 131077, 65512, 196608, 131078, 65512, 196608, 131079, 65512, 196608, 131079, 65511, 196608, 131078, 65511, 196608, 131077, 65511, 196608, 131076, 65511, 196608, 131076, 65510, 196608, 131077, 65510, 196608, 131078, 65510, 196608, 131079, 65510, 196608, -15, 0, 131072, -16, 0, 131072, -17, 0, 131072, -18, 0, 131072, -17, 4, 131072, -16, 4, 131072, -15, 4, 131072, 65521, 4, 131072, 65520, 4, 131072, 65519, 4, 131072, 65521, 0, 131072, 65520, 0, 131072, 65519, 0, 131072, -18, 4, 131072, 65518, 4, 131072, 65518, 0, 131072, 131057, 0, 131072, 131056, 0, 131072, 131055, 0, 131072, 131054, 0, 131072, 131054, 4, 131072, 131055, 4, 131072, 131056, 4, 131072, 131057, 4, 131072, 196593, 3, 131072, 196593, 2, 131072, 196593, 1, 131072, 196592, 1, 131072, 196592, 2, 131072, 196592, 3, 131072, 196591, 1, 131072, 196591, 2, 131072, 196591, 3, 131072, 196590, 3, 131072, 196590, 2, 131072, 196590, 1, 131072, -18, 5, 131072, 65518, 5, 131072, 131054, 5, 131072, -18, 65535, 131072, 65518, 65535, 131072, 131054, 65535, 131072, 196593, 4, 131072, 196592, 4, 131072, 196591, 4, 131072, 196590, 4, 131072, 196590, 0, 131072, 196591, 0, 131072, 196592, 0, 131072, 196593, 0, 131072, -131067, 65509, 131072, -131066, 65509, 131072, -131067, 65510, 131072, -131067, 65514, 131072, -131066, 65514, 131072, -131066, 65513, 131072, -131067, 65513, 131072, -131067, 65512, 131072, -131066, 65512, 131072, -131066, 65511, 131072, -131067, 65511, 131072, -131066, 65510, 131072, 3, 29, 131072, 4, 29, 131072, 4, 28, 131072, 3, 28, 131072, 3, 27, 131072, 4, 27, 131072, 3, 26, 131072, 4, 26, 131072, 3, 25, 131072, 4, 25, 131072, 3, 24, 131072, 4, 24, 131072, 3, 19, 131072, 4, 19, 131072, 4, 20, 131072, 3, 20, 131072, 3, 21, 131072, 4, 21, 131072, 3, 22, 131072, 4, 22, 131072, 4, 23, 131072, 3, 23, 131072, -65552, 1, 131072, -65552, 2, 131072, -65553, 1, 131072, -65553, 2, 131072, -65552, 3, 1441792, -65553, 3, 1441792, -65551, 1, 1441792, -65551, 2, 1441792, -65551, 3, 1441792, -65554, 3, 1441792, -65554, 2, 1441792, -65554, 1, 1441792, 131077, 32, 0, 131077, 33, 0, 131077, 34, 0, 131077, 35, 0, 131077, 36, 0, 131076, 36, 0, 131075, 36, 0, 131074, 36, 0, 131074, 32, 0, 131074, 33, 0, 131074, 34, 0, 131074, 35, 0, 196610, 32, 0, 196610, 33, 0, 196610, 34, 0, 196610, 35, 0, 196610, 36, 0, 196613, 32, 0, 196613, 33, 0, 196613, 34, 0, 196613, 35, 0, 196613, 36, 0, 196612, 36, 0, 196611, 36, 0, 262146, 32, 0, 262147, 32, 0, 262148, 32, 0, 262149, 32, 0, 262149, 33, 0, 262148, 33, 0, 262147, 33, 0, 262146, 33, 0, 262146, 34, 0, 262146, 35, 0, 262146, 36, 0, 262147, 36, 0, 262147, 35, 0, 262147, 34, 0, 262148, 34, 0, 262149, 34, 0, 262149, 35, 0, 262148, 35, 0, 262148, 36, 0, 262149, 36, 0)
+"cells": PackedInt32Array(131074, 19, 196608, 131074, 20, 196608, 131074, 21, 196608, 131074, 22, 196608, 131077, 19, 196608, 131077, 20, 196608, 131077, 21, 196608, 131077, 22, 196608, 131077, 23, 196608, 131077, 24, 196608, 131077, 25, 196608, 131077, 26, 196608, 131074, 23, 196608, 131074, 24, 196608, 131074, 25, 196608, 131074, 26, 196608, 131074, 27, 196608, 131074, 28, 196608, 131074, 29, 196608, 131077, 27, 196608, 131077, 28, 196608, 131077, 29, 196608, 131077, 30, 196608, 131074, 30, 196608, 131074, 31, 196608, 131073, 31, 196608, 131077, 31, 196608, 196610, 31, 196608, 196609, 31, 196608, 196610, 30, 196608, 196610, 29, 196608, 196610, 28, 196608, 196610, 27, 196608, 196613, 31, 196608, 196613, 30, 196608, 196613, 29, 196608, 196613, 28, 196608, 196613, 27, 196608, 196613, 26, 196608, 196610, 19, 196608, 196610, 20, 196608, 196610, 21, 196608, 196610, 22, 196608, 196610, 23, 196608, 196610, 24, 196608, 196610, 25, 196608, 196610, 26, 196608, 196613, 25, 196608, 196613, 24, 196608, 196613, 23, 196608, 196613, 22, 196608, 196613, 21, 196608, 196613, 20, 196608, 196613, 19, 196608, 262146, 31, 196608, 262147, 31, 196608, 262148, 31, 196608, 262149, 31, 196608, 262149, 30, 196608, 262148, 29, 196608, 262147, 29, 196608, 262147, 30, 196608, 262146, 30, 196608, 262146, 29, 196608, 262148, 30, 196608, 262148, 28, 196608, 262149, 28, 196608, 262149, 29, 196608, 262149, 19, 196608, 262148, 19, 196608, 262147, 19, 196608, 262146, 19, 196608, 262146, 20, 196608, 262147, 20, 196608, 262148, 20, 196608, 262149, 20, 196608, 262149, 21, 196608, 262148, 21, 196608, 262147, 21, 196608, 262146, 21, 196608, 262146, 22, 196608, 262147, 22, 196608, 262148, 22, 196608, 262149, 22, 196608, 262149, 23, 196608, 262149, 24, 196608, 262148, 24, 196608, 262148, 23, 196608, 262147, 23, 196608, 262146, 23, 196608, 262146, 24, 196608, 262147, 24, 196608, 262147, 25, 196608, 262148, 25, 196608, 262148, 26, 196608, 262149, 26, 196608, 262149, 25, 196608, 262149, 27, 196608, 262148, 27, 196608, 262147, 27, 196608, 262146, 27, 196608, 262146, 26, 196608, 262147, 26, 196608, 262146, 25, 196608, 262147, 28, 196608, 262146, 28, 196608, 7, 65508, 196608, 7, 65509, 196608, 7, 65510, 196608, 4, 65508, 196608, 4, 65509, 196608, 4, 65510, 196608, 4, 65511, 196608, 7, 65512, 196608, 7, 65511, 196608, 7, 65513, 196608, 7, 65514, 196608, 4, 65512, 196608, 4, 65513, 196608, 4, 65514, 196608, 65540, 65514, 196608, 65540, 65513, 196608, 65540, 65512, 196608, 65540, 65511, 196608, 65540, 65510, 196608, 65540, 65509, 196608, 65540, 65508, 196608, 65543, 65514, 196608, 65543, 65513, 196608, 65543, 65512, 196608, 65543, 65511, 196608, 65543, 65510, 196608, 65543, 65509, 196608, 65543, 65508, 196608, -65527, 65508, 196608, -65528, 65508, 196608, -65529, 65508, 196608, -65532, 65508, 196608, 8, 65508, 196608, 9, 65508, 196608, 65544, 65508, 196608, 65545, 65508, 196608, 131076, 65508, 196608, 131077, 65508, 196608, 131078, 65508, 196608, 131079, 65508, 196608, 131079, 65509, 196608, 131078, 65509, 196608, 131077, 65509, 196608, 131076, 65509, 196608, 131076, 65514, 196608, 131077, 65514, 196608, 131078, 65514, 196608, 131079, 65514, 196608, 131079, 65513, 196608, 131078, 65513, 196608, 131077, 65513, 196608, 131076, 65513, 196608, 131076, 65512, 196608, 131077, 65512, 196608, 131078, 65512, 196608, 131079, 65512, 196608, 131079, 65511, 196608, 131078, 65511, 196608, 131077, 65511, 196608, 131076, 65511, 196608, 131076, 65510, 196608, 131077, 65510, 196608, 131078, 65510, 196608, 131079, 65510, 196608, -131067, 65509, 131072, -131066, 65509, 131072, -131067, 65510, 131072, -131067, 65514, 131072, -131066, 65514, 131072, -131066, 65513, 131072, -131067, 65513, 131072, -131067, 65512, 131072, -131066, 65512, 131072, -131066, 65511, 131072, -131067, 65511, 131072, -131066, 65510, 131072, 3, 29, 131072, 4, 29, 131072, 4, 28, 131072, 3, 28, 131072, 3, 27, 131072, 4, 27, 131072, 3, 26, 131072, 4, 26, 131072, 3, 25, 131072, 4, 25, 131072, 3, 24, 131072, 4, 24, 131072, 3, 19, 131072, 4, 19, 131072, 4, 20, 131072, 3, 20, 131072, 3, 21, 131072, 4, 21, 131072, 3, 22, 131072, 4, 22, 131072, 4, 23, 131072, 3, 23, 131072, -65552, 1, 131072, -65552, 2, 131072, -65553, 1, 131072, -65553, 2, 131072, -65552, 3, 1441792, -65553, 3, 1441792, -65551, 1, 1441792, -65551, 2, 1441792, -65551, 3, 1441792, -65554, 3, 1441792, -65554, 2, 1441792, -65554, 1, 1441792, 131077, 32, 0, 131077, 33, 0, 131077, 34, 0, 131077, 35, 0, 131077, 36, 0, 131076, 36, 0, 131075, 36, 0, 131074, 36, 0, 131074, 32, 0, 131074, 33, 0, 131074, 34, 0, 131074, 35, 0, 196610, 32, 0, 196610, 33, 0, 196610, 34, 0, 196610, 35, 0, 196610, 36, 0, 196613, 32, 0, 196613, 33, 0, 196613, 34, 0, 196613, 35, 0, 196613, 36, 0, 196612, 36, 0, 196611, 36, 0, 262146, 32, 0, 262147, 32, 0, 262148, 32, 0, 262149, 32, 0, 262149, 33, 0, 262148, 33, 0, 262147, 33, 0, 262146, 33, 0, 262146, 34, 0, 262146, 35, 0, 262146, 36, 0, 262147, 36, 0, 262147, 35, 0, 262147, 34, 0, 262148, 34, 0, 262149, 34, 0, 262149, 35, 0, 262148, 35, 0, 262148, 36, 0, 262149, 36, 0, -65553, 0, 262144, -65552, 0, 262144, -65551, 0, 262144, -65554, 0, 262144, -65554, 65535, 262144, -65553, 65535, 262144, -65552, 65535, 262144, -65551, 65535, 262144, -65551, 65534, 262144, -65552, 65534, 262144, -65553, 65534, 262144, -65554, 65534, 262144, -65554, 4, 262144, -65553, 4, 262144, -65552, 4, 262144, -65551, 4, 262144, -65551, 5, 262144, -65552, 5, 262144, -65553, 5, 262144, -65554, 5, 262144, -18, 65534, 458752, -17, 65534, 458752, -16, 65534, 458752, -15, 65534, 458752, -65554, 6, 458752, -65553, 6, 458752, -65552, 6, 458752, -65551, 6, 458752, -15, 6, 458752, -16, 6, 458752, -17, 6, 458752, -18, 6, 458752, 65518, 6, 458752, 65519, 6, 458752, 65520, 6, 458752, 65521, 6, 458752, 65518, 65534, 458752, 65519, 65534, 458752, 65520, 65534, 458752, 65521, 65534, 458752, 131054, 65534, 458752, 131055, 65534, 458752, 131056, 65534, 458752, 131057, 65534, 458752, 131053, 7, 1441792, 131055, 6, 1441792, 131056, 6, 1441792, 131057, 6, 1441792, 131054, 6, 1441792)
 }
-metadata/_editor_floor_ = Vector3(0, 4, 0)
+metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="Decoration Gridmaps" type="Node3D" parent="." unique_id=1453969921]
 transform = Transform3D(0.9612617, -0.27563736, 0, 0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
@@ -575,7 +685,7 @@ cell_scale = 0.33
 data = {
 "cells": PackedInt32Array(-131077, 2, 1441807, -131077, 5, 1441807)
 }
-metadata/_editor_floor_ = Vector3(0, -3, 0)
+metadata/_editor_floor_ = Vector3(0, 7, 0)
 
 [node name="Ramp2" type="GridMap" parent="Decoration Gridmaps" unique_id=783966212]
 transform = Transform3D(0.06341025, 0.26824445, -0.9612617, 0.22113797, 0.9354796, 0.27563736, 0.97317886, -0.2300497, -4.2018083e-08, 0, 0, 0)
@@ -589,6 +699,7 @@ metadata/_editor_floor_ = Vector3(0, -3, 0)
 
 [node name="GridMapGroundExtra" type="GridMap" parent="Decoration Gridmaps" unique_id=972425214]
 transform = Transform3D(0.9612617, 0.27563736, 0, -0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
+visible = false
 mesh_library = ExtResource("3_7q0h5")
 cell_size = Vector3(0.25, 0.33, 0.25)
 cell_scale = 0.33
@@ -596,7 +707,7 @@ collision_layer = 2
 data = {
 "cells": PackedInt32Array(-65538, 12, 33, -131072, 12, 33, -131070, 12, 33, -131068, 12, 33, -131066, 12, 33, -131064, 12, 33, -131064, 10, 33, -131066, 10, 33, -131064, 17, 33, -131066, 17, 33, -131068, 17, 33, -131070, 17, 33, -131072, 17, 33, -65538, 17, 33, -65538, 19, 33, -131070, 65518, 33, -131066, 65518, 33, -65548, 4, 655393, -65548, 65534, 655393)
 }
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="GridMapExtra" type="GridMap" parent="Decoration Gridmaps" unique_id=1259580057]
 transform = Transform3D(0.9612617, 0.27563736, 0, -0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
@@ -605,9 +716,9 @@ cell_size = Vector3(0.25, 0.15, 0.25)
 cell_scale = 0.33
 collision_layer = 2
 data = {
-"cells": PackedInt32Array(2, 12, 655491, 2, 13, 655491, 2, 14, 655491, 2, 15, 655491, 2, 16, 655491, 2, 17, 655491, 2, 18, 655491, -131069, 65522, 131, -131069, 65521, 131, -131069, 65520, 131, -65546, 1, 1441923)
+"cells": PackedInt32Array(2, 12, 655491, 2, 13, 655491, 2, 14, 655491, 2, 15, 655491, 2, 16, 655491, 2, 17, 655491, 2, 18, 655491, -131069, 65522, 131, -131069, 65521, 131, -131069, 65520, 131, -65546, 1, 1441923, -65546, 2, 1441923, -65546, 0, 1441923)
 }
-metadata/_editor_floor_ = Vector3(0, -2, 0)
+metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="GridMapDeco" type="GridMap" parent="Decoration Gridmaps" unique_id=1582781914]
 transform = Transform3D(0.9612617, 0.27563736, 0, -0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
@@ -615,9 +726,9 @@ mesh_library = ExtResource("15_5f4a7")
 cell_size = Vector3(0.05, 0.33, 0.05)
 cell_scale = 0.33
 data = {
-"cells": PackedInt32Array(8, 88, 1048685, 16, 88, 1048685, 8, 83, 1048685, 8, 78, 1048685, 8, 73, 1048685, 8, 68, 1048685, 8, 63, 1048685, 8, 58, 1048685, 8, 93, 1048685, 16, 93, 1048685, 16, 83, 1048685, 16, 78, 1048685, 16, 73, 1048685, 16, 68, 1048685, 16, 63, 1048685, 16, 58, 1048685, -25, 65526, 655487, -31, 23, 1048703, -23, 42, 655487, 26, 65517, 655487, 14, 65519, 1048703, 39, 47, 127, 28, 46, 1441919, 41, 65509, 655506, -9, 97, 1441905, 65525, 104, 1441896, 65530, 104, 655462, 65535, 94, 1441896, -25, 32, 655487, 34, 50, 1048722, 31, 50, 1048716, 35, 65535, 655506, 33, 17, 655503, 44, 65505, 655493, 41, 65506, 655487, 39, 65511, 1048703, 32, 65535, 1048703, 34, 65533, 127, 31, 18, 127, 29, 16, 1441919, 31, 65534, 1048689, 41, 96, 1441938, 47, 101, 1441938, 40, 105, 1441938, 46, 109, 1441938, 39, 114, 1441938, 45, 120, 1441938, 37, 91, 1441935, 35, 101, 1441935, 34, 109, 1441935, 65526, 115, 1441938, 65531, 109, 1441938, 65525, 109, 1441935, 65528, 104, 1441935, 0, 99, 1441935, 0, 105, 1441938, 0, 93, 1441938, 30, 95, 1441938, 23, 100, 1441938, 28, 106, 1441938, 21, 111, 1441938, 29, 113, 1441938, 17, 118, 1441938, 24, 120, 1441938, 20, 126, 1441938, 42, 126, 1441938, 41, 134, 1441938, 34, 135, 1441938, 26, 128, 1441938, 30, 120, 1441935, 37, 122, 1441935, 18, 104, 1441935, 19, 93, 1441935, 18, 98, 1441919, 24, 93, 1048703, 15, 112, 127, 22, 96, 112, 16, 114, 655472, 23, 106, 655473, 15, 126, 1048689, 27, 93, 113, 5, 94, 1441905, 10, 101, 1441919, 3, 117, 655487, 8, 97, 655495, 65526, 65516, 1441896, 0, 65506, 1441896, 65526, 65530, 104, 65526, 34, 104, 65526, 20, 1441896, 65526, 65521, 1441902, 65526, 65525, 1441902, 65526, 25, 1441902, 65526, 29, 1441902, 65531, 65516, 655470, 0, 65511, 1441902, 65531, 34, 110, 0, 39, 1441902, 0, 44, 1441902, 0, 49, 1441902, 0, 54, 104, 5, 65506, 655470, -65505, 65418, 1048688, -65503, 65422, 112, -65511, 65411, 1441919, -65515, 65418, 655487, -65493, 65411, 655506, -65503, 65404, 655506, -65500, 65416, 655503, -65499, 65408, 655503, -65492, 65403, 655506, -65523, 65455, 1441901, -65523, 65460, 1441901, -65523, 65465, 1441901, -65523, 65470, 1441901, -65515, 65455, 1441901, -65515, 65460, 1441901, -65515, 65465, 1441901, -65515, 65470, 1441901, -65517, 65448, 655487, -65520, 65432, 1048703, -65515, 65441, 127, -65536, 65487, 1441919, -65516, 65482, 655487, -65525, 65495, 1048703, -65506, 65496, 1048703, -65505, 65490, 113, -65532, 65434, 146, -1, 65428, 146, -65530, 65415, 146, -65526, 65424, 146, -65531, 65427, 143, -1, 65418, 143, -65527, 65437, 143, -65491, 65420, 146, -65499, 65432, 146, -65492, 65442, 146, -65500, 65446, 146, -65490, 65429, 146, -65498, 65441, 143, -65491, 65436, 143, -65498, 65424, 143, -65501, 65442, 133, -65502, 65434, 127, -65501, 65426, 1441919, -65503, 65446, 655487, -65502, 65430, 1048689, -65526, 65449, 1048722, -65527, 65442, 1048722, -65532, 65439, 1048719, -65522, 65446, 1048719, -65504, 65451, 1048719, -56, 21, 1048722, -53, 12, 1441927, -63, 2, 1441919, -58, 11, 655487, -55, 65534, 1441932, -53, 65523, 1048719, -57, 16, 655474, -59, 5, 1048690, -53, 17, 1441906, -53, 27, 1441906, -53, 2, 1048690, -50, 11, 655469, -45, 11, 655469, -45, 3, 655469, -50, 3, 655469, -65498, 65497, 655472, -65492, 65497, 655506, -65502, 65477, 655506, -31, 65505, 1441896, -41, 65525, 1441896, -31, 65510, 1441902, -31, 65515, 1441902, -31, 65520, 1441902, -36, 65525, 655470, -26, 65505, 655470, -1, 65475, 1441896, -21, 65485, 1441896, -21, 65490, 1441902, -21, 65495, 1441902, -21, 65500, 1441902, -16, 65485, 655470, -11, 65485, 655470, -6, 65485, 655470, -1, 65480, 1441902, -41, 65530, 1441902, -41, 65535, 1441902, -41, 15, 1441902, -41, 20, 1441902, -41, 25, 104, -31, 45, 104, -21, 55, 104, -36, 25, 110, -31, 31, 1441902, -31, 40, 1441902, -31, 35, 1441902, -21, 50, 1441902, -26, 45, 110, -16, 55, 110, -10, 55, 110, -4, 55, 110, -65532, 65475, 655470, -65527, 65475, 655470, -65511, 65475, 655470, -65506, 65475, 655470, -65501, 65475, 655464, -65491, 65485, 655464, -65496, 65485, 655470, -65501, 65480, 1048686, -65491, 65490, 1048686, -65491, 65495, 1048686, -65491, 65500, 1048686, 4, 54, 110, 21, 54, 110, 25, 54, 1048680, 45, 45, 1048680, 40, 45, 110, 35, 45, 110, 30, 45, 110, 25, 50, 1048686, 40, 42, 1048722, 44, 28, 1048722, 45, 0, 1048722, 39, 65526, 1048722, 43, 65513, 1048719, 36, 65524, 1048709, 36, 65527, 1048703, 34, 65532, 127, 39, 65514, 1441919, 39, 19, 655487, 41, 31, 655472, 44, 21, 1048688, 40, 37, 1048688, 38, 36, 1048703, 42, 25, 1048703, 42, 19, 1048722, -56, 65529, 1048722)
+"cells": PackedInt32Array(8, 88, 1048685, 16, 88, 1048685, 8, 83, 1048685, 8, 78, 1048685, 8, 73, 1048685, 8, 68, 1048685, 8, 63, 1048685, 8, 58, 1048685, 8, 93, 1048685, 16, 93, 1048685, 16, 83, 1048685, 16, 78, 1048685, 16, 73, 1048685, 16, 68, 1048685, 16, 63, 1048685, 16, 58, 1048685, -25, 65526, 655487, -31, 23, 1048703, -23, 42, 655487, 26, 65517, 655487, 14, 65519, 1048703, 39, 47, 127, 28, 46, 1441919, 41, 65509, 655506, -9, 97, 1441905, 65525, 104, 1441896, 65530, 104, 655462, 65535, 94, 1441896, -25, 32, 655487, 34, 50, 1048722, 31, 50, 1048716, 35, 65535, 655506, 33, 17, 655503, 44, 65505, 655493, 41, 65506, 655487, 39, 65511, 1048703, 32, 65535, 1048703, 34, 65533, 127, 31, 18, 127, 29, 16, 1441919, 31, 65534, 1048689, 41, 96, 1441938, 47, 101, 1441938, 40, 105, 1441938, 46, 109, 1441938, 39, 114, 1441938, 45, 120, 1441938, 37, 91, 1441935, 35, 101, 1441935, 34, 109, 1441935, 65526, 115, 1441938, 65531, 109, 1441938, 65525, 109, 1441935, 65528, 104, 1441935, 0, 99, 1441935, 0, 105, 1441938, 0, 93, 1441938, 30, 95, 1441938, 23, 100, 1441938, 28, 106, 1441938, 21, 111, 1441938, 29, 113, 1441938, 17, 118, 1441938, 24, 120, 1441938, 20, 126, 1441938, 42, 126, 1441938, 41, 134, 1441938, 34, 135, 1441938, 26, 128, 1441938, 30, 120, 1441935, 37, 122, 1441935, 18, 104, 1441935, 19, 93, 1441935, 18, 98, 1441919, 24, 93, 1048703, 15, 112, 127, 22, 96, 112, 16, 114, 655472, 23, 106, 655473, 15, 126, 1048689, 27, 93, 113, 5, 94, 1441905, 10, 101, 1441919, 3, 117, 655487, 8, 97, 655495, 65526, 65516, 1441896, 0, 65506, 1441896, 65526, 65530, 104, 65526, 34, 104, 65526, 20, 1441896, 65526, 65521, 1441902, 65526, 65525, 1441902, 65526, 25, 1441902, 65526, 29, 1441902, 65531, 65516, 655470, 0, 65511, 1441902, 65531, 34, 110, 0, 39, 1441902, 0, 44, 1441902, 0, 49, 1441902, 0, 54, 104, 5, 65506, 655470, -65505, 65418, 1048688, -65503, 65422, 112, -65511, 65411, 1441919, -65515, 65418, 655487, -65493, 65411, 655506, -65503, 65404, 655506, -65500, 65416, 655503, -65499, 65408, 655503, -65492, 65403, 655506, -65523, 65455, 1441901, -65523, 65460, 1441901, -65523, 65465, 1441901, -65523, 65470, 1441901, -65515, 65455, 1441901, -65515, 65460, 1441901, -65515, 65465, 1441901, -65515, 65470, 1441901, -65517, 65448, 655487, -65520, 65432, 1048703, -65515, 65441, 127, -65536, 65487, 1441919, -65516, 65482, 655487, -65525, 65495, 1048703, -65506, 65496, 1048703, -65505, 65490, 113, -65532, 65434, 146, -1, 65428, 146, -65530, 65415, 146, -65526, 65424, 146, -65531, 65427, 143, -1, 65418, 143, -65527, 65437, 143, -65491, 65420, 146, -65499, 65432, 146, -65492, 65442, 146, -65500, 65446, 146, -65490, 65429, 146, -65498, 65441, 143, -65491, 65436, 143, -65498, 65424, 143, -65501, 65442, 133, -65502, 65434, 127, -65501, 65426, 1441919, -65503, 65446, 655487, -65502, 65430, 1048689, -65526, 65449, 1048722, -65527, 65442, 1048722, -65532, 65439, 1048719, -65522, 65446, 1048719, -65504, 65451, 1048719, -56, 21, 1048722, -63, 2, 1441919, -58, 11, 655487, -55, 65534, 1441932, -53, 65523, 1048719, -57, 16, 655474, -59, 5, 1048690, -53, 17, 1441906, -53, 27, 1441906, -53, 2, 1048690, -65498, 65497, 655472, -65492, 65497, 655506, -65502, 65477, 655506, -31, 65505, 1441896, -41, 65525, 1441896, -31, 65510, 1441902, -31, 65515, 1441902, -31, 65520, 1441902, -36, 65525, 655470, -26, 65505, 655470, -1, 65475, 1441896, -21, 65485, 1441896, -21, 65490, 1441902, -21, 65495, 1441902, -21, 65500, 1441902, -16, 65485, 655470, -11, 65485, 655470, -6, 65485, 655470, -1, 65480, 1441902, -41, 65530, 1441902, -41, 20, 1441902, -41, 25, 104, -31, 45, 104, -21, 55, 104, -36, 25, 110, -31, 31, 1441902, -31, 40, 1441902, -31, 35, 1441902, -21, 50, 1441902, -26, 45, 110, -16, 55, 110, -10, 55, 110, -4, 55, 110, -65532, 65475, 655470, -65527, 65475, 655470, -65511, 65475, 655470, -65506, 65475, 655470, -65501, 65475, 655464, -65491, 65485, 655464, -65496, 65485, 655470, -65501, 65480, 1048686, -65491, 65490, 1048686, -65491, 65495, 1048686, -65491, 65500, 1048686, 4, 54, 110, 21, 54, 110, 25, 54, 1048680, 45, 45, 1048680, 40, 45, 110, 35, 45, 110, 30, 45, 110, 25, 50, 1048686, 40, 42, 1048722, 44, 28, 1048722, 45, 0, 1048722, 39, 65526, 1048722, 43, 65513, 1048719, 36, 65524, 1048709, 36, 65527, 1048703, 34, 65532, 127, 39, 65514, 1441919, 39, 19, 655487, 41, 31, 655472, 44, 21, 1048688, 40, 37, 1048688, 38, 36, 1048703, 42, 25, 1048703, 42, 19, 1048722, -56, 65529, 1048722, -50, 65533, 109, -45, 65533, 109, -50, 16, 109, -45, 16, 109)
 }
-metadata/_editor_floor_ = Vector3(4, -2, 29)
+metadata/_editor_floor_ = Vector3(4, -1, 29)
 
 [node name="BuildSlots" type="Node3D" parent="." unique_id=1360951820]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.313, 0.2, -0.607)

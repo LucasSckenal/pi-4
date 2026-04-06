@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://brcbpr4i8gyhb"]
+
+[ext_resource type="Script" uid="uid://cksepmks7bla4" path="res://Cenas Locais/tela_vitoria.gd" id="1_khefl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.121569, 0.141176, 0.2, 0.95)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 0.843137, 0.2, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_size = 20
+
+[node name="TelaVitoria" type="CanvasLayer" unique_id=1117151793]
+process_mode = 3
+layer = 100
+script = ExtResource("1_khefl")
+
+[node name="FundoEscuro" type="ColorRect" parent="." unique_id=1570919255]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.784314)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1162077930]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Painel" type="PanelContainer" parent="CenterContainer" unique_id=1876434203]
+custom_minimum_size = Vector2(450, 350)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Painel" unique_id=1245791577]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/Painel/Margin" unique_id=843937757]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Titulo" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=1582266350]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.843137, 0.2, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 48
+text = "VITÓRIA!"
+horizontal_alignment = 1
+
+[node name="Subtitulo" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=741044298]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+theme_override_font_sizes/font_size = 20
+text = "Passou por todas as ondas!"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/Painel/Margin/VBox" unique_id=4379778]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="BtnProximaFase" type="Button" parent="CenterContainer/Painel/Margin/VBox" unique_id=255860932]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
+theme_override_font_sizes/font_size = 22
+text = "Próxima Fase"
+
+[node name="BtnMenu" type="Button" parent="CenterContainer/Painel/Margin/VBox" unique_id=728089227]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Menu Principal"

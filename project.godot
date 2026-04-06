@@ -37,6 +37,7 @@ folder_colors={
 "res://Conquistas/": "gray",
 "res://Enemys/": "red",
 "res://Map/": "purple",
+"res://Map2/": "purple",
 "res://Map3/": "purple",
 "res://Map4/": "purple",
 "res://Map5/": "purple",

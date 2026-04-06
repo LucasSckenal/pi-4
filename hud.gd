@@ -53,6 +53,12 @@ var torre_atual = null
 @export var cena_game_over: PackedScene
 var game_over_instance: Control = null
 
+# ==========================================
+# UI DE VITÓRIA
+# ==========================================
+@export var cena_vitoria: PackedScene
+var vitoria_instance: CanvasLayer = null
+
 func _ready():
 	add_to_group("Interface")
 	
@@ -121,7 +127,13 @@ func _ready():
 		add_child(game_over_instance)
 	else:
 		print("ERRO: cena_game_over não atribuída na HUD!")
-		
+	
+	if cena_vitoria:
+		vitoria_instance = cena_vitoria.instantiate()
+		add_child(vitoria_instance)
+	else:
+		print("ERRO: cena_vitoria não atribuída na HUD!")
+	
 	# Conecta o sinal de morte do GameManager à HUD
 	if GameManager.has_signal("game_over"):
 		GameManager.game_over.connect(_on_game_over_hud)	
