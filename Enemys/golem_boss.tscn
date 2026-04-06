@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://cx752aosqwapy"]
+
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_lnmdp"]
+[ext_resource type="PackedScene" uid="uid://c30vodubewr1a" path="res://Map/Golem_boss.glb" id="1_nf25m"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nf25m"]
+radius = 0.15429688
+height = 0.508976
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lnmdp"]
+radius = 0.28027344
+height = 0.5870495
+
+[node name="Golem_boss" type="CharacterBody3D" unique_id=1147192340 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+script = ExtResource("1_lnmdp")
+tipo_inimigo = 2
+nome_inimigo = "Golem de Musgo Ancestral"
+vida_maxima = 1000
+velocidade = 0.2
+forca_dano = 10
+modelo_3d = NodePath("Golem_boss")
+animation_player = NodePath("Golem_boss/AnimationPlayer")
+anim_atacar = "BeHit_FlyUp"
+anim_morrer = "Running"
+
+[node name="Golem_boss" parent="." unique_id=123190916 instance=ExtResource("1_nf25m")]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+
+[node name="Skeleton3D" parent="Golem_boss/Armature" parent_id_path=PackedInt32Array(123190916, 1363804557) index="0" unique_id=2108738814]
+bones/0/position = Vector3(0.75727916, 67.84702, 0.8773029)
+bones/0/rotation = Quaternion(-0.22209932, -0.008435048, -0.05419767, 0.9734801)
+bones/1/rotation = Quaternion(0.94941163, 0.1980441, -0.21609375, 0.11269258)
+bones/2/position = Vector3(6.7175606e-06, 30.452099, -4.7950543e-06)
+bones/2/rotation = Quaternion(0.6333092, 0.15322371, -0.12796253, 0.74770826)
+bones/3/position = Vector3(1.6776198e-06, 24.935991, -6.5784025e-07)
+bones/3/rotation = Quaternion(-0.3905729, 0.03924177, 0.16420935, 0.90495765)
+bones/4/rotation = Quaternion(-0.42298347, 0.0070751463, -0.016655214, 0.90595675)
+bones/5/rotation = Quaternion(0.98215425, -0.054825738, 0.17398767, -0.045778252)
+bones/6/position = Vector3(1.2548389e-06, 28.714983, 1.101917e-05)
+bones/6/rotation = Quaternion(0.3477617, -0.10227251, 0.077134214, 0.92879087)
+bones/7/position = Vector3(3.3109686e-06, 25.754074, -1.1039197e-06)
+bones/7/rotation = Quaternion(-0.4515823, 0.0009963914, -0.13190447, 0.88242495)
+bones/8/position = Vector3(1.3577842e-06, 17.389896, 1.5894908e-06)
+bones/8/rotation = Quaternion(-0.3992512, 0.01286383, 0.030838408, 0.9162325)
+bones/9/rotation = Quaternion(0.4109427, 0.008532619, 0.059659325, 0.9096671)
+bones/10/rotation = Quaternion(0.025443504, -0.018272474, 0.0152557, 0.9993929)
+bones/11/position = Vector3(3.3549964e-07, 7.6006436, 2.7619753e-06)
+bones/11/rotation = Quaternion(0.9840009, -0.0031408444, -0.013690984, 0.17760903)
+bones/12/position = Vector3(8.845344, -15.027067, -0.2753445)
+bones/12/rotation = Quaternion(-0.2850944, -0.5516036, -0.3156644, 0.7175031)
+bones/13/position = Vector3(3.1644845e-06, 35.734627, 7.1841896e-08)
+bones/13/rotation = Quaternion(0.23756813, 0.28644207, -0.15372624, 0.91535825)
+bones/14/position = Vector3(1.0397837e-06, 33.993298, -1.3449826e-06)
+bones/14/rotation = Quaternion(-0.06915031, -0.024504967, 0.07365694, 0.9945815)
+bones/15/position = Vector3(-4.015988e-06, 37.094204, 2.1443877e-05)
+bones/15/rotation = Quaternion(0.14158599, 0.1390268, -0.05035093, 0.9788206)
+bones/16/position = Vector3(-9.032079, -17.498354, -0.48719853)
+bones/16/rotation = Quaternion(-0.29209125, 0.5790644, 0.30828035, 0.6959384)
+bones/17/position = Vector3(-1.4946895e-06, 35.73166, 1.1777295e-06)
+bones/17/rotation = Quaternion(0.22418344, -0.23847426, 0.10595785, 0.9389595)
+bones/18/position = Vector3(1.0192607e-06, 30.850456, -7.603463e-06)
+bones/18/rotation = Quaternion(-0.062446646, 0.05378449, -0.12684357, 0.988493)
+bones/19/position = Vector3(1.3935467e-06, 36.937317, 1.7880466e-06)
+bones/19/rotation = Quaternion(0.18347509, -0.14520429, -0.02967644, 0.97178805)
+bones/20/position = Vector3(0.1867395, 2.4358428, 0.76255375)
+bones/20/rotation = Quaternion(0.9920847, -0.026113775, -0.03166552, -0.11867308)
+bones/21/position = Vector3(1.2704913e-06, 12.348798, -1.9225972e-06)
+bones/21/rotation = Quaternion(0.8505833, -0.010195864, -0.056385793, 0.5227091)
+bones/22/rotation = Quaternion(-0.40543154, 0.027525526, -0.0010431105, 0.9137104)
+bones/23/rotation = Quaternion(0.4087572, -0.02543329, 2.3083386e-07, 0.9122887)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=671809790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24257088, 0)
+visible = false
+shape = SubResource("CapsuleShape3D_nf25m")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=1344450118]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1307871208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2224741, -0.013764203)
+shape = SubResource("CapsuleShape3D_lnmdp")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1768218642]
+path_desired_distance = 1.5
+
+[editable path="Golem_boss"]

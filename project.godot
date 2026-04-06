@@ -35,6 +35,7 @@ window/size/window_height_override=720
 folder_colors={
 "res://Cenas Locais/": "gray",
 "res://Conquistas/": "gray",
+"res://Enemys/": "red",
 "res://Map/": "purple",
 "res://Map3/": "purple",
 "res://Map4/": "purple",
