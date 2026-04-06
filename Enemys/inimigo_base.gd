@@ -52,6 +52,8 @@ var posicao_de_spawn: Vector3
 # --- VARIÁVEIS DO BOSS ---
 var canvas_boss: CanvasLayer = null
 var barra_vida_boss: ProgressBar = null
+var barra_fantasma: ProgressBar = null  # A barra que "persegue" a vida real
+var label_vida: Label = null
 
 func _ready():
 	add_to_group("inimigos")
@@ -181,8 +183,22 @@ func receber_dano(qtd, origem = "torre"):
 	
 	# Atualiza a barra do Boss se ela existir
 	if barra_vida_boss:
+		# 1. Shake na barra (Tremidinha de impacto)
+		var original_pos = canvas_boss.get_child(0).position
+		var tw_shake = create_tween()
+		for i in range(4):
+			var offset = Vector2(randf_range(-5, 5), randf_range(-5, 5))
+			tw_shake.tween_property(canvas_boss.get_child(0), "position", original_pos + offset, 0.05)
+		tw_shake.tween_property(canvas_boss.get_child(0), "position", original_pos, 0.05)
+
+		# 2. Tween da Barra Principal (Rápido)
 		var tw_barra = create_tween()
-		tw_barra.tween_property(barra_vida_boss, "value", vida_atual, 0.2).set_trans(Tween.TRANS_SINE)
+		tw_barra.tween_property(barra_vida_boss, "value", vida_atual, 0.1).set_trans(Tween.TRANS_QUINT)
+		
+		# 3. Tween da Barra Fantasma (Lento, com atraso)
+		var tw_fantasma = create_tween()
+		tw_fantasma.tween_interval(0.4) # Espera um pouco antes de cair
+		tw_fantasma.tween_property(barra_fantasma, "value", vida_atual, 0.8).set_trans(Tween.TRANS_SINE)
 	
 	# Efeitos de som e visual (seu código original)
 	if som_dano_stream:
@@ -247,51 +263,90 @@ func morrer():
 # GERAÇÃO DA INTERFACE DO BOSS
 # ==========================================
 func _criar_interface_do_boss():
-	# 1. Cria a camada que fica por cima de tudo na tela
+	# 1. Camada e Margens
 	canvas_boss = CanvasLayer.new()
 	canvas_boss.layer = 10 
 	add_child(canvas_boss)
 	
-	# 2. Cria as margens para não colar nas bordas
 	var margin = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	margin.add_theme_constant_override("margin_top", 40)
-	margin.add_theme_constant_override("margin_left", 200)
-	margin.add_theme_constant_override("margin_right", 200)
+	margin.add_theme_constant_override("margin_top", 50)
+	margin.add_theme_constant_override("margin_left", 250)
+	margin.add_theme_constant_override("margin_right", 250)
 	canvas_boss.add_child(margin)
 	
 	var vbox = VBoxContainer.new()
 	margin.add_child(vbox)
 	
-	# 3. Cria o Nome do Boss
+	# 2. Nome do Boss
 	var label_nome = Label.new()
-	label_nome.text = "☠️ " + nome_inimigo + " ☠️"
+	label_nome.text =   nome_inimigo.to_upper() 
 	label_nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label_nome.add_theme_font_size_override("font_size", 28)
-	label_nome.add_theme_color_override("font_color", Color(1, 0.8, 0.2)) # Cor Dourada
-	label_nome.add_theme_color_override("font_shadow_color", Color.BLACK)
+	label_nome.add_theme_font_size_override("font_size", 24)
 	vbox.add_child(label_nome)
-	
-	# 4. Cria a Barra de Vida
+
+	# 3. Container da Barra
+	var bar_container = Control.new()
+	bar_container.custom_minimum_size = Vector2(0, 30) # Altura da barra
+	vbox.add_child(bar_container)
+
+	# --- ESTILO ARREDONDADO (Pílula) ---
+	var raio_curvatura = 15 
+
+	var estilo_fundo = StyleBoxFlat.new()
+	estilo_fundo.bg_color = Color(0, 0, 0, 0.7)
+	estilo_fundo.set_corner_radius_all(raio_curvatura)
+	# Margens individuais para evitar erro de função inexistente
+	estilo_fundo.expand_margin_left = 3
+	estilo_fundo.expand_margin_right = 3
+	estilo_fundo.expand_margin_top = 3
+	estilo_fundo.expand_margin_bottom = 3
+
+	var estilo_fantasma = StyleBoxFlat.new()
+	estilo_fantasma.bg_color = Color(1, 1, 1, 0.6)
+	estilo_fantasma.set_corner_radius_all(raio_curvatura)
+
+	# AQUI ESTAVA O ERRO: Nomeada como estilo_vida
+	var estilo_vida = StyleBoxFlat.new()
+	estilo_vida.bg_color = Color(0.8, 0.1, 0.1)
+	estilo_vida.set_corner_radius_all(raio_curvatura)
+
+	# 4. Instanciando as Barras
+	barra_fantasma = ProgressBar.new()
+	barra_fantasma.set_anchors_preset(Control.PRESET_FULL_RECT)
+	barra_fantasma.max_value = vida_maxima
+	barra_fantasma.value = vida_atual
+	barra_fantasma.show_percentage = false
+	barra_fantasma.add_theme_stylebox_override("background", estilo_fundo)
+	barra_fantasma.add_theme_stylebox_override("fill", estilo_fantasma)
+	bar_container.add_child(barra_fantasma)
+
 	barra_vida_boss = ProgressBar.new()
+	barra_vida_boss.set_anchors_preset(Control.PRESET_FULL_RECT)
 	barra_vida_boss.max_value = vida_maxima
 	barra_vida_boss.value = vida_atual
-	barra_vida_boss.custom_minimum_size = Vector2(0, 30)
 	barra_vida_boss.show_percentage = false
+	barra_vida_boss.add_theme_stylebox_override("background", StyleBoxEmpty.new())
+	# CORRIGIDO: Agora usando o nome correto da variável declarada acima
+	barra_vida_boss.add_theme_stylebox_override("fill", estilo_vida)
+	bar_container.add_child(barra_vida_boss)
+
+	# --- ADICIONANDO OS 3 SEPARADORES ---
+	var divisores_container = HBoxContainer.new()
+	divisores_container.set_anchors_preset(Control.PRESET_FULL_RECT)
+	divisores_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar_container.add_child(divisores_container)
 	
-	# Estilo visual da barra (Fundo escuro, preenchimento Vermelho)
-	var estilo_fundo = StyleBoxFlat.new()
-	estilo_fundo.bg_color = Color(0.1, 0.1, 0.1, 0.8)
-	estilo_fundo.border_width_bottom = 2
-	estilo_fundo.border_width_top = 2
-	estilo_fundo.border_width_left = 2
-	estilo_fundo.border_width_right = 2
-	estilo_fundo.border_color = Color(0, 0, 0, 1)
+	for i in range(3): 
+		var espaco = Control.new()
+		espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		divisores_container.add_child(espaco)
+		
+		var linha = ColorRect.new()
+		linha.color = Color(0, 0, 0, 0.5) 
+		linha.custom_minimum_size = Vector2(2, 0)
+		divisores_container.add_child(linha)
 	
-	var estilo_cheio = StyleBoxFlat.new()
-	estilo_cheio.bg_color = Color(0.8, 0.1, 0.1, 1) # Vermelho Boss
-	
-	barra_vida_boss.add_theme_stylebox_override("background", estilo_fundo)
-	barra_vida_boss.add_theme_stylebox_override("fill", estilo_cheio)
-	
-	vbox.add_child(barra_vida_boss)
+	var final_espaco = Control.new()
+	final_espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	divisores_container.add_child(final_espaco)

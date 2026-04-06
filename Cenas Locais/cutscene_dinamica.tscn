@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://bnpysum456ai5"]
+
+[ext_resource type="Script" uid="uid://ckw26womkvsi2" path="res://Cenas Locais/cutscene_dinamica.gd" id="1_k0nrk"]
+
+[sub_resource type="Animation" id="Animation_revelar"]
+resource_name = "animacao_cutscene"
+length = 10.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cutscene"]
+_data = {
+&"animacao_cutscene": SubResource("Animation_revelar")
+}
+
+[node name="CutsceneAnimada" type="CanvasLayer" unique_id=425576521]
+script = ExtResource("1_k0nrk")
+
+[node name="FundoPreto" type="ColorRect" parent="." unique_id=1738886403]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Pagina" type="Control" parent="." unique_id=1395521113]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layer1_Fundo" type="TextureRect" parent="Pagina" unique_id=1044281935]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Layer2_Personagens" type="TextureRect" parent="Pagina" unique_id=854428049]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Layer3_Efeito" type="TextureRect" parent="Pagina" unique_id=183612252]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="FundoLegenda" type="ColorRect" parent="." unique_id=660912641]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -120.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.862745)
+
+[node name="TextoLegenda" type="Label" parent="FundoLegenda" unique_id=1927257489]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 20.0
+offset_right = -40.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="VozIA" type="AudioStreamPlayer" parent="." unique_id=234050039]
+
+[node name="AvisoPular" type="Label" parent="." unique_id=176531788]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -160.0
+offset_right = -30.0
+offset_bottom = -130.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.65, 0.65, 0.65, 1)
+theme_override_font_sizes/font_size = 18
+text = "Pular >>"
+horizontal_alignment = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=349221278]
+libraries/ = SubResource("AnimationLibrary_cutscene")
