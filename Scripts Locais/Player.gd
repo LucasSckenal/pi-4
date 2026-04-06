@@ -297,7 +297,7 @@ func _criar_efeito_visual_corte():
 	# Shader adaptada para Spatial (3D) baseada na lógica fornecida
 	var shader = Shader.new()
 	shader.code = """
-		shader_type spatial;
+        shader_type spatial;
         render_mode unshaded, cull_disabled;
 
         uniform sampler2D tex_albedo;
@@ -329,7 +329,7 @@ func _criar_efeito_visual_corte():
             ALBEDO = slash_color.rgb;
             ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
         }
-	"""
+    """
 	
 	var material = ShaderMaterial.new()
 	material.shader = shader
@@ -525,7 +525,7 @@ func _forcar_visual_darksouls():
 		# 1. ESCONDE A CABEÇA NORMAL
 		if "head-mesh" in nome_min or "headmesh" in nome_min:
 			if "visible" in no:
-				no.visible = not is_darksouls
+				no.visible = not (is_darksouls or Global.usando_set_hollow_knight)
 				
 		if "body-mesh" in nome_min or "bodymesh" in nome_min:
 			if "visible" in no:
@@ -591,6 +591,11 @@ func _atualizar_chapeu_visivel():
 	else:
 		id_chapeu = Global.equip_avo_f.get("chapeu", "Nenhum")
 		
+	# Sincroniza a flag global para garantir que o jogo saiba 
+	# que está usando o Hollow Knight mesmo ao carregar o save logo que abre o jogo
+	Global.usando_set_hollow_knight = (id_chapeu == "HollowKnight Head")
+		
+	# Passa por todos os chapéus e só mostra o escolhido (Capacete Dark Souls ou chapéu normal)
 	for chapeu in ponto_chapeu.get_children():
 		if chapeu.name == id_chapeu and id_chapeu != "Nenhum" and id_chapeu != "":
 			chapeu.show()
@@ -603,7 +608,7 @@ func _atualizar_chapeu_visivel():
 	var head_mesh = modelo_ativo.find_child("head-mesh", true, false)
 	if not head_mesh: head_mesh = modelo_ativo.find_child("HeadMesh", true, false)
 	if head_mesh:
-		head_mesh.visible = not is_darksouls
+		head_mesh.visible = not (is_darksouls or Global.usando_set_hollow_knight)
 		
 	var ossos_armadura = [
 		modelo_ativo.find_child("BoneAttachment3D_torso", true, false),
@@ -618,6 +623,7 @@ func _atualizar_chapeu_visivel():
 			for filho in osso.get_children():
 				if "visible" in filho:
 					filho.visible = is_darksouls
+
 # ==========================================
 # EFEITOS VISUAIS E SHADERS
 # ==========================================
