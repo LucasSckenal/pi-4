@@ -150,6 +150,7 @@ script = ExtResource("1_mnp6r")
 [node name="AreaInterativa" type="Control" parent="." unique_id=1166497661]
 custom_minimum_size = Vector2(600, 300)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="HBoxZoom" type="HBoxContainer" parent="AreaInterativa" unique_id=1023938532]
 layout_mode = 0
@@ -191,7 +192,6 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="BtnLupaMais" type="Button" parent="AreaInterativa/HBoxZoom/VBoxLupas" unique_id=809546924]
-z_index = 1000
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 mouse_default_cursor_shape = 2
