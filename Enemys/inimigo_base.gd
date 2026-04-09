@@ -263,11 +263,12 @@ func morrer():
 # GERAÇÃO DA INTERFACE DO BOSS
 # ==========================================
 func _criar_interface_do_boss():
-	# 1. Camada e Margens
+	# 1. Criação da Camada (CanvasLayer) para ficar sempre acima do jogo
 	canvas_boss = CanvasLayer.new()
 	canvas_boss.layer = 10 
 	add_child(canvas_boss)
 	
+	# Container de Margens para posicionar no topo
 	var margin = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	margin.add_theme_constant_override("margin_top", 50)
@@ -276,42 +277,54 @@ func _criar_interface_do_boss():
 	canvas_boss.add_child(margin)
 	
 	var vbox = VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 2)
 	margin.add_child(vbox)
 	
-	# 2. Nome do Boss
+	# 2. Nome do Boss com Estética de RPG
 	var label_nome = Label.new()
-	label_nome.text =   nome_inimigo.to_upper() 
+	label_nome.text = "☠️ " + nome_inimigo.to_upper() + " ☠️"
 	label_nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label_nome.add_theme_font_size_override("font_size", 24)
+	label_nome.add_theme_color_override("font_color", Color(1, 0.2, 0.2)) # Vermelho Intenso
+	label_nome.add_theme_color_override("font_outline_color", Color.BLACK)
+	label_nome.add_theme_constant_override("outline_size", 8)
 	vbox.add_child(label_nome)
 
-	# 3. Container da Barra
+	# 3. Container para as barras (permite sobrepor uma à outra)
 	var bar_container = Control.new()
 	bar_container.custom_minimum_size = Vector2(0, 30) # Altura da barra
 	vbox.add_child(bar_container)
 
-	# --- ESTILO ARREDONDADO (Pílula) ---
-	var raio_curvatura = 15 
+	# --- CONFIGURAÇÃO DE ESTILOS (Bordas Redondas e Premium) ---
+	var raio_curvatura = 15 # Estilo Pílula
 
+	# Estilo do Fundo (Borda metálica e sombra)
 	var estilo_fundo = StyleBoxFlat.new()
-	estilo_fundo.bg_color = Color(0, 0, 0, 0.7)
+	estilo_fundo.bg_color = Color(0.05, 0.05, 0.05, 0.8)
 	estilo_fundo.set_corner_radius_all(raio_curvatura)
-	# Margens individuais para evitar erro de função inexistente
-	estilo_fundo.expand_margin_left = 3
-	estilo_fundo.expand_margin_right = 3
-	estilo_fundo.expand_margin_top = 3
-	estilo_fundo.expand_margin_bottom = 3
+	estilo_fundo.border_width_left = 2
+	estilo_fundo.border_width_right = 2
+	estilo_fundo.border_width_top = 2
+	estilo_fundo.border_width_bottom = 2
+	estilo_fundo.border_color = Color(0.3, 0.3, 0.3) # Prateado escuro
+	estilo_fundo.expand_margin_left = 4
+	estilo_fundo.expand_margin_right = 4
+	estilo_fundo.expand_margin_top = 4
+	estilo_fundo.expand_margin_bottom = 4
 
+	# Estilo da Barra Fantasma (Branco suave)
 	var estilo_fantasma = StyleBoxFlat.new()
-	estilo_fantasma.bg_color = Color(1, 1, 1, 0.6)
+	estilo_fantasma.bg_color = Color(1, 1, 1, 0.5)
 	estilo_fantasma.set_corner_radius_all(raio_curvatura)
 
-	# AQUI ESTAVA O ERRO: Nomeada como estilo_vida
+	# Estilo da Barra de Vida (Vermelho com brilho no topo)
 	var estilo_vida = StyleBoxFlat.new()
-	estilo_vida.bg_color = Color(0.8, 0.1, 0.1)
+	estilo_vida.bg_color = Color(0.8, 0, 0)
 	estilo_vida.set_corner_radius_all(raio_curvatura)
+	estilo_vida.border_width_top = 3
+	estilo_vida.border_color = Color(1, 0.3, 0.3, 0.3) # Brilho interno "Glass"
 
-	# 4. Instanciando as Barras
+	# 4. Instanciar as ProgressBars
 	barra_fantasma = ProgressBar.new()
 	barra_fantasma.set_anchors_preset(Control.PRESET_FULL_RECT)
 	barra_fantasma.max_value = vida_maxima
@@ -327,26 +340,30 @@ func _criar_interface_do_boss():
 	barra_vida_boss.value = vida_atual
 	barra_vida_boss.show_percentage = false
 	barra_vida_boss.add_theme_stylebox_override("background", StyleBoxEmpty.new())
-	# CORRIGIDO: Agora usando o nome correto da variável declarada acima
 	barra_vida_boss.add_theme_stylebox_override("fill", estilo_vida)
 	bar_container.add_child(barra_vida_boss)
 
-	# --- ADICIONANDO OS 3 SEPARADORES ---
+	# 5. Adicionar exatamente 3 separadores (dividindo em 4 partes)
 	var divisores_container = HBoxContainer.new()
 	divisores_container.set_anchors_preset(Control.PRESET_FULL_RECT)
 	divisores_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bar_container.add_child(divisores_container)
 	
-	for i in range(3): 
+	for i in range(3):
 		var espaco = Control.new()
 		espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		divisores_container.add_child(espaco)
 		
 		var linha = ColorRect.new()
-		linha.color = Color(0, 0, 0, 0.5) 
+		linha.color = Color(0, 0, 0, 0.4) # Separador discreto
 		linha.custom_minimum_size = Vector2(2, 0)
 		divisores_container.add_child(linha)
 	
 	var final_espaco = Control.new()
 	final_espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	divisores_container.add_child(final_espaco)
+
+	# 6. Efeito de Brilho Pulsante (Animação constante)
+	var tw_glow = create_tween().set_loops()
+	tw_glow.tween_property(bar_container, "modulate:v", 1.2, 1.0)
+	tw_glow.tween_property(bar_container, "modulate:v", 1.0, 1.0)

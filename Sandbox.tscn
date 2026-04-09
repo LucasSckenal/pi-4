@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bbsjw4ntde1li"]
+
+[ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_vrv26"]
+[ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
+[ext_resource type="PackedScene" uid="uid://be7edqt2mmq5q" path="res://Builds/quartel.tscn" id="4_vrv26"]
+
+[node name="Node3D" type="Node3D" unique_id=210719538]
+
+[node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_vrv26")]
+
+[node name="GridMap" type="GridMap" parent="." unique_id=1770206256]
+mesh_library = ExtResource("1_jgjqi")
+cell_size = Vector3(1.75, 1, 1.75)
+data = {
+"cells": PackedInt32Array(65535, 0, 1048596, 65535, 65535, 1048596, 0, 0, 1048596, 0, 65535, 1048596, 0, 1, 1048596, 65535, 1, 1048596, 1, 1, 1048596, 1, 0, 1048596, 1, 65535, 1048596)
+}
+metadata/_editor_floor_ = Vector3(0, -1, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=393351379]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79646266, 1.4483342, 3.112757)
+
+[node name="Quartel" parent="." unique_id=1810185110 instance=ExtResource("4_vrv26")]
+transform = Transform3D(0.01280612, 0, -0.32975146, 0, 0.33, 0, 0.32975146, 0, 0.01280612, 1.3596501, 1.0000001, 1.7251884)
+
+[node name="Dummy" parent="." unique_id=1599783252 instance=ExtResource("2_vrv26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 1.7445868)
