@@ -47,14 +47,6 @@ cena_opcao_button = ExtResource("4_8v21c")
 cena_game_over = ExtResource("5_0fpak")
 cena_vitoria = ExtResource("6_oqepp")
 
-[node name="ContainerDirecoes" type="Control" parent="." unique_id=1423487210]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [node name="InterfacePrincipal" type="Control" parent="." unique_id=562351409]
 layout_mode = 3
 anchors_preset = 15
@@ -160,7 +152,7 @@ vertical_alignment = 1
 
 [node name="MenuUpgrade" type="ColorRect" parent="InterfacePrincipal" unique_id=1898831811]
 process_mode = 3
-z_index = 10
+z_index = 150
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -170,6 +162,7 @@ grow_vertical = 2
 color = Color(0.0035191667, 0.0035191681, 0.0035191672, 0.627451)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="InterfacePrincipal/MenuUpgrade" unique_id=1518823646]
+z_index = 160
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -185,6 +178,7 @@ grow_vertical = 2
 theme_override_constants/separation = 20
 
 [node name="BotaoReroll" type="Button" parent="InterfacePrincipal/MenuUpgrade" unique_id=1100744267]
+z_index = 160
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -197,6 +191,7 @@ offset_right = 80.0
 offset_bottom = 14.42395
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 2
 text = "Reroll (2 moedas)"
 
 [node name="HudMobileCompleto" parent="InterfacePrincipal" unique_id=768701112 instance=ExtResource("5_8v21c")]
@@ -260,3 +255,12 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_o14n6")
 text = "DIA"
 horizontal_alignment = 1
+
+[node name="ContainerDirecoes" type="Control" parent="." unique_id=1423487210]
+z_index = -1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

@@ -6,6 +6,7 @@ extends CanvasLayer
 # ==========================================
 # REFERÊNCIAS DA INTERFACE PRINCIPAL
 # ==========================================
+@onready var hud_mobile_completo = $InterfacePrincipal/HudMobileCompleto
 @onready var label_wave = $InterfacePrincipal/CentroTela/LabelWave
 @onready var botao_noite = $InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite
 @onready var label_moedas = $InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas/LabelMoedas
@@ -208,21 +209,22 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 	
 	menu_upgrade.show()
 	
+	# ESCONDE TUDO QUE PODE BUGAR OU ATRAPALHAR O CURSOR
+	if container_direcoes:
+		container_direcoes.hide()
+	if hud_mobile_completo:
+		hud_mobile_completo.hide() # Isso resolve o problema do cursor "preso" nos botões mobile
+	
 	# PAUSAR O JOGO
 	get_tree().paused = true
 	
-	var indice_carta = 0 # <--- CRIAMOS UM CONTADOR AQUI
+	var indice_carta = 0 
 	
 	for dados in cartas_sorteadas:
 		if cena_carta_ui != null:
 			var nova_carta = cena_carta_ui.instantiate()
-			
-			# ==========================================
-			# MÁGICA DO TUTORIAL: NOMEAR A CARTA
-			# ==========================================
 			nova_carta.name = "CartaTutorial" + str(indice_carta)
 			indice_carta += 1
-			# ==========================================
 			
 			container_cartas.add_child(nova_carta)
 			
@@ -241,6 +243,13 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 func _ao_escolher_upgrade(dados):
 	GameManager.aplicar_upgrade(dados)
 	menu_upgrade.hide()
+	
+	# RESTAURA A VISIBILIDADE (Apenas se não for noite, seguindo a lógica do jogo)
+	if container_direcoes and not GameManager.is_night:
+		container_direcoes.show()
+	if hud_mobile_completo:
+		hud_mobile_completo.show()
+		
 	get_tree().paused = false
 
 func _on_botao_reroll_pressed():
@@ -362,14 +371,16 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 	return ponto_borda - metade
 
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
+# Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 func _ao_iniciar_dia_hud(onda: int) -> void:
 	label_onda.text = "ONDA " + str(onda)
 	label_turno.text = "DIA"
 	_animar_transicao_ampulheta(true)
 	
-	if container_direcoes:
+	# SÓ MOSTRA SE O MENU DE UPGRADE NÃO ESTIVER VISÍVEL (Evita o bug na pausa)
+	if container_direcoes and not menu_upgrade.visible:
 		container_direcoes.show()
-	if margin_direita:
+	if margin_direita and not menu_upgrade.visible:
 		margin_direita.show()
 
 # Atualiza os rótulos de texto, inicia a transição visual e oculta os controles de preparação
@@ -414,6 +425,9 @@ func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 		tween_fade.tween_property(ampulheta_noite, "modulate:a", 1.0, 0.0)
 
 func _process(_delta: float) -> void:
+	if menu_upgrade.visible:
+		return
+		
 	for direcao in containers_por_direcao:
 		var container = containers_por_direcao[direcao]
 		
