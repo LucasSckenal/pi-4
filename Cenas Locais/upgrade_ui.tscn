@@ -41,6 +41,7 @@ corner_radius_bottom_left = 8
 
 [node name="UpgradeUI" type="Control" unique_id=1721223735]
 process_mode = 3
+z_index = 200
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
