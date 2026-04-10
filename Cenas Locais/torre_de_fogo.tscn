@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cqo4kio5wukk3"]
+
+[ext_resource type="PackedScene" uid="uid://ca0a240c31nbf" path="res://Builds/Meshy_AI_Molten_Sentinel_0410000742_texture.glb" id="1_df5o1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k828r"]
+transparency = 1
+albedo_color = Color(0.62352943, 0, 0, 0.49411765)
+metallic = 1.0
+metallic_specular = 1.0
+metallic_texture_channel = 3
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_aepu1"]
+material = SubResource("StandardMaterial3D_k828r")
+
+[node name="TorreDeFogo" type="Node3D" unique_id=1050197362]
+
+[node name="Meshy_AI_Molten_Sentinel_0410000742_texture" parent="." unique_id=233614548 instance=ExtResource("1_df5o1")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1576223723]
+transform = Transform3D(0.091277175, 0.4419576, -0.008225966, 0, -0.2081446, -0.10538023, -0.04068503, 0.991535, -0.018455015, 0.45722562, 0.3567921, 1.4206365)
+visible = false
+mesh = SubResource("CylinderMesh_aepu1")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1930014314]
+transform = Transform3D(0.09991928, 0.018604815, -0.0003462832, 7.381374e-11, -0.20814462, -0.105380245, -0.001712691, 1.0854135, -0.020202333, 0.010233164, 0.3567921, 1.4206365)
+visible = false
+mesh = SubResource("CylinderMesh_aepu1")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1555128615]
+transform = Transform3D(0.095780924, -0.30969977, 0.005764309, 7.381374e-11, -0.20814462, -0.105380245, 0.02850986, 1.0404589, -0.019365612, -0.28908724, 0.3567921, 1.4206365)
+visible = false
+mesh = SubResource("CylinderMesh_aepu1")
