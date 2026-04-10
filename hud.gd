@@ -204,6 +204,9 @@ func animar_bau_abrindo():
 # SISTEMA DE UPGRADE POR CARTAS
 # ==========================================
 func _on_abrir_menu_upgrade(cartas_sorteadas):
+	# ELEVA A HUD INTEIRA PARA COBRIR TUDO
+	self.layer = 128 
+	
 	for crianca in container_cartas.get_children():
 		crianca.queue_free()
 	
@@ -243,6 +246,9 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 func _ao_escolher_upgrade(dados):
 	GameManager.aplicar_upgrade(dados)
 	menu_upgrade.hide()
+	
+	# REVERTE A CAMADA DA HUD PARA O NORMAL
+	self.layer = 1 
 	
 	# Restaura a visiblidade se estiver de dia
 	if container_direcoes and not GameManager.is_night:

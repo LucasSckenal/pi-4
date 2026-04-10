@@ -30,6 +30,7 @@ func _ready():
 	# Configura visibilidade inicial baseada na plataforma
 	if canvas_mobile:
 		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
+		canvas_mobile.layer = 1
 	
 	# Conecta sinais do GameManager
 	if GameManager.has_signal("dia_iniciado"):
@@ -45,6 +46,11 @@ func _ready():
 	# Conecta o sinal de input da área (para clique no PC)
 	if area:
 		area.input_event.connect(_on_area_input_event)
+
+	# Define o pivô no centro e o cursor do mouse
+	if bolha_btn:
+		bolha_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		bolha_btn.pivot_offset = bolha_btn.size / 2.0
 
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
@@ -184,16 +190,16 @@ func reativar_slot():
 		canvas_mobile.show() # Mostra o pai
 		if bolha_btn:
 			bolha_btn.modulate.a = 1.0 # Garante que a bolha não esteja transparente
+			bolha_btn.scale = Vector2(1.0, 1.0)
 			bolha_btn.show()
 			
 	# Reavalia se deve estar disponível (nível da base/dia/noite)
 	_verificar_disponibilidade()
 
-
 # ==========================================
 # INTERAÇÕES (PC E MOBILE)
 # ==========================================
-func _process(_delta):
+func _process(delta):
 	if is_built or not pode_construir or not slot_disponivel or ui_atual:
 		return
 	
@@ -203,6 +209,15 @@ func _process(_delta):
 		if camera and not camera.is_position_behind(global_position):
 			var pos_2d = camera.unproject_position(global_position)
 			bolha_btn.position = pos_2d - (bolha_btn.size / 2)
+			
+			# Transição suave de escala e cor baseada no hover do mouse
+			var hover = bolha_btn.is_hovered()
+			var escala_alvo = Vector2(1.15, 1.15) if hover else Vector2(1.0, 1.0)
+			bolha_btn.scale = bolha_btn.scale.lerp(escala_alvo, 15.0 * delta)
+			
+			var cor_alvo = Color(1.2, 1.2, 1.2) if hover else Color(1.0, 1.0, 1.0)
+			bolha_btn.modulate = bolha_btn.modulate.lerp(cor_alvo, 15.0 * delta)
+			
 			if estado_toque_mobile == 0:
 				bolha_btn.show()
 		else:
@@ -225,7 +240,7 @@ func _input(event):
 					cancelar_selecao()
 			)
 
-func _on_area_input_event(_camera, _event, position, _normal, _shape_idx):
+func _on_area_input_event(_camera, _event, _position, _normal, _shape_idx):
 	if not pode_construir or is_built or not slot_disponivel or ui_atual:
 		return
 	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT and _event.pressed:
@@ -248,6 +263,7 @@ func cancelar_selecao():
 	estado_toque_mobile = 0
 	if bolha_btn:
 		bolha_btn.modulate.a = 1.0
+		bolha_btn.scale = Vector2(1.0, 1.0)
 		bolha_btn.show()
 
 # ==========================================

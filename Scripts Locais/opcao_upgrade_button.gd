@@ -11,7 +11,10 @@ var modelo_instanciado: Node3D = null
 
 func _ready():
 	setup_camera_3d()
-	# Aumenta fonte do preço (se houver HBoxPreco/PrecoLabel, mas aqui usamos Preco)
+	
+	# Define a mudança visual do cursor para indicar interatividade
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	
 	if preco_label:
 		preco_label.add_theme_font_size_override("font_size", 22)
 
@@ -40,19 +43,16 @@ func _process(delta):
 
 # === LÓGICA DE CONFIGURAÇÃO ===
 func configurar(opcao: Dictionary):
-	# 1. Configura o Título e o Preço com emojis e fonte grande
 	titulo_label.text = opcao.get("nome", "Upgrade")
-	titulo_label.add_theme_font_size_override("font_size", 24)  # AUMENTADO
+	titulo_label.add_theme_font_size_override("font_size", 24)  
 	
 	preco_label.text = "💰 " + str(opcao.get("custo", 0))
 	
-	# 2. Configura os Status com benefício e emojis
 	var beneficio_texto = opcao.get("beneficio", "")
 	if beneficio_texto != "":
-		# Extrai possíveis emojis baseado no conteúdo
 		var linha_beneficio = _emojificar_beneficio(beneficio_texto)
 		$VBoxContainer/StatusContainer/LabelVida.text = linha_beneficio
-		$VBoxContainer/StatusContainer/LabelVida.add_theme_font_size_override("font_size", 18)  # AUMENTADO
+		$VBoxContainer/StatusContainer/LabelVida.add_theme_font_size_override("font_size", 18)  
 		$VBoxContainer/StatusContainer/LabelVida.show()
 	else:
 		$VBoxContainer/StatusContainer/LabelVida.hide()
@@ -61,7 +61,6 @@ func configurar(opcao: Dictionary):
 	
 	set_meta("caminho_index", opcao.get("index", 0))
 	
-	# 3. Puxa o modelo 3D com segurança
 	var mod_3d = opcao.get("modelo_3d")
 	
 	if mod_3d != null:
@@ -74,8 +73,11 @@ func configurar(opcao: Dictionary):
 			_esconder_icone_2d()
 			$VBoxContainer/ViewportContainer.hide()
 
+	# Aplica a regra para que todos os filhos (incluindo os gerados 
+	# dinamicamente) ignorem o mouse, permitindo que apenas o botão raiz brilhe
+	_ignorar_mouse_filhos(self)
+
 func _emojificar_beneficio(texto: String) -> String:
-	# Adiciona emojis correspondentes a palavras-chave
 	var texto_lower = texto.to_lower()
 	if "dano" in texto_lower:
 		return "⚔️ " + texto
@@ -92,7 +94,7 @@ func _emojificar_beneficio(texto: String) -> String:
 	elif "respawn" in texto_lower:
 		return "⏳ " + texto
 	else:
-		return "✨ " + texto  # emoji genérico
+		return "✨ " + texto  
 
 func _carregar_modelo_3d(cena_modelo: PackedScene, escala: Vector3):
 	container_viewport.show()
@@ -119,7 +121,7 @@ func _mostrar_icone_2d(textura: Texture2D):
 		icone_rect.name = "FallbackIcone2D"
 		icone_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icone_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icone_rect.custom_minimum_size = Vector2(150, 150)  # MAIOR
+		icone_rect.custom_minimum_size = Vector2(150, 150)  
 		icone_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		$VBoxContainer.add_child(icone_rect)
 		$VBoxContainer.move_child(icone_rect, 2)
@@ -131,9 +133,7 @@ func _esconder_icone_2d():
 	var icone_rect = $VBoxContainer.get_node_or_null("FallbackIcone2D")
 	if icone_rect: icone_rect.hide()
 
-func _atualizar_labels_status(texto_completo: String):  # (não usado atualmente, mas mantido)
-	# Esta função pode ser removida se não for utilizada.
-	# No entanto, vou deixá-la atualizada caso queira usar no futuro.
+func _atualizar_labels_status(texto_completo: String):  
 	for child in status_container.get_children():
 		child.queue_free()
 		
@@ -163,3 +163,11 @@ func _atualizar_labels_status(texto_completo: String):  # (não usado atualmente
 			lbl.add_theme_color_override("font_color", Color(0.8, 0.8, 0.8))
 				
 		status_container.add_child(lbl)
+
+# === FUNÇÕES AUXILIARES ===
+func _ignorar_mouse_filhos(node: Node):
+	# Função recursiva que garante que os filhos não bloqueiem eventos de mouse do botão raiz
+	for child in node.get_children():
+		if child is Control and child != self:
+			child.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_ignorar_mouse_filhos(child)
