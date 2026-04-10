@@ -223,7 +223,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_RoundBtnHover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_RoundBtnHover")
 text = "🔍-"
 
-[node name="BtnMenuGigante" type="Button" parent="AreaInterativa" unique_id=779330721]
+[node name="BtnMenuGigante" type="Button" parent="AreaInterativa" unique_id=779330721 groups=["BotaoIniciarNoite"]]
 custom_minimum_size = Vector2(160, 160)
 layout_mode = 0
 offset_left = 380.0
