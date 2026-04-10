@@ -699,7 +699,6 @@ metadata/_editor_floor_ = Vector3(0, -3, 0)
 
 [node name="GridMapGroundExtra" type="GridMap" parent="Decoration Gridmaps" unique_id=972425214]
 transform = Transform3D(0.9612617, 0.27563736, 0, -0.27563736, 0.9612617, 0, 0, 0, 1, 0, 0, 0)
-visible = false
 mesh_library = ExtResource("3_7q0h5")
 cell_size = Vector3(0.25, 0.33, 0.25)
 cell_scale = 0.33
