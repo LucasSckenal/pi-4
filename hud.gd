@@ -213,7 +213,7 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 	if container_direcoes:
 		container_direcoes.hide()
 	if hud_mobile_completo:
-		hud_mobile_completo.hide() # Isso resolve o problema do cursor "preso" nos botões mobile
+		hud_mobile_completo.hide()
 	
 	# PAUSAR O JOGO
 	get_tree().paused = true
@@ -244,9 +244,10 @@ func _ao_escolher_upgrade(dados):
 	GameManager.aplicar_upgrade(dados)
 	menu_upgrade.hide()
 	
-	# RESTAURA A VISIBILIDADE (Apenas se não for noite, seguindo a lógica do jogo)
+	# Restaura a visiblidade se estiver de dia
 	if container_direcoes and not GameManager.is_night:
 		container_direcoes.show()
+		margin_direita.show()
 	if hud_mobile_completo:
 		hud_mobile_completo.show()
 		
