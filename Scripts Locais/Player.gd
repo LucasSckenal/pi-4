@@ -46,7 +46,7 @@ func _ready():
 	# --- AQUI ESTÁ A BARREIRA DE SEGURANÇA DE VOLTA ---
 	if nav_agent != null:
 		nav_agent.path_desired_distance = 0.5
-		nav_agent.target_desired_distance = 0.1
+		nav_agent.target_desired_distance = 0.01
 	
 	# Configura o personagem salvo (e anexa a espada)
 	# O shader agora é aplicado automaticamente ao final desta função
@@ -188,10 +188,21 @@ func _physics_process(delta):
 						player_som.finished.connect(player_som.queue_free)
 
 	# 2.5 Se a navegação terminou, esconde o feedback visual e para a rotação
-	if nav_agent.is_navigation_finished() and linha_caminho.visible:
-		linha_caminho.hide()
-		if rotation_tween:
-			rotation_tween.kill()
+	if linha_caminho.visible:
+		var alvo_2d = Vector2(nav_agent.target_position.x, nav_agent.target_position.z)
+		var pos_2d = Vector2(global_position.x, global_position.z)
+		var distancia_horizontal = pos_2d.distance_to(alvo_2d)
+		
+		if nav_agent.is_navigation_finished():
+			if distancia_horizontal <= 0.05:	#Mudar isso muda o quão perto do centro o personagem anda
+				linha_caminho.hide()
+				if rotation_tween:
+					rotation_tween.kill()
+			else:
+				# Compensação para aproximação final caso o NavMesh encerre a rota um pouco antes do centro do decalque
+				direction = (nav_agent.target_position - global_position)
+				direction.y = 0
+				direction = direction.normalized()
 
 	# 3. Movimento e Rotação Inteligente
 	var angulo_destino = rotation.y # Mantém a rotação atual por padrão
