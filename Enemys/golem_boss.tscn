@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_lnmdp"]
 [ext_resource type="PackedScene" uid="uid://c30vodubewr1a" path="res://Map/Golem_boss.glb" id="1_nf25m"]
+[ext_resource type="AudioStream" uid="uid://bsrglyegmdscu" path="res://Sons/EnemyHurt.wav" id="2_w54al"]
 [ext_resource type="Texture2D" uid="uid://d4ikvf7a8xir7" path="res://Map/Golem_boss_texture_0.png" id="3_kt06x"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="4_w54al"]
 
@@ -67,6 +68,7 @@ velocidade = 0.2
 forca_dano = 30
 modelo_3d = NodePath("Golem_boss")
 animation_player = NodePath("Golem_boss/AnimationPlayer")
+som_dano_stream = ExtResource("2_w54al")
 anim_andar = "Walking"
 anim_atacar = "BeHit_FlyUp"
 anim_morrer = "Running"
@@ -74,7 +76,7 @@ anim_morrer = "Running"
 [node name="Golem_boss" parent="." unique_id=123190916 instance=ExtResource("1_nf25m")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Golem_boss/Armature" parent_id_path=PackedInt32Array(123190916, 1363804557) index="0" unique_id=2108738814]
+[node name="Skeleton3D" parent="Golem_boss/Armature" parent_id_path=PackedInt32Array(123190916, 1177471956) index="0" unique_id=235018334]
 bones/0/position = Vector3(1.2307215, 66.23777, 2.5295622)
 bones/0/rotation = Quaternion(-0.07324059, 0.20771949, 0.024021283, 0.9751469)
 bones/1/rotation = Quaternion(0.94063264, 0.28240064, -0.022976333, 0.18690206)
@@ -117,7 +119,7 @@ bones/21/rotation = Quaternion(0.78355306, 0.1277069, 0.09881802, 0.59997535)
 bones/22/rotation = Quaternion(-0.38810316, 0.024137475, 4.344433e-06, 0.9212998)
 bones/23/rotation = Quaternion(0.40875706, -0.025433244, 2.4635995e-07, 0.9122888)
 
-[node name="char1" parent="Golem_boss/Armature/Skeleton3D" index="0" unique_id=1143754310]
+[node name="char1" parent="Golem_boss/Armature/Skeleton3D" index="0" unique_id=1451345136]
 mesh = SubResource("ArrayMesh_egnxg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=671809790]

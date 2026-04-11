@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_2qmqr"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_p3svf"]
+[ext_resource type="AudioStream" uid="uid://bsrglyegmdscu" path="res://Sons/EnemyHurt.wav" id="2_txane"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_txane"]
 render_priority = 0
@@ -4968,6 +4969,7 @@ nome_inimigo = "Cogumelão"
 vida_maxima = 450
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")
+som_dano_stream = ExtResource("2_txane")
 anim_andar = "CharacterArmature|Walk"
 anim_atacar = "CharacterArmature|Weapon"
 anim_morrer = "CharacterArmature|Death"

@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bcr0xpibpqiwa" path="res://Map/Bee Enemy.glb" id="1_ik3mr"]
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_ou2ng"]
+[ext_resource type="AudioStream" uid="uid://bsrglyegmdscu" path="res://Sons/EnemyHurt.wav" id="2_ag5ko"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ou2ng"]
 radius = 0.8535156
@@ -20,28 +21,29 @@ vida_maxima = 40
 velocidade = 2.6
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
+som_dano_stream = ExtResource("2_ag5ko")
 anim_andar = "MonsterArmature|Flying"
 anim_atacar = "MonsterArmature|Bite_Front"
 anim_morrer = "MonsterArmature|Death"
 
 [node name="Root Scene" parent="." unique_id=1565040886 instance=ExtResource("1_ik3mr")]
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/MonsterArmature" parent_id_path=PackedInt32Array(1565040886, 867695564) index="0" unique_id=1183725689]
+[node name="Skeleton3D" parent="Root Scene/RootNode/MonsterArmature" parent_id_path=PackedInt32Array(1565040886, 777144367) index="0" unique_id=1713468931]
 bones/0/position = Vector3(0, 0, 0)
 bones/2/position = Vector3(0, 1.323489e-25, 0.0047287177)
 bones/6/rotation = Quaternion(-0.030442093, -0.07569715, -0.37187177, 0.9246916)
 bones/8/rotation = Quaternion(-0.030442096, 0.07569715, 0.37187174, 0.9246916)
 
-[node name="Mouth" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="0" unique_id=844121711]
+[node name="Mouth" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="0" unique_id=249801373]
 transform = Transform3D(1, 0, 2.3841858e-07, 2.3841856e-07, -1.1920929e-07, -0.99999994, 2.842171e-14, 0.99999994, -1.1920929e-07, 3.8732448e-19, -0.0052493652, 0.0027212745)
 
-[node name="Head3" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="1" unique_id=803398069]
+[node name="Head3" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="1" unique_id=1897014798]
 transform = Transform3D(1, 0, 0, 0, -1.1920929e-07, -0.99999994, 0, 0.99999994, -1.1920929e-07, 0, -1.0808237e-09, 0.013795324)
 
-[node name="Wing2_L" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="2" unique_id=1828560107]
+[node name="Wing2_L" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="2" unique_id=1705174666]
 transform = Transform3D(-0.3180644, 0.9466183, 0.052426394, -0.16263476, 7.720976e-08, -0.9866862, -0.93401545, -0.32235605, 0.15395305, 0.0061072297, 0.00045194858, 0.0070715696)
 
-[node name="Wing2_R" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="3" unique_id=433051765]
+[node name="Wing2_R" parent="Root Scene/RootNode/MonsterArmature/Skeleton3D" index="3" unique_id=801569887]
 transform = Transform3D(-0.31806433, -0.94661844, -0.052426394, 0.16263476, 8.838569e-08, -0.9866862, 0.93401545, -0.32235593, 0.15395305, -0.0061072297, 0.00045194858, 0.0070715696)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=752902621]
