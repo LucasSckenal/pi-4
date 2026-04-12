@@ -8,6 +8,7 @@ extends Control
 @onready var cena_seletor = $CanvasLayer/MarginContainer/SeletorFases
 
 func _ready():
+	MusicaGlobal.tocar_menu()
 	# 1. Configurações iniciais de interface 
 	if cena_configuracoes:
 		cena_configuracoes.hide()

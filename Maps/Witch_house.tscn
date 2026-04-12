@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cnpc88cvyiedh" path="res://Assets/graveyard/Ground_01.fbx" id="1_gyldj"]
 [ext_resource type="PackedScene" uid="uid://cd34uruprqypk" path="res://Assets/graveyard/Pot_01.fbx" id="2_aw8id"]
 [ext_resource type="Texture2D" uid="uid://kycwnbsr4rx6" path="res://Assets/Noise/Ultimate Cloud Noise.jpg" id="2_t0wnn"]
+[ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="3_553vb"]
 [ext_resource type="PackedScene" uid="uid://bc1exvkx6kock" path="res://Assets/graveyard/Table_01.fbx" id="3_gh72r"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="3_lblfm"]
 [ext_resource type="MeshLibrary" uid="uid://bsmufotireqrl" path="res://Gridmap/InvisibleTilesKit.meshlib" id="3_t0wnn"]
@@ -372,10 +373,12 @@ light_specular = 6.837
 shadow_enabled = true
 spot_range = 972.725
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=2020402294]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2020402294 node_paths=PackedStringArray("player")]
 transform = Transform3D(-0.99953467, -5.3095134e-10, -0.0305037, -0.020833042, 0.73044837, 0.68265, 0.022281377, 0.6829677, -0.7301085, 1.0427314, 1.0944428, 1.3362631)
 current = true
 fov = 79.7
+script = ExtResource("3_553vb")
+player = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("3_lblfm")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1375964, 0.60615665, 1.9745929)
