@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://nbn0asbe4wf3"]
 
-[ext_resource type="Script" uid="uid://bbxkyeqy0amiu" path="res://Scripts Locais/orc.gd" id="1_3xw0u"]
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_4uil2"]
 [ext_resource type="Texture2D" uid="uid://bafeshtd72oke" path="res://Dungeon/Textures/colormap.png" id="2_l5fws"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_2scqa"]
 
@@ -3187,10 +3187,14 @@ height = 0.2591629
 radius = 0.16259766
 height = 0.3263855
 
-[node name="Orc" type="CharacterBody3D" unique_id=844430660]
-script = ExtResource("1_3xw0u")
+[node name="Orc" type="CharacterBody3D" unique_id=844430660 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+script = ExtResource("1_4uil2")
+nome_inimigo = "Orc"
+vida_maxima = 120
 distancia_ataque = 0.5
 raio_visao_construcao = 1.5
+modelo_3d = NodePath(".")
+animation_player = NodePath("character-orc2/AnimationPlayer")
 
 [node name="character-orc2" type="Node3D" parent="." unique_id=1281602555]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

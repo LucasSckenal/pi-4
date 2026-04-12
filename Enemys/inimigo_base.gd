@@ -73,6 +73,15 @@ var barra_vida_boss: ProgressBar = null
 var barra_fantasma: ProgressBar = null  # A barra que "persegue" a vida real
 var label_vida: Label = null
 
+# ==========================================
+# DICAS PARA A TELA DE NOVO INIMIGO
+# ==========================================
+@export_category("Dicas do Inimigo (Tutorial)")
+@export_multiline var dica_tutorial: String = "Inimigo padrão. Destrua-o rapidamente."
+@export var status_velocidade: String = "MÉDIA"
+@export var status_vida: String = "MÉDIA"
+# ------------------------------------------
+
 func _ready():
 	add_to_group("inimigos")
 	vida_atual = vida_maxima
@@ -86,6 +95,24 @@ func _ready():
 		nav_agent.path_desired_distance = 0.5
 		nav_agent.target_desired_distance = 0.5
 		
+	# ==========================================
+	# TELA DE AVISO (TUTORIAL / ENCYCLOPEDIA)
+	# ==========================================
+	# Se o nome do inimigo ainda não estiver na lista do GameManager:
+	if not GameManager.inimigos_descobertos.has(nome_inimigo):
+		# Adiciona à lista para não mostrar de novo na próxima vez
+		GameManager.inimigos_descobertos.append(nome_inimigo)
+		
+		# Chama o Autoload da nossa tela 3D (Certifica-te que a cena TelaAvisoInimigo está no Autoload!)
+		if InputMap.has_action("passar_onda"): # Apenas um safety check leve
+			TelaAvisoInimigo.mostrar_novo_inimigo(
+				nome_inimigo, 
+				dica_tutorial, 
+				modelo_3d, 
+				status_velocidade, 
+				status_vida
+			)
+		
 	# SE FOR UM BOSS, CRIA A BARRA DE VIDA NA TELA
 	if tipo_inimigo == Categoria.BOSS:
 		_criar_interface_do_boss()
@@ -94,6 +121,8 @@ func _ready():
 	elif tipo_inimigo == Categoria.MINI_BOSS:
 		if modelo_3d:
 			modelo_3d.scale = escala_original * 1.3 # Fica 30% maior
+			
+	
 
 func _physics_process(delta):
 	if esta_morto: return

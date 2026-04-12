@@ -33,6 +33,7 @@ var modo_dev: bool = false
 # BANCO DE DADOS DAS FASES
 # ==========================================
 var construcoes_permitidas_na_fase: Dictionary = {}
+var inimigos_descobertos: Array[String] = []
 
 # ==========================================
 # CONTROLO DOS SPAWNERS

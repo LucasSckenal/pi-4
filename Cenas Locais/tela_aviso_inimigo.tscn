@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://b0wsp05pdf7u3"]
+
+[ext_resource type="Script" uid="uid://vo7nxu7xmuy3" path="res://Cenas Locais/tela_aviso_inimigo.gd" id="1_rmby8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.12, 0.12, 0.14, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.65, 0.2, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.5)
+shadow_size = 15
+
+[sub_resource type="World3D" id="World3D_rmby8"]
+
+[node name="TelaAvisoInimigo" type="CanvasLayer" unique_id=674670310]
+process_mode = 3
+layer = 100
+script = ExtResource("1_rmby8")
+
+[node name="FundoEscurecido" type="ColorRect" parent="." unique_id=695925947]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CartaoCentral" type="Panel" parent="." unique_id=1112759753]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -260.0
+offset_right = 180.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+
+[node name="Margin" type="MarginContainer" parent="CartaoCentral" unique_id=617477657]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -18.0
+offset_right = 6.0
+offset_bottom = 18.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 15
+
+[node name="VBox" type="VBoxContainer" parent="CartaoCentral/Margin" unique_id=1979158382]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TituloSuperior" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=1381663580]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.35, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0.2, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 20
+text = "🔥 INIMIGO 🔥"
+horizontal_alignment = 1
+
+[node name="Estudo3D" type="SubViewportContainer" parent="CartaoCentral/Margin/VBox" unique_id=1991747479]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+size_flags_horizontal = 4
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="CartaoCentral/Margin/VBox/Estudo3D" unique_id=1469101829]
+own_world_3d = true
+world_3d = SubResource("World3D_rmby8")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(250, 250)
+render_target_update_mode = 4
+
+[node name="CameraParaOModelo" type="Camera3D" parent="CartaoCentral/Margin/VBox/Estudo3D/Viewport" unique_id=1083704812]
+transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881898, 0, -0.25881898, 0.9659259, 0.0042276382, 0.2097907, 0.28439927)
+
+[node name="LuzDeDestaque" type="DirectionalLight3D" parent="CartaoCentral/Margin/VBox/Estudo3D/Viewport" unique_id=1723383677]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 3, 0)
+
+[node name="Separador1" type="HSeparator" parent="CartaoCentral/Margin/VBox" unique_id=599670091]
+layout_mode = 2
+
+[node name="NomeInimigo" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=758953691]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 22
+text = "DUNE SKELETON"
+horizontal_alignment = 1
+
+[node name="DicaTexto" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=1531284841]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+text = "\"Extremely fast. Break them quickly \""
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Separador2" type="HSeparator" parent="CartaoCentral/Margin/VBox" unique_id=1447790669]
+layout_mode = 2
+
+[node name="Status" type="HBoxContainer" parent="CartaoCentral/Margin/VBox" unique_id=1325001773]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="VelocidadeInfo" type="Label" parent="CartaoCentral/Margin/VBox/Status" unique_id=420591295]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
+text = "⚡ Speed: HIGH"
+
+[node name="VidaInfo" type="Label" parent="CartaoCentral/Margin/VBox/Status" unique_id=2103409838]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+text = "❤️ HP: LOW"
+
+[node name="EspacoVazio" type="Control" parent="CartaoCentral/Margin/VBox" unique_id=1550001983]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="TextoPressione" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=2131766579]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 14
+text = "(Press any key or tap to continue)"
+horizontal_alignment = 1
