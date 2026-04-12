@@ -12,7 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://b27udja6qybus" path="res://Icons/image-removebg-preview(1).png" id="12_xsw65"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_aaagv"]
-exposure_multiplier = 0.8
+exposure_multiplier = 0.6
+auto_exposure_enabled = true
 dof_blur_far_enabled = true
 dof_blur_far_distance = 0.03
 

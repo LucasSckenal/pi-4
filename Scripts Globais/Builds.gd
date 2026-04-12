@@ -132,11 +132,6 @@ func _ready():
 		_modo_fantasma()
 		return
 		
-	# if indicador_alcance:
-#     indicador_alcance.visible = false
-	
-	
-		
 	if modelo_anchor == null:
 		modelo_anchor = Node3D.new()
 		modelo_anchor.name = "ModeloAnchor"
@@ -205,7 +200,7 @@ func _on_area_clique(camera, event, position, normal, shape_idx):
 			construcao_selecionada.emit(self)
 			
 			# ACENDE O ANEL
-			if tipo == TipoConstrucao.TORRE and indicador_alcance:
+			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.noite_iniciada:
 				indicador_alcance.visible = true
 				print("Anel foi ligado!")
 

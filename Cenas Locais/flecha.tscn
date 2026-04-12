@@ -1,7 +1,62 @@
-[gd_scene format=3 uid="uid://ccr63l42p5nxi"]
+[gd_scene format=4 uid="uid://ccr63l42p5nxi"]
 
 [ext_resource type="Script" uid="uid://br71wprnvef43" path="res://Cenas Locais/flecha.gd" id="1_83ry3"]
-[ext_resource type="PackedScene" uid="uid://cnbpl4dcgwl5e" path="res://Towers/weapon-ammo-arrow.glb" id="1_irclr"]
+[ext_resource type="Texture2D" uid="uid://csff756xlyesd" path="res://Towers/Textures/colormap.png" id="2_83ry3"]
+[ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_3obi5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fy0up"]
+render_priority = 0
+shader = ExtResource("3_3obi5")
+shader_parameter/scale = 1.0
+shader_parameter/outline_spread = 2.5
+shader_parameter/_Color = Color(0, 0, 0, 1)
+shader_parameter/_DepthNormalThreshold = 0.1
+shader_parameter/_DepthNormalThresholdScale = 3.0
+shader_parameter/_DepthThreshold = 1.5
+shader_parameter/_NormalThreshold = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eudsn"]
+resource_name = "colormap"
+next_pass = SubResource("ShaderMaterial_fy0up")
+cull_mode = 2
+diffuse_mode = 3
+specular_mode = 1
+albedo_texture = ExtResource("2_83ry3")
+metallic = 0.5
+texture_filter = 2
+stencil_flags = 2
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_i3g2e"]
+_surfaces = [{
+"aabb": AABB(-0.08, -0.08, -0.3888, 0.16, 0.16, 0.7776),
+"format": 34896613377,
+"index_count": 216,
+"index_data": PackedByteArray("AAABAAIAAQAAAAIAAgADAAAAAwACAAAABAADAAIAAAADAAQAAwAEAAIAAwAAAAQAAgAFAAEABQACAAEABQACAAQAAgAFAAQAAQAGAAUAAQAGAAAABgABAAUABgABAAAABwAAAAYABAAHAAAAAAAHAAYABwAEAAAABgAIAAcABgAFAAgACAAGAAcABQAGAAgACQAHAAQABwAJAAQABwAJAAgACQAHAAgACgAEAAUABAAKAAUABAAKAAkACgAEAAkABQALAAoACAALAAUACwAFAAoACwAIAAUACgAMAAsACgAJAAwADAAKAAsACQAKAAwACwANAAgADQALAAgADQALAAwACwANAAwACAAOAAkACAAOAA0ADgAIAAkADgAIAA0ACQAPAA4ADAAPAAkADwAJAA4ADwAMAAkAEAAOAA8ADgAQAA8ADQAOABAADgANABAADwARAAwAEQAPAAwAEQAPABAADwARABAAEgAMABEADAASABEAEAARABIAEQAQABIAEgAMAA0ADAASAA0AEwASABAAEgATABAAEwAQAA0AEAATAA0AEwANABIADQATABIA"),
+"name": "colormap",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("/6//r///AAD/r/9P//8AAP9P/0///wAA/0//r///AAAAAP//pNEAAAAAAACk0QAA//8AAKTRAAD/////pNEAAP+//z93ugAA/7//v3e6AAD/P/+/d7oAAP8//z93ugAA/y//z+sgAAD/L/8v6yAAAP/P/y/rIAAA/8//z+sgAAD/sf9NAAAAAP+x/7EAAAAA/03/sQAAAAD/Tf9NAAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_a3bmn"]
+resource_name = "weapon-ammo-arrow_weapon-ammo-arrow"
+_surfaces = [{
+"aabb": AABB(-0.08, -0.08, -0.3888, 0.16, 0.16, 0.7776),
+"attribute_data": PackedByteArray("/9dl5v/XmPn/15j5/9dl5v/XmPn/12Xm/9eY+f/XZeb/15j5/9eY+f/XZcb/12Xm/9eY+f/XmPn/12XG/9dl5v/XmPn/15j5/9eY+f/XmPn/15j5/9eY+f/XmPn/15j5/9dlxv/XZcb/12Xm/9dl5v/XZcb/12XG/9dl5v/XZeb/12Xm/9dlxv/XmPn/15j5/9dlxv/XZeb/15j5/9eY+f/XmPn/15j5/9eY+f/XmPn/15j5/9eY+f/XmPn/15j5/9eY+f/XmPn/1//f/9dlxv/XmPn/15j5/9f/3//XZcb/1//f/9dlxv/XZcb/1//f/9dlxv/X/9//12XG/9f/3//XZcb/1//f/9eY+f/XmPn/1//f/9dlxv/XmPn/15j5/xf/n/8XmZn/F5i5/xeYuf8XmZn/F/+f/xeYuf8XmLn/F5i5/xeYuf8XmLn/F5i5/xeYuf8XmLn/F5i5/xeYuf8XmZn/F5mZ/xf/n/8X/5//F5mZ/xeZmf8X/5//F/+f/xeYuf8XmLn/F5mZ/xf/n/8XmLn/F5i5/xeZmf8X/5//F5i5/xeYuf8XmKX/F5mZ/xeYuf8XmLn/F5il/xeZmf8XmKX/F5i5/xeYuf8XmKX/F5i5/xeYpf8XmLn/F5il/xeYuf8XmLn/F5i5/xeYuf8XmLn/F5i5/xeYuf8XmLn/F5mZ/xeYpf8XmLn/F5i5/xeYpf8XmZn/F5i5/xeYuf8XmKX/F5mZ/xeZmf8XmKX/F5mZ/xeYpf8XmZn/F5il"),
+"format": 34896613399,
+"index_count": 216,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABwAGAAUACAAJAAoACgALAAgADAANAA4ADwAOAA0AEAARABIAEgATABAAFAAVABYAFwAWABUAGAAZABoAGgAbABgAHAAdAB4AHwAeAB0AIAAhACIAIgAjACAAJAAlACYAJwAmACUAKAApACoAKgArACgALAAtAC4ALwAuAC0AMAAxADIAMgAzADAANAA1ADYANwA2ADUAOAA5ADoAOgA7ADgAPAA9AD4APwA+AD0AQABBAEIAQgBDAEAARABFAEYARwBGAEUASABJAEoASgBLAEgATABNAE4ATwBOAE0AUABRAFIAUgBTAFAAVABVAFYAVwBWAFUAWABZAFoAWgBbAFgAXABdAF4AXwBeAF0AYABhAGIAYgBjAGAAZABlAGYAZwBmAGUAaABpAGoAagBrAGgAbABtAG4AbwBuAG0AcABxAHIAcgBzAHAAdAB1AHYAdwB2AHUAeAB5AHoAegB7AHgAfAB9AH4AfwB+AH0AgACBAIIAggCDAIAAhACFAIYAhwCGAIUAiACJAIoAigCLAIgAjACNAI4AjwCOAI0A"),
+"material": SubResource("StandardMaterial3D_eudsn"),
+"name": "colormap",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 144,
+"vertex_data": PackedByteArray("/6//r///AID/r/9P//8AgP9P/0///wCA/0//r///AID/r/9P//8AAP+v/6///wAA/0//T///AAD/T/+v//8AAP9P/0///6CxAAAAAKTRoLEAAP//pNGgsf9P/6///6CxAAAAAKTRTxX/T/9P//9PFQAA//+k0U8V/0//r///TxX/r/9P//8qr///AACk0SqvAAAAAKTRKq//T/9P//8qr///AACk0Wsk/6//T///ayQAAAAApNFrJP9P/0///2skAAD//6TRKq//////pNEqr/+v/6///yqv/0//r///Kq//////pNFrJAAA//+k0Wsk/6//r///ayT/T/+v//9rJP+v/6///6Cx/////6TRoLH//wAApNGgsf+v/0///6Cx/////6TRTxX/r/+v//9PFf//AACk0U8V/6//T///TxUAAAAApNHI6f//AACk0cjp/7//P3e6yOn/P/8/d7rI6f//AACk0UsIAAAAAKTRSwj/v/8/d7pLCP8//z93uksIAAAAAKTR0uH/P/8/d7rS4f8//793utLhAAD//6TR0uH/P/8/d7ovDwAAAACk0S8P/z//v3e6Lw8AAP//pNEvD/+//793usjp/////6TRyOkAAP//pNHI6f8//793usjp/////6TRSwj/v/+/d7pLCAAA//+k0UsI/z//v3e6Swj/////pNHS4f+//793utLh/7//P3e60uH//wAApNHS4f+//793ui8P/////6TRLw//v/8/d7ovD///AACk0S8P/7//v3e6H7//z//P6yAaw//P/y/rIBrD/7//P3e6H7//z//P6yAAAP+//793ugAA/8//L+sgAAD/v/8/d7oAAP+//z93uh+//8//L+sgGsP/L/8v6yAaw/8//z93uh+//8//L+sgG0P/v/8/d7ogP/8v/y/rIBtD/z//P3e6ID//L//P6yAaw//P/8/rIBrD/7//v3e6H7//P/+/d7ofv//P/8/rIBtD/y//z+sgG0P/v/+/d7ogP/8//793uiA//z//P3e6H7//L/8v6yAaw/8v/8/rIBrD/z//v3e6H7//L/8v6yAAAP8//z93ugAA/y//z+sgAAD/P/+/d7oAAP8v/y/rIBrD/03/TQAAjMf/Tf+xAACMx/8v/8/rIBrD/03/TQAAAAD/L/8v6yAAAP9N/7EAAAAA/y//z+sgAAD/Tf+xAAD///9N/00AAP///7H/TQAA////sf+xAAD///9N/00AAAAA/03/sQAAAAD/sf9NAAAAAP+x/7EAAAAA/y//L+sg////z/8v6yD///+x/00AAP///03/TQAA////z/8v6yAAAP8v/y/rIAAA/7H/TQAAAAD/Tf9NAAAAAP/P/8/rIBrD/7H/sQAAjMf/sf9NAACMx//P/y/rIBrD/7H/sQAAAAD/z//P6yAAAP+x/00AAAAA/8//L+sgAAD/sf+xAAD////P/8/rIP///y//z+sg////Tf+xAAD////P/8/rIAAA/7H/sQAAAAD/L//P6yAAAP9N/7EAAAAA/3////9/////f////3///////3////9/////f////38HPuXcBz7l3BmjBr4Zowa+x8VXk8fFV5NYEze6WBM3uiUrkz4lK5M+a0Ekq2tBJKu38N6st/DerB/TuHAf07hw2dRrwZO+2lSTvtpU2dRrwd8sRo9HDyBT3yxGj0cPIFP3wRkj98EZI+Vc+EHlXPhBNzqnbDc6p2ym7MdFpuzHRSKqQva7iSIqu4kiKiKqQvYTacicyRzsFhNpyJzJHOwWnlbP7Z5Wz+0ukp7WLpKe1kifbJRIn2yUbRS24G0UtuDcVbwJ3FW8CUN23NVDdtzVNeMS6TXjEunrljZj65Y2Y2CpLxJgqS8S0G1gKdBtYCm2YJJrtmCSa5HrSB+R60gf/38AAP9/AAD/fwAA/38AAHBC/3///0+/cEL/f///T78AAP9/AAD/fwAA/38AAP9/////f////3////9/////f////3////9/////f////38AAP9/AAD/fwAA/38AAP9//3////9/////f////3///469/3+uwP9/jr3/f67A/3//f////3////9/////f///DLr/f469/38Muv9/jr3/f/9/////f////3////9/////f/9//3//f/9//3//f/9/jr3//469//8Muv//DLr///9/jr3/f469/38Muv9/DLr/fwAA/38AAP9/AAD/fwAA8kX/f3BC/3/yRf9/cEL/f/9/8cX/f3DC/39wwv9/8cX/f3BC/3/yRf9/cEL/f/JF")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_i3g2e")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_83ry3"]
 radius = 0.24560547
@@ -11,8 +66,11 @@ height = 0.89990234
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 script = ExtResource("1_83ry3")
 
-[node name="weapon-ammo-arrow2" parent="." unique_id=179331854 instance=ExtResource("1_irclr")]
+[node name="weapon-ammo-arrow2" type="Node3D" parent="." unique_id=179331854]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+
+[node name="weapon-ammo-arrow" type="MeshInstance3D" parent="weapon-ammo-arrow2" unique_id=2093551552]
+mesh = SubResource("ArrayMesh_a3bmn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=126829452]
 transform = Transform3D(1, 0, 0, 0, -0.039067976, 0.9992366, 0, -0.9992366, -0.039067976, 0, 0.00020029955, 0.005123019)

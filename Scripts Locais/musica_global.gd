@@ -1,7 +1,9 @@
 extends AudioStreamPlayer
 
 var musica_menu = preload("res://Musicas/MenuMusicTeste.mp3")
-var musica_tutorial = preload("res://Musicas/MenuMusicTeste.mp3")  #Só mudar a música quando acharmos ela
+var musica_tutorial = preload("res://Musicas/Festival_In_The_High_Pines.mp3")  #Só mudar a música quando acharmos ela
+var musica_covil = preload("res://Musicas/The_Serpent_s_Last_March.mp3")
+var musica_bruxa = preload("res://Musicas/Crooked_Path_to_the_Bayou.mp3")
 
 # Função chamada pelos menus para garantir que o tema principal esteja tocando
 func tocar_menu():
@@ -13,4 +15,14 @@ func tocar_menu():
 func tocar_tutorial():
 	if stream != musica_tutorial:
 		stream = musica_tutorial
+		play()
+
+func tocar_covil():
+	if stream != musica_covil:
+		stream = musica_covil
+		play()
+
+func tocar_bruxa():
+	if stream != musica_bruxa:
+		stream = musica_bruxa
 		play()
