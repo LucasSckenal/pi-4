@@ -10,6 +10,7 @@ var tempo_ocioso: int = 0 # Conta quanto tempo ele ficou sem apanhar
 
 func _ready():
 	add_to_group("inimigos") 
+	add_to_group("Construcao")
 	
 	# Garante que o Timer está em 1 segundo
 	timer.wait_time = 1.0 

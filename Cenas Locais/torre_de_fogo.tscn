@@ -1,10 +1,11 @@
 [gd_scene format=4 uid="uid://cqo4kio5wukk3"]
 
 [ext_resource type="Texture2D" uid="uid://cgxirhryjt4um" path="res://Builds/Meshy_AI_Molten_Sentinel_0410000742_texture_0.jpg" id="1_d2d4o"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_dnd01"]
 [ext_resource type="Texture2D" uid="uid://ba048ofc5yuv6" path="res://Builds/Meshy_AI_Molten_Sentinel_0410000742_texture_1.jpg" id="2_fu27r"]
 [ext_resource type="Texture2D" uid="uid://dqmou87jqtd5v" path="res://Builds/Meshy_AI_Molten_Sentinel_0410000742_texture_2.jpg" id="3_4hstn"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_dnd01"]
-[ext_resource type="Shader" uid="uid://c3gxw48lm23kg" path="res://Shaders/EnergyMaterial.gdshader" id="4_dnd01"]
+[ext_resource type="Shader" path="res://Shaders/EnergyMaterial.gdshader" id="4_dnd01"]
 [ext_resource type="Texture2D" uid="uid://kycwnbsr4rx6" path="res://Assets/Noise/Ultimate Cloud Noise.jpg" id="6_vsv56"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_askmk"]
@@ -93,6 +94,7 @@ material = SubResource("ShaderMaterial_pycyc")
 material = SubResource("ShaderMaterial_pycyc")
 
 [node name="TorreDeFogo" type="Node3D" unique_id=1050197362]
+script = ExtResource("1_dnd01")
 
 [node name="TorreCompleta" type="Node3D" parent="." unique_id=233614548]
 

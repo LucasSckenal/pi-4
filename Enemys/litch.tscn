@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://byldh7h1wdrsr"]
+
+[ext_resource type="PackedScene" uid="uid://tyftflw7knrn" path="res://Map2/Litch.glb" id="1_2drk3"]
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_kjy72"]
+[ext_resource type="PackedScene" uid="uid://bsc83xslh6q1x" path="res://Enemys/minion_desert.tscn" id="2_4y8sk"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_66dvy"]
+radius = 0.45361328
+height = 1.6856546
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u4u7d"]
+radius = 1.0325928
+height = 2.0651855
+
+[node name="Litch" type="CharacterBody3D" unique_id=1943642310 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+script = ExtResource("1_kjy72")
+tipo_inimigo = 1
+nome_inimigo = "Litch"
+modelo_3d = NodePath("Litch")
+animation_player = NodePath("Litch/AnimationPlayer")
+anim_andar = "Unsteady_Walk"
+anim_atacar = ""
+anim_morrer = "Dead"
+eh_necromancer = true
+cena_minion = ExtResource("2_4y8sk")
+anim_invocar = "Skill_01"
+
+[node name="Litch" parent="." unique_id=1015307407 instance=ExtResource("1_2drk3")]
+
+[node name="Skeleton3D" parent="Litch/Armature" parent_id_path=PackedInt32Array(1015307407, 1499940561) index="0" unique_id=525352665]
+bones/0/position = Vector3(1.4208226, 76.144165, 2.07008)
+bones/0/rotation = Quaternion(0.49404672, 0.43299812, 0.66144925, -0.36182222)
+bones/1/position = Vector3(-3.951417, 12.433101, -3.099351)
+bones/1/rotation = Quaternion(0.07913344, 0.7174661, -0.5161415, -0.46106204)
+bones/2/rotation = Quaternion(0.34964073, 0.038258888, -0.022439407, 0.9358334)
+bones/3/rotation = Quaternion(-0.6154232, -0.09195341, 0.11963725, 0.77361864)
+bones/4/rotation = Quaternion(-0.46584767, -0.07888692, 0.013598258, 0.88123655)
+bones/5/rotation = Quaternion(0.53373325, 0.6785337, -0.28753716, -0.41478103)
+bones/6/rotation = Quaternion(0.54814, -0.06423093, 0.018725349, 0.83370644)
+bones/7/rotation = Quaternion(-0.6789611, 0.16194236, -0.057956472, 0.71374196)
+bones/8/rotation = Quaternion(-0.41113538, 0.08045759, 0.020502677, 0.9077853)
+bones/9/rotation = Quaternion(0.5304631, 0.47868568, 0.62717116, 0.31004092)
+bones/10/position = Vector3(4.9732535e-07, 10.671586, -8.020663e-08)
+bones/10/rotation = Quaternion(0.10544066, -0.03316375, 0.041661106, 0.9929989)
+bones/11/rotation = Quaternion(-0.032955315, -0.0068544373, 0.0015073589, 0.9994322)
+bones/12/position = Vector3(5.364817, 4.513758, -0.15243831)
+bones/12/rotation = Quaternion(0.6056801, 0.4665485, -0.4291144, 0.48098335)
+bones/13/position = Vector3(-9.919036e-07, 21.37612, -6.8460745e-06)
+bones/13/rotation = Quaternion(0.4267244, 0.093188986, 0.10887835, 0.89295447)
+bones/14/position = Vector3(2.801183e-06, 22.206234, 9.742943e-06)
+bones/14/rotation = Quaternion(-0.040663417, -0.047949426, 0.21367413, 0.9748799)
+bones/15/position = Vector3(-9.1009133e-07, 21.328175, 4.1562034e-06)
+bones/15/rotation = Quaternion(0.004807657, -0.107382186, -0.04681212, 0.9931035)
+bones/16/position = Vector3(-5.3102574, 6.2494164, -0.3225813)
+bones/16/rotation = Quaternion(-0.6294274, 0.44326276, -0.47362813, -0.42780352)
+bones/17/position = Vector3(1.5050424e-05, 21.401459, 1.7018872e-05)
+bones/17/rotation = Quaternion(0.42051405, -0.20380795, 0.049412027, 0.88271666)
+bones/18/position = Vector3(-1.126742e-05, 21.771189, 7.868371e-06)
+bones/18/rotation = Quaternion(-0.07467066, 0.03903812, -0.0142556075, 0.9963419)
+bones/19/position = Vector3(3.4626698e-06, 24.070843, -1.6031008e-06)
+bones/19/rotation = Quaternion(0.06889147, -0.039178517, -0.084884584, 0.9932339)
+bones/20/position = Vector3(-0.054557823, 6.130165, 0.47500652)
+bones/20/rotation = Quaternion(-0.13331863, 0.0029628552, 0.05054175, 0.98977923)
+bones/21/position = Vector3(-2.5014251e-06, 7.5730357, -4.028265e-06)
+bones/21/rotation = Quaternion(0.30961752, 0.036440432, 0.0011450254, 0.950162)
+bones/22/position = Vector3(-0.28064436, 43.743088, -19.325577)
+bones/22/rotation = Quaternion(-0.20650627, -1.608477e-08, 0.0029988335, 0.97844076)
+bones/23/rotation = Quaternion(0.5080398, 1.0341334e-07, -0.007377396, 0.8613021)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1017619770]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9240321, 0)
+shape = SubResource("CapsuleShape3D_66dvy")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=1158146765]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=126461277]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7585492, -0.006230831)
+shape = SubResource("CapsuleShape3D_u4u7d")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1908547796]
+path_desired_distance = 1.5
+
+[editable path="Litch"]

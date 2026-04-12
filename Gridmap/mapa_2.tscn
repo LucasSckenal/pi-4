@@ -52,8 +52,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0643208, -1.1920929e-07, -
 [node name="floor-detail2" parent="." unique_id=1246041812 instance=ExtResource("9_t6hnu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0643208, -1.1920929e-07, -0.2067635)
 
-[node name="floor2" parent="." unique_id=226865100 instance=ExtResource("10_kkr8q")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0643208, -1.1920929e-07, -0.2067635)
+[node name="floor3" parent="." unique_id=311260730 instance=ExtResource("10_kkr8q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07405275, 0, -0.20784402)
 
 [node name="stairs-corner-inner2" parent="." unique_id=329797676 instance=ExtResource("11_ek0pb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0643208, -1.1920929e-07, -0.2067635)

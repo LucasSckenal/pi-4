@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://c4kntie0och01"]
+
+[ext_resource type="PackedScene" uid="uid://d116ff7efk2xx" path="res://Map2/Anubis.glb" id="1_ey8ll"]
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_lips3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_66dvy"]
+radius = 0.45361328
+height = 1.6856546
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u4u7d"]
+radius = 1.0325928
+height = 2.0651855
+
+[node name="Anubis" type="CharacterBody3D" unique_id=1947398332 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, 0, 0, 0)
+script = ExtResource("1_lips3")
+modelo_3d = NodePath("Anubis")
+animation_player = NodePath("Anubis/AnimationPlayer")
+anim_andar = "Walking"
+anim_atacar = "Triple_Combo_Attack"
+anim_morrer = "Dead"
+
+[node name="Anubis" parent="." unique_id=21940137 instance=ExtResource("1_ey8ll")]
+
+[node name="Skeleton3D" parent="Anubis/Armature" parent_id_path=PackedInt32Array(21940137, 33577156) index="0" unique_id=1026399761]
+bones/0/position = Vector3(0.55059344, 52.74661, 5.536276)
+bones/0/rotation = Quaternion(-0.3699685, 0.10315853, 0.06782521, 0.92080474)
+bones/1/position = Vector3(13.546588, -7.777976, -2.2383237)
+bones/1/rotation = Quaternion(0.990057, 0.07433894, -0.10427336, -0.058206342)
+bones/2/position = Vector3(1.0863082e-06, 23.616896, -1.2460898e-06)
+bones/2/rotation = Quaternion(0.5446468, 0.14858258, -0.011281632, 0.8253217)
+bones/3/position = Vector3(-7.780541e-07, 20.368006, -1.3744011e-06)
+bones/3/rotation = Quaternion(-0.41869858, -0.032719854, 0.055952344, 0.9058092)
+bones/4/rotation = Quaternion(-0.31749716, 0.005614015, -0.008432462, 0.9482051)
+bones/5/rotation = Quaternion(0.9454847, -0.20184882, 0.21351238, -0.14045745)
+bones/6/rotation = Quaternion(0.33886713, -0.13062674, -0.022009479, 0.931462)
+bones/7/rotation = Quaternion(-0.5333259, 0.052166402, -0.02283167, 0.843991)
+bones/8/rotation = Quaternion(-0.29230222, -0.007037488, 0.016373688, 0.9561599)
+bones/9/rotation = Quaternion(0.35666063, -0.09697382, -0.065236114, 0.9268946)
+bones/10/position = Vector3(-2.0272418e-07, 10.247751, -1.8261526e-06)
+bones/10/rotation = Quaternion(0.02222707, -0.022785503, 0.0039777076, 0.9994854)
+bones/11/position = Vector3(-4.0787846e-08, 10.247792, -4.549185e-07)
+bones/11/rotation = Quaternion(0.008867197, -0.017470418, 0.0038515728, 0.9998007)
+bones/12/position = Vector3(7.524753, 3.105642, 0.15792629)
+bones/12/rotation = Quaternion(0.7346049, 0.318576, -0.49791253, 0.33308893)
+bones/13/position = Vector3(4.4374847e-06, 29.90893, 3.480784e-06)
+bones/13/rotation = Quaternion(0.25932553, 0.29656884, 0.30080414, 0.86851263)
+bones/14/position = Vector3(1.3576047e-05, 14.619658, -5.769396e-06)
+bones/14/rotation = Quaternion(-0.123569876, -0.15866433, -0.23670976, 0.9505391)
+bones/15/position = Vector3(-7.182234e-07, 24.833138, 6.2252966e-06)
+bones/15/rotation = Quaternion(0.1346748, 0.1386905, 0.37785742, 0.9054564)
+bones/16/position = Vector3(-7.590633, 3.3191297, 0.37868223)
+bones/16/rotation = Quaternion(-0.7236396, 0.3144811, -0.504251, -0.3509678)
+bones/17/rotation = Quaternion(0.21928464, -0.2727132, -0.36127287, 0.8643053)
+bones/18/position = Vector3(3.2062337e-06, 13.812655, -7.3488754e-06)
+bones/18/rotation = Quaternion(-0.18044145, 0.21948533, 0.17390704, 0.94288045)
+bones/19/position = Vector3(-3.511836e-06, 24.027586, 1.3018509e-05)
+bones/19/rotation = Quaternion(0.10742523, -0.10171719, -0.3518262, 0.9243007)
+bones/20/position = Vector3(0.06587792, 5.317319, -0.5366103)
+bones/20/rotation = Quaternion(-0.07708964, 0.012484791, 0.0032801582, 0.9969406)
+bones/21/position = Vector3(1.3935454e-07, 7.8309035, 1.9123568e-06)
+bones/21/rotation = Quaternion(0.49545062, 0.033249117, -0.023263581, 0.8676878)
+bones/22/rotation = Quaternion(-0.3267399, -0.000742682, -0.005084914, 0.94510037)
+bones/23/rotation = Quaternion(0.3320013, 8.819223e-08, 2.9237373e-08, 0.943279)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=842970733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82763875, 0)
+shape = SubResource("CapsuleShape3D_66dvy")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=212637354]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1477009683]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7585492, -0.006230831)
+shape = SubResource("CapsuleShape3D_u4u7d")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=636555710]
+path_desired_distance = 1.5
+
+[editable path="Anubis"]

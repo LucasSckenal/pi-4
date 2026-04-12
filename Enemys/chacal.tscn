@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://ddejj5fp8e0md"]
+
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_cecf2"]
+[ext_resource type="PackedScene" uid="uid://b3g6plwbuvmub" path="res://Map2/Chacal.glb" id="2_wbrod"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_66dvy"]
+radius = 0.45361328
+height = 1.6245422
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_u4u7d"]
+radius = 1.0325928
+height = 2.0651855
+
+[node name="Chacal" type="CharacterBody3D" unique_id=632332236 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+script = ExtResource("1_cecf2")
+modelo_3d = NodePath("Chacal")
+animation_player = NodePath("Chacal/AnimationPlayer")
+anim_andar = "Dead"
+anim_atacar = "Walking"
+anim_morrer = "Running"
+
+[node name="Chacal" parent="." unique_id=1087383694 instance=ExtResource("2_wbrod")]
+
+[node name="Skeleton3D" parent="Chacal/Armature" parent_id_path=PackedInt32Array(1087383694, 1197667091) index="0" unique_id=432822221]
+bones/0/position = Vector3(5.599271, 58.65135, 125.36951)
+bones/0/rotation = Quaternion(0.23101687, -0.42191926, -0.043671284, 0.8756188)
+bones/1/position = Vector3(14.718568, -1.2259163, 1.1465749)
+bones/1/rotation = Quaternion(0.71988493, 0.3395365, -0.21466412, 0.5660388)
+bones/2/rotation = Quaternion(0.6125168, 0.09551099, -0.17334284, 0.76527977)
+bones/3/position = Vector3(-5.219217e-06, 25.947203, 4.8434936e-06)
+bones/3/rotation = Quaternion(-0.55422914, -0.13658915, 0.26445258, 0.7773276)
+bones/4/position = Vector3(2.1528526e-06, 14.203018, 6.0254297e-07)
+bones/4/rotation = Quaternion(-0.40118447, -0.116692156, -0.01348349, 0.908434)
+bones/5/rotation = Quaternion(0.89189297, -0.15666898, 0.31481603, 0.28438124)
+bones/6/rotation = Quaternion(0.52845937, -0.09306319, 0.14853781, 0.83066624)
+bones/7/rotation = Quaternion(-0.5642563, 0.24663588, -0.33416888, 0.7135242)
+bones/8/rotation = Quaternion(-0.41549516, 0.12899093, 0.0052609537, 0.9003874)
+bones/9/rotation = Quaternion(0.11255186, 0.0052191694, 0.12855954, 0.9852804)
+bones/10/position = Vector3(3.97861e-06, 11.981662, 9.588984e-06)
+bones/10/rotation = Quaternion(0.038687237, 0.05258571, 0.009924583, 0.9978174)
+bones/11/position = Vector3(1.7999794e-06, 11.981682, 1.5018961e-05)
+bones/11/rotation = Quaternion(-0.028780324, 0.0040758983, 0.008664516, 0.9995399)
+bones/12/position = Vector3(4.473598, 2.4114747, -0.3048906)
+bones/12/rotation = Quaternion(0.59827524, 0.43745217, -0.4227641, 0.5215101)
+bones/13/position = Vector3(1.4945036e-05, 17.932617, -1.1556986e-06)
+bones/13/rotation = Quaternion(0.31532982, -0.24627094, -0.19754349, 0.894927)
+bones/14/position = Vector3(-3.5885867e-06, 13.0562525, 1.4108882e-05)
+bones/14/rotation = Quaternion(-0.084314406, -0.10138409, 0.75952834, 0.63696873)
+bones/15/position = Vector3(4.631943e-08, 13.2081375, 1.0106407e-05)
+bones/15/rotation = Quaternion(-0.009665339, -0.5059952, 0.5472756, 0.6666069)
+bones/16/position = Vector3(-4.541213, 2.3768735, -0.34829772)
+bones/16/rotation = Quaternion(-0.52707314, 0.51740545, -0.4769009, -0.47649887)
+bones/17/position = Vector3(2.1367941e-06, 18.139633, -7.736003e-07)
+bones/17/rotation = Quaternion(0.4318628, 0.13655847, 0.17787285, 0.8736176)
+bones/18/position = Vector3(-7.911457e-06, 13.063794, 2.415055e-06)
+bones/18/rotation = Quaternion(-0.071691476, 0.06066022, -0.57446504, 0.813124)
+bones/19/position = Vector3(6.040826e-06, 13.2005415, -4.53117e-06)
+bones/19/rotation = Quaternion(0.09206549, -0.15744944, -0.53378177, 0.8257182)
+bones/20/position = Vector3(0.067625836, 7.106088, 0.6531918)
+bones/20/rotation = Quaternion(-0.06881267, 0.05653028, 0.031937204, 0.9955145)
+bones/21/position = Vector3(3.932415e-06, 9.485364, 5.9794314e-07)
+bones/21/rotation = Quaternion(0.37502217, 0.07011354, -0.2660454, 0.88524705)
+bones/22/rotation = Quaternion(-0.40637347, -1.5334498e-08, -0.005699831, 0.91368926)
+bones/23/rotation = Quaternion(0.31272146, 9.396564e-08, 0.004386321, 0.94983476)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=482411525]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8256635, 0.09258083)
+shape = SubResource("CapsuleShape3D_66dvy")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=643183788]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=13061301]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7585492, -0.006230831)
+shape = SubResource("CapsuleShape3D_u4u7d")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=91237776]
+path_desired_distance = 1.5
+
+[editable path="Chacal"]

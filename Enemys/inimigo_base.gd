@@ -38,6 +38,24 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var anim_morrer: String = "sit"
 
 # ==========================================
+# NECROMANTE / INVOCADOR
+# ==========================================
+@export_category("Poderes de Invocação")
+@export var eh_necromancer: bool = false
+@export var cena_minion: PackedScene = null 
+@export var qtd_minions_por_vez: int = 3
+@export var tempo_recarga_invocacao: float = 8.0
+@export var raio_de_invocacao: float = 1.5
+@export var anim_invocar: String = "summon" 
+
+# --- NOVA VARIÁVEL DE OTIMIZAÇÃO ---
+@export var limite_minions_vivos: int = 9 ## Máximo de lacaios vivos AO MESMO TEMPO deste necromante
+
+var pode_invocar: bool = true
+var esta_invocando: bool = false
+var meus_minions_ativos: Array = [] # Lista para guardar quem ele já invocou
+
+# ==========================================
 # VARIÁVEIS INTERNAS
 # ==========================================
 var vida_atual: int
@@ -83,7 +101,17 @@ func _physics_process(delta):
 	# 1. Gravidade
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
+		
+	# --- NOVA LÓGICA: SE ESTIVER INVOCANDO, NÃO FAZ MAIS NADA ---
+	if eh_necromancer and esta_invocando:
+		move_and_slide()
+		return
+		
+	# --- NOVA LÓGICA: CHECAGEM PARA INVOCAR ---
+	if eh_necromancer and pode_invocar and is_on_floor() and alvo_atual:
+		invocar_minions()
+		return # Interrompe este frame para ele não tentar andar e invocar ao mesmo
+		
 	# 2. IA de Alvo
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
 	   alvo_atual.is_in_group("Castelo") or (alvo_atual.get("esta_destruida") == true):
@@ -161,6 +189,8 @@ func procurar_novo_alvo():
 	return get_tree().get_first_node_in_group("Castelo")
 
 func atacar():
+	if eh_necromancer: 
+		return
 	if pode_atacar and alvo_atual:
 		pode_atacar = false
 		if animation_player and animation_player.has_animation(anim_atacar):
@@ -237,6 +267,66 @@ func receber_dano(qtd, origem = "torre"):
 				tw_color.tween_property(mat_local, "emission_energy_multiplier", 0.0, 0.2)
 	
 	if vida_atual <= 0: morrer()
+	
+func invocar_minions():
+	if cena_minion == null:
+		push_warning("Necromante tentou invocar, mas não há cena configurada!")
+		pode_invocar = false 
+		return
+	
+	# --- 1. LIMPEZA DA LISTA (OTIMIZAÇÃO) ---
+	# Remove da lista os minions que já foram destruídos ou marcados como mortos
+	var minions_vivos = []
+	for minion in meus_minions_ativos:
+		if is_instance_valid(minion) and not minion.get("esta_morto"):
+			minions_vivos.append(minion)
+	meus_minions_ativos = minions_vivos
+	
+	# --- 2. TRAVA DO LIMITE ---
+	# Se já atingiu o limite, cancela a invocação neste turno
+	if meus_minions_ativos.size() >= limite_minions_vivos:
+		await get_tree().create_timer(tempo_recarga_invocacao).timeout
+		pode_invocar = true
+		return
+		
+	# --- 3. INÍCIO DO RITUAL ---
+	pode_invocar = false
+	esta_invocando = true
+	
+	velocity.x = 0
+	velocity.z = 0
+	
+	if animation_player and animation_player.has_animation(anim_invocar):
+		animation_player.play(anim_invocar)
+		await get_tree().create_timer(1.0).timeout 
+		
+	if esta_morto: 
+		return
+
+	var nav_map = get_world_3d().navigation_map
+	
+	# Calcula quantos ele PODE invocar agora (para não passar do limite sem querer)
+	var vagas_livres = limite_minions_vivos - meus_minions_ativos.size()
+	var qtd_a_invocar = min(qtd_minions_por_vez, vagas_livres)
+
+	# --- 4. GERAÇÃO SEGURA ---
+	for i in range(qtd_a_invocar):
+		var minion = cena_minion.instantiate()
+		get_parent().add_child(minion)
+		
+		var angulo = (PI * 2 / qtd_a_invocar) * i
+		var offset = Vector3(cos(angulo), 0, sin(angulo)) * raio_de_invocacao
+		var posicao_desejada = global_position + offset
+		
+		var posicao_segura = NavigationServer3D.map_get_closest_point(nav_map, posicao_desejada)
+		minion.global_position = posicao_segura
+		
+		# Adiciona o novo recruta na "lista de chamada" do Necromante
+		meus_minions_ativos.append(minion)
+
+	esta_invocando = false
+	await get_tree().create_timer(tempo_recarga_invocacao).timeout
+	pode_invocar = true
 
 func morrer():
 	esta_morto = true

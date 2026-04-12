@@ -3,7 +3,27 @@
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_vrv26"]
 [ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
-[ext_resource type="PackedScene" uid="uid://be7edqt2mmq5q" path="res://Builds/quartel.tscn" id="4_vrv26"]
+[ext_resource type="PackedScene" uid="uid://byldh7h1wdrsr" path="res://Enemys/litch.tscn" id="4_vrv26"]
+[ext_resource type="PackedScene" uid="uid://c24hpoqubnlm4" path="res://Builds/house.tscn" id="5_ti018"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrv26"]
+sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
+sky_horizon_color = Color(0.23483449, 0.00023430049, 0.69736916, 1)
+ground_bottom_color = Color(0.1263088, 0, 0.72530735, 1)
+ground_horizon_color = Color(0.060327195, 0.7809794, 0.9999998, 1)
+ground_curve = 0.08574214
+
+[sub_resource type="Sky" id="Sky_wjb0r"]
+sky_material = SubResource("ProceduralSkyMaterial_vrv26")
+
+[sub_resource type="Environment" id="Environment_ti018"]
+background_mode = 2
+sky = SubResource("Sky_wjb0r")
+sky_rotation = Vector3(0, 3.1415927, 0)
+tonemap_mode = 1
+adjustment_enabled = true
+adjustment_contrast = 1.25
+adjustment_saturation = 0.55
 
 [node name="Node3D" type="Node3D" unique_id=210719538]
 
@@ -18,10 +38,34 @@ data = {
 metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=393351379]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.79646266, 1.4483342, 3.112757)
-
-[node name="Quartel" parent="." unique_id=1810185110 instance=ExtResource("4_vrv26")]
-transform = Transform3D(0.01280612, 0, -0.32975146, 0, 0.33, 0, 0.32975146, 0, 0.01280612, 1.3596501, 1.0000001, 1.7251884)
+transform = Transform3D(1, 0, 0, 0, 0.79052925, 0.61242425, 0, -0.61242425, 0.79052925, 0.79646266, 1.973958, 3.5262394)
 
 [node name="Dummy" parent="." unique_id=1599783252 instance=ExtResource("2_vrv26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 1.7445868)
+
+[node name="Litch" parent="." unique_id=1943642310 instance=ExtResource("4_vrv26")]
+transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, 1.4245718, 1.0000001, 2.067128)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=131716063]
+environment = SubResource("Environment_ti018")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="WorldEnvironment" unique_id=1545749391]
+transform = Transform3D(1, 5.341442e-08, 2.747954e-08, -5.975536e-08, 0.83793795, 0.54576546, 6.1255947e-09, -0.54576546, 0.83793795, -1.4401067, 3.6413417, 8.542782)
+light_color = Color(1, 0.8156863, 0.4117647, 1)
+light_energy = 6.0
+light_specular = 6.0
+shadow_enabled = true
+shadow_blur = 0.3
+spot_range = 223.896
+spot_attenuation = 0.9
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1377259697]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 1, 0.6509804, 1)
+light_energy = 0.5
+shadow_enabled = true
+shadow_normal_bias = 10.0
+shadow_blur = 2.5
+
+[node name="unit-house2" parent="." unique_id=1623196517 instance=ExtResource("5_ti018")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86583376, 1, 2.7789984)
