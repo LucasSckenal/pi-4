@@ -15,6 +15,75 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 shadow_size = 20
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dht8g"]
+bg_color = Color(1, 0.67058825, 0.34117648, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8392157, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hja76"]
+bg_color = Color(0.9141905, 0.5385141, 1.347661e-06, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9141905, 0.5385141, 1.347661e-06, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_khefl"]
+bg_color = Color(0.9359596, 0.8311309, 0.5241001, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8392157, 0.2, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7kafc"]
+bg_color = Color(0.105882354, 0.11372549, 0.13725491, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m0jfu"]
+bg_color = Color(0.03818381, 0.042756453, 0.056476824, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_betpm"]
+bg_color = Color(0.17539725, 0.1864996, 0.2197887, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="TelaVitoria" type="CanvasLayer" unique_id=1117151793]
 process_mode = 3
 layer = 100
@@ -76,8 +145,13 @@ theme_override_constants/separation = 20
 custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_dht8g")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hja76")
+theme_override_styles/hover = SubResource("StyleBoxFlat_khefl")
 text = "Próxima Fase"
 
 [node name="BtnMenu" type="Button" parent="CenterContainer/Painel/Margin/VBox" unique_id=728089227]
@@ -85,4 +159,7 @@ custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_7kafc")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m0jfu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_betpm")
 text = "Menu Principal"
