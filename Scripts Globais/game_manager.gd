@@ -82,6 +82,70 @@ var baralho_upgrades: Array = [
 var reroll_usado: bool = false
 var custo_reroll: int = 2
 
+var caminhos_das_fases = {
+	1: "res://Maps/tutorial_world.tscn",
+	2: "res://Maps/Crimson_Desert.tscn",
+	3: "res://Maps/Witch_house.tscn",
+	4: "res://Maps/fenda_dos_piratas.tscn",
+	5: "res://Maps/Covil_Dragon.tscn"
+}
+
+# ==========================================
+# AUTO-LOAD (INICIA JUNTO COM O JOGO)
+# ==========================================
+func _ready():
+	# Aguarda o Godot terminar de carregar a cena principal
+	await get_tree().process_frame
+	_tentar_auto_carregar()
+
+func _tentar_auto_carregar():
+	print("🔍 Verificando se existe save para auto-carregamento...")
+	
+	if not FileAccess.file_exists(SAVE_PATH):
+		print("ℹ️ Nenhum ficheiro de save encontrado em: ", SAVE_PATH)
+		return
+
+	# 1. Carregar os dados do ficheiro primeiro
+	if carregar_jogo():
+		print("💾 Save lido com sucesso! Fase encontrada no save: ", fase_atual)
+		
+		# 2. Verificar se temos o caminho dessa fase
+		if caminhos_das_fases.has(fase_atual):
+			var caminho_cena = caminhos_das_fases[fase_atual]
+			print("🚀 Mudando para a cena: ", caminho_cena)
+			
+			# 3. Mudar a cena
+			var erro = get_tree().change_scene_to_file(caminho_cena)
+			
+			if erro != OK:
+				print("❌ Erro ao tentar mudar de cena! Código: ", erro)
+				return
+
+			# 4. AGUARDAR A CENA CARREGAR (O mais importante)
+			# Esperamos o sinal de que a árvore de nós mudou
+			await get_tree().tree_changed
+			# Esperamos um frame para o current_scene deixar de ser nulo
+			await get_tree().process_frame
+			
+			print("🎬 Nova cena carregada. Iniciando restauração de torres...")
+			
+			# 5. Agora que a cena mudou, restauramos o estado visual
+			recarregando_save = true
+			carregar_fase(fase_atual)
+			
+			# Pequeno atraso para garantir que os Spawners estão prontos
+			await get_tree().create_timer(0.1).timeout
+			
+			# Sincronização final
+			dia_iniciado.emit(onda_atual)
+			get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
+			get_tree().call_group("Spawner", "restaurar_onda_do_save")
+			
+			recarregando_save = false
+			print("✅ Auto-carregamento concluído com sucesso!")
+		else:
+			print("⚠️ Erro: A fase ", fase_atual, " não existe no dicionário caminhos_das_fases!")
+
 # ==========================================
 # INPUTS GERAIS
 # ==========================================
@@ -105,34 +169,23 @@ func carregar_fase(numero_fase: int):
 	fase_atual = numero_fase
 	var config = banco_de_fases[numero_fase]
 	
-	# 1. Carrega as regras base da fase (SEMPRE PRECISA!)
+	# 1. Carrega as regras base da fase (Sempre necessário)
 	construcoes_permitidas_na_fase = config["construcoes"]
 	
-	# 2. Se estivermos recarregando da morte (Reiniciar Noite)
-	if recarregando_save:
-		recarregando_save = false
-		if carregar_jogo():
-			estado_atual = EstadoJogo.DIA
-			is_night = false
-			dia_iniciado.emit(onda_atual)
-			get_tree().call_group("Interface", "verificar_estado_dia_noite")
-			get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
-			get_tree().call_deferred("call_group", "Spawner", "restaurar_onda_do_save")
-			get_tree().call_deferred("call_group", "Interface", "atualizar_moedas")
-			print("Save carregado com sucesso! Fase e dinheiro restaurados.")
-		else:
-			print("Erro crítico: Save não encontrado!")
-		return # Interrompe aqui para não zerar o dinheiro abaixo!
-
-	# 3. Se for um jogo NOVO normal
-	moedas = config["moedas_iniciais"]
-	_set_nivel_base(config["nivel_base_inicial"])
-	is_tutorial_ativo = config["tutorial"]
-	onda_atual = 1
+	# 2. Se NÃO for um carregamento de save, aplicamos os valores iniciais de "Novo Jogo"
+	if not recarregando_save:
+		moedas = config["moedas_iniciais"]
+		_set_nivel_base(config["nivel_base_inicial"])
+		is_tutorial_ativo = config["tutorial"]
+		onda_atual = 1 # Só resetamos a onda se for um jogo novo
+		iniciar_dia(true)
+		print("Fase ", fase_atual, " iniciada do zero!")
+	else:
+		# Se for save, apenas confirmamos que os dados já foram carregados
+		print("Fase ", fase_atual, " restaurada na onda: ", onda_atual)
+		# IMPORTANTE: Não chamamos iniciar_dia(true) aqui para não salvar por cima
 	
-	iniciar_dia(true)
 	get_tree().call_group("Interface", "atualizar_moedas")
-	print("Fase ", fase_atual, " iniciada do zero!")
 
 func _set_nivel_base(valor):
 	nivel_base = valor
@@ -384,6 +437,9 @@ func salvar_jogo():
 	print("Encontrei ", construcoes_no_mapa.size(), " construções para salvar.") # <- AVISO NO CONSOLE
 	
 	for construcao in construcoes_no_mapa:
+		if construcao.is_in_group("Base"): 
+			continue
+			
 		var dados_construcao = {
 			"caminho_cena": construcao.scene_file_path, 
 			"pos_x": construcao.global_position.x,
@@ -437,46 +493,61 @@ func carregar_jogo() -> bool:
 	return false
 
 func _restaurar_construcoes(lista_construcoes):
+	# 1. Dá um pequeno tempo para os slots entrarem no grupo
+	await get_tree().process_frame
 	var todos_os_slots = get_tree().get_nodes_in_group("BuildSlots")
 	
+	print("🛠️ Tentando restaurar ", lista_construcoes.size(), " construções em ", todos_os_slots.size(), " slots encontrados.")
+
 	for dados_c in lista_construcoes:
-		if dados_c["caminho_cena"] == "":
-			continue 
-			
+		if dados_c["caminho_cena"] == "": continue
+		
 		var cena_construcao = load(dados_c["caminho_cena"])
 		if cena_construcao:
-			# Usa Vector3 porque o jogo é 3D
 			var pos_salva = Vector3(dados_c["pos_x"], dados_c["pos_y"], dados_c["pos_z"])
 			var nova_construcao = cena_construcao.instantiate()
 			
-			# 1. Procura qual Build Slot pertence a esta posição
+			# 2. PROCURA O SLOT (Aumentamos a tolerância para 1.0 unidade)
 			var slot_dono = null
+			var menor_distancia = 10.0 # Valor alto inicial
+			
 			for slot in todos_os_slots:
-				# Se a posição do slot for muito perto da posição salva da torre
-				if slot.global_position.distance_to(pos_salva) < 0.5:
+				var dist = slot.global_position.distance_to(pos_salva)
+				# Se a distância for pequena e o slot estiver vazio
+				if dist < 1.0 and dist < menor_distancia:
 					slot_dono = slot
-					break
+					menor_distancia = dist
 			
-			# 2. Se encontrou o slot, acopla a torre nele
+			# 3. ACOPLAMENTO NO SLOT
 			if slot_dono:
+				# Importante: Adiciona como FILHO do slot
 				slot_dono.add_child(nova_construcao)
-				nova_construcao.global_position = pos_salva
-				nova_construcao.is_fantasma = false # Ajuste do seu código
 				
-				# Avisa o slot que ele está ocupado para ele esconder a interface
-				slot_dono.is_built = true
-				if slot_dono.base_mesh: slot_dono.base_mesh.hide()
-				if slot_dono.canvas_mobile: slot_dono.canvas_mobile.hide()
+				# Reseta a posição local para (0,0,0) para alinhar perfeito ao slot
+				nova_construcao.position = Vector3.ZERO 
+				nova_construcao.is_fantasma = false
 				
-				# Reconecta o sinal de reativar o slot caso a torre morra/seja vendida
+				# Avisa o slot que ele está ocupado
+				if slot_dono.has_method("configurar_como_ocupado"):
+					slot_dono.configurar_como_ocupado()
+				else:
+					# Fallback caso não tenha a função acima
+					slot_dono.is_built = true
+					if "base_mesh" in slot_dono and slot_dono.base_mesh: slot_dono.base_mesh.hide()
+					if "canvas_mobile" in slot_dono and slot_dono.canvas_mobile: slot_dono.canvas_mobile.hide()
+				
+				# Reconecta o sinal de morte/venda da torre
 				if nova_construcao.has_signal("tree_exited"):
-					nova_construcao.tree_exited.connect(slot_dono.reativar_slot)
-			
-			# 3. Fallback: Se por acaso não achar o slot, joga na cena principal
+					if not nova_construcao.tree_exited.is_connected(slot_dono.reativar_slot):
+						nova_construcao.tree_exited.connect(slot_dono.reativar_slot)
+				
+				print("✅ Torre ", dados_c["caminho_cena"].get_file(), " acoplada ao slot em ", pos_salva)
 			else:
-				print("Aviso: Slot não encontrado para a torre na posição ", pos_salva)
-				nova_construcao.global_position = pos_salva
+				# 4. FALLBACK (Se não achou slot, coloca no mundo)
+				print("⚠️ Slot não encontrado perto de ", pos_salva, ". Adicionando ao mundo.")
 				get_tree().current_scene.add_child(nova_construcao)
+				nova_construcao.global_position = pos_salva
+				nova_construcao.is_fantasma = false
 
 # Função chamada pelo seu botão em game_over_ui.gd
 func reiniciar_noite_atual():
