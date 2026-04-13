@@ -14,6 +14,7 @@
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_aaagv"]
 exposure_multiplier = 0.6
 auto_exposure_enabled = true
+auto_exposure_speed = 64.0
 dof_blur_far_enabled = true
 dof_blur_far_distance = 0.03
 
