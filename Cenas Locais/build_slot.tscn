@@ -13,7 +13,7 @@ albedo_color = Color(0.8666667, 0.5372549, 0.15294118, 0)
 [sub_resource type="CylinderMesh" id="CylinderMesh_w3lxa"]
 material = SubResource("StandardMaterial3D_64b41")
 
-[node name="BuildSlot" type="Node3D" unique_id=612575103]
+[node name="BuildSlot" type="Node3D" unique_id=612575103 groups=["BuildSlots"]]
 script = ExtResource("1_64b41")
 ui_construcao_prefab = ExtResource("2_ckx2x")
 

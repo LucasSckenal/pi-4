@@ -66,6 +66,20 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_botao_cinza"]
+content_margin_top = 18.0
+content_margin_bottom = 18.0
+bg_color = Color(0.22, 0.25, 0.3, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 6
+border_color = Color(0.15, 0.17, 0.2, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
 [node name="GameOverUI" type="Control" unique_id=1217381669]
 process_mode = 3
 layout_mode = 3
@@ -198,7 +212,7 @@ theme_override_styles/separator = SubResource("StyleBoxLine_separador")
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 
-[node name="BotaoReiniciar" type="Button" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=382457053]
+[node name="BotaoRepetirNoite" type="Button" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=826910255]
 custom_minimum_size = Vector2(450, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -209,6 +223,42 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_botao_verde")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")
-text = "TENTAR NOVAMENTE"
+text = "REPETIR ESTA NOITE"
 
+[node name="EspacoBotoes1" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=249585808]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="BotaoReiniciar" type="Button" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=382457053]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.3)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_botao_cinza")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")
+text = "RECOMEÇAR DO ZERO"
+
+[node name="EspacoBotoes2" type="Control" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=2045112541]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="BotaoMenu" type="Button" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=672747895]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.3)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_botao_cinza")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")
+text = "MENU PRINCIPAL"
+
+[connection signal="pressed" from="CenterContainer/PainelPrincipal/VBoxContainer/BotaoRepetirNoite" to="." method="_on_botao_repetir_noite_pressed"]
 [connection signal="pressed" from="CenterContainer/PainelPrincipal/VBoxContainer/BotaoReiniciar" to="." method="_on_botao_reiniciar_pressed"]
+[connection signal="pressed" from="CenterContainer/PainelPrincipal/VBoxContainer/BotaoMenu" to="." method="_on_botao_menu_pressed"]

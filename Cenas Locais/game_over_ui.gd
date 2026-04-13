@@ -4,7 +4,6 @@ extends Control
 @onready var escurecer_fundo = $EscurecerFundo
 @onready var valor_onda = $CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelDias/VBoxDias/ValorDias
 @onready var valor_moedas = $CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelMoedas/VBoxMoedas/ValorMoedas
-@onready var botao_reiniciar = $CenterContainer/PainelPrincipal/VBoxContainer/BotaoReiniciar
 
 func _ready():
 	hide()
@@ -15,37 +14,32 @@ func mostrar():
 		valor_onda.text = str(dias_completos)
 		valor_moedas.text = str(GameManager.moedas)
 	
-	# Prepara os nós para a animação
 	show()
 	escurecer_fundo.modulate.a = 0.0
 	painel_principal.modulate.a = 0.0
 	painel_principal.scale = Vector2(0.6, 0.6)
-	
-	# Força o centro geométrico para o painel escalar a partir do meio
 	painel_principal.pivot_offset = painel_principal.size / 2.0
 	
-	# Animação de entrada
 	var tween = create_tween().set_parallel(true)
 	tween.tween_property(escurecer_fundo, "modulate:a", 1.0, 0.3)
 	tween.tween_property(painel_principal, "modulate:a", 1.0, 0.4)
 	tween.tween_property(painel_principal, "scale", Vector2(1.0, 1.0), 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
-func _on_botao_reiniciar_pressed():
-	if Input.is_joy_known(0): 
-		Input.vibrate_handheld(50) 
-		
-	botao_reiniciar.disabled = true
+# ==========================================
+# NOVOS BOTÕES
+# ==========================================
 
-	# Animação de saída
-	painel_principal.pivot_offset = painel_principal.size / 2.0
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(painel_principal, "scale", Vector2(0.8, 0.8), 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
-	tween.tween_property(self, "modulate:a", 0.0, 0.25)
-	
-	await tween.finished
-	
+func _on_botao_repetir_noite_pressed():
+	get_tree().paused = false
+	if GameManager.has_method("reiniciar_noite_atual"):
+		GameManager.reiniciar_noite_atual()
 	hide()
-	modulate.a = 1.0
-	botao_reiniciar.disabled = false
-	
-	GameManager.reiniciar_partida()
+
+func _on_botao_reiniciar_pressed():
+	if GameManager.has_method("reiniciar_partida"):
+		GameManager.reiniciar_partida()
+	hide()
+
+func _on_botao_menu_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")

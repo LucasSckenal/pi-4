@@ -127,3 +127,8 @@ func _calcular_direcao() -> String:
 		return "Oeste"
 	else:
 		return "Sul"
+
+func restaurar_onda_do_save():
+	onda_atual = GameManager.onda_atual - 1
+	emitir_info()
+	print(name, " sincronizou a onda do save! Preparado para a onda: ", GameManager.onda_atual)

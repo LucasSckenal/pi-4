@@ -180,7 +180,13 @@ func _on_upgrade_ui_fechado():
 # ==========================================
 func verificar_estado_dia_noite():
 	if botao_noite != null:
+		# O seu código padrão: mostra de dia, esconde de noite
 		botao_noite.visible = not GameManager.is_night
+		
+		# A nossa trava de segurança para quando recarregar o save
+		if not GameManager.is_night:
+			botao_noite.disabled = false # Garante que dá para clicar
+			Engine.time_scale = 1.0      # Garante que o jogo não está acelerado
 
 func mostrar_wave_na_tela(texto: String):
 	if label_wave == null: return

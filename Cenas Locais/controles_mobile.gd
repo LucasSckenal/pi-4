@@ -142,3 +142,19 @@ func _alterar_velocidade(multiplicador: float, botao_clicado: Button):
 		
 	botao_clicado.add_theme_stylebox_override("normal", estilo_vel_ativa)
 	botao_clicado.add_theme_color_override("font_color", Color(0, 0, 0)) # Texto preto quando ativo (Destaque)
+	
+	# --- CHAMADO PELO GAMEMANAGER AO CARREGAR O SAVE ---
+func verificar_estado_dia_noite():
+	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
+		# 1. Tira o jogo do pause e reseta para velocidade Normal (1.0)
+		jogo_pausado = false
+		_alterar_velocidade(1.0, btn_normal)
+		
+		# 2. Reseta o botão para o estado de "Dar Play"
+		if is_instance_valid(btn_menu_gigante):
+			btn_menu_gigante.disabled = false
+			btn_menu_gigante.text = "▶"
+			
+		# 3. Esconde os botões de velocidade (pois é de manhã)
+		if is_instance_valid(grupo_velocidades):
+			grupo_velocidades.hide()
