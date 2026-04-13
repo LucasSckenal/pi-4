@@ -199,6 +199,8 @@ func focar_em_ui_2d(botao_alvo: Control, texto: String):
 		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.1).timeout
 	
+	desbloquear_botoes(botao_alvo)	
+	
 	if is_instance_valid(botao_alvo) and botao_alvo.has_signal("pressed") and botao_alvo.pressed.is_connected(ao_clicar):
 		botao_alvo.pressed.disconnect(ao_clicar)
 		
@@ -212,6 +214,18 @@ func bloquear_outros_botoes(botao_alvo):
 				irmao.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				if "disabled" in irmao: irmao.disabled = true
 				irmao.modulate = Color(0.3, 0.3, 0.3, 0.6)
+
+func desbloquear_botoes(botao_alvo):
+	# === NOVA LINHA DE SEGURANÇA ===
+	if not is_instance_valid(botao_alvo):
+		return # Cancela se o botão já foi destruído!
+		
+	var pai = botao_alvo.get_parent()
+	if pai:
+		for irmao in pai.get_children():
+			if irmao != botao_alvo and (irmao is Control):
+				irmao.mouse_filter = Control.MOUSE_FILTER_STOP # Devolve o clique
+				irmao.modulate = Color(1, 1, 1, 1) # Devolve a cor normal (Branco)
 
 func esconder():
 	visible = false

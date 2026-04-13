@@ -110,7 +110,7 @@ func _ao_iniciar_noite(_onda):
 # --- VELOCIDADE & MENU ---
 func _on_menu_pressionado():
 	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
-		if not GameManager.is_tutorial_ativo:
+		#if not GameManager.is_tutorial_ativo:
 			GameManager.iniciar_noite()
 	else:
 		if jogo_pausado:

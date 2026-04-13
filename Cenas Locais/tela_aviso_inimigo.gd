@@ -64,3 +64,9 @@ func _fechar_aviso():
 	# Retoma o jogo e esconde o cartão
 	get_tree().paused = false
 	hide()
+	
+	# === ADICIONA ESTAS 3 LINHAS AQUI ===
+	# Destrói o clone do monstro para o jogo não achar que ele ainda está vivo!
+	if modelo_atual != null:
+		modelo_atual.queue_free()
+		modelo_atual = null

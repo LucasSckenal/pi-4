@@ -14,6 +14,7 @@ extends Node3D
 @onready var castelo = $"NavigationRegion3D/building-castle2"
 @onready var slot_quartel = $BuildSlots/BuildSlot24
 @onready var ponto_defesa = $PontoDefesaPlayer   # Pode ser Marker3D
+@onready var controles_mobile = $HUD/InterfacePrincipal/HudMobileCompleto
 
 # Referências das construções que serão criadas
 var torre_1: Node3D = null
@@ -54,7 +55,14 @@ func iniciar_sequencia_tutorial():
 	while btn_noite == null:
 		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.01).timeout
-	await tutorial.focar_em_ui_2d(btn_noite, "Berta: Tudo pronto! Clica aqui para começar!")
+	await tutorial.mostrar_dialogo("Excelente! Agora que estamos preparados, vamos começar a batalha.")
+	await tutorial.mostrar_dialogo("Clique no botão de 'Play' no canto da tela para iniciar a noite.")
+
+	# Foca no botão do menu gigante (que inicia a noite no mobile)
+	var botao_noite = controles_mobile.btn_menu_gigante
+
+	# O tutorial vai brilhar o botão e travar o resto até o jogador clicar
+	await tutorial.focar_em_ui_2d(botao_noite, "Toque aqui para iniciar a noite!")
 	
 	# ------------------------------------------------------------
 	# NOITE 1 – Foco no ponto de defesa

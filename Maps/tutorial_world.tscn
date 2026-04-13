@@ -835,3 +835,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9548728, -0.1997248, 0.394
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PontoDefesaPlayer" unique_id=449473259]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33175296, 0)
 shape = SubResource("SphereShape3D_it188")
+
+[editable path="HUD"]
+[editable path="HUD/InterfacePrincipal/HudMobileCompleto"]
