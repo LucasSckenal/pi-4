@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://nbn0asbe4wf3"]
 
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_4uil2"]
+[ext_resource type="AudioStream" uid="uid://bsrglyegmdscu" path="res://Sons/EnemyHurt.wav" id="2_edil1"]
 [ext_resource type="Texture2D" uid="uid://bafeshtd72oke" path="res://Dungeon/Textures/colormap.png" id="2_l5fws"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_2scqa"]
 
@@ -3195,6 +3196,7 @@ distancia_ataque = 0.5
 raio_visao_construcao = 1.5
 modelo_3d = NodePath(".")
 animation_player = NodePath("character-orc2/AnimationPlayer")
+som_dano_stream = ExtResource("2_edil1")
 
 [node name="character-orc2" type="Node3D" parent="." unique_id=1281602555]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)

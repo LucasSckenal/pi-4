@@ -75,6 +75,7 @@ theme_override_constants/separation = 20
 [node name="BtnProximaFase" type="Button" parent="CenterContainer/Painel/Margin/VBox" unique_id=255860932]
 custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 0.84, 0.2, 1)
 theme_override_font_sizes/font_size = 22
 text = "Próxima Fase"
@@ -82,5 +83,6 @@ text = "Próxima Fase"
 [node name="BtnMenu" type="Button" parent="CenterContainer/Painel/Margin/VBox" unique_id=728089227]
 custom_minimum_size = Vector2(0, 55)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 22
 text = "Menu Principal"
