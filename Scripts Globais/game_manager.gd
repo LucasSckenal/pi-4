@@ -582,8 +582,53 @@ func apagar_save():
 			print("Arquivo de save removido com sucesso.")
 
 # Função chamada pelo seu botão em game_over_ui.gd
+# Função chamada pelo seu botão em game_over_ui.gd
 func reiniciar_noite_atual():
 	print("Voltando ao início da onda atual...")
 	get_tree().paused = false
-	recarregando_save = true # Liga o aviso para não zerar a fase!
-	get_tree().reload_current_scene()
+	
+	if carregar_jogo():
+		recarregando_save = true 
+		
+		get_tree().reload_current_scene()
+		
+		# Espera a nova cena terminar de carregar totalmente
+		await get_tree().tree_changed
+		await get_tree().process_frame
+		
+		carregar_fase(fase_atual)
+		
+		await get_tree().create_timer(0.1).timeout
+		
+		if dados_construcoes_pendentes.size() > 0:
+			await _restaurar_construcoes(dados_construcoes_pendentes)
+			dados_construcoes_pendentes.clear()
+		
+		# Forçar o estado de volta para o DIA
+		estado_atual = EstadoJogo.DIA
+		is_night = false
+		
+		# ==========================================
+		# CORREÇÃO: REAPLICAR DADOS NA CENA NOVA
+		# ==========================================
+		# Chama o setter novamente para forçar a emissão do sinal na nova cena
+		_set_nivel_base(nivel_base) 
+		
+		# Atualiza a HUD da nova cena com as moedas carregadas
+		get_tree().call_group("Interface", "atualizar_moedas")
+		# ==========================================
+		
+		dia_iniciado.emit(onda_atual)
+		get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
+		
+		# Atualiza botões visuais e cura
+		get_tree().call_group("Interface", "verificar_estado_dia_noite") 
+		get_tree().call_group("Torres", "curar_totalmente") 
+		
+		get_tree().call_group("Spawner", "restaurar_onda_do_save")
+		
+		recarregando_save = false
+		print("✅ Noite reiniciada e Base restaurada com sucesso!")
+	else:
+		print("⚠️ Erro: Nenhum save encontrado! Fazendo reload simples.")
+		get_tree().reload_current_scene()

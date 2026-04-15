@@ -137,6 +137,9 @@ func _ready():
 		modelo_anchor.name = "ModeloAnchor"
 		add_child(modelo_anchor)
 	
+	if tipo == TipoConstrucao.BASE:
+		nivel_atual = GameManager.nivel_base
+		
 	_atualizar_valores_pos_upgrades()
 	vida_atual = vida_maxima
 	_inicializar_barra_vida()
