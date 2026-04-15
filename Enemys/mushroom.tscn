@@ -21,6 +21,9 @@ next_pass = SubResource("ShaderMaterial_txane")
 diffuse_mode = 3
 albedo_color = Color(0.5843602, 0.49568102, 0.4011149, 1)
 metallic = 0.4
+emission_enabled = true
+emission = Color(0.49803922, 0.42352942, 0.34509805, 1)
+emission_energy_multiplier = 0.1
 metadata/extras = {
 "fromFBX": {
 "isTruePBR": false,
@@ -34,6 +37,7 @@ diffuse_mode = 3
 albedo_color = Color(0.40642184, 0.47501338, 0.18935393, 1)
 metallic = 0.4
 roughness = 0.4150871
+distance_fade_mode = 1
 metadata/extras = {
 "fromFBX": {
 "isTruePBR": false,

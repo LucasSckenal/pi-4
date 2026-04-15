@@ -404,8 +404,8 @@ func _criar_interface_do_boss():
 	var margin = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	margin.add_theme_constant_override("margin_top", 50)
-	margin.add_theme_constant_override("margin_left", 250)
-	margin.add_theme_constant_override("margin_right", 250)
+	margin.add_theme_constant_override("margin_left", 350)
+	margin.add_theme_constant_override("margin_right", 350)
 	canvas_boss.add_child(margin)
 	
 	var vbox = VBoxContainer.new()
