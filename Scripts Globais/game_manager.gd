@@ -96,55 +96,64 @@ var caminhos_das_fases = {
 func _ready():
 	# Aguarda o Godot terminar de carregar a cena principal
 	await get_tree().process_frame
-	_tentar_auto_carregar()
 
-func _tentar_auto_carregar():
-	print("🔍 Verificando se existe save para auto-carregamento...")
+# Processa o carregamento do save e transição de cena, acionado por interface
+func carregar_jogo_salvo_manual() -> bool:
+	print("🔍 Verificando se existe save para carregamento...")
 	
 	if not FileAccess.file_exists(SAVE_PATH):
 		print("ℹ️ Nenhum ficheiro de save encontrado em: ", SAVE_PATH)
-		return
+		return false
 
-	# 1. Carregar os dados do ficheiro primeiro
 	if carregar_jogo():
 		print("💾 Save lido com sucesso! Fase encontrada no save: ", fase_atual)
 		
-		# 2. Verificar se temos o caminho dessa fase
 		if caminhos_das_fases.has(fase_atual):
 			var caminho_cena = caminhos_das_fases[fase_atual]
 			print("🚀 Mudando para a cena: ", caminho_cena)
 			
-			# 3. Mudar a cena
 			var erro = get_tree().change_scene_to_file(caminho_cena)
-			
 			if erro != OK:
 				print("❌ Erro ao tentar mudar de cena! Código: ", erro)
-				return
+				return false
 
-			# 4. AGUARDAR A CENA CARREGAR (O mais importante)
-			# Esperamos o sinal de que a árvore de nós mudou
 			await get_tree().tree_changed
-			# Esperamos um frame para o current_scene deixar de ser nulo
 			await get_tree().process_frame
 			
 			print("🎬 Nova cena carregada. Iniciando restauração de torres...")
 			
-			# 5. Agora que a cena mudou, restauramos o estado visual
 			recarregando_save = true
 			carregar_fase(fase_atual)
 			
-			# Pequeno atraso para garantir que os Spawners estão prontos
 			await get_tree().create_timer(0.1).timeout
 			
-			# Sincronização final
+			# NOVA LINHA: Instanciamos as torres fisicamente no mundo apenas agora.
+			if dados_construcoes_pendentes.size() > 0:
+				await _restaurar_construcoes(dados_construcoes_pendentes)
+				dados_construcoes_pendentes.clear()
+			
 			dia_iniciado.emit(onda_atual)
 			get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
 			get_tree().call_group("Spawner", "restaurar_onda_do_save")
 			
+			# Sincroniza o ambiente musical com a fase carregada
+			match fase_atual:
+				1:
+					MusicaGlobal.tocar_tutorial()
+				3:
+					MusicaGlobal.tocar_bruxa()
+				5:
+					MusicaGlobal.tocar_covil()
+				_:
+					MusicaGlobal.tocar_menu()
+			
 			recarregando_save = false
-			print("✅ Auto-carregamento concluído com sucesso!")
+			print("✅ Carregamento concluído com sucesso!")
+			return true
 		else:
 			print("⚠️ Erro: A fase ", fase_atual, " não existe no dicionário caminhos_das_fases!")
+			return false
+	return false
 
 # ==========================================
 # INPUTS GERAIS
@@ -416,6 +425,7 @@ func adicionar_moedas(quantidade: int):
 # SISTEMA DE SAVE / LOAD E REINÍCIO DE NOITE
 # ==========================================
 const SAVE_PATH = "user://save_jogo.json"
+var dados_construcoes_pendentes: Array = []
 
 func salvar_jogo():
 	var dados_save = {
@@ -432,9 +442,9 @@ func salvar_jogo():
 		"multiplicador_velocidade_inimigo": multiplicador_velocidade_inimigo,
 		"construcoes": []
 	}
-	# Salva todas as construções que estiverem no grupo "Construcoes"
+	# Salva todas as construções que estiverem no grupo "Construcoes" (1º Loop)
 	var construcoes_no_mapa = get_tree().get_nodes_in_group("Construcao")
-	print("Encontrei ", construcoes_no_mapa.size(), " construções para salvar.") # <- AVISO NO CONSOLE
+	print("Encontrei ", construcoes_no_mapa.size(), " construções para salvar.") 
 	
 	for construcao in construcoes_no_mapa:
 		if construcao.is_in_group("Base"): 
@@ -444,17 +454,22 @@ func salvar_jogo():
 			"caminho_cena": construcao.scene_file_path, 
 			"pos_x": construcao.global_position.x,
 			"pos_y": construcao.global_position.y,
-			"pos_z": construcao.global_position.z
+			"pos_z": construcao.global_position.z,
+			"nivel_atual": construcao.nivel_atual if "nivel_atual" in construcao else 0,
+			"caminho_atual": construcao.caminho_atual if "caminho_atual" in construcao else -1
 		}
 		dados_save["construcoes"].append(dados_construcao)
 	
-	# Salva todas as construções que estiverem no grupo "Construcoes"
+	# Salva todas as construções que estiverem no grupo "Construcoes" (2º Loop)
 	var construcoes = get_tree().get_nodes_in_group("Construcoes")
 	for construcao in construcoes:
 		var dados_construcao = {
 			"caminho_cena": construcao.scene_file_path, 
 			"pos_x": construcao.global_position.x,
-			"pos_y": construcao.global_position.y
+			"pos_y": construcao.global_position.y,
+			"pos_z": construcao.global_position.z,
+			"nivel_atual": construcao.nivel_atual if "nivel_atual" in construcao else 0,
+			"caminho_atual": construcao.caminho_atual if "caminho_atual" in construcao else -1
 		}
 		dados_save["construcoes"].append(dados_construcao)
 		
@@ -484,8 +499,11 @@ func carregar_jogo() -> bool:
 		multiplicador_horda = dados_save["multiplicador_horda"]
 		multiplicador_velocidade_inimigo = dados_save["multiplicador_velocidade_inimigo"]
 		
-		# Recriar construções (usando call_deferred para garantir que a cena já carregou)
-		call_deferred("_restaurar_construcoes", dados_save["construcoes"])
+		# ARMAZENA AS CONSTRUÇÕES PARA RECRIAR DEPOIS DO MAPA CARREGAR
+		if dados_save.has("construcoes"):
+			dados_construcoes_pendentes = dados_save["construcoes"]
+		else:
+			dados_construcoes_pendentes = []
 		
 		get_tree().call_group("Interface", "atualizar_moedas")
 		return true
@@ -504,8 +522,14 @@ func _restaurar_construcoes(lista_construcoes):
 		
 		var cena_construcao = load(dados_c["caminho_cena"])
 		if cena_construcao:
-			var pos_salva = Vector3(dados_c["pos_x"], dados_c["pos_y"], dados_c["pos_z"])
+			var pos_salva = Vector3(dados_c["pos_x"], dados_c["pos_y"], dados_c.get("pos_z", 0))
 			var nova_construcao = cena_construcao.instantiate()
+			
+			# Aplica as informações de upgrade diretamente na instância antes de acoplá-la à cena
+			if "nivel_atual" in nova_construcao and dados_c.has("nivel_atual"):
+				nova_construcao.nivel_atual = dados_c["nivel_atual"]
+			if "caminho_atual" in nova_construcao and dados_c.has("caminho_atual"):
+				nova_construcao.caminho_atual = dados_c["caminho_atual"]
 			
 			# 2. PROCURA O SLOT (Aumentamos a tolerância para 1.0 unidade)
 			var slot_dono = null
@@ -548,6 +572,14 @@ func _restaurar_construcoes(lista_construcoes):
 				get_tree().current_scene.add_child(nova_construcao)
 				nova_construcao.global_position = pos_salva
 				nova_construcao.is_fantasma = false
+
+# Remove o arquivo de save local para evitar carregamento de instâncias já finalizadas
+func apagar_save():
+	if FileAccess.file_exists(SAVE_PATH):
+		var dir = DirAccess.open("user://")
+		if dir:
+			dir.remove("save_jogo.json")
+			print("Arquivo de save removido com sucesso.")
 
 # Função chamada pelo seu botão em game_over_ui.gd
 func reiniciar_noite_atual():

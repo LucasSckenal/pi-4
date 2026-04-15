@@ -6,9 +6,17 @@ extends Control
 @onready var menu_botoes = $CanvasLayer/MarginContainer/VBoxContainer
 @onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes
 @onready var cena_seletor = $CanvasLayer/MarginContainer/SeletorFases
+@onready var btn_continuar = $CanvasLayer/MarginContainer/VBoxContainer/BtnContinuar
 
 func _ready():
 	MusicaGlobal.tocar_menu()
+	
+	# Oculta e desativa o botão de continuar caso não exista um arquivo de save válido
+	if btn_continuar:
+		var existe_save = FileAccess.file_exists(GameManager.SAVE_PATH)
+		btn_continuar.disabled = not existe_save
+		btn_continuar.visible = existe_save
+		
 	# 1. Configurações iniciais de interface 
 	if cena_configuracoes:
 		cena_configuracoes.hide()
@@ -64,6 +72,13 @@ func _atualizar_estado_cabeca(player_instancia: Node):
 # ---------------------------------------------------------
 # BOTÕES DO MENU (Lógica original de animações restaurada)
 # ---------------------------------------------------------
+
+func _on_btn_continuar_pressed():
+	if btn_continuar:
+		btn_continuar.disabled = true
+	var sucesso = await GameManager.carregar_jogo_salvo_manual()
+	if not sucesso and btn_continuar:
+		btn_continuar.disabled = false
 
 func _on_btn_jogar_pressed():
 	menu_botoes.hide()

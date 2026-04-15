@@ -19,6 +19,9 @@ func mostrar_tela():
 	show()
 	get_tree().paused = true # Pausa o jogo
 	
+	# Invalida o save para que a fase concluída não possa ser continuada posteriormente
+	GameManager.apagar_save()
+	
 	# Efeito visual do painel "saltando" na tela (Tween)
 	painel.scale = Vector2(0.1, 0.1)
 	painel.modulate.a = 0.0

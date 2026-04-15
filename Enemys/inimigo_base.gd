@@ -26,6 +26,7 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var tempo_recarga_ataque: float = 1.5
 @export var raio_visao_construcao: float = 2.0
 @export var raio_visao_aliados: float = 1.0
+@export var dist_tornar_random: float = 1.5
 
 @export_category("Referências Visuais & Som")
 @export var modelo_3d: Node3D           
@@ -160,7 +161,7 @@ func _physics_process(delta):
 		var dist = global_position.distance_to(alvo_pos)
 		
 		# Descentraliza o alvo apenas a curtas distâncias para cercar as construções
-		if dist < 5.0:
+		if dist < dist_tornar_random:
 			alvo_pos += desvio_posicao
 			
 		nav_agent.target_position = alvo_pos
