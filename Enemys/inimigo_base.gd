@@ -64,6 +64,8 @@ var alvo_atual: Node3D = null
 var pode_atacar: bool = true
 var escala_original: Vector3
 var posicao_de_spawn: Vector3
+var desvio_posicao: Vector3 = Vector3.ZERO
+var tempo_bloqueado: float = 0.0
 
 @onready var nav_agent = $NavigationAgent3D
 
@@ -85,6 +87,9 @@ var label_vida: Label = null
 func _ready():
 	add_to_group("inimigos")
 	vida_atual = vida_maxima
+	
+	# Posição de desvio gerada para o cerco ao alvo
+	desvio_posicao = Vector3(randf_range(-0.8, 0.8), 0, randf_range(-0.8, 0.8))
 	
 	if modelo_3d:
 		escala_original = modelo_3d.scale
@@ -151,8 +156,14 @@ func _physics_process(delta):
 		
 	# 3. Movimento
 	if alvo_atual and nav_agent:
-		nav_agent.target_position = alvo_atual.global_position
-		var dist = global_position.distance_to(alvo_atual.global_position)
+		var alvo_pos = alvo_atual.global_position
+		var dist = global_position.distance_to(alvo_pos)
+		
+		# Descentraliza o alvo apenas a curtas distâncias para cercar as construções
+		if dist < 5.0:
+			alvo_pos += desvio_posicao
+			
+		nav_agent.target_position = alvo_pos
 		
 		if dist > distancia_ataque:
 			if not nav_agent.is_navigation_finished():
@@ -166,7 +177,8 @@ func _physics_process(delta):
 						var colisao = get_slide_collision(i)
 						var colisor = colisao.get_collider()
 						
-						if colisor and colisor.is_in_group("Barreiras"):
+						# Verifica se a entidade colidida exige a interrupção do pulo
+						if colisor and (colisor.is_in_group("Barreiras") or colisor.is_in_group("Castelo") or colisor.is_in_group("inimigos") or colisor == alvo_atual):
 							eh_barreira = true
 							break
 					

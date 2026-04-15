@@ -3192,7 +3192,6 @@ height = 0.3263855
 script = ExtResource("1_4uil2")
 nome_inimigo = "Orc"
 vida_maxima = 120
-distancia_ataque = 0.5
 raio_visao_construcao = 1.5
 modelo_3d = NodePath(".")
 animation_player = NodePath("character-orc2/AnimationPlayer")
@@ -3272,7 +3271,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.11766434, 0)
 shape = SubResource("CapsuleShape3D_3xw0u")
 
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=1211876878]
-visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1609782530]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07307434, -0.006230831)
