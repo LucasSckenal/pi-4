@@ -903,63 +903,63 @@ tipo = 5
 transform = Transform3D(43.636208, 0, 89.977104, 0, 100, 0, -89.977104, 0, 43.636208, 8.109369, -0.9268074, -14.509198)
 
 [node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.19727302, 0.009268074, -0.015566812)
+transform = Transform3D(0.008992909, 0, 0.0043735127, 0, 0.010000002, 0, -0.0043735127, 0, 0.008992909, -0.19727302, 0.01460044, -0.01556681)
 nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=1518294179 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.20473449, 0.009268074, -0.030952238)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.205, 0.015, -0.031)
 nivel_necessario = 0
 
 [node name="BuildSlot3" parent="Builds" unique_id=1285772858 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.17752038, 0.009268074, 0.025162816)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.178, 0.015, 0.025)
 nivel_necessario = 0
 
 [node name="BuildSlot4" parent="Builds" unique_id=1380109134 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.17148262, 0.009268074, 0.037612587)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.17148264, 0.01502719, 0.03761259)
 nivel_necessario = 0
 
 [node name="BuildSlot6" parent="Builds" unique_id=348491458 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.23697954, 0.009268074, -0.14055923)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2331371, 0.014982671, -0.117153496)
 nivel_necessario = 0
 
 [node name="BuildSlot7" parent="Builds" unique_id=1424840923 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.11262949, 0.009268074, 0.095590375)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.114, 0.015, 0.093)
 nivel_necessario = 0
 
 [node name="BuildSlot8" parent="Builds" unique_id=1786553746 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2017702, 0.009268074, 0.03747625)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2017702, 0.01524118, 0.03747625)
 nivel_necessario = 0
 
 [node name="BuildSlot9" parent="Builds" unique_id=1659260526 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.22914949, 0.009268074, -0.018979384)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.22914952, 0.014956238, -0.018979378)
 nivel_necessario = 0
 
 [node name="BuildSlot10" parent="Builds" unique_id=1520989149 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.21429949, 0.009268074, -0.092672706)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2142995, 0.015120474, -0.09267271)
 nivel_necessario = 0
 
 [node name="BuildSlot11" parent="Builds" unique_id=863431366 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.16252953, 0.009268074, -0.12852496)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.16252953, 0.015073435, -0.12852496)
 nivel_necessario = 0
 
 [node name="BuildSlot12" parent="Builds" unique_id=1128133243 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.1405991, 0.009268074, -0.117496975)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.14628468, 0.015375286, -0.114739634)
 nivel_necessario = 0
 
 [node name="BuildSlot13" parent="Builds" unique_id=634579993 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.11870146, 0.009268074, -0.10938747)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.11870146, 0.015422242, -0.10938747)
 nivel_necessario = 0
 
 [node name="BuildSlot14" parent="Builds" unique_id=1965719208 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.060511753, 0.009268074, 0.010598708)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.061, 0.015, 0.011)
 nivel_necessario = 0
 
 [node name="BuildSlot15" parent="Builds" unique_id=2115040292 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.049716793, 0.009268074, 0.032857727)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.051793337, 0.015459408, 0.02993251)
 nivel_necessario = 0
 
 [node name="BuildSlot16" parent="Builds" unique_id=1925734076 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.071417004, 0.009268074, 0.0565759)
+transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.073, 0.015, 0.049)
 nivel_necessario = 0
 
 [node name="BuildSlot20" parent="Builds" unique_id=388595874 instance=ExtResource("1_ofgoq")]
