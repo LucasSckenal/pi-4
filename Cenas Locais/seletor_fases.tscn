@@ -87,12 +87,12 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
 text = "🎓 Mundo Tutorial"
 
-[node name="BtnCovil" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1651411677]
+[node name="BtnDeserto" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1665193030]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "🐉 Covil do Dragão"
+text = "🏜️ Mundo Egipcio"
 
 [node name="BtnBruxa" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1591794367]
 layout_mode = 2
@@ -100,6 +100,27 @@ mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
 text = "🧙‍♀️ Casa da Bruxa"
+
+[node name="BtnAquatico" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=781763513]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
+text = "⚓ Fenda dos Piratas"
+
+[node name="BtnSciFi" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=88926910]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
+text = "👽 Nave Espacial"
+
+[node name="BtnCovil" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1651411677]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
+text = "🐉 Covil do Dragão"
 
 [node name="Espacador" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1828892703]
 custom_minimum_size = Vector2(0, 10)
@@ -113,6 +134,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
 text = "◀ Voltar ao Menu"
 
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnTutorial" to="." method="_on_btn_tutorial_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnCovil" to="." method="_on_btn_covil_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnDeserto" to="." method="_on_btn_deserto_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnBruxa" to="." method="_on_btn_bruxa_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnAquatico" to="." method="_on_btn_aquatico_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnSciFi" to="." method="_on_btn_scifi_pressed"]
+[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnCovil" to="." method="_on_btn_covil_pressed"]
 [connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnVoltar" to="." method="_on_btn_voltar_pressed"]

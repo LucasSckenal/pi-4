@@ -13,8 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://b27udja6qybus" path="res://Icons/image-removebg-preview(1).png" id="12_xsw65"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_aaagv"]
-exposure_multiplier = 0.6
-auto_exposure_enabled = true
+exposure_multiplier = 0.55
 auto_exposure_speed = 64.0
 dof_blur_far_enabled = true
 dof_blur_far_distance = 0.03
@@ -337,6 +336,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8957244, 0, 1.2889173)
 [node name="Camera3D" type="Camera3D" parent="CenarioFundo" unique_id=2049399379]
 transform = Transform3D(-0.76496637, 0, -0.6440704, 0, 1, 0, 0.6440704, 0, -0.76496637, -3.0085435, 1.0362134, 0.21304476)
 attributes = SubResource("CameraAttributesPractical_aaagv")
+far = 50.0
 script = ExtResource("4_jix8l")
 
 [node name="Reinforced Wooden Pan" parent="CenarioFundo/Camera3D" unique_id=463787872 instance=ExtResource("4_uol58")]
