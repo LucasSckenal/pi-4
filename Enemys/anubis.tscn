@@ -14,6 +14,9 @@ height = 2.0651855
 [node name="Anubis" type="CharacterBody3D" unique_id=1947398332 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, 0, 0, 0)
 script = ExtResource("1_lips3")
+vida_maxima = 850
+velocidade = 0.3
+forca_dano = 40
 modelo_3d = NodePath("Anubis")
 animation_player = NodePath("Anubis/AnimationPlayer")
 anim_andar = "Walking"

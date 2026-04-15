@@ -11,14 +11,14 @@
 script = ExtResource("2_61xxl")
 tipo = 2
 custo_moedas = 2
-vida_maxima = 50
+vida_maxima = 200
 moedas_por_onda = 1
 upgrade_custos = Array[int]([2, 3])
 upgrade_moedas_por_nivel = Array[int]([2, 3])
 upgrade_vida_por_nivel = Array[int]([100, 150])
 modelos_por_nivel = Array[PackedScene]([ExtResource("3_cg5e5"), ExtResource("4_x3kc2")])
 
-[node name="CollisionShape3D" parent="unit-house/StaticBody3D" parent_id_path=PackedInt32Array(2100784490) index="0" unique_id=1282629882]
+[node name="CollisionShape3D" parent="unit-house/StaticBody3D" parent_id_path=PackedInt32Array(1469915934) index="0" unique_id=709763585]
 visible = false
 
 [node name="AreaClique" type="Area3D" parent="." index="1" unique_id=1004971188]

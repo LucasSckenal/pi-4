@@ -47,14 +47,24 @@ var banco_de_fases: Dictionary = {
 		"moedas_iniciais": 10,
 		"nivel_base_inicial": 0,
 		"tutorial": true,
-		"renda_base_por_onda": 5, # Ouro garantido só por sobreviver à noite
+		"renda_base_por_onda": 5, 
+		"construcoes": {
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
+			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+			2: []
+		}
+	},
+	2: {
+		"moedas_iniciais": 10,
+		"nivel_base_inicial": 0,
+		"tutorial": false,
+		"renda_base_por_onda": 5, 
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
 			2: []
 		}
 	}
-	# Pode adicionar a Fase 2 aqui futuramente!
 }
 
 # ==========================================

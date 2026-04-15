@@ -14,6 +14,8 @@ height = 2.0651855
 [node name="Genio" type="CharacterBody3D" unique_id=1252573154]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_36wgu")
+vida_maxima = 200
+forca_dano = 20
 
 [node name="Genio" parent="." unique_id=1307497035 instance=ExtResource("1_no0k8")]
 

@@ -65,12 +65,12 @@ radius = 0.6071644
 [node name="building-castle2" unique_id=1806970837 groups=["Base", "Castelo"] instance=ExtResource("1_xtwgx")]
 script = ExtResource("2_07545")
 tipo = 5
-vida_maxima = 400
+vida_maxima = 600
 upgrade_custos = Array[int]([5, 7])
 upgrade_vida_por_nivel = Array[int]([500, 750])
 modelos_por_nivel = Array[PackedScene]([ExtResource("3_lgj1g"), ExtResource("4_3oq81")])
 
-[node name="building-castle" parent="." index="0" unique_id=1561068054]
+[node name="building-castle" parent="." index="0" unique_id=1292587405]
 mesh = SubResource("ArrayMesh_d1utd")
 
 [node name="AreaClique" type="Area3D" parent="." index="1" unique_id=440299272]

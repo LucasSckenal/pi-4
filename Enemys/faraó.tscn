@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://dnmgh03i2ix21"]
+
+[ext_resource type="PackedScene" uid="uid://duu7n3v1uixxc" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="1_0ki3c"]
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_oswje"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0ki3c"]
+radius = 0.45361328
+height = 1.6856546
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_oswje"]
+radius = 1.0325928
+height = 2.0651855
+
+[node name="Faraó" type="CharacterBody3D" unique_id=1483349175]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+script = ExtResource("1_oswje")
+tipo_inimigo = 2
+nome_inimigo = "Faraó"
+vida_maxima = 5500
+velocidade = 0.3
+forca_dano = 100
+
+[node name="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=383528023 instance=ExtResource("1_0ki3c")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=62345733]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9240321, 0.048446927)
+shape = SubResource("CapsuleShape3D_0ki3c")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=815183404]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=973637516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7585492, -0.006230831)
+shape = SubResource("CapsuleShape3D_oswje")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1885742155]
+path_desired_distance = 1.5
+
+[editable path="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations"]
