@@ -3,20 +3,32 @@ extends Camera3D
 @export var player: Node3D
 @export var limite_maximo_pan_x: float = 4.0
 @export var limite_maximo_pan_z: float = 8.0
+
+## Define se os limites de movimentação encolhem junto com o zoom (comportamento original) ou se permanecem fixos permitindo visão total das bordas do mapa (modo panorama livre)
+@export var escalar_limites_com_zoom: bool = true
+
+## Velocidade com que a câmera segue o jogador (por padrão é "8.0")
+@export var velocidade_suavizacao: float = 8.0
 var offset: Vector3
-var velocidade_suavizacao: float = 8.0
 var fov_inicial: float
 var size_inicial: float
 var posicao_inicial: Vector3
 
 func _ready():
-	# Salva a distância exata e a posição central entre a câmera e o player no momento que o jogo abre
-	if player:
-		offset = global_position - player.global_position
-		
 	posicao_inicial = global_position
 	fov_inicial = fov
 	size_inicial = size
+	
+	# Calcula o offset ideal projetando a visão da câmera até a altura do jogador
+	# Isso garante que a câmera foque no centro do personagem independentemente de onde ele inicie a fase
+	if player:
+		var direcao_camera = -global_transform.basis.z
+		if direcao_camera.y != 0:
+			var distancia_ate_chao = (player.global_position.y - global_position.y) / direcao_camera.y
+			var ponto_foco = global_position + (direcao_camera * distancia_ate_chao)
+			offset = global_position - ponto_foco
+		else:
+			offset = global_position - player.global_position
 
 func _process(delta):
 	if player:
@@ -31,17 +43,16 @@ func _process(delta):
 			
 		fator_zoom = clamp(fator_zoom, 0.0, 1.0)
 		
-		# Calcula a área de limite dinâmico com base no zoom atual
-		var limite_atual_x = limite_maximo_pan_x * fator_zoom
-		var limite_atual_z = limite_maximo_pan_z * fator_zoom
+		# Define a área de limite com base na configuração escolhida no Inspector
+		var limite_atual_x = limite_maximo_pan_x
+		var limite_atual_z = limite_maximo_pan_z
+		
+		if escalar_limites_com_zoom:
+			limite_atual_x *= fator_zoom
+			limite_atual_z *= fator_zoom
 		
 		# Restringe a movimentação da câmera ao limite dinâmico do centro original da fase
 		posicao_alvo.x = clamp(posicao_alvo.x, posicao_inicial.x - limite_atual_x, posicao_inicial.x + limite_atual_x)
-		
-		# Aplica o deslocamento no eixo X apenas quando há zoom ativo
-		if fator_zoom > 0.0:
-			posicao_alvo.x += 3.0 * fator_zoom
-			
 		posicao_alvo.z = clamp(posicao_alvo.z, posicao_inicial.z - limite_atual_z, posicao_inicial.z + limite_atual_z)
 		
 		# Garante a fixação da altura da câmera
