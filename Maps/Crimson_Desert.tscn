@@ -898,72 +898,73 @@ mesh = SubResource("ArrayMesh_0s2pb")
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.007432461, 2.1682777, -4.4125185)
 script = ExtResource("6_x8cn2")
 tipo = 5
+vida_maxima = 500
 
 [node name="Builds" type="Node3D" parent="." unique_id=2126967921]
 transform = Transform3D(43.636208, 0, 89.977104, 0, 100, 0, -89.977104, 0, 43.636208, 8.109369, -0.9268074, -14.509198)
 
 [node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.008992909, 0, 0.0043735127, 0, 0.010000002, 0, -0.0043735127, 0, 0.008992909, -0.19727302, 0.01460044, -0.01556681)
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, -0.19727302, 0.01460044, -0.01556681)
 nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=1518294179 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.205, 0.015, -0.031)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.205, 0.015, -0.031)
 nivel_necessario = 0
 
 [node name="BuildSlot3" parent="Builds" unique_id=1285772858 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.178, 0.015, 0.025)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.178, 0.015, 0.025)
 nivel_necessario = 0
 
 [node name="BuildSlot4" parent="Builds" unique_id=1380109134 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.17148264, 0.01502719, 0.03761259)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.17148264, 0.01502719, 0.03761259)
 nivel_necessario = 0
 
 [node name="BuildSlot6" parent="Builds" unique_id=348491458 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2331371, 0.014982671, -0.117153496)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.2331371, 0.014982671, -0.117153496)
 nivel_necessario = 0
 
 [node name="BuildSlot7" parent="Builds" unique_id=1424840923 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.114, 0.015, 0.093)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.114, 0.015, 0.093)
 nivel_necessario = 0
 
 [node name="BuildSlot8" parent="Builds" unique_id=1786553746 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2017702, 0.01524118, 0.03747625)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.2017702, 0.01524118, 0.03747625)
 nivel_necessario = 0
 
 [node name="BuildSlot9" parent="Builds" unique_id=1659260526 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.22914952, 0.014956238, -0.018979378)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.22914952, 0.014956238, -0.018979378)
 nivel_necessario = 0
 
 [node name="BuildSlot10" parent="Builds" unique_id=1520989149 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.2142995, 0.015120474, -0.09267271)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.2142995, 0.015120474, -0.09267271)
 nivel_necessario = 0
 
 [node name="BuildSlot11" parent="Builds" unique_id=863431366 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.16252953, 0.015073435, -0.12852496)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.16252953, 0.015073435, -0.12852496)
 nivel_necessario = 0
 
 [node name="BuildSlot12" parent="Builds" unique_id=1128133243 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.14628468, 0.015375286, -0.114739634)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.14628468, 0.015375286, -0.114739634)
 nivel_necessario = 0
 
 [node name="BuildSlot13" parent="Builds" unique_id=634579993 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.11870146, 0.015422242, -0.10938747)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.11870146, 0.015422242, -0.10938747)
 nivel_necessario = 0
 
 [node name="BuildSlot14" parent="Builds" unique_id=1965719208 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.061, 0.015, 0.011)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.061, 0.015, 0.011)
 nivel_necessario = 0
 
 [node name="BuildSlot15" parent="Builds" unique_id=2115040292 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.051793337, 0.015459408, 0.02993251)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.051793337, 0.015459408, 0.02993251)
 nivel_necessario = 0
 
 [node name="BuildSlot16" parent="Builds" unique_id=1925734076 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.073, 0.015, 0.049)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.073, 0.015, 0.049)
 nivel_necessario = 0
 
 [node name="BuildSlot20" parent="Builds" unique_id=388595874 instance=ExtResource("1_ofgoq")]
-transform = Transform3D(0.0043636216, 0, -0.008997712, 0, 0.010000002, 0, 0.008997712, 0, 0.0043636216, -0.14726323, 0.009268074, 0.10529317)
+transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025, 0, 0.022494279, 0, 0.010909052, -0.14726323, 0.009268074, 0.10529317)
 nivel_necessario = 0
 
 [node name="Ground" type="GridMap" parent="." unique_id=833788172]
@@ -1016,22 +1017,22 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 transform = Transform3D(-97.207565, 0, 23.46671, 0, 100.000015, 0, -23.46671, 0, -97.207565, 113.23369, -15.882205, 321.89197)
 
 [node name="Spawner A" parent="Spawns" unique_id=423161848 instance=ExtResource("8_dk0kk")]
-transform = Transform3D(0.99999905, 0, 4.3213367e-07, 0, 0.9999996, 0, -4.3213367e-07, 0, 0.99999905, 1.8265997, 0.169, 2.7443426)
+transform = Transform3D(1, 0, 4.321341e-07, 0, 1, 0, -4.321341e-07, 0, 1, 1.8265997, 0.169, 2.7443426)
 ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_1adak"), SubResource("Resource_hj1xp"), SubResource("Resource_gwkev"), SubResource("Resource_qmdqv"), SubResource("Resource_it188"), SubResource("Resource_dk0kk"), SubResource("Resource_sv780"), SubResource("Resource_b2idl"), SubResource("Resource_068fl"), SubResource("Resource_qphxd")])
 
 [node name="Spawner B" parent="Spawns" unique_id=34138668 instance=ExtResource("8_dk0kk")]
-transform = Transform3D(0.9999991, 0, 2.8312206e-07, 0, 0.9999996, 0, -2.8312206e-07, 0, 0.9999991, 1.9155034, 0.1653077, 2.726801)
+transform = Transform3D(1, 0, 2.8312232e-07, 0, 1, 0, -2.8312232e-07, 0, 1, 1.9155034, 0.1653077, 2.726801)
 ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_gxr63"), SubResource("Resource_vbs5l"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje"), SubResource("Resource_2h005"), SubResource("Resource_1lte0"), SubResource("Resource_u6451"), SubResource("Resource_sqfto"), SubResource("Resource_d3pib")])
 
 [node name="Spawner C" parent="Spawns" unique_id=878883450 instance=ExtResource("8_dk0kk")]
-transform = Transform3D(0.9999991, 0, 2.9802322e-07, 0, 0.9999996, 0, -2.9802322e-07, 0, 0.9999991, 1.755256, 0.16560514, 2.7501493)
+transform = Transform3D(1, 0, 2.9802348e-07, 0, 1, 0, -2.9802348e-07, 0, 1, 1.755256, 0.16560514, 2.7501493)
 ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_a3xla"), SubResource("Resource_m1uej"), SubResource("Resource_dx84t"), SubResource("Resource_7aht3"), SubResource("Resource_6oh1h"), SubResource("Resource_4hbx2"), SubResource("Resource_mdkjs"), SubResource("Resource_mn3i6"), SubResource("Resource_l3ung"), SubResource("Resource_pi6cv")])
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1544450648]
 navigation_mesh = SubResource("NavigationMesh_4wehy")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("20_2h005")]
-transform = Transform3D(1.79996, 0.010966418, -0.0048605176, -0.010965437, 1.7999666, 0.00037827357, 0.0048627323, -0.00034865533, 1.7999934, 0.1185745, 1.1493058, -1.6705356)
+transform = Transform3D(2.9999335, 0.018277364, -0.008100863, -0.018275728, 2.9999444, 0.00063045596, 0.008104553, -0.00058109226, 2.999989, 0.1185745, 1.1493058, -1.6705356)
 speed = 3.0
 rotation_speed = 20.0
 
