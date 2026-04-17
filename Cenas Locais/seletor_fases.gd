@@ -5,16 +5,18 @@ signal fechar_seletor
 # Caminho para a sua textura do tracinho
 var textura_linha = preload("res://Icons/textura_tracinho.png")
 var estrela_cheia = preload("res://Icons/star.png")
-var estrela_vazia = preload("res://Icons/star_outline_depth.png") # Uma versão cinza ou vazia da estrela
+var estrela_vazia = preload("res://Icons/star_outline_depth.png") 
 # Pegamos o nó do pergaminho para jogar as linhas lá dentro
 @onready var pergaminho = $Meshy_AI_Blank_Scroll_0416004051_texture
-var progresso_atual = 2
+var progresso_atual = 6
 
 # Nomes corrigidos exatamente iguais à sua foto!
 @onready var botoes_fases = [
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map1,
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map2,
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map3,
+	$Meshy_AI_Blank_Scroll_0416004051_texture/Map4,
+	$Meshy_AI_Blank_Scroll_0416004051_texture/Map5,
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map6
 ]
 
@@ -22,6 +24,8 @@ var estrelas_por_fase = {
 	"Map1": 3,
 	"Map2": 2,
 	"Map3": 1,
+	"Map4": 2,
+	"Map5": 0,
 	"Map6": 0
 }
 
@@ -93,7 +97,7 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 			# Chamamos a atualização das estrelas aqui:
 			atualizar_estrelas_do_botao(botao)
 		else:
-			botao.modulate = Color(0.2, 0.2, 0.2, 1) 
+			botao.modulate = Color(0.01, 0.01, 0.01, 1) 
 			botao.disabled = true
 
 	for i in range(linhas_criadas.size()):
@@ -122,15 +126,7 @@ func atualizar_estrelas_do_botao(botao: Button) -> void:
 # ==========================================
 # SEUS SINAIS ORIGINAIS 
 # (Certifique-se de que os nomes correspondem aos sinais dos botões no Godot)
-# ==========================================		
-
-func _on_btn_aquatico_pressed() -> void:
-	MusicaGlobal.tocar_aquatico()
-	get_tree().change_scene_to_file("res://Maps/fenda_dos_piratas.tscn")
-
-func _on_btn_scifi_pressed() -> void:
-	MusicaGlobal.tocar_tutorial()
-	get_tree().change_scene_to_file("res://Maps/tutorial_world.tscn")
+# ==========================================			
 
 func _on_btn_voltar_pressed() -> void:
 	fechar_seletor.emit()
@@ -154,3 +150,13 @@ func _on_map_3_pressed() -> void:
 func _on_map_6_pressed() -> void:
 	MusicaGlobal.tocar_covil()
 	get_tree().change_scene_to_file("res://Maps/Covil_Dragon.tscn")
+
+
+func _on_map_4_pressed() -> void:
+	MusicaGlobal.tocar_aquatico()
+	get_tree().change_scene_to_file("res://Maps/fenda_dos_piratas.tscn")
+
+
+func _on_map_5_pressed() -> void:
+	MusicaGlobal.tocar_tutorial()
+	get_tree().change_scene_to_file("res://Maps/tutorial_world.tscn")
