@@ -146,12 +146,6 @@ func _on_map_3_pressed() -> void:
 	MusicaGlobal.tocar_bruxa()
 	get_tree().change_scene_to_file("res://Maps/Witch_house.tscn")
 
-
-func _on_map_6_pressed() -> void:
-	MusicaGlobal.tocar_covil()
-	get_tree().change_scene_to_file("res://Maps/Covil_Dragon.tscn")
-
-
 func _on_map_4_pressed() -> void:
 	MusicaGlobal.tocar_aquatico()
 	get_tree().change_scene_to_file("res://Maps/fenda_dos_piratas.tscn")
@@ -160,3 +154,7 @@ func _on_map_4_pressed() -> void:
 func _on_map_5_pressed() -> void:
 	MusicaGlobal.tocar_tutorial()
 	get_tree().change_scene_to_file("res://Maps/tutorial_world.tscn")
+
+func _on_map_6_pressed() -> void:
+	MusicaGlobal.tocar_covil()
+	get_tree().change_scene_to_file("res://Maps/Covil_Dragon.tscn")

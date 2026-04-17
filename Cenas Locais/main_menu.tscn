@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dw3p73c367lb0" path="res://Cenas Locais/reinforced_wooden_pan.tscn" id="4_uol58"]
 [ext_resource type="PackedScene" uid="uid://d3cdnd7wk3m3s" path="res://Cenas Locais/configuracoes.tscn" id="5_wr2lu"]
 [ext_resource type="Texture2D" uid="uid://dpgy0ntoi2brs" path="res://Icons/continue_icon.png" id="5_yo1mr"]
-[ext_resource type="PackedScene" uid="uid://dkctxff7rmf4m" path="res://Cenas Locais/seletor_fases.tscn" id="6_f1q7e"]
 [ext_resource type="Texture2D" uid="uid://ctwihwfbfohj8" path="res://Icons/image-removebg-preview(4).png" id="9_iqqrd"]
 [ext_resource type="Texture2D" uid="uid://cwxya3tj0fpd5" path="res://Icons/image-removebg-preview(3).png" id="10_1fi58"]
 [ext_resource type="Texture2D" uid="uid://c1rfb8bqso8vv" path="res://Icons/image-removebg-preview(2).png" id="11_krtp0"]
@@ -467,10 +466,6 @@ alignment = 0
 expand_icon = true
 
 [node name="Configuracoes" parent="CanvasLayer/MarginContainer" unique_id=635436861 instance=ExtResource("5_wr2lu")]
-visible = false
-layout_mode = 2
-
-[node name="SeletorFases" parent="CanvasLayer/MarginContainer" unique_id=860466080 instance=ExtResource("6_f1q7e")]
 visible = false
 layout_mode = 2
 

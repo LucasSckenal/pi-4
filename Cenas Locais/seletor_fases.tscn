@@ -140,9 +140,9 @@ texture = ExtResource("5_mfnoj")
 [node name="Map3" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1373141864]
 anchors_preset = -1
 anchor_left = 0.34461808
-anchor_top = 0.11250002
+anchor_top = 0.125
 anchor_right = 0.52376866
-anchor_bottom = 0.38447502
+anchor_bottom = 0.39697504
 offset_right = 413.61853
 offset_bottom = 220.17804
 scale = Vector2(0.33287326, 0.47072595)
@@ -215,14 +215,13 @@ texture = ExtResource("4_bp4jj")
 
 [node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" unique_id=680354085]
 layout_mode = 0
-offset_left = 150.20728
-offset_top = -63.73142
-offset_right = 459.20728
-offset_bottom = 49.26858
+offset_left = 129.17825
+offset_top = -84.975204
+offset_right = 482.17825
+offset_bottom = 28.024796
 theme_override_constants/outline_size = 14
 theme_override_font_sizes/font_size = 40
-text = "Casa da bruxa
-"
+text = "Navio submerso"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true
@@ -269,14 +268,13 @@ texture = ExtResource("4_bp4jj")
 
 [node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" unique_id=2107430161]
 layout_mode = 0
-offset_left = 150.20728
-offset_top = -63.73142
-offset_right = 459.20728
-offset_bottom = 49.26858
+offset_left = 156.21556
+offset_top = -82.85075
+offset_right = 478.21558
+offset_bottom = 30.149246
 theme_override_constants/outline_size = 14
 theme_override_font_sizes/font_size = 40
-text = "Casa da bruxa
-"
+text = "Espaço sideral"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true

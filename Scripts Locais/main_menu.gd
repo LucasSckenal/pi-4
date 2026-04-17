@@ -81,15 +81,7 @@ func _on_btn_continuar_pressed():
 		btn_continuar.disabled = false
 
 func _on_btn_jogar_pressed():
-	menu_botoes.hide()
-	cena_seletor.show()
-	
-	cena_seletor.pivot_offset = cena_seletor.size / 2
-	cena_seletor.scale = Vector2(0.8, 0.8)
-	cena_seletor.modulate.a = 0.0
-	var tween = create_tween().set_parallel(true)
-	tween.tween_property(cena_seletor, "scale", Vector2(1, 1), 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tween.tween_property(cena_seletor, "modulate:a", 1.0, 0.2)
+	get_tree().change_scene_to_file("res://Cenas Locais/seletor_fases.tscn")
 
 func _on_btn_conquistas_pressed() -> void:
 	get_tree().change_scene_to_file("res://Cenas Locais/tela_conquistas.tscn")
