@@ -1,32 +1,11 @@
 [gd_scene format=3 uid="uid://dkctxff7rmf4m"]
 
 [ext_resource type="Script" uid="uid://drtuhx0gasbm7" path="res://Cenas Locais/seletor_fases.gd" id="1_nbx80"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Painel"]
-bg_color = Color(0.121569, 0.121569, 0.14902, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.25, 0.45, 0.85, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.5)
-shadow_size = 20
-shadow_offset = Vector2(0, 10)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BotaoFase"]
-content_margin_left = 20.0
-content_margin_top = 15.0
-content_margin_right = 20.0
-content_margin_bottom = 15.0
-bg_color = Color(0.2, 0.2, 0.25, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[ext_resource type="PackedScene" uid="uid://fs8pjdhnlgs3" path="res://Assets/Meshy_AI_Blank_Scroll_0416004051_texture.glb" id="2_1miao"]
+[ext_resource type="Texture2D" uid="uid://bnesw0l35idgn" path="res://Icons/Map1Selcetor.png" id="3_ymrsv"]
+[ext_resource type="Texture2D" uid="uid://bxey4wkvmacm3" path="res://Icons/Map2Selector.png" id="4_ecws0"]
+[ext_resource type="Texture2D" uid="uid://b0qtkebf5b6p3" path="res://Icons/Map3Selector.png" id="5_bp4jj"]
+[ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
 
 [node name="SeletorFases" type="Control" unique_id=860466080]
 layout_mode = 3
@@ -37,106 +16,72 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nbx80")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1248731950]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.65)
+[node name="Meshy_AI_Blank_Scroll_0416004051_texture" parent="." unique_id=1253914551 instance=ExtResource("2_1miao")]
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=2042786403]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=49057524]
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_Painel")
-
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=14426690]
-layout_mode = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 32
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=291187031]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1967130879]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "🗺️ SELECIONAR FASE"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=8952385]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="BtnTutorial" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=2079216765]
-layout_mode = 2
+[node name="Map1" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1397241155]
+anchors_preset = -1
+anchor_left = 0.12500001
+anchor_top = 0.25138888
+anchor_right = 0.30415055
+anchor_bottom = 0.5233639
+offset_top = 1.5258789e-05
+offset_right = 413.61856
+offset_bottom = 220.17801
+scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "🎓 Mundo Tutorial"
+icon = ExtResource("3_ymrsv")
+flat = true
+metadata/_edit_use_anchors_ = true
 
-[node name="BtnDeserto" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1665193030]
-layout_mode = 2
+[node name="Map2" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1757016339]
+anchors_preset = -1
+anchor_left = 0.2690972
+anchor_top = 0.47916666
+anchor_right = 0.44824776
+anchor_bottom = 0.75114167
+offset_right = 413.6186
+offset_bottom = 220.17798
+scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "🏜️ Mundo Egipcio"
+icon = ExtResource("4_ecws0")
+flat = true
+metadata/_edit_use_anchors_ = true
 
-[node name="BtnBruxa" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1591794367]
-layout_mode = 2
+[node name="Map3" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1373141864]
+anchors_preset = -1
+anchor_left = 0.4157986
+anchor_top = 0.18055551
+anchor_right = 0.5949491
+anchor_bottom = 0.4525305
+offset_right = 413.6186
+offset_bottom = 220.17804
+scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "🧙‍♀️ Casa da Bruxa"
+icon = ExtResource("5_bp4jj")
+flat = true
+metadata/_edit_use_anchors_ = true
 
-[node name="BtnAquatico" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=781763513]
-layout_mode = 2
+[node name="Map6" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1084889550]
+anchors_preset = -1
+anchor_left = 0.7421875
+anchor_top = 0.2902778
+anchor_right = 0.9213381
+anchor_bottom = 0.5622528
+offset_right = 413.61853
+offset_bottom = 220.17798
+scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "⚓ Fenda dos Piratas"
+icon = ExtResource("6_mfnoj")
+flat = true
+metadata/_edit_use_anchors_ = true
 
-[node name="BtnSciFi" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=88926910]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "👽 Nave Espacial"
+[node name="Camera3D" type="Camera3D" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=2058200856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.84632933)
 
-[node name="BtnCovil" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1651411677]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "🐉 Covil do Dragão"
+[node name="SpotLight3D" type="SpotLight3D" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=2018396110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7083192)
 
-[node name="Espacador" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1828892703]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
-[node name="BtnVoltar" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1540347068]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_BotaoFase")
-text = "◀ Voltar ao Menu"
-
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnTutorial" to="." method="_on_btn_tutorial_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnDeserto" to="." method="_on_btn_deserto_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnBruxa" to="." method="_on_btn_bruxa_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnAquatico" to="." method="_on_btn_aquatico_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnSciFi" to="." method="_on_btn_scifi_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnCovil" to="." method="_on_btn_covil_pressed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnVoltar" to="." method="_on_btn_voltar_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" to="." method="_on_map_1_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" to="." method="_on_map_2_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" to="." method="_on_map_3_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" to="." method="_on_map_6_pressed"]
