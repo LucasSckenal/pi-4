@@ -4,7 +4,8 @@ signal fechar_seletor
 
 # Caminho para a sua textura do tracinho
 var textura_linha = preload("res://Icons/textura_tracinho.png")
-
+var estrela_cheia = preload("res://Icons/star.png")
+var estrela_vazia = preload("res://Icons/star_outline_depth.png") # Uma versão cinza ou vazia da estrela
 # Pegamos o nó do pergaminho para jogar as linhas lá dentro
 @onready var pergaminho = $Meshy_AI_Blank_Scroll_0416004051_texture
 var progresso_atual = 2
@@ -16,6 +17,13 @@ var progresso_atual = 2
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map3,
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map6
 ]
+
+var estrelas_por_fase = {
+	"Map1": 3,
+	"Map2": 2,
+	"Map3": 1,
+	"Map6": 0
+}
 
 var linhas_criadas = []
 
@@ -76,13 +84,17 @@ func criar_linhas_tracejadas() -> void:
 
 func atualizar_mapa(fases_liberadas: int) -> void:
 	for i in range(botoes_fases.size()):
-		var nivel_da_fase = i + 1
+		var botao = botoes_fases[i] 
+		var nivel_da_fase = i + 1 
+		
 		if nivel_da_fase <= fases_liberadas:
-			botoes_fases[i].modulate = Color(1, 1, 1, 1)
-			botoes_fases[i].disabled = false
+			botao.modulate = Color(1, 1, 1, 1) 
+			botao.disabled = false 
+			# Chamamos a atualização das estrelas aqui:
+			atualizar_estrelas_do_botao(botao)
 		else:
-			botoes_fases[i].modulate = Color(0.2, 0.2, 0.2, 1)
-			botoes_fases[i].disabled = true
+			botao.modulate = Color(0.2, 0.2, 0.2, 1) 
+			botao.disabled = true
 
 	for i in range(linhas_criadas.size()):
 		var nivel_destino = i + 2 
@@ -91,7 +103,22 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 		else:
 			linhas_criadas[i].hide()
 
-
+func atualizar_estrelas_do_botao(botao: Button) -> void:
+	var nome_do_mapa = botao.name # Pega "Map1", "Map2", etc 
+	var qtd_estrelas = estrelas_por_fase.get(nome_do_mapa, 0)
+	
+	# Faz um loop de 1 a 3 para verificar star1, star2 e star3
+	for n in range(1, 4):
+		var nome_node = "Star" + str(n)
+		if botao.has_node(nome_node):
+			var estrela_node = botao.get_node(nome_node) as MeshInstance2D
+			
+			# Se a quantidade de estrelas ganhas for maior ou igual ao número da estrela
+			if qtd_estrelas >= n:
+				estrela_node.texture = estrela_cheia
+			else:
+				estrela_node.texture = estrela_vazia
+				
 # ==========================================
 # SEUS SINAIS ORIGINAIS 
 # (Certifique-se de que os nomes correspondem aos sinais dos botões no Godot)
