@@ -105,11 +105,14 @@ func _ready():
 	# TELA DE AVISO (TUTORIAL / ENCYCLOPEDIA)
 	# ==========================================
 	# Se o nome do inimigo ainda não estiver na lista do GameManager:
-	if not GameManager.inimigos_descobertos.has(nome_inimigo):
-		# Adiciona à lista para não mostrar de novo na próxima vez
-		GameManager.inimigos_descobertos.append(nome_inimigo)
+	if not Global.inimigos_descobertos.has(nome_inimigo):
+	# Adiciona à lista para não mostrar de novo na próxima vez
+		Global.inimigos_descobertos.append(nome_inimigo)
 		
-		# Chama o Autoload da nossa tela 3D (Certifica-te que a cena TelaAvisoInimigo está no Autoload!)
+		# Salva imediatamente no ficheiro .cfg para o jogador não perder a descoberta!
+		Global.salvar_progresso() 
+		
+		# Chama o Autoload da nossa tela 3D
 		if InputMap.has_action("passar_onda"): # Apenas um safety check leve
 			TelaAvisoInimigo.mostrar_novo_inimigo(
 				nome_inimigo, 

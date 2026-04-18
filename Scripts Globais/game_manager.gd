@@ -34,8 +34,9 @@ var recarregando_save: bool = false
 # BANCO DE DADOS DAS FASES
 # ==========================================
 var construcoes_permitidas_na_fase: Dictionary = {}
-var inimigos_descobertos: Array[String] = []
 
+var vida_base_atual: int = 0
+var vida_base_maxima: int = 0
 # ==========================================
 # CONTROLO DOS SPAWNERS
 # ==========================================
@@ -401,23 +402,39 @@ func acionar_game_over():
 	get_tree().paused = true # Pausa o jogo (inimigos, tempo, torres)
 
 # Agora a função recebe as estrelas que o jogador ganhou na partida
-func acionar_vitoria(estrelas_ganhas: int = 3): 
-	print("Vitória acionada com ", estrelas_ganhas, " estrelas!")
+func acionar_vitoria(): 
+	print("Todas as ondas terminaram! Calculando vitória...")
 	
-	# === ATUALIZA PROGRESSO GLOBAL ===
-	# Desbloqueia a próxima fase
+	# ==========================================
+	# 1. CÁLCULO DE ESTRELAS
+	# ==========================================
+	var estrelas_ganhas = 1 # O padrão é 1 (sobreviveu)
+	
+	# Previne erro caso a vida máxima não tenha sido carregada
+	if vida_base_maxima > 0:
+		var porcentagem = (float(vida_base_atual) / float(vida_base_maxima)) * 100.0
+		if porcentagem >= 75.0:
+			estrelas_ganhas = 3
+		elif porcentagem >= 50.0:
+			estrelas_ganhas = 2
+			
+	print("A base terminou com ", vida_base_atual, " de vida. O jogador ganhou ", estrelas_ganhas, " estrelas!")
+
+	# ==========================================
+	# 2. SALVAR NO GLOBAL (Como fizemos antes)
+	# ==========================================
 	if fase_atual >= Global.fases_liberadas:
 		Global.fases_liberadas = fase_atual + 1
 	
-	# Guarda as estrelas (apenas se a pontuação atual for melhor que a antiga!)
 	var estrelas_antigas = Global.estrelas_por_fase.get(str(fase_atual), 0)
 	if estrelas_ganhas > estrelas_antigas:
 		Global.estrelas_por_fase[str(fase_atual)] = estrelas_ganhas
 	
-	# Salva o arquivo global permanentemente
 	Global.salvar_progresso()
-	# ==================================
 	
+	# ==========================================
+	# 3. FINALIZAR
+	# ==========================================
 	vitoria.emit() 
 	get_tree().paused = true
 
@@ -516,7 +533,7 @@ func carregar_jogo() -> bool:
 		onda_atual = dados_save["onda_atual"]
 		_set_nivel_base(dados_save["nivel_base"])
 		is_tutorial_ativo = dados_save["is_tutorial_ativo"]
-		
+		iniciar_dia()
 		# Restaurar Bônus
 		bonus_dano = dados_save["bonus_dano"]
 		bonus_moedas_onda = dados_save["bonus_moedas_onda"]
