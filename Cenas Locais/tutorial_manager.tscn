@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cfwqaluwadvca" path="res://Icons/seta.png" id="2_qy4gi"]
 [ext_resource type="Shader" uid="uid://c07c3ymo8xv0w" path="res://Cenas Locais/tutorial_manager.gdshader" id="2_wsspp"]
 [ext_resource type="PackedScene" uid="uid://clww287nh4jrb" path="res://Personagens/character-female-c.glb" id="3_iojbm"]
-[ext_resource type="PackedScene" uid="uid://bl6xi3ijx2f4t" path="res://Personagens/character-male-b.glb" id="4_wsspp"]
+[ext_resource type="PackedScene" uid="uid://b1w5410q2pt6w" path="res://Personagens/character-male-b.glb" id="4_wsspp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ivfh5"]
 shader = ExtResource("2_wsspp")
@@ -70,7 +70,7 @@ render_target_update_mode = 4
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=1445730468]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36030763, 0.94395804)
 
-[node name="character-female-c2" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=945034479 instance=ExtResource("3_iojbm")]
+[node name="character-female-c2" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=2090331733 instance=ExtResource("3_iojbm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.41070533)
 
 [node name="Camera3D" type="Camera3D" parent="CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport" unique_id=1115397937]
@@ -108,11 +108,7 @@ handle_input_locally = false
 size = Vector2i(200, 200)
 render_target_update_mode = 4
 
-[node name="character-male-b2" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=2004813500 instance=ExtResource("4_wsspp")]
-
-[node name="Skeleton3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/character-male-b" parent_id_path=PackedInt32Array(2004813500, 1859515817) index="0" unique_id=652004563]
-bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
-bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
+[node name="character-male-b2" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=1840593895 instance=ExtResource("4_wsspp")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport" unique_id=458441951]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36030763, 0.94395804)

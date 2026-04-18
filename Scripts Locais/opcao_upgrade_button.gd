@@ -29,7 +29,7 @@ func setup_camera_3d():
 	var cam = Camera3D.new()
 	cam.name = "CâmaraInterna"
 	cam.position = Vector3(0, 0.4, 1.2) 
-	cam.look_at(Vector3(0, 0.3, 0))
+	cam.look_at_from_position(Vector3(0, 0.4, 1.2), Vector3(0, 0.3, 0))
 	container_3d.add_child(cam)
 	
 	var luz = DirectionalLight3D.new()

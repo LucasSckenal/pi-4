@@ -8,7 +8,6 @@ extends CanvasLayer
 # ==========================================
 @onready var hud_mobile_completo = $InterfacePrincipal/HudMobileCompleto
 @onready var label_wave = $InterfacePrincipal/CentroTela/LabelWave
-@onready var botao_noite = $InterfacePrincipal/MarginInferior/CenterContainer/BotaoNoite
 @onready var label_moedas = $InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas/LabelMoedas
 @onready var margin_direita = $InterfacePrincipal/MarginDireita
 @export var cena_carta_ui: PackedScene
@@ -62,6 +61,11 @@ var vitoria_instance: CanvasLayer = null
 
 func _ready():
 	add_to_group("Interface")
+	
+	# Se certificando que o filtro de mouse não ira impedir o cursor mudar ao dar hover nas construções
+	var centro_tela = $InterfacePrincipal/CentroTela
+	if centro_tela != null:
+		centro_tela.mouse_filter = Control.MOUSE_FILTER_IGNORE # Ele é "Pass" por padrão no filter
 	
 	# Conecta sinais do GameManager (upgrade de cartas)
 	if GameManager.has_signal("mostrar_menu_upgrade"):
@@ -179,13 +183,8 @@ func _on_upgrade_ui_fechado():
 # FUNÇÕES DE DIA/NOITE E MOEDAS
 # ==========================================
 func verificar_estado_dia_noite():
-	if botao_noite != null:
-		# O seu código padrão: mostra de dia, esconde de noite
-		botao_noite.visible = not GameManager.is_night
-		
 		# A nossa trava de segurança para quando recarregar o save
 		if not GameManager.is_night:
-			botao_noite.disabled = false # Garante que dá para clicar
 			Engine.time_scale = 1.0      # Garante que o jogo não está acelerado
 
 func mostrar_wave_na_tela(texto: String):

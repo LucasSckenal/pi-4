@@ -11,7 +11,7 @@ extends Node3D
 @onready var slot_torre_2 = $BuildSlots/BuildSlot2
 @onready var slot_casa_1 = $BuildSlots/BuildSlot11   # casa da frente (não usada no tutorial)
 @onready var slot_casa_2 = $BuildSlots/BuildSlot12    # casa segura (atrás)
-@onready var castelo = $"NavigationRegion3D/building-castle2"
+@onready var castelo = $"building-castle2"
 @onready var slot_quartel = $BuildSlots/BuildSlot24
 @onready var ponto_defesa = $PontoDefesaPlayer   # Pode ser Marker3D
 @onready var controles_mobile = $HUD/InterfacePrincipal/HudMobileCompleto

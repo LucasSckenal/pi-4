@@ -26,6 +26,10 @@ enum TipoConstrucao {
 # Define a escala padrão aplicada aos modelos 3D instanciados por esta construção.
 @export var escala_modelo: Vector3 = Vector3(0.44, 0.44, 0.44)
 
+@export_group("Efeitos Visuais")
+@export var espessura_outline_normal: float = 1.0
+@export var espessura_outline_hover: float = 3.0
+
 # ==========================================
 # CONFIGURAÇÕES ESPECÍFICAS PARA TORRES
 # ==========================================
@@ -46,8 +50,8 @@ enum TipoConstrucao {
 @export var numero_aliados_base: int = 1
 @export var tempo_respawn: float = 5.0 # Tempo em segundos para respawnar
 @export var ponto_spawn_path: NodePath
-@onready var sprite_respawn = $SpriteRespawn
-@onready var barra_respawn = $RespawnViewport/BarraRespawn
+@onready var sprite_respawn = get_node_or_null("SpriteRespawn")
+@onready var barra_respawn = get_node_or_null("RespawnViewport/BarraRespawn")
 
 var soldados_vivos: int = 0 # Controle interno
 
@@ -96,7 +100,7 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 @onready var barra_vida = get_node_or_null(caminho_barra_vida) if tem_barra_vida else null
 @onready var container_barra = get_node_or_null(caminho_container_barra) if tem_barra_vida else null
 @onready var timer_ataque = get_node_or_null("TimerAtaque") if tipo == TipoConstrucao.TORRE else null
-@onready var modelo_anchor = $ModeloAnchor  # Nó vazio para conter o modelo 3D
+@onready var modelo_anchor = get_node_or_null("ModeloAnchor")  # Nó vazio para conter o modelo 3D
 
 # ==========================================
 # INFORMAÇÕES DE INTERFACE
@@ -171,6 +175,14 @@ func _ready():
 	# Área de clique (se existir)
 	if has_node("AreaClique"):
 		$AreaClique.input_event.connect(_on_area_clique)
+		$AreaClique.mouse_entered.connect(_on_area_clique_mouse_entered)
+		$AreaClique.mouse_exited.connect(_on_area_clique_mouse_exited)
+		
+	# Área de transparência (se existir)
+	if has_node("AreaTransparencia"):
+		$AreaTransparencia.input_ray_pickable = false
+		$AreaTransparencia.body_entered.connect(_on_area_transparencia_body_entered)
+		$AreaTransparencia.body_exited.connect(_on_area_transparencia_body_exited)
 	
 	# Notifica a interface sobre a existência desta construção após a inicialização dos grupos
 	for interface_node in get_tree().get_nodes_in_group("Interface"):
@@ -192,7 +204,7 @@ func _pode_interagir_tutorial() -> bool:
 				return false
 	return true
 
-func _on_area_clique(camera, event, position, normal, shape_idx):
+func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
 	if esta_destruida: return  
 	
 	var clicou_mouse = (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
@@ -203,7 +215,7 @@ func _on_area_clique(camera, event, position, normal, shape_idx):
 			construcao_selecionada.emit(self)
 			
 			# ACENDE O ANEL
-			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.noite_iniciada:
+			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
 				indicador_alcance.visible = true
 				print("Anel foi ligado!")
 
@@ -254,7 +266,8 @@ func get_custo_proximo_upgrade() -> int:
 	# Retorna o custo do próximo upgrade, ou -1 se não houver
 	if tem_paths:
 		if caminho_atual == -1:
-			# Primeira escolha: retorna o menor custo entre os caminhos? Melhor deixar a UI lidar com múltiplos.
+			# Primeira escolha: retorna o menor custo entre os caminhos?
+			# Melhor deixar a UI lidar com múltiplos.
 			# Para compatibilidade, retorna -1, indicando que há múltiplas opções.
 			return -1
 		else:
@@ -266,7 +279,6 @@ func get_custo_proximo_upgrade() -> int:
 			return upgrade_custos[nivel_atual]
 	return -1
 
-# FUNÇÃO ATUALIZADA NO BUILDS.GD
 func get_opcoes_proximo_upgrade() -> Array:
 	var opcoes = []
 	var escala_perfeita_ui = _calcular_escala_ideal_para_ui()
@@ -293,7 +305,7 @@ func get_opcoes_proximo_upgrade() -> Array:
 					"icone": path.icone,
 					"custo": path.custos[0],
 					"beneficio": _descrever_beneficio(path, 0),
-					"modelo_3d": modelo_correto, # <-- AGORA ENVIA SÓ 1 MODELO
+					"modelo_3d": modelo_correto, 
 					"escala_modelo": escala_deste_path
 				})
 	elif tem_paths and caminho_atual >= 0:
@@ -318,7 +330,7 @@ func get_opcoes_proximo_upgrade() -> Array:
 				"icone": path.icone,
 				"custo": path.custos[prox_nivel],
 				"beneficio": _descrever_beneficio(path, prox_nivel),
-				"modelo_3d": modelo_correto, # <-- AGORA ENVIA SÓ 1 MODELO
+				"modelo_3d": modelo_correto, 
 				"escala_modelo": escala_deste_path
 			})
 	else:
@@ -337,18 +349,18 @@ func get_opcoes_proximo_upgrade() -> Array:
 				"icone": icone,
 				"custo": custo,
 				"beneficio": _descrever_beneficio_simples(),
-				"modelo_3d": modelo_correto, # <-- AGORA ENVIA SÓ 1 MODELO
+				"modelo_3d": modelo_correto, 
 				"escala_modelo": escala_perfeita_ui
 			})
 	return opcoes
-# NOVA FUNÇÃO AUXILIAR NO BUILDS.GD
+
 func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 	# 1. Tenta pegar a escala específica definida no PathData (se existir no futuro)
 	if path_data and path_data.get("escala_ui_customizada") != null:
 		return path_data.escala_ui_customizada
 		
 	# 2. Senão, calcula baseado no Tipo de Construção (Enum do Builds.gd)
-	var tipo_construcao = self.tipo # Acessa o tipo da tua construção atual
+	var tipo_construcao = self.tipo 
 	
 	# Valores base sugeridos (Ajuste aqui conforme necessário)
 	var escala_padrao_pequena = Vector3(1.2, 1.2, 1.2) # Bom para Casas
@@ -370,6 +382,7 @@ func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 			return escala_padrao_grande
 		_:
 			return Vector3(1, 1, 1) # Fallback seguro
+
 func _descrever_beneficio(path: UpgradePathData, nivel: int) -> String:
 	var partes = []
 	if nivel < path.dano_por_nivel.size() and path.dano_por_nivel[nivel] != 0:
@@ -451,6 +464,10 @@ func aplicar_upgrade(index: int = 0) -> bool:
 	return false
 
 func _trocar_modelo(nivel: int):
+	# Evita processamento de nível zerado antes da hora (Suprime o aviso "Nenhum modelo...")
+	if nivel <= 0:
+		return
+		
 	# Remove modelo antigo
 	for child in modelo_anchor.get_children():
 		child.queue_free()
@@ -476,7 +493,6 @@ func _trocar_modelo(nivel: int):
 		# Esconde as malhas da torre base para evitar sobreposição
 		_esconder_malhas_originais(self)
 	else:
-		# APENAS avisa no console, sem instanciar a própria cena!
 		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
 
 # Nova função para ocultar o modelo 3D original que veio do .glb
@@ -582,7 +598,7 @@ func atacar():
 # ==========================================
 func _pagar_recompensa():
 	if is_fantasma or esta_destruida: return
-	var ondas_restantes = GameManager.onda_atual
+	var _ondas_restantes = GameManager.onda_atual # (IMPORTANTE) Talvez avisar o jogador ou mostrar no label da onda atual como "X/5"
 	var bonus_onda = max(1, 6 - GameManager.onda_atual)  # Ajuste conforme balanceamento
 	
 	var moedas_geradas = moedas_por_onda_atual + bonus_onda
@@ -644,7 +660,7 @@ func _criar_um_aliado():
 	if aliado.has_signal("morreu"):
 		aliado.morreu.connect(_on_aliado_morreu)
 
-func _on_aliado_morreu(aliado_morto: Node):
+func _on_aliado_morreu(_aliado_morto: Node):
 	soldados_vivos -= 1
 	
 	# 1. MOSTRA A BARRA E INICIA A ANIMAÇÃO
@@ -773,12 +789,6 @@ func _on_area_transparencia_body_exited(body):
 	if body.is_in_group("Player"):
 		_set_transparencia(self, 0.0)
 
-func _set_transparencia(no: Node, valor: float):
-	if no is MeshInstance3D:
-		no.transparency = valor
-	for filho in no.get_children():
-		_set_transparencia(filho, valor)
-
 func esconder_indicador():
 	if indicador_alcance:
 		indicador_alcance.visible = false
@@ -793,10 +803,59 @@ func vender_construcao():
 		return
 	
 	# Calcula o retorno (metade do custo)
-	var valor_de_venda = custo_moedas / 2
+	@warning_ignore("integer_division")
+	var valor_de_venda: int = custo_moedas / 2
 	
 	# Entrega o dinheiro usando a função nova (que já atualiza a HUD)
 	GameManager.adicionar_moedas(valor_de_venda)
 	
 	# Remove a construção
 	queue_free()
+
+# ==========================================
+# EFEITOS VISUAIS E HOVER
+# ==========================================
+func _on_area_clique_mouse_entered():
+	if esta_destruida or is_fantasma or GameManager.is_night: return
+	_aplicar_outline_malhas(self, espessura_outline_hover)
+	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+
+func _on_area_clique_mouse_exited():
+	if esta_destruida or is_fantasma or GameManager.is_night: return
+	_aplicar_outline_malhas(self, espessura_outline_normal)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
+# Varre os nós filhos para encontrar malhas e altera o parâmetro do shader
+func _aplicar_outline_malhas(no: Node, espessura: float):
+	if no is MeshInstance3D:
+		var material = no.get_active_material(0)
+		if material and material.next_pass and material.next_pass is ShaderMaterial:
+			# Força a individualidade do material via código caso a engine ignore o Local to Scene
+			var mat_override = no.get_surface_override_material(0)
+			if mat_override == null:
+				mat_override = material.duplicate(true)
+				no.set_surface_override_material(0, mat_override)
+			mat_override.next_pass.set_shader_parameter("scale", espessura)
+			
+	for filho in no.get_children():
+		_aplicar_outline_malhas(filho, espessura)
+
+func _set_transparencia(no: Node, valor: float):
+	if no is MeshInstance3D:
+		no.transparency = valor
+		
+		var material = no.get_active_material(0)
+		if material and material.next_pass and material.next_pass is ShaderMaterial:
+			# Força a individualidade do material via código caso a engine ignore o Local to Scene
+			var mat_override = no.get_surface_override_material(0)
+			if mat_override == null:
+				mat_override = material.duplicate(true)
+				no.set_surface_override_material(0, mat_override)
+			
+			if valor > 0.0:
+				mat_override.next_pass.set_shader_parameter("scale", 0.0)
+			else:
+				mat_override.next_pass.set_shader_parameter("scale", espessura_outline_normal)
+				
+	for filho in no.get_children():
+		_set_transparencia(filho, valor)

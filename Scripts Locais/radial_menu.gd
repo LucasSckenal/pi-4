@@ -12,7 +12,6 @@ var _slot_alvo: Node = null
 
 # Cores para a estilização visual
 var _cor_divisoria = Color(0.3, 0.32, 0.35, 0.8) # Borda cinza suave
-var _cor_fundo_fatia = Color(0.1, 0.11, 0.13, 0.9) # Fundo escuro para contraste
 
 func _ready() -> void:
 	hide()

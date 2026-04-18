@@ -5,7 +5,6 @@ extends Control
 # Referências para a interface
 @onready var menu_botoes = $CanvasLayer/MarginContainer/VBoxContainer
 @onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes
-@onready var cena_seletor = $CanvasLayer/MarginContainer/SeletorFases
 @onready var btn_continuar = $CanvasLayer/MarginContainer/VBoxContainer/BtnContinuar
 
 func _ready():
@@ -21,10 +20,6 @@ func _ready():
 	if cena_configuracoes:
 		cena_configuracoes.hide()
 		cena_configuracoes.fechar_configuracoes.connect(_voltar_para_menu)
-		
-	if cena_seletor:
-		cena_seletor.hide()
-		cena_seletor.fechar_seletor.connect(_voltar_para_menu_do_seletor)
 	
 	# 2. Instancia o Player no Menu (Estilo Minecraft)
 	_instanciar_player_no_menu()
@@ -105,7 +100,6 @@ func _voltar_para_menu():
 	menu_botoes.show()
 
 func _voltar_para_menu_do_seletor():
-	cena_seletor.hide()
 	menu_botoes.show()
 
 # ---------------------------------------------------------

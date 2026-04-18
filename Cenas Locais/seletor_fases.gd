@@ -1,7 +1,5 @@
 extends Control
 
-signal fechar_seletor
-
 # Caminho para a sua textura do tracinho
 var textura_linha = preload("res://Icons/textura_tracinho.png")
 var estrela_cheia = preload("res://Icons/star.png")
