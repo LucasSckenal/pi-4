@@ -17,7 +17,7 @@ func _ready():
 
 func mostrar_tela():
 	show()
-	get_tree().paused = true # Pausa o jogo
+	get_tree().paused = false # Pausa o jogo
 	
 	# Invalida o save para que a fase concluída não possa ser continuada posteriormente
 	GameManager.apagar_save()

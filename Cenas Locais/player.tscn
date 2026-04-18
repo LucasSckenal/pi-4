@@ -1407,17 +1407,17 @@ shape = SubResource("CapsuleShape3D_fb3t6")
 [node name="character-male-f2" parent="." unique_id=2069908664 instance=ExtResource("2_i3pqv")]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 
-[node name="Skeleton3D" parent="character-male-f2/character-male-f" parent_id_path=PackedInt32Array(2069908664, 1255298883) index="0" unique_id=195881561]
+[node name="Skeleton3D" parent="character-male-f2/character-male-f" parent_id_path=PackedInt32Array(2069908664, 164667522) index="0" unique_id=1424845750]
 bones/0/position = Vector3(0, -0.15, 0)
 bones/1/rotation = Quaternion(-0.6087615, 0, 0, 0.7933534)
 bones/2/rotation = Quaternion(-0.6087615, 0, 0, 0.7933534)
 bones/4/rotation = Quaternion(0, -0.5, 0, 0.8660254)
 bones/5/rotation = Quaternion(0, 0.5, 0, 0.8660254)
 
-[node name="body-mesh" parent="character-male-f2/character-male-f/Skeleton3D" index="0" unique_id=1617738544]
+[node name="body-mesh" parent="character-male-f2/character-male-f/Skeleton3D" index="0" unique_id=995088373]
 mesh = SubResource("ArrayMesh_iuptr")
 
-[node name="head-mesh" parent="character-male-f2/character-male-f/Skeleton3D" index="1" unique_id=651635497]
+[node name="head-mesh" parent="character-male-f2/character-male-f/Skeleton3D" index="1" unique_id=57289815]
 mesh = SubResource("ArrayMesh_sc4sl")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="2" unique_id=624303708]
@@ -1437,42 +1437,42 @@ visible = false
 transform = Transform3D(0.26805586, -0.3883772, 0.4054367, -0.49194446, 0.2116226, 0.40543684, -0.5135531, -0.4054369, -0.1767544, 0.16368385, 0.12453696, 0.1883977)
 visible = false
 
-[node name="rollingPin" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_rolo_massa" index="0" unique_id=1080096978]
+[node name="rollingPin" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_rolo_massa" index="0" unique_id=828605890]
 mesh = SubResource("ArrayMesh_1ca8a")
 
 [node name="arma_baguete" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=376356840 instance=ExtResource("9_wnb4d")]
 transform = Transform3D(0.33195746, -0.19656472, 0.30935657, -0.2680425, 0.2434353, 0.3093568, -0.42185006, -0.30935666, 0.046870764, 0.16569391, 0.022713125, 0.19091362)
 visible = false
 
-[node name="loaf-baguette" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_baguete" index="0" unique_id=1010506299]
+[node name="loaf-baguette" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_baguete" index="0" unique_id=260556338]
 mesh = SubResource("ArrayMesh_vge0f")
 
 [node name="arma_frigideira" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1015205108 instance=ExtResource("10_k2xwa")]
 transform = Transform3D(-0.018799052, -0.43959707, 0.00096854765, 0.4395969, -0.018796593, 0.0011101266, -0.001067729, 0.001015096, 0.43999743, 0.23942524, 0.009054273, 0.30465344)
 visible = false
 
-[node name="frying-pan" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_frigideira" index="0" unique_id=1841714525]
+[node name="frying-pan" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_frigideira" index="0" unique_id=425453421]
 mesh = SubResource("ArrayMesh_c8ar1")
 
 [node name="arma_peixe" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=201801692 instance=ExtResource("11_l5s7e")]
 transform = Transform3D(0.9279351, 0.07206491, -0.3657091, 0.072064966, 0.9279351, 0.36570898, 0.36570907, -0.36570907, 0.8558699, 0.15034777, -0.032693297, 0.27318454)
 visible = false
 
-[node name="fish" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_peixe" index="0" unique_id=2062232069]
+[node name="fish" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_peixe" index="0" unique_id=535376155]
 mesh = SubResource("ArrayMesh_0076n")
 
 [node name="arma_colher_pau" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=594802812 instance=ExtResource("12_ohhix")]
 transform = Transform3D(0.55756414, -0.4424362, 0.7024047, -0.44243586, 0.55756366, 0.7024051, -0.70240474, -0.70240474, 0.11512788, 0.096074164, 0.100735545, 0.2485163)
 visible = false
 
-[node name="cooking-spoon" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_colher_pau" index="0" unique_id=2144021763]
+[node name="cooking-spoon" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_colher_pau" index="0" unique_id=583009297]
 mesh = SubResource("ArrayMesh_t8b88")
 
 [node name="arma_espatula" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1955702994 instance=ExtResource("13_4yhib")]
 transform = Transform3D(0.6084857, -0.72111446, 0.33126864, -0.39631405, 0.085519105, 0.91412354, -0.6875173, -0.6875175, -0.23375078, 0.13617153, 0.050701886, 0.21724652)
 visible = false
 
-[node name="cooking-spatula" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_espatula" index="0" unique_id=935352335]
+[node name="cooking-spatula" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_espatula" index="0" unique_id=223168953]
 transform = Transform3D(0.9999999, 0, 2.9802322e-08, 0, 0.99999994, 0, -1.4901161e-08, 2.9802322e-08, 0.9999999, -0.04228586, 0.03394623, 0.024528742)
 mesh = SubResource("ArrayMesh_hwv7l")
 
@@ -1480,7 +1480,7 @@ mesh = SubResource("ArrayMesh_hwv7l")
 transform = Transform3D(-0.01243405, 0.24842742, 0.9685705, -0.15931597, 0.95577943, -0.24719208, -0.98714906, -0.15738246, 0.027694222, 0.22381124, 0.005762726, 0.2889158)
 visible = false
 
-[node name="cooking-knife" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_faca" index="0" unique_id=1173627430]
+[node name="cooking-knife" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_faca" index="0" unique_id=844395355]
 mesh = SubResource("ArrayMesh_l6f00")
 
 [node name="arma_machado" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=43805455 instance=ExtResource("5_s51um")]
@@ -1490,7 +1490,7 @@ visible = false
 [node name="arma_katana" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=544451301 instance=ExtResource("3_tpa7q")]
 transform = Transform3D(-0.2367318, -0.1097803, 0.20740621, 0.2230266, -0.013612833, 0.24735568, -0.07299422, 0.31444228, 0.083119586, 0.21972007, 0.012086064, 0.09172059)
 
-[node name="sword_C" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_katana" index="0" unique_id=350562019]
+[node name="sword_C" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_katana" index="0" unique_id=753975625]
 mesh = SubResource("ArrayMesh_morjr")
 
 [node name="arma_espada_longa" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=785519022 instance=ExtResource("18_e5rqd")]
@@ -1501,7 +1501,7 @@ visible = false
 transform = Transform3D(0.57242024, -0.42758012, 0.69965017, -0.42757973, 0.57241976, 0.69965017, -0.6996501, -0.6996504, 0.14483999, 0.106864914, 0.065333694, 0.2211832)
 visible = false
 
-[node name="cooking-fork" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_garfo_gigante" index="0" unique_id=1877105518]
+[node name="cooking-fork" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_garfo_gigante" index="0" unique_id=1520426312]
 mesh = SubResource("ArrayMesh_dsofl")
 surface_material_override/0 = SubResource("StandardMaterial3D_lt76d")
 
@@ -1509,7 +1509,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lt76d")
 transform = Transform3D(0.7594652, -0.033577204, -0.24916886, -0.00035113096, 0.79269123, -0.10789099, 0.25142083, 0.102533676, 0.752512, 0.18054236, -0.20758945, 0.19716938)
 visible = false
 
-[node name="whole-ham" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_presunto" index="0" unique_id=209068001]
+[node name="whole-ham" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_presunto" index="0" unique_id=993215]
 mesh = SubResource("ArrayMesh_wnb4d")
 
 [node name="arma_light_saber" type="Node3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1710690403]
@@ -1536,7 +1536,6 @@ mesh = SubResource("ArrayMesh_fspfk")
 
 [node name="BoneAttachment3D_Cabeca" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="3" unique_id=548242284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8196878e-09, 0.19324999, -0.002361223)
-visible = false
 bone_name = "head"
 bone_idx = 6
 
@@ -1566,6 +1565,7 @@ visible = false
 
 [node name="HollowKnight Head" type="Node3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=670084941]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -0.6636262, -0.048169035)
+visible = false
 
 [node name="HollowKnight Head" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca/HollowKnight Head" unique_id=1402388395]
 transform = Transform3D(0.009999999, 0, 0, 0, 0.009999999, 0, 0, 0, 0.009999999, 0, 0, 0)

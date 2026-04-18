@@ -27,7 +27,7 @@ func _ready():
 	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
-	
+	GameManager.vitoria.connect(_on_fase_vencida)
 	await get_tree().process_frame
 	
 	GameManager.carregar_fase(1)
@@ -138,13 +138,21 @@ func iniciar_sequencia_tutorial():
 	await passo_upgrade(torre_1, "Clique na torre para abrir o menu de upgrade. Ela tem dois caminhos: escolha um!")
 	
 	# Upgrade na casa (linear)
+	# Upgrade na casa (linear)
+	print("⏳ Esperando jogador fazer o upgrade da casa...")
 	await passo_upgrade(casa_2, "Agora clique na casa. Ela tem apenas um upgrade linear.")
+	print("✅ Upgrade da casa concluído!")
 	
 	# Final do tutorial
 	GameManager.is_tutorial_ativo = false
-	print("✅ Tutorial Completo")
-	if conquista_fim_tutorial:
+	print("✅ Tutorial Completo! Verificando se a variável da conquista tem algo...")
+	
+	if conquista_fim_tutorial != null:
+		print("📦 Emitindo conquista final para o Global!")
 		Global.processar_recompensa(conquista_fim_tutorial)
+	else:
+		print("❌ ERRO: O ficheiro .tres da conquista_fim_tutorial não está colocado no Inspector!")
+	
 
 # ==========================================
 # FUNÇÕES AUXILIARES
@@ -249,3 +257,10 @@ func _on_noite_iniciada(_onda_atual: int) -> void:
 	print("Noite iniciada!!!!")
 	if anim_player and anim_player.has_animation("transicao_para_noite"):
 		anim_player.play("transicao_para_noite")
+
+func _on_fase_vencida():
+	print("🏆 O jogador venceu o tutorial! Entregando recompensa...")
+	if conquista_fim_tutorial != null:
+		Global.processar_recompensa(conquista_fim_tutorial)
+	else:
+		push_error("❌ ERRO: conquista_fim_tutorial vazia no Inspector!")
