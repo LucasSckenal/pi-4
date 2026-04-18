@@ -69,7 +69,7 @@ func _ready():
 	timer_ataque.wait_time = tempo_entre_ataques
 	timer_ataque.timeout.connect(_on_timer_ataque_timeout)
 
-func _process(delta):
+func _process(_delta):
 	# A _process agora serve APENAS para atualizar os alvos a cada frame da tela.
 	# Atualiza lista de inimigos válidos (remove os que morreram)
 	inimigos_no_alcance = inimigos_no_alcance.filter(func(inimigo): return is_instance_valid(inimigo))

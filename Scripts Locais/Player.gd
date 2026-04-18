@@ -18,8 +18,8 @@ const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 
 # --- REFERÊNCIAS ---
 @onready var anim_player = $"character-male-f2/AnimationPlayer"
-@onready var nav_agent = $NavigationAgent3D
-@onready var linha_caminho = $LinhaCaminho
+@onready var nav_agent = get_node_or_null("NavigationAgent3D")
+@onready var linha_caminho = get_node_or_null("LinhaCaminho")
 @onready var area_ataque = $AreaAtaque 
 @onready var timer_ataque = $TimerAtaque
 

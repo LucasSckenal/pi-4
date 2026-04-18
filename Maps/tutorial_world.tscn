@@ -585,7 +585,20 @@ conquista_fim_tutorial = ExtResource("2_gtwgk")
 
 [node name="TutorialManager" parent="." unique_id=885285123 instance=ExtResource("3_ww2ee")]
 
+[node name="CaixaDialogo" parent="TutorialManager" index="1" unique_id=50702287]
+offset_top = -220.0
+
+[node name="BotaoPular" parent="TutorialManager" index="3" unique_id=2055384221]
+offset_left = -160.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_l2f7a")]
+
+[node name="ContainerDirecoes" parent="HUD" index="1" unique_id=1423487210]
+mouse_filter = 2
 
 [node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=1212433029]
 root_node = NodePath("../WorldEnvironment")
@@ -858,5 +871,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9548728, -0.1997248, 0.394
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33175296, 0)
 shape = SubResource("SphereShape3D_it188")
 
+[editable path="TutorialManager"]
+[editable path="TutorialManager/CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2"]
+[editable path="TutorialManager/CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2"]
 [editable path="HUD"]
 [editable path="HUD/InterfacePrincipal/HudMobileCompleto"]

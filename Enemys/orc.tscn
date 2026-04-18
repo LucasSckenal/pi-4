@@ -3277,7 +3277,7 @@ shape = SubResource("CapsuleShape3D_3xw0u")
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=1211876878]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1609782530]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.07307434, -0.006230831)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 shape = SubResource("CapsuleShape3D_kapy6")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1713673120]

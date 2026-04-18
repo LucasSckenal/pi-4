@@ -380,19 +380,24 @@ func morrer():
 	if $CollisionShape3D:
 		$CollisionShape3D.set_deferred("disabled", true)
 		
+	if $SensorAtaque:
+		$SensorAtaque.set_deferred("monitoring", false)
+		$SensorAtaque.set_deferred("monitorable", false)
+		
 	if animation_player and animation_player.has_animation(anim_morrer):
 		animation_player.play(anim_morrer)
 		
 	# Apaga a barra de vida do Boss da tela quando ele morre
 	if canvas_boss:
 		var tw_boss = create_tween()
-		tw_boss.tween_property(canvas_boss.get_child(0), "modulate:a", 0.0, 1.0)
+		tw_boss.tween_interval(1.5)
+		tw_boss.tween_property(canvas_boss.get_child(0), "modulate:a", 0.01, 1.0)
 		tw_boss.finished.connect(canvas_boss.queue_free)
 	
 	var tw = create_tween()
 	tw.tween_interval(1.5)
-	tw.tween_property(self, "scale", Vector3.ZERO, 1.0)
-	tw.finished.connect(queue_free)
+	tw.tween_property(self, "scale", Vector3(0.01, 0.01, 0.01), 0.5)
+	tw.tween_callback(queue_free)
 
 # ==========================================
 # GERAÇÃO DA INTERFACE DO BOSS

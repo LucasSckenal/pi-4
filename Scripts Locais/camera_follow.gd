@@ -67,6 +67,5 @@ func reset_zoom_tutorial():
 	_atualizar_escala_outline_global() # Se houver função de atualização de outline
 
 func _atualizar_escala_outline_global():
-	var player = get_tree().get_first_node_in_group("Player")
 	if player and player.has_method("_atualizar_escala_outline"):
 		player._atualizar_escala_outline(fov if projection == PROJECTION_PERSPECTIVE else size)
