@@ -1536,7 +1536,6 @@ mesh = SubResource("ArrayMesh_fspfk")
 
 [node name="BoneAttachment3D_Cabeca" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="3" unique_id=548242284]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8196878e-09, 0.19324999, -0.002361223)
-visible = false
 bone_name = "head"
 bone_idx = 6
 

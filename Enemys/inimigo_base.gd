@@ -67,6 +67,11 @@ var escala_original: Vector3
 var posicao_de_spawn: Vector3
 var desvio_posicao: Vector3 = Vector3.ZERO
 var tempo_bloqueado: float = 0.0
+var _contador_quedas: int = 0
+
+@export_category("Limites do Mapa")
+@export var limite_queda_y: float = -20.0
+@export var limite_respawn_queda: int = 3
 
 @onready var nav_agent = $NavigationAgent3D
 
@@ -135,6 +140,16 @@ func _ready():
 
 func _physics_process(delta):
 	if esta_morto: return
+
+	# Resgate de entidade que caiu do mapa
+	if global_position.y < limite_queda_y:
+		_contador_quedas += 1
+		if _contador_quedas <= limite_respawn_queda:
+			global_position = posicao_de_spawn
+			velocity = Vector3.ZERO
+		else:
+			morrer()
+		return
 
 	# 1. Gravidade
 	if not is_on_floor():
