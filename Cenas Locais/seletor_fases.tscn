@@ -10,10 +10,24 @@
 [ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
 [ext_resource type="Texture2D" uid="uid://y3aqhhbpej6t" path="res://Icons/Map4Selector.png" id="8_mfnoj"]
 [ext_resource type="Texture2D" uid="uid://dk5tfcfk0lbp0" path="res://Icons/Map5Selector.png" id="9_vhorf"]
+[ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="11_nqyad"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_mfnoj"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_vhorf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7ooa"]
+bg_color = Color(0, 0, 0, 0.7137255)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 20
 
 [node name="SeletorFases" type="Control" unique_id=860466080]
 layout_mode = 3
@@ -357,9 +371,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.84632933)
 [node name="SpotLight3D" type="SpotLight3D" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=2018396110]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7083192)
 
+[node name="BtnVoltar" type="Button" parent="." unique_id=885441256]
+layout_mode = 0
+offset_left = 56.0
+offset_right = 576.0
+offset_bottom = 520.0
+scale = Vector2(-0.101478375, 0.07679579)
+theme_override_styles/normal = SubResource("StyleBoxFlat_i7ooa")
+icon = ExtResource("11_nqyad")
+icon_alignment = 1
+expand_icon = true
+
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" to="." method="_on_map_1_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" to="." method="_on_map_2_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" to="." method="_on_map_3_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" to="." method="_on_map_4_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" to="." method="_on_map_5_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" to="." method="_on_map_6_pressed"]
+[connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]

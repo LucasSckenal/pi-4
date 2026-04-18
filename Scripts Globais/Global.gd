@@ -6,6 +6,10 @@ const SAVE_PATH = "user://save_game.cfg"
 # --- VARIÁVEIS DE ESTADO ---
 var personagem_jogado_atualmente : String = "avo_m"
 
+# --- PROGRESSO DO MAPA ---
+var fases_liberadas: int = 1
+var estrelas_por_fase: Dictionary = {}
+
 # Progresso do Jogador
 var conquistas_desbloqueadas: Array = [] 
 var armas_desbloqueadas: Array = ["arma_katana"]
@@ -85,6 +89,11 @@ func equipar_arma(personagem: String, id_arma: String):
 func salvar_progresso():
 	var config = ConfigFile.new()
 	
+	# Adicione estas duas linhas para salvar o mapa
+	config.set_value("mapa", "fases_liberadas", fases_liberadas)
+	config.set_value("mapa", "estrelas_por_fase", estrelas_por_fase)
+	
+	# Mantenha o resto que já tem 
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
 	config.set_value("inventario", "armas_ganhas", armas_desbloqueadas)
 	config.set_value("inventario", "chapeus_ganhos", chapeus_desbloqueados)
@@ -102,6 +111,9 @@ func carregar_progresso():
 	
 	if err != OK:
 		return
+	
+	fases_liberadas = config.get_value("mapa", "fases_liberadas", 1)
+	estrelas_por_fase = config.get_value("mapa", "estrelas_por_fase", {})
 	
 	conquistas_desbloqueadas = config.get_value("progresso", "conquistas", [])
 	armas_desbloqueadas = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
@@ -128,9 +140,19 @@ func _input(event):
 
 
 func resetar_tudo():
+	# --- RESET DO MAPA E ESTRELAS ---
+	fases_liberadas = 1
+	estrelas_por_fase = {}
+	
+	# --- RESET DO QUE JÁ TINHAS ---
 	conquistas_desbloqueadas = []
 	armas_desbloqueadas = ["arma_katana"]
 	chapeus_desbloqueados = ["Nenhum"]
-	equip_avo_m = {"arma": "arma_katana", "chapeu": "Nenhum"}
-	equip_avo_f = {"arma": "arma_katana", "chapeu": "Nenhum"}
+	
+	equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
+	equip_avo_f = { "arma": "arma_katana", "chapeu": "Nenhum" }
+	
+	# MUITO IMPORTANTE: Salvar após o reset para limpar o ficheiro no PC
 	salvar_progresso()
+	
+	print("Progresso total resetado com sucesso!")

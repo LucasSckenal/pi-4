@@ -39,14 +39,11 @@ func _ready() -> void:
 	recalcular_linhas()
 
 func recalcular_linhas() -> void:
-	# Espera um frame para o Godot calcular as novas posições da UI
 	await get_tree().process_frame
-	
-	# 1. Limpa e cria as linhas
 	criar_linhas_tracejadas()
 	
-	# 2. Atualiza o mapa usando a variável que está lá no topo!
-	atualizar_mapa(progresso_atual)
+	# AGORA LÊ DO GLOBAL
+	atualizar_mapa(Global.fases_liberadas)
 
 func criar_linhas_tracejadas() -> void:
 	# Limpa as antigas
@@ -95,7 +92,7 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 			botao.modulate = Color(1, 1, 1, 1) 
 			botao.disabled = false 
 			# Chamamos a atualização das estrelas aqui:
-			atualizar_estrelas_do_botao(botao)
+			atualizar_estrelas_do_botao(botoes_fases[i], nivel_da_fase)
 		else:
 			botao.modulate = Color(0.01, 0.01, 0.01, 1) 
 			botao.disabled = true
@@ -107,21 +104,21 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 		else:
 			linhas_criadas[i].hide()
 
-func atualizar_estrelas_do_botao(botao: Button) -> void:
-	var nome_do_mapa = botao.name # Pega "Map1", "Map2", etc 
-	var qtd_estrelas = estrelas_por_fase.get(nome_do_mapa, 0)
+func atualizar_estrelas_do_botao(botao: Button, nivel_da_fase: int) -> void:
+	# Puxa as estrelas do Global. Usa str() para buscar "1", "2", etc.
+	var qtd_estrelas = Global.estrelas_por_fase.get(str(nivel_da_fase), 0)
 	
-	# Faz um loop de 1 a 3 para verificar star1, star2 e star3
+	# Faz um loop de 1 a 3 para verificar Star1, Star2 e Star3
 	for n in range(1, 4):
 		var nome_node = "Star" + str(n)
 		if botao.has_node(nome_node):
 			var estrela_node = botao.get_node(nome_node) as MeshInstance2D
 			
-			# Se a quantidade de estrelas ganhas for maior ou igual ao número da estrela
-			if qtd_estrelas >= n:
-				estrela_node.texture = estrela_cheia
-			else:
-				estrela_node.texture = estrela_vazia
+			if estrela_node != null:
+				if qtd_estrelas >= n:
+					estrela_node.texture = estrela_cheia
+				else:
+					estrela_node.texture = estrela_vazia
 				
 # ==========================================
 # SEUS SINAIS ORIGINAIS 
@@ -129,7 +126,7 @@ func atualizar_estrelas_do_botao(botao: Button) -> void:
 # ==========================================			
 
 func _on_btn_voltar_pressed() -> void:
-	fechar_seletor.emit()
+	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
 
 
 func _on_map_1_pressed() -> void:

@@ -400,10 +400,26 @@ func acionar_game_over():
 	game_over.emit() # Dispara o sinal para a HUD abrir a tela
 	get_tree().paused = true # Pausa o jogo (inimigos, tempo, torres)
 
-func acionar_vitoria():
-	print("Vitória acionada!")
+# Agora a função recebe as estrelas que o jogador ganhou na partida
+func acionar_vitoria(estrelas_ganhas: int = 3): 
+	print("Vitória acionada com ", estrelas_ganhas, " estrelas!")
+	
+	# === ATUALIZA PROGRESSO GLOBAL ===
+	# Desbloqueia a próxima fase
+	if fase_atual >= Global.fases_liberadas:
+		Global.fases_liberadas = fase_atual + 1
+	
+	# Guarda as estrelas (apenas se a pontuação atual for melhor que a antiga!)
+	var estrelas_antigas = Global.estrelas_por_fase.get(str(fase_atual), 0)
+	if estrelas_ganhas > estrelas_antigas:
+		Global.estrelas_por_fase[str(fase_atual)] = estrelas_ganhas
+	
+	# Salva o arquivo global permanentemente
+	Global.salvar_progresso()
+	# ==================================
+	
 	vitoria.emit() 
-	get_tree().paused = true 
+	get_tree().paused = true
 
 func reiniciar_partida():
 	print("Reiniciando a partida...")
