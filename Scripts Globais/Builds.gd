@@ -143,6 +143,9 @@ func _ready():
 	_atualizar_valores_pos_upgrades()
 	vida_atual = vida_maxima
 	_inicializar_barra_vida()
+	if tipo == TipoConstrucao.BASE:
+		GameManager.vida_base_maxima = vida_maxima
+		GameManager.vida_base_atual = vida_atual
 	
 	# Carrega o modelo do nível atual (se houver)
 	_trocar_modelo(nivel_atual)
@@ -679,6 +682,9 @@ func receber_dano(quantidade: int):
 		container_barra.visible = true
 		if barra_vida:
 			barra_vida.value = vida_atual
+			
+	if tipo == TipoConstrucao.BASE:
+		GameManager.vida_base_atual = vida_atual
 	
 	var tween = create_tween()
 	tween.tween_property(self, "position:y", y_inicial + 0.15, 0.05)
@@ -760,6 +766,8 @@ func curar_totalmente():
 		barra_vida.value = vida_atual
 	if tem_barra_vida and container_barra:
 		container_barra.visible = false
+	if tipo == TipoConstrucao.BASE:
+		GameManager.vida_base_atual = vida_atual	
 	print("%s curada!" % name)
 
 # ==========================================

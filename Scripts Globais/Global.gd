@@ -24,6 +24,8 @@ var usando_set_hollow_knight: bool = false
 var armadura_kakashi_desbloqueada: bool = true
 var usando_set_kakashi: bool = false
 
+var inimigos_descobertos: Array = []
+
 # O que cada um tem equipado neste momento
 var equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
 var equip_avo_f = { "arma": "arma_katana", "chapeu": "Nenhum" }
@@ -92,7 +94,7 @@ func salvar_progresso():
 	# Adicione estas duas linhas para salvar o mapa
 	config.set_value("mapa", "fases_liberadas", fases_liberadas)
 	config.set_value("mapa", "estrelas_por_fase", estrelas_por_fase)
-	
+	config.set_value("progresso", "inimigos", inimigos_descobertos)
 	# Mantenha o resto que já tem 
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
 	config.set_value("inventario", "armas_ganhas", armas_desbloqueadas)
@@ -114,7 +116,7 @@ func carregar_progresso():
 	
 	fases_liberadas = config.get_value("mapa", "fases_liberadas", 1)
 	estrelas_por_fase = config.get_value("mapa", "estrelas_por_fase", {})
-	
+	inimigos_descobertos = config.get_value("progresso", "inimigos", [])
 	conquistas_desbloqueadas = config.get_value("progresso", "conquistas", [])
 	armas_desbloqueadas = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
 	chapeus_desbloqueados = config.get_value("inventario", "chapeus_ganhos", ["Nenhum"])
@@ -148,7 +150,7 @@ func resetar_tudo():
 	conquistas_desbloqueadas = []
 	armas_desbloqueadas = ["arma_katana"]
 	chapeus_desbloqueados = ["Nenhum"]
-	
+	inimigos_descobertos = []
 	equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
 	equip_avo_f = { "arma": "arma_katana", "chapeu": "Nenhum" }
 	
