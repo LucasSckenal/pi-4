@@ -32,7 +32,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "Set Dark Souls", "Set Bloodborne", "HollowKnight Head", "Set Kakashi"
+	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "HollowKnight Head", "Set Kakashi", "Set Bloodborne" ,"Set Dark Souls"
 ]
 
 func _ready():
@@ -41,6 +41,34 @@ func _ready():
 	_gerar_botoes_armas()
 	_gerar_botoes_chapeus()
 	_atualizar_botoes_genero()
+	atualizar_info_estrelas()
+# Adicione isso no final do seu _ready ou crie uma função 'atualizar_info_estrelas'
+func atualizar_info_estrelas():
+	var total = Global.obter_total_estrelas()
+	var proximo_set = ""
+	var estrelas_faltando = 0
+	
+	if total < 3:
+		proximo_set = "Hollow Knight"
+		estrelas_faltando = 3 - total
+	elif total < 8:
+		proximo_set = "Kakashi"
+		estrelas_faltando = 8 - total
+	elif total < 13:
+		proximo_set = "Bloodborne"
+		estrelas_faltando = 13 - total
+	elif total < 18:
+		proximo_set = "Dark Souls"
+		estrelas_faltando = 18 - total
+	else:
+		proximo_set = "Todos desbloqueados!"
+	
+	# Se você tiver um Label para isso, pode exibir assim:
+	# $UI/LabelEstrelas.text = "Estrelas: " + str(total) + "/18"
+	# if total < 18:
+	#    $UI/LabelProxDesbloqueio.text = "Faltam " + str(estrelas_faltando) + " para o Set " + proximo_set
+	
+	print("Progresso: ", total, " estrelas. Próximo: ", proximo_set)
 
 # --- LÓGICA 3D (Spawning e Rotação) ---
 
@@ -148,6 +176,7 @@ func _atualizar_botoes_genero():
 	btn_avo_m.disabled = (Global.personagem_jogado_atualmente == "avo_m")
 	btn_avo_f.disabled = (Global.personagem_jogado_atualmente == "avo_f")
 
+
 func _on_arma_selecionada(id_arma):
 	# Equipar a mesma arma para ambos os personagens para manter sincronia
 	Global.equipar_arma("avo_m", id_arma)
@@ -160,100 +189,138 @@ func _on_arma_selecionada(id_arma):
 	_gerar_botoes_armas()
 
 func _gerar_botoes_chapeus():
-	# Limpa os atuais
+	# 1. Limpa os botões atuais
 	for filho in grid_chapeus.get_children():
 		filho.queue_free()
 		
 	for id in todos_os_chapeus:
-		# Regra do Dark Souls
-		if id == "Set Dark Souls" and not Global.armadura_darksouls_desbloqueada:
-			continue
-			
-		# Regra do Bloodborne
-		if id == "Set Bloodborne" and not Global.armadura_bloodborne_desbloqueada:
-			continue
+		var bloqueado = false
+		var texto_bloqueio = ""
 		
-		# Regra do Hollow Knight
-		if id == "HollowKnight Head" and not Global.armadura_hollow_knight_desbloqueada:
-			continue
-			
-		# Regra do Kakashi
-		if id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
-			continue
-			
-		# Cria o botão visualmente
+		# --- REGRA 1: SETS ESPECIAIS (POR ESTRELAS) ---
+		if id == "Set Dark Souls" and not Global.armadura_darksouls_desbloqueada:
+			bloqueado = true
+			texto_bloqueio = "18★"
+		elif id == "Set Bloodborne" and not Global.armadura_bloodborne_desbloqueada:
+			bloqueado = true
+			texto_bloqueio = "13★"
+		elif id == "HollowKnight Head" and not Global.armadura_hollow_knight_desbloqueada:
+			bloqueado = true
+			texto_bloqueio = "3★"
+		elif id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
+			bloqueado = true
+			texto_bloqueio = "8★"
+		
+		# --- REGRA 2: CHAPÉUS NORMAIS (POR CONQUISTA / LISTA) ---
+		# Se não for um dos especiais acima e não for o "Nenhum"
+		elif id != "Nenhum" and not (id in Global.chapeus_desbloqueados):
+			bloqueado = true
+
+		# --- CRIAÇÃO VISUAL DO BOTÃO ---
 		var btn = Button.new()
 		btn.custom_minimum_size = Vector2(120, 120)
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		btn.expand_icon = true
 		
-		# Tenta carregar o ícone
-		var caminho_icone = PASTA_ICONES + id + ".png"
-		if ResourceLoader.exists(caminho_icone):
-			btn.icon = load(caminho_icone)
-		else:
-			btn.text = id
+		if bloqueado:
+			btn.disabled = true
+			btn.modulate = Color(0.6, 0.6, 0.6, 1) # Escurece um pouco menos para a cor brilhar
+			btn.text = texto_bloqueio
 			
-		# Conecta o clique do botão
-		btn.pressed.connect(_on_chapeu_selecionado.bind(id))
+			# --- DEIXANDO O TEXTO AMARELO E FÁCIL DE LER ---
+			btn.add_theme_color_override("font_disabled_color", Color.YELLOW) # Cor do texto (quando bloqueado)
+			btn.add_theme_color_override("font_outline_color", Color.BLACK) # Cor da borda
+			btn.add_theme_constant_override("outline_size", 4) # Grossura da borda
+			
+			# Usa a imagem de cadeado
+			var caminho_cadeado = "res://Icons/cadeado.png"
+			if ResourceLoader.exists(caminho_cadeado):
+				btn.icon = load(caminho_cadeado)
+			
+			# Usa a sua imagem de cadeado para TODOS os itens bloqueados
+			
+		else:
+			# Item Liberado: Mostra o ícone real do chapéu
+			var caminho_icone = PASTA_ICONES + id + ".png"
+			if ResourceLoader.exists(caminho_icone):
+				btn.icon = load(caminho_icone)
+			else:
+				btn.text = id
+				
+			# Garante a cor normal e tira o amarelo/contorno
+			btn.add_theme_color_override("font_color", Color.WHITE)
+			btn.add_theme_constant_override("outline_size", 0)
+			btn.modulate = Color(1, 1, 1, 1)
+			
+			btn.pressed.connect(_on_chapeu_selecionado.bind(id))
+			
 		grid_chapeus.add_child(btn)
 
 
 func _on_chapeu_selecionado(id_chapeu):
-	# --- 1. LÓGICA DOS EASTER EGGS NO GLOBAL ---
+	# 1. Definir as flags de Sets Especiais
 	Global.usando_set_especial = (id_chapeu == "Set Dark Souls")
 	Global.usando_set_bloodborne = (id_chapeu == "Set Bloodborne")
 	Global.usando_set_kakashi = (id_chapeu == "Set Kakashi")
-	
 	Global.usando_set_hollow_knight = (id_chapeu == "HollowKnight Head")
-		
+	
+	# 2. Se for um chapéu normal (ou o Hollow Knight), equipamos no slot de chapéu
+	# Nota: Hollow Knight aqui é tratado como um chapéu que esconde a cabeça
 	if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_kakashi):
-		# Equipar o mesmo chapeu para ambos os personagens para manter sincronia
 		Global.equip_avo_m["chapeu"] = id_chapeu
 		Global.equip_avo_f["chapeu"] = id_chapeu
-			
+	else:
+		# Se trocou para um set de corpo inteiro (DS, BB, Kakashi), removemos o chapéu normal
+		Global.equip_avo_m["chapeu"] = "Nenhum"
+		Global.equip_avo_f["chapeu"] = "Nenhum"
+
 	Global.salvar_progresso()
 	label_nome_item.text = _obter_nome_formatado(id_chapeu)
 	
-	# --- 2. ATUALIZAR BONECO DO JOGO (Se já existir instanciado) ---
+	# 3. Atualizar visual do Manequim 3D
 	if is_instance_valid(player_instanciado):
+		# Atualiza as malhas do corpo (esconde/mostra conforme o set)
 		if player_instanciado.has_method("_configurar_modelo_escolhido"):
 			player_instanciado.call("_configurar_modelo_escolhido")
-			
-		# Só atualiza chapéus normais se não for Easter Egg
-		if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_kakashi):
-			if player_instanciado.has_method("_atualizar_chapeu_visivel"):
-				player_instanciado.call("_atualizar_chapeu_visivel")
-				
-		call_deferred("_atualizar_estado_cabeca")
-				
-	_gerar_botoes_chapeus()
+		
+		# IMPORTANTE: Forçar a atualização do chapéu visível
+		if player_instanciado.has_method("_atualizar_chapeu_visivel"):
+			player_instanciado.call("_atualizar_chapeu_visivel")
+		
+		# Atualiza se a cabeça deve sumir (Hollow Knight)
+		_atualizar_estado_cabeca()
 	
-	# --- 3. LÓGICA VISUAL EXCLUSIVA DO MENU 3D ---
+	# 4. Lógica de visibilidade dos modelos no Menu
+	_atualizar_modelos_menu_especiais()
+	
+	# 5. Atualiza a lista de botões (para mostrar quem está selecionado, se quiser)
+	_gerar_botoes_chapeus()
+
+# Função auxiliar para limpar a bagunça dos modelos especiais no menu
+func _atualizar_modelos_menu_especiais():
 	var modelo_normal = find_child("character-male-f2", true, false) 
 	var modelo_bb = find_child("ModeloBloodborneMenu", true, false)
 	var modelo_kak = find_child("ModeloKakashiMenu", true, false)
 	
-	# Esconde todos primeiro
+	# Esconde todos primeiro para evitar sobreposição
 	if modelo_normal: modelo_normal.visible = false
 	if modelo_bb: modelo_bb.visible = false
 	if modelo_kak: modelo_kak.visible = false
 	
-	# Mostra apenas o selecionado
 	if Global.usando_set_bloodborne:
 		if not modelo_bb:
 			var cena = load("res://Assets/Personagens/blood_borne_male.tscn") 
 			modelo_bb = _instanciar_easter_egg_menu(cena, "ModeloBloodborneMenu", modelo_normal)
 		modelo_bb.visible = true
-
 	elif Global.usando_set_kakashi:
 		if not modelo_kak:
 			var cena = load("res://Assets/Personagens/kakashi.tscn") 
 			modelo_kak = _instanciar_easter_egg_menu(cena, "ModeloKakashiMenu", modelo_normal)
 		modelo_kak.visible = true
-
 	else:
-		if modelo_normal: modelo_normal.visible = true
+		# Se for chapéu normal ou Hollow Knight, volta para o modelo base
+		if modelo_normal: 
+			modelo_normal.visible = true
 
 
 # Processa a visibilidade da malha da cabeca base garantindo o estado visual apos qualquer configuracao interna do personagem
