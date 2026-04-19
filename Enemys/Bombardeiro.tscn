@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://de3p4lwcaff46"]
+
+[ext_resource type="PackedScene" uid="uid://cbds48hvg8o0a" path="res://Map4/Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="1_tdiws"]
+[ext_resource type="PackedScene" uid="uid://dj1vow1wo360g" path="res://Map4/Meshy_AI_Rope_Tied_Barrel_0419234218_texture.glb" id="2_eat2q"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ljdpr"]
+radius = 0.79248047
+height = 2.7450027
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8ghya"]
+radius = 1.1074219
+height = 3.7821045
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=524755320]
+
+[node name="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=2033068929 instance=ExtResource("1_tdiws")]
+
+[node name="Skeleton3D" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(2033068929, 1697176852) index="0" unique_id=242548167]
+bones/0/position = Vector3(-0.89149046, 14.969643, -4.3118677)
+bones/0/rotation = Quaternion(-0.45500445, -0.65027565, -0.5037152, 0.34115028)
+bones/1/rotation = Quaternion(0.40003175, 0.87046045, -0.083667904, 0.27435926)
+bones/2/rotation = Quaternion(0.86500925, 0.024518792, -0.017936511, 0.50083536)
+bones/3/rotation = Quaternion(-0.8602301, 0.09113644, -0.00029126756, 0.5016954)
+bones/4/rotation = Quaternion(-0.38702846, -0.019506572, 0.038798433, 0.9210446)
+bones/5/rotation = Quaternion(0.598835, 0.43317786, 0.43265253, -0.5162998)
+bones/6/position = Vector3(-4.5161923e-06, 27.0959, -3.6399442e-06)
+bones/6/rotation = Quaternion(0.49239156, -0.028816437, 0.009355058, 0.8698464)
+bones/7/rotation = Quaternion(-0.2695677, 0.03780369, 0.056143735, 0.9605999)
+bones/8/rotation = Quaternion(-0.3643475, 0.044100635, -0.010596545, 0.93015796)
+bones/9/rotation = Quaternion(0.093666956, 0.09558566, 0.79347575, 0.5937054)
+bones/10/position = Vector3(2.069969e-07, 11.215079, 1.126491e-06)
+bones/10/rotation = Quaternion(0.014531768, 0.004330834, -0.00014713795, 0.999885)
+bones/11/position = Vector3(-1.7783423e-06, 11.215062, -8.154211e-06)
+bones/11/rotation = Quaternion(0.03814888, 0.004789864, 0.015650002, 0.9991381)
+bones/12/rotation = Quaternion(0.39091218, 0.60307527, -0.5995404, 0.35219195)
+bones/13/position = Vector3(-7.5436365e-06, 13.98399, 1.1583979e-06)
+bones/13/rotation = Quaternion(-0.19763435, 0.75019634, 0.51407653, 0.3658845)
+bones/14/position = Vector3(-7.68527e-06, 26.4091, 7.540032e-06)
+bones/14/rotation = Quaternion(-0.32145432, -0.3509693, -0.15045595, 0.8665165)
+bones/15/position = Vector3(1.9476465e-07, 18.959406, -1.8296636e-05)
+bones/15/rotation = Quaternion(0.029974364, -0.04962255, 0.092017524, 0.9940684)
+bones/16/rotation = Quaternion(-0.38190448, 0.5961695, -0.4326582, -0.5581559)
+bones/17/position = Vector3(2.352992e-06, 13.983991, 5.9468207e-06)
+bones/17/rotation = Quaternion(0.10720076, -0.74557793, -0.14487128, 0.641587)
+bones/18/position = Vector3(-2.833548e-06, 24.306894, 6.5485383e-06)
+bones/18/rotation = Quaternion(-0.431554, 0.4615999, -0.083700195, 0.7705069)
+bones/19/position = Vector3(2.7929827e-06, 18.057037, 6.806058e-06)
+bones/19/rotation = Quaternion(-0.06462057, -0.20973656, -0.46364954, 0.8584078)
+bones/20/position = Vector3(-0.11420125, 1.0876766, 5.6510453)
+bones/20/rotation = Quaternion(0.43024224, 0.2025695, -0.16488834, 0.8641001)
+bones/21/position = Vector3(-1.316934e-06, 26.390034, 1.0546642e-05)
+bones/21/rotation = Quaternion(0.19669715, 0.03437155, -0.10858976, 0.973826)
+bones/22/position = Vector3(-0.12865315, 13.2167, -1.4477335)
+bones/22/rotation = Quaternion(-0.056612294, -1.4555724e-05, 0.0052524223, 0.9983825)
+bones/23/position = Vector3(0.12865523, 6.9515176, 1.4477178)
+bones/23/rotation = Quaternion(0.100387186, 2.029719e-05, -0.0087000895, 0.9949104)
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="1" unique_id=1817804963]
+transform = Transform3D(0.99890924, 0.036970366, -0.028520815, 0.024414707, 0.10711269, 0.9939471, 0.039801493, -0.9935595, 0.10609315, 1.549756, 15.484832, -37.86184)
+bone_name = "Spine"
+bone_idx = 11
+
+[node name="Meshy_AI_Rope_Tied_Barrel_0419234218_texture" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D/BoneAttachment3D" unique_id=472143681 instance=ExtResource("2_eat2q")]
+transform = Transform3D(49.998043, 0.33248937, 0.29350048, -0.29349363, 49.612404, -6.2067256, -0.33249593, 6.2047625, 49.612404, -7.514187, -2.5787811, -36.393337)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1916221552]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8256635, 0.09258083)
+shape = SubResource("CapsuleShape3D_ljdpr")
+
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=60879854]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=137337692]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7585492, -0.006230831)
+shape = SubResource("CapsuleShape3D_8ghya")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1776160433]
+path_desired_distance = 1.5
+
+[editable path="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations"]
