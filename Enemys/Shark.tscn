@@ -118,6 +118,9 @@ height = 3.7821045
 [node name="Shark" type="CharacterBody3D" unique_id=617679259 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_ljdpr")
 nome_inimigo = "Tutuba"
+vida_maxima = 1200
+velocidade = 0.3
+forca_dano = 50
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|CharacterArmature|CharacterArmature|Walk|CharacterArmature|Walk"

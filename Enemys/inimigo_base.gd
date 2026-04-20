@@ -550,7 +550,7 @@ func _explodir():
 	# 2. CHAMA O EFEITO VISUAL E CAUSA O DANO (O "Boom" acontece aqui)
 	_criar_efeito_explosao()
 	
-	var alvos_potenciais = get_tree().get_nodes_in_group("Construcoes")
+	var alvos_potenciais = get_tree().get_nodes_in_group("Construcao")
 	if not prioriza_construcoes:
 		alvos_potenciais.append_array(get_tree().get_nodes_in_group("Player"))
 		
@@ -570,34 +570,45 @@ func _explodir():
 	queue_free()
 	
 func _criar_efeito_explosao():
-	# 1. Cria o objeto visual da esfera
-	var mesh_instance = MeshInstance3D.new()
-	var sphere_mesh = SphereMesh.new()
-	mesh_instance.mesh = sphere_mesh
+	# Criamos um nó principal para segurar todos os efeitos visuais juntos
+	var node_explosao = Node3D.new()
+	get_tree().current_scene.add_child(node_explosao)
+	node_explosao.global_position = global_position
+
+	# 1. O CLARÃO DA EXPLOSÃO (Luz forte que ilumina o cenário em volta)
+	var luz = OmniLight3D.new()
+	luz.light_color = Color(1.0, 0.4, 0.0) # Laranja quente
+	luz.light_energy = 8.0 # Bem forte!
+	luz.omni_range = raio_explosao * 2.5
+	node_explosao.add_child(luz)
+
+	# 2. A BOLA DE FOGO (Mais sólida e brilhante)
+	var mesh_esfera = MeshInstance3D.new()
+	var sphere = SphereMesh.new()
+	mesh_esfera.mesh = sphere
 	
-	# 2. Cria um material de "Fogo" (Laranja brilhante e transparente)
-	var material = StandardMaterial3D.new()
-	material.albedo_color = Color(1.0, 0.4, 0.0, 0.8) # Laranja com 80% de opacidade
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.emission_enabled = true
-	material.emission = Color(1.0, 0.2, 0.0) # Brilho vermelho/laranja
-	material.emission_energy_multiplier = 3.0 # Força do brilho
-	sphere_mesh.surface_set_material(0, material)
-	
-	# 3. Adiciona a esfera na cena principal (e não no inimigo)
-	# Isso é crucial! Se colocar no inimigo, quando ele sumir (queue_free), a explosão some junto antes de terminar!
-	get_tree().current_scene.add_child(mesh_instance)
-	mesh_instance.global_position = global_position
-	
-	# 4. Anima a esfera crescendo e sumindo usando um Tween
+	var mat_esfera = StandardMaterial3D.new()
+	mat_esfera.albedo_color = Color(1.0, 0.1, 0.0, 0.9) # Vermelho intenso
+	mat_esfera.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat_esfera.emission_enabled = true
+	mat_esfera.emission = Color(1.0, 0.3, 0.0) # Fogo brilhante
+	mat_esfera.emission_energy_multiplier = 4.0
+	sphere.surface_set_material(0, mat_esfera)
+	node_explosao.add_child(mesh_esfera)
+
+	# 3. ANIMANDO TUDO
 	var tween = get_tree().create_tween()
-	var tamanho_final = raio_explosao * 2.0 # O diâmetro da esfera baseado no seu raio de dano
+	var tamanho_final = raio_explosao * 2.0
+	var tempo_explosao = 0.6 # Tempo que leva para o fogo sumir
+
+	# A esfera de fogo cresce rapidamente
+	tween.tween_property(mesh_esfera, "scale", Vector3(tamanho_final, tamanho_final, tamanho_final), tempo_explosao).from(Vector3.ZERO).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
-	# Faz a esfera crescer do zero até o tamanho da explosão em 0.3 segundos
-	tween.tween_property(mesh_instance, "scale", Vector3(tamanho_final, tamanho_final, tamanho_final), 0.3).from(Vector3.ZERO).set_trans(Tween.TRANS_BOUNCE)
+	# O fogo vai desaparecendo (ficando transparente)
+	tween.parallel().tween_property(mat_esfera, "albedo_color:a", 0.0, tempo_explosao).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	
-	# Ao mesmo tempo (parallel), faz a opacidade (alpha) ir para 0
-	tween.parallel().tween_property(material, "albedo_color:a", 0.0, 0.3)
-	
-	# Quando o Tween terminar, apaga a esfera da memória
-	tween.tween_callback(mesh_instance.queue_free)
+	# A luz do clarão apaga um pouco mais rápido que o fogo
+	tween.parallel().tween_property(luz, "light_energy", 0.0, tempo_explosao * 0.7)
+
+	# Quando tudo terminar, apaga os efeitos visuais
+	tween.tween_callback(node_explosao.queue_free)

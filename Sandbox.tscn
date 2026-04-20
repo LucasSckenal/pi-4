@@ -65,7 +65,7 @@ shadow_normal_bias = 10.0
 shadow_blur = 2.5
 
 [node name="unit-mill2" parent="." unique_id=527780894 instance=ExtResource("5_ti018")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0888392, 1, 2.6142786)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.97516704, 1, 1.9956844)
 
 [node name="CharacterBody3D" parent="." unique_id=524755320 instance=ExtResource("5_u6t3p")]
-transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0.7375077, 1.111485, 2.7159078)
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0.65251565, 1.2625881, 2.2646906)
