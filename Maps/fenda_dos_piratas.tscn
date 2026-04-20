@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://c8nr4eujiufct" path="res://Enemys/Shark.tscn" id="12_n0wf0"]
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="13_ruefr"]
 [ext_resource type="PackedScene" uid="uid://bjnmkioggi5lq" path="res://Enemys/pirate_boss.tscn" id="14_ruefr"]
+[ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 
 [sub_resource type="Environment" id="Environment_Agua"]
 background_mode = 1
@@ -511,3 +512,54 @@ ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResourc
 [node name="C" parent="Spawners" unique_id=516545323 instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.023462, 0, 9.666702)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_4r01v"), SubResource("Resource_jiit4"), SubResource("Resource_mwowu"), SubResource("Resource_sdwqg"), SubResource("Resource_nw1gr")])
+
+[node name="Builds" type="Node3D" parent="." unique_id=116068222]
+transform = Transform3D(43.636208, 0, 89.977104, 0, 100, 0, -89.977104, 0, 43.636208, 8.109369, -0.9268074, 1.4977369)
+
+[node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.09333791, 0.0021484005, -0.092696875)
+nivel_necessario = 0
+
+[node name="BuildSlot2" parent="Builds" unique_id=75307205 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.05094328, 0.0021484005, -0.0052798986)
+nivel_necessario = 0
+
+[node name="BuildSlot3" parent="Builds" unique_id=1743296267 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.009935927, 0.0021484005, 0.021779783)
+nivel_necessario = 0
+
+[node name="BuildSlot4" parent="Builds" unique_id=1594258856 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, 0.0047740582, 0.0021484005, 0.05211152)
+nivel_necessario = 0
+
+[node name="BuildSlot5" parent="Builds" unique_id=1893772980 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.023697624, 0.0021484005, 0.08330524)
+nivel_necessario = 0
+
+[node name="BuildSlot6" parent="Builds" unique_id=278292556 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.073319666, 0.0021484005, 0.088186294)
+nivel_necessario = 0
+
+[node name="BuildSlot7" parent="Builds" unique_id=455302010 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.10475719, 0.0021484005, 0.023362659)
+nivel_necessario = 0
+
+[node name="BuildSlot8" parent="Builds" unique_id=816610983 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.15944427, 0.0021484005, -0.08940115)
+nivel_necessario = 0
+
+[node name="BuildSlot9" parent="Builds" unique_id=1853929400 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.07347164, 0.0021484005, -0.15593788)
+nivel_necessario = 0
+
+[node name="BuildSlot10" parent="Builds" unique_id=830905339 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.14437789, 0.0021484005, -0.1607993)
+nivel_necessario = 0
+
+[node name="BuildSlot11" parent="Builds" unique_id=621661771 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.11218721, 0.0021484005, -0.156758)
+nivel_necessario = 0
+
+[node name="BuildSlot12" parent="Builds" unique_id=754873953 instance=ExtResource("15_mrbo5")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.14489442, 0.0021484005, -0.013780594)
+nivel_necessario = 0
