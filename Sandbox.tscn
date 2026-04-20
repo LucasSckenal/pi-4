@@ -3,8 +3,8 @@
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_vrv26"]
 [ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
-[ext_resource type="PackedScene" uid="uid://byldh7h1wdrsr" path="res://Enemys/litch.tscn" id="4_vrv26"]
-[ext_resource type="PackedScene" uid="uid://c24hpoqubnlm4" path="res://Builds/house.tscn" id="5_ti018"]
+[ext_resource type="PackedScene" uid="uid://d0i607qaiy12s" path="res://Builds/mill.tscn" id="5_ti018"]
+[ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="5_u6t3p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrv26"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -43,9 +43,6 @@ transform = Transform3D(1, 0, 0, 0, 0.79052925, 0.61242425, 0, -0.61242425, 0.79
 [node name="Dummy" parent="." unique_id=1599783252 instance=ExtResource("2_vrv26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 1.7445868)
 
-[node name="Litch" parent="." unique_id=1943642310 instance=ExtResource("4_vrv26")]
-transform = Transform3D(0.44, 0, 0, 0, 0.44, 0, 0, 0, 0.44, 1.4245718, 1.0000001, 2.067128)
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=131716063]
 environment = SubResource("Environment_ti018")
 
@@ -67,5 +64,8 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 shadow_blur = 2.5
 
-[node name="unit-house2" parent="." unique_id=1623196517 instance=ExtResource("5_ti018")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86583376, 1, 2.7789984)
+[node name="unit-mill2" parent="." unique_id=527780894 instance=ExtResource("5_ti018")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0888392, 1, 2.6142786)
+
+[node name="CharacterBody3D" parent="." unique_id=524755320 instance=ExtResource("5_u6t3p")]
+transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0.7375077, 1.111485, 2.7159078)

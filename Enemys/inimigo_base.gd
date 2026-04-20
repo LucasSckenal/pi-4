@@ -10,7 +10,11 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var tipo_inimigo: Categoria = Categoria.NORMAL
 @export var nome_inimigo: String = "Monstro Desconhecido"
 @export var eh_aereo: bool = false
-
+@export_category("Comportamento Kamikaze (Quebra-Muro)")
+@export var eh_kamikaze: bool = false
+@export var raio_explosao: float = 3.0
+@export var dano_explosao: int = 50
+@export var prioriza_construcoes: bool = true # Se true, ele ignora tropas do jogador no caminho
 # ==========================================
 # CONFIGURAÇÕES
 # ==========================================
@@ -37,6 +41,10 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var anim_andar: String = "walk"
 @export var anim_atacar: String = "attack-melee-right"
 @export var anim_morrer: String = "sit"
+@export var anim_explodir: String = "explode"
+@export var anim_pos_explosao: String = "post_explode"
+
+var esta_explodindo: bool = false
 
 # ==========================================
 # NECROMANTE / INVOCADOR
@@ -251,6 +259,10 @@ func procurar_novo_alvo():
 func atacar():
 	if eh_necromancer: 
 		return
+	if eh_kamikaze:
+		_explodir()
+		return
+		
 	if pode_atacar and alvo_atual:
 		pode_atacar = false
 		if animation_player and animation_player.has_animation(anim_atacar):
@@ -522,3 +534,70 @@ func _criar_interface_do_boss():
 	var tw_glow = create_tween().set_loops()
 	tw_glow.tween_property(bar_container, "modulate:v", 1.2, 1.0)
 	tw_glow.tween_property(bar_container, "modulate:v", 1.0, 1.0)
+
+func _explodir():
+	if esta_explodindo: return
+	esta_explodindo = true
+	velocidade = 0.0 
+	
+	# 1. Toca a animação ANTES da explosão (inchando/pavio)
+	if animation_player and animation_player.has_animation(anim_explodir):
+		animation_player.play(anim_explodir)
+		await animation_player.animation_finished
+	else:
+		await get_tree().create_timer(0.5).timeout 
+		
+	# 2. CHAMA O EFEITO VISUAL E CAUSA O DANO (O "Boom" acontece aqui)
+	_criar_efeito_explosao()
+	
+	var alvos_potenciais = get_tree().get_nodes_in_group("Construcoes")
+	if not prioriza_construcoes:
+		alvos_potenciais.append_array(get_tree().get_nodes_in_group("Player"))
+		
+	for alvo in alvos_potenciais:
+		if is_instance_valid(alvo) and alvo.has_method("receber_dano"):
+			var distancia = global_position.distance_to(alvo.global_position)
+			if distancia <= raio_explosao:
+				alvo.receber_dano(dano_explosao)
+				
+	# 3. TOCA A ANIMAÇÃO PÓS-EXPLOSÃO (ex: caindo no chão, morrendo)
+	if animation_player and animation_player.has_animation(anim_pos_explosao):
+		animation_player.play(anim_pos_explosao)
+		# Espera essa nova animação terminar também
+		await animation_player.animation_finished
+				
+	# 4. Só agora, no final de tudo, o inimigo some da memória!
+	queue_free()
+	
+func _criar_efeito_explosao():
+	# 1. Cria o objeto visual da esfera
+	var mesh_instance = MeshInstance3D.new()
+	var sphere_mesh = SphereMesh.new()
+	mesh_instance.mesh = sphere_mesh
+	
+	# 2. Cria um material de "Fogo" (Laranja brilhante e transparente)
+	var material = StandardMaterial3D.new()
+	material.albedo_color = Color(1.0, 0.4, 0.0, 0.8) # Laranja com 80% de opacidade
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.emission_enabled = true
+	material.emission = Color(1.0, 0.2, 0.0) # Brilho vermelho/laranja
+	material.emission_energy_multiplier = 3.0 # Força do brilho
+	sphere_mesh.surface_set_material(0, material)
+	
+	# 3. Adiciona a esfera na cena principal (e não no inimigo)
+	# Isso é crucial! Se colocar no inimigo, quando ele sumir (queue_free), a explosão some junto antes de terminar!
+	get_tree().current_scene.add_child(mesh_instance)
+	mesh_instance.global_position = global_position
+	
+	# 4. Anima a esfera crescendo e sumindo usando um Tween
+	var tween = get_tree().create_tween()
+	var tamanho_final = raio_explosao * 2.0 # O diâmetro da esfera baseado no seu raio de dano
+	
+	# Faz a esfera crescer do zero até o tamanho da explosão em 0.3 segundos
+	tween.tween_property(mesh_instance, "scale", Vector3(tamanho_final, tamanho_final, tamanho_final), 0.3).from(Vector3.ZERO).set_trans(Tween.TRANS_BOUNCE)
+	
+	# Ao mesmo tempo (parallel), faz a opacidade (alpha) ir para 0
+	tween.parallel().tween_property(material, "albedo_color:a", 0.0, 0.3)
+	
+	# Quando o Tween terminar, apaga a esfera da memória
+	tween.tween_callback(mesh_instance.queue_free)
