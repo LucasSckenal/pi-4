@@ -175,7 +175,7 @@ func _physics_process(delta):
 		
 	# 2. IA de Alvo
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
-	   alvo_atual.is_in_group("Castelo") or (alvo_atual.get("esta_destruida") == true):
+	   alvo_atual.is_in_group("Base") or (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
 
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
