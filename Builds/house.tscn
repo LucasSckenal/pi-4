@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://i7cghbm3tfxt" path="res://Map/unit-house.glb" id="1_metfq"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_61xxl"]
-[ext_resource type="PackedScene" uid="uid://cfcsojiaq12o1" path="res://Medieval/buildings/blue/building_home_A_blue.gltf" id="3_cg5e5"]
-[ext_resource type="PackedScene" uid="uid://ct7es5b68sksi" path="res://Medieval/buildings/blue/building_home_B_blue.gltf" id="4_x3kc2"]
+[ext_resource type="PackedScene" uid="uid://caugurktv3di2" path="res://Builds/casa_classe_media.tscn" id="3_2nqtp"]
+[ext_resource type="PackedScene" uid="uid://c7r8fsamj8wtx" path="res://Builds/casebre.tscn" id="4_4lr0g"]
 [ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="5_2nqtp"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="6_4lr0g"]
 
@@ -59,6 +59,9 @@ shadow_mesh = SubResource("ArrayMesh_gv58l")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o1325"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2nqtp"]
+height = 1.0
+
 [node name="unit-house2" unique_id=1623196517 instance=ExtResource("1_metfq")]
 script = ExtResource("2_61xxl")
 tipo = 2
@@ -68,19 +71,26 @@ moedas_por_onda = 1
 upgrade_custos = Array[int]([2, 3])
 upgrade_moedas_por_nivel = Array[int]([2, 3])
 upgrade_vida_por_nivel = Array[int]([100, 150])
-modelos_por_nivel = Array[PackedScene]([ExtResource("3_cg5e5"), ExtResource("4_x3kc2")])
+modelos_por_nivel = Array[PackedScene]([ExtResource("3_2nqtp"), ExtResource("4_4lr0g")])
 
 [node name="unit-house" parent="." index="0" unique_id=1216390564]
 mesh = SubResource("ArrayMesh_tpccq")
 
 [node name="CollisionShape3D" parent="unit-house/StaticBody3D" parent_id_path=PackedInt32Array(1568696544) index="0" unique_id=1722401033]
 visible = false
+disabled = true
 
 [node name="AreaClique" type="Area3D" parent="." index="1" unique_id=1004971188]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=701392897]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.076697975, 0)
 shape = SubResource("SphereShape3D_o1325")
+
+[node name="AreaTransparencia" type="Area3D" parent="." index="2" unique_id=768525149]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" index="0" unique_id=1545474467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CylinderShape3D_2nqtp")
 
 [connection signal="body_entered" from="AreaClique" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="AreaClique" to="." method="_on_area_3d_body_exited"]

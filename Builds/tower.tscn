@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_ned14"]
 [ext_resource type="PackedScene" uid="uid://ccr63l42p5nxi" path="res://Cenas Locais/flecha.tscn" id="3_ned14"]
 [ext_resource type="Script" uid="uid://cj7setbrccrxh" path="res://Upgrades/upgrade_path_data.gd" id="4_772tj"]
-[ext_resource type="PackedScene" uid="uid://bmw7vikvfm33h" path="res://Medieval/buildings/blue/building_tower_catapult_blue.gltf" id="5_b4ib5"]
-[ext_resource type="PackedScene" uid="uid://orreoe0l5k44" path="res://Medieval/buildings/blue/building_tower_B_blue.gltf" id="6_k2ohk"]
+[ext_resource type="PackedScene" uid="uid://imftqykvaxls" path="res://Builds/morteiro.tscn" id="5_xxacq"]
+[ext_resource type="PackedScene" uid="uid://fxiqs7k3e57r" path="res://Builds/sniper.tscn" id="6_ix80u"]
 [ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="7_xxacq"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="8_ix80u"]
 
@@ -15,7 +15,7 @@ nome = "Morteiro"
 custos = Array[int]([5])
 dano_por_nivel = Array[int]([150])
 velocidade_por_nivel = Array[float]([2.0])
-modelos_por_nivel = Array[PackedScene]([ExtResource("5_b4ib5")])
+modelos_por_nivel = Array[PackedScene]([ExtResource("5_xxacq")])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
 [sub_resource type="Resource" id="Resource_1qiv1"]
@@ -24,7 +24,7 @@ nome = "Sniper"
 custos = Array[int]([5])
 velocidade_por_nivel = Array[float]([0.6])
 alcance_por_nivel = Array[float]([2.0])
-modelos_por_nivel = Array[PackedScene]([ExtResource("6_k2ohk")])
+modelos_por_nivel = Array[PackedScene]([ExtResource("6_ix80u")])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1gey0"]
@@ -131,6 +131,9 @@ upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), Su
 
 [node name="unit-tower" parent="." index="0" unique_id=555590816]
 mesh = SubResource("ArrayMesh_1y2kb")
+
+[node name="CollisionShape3D" parent="unit-tower/StaticBody3D" parent_id_path=PackedInt32Array(204496914) index="0" unique_id=1946866000]
+disabled = true
 
 [node name="AreaTransparencia" type="Area3D" parent="." index="1" unique_id=302779720]
 
