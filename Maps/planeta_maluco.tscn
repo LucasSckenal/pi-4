@@ -1,6 +1,14 @@
 [gd_scene format=3 uid="uid://brmq3udyv3l5l"]
 
-[ext_resource type="MeshLibrary" uid="uid://c57s4ikvx5aej" path="res://Gridmap/MapKit5.meshlib" id="1_1v6jt"]
+[ext_resource type="MeshLibrary" uid="uid://h00ydx8iljhl" path="res://Gridmap/Map5kitrue.meshlib" id="1_ndbvn"]
+[ext_resource type="MeshLibrary" uid="uid://dw1i24tcepvab" path="res://Gridmap/Map5kitDeco.meshlib" id="2_2l7da"]
+[ext_resource type="PackedScene" uid="uid://cigwdfb06br8s" path="res://Map5/GLTF format/craft_racer.glb" id="3_s8s8w"]
+[ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="5_2l7da"]
+[ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_ndbvn"]
+[ext_resource type="PackedScene" uid="uid://c6bf0sp4hsun6" path="res://Map5/GLTF format/gate_simple.glb" id="6_ubxy2"]
+[ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="7_mqy4t"]
+[ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="8_mlm15"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="9_mlm15"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_espaco"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -35,6 +43,11 @@ height = 0.1
 radial_segments = 8
 rings = 4
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_2l7da"]
+vertices = PackedVector3Array(-3.75, 0.55, 0.5, -3.5, 0.55, 1.5, -2.75, 0.55, 1.5, -1.75, 0.55, -2.5, -2.75, 0.55, -1.5, -2.5, 0.55, 2.5, -1.75, 0.55, 2.5, -0.5, 0.55, -3.75, -1.25, 0.75, 0, 0.5, 0.55, 3.75, 1.5, 0.55, 3.5, 1.5, 0.55, 2.75, 2.5, 0.55, 2.5, 2.5, 0.55, 1.75, 2.5, 0.55, -1.75, 2.5, 0.55, -2.5, 1.5, 0.55, -2.75, 1.1000004, 0.75, -0.14999962, 0.8999996, 0.55, 1.1499996, 1.5, 0.55, -3.5, 0.5, 0.55, -3.75, -2.5, 0.55, -2.5, -3.5, 0.55, -1.5, -3.75, 0.55, -0.5, -11.5, 0.55, -1.5, -11.5, 0.55, 1.5, -10.5, 0.55, 1.5, -10.25, 0.55, 0.5, -10.25, 0.55, -0.5, -10.5, 0.55, -1.5, 3.75, 0.55, 0.5, 12.5, 0.55, 0.5, 12.5, 0.55, -0.5, 3.75, 0.55, -0.5, -1.5, 0.55, 3.5, -0.5, 0.55, 3.75, 3.5, 0.55, 1.5, 3.5, 0.55, -1.5, -1.5, 0.55, -3.5, -0.5, 1.35, 15.5, 0.5, 1.35, 15.5, -0.5, 0.45000002, 8.15625, -0.5, 1.35, 12.5625, 0.5, 1.35, 12.5625, 0.5, 0.45000002, 8.15625, 0.5, 0.55, -12.5, -0.5, 0.55, -12.5)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Array(2, 4, 3), PackedInt32Array(5, 2, 6), PackedInt32Array(6, 2, 8), PackedInt32Array(8, 2, 3), PackedInt32Array(8, 3, 7), PackedInt32Array(9, 11, 10), PackedInt32Array(11, 13, 12), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(17, 14, 18), PackedInt32Array(18, 14, 11), PackedInt32Array(18, 11, 9), PackedInt32Array(20, 19, 16), PackedInt32Array(4, 21, 3), PackedInt32Array(22, 4, 23), PackedInt32Array(23, 4, 0), PackedInt32Array(29, 28, 24), PackedInt32Array(24, 28, 27), PackedInt32Array(24, 27, 26), PackedInt32Array(24, 26, 25), PackedInt32Array(33, 32, 30), PackedInt32Array(30, 32, 31), PackedInt32Array(34, 6, 35), PackedInt32Array(36, 13, 30), PackedInt32Array(30, 13, 33), PackedInt32Array(37, 33, 14), PackedInt32Array(14, 33, 13), PackedInt32Array(14, 13, 11), PackedInt32Array(38, 7, 3), PackedInt32Array(20, 16, 7), PackedInt32Array(7, 16, 17), PackedInt32Array(7, 17, 8), PackedInt32Array(8, 17, 18), PackedInt32Array(8, 18, 6), PackedInt32Array(6, 18, 35), PackedInt32Array(35, 18, 9), PackedInt32Array(39, 42, 40), PackedInt32Array(40, 42, 43), PackedInt32Array(43, 42, 41), PackedInt32Array(43, 41, 44), PackedInt32Array(44, 41, 35), PackedInt32Array(44, 35, 9), PackedInt32Array(0, 27, 23), PackedInt32Array(23, 27, 28), PackedInt32Array(7, 46, 20), PackedInt32Array(20, 46, 45)]
+cell_height = 0.1
+
 [node name="Planeta Maluco" type="Node3D" unique_id=601620069]
 
 [node name="AmbienteEspacial" type="WorldEnvironment" parent="." unique_id=1553868768]
@@ -53,9 +66,162 @@ visibility_aabb = AABB(-100, -100, -100, 200, 200, 200)
 process_material = SubResource("ParticleProcessMaterial_estrelas")
 draw_pass_1 = SubResource("SphereMesh_estrela")
 
-[node name="GridMap" type="GridMap" parent="." unique_id=1071401615]
-mesh_library = ExtResource("1_1v6jt")
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=841440282]
+navigation_mesh = SubResource("NavigationMesh_2l7da")
+
+[node name="Base" type="GridMap" parent="NavigationRegion3D" unique_id=1490844337]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0.9, -0.505, 0.68)
+mesh_library = ExtResource("1_ndbvn")
+cell_size = Vector3(0.5, 0.5, 0.5)
+data = {
+"cells": PackedInt32Array(65535, 65535, 655442)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Mapa" type="GridMap" parent="NavigationRegion3D" unique_id=1924041520]
+mesh_library = ExtResource("1_ndbvn")
+cell_size = Vector3(1, 0.1, 1)
+data = {
+"cells": PackedInt32Array(0, 0, 39, 1, 0, 39, 1, 65535, 39, 0, 65535, 39, 1, 1, 39, 0, 1, 39, 0, 65534, 39, 1, 65534, 39, 2, 1, 39, 2, 0, 39, 2, 65535, 39, 2, 65534, 39, 3, 0, 39, 3, 65535, 39, 1, 65533, 39, 0, 65533, 39, 0, 65532, 39, 65535, 65532, 39, 65535, 65533, 39, 65535, 65534, 39, 65535, 65535, 39, 65535, 0, 39, 65535, 1, 39, 65535, 2, 39, 0, 2, 39, 1, 2, 39, 65534, 1, 39, 65534, 0, 39, 65533, 0, 39, 65533, 65535, 39, 65534, 65535, 39, 65534, 65534, 39, 65533, 65534, 39, 65534, 65533, 39, 65533, 1, 39, 65534, 2, 39, 65535, 3, 39, 0, 3, 39, 65532, 65535, 39, 65532, 0, 39, 3, 1, 655399, 3, 65534, 655399, 2, 65533, 655399, 1, 65532, 655399, 65534, 65532, 655399, 65533, 65533, 655399, 65532, 65534, 655399, 65532, 1, 655399, 65533, 2, 655399, 65534, 3, 655399, 1, 3, 655399, 2, 2, 655399, 0, 65531, 1048613, 65535, 65531, 1048613, 0, 65530, 1048613, 65535, 65530, 1048613, 0, 65529, 1048613, 65535, 65529, 1048613, 0, 65528, 1048613, 65535, 65528, 1048613, 4, 65535, 37, 4, 0, 37, 5, 0, 37, 5, 65535, 37, 6, 0, 37, 6, 65535, 37, 7, 0, 37, 7, 65535, 37, 65531, 65535, 37, 65531, 0, 37, 65530, 0, 37, 65530, 65535, 37, 65529, 65535, 37, 65529, 0, 37, 65528, 65535, 37, 65528, 0, 37, 65527, 65535, 37, 65527, 0, 37, 65526, 65535, 37, 65526, 0, 37, 0, 4, 1441829, 65535, 4, 1441829, 65535, 5, 1441829, 0, 5, 1441829, 0, 6, 1441829, 65535, 6, 1441829, 65535, 7, 1441829, 0, 7, 1441829, 0, 8, 1441829, 65535, 8, 1441829, 131072, 9, 655424, 196607, 9, 655424, 327680, 10, 655424, 393215, 10, 655424, 524288, 11, 655424, 589823, 11, 655424, 589823, 12, 655399, 524288, 12, 655399, 524288, 13, 655399, 589823, 13, 655399, 65525, 65535, 655399, 65525, 0, 655399, 65525, 65534, 655399, 65524, 65534, 655399, 65524, 65535, 655399, 65524, 0, 655399, 65524, 1, 655399, 65525, 1, 655399, 8, 65535, 37, 8, 0, 37, 9, 0, 37, 9, 65535, 37, 10, 0, 37, 10, 65535, 37, 0, 65527, 1048613, 65535, 65527, 1048613, 65535, 65526, 1048613, 0, 65526, 1048613, 65535, 65525, 1048613, 0, 65525, 1048613, 0, 65524, 1048615, 65535, 65524, 1048615, 65535, 65523, 1048615, 0, 65523, 1048615, 11, 0, 1048615, 11, 65535, 1048615, 12, 65535, 1048615, 12, 0, 1048615, 589823, 14, 655399, 524288, 14, 655399, 524288, 15, 655399, 589823, 15, 655399)
+}
+metadata/_editor_floor_ = Vector3(0, 8, 0)
+
+[node name="Orbita" type="GridMap" parent="." unique_id=1495321114]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -1.53, 0.9, 3.575)
+mesh_library = ExtResource("2_2l7da")
+cell_size = Vector3(0.5, 0.5, 0.5)
+data = {
+"cells": PackedInt32Array(-2, 65533, 60, -65534, 65535, 655420, -65535, 65532, 1441852, -1, 0, 1048636)
+}
+metadata/_editor_floor_ = Vector3(0, -4, 0)
+
+[node name="Plataformas" type="GridMap" parent="Orbita" unique_id=1109904412]
+transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+mesh_library = ExtResource("2_2l7da")
 cell_size = Vector3(1, 1, 1)
 data = {
-"cells": PackedInt32Array(65534, 0, 142, 65533, 1, 142, 65534, 1, 142, 65533, 0, 142, 65534, 65535, 142, 65533, 65535, 142, 65532, 65535, 142, 65532, 0, 142, 65533, 2, 142, 65532, 2, 142, 65532, 1, 142, 65534, 2, 142, 65535, 2, 142, 65535, 1, 142, 65535, 0, 142, 65535, 65535, 142, 65531, 65535, 142, 65531, 0, 142, 65531, 2, 142, 65531, 1, 142, 65531, 65534, 142, 4, 2, 131214, 3, 2, 131214, 2, 2, 131214, 2, 1, 131214, 1, 1, 131214, 0, 1, 142, 65535, 3, 142, 65535, 4, 131214, 0, 4, 131214, 0, 5, 131214, 0, 2, 142, 0, 0, 142, 0, 65535, 142, 0, 65534, 142, 65531, 65533, 142, 65533, 65534, 142, 65532, 65534, 142, 65532, 65533, 142, 65533, 65533, 142, 65534, 65533, 142, 65535, 65533, 142, 0, 65533, 142, 65535, 65534, 142, 65534, 65534, 142, 65531, 3, 142, 65532, 3, 142, 65533, 3, 142, 65534, 3, 142, 0, 3, 142)
+"cells": PackedInt32Array(-131069, 65528, 95, -131071, 65526, 95, -65538, 0, 655455, -131071, 3, 655455, -131067, 2, 655455, -131065, 0, 655455, -131071, 65529, 655455, -65538, 65532, 655455)
 }
+metadata/_editor_floor_ = Vector3(0, -3, 0)
+
+[node name="Cercas" type="GridMap" parent="Orbita/Plataformas" unique_id=64730368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.205, -0.275, -0.235)
+mesh_library = ExtResource("2_2l7da")
+cell_size = Vector3(0.1, 0.5, 0.1)
+data = {
+"cells": PackedInt32Array(-72, 65474, 1441896, -108, 65503, 104, -96, 2, 1048680, -61, 65509, 655464, -91, 65494, 106, -84, 65494, 106, -77, 65494, 106, -71, 65494, 106, -64, 65494, 106, -58, 65494, 106, -52, 65494, 106, -48, 65494, 106, -91, 65477, 106, -83, 65477, 106, -73, 65477, 106, -69, 65477, 106, -64, 65477, 106, -61, 65477, 106, -57, 65477, 106, -52, 65477, 106, -46, 65477, 106, -45, 65494, 106, -36, 65503, 104, -27, 65512, 104, -18, 65521, 104, -2, 65473, 1441896, -65528, 65464, 1441896, -65519, 65455, 1441896, -65488, 65489, 655464, -65479, 65498, 655464, -65470, 65507, 655464, -65505, 2, 1048680, -65514, 11, 1048680, -65523, 19, 1048680, -65510, 65525, 1441898, -65510, 65533, 1441898, -65510, 4, 1441898, -65510, 11, 1441898, -65510, 20, 1441898, -65510, 28, 1441898, -65491, 29, 1441898, -65491, 21, 1441898, -65491, 12, 1441898, -65491, 2, 1441898, -65491, 65530, 1441898, -65491, 65524, 1441898, -65460, 65534, 655466, -65450, 65534, 655466, -65440, 65534, 655466, -65431, 65534, 655466, -65460, 65515, 655466, -65450, 65515, 655466, -65443, 65515, 655466, -65434, 65515, 655466, -65532, 65484, 1048682, -65532, 65475, 1048682, -65532, 65465, 1048682, -65532, 65455, 1048682, -14, 65486, 1048682, -14, 65480, 1048682, -14, 65475, 1048682, -14, 65468, 1048682, -14, 65462, 1048682, 262163, 72, 127, -65426, 65515, 655466, -65417, 65515, 655466, -65422, 65534, 655466, -65415, 65534, 655466)
+}
+metadata/_editor_floor_ = Vector3(0, -1, 0)
+
+[node name="BasePlataforma" type="GridMap" parent="Orbita/Plataformas" unique_id=464386299]
+mesh_library = ExtResource("2_2l7da")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(-131067, 2, 655460, -131069, 65533, 100, -131069, 65528, 100, -131071, 65526, 100, -65539, 65526, 100, -65542, 65529, 100, -65542, 65533, 100, -65539, 0, 100)
+}
+metadata/_editor_floor_ = Vector3(0, -2, 0)
+
+[node name="craft_racer2" parent="Orbita" unique_id=446235446 instance=ExtResource("3_s8s8w")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -3.4145372, -0.17999999, -1.6010201)
+
+[node name="Computer" type="GridMap" parent="." unique_id=1184474124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, -0.085, 0.445)
+mesh_library = ExtResource("1_ndbvn")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(0, 65535, 1048594)
+}
+metadata/_editor_floor_ = Vector3(0, -2, 0)
+
+[node name="Casa" type="GridMap" parent="." unique_id=2114949570]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+mesh_library = ExtResource("1_ndbvn")
+cell_size = Vector3(0.1, 0.5, 0.5)
+data = {
+"cells": PackedInt32Array(131070, 16, 98, 65537, 16, 655458, 131060, 16, 655463, 65547, 16, 655463, 65555, 16, 655452, 65557, 18, 1048666, 131053, 16, 1441884, 131049, 18, 1441882, 131049, 20, 1441882, 131049, 21, 1441882, 65557, 20, 1048666, 65557, 21, 1441882, 196620, 16, 44, 262132, 16, 44, 327668, 16, 44, 262156, 16, 44, 196612, 16, 109, 262139, 16, 109, 196619, 17, 655454, 262133, 17, 1441886, 196625, 18, 90, 196629, 19, 1441882, 196629, 21, 1441882, 262126, 18, 655450, 262122, 19, 1048666, 262121, 21, 1048666, 196622, 17, 1048615, 262128, 17, 1048615, 327684, 16, 90, 393210, 16, 90, 327693, 17, 655450, 327697, 17, 655450, 393201, 17, 655450, 458769, 17, 655450, 458761, 17, 655450, 458756, 16, 655450, 524286, 16, 655450, 524282, 16, 655450, 524274, 17, 655450, 524272, 17, 655450, 458773, 18, 1048666, 327701, 18, 1048666, 327701, 20, 1048666, 327701, 21, 1048666, 458773, 20, 1048666, 458773, 21, 1048666)
+}
+metadata/_editor_floor_ = Vector3(0, 7, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=250905563]
+transform = Transform3D(-0.74929404, -0.39235854, 0.5334916, -0.040869985, 0.8314516, 0.55409205, -0.6609751, 0.39337412, -0.6390374, 5.3873463, 4.288941, -5.890144)
+
+[node name="Spawners" type="Node3D" parent="." unique_id=1994278130]
+
+[node name="A" parent="Spawners" unique_id=423161848 instance=ExtResource("5_ndbvn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.194841, 0.5364938, -0.013455629)
+
+[node name="B" parent="Spawners" unique_id=2047679414 instance=ExtResource("5_ndbvn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025367916, 0.7890465, -12.1809845)
+
+[node name="C" parent="Spawners" unique_id=517632661 instance=ExtResource("5_ndbvn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060284853, 1.0015615, 14.935911)
+
+[node name="D" parent="Spawners" unique_id=379953035 instance=ExtResource("5_ndbvn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 0.40284425)
+
+[node name="gate_simple2" parent="." unique_id=816016666 instance=ExtResource("6_ubxy2")]
+transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, -0.69127154, 0.5363734, -3.8006914)
+
+[node name="Builds" type="Node3D" parent="." unique_id=469107143]
+
+[node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 4.4924183, 0.39232057, 2.5060964)
+
+[node name="BuildSlot9" parent="Builds" unique_id=1572361030 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 1.8154902, 0.39232057, -0.026390553)
+nivel_necessario = 0
+
+[node name="BuildSlot10" parent="Builds" unique_id=962336628 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 0.18373609, 0.39232057, -1.9854559)
+nivel_necessario = 0
+
+[node name="BuildSlot11" parent="Builds" unique_id=682673982 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, -2.09836, 0.39232057, -0.12986267)
+nivel_necessario = 0
+
+[node name="BuildSlot12" parent="Builds" unique_id=138638035 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 0.1358099, 0.39232057, 2.168692)
+nivel_necessario = 0
+
+[node name="BuildSlot2" parent="Builds" unique_id=1999525065 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 2.3559263, 0.43872672, 4.705979)
+nivel_necessario = 2
+
+[node name="BuildSlot3" parent="Builds" unique_id=1904672652 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, -2.055409, 0.43872672, 5.902765)
+
+[node name="BuildSlot4" parent="Builds" unique_id=1474194310 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, -5.5696583, 0.43872672, 2.532801)
+nivel_necessario = 2
+
+[node name="BuildSlot5" parent="Builds" unique_id=965838545 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, -5.5696583, 0.43872672, -1.857065)
+
+[node name="BuildSlot6" parent="Builds" unique_id=1843536971 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, -2.2393155, 0.43872672, -5.3154454)
+nivel_necessario = 2
+
+[node name="BuildSlot7" parent="Builds" unique_id=723902402 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 2.3271968, 0.43872672, -5.3154454)
+
+[node name="BuildSlot8" parent="Builds" unique_id=1400262830 instance=ExtResource("5_2l7da")]
+transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025, 0, -0.01093378, 0, 0.02248227, 4.6199975, 0.43872672, -3.0211651)
+nivel_necessario = 2
+
+[node name="Player" parent="." unique_id=1040113878 instance=ExtResource("7_mqy4t")]
+transform = Transform3D(-1.463973, -0.009468852, 2.6185288, -0.018275727, 2.9999444, 0.0006304559, -2.6184824, -0.015644182, -1.4640033, 0.89926195, 0.6464263, -0.7715858)
+speed = 3.0
+rotation_speed = 20.0
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=1791159917]
+max_neighbors = 20
+
+[node name="LinhaCaminho" type="Decal" parent="Player" unique_id=1475950366]
+transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
+size = Vector3(0.5, 0.1, 0.5)
+texture_albedo = ExtResource("8_mlm15")
+texture_normal = ExtResource("8_mlm15")
+texture_emission = ExtResource("8_mlm15")
+emission_energy = 2.0
+
+[node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("9_mlm15")]
