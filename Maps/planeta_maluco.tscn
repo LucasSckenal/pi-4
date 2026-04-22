@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://brmq3udyv3l5l"]
+
+[ext_resource type="MeshLibrary" uid="uid://c57s4ikvx5aej" path="res://Gridmap/MapKit5.meshlib" id="1_1v6jt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_espaco"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.01, 0.01, 0.02, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.01, 0.01, 0.02, 1)
+
+[sub_resource type="Sky" id="Sky_espaco"]
+sky_material = SubResource("ProceduralSkyMaterial_espaco")
+
+[sub_resource type="Environment" id="Environment_espaco"]
+background_mode = 2
+sky = SubResource("Sky_espaco")
+ambient_light_source = 2
+ambient_light_color = Color(0.05, 0.05, 0.05, 1)
+tonemap_mode = 2
+glow_enabled = true
+glow_bloom = 0.1
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_estrelas"]
+emission_shape = 3
+emission_box_extents = Vector3(100, 100, 100)
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_estrela"]
+shading_mode = 0
+
+[sub_resource type="SphereMesh" id="SphereMesh_estrela"]
+material = SubResource("StandardMaterial3D_estrela")
+radius = 0.05
+height = 0.1
+radial_segments = 8
+rings = 4
+
+[node name="Planeta Maluco" type="Node3D" unique_id=601620069]
+
+[node name="AmbienteEspacial" type="WorldEnvironment" parent="." unique_id=1553868768]
+environment = SubResource("Environment_espaco")
+
+[node name="LuzSolar" type="DirectionalLight3D" parent="." unique_id=241062407]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+directional_shadow_max_distance = 200.0
+
+[node name="Estrelas" type="GPUParticles3D" parent="." unique_id=1678590049]
+amount = 1500
+lifetime = 10.0
+preprocess = 10.0
+visibility_aabb = AABB(-100, -100, -100, 200, 200, 200)
+process_material = SubResource("ParticleProcessMaterial_estrelas")
+draw_pass_1 = SubResource("SphereMesh_estrela")
+
+[node name="GridMap" type="GridMap" parent="." unique_id=1071401615]
+mesh_library = ExtResource("1_1v6jt")
+cell_size = Vector3(1, 1, 1)
+data = {
+"cells": PackedInt32Array(65534, 0, 142, 65533, 1, 142, 65534, 1, 142, 65533, 0, 142, 65534, 65535, 142, 65533, 65535, 142, 65532, 65535, 142, 65532, 0, 142, 65533, 2, 142, 65532, 2, 142, 65532, 1, 142, 65534, 2, 142, 65535, 2, 142, 65535, 1, 142, 65535, 0, 142, 65535, 65535, 142, 65531, 65535, 142, 65531, 0, 142, 65531, 2, 142, 65531, 1, 142, 65531, 65534, 142, 4, 2, 131214, 3, 2, 131214, 2, 2, 131214, 2, 1, 131214, 1, 1, 131214, 0, 1, 142, 65535, 3, 142, 65535, 4, 131214, 0, 4, 131214, 0, 5, 131214, 0, 2, 142, 0, 0, 142, 0, 65535, 142, 0, 65534, 142, 65531, 65533, 142, 65533, 65534, 142, 65532, 65534, 142, 65532, 65533, 142, 65533, 65533, 142, 65534, 65533, 142, 65535, 65533, 142, 0, 65533, 142, 65535, 65534, 142, 65534, 65534, 142, 65531, 3, 142, 65532, 3, 142, 65533, 3, 142, 65534, 3, 142, 0, 3, 142)
+}
