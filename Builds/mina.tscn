@@ -61,6 +61,9 @@ data = PackedVector3Array(0.45890316, 1.1920929e-07, 0.2649479, 0.22945155, 0.51
 [sub_resource type="SphereShape3D" id="SphereShape3D_ug5hj"]
 radius = 1.0
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_eav52"]
+height = 1.0
+
 [node name="Mina" type="Node3D" unique_id=1922887772]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_ug5hj")
@@ -76,9 +79,16 @@ mesh = SubResource("ArrayMesh_5dl06")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="building_mine_blue2/building_mine_blue/StaticBody3D" unique_id=928071000]
 shape = SubResource("ConcavePolygonShape3D_qrgv0")
+disabled = true
 
 [node name="AreaClique" type="Area3D" parent="." unique_id=1914039510]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=40572941]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0061701536, 0.45635056, -0.174034)
 shape = SubResource("SphereShape3D_ug5hj")
+
+[node name="AreaTransparencia" type="Area3D" parent="." unique_id=1415093917]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" unique_id=879791128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CylinderShape3D_eav52")

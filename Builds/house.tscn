@@ -59,6 +59,9 @@ shadow_mesh = SubResource("ArrayMesh_gv58l")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_o1325"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2nqtp"]
+height = 1.0
+
 [node name="unit-house2" unique_id=1623196517 instance=ExtResource("1_metfq")]
 script = ExtResource("2_61xxl")
 tipo = 2
@@ -75,12 +78,19 @@ mesh = SubResource("ArrayMesh_tpccq")
 
 [node name="CollisionShape3D" parent="unit-house/StaticBody3D" parent_id_path=PackedInt32Array(1568696544) index="0" unique_id=1722401033]
 visible = false
+disabled = true
 
 [node name="AreaClique" type="Area3D" parent="." index="1" unique_id=1004971188]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=701392897]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0.076697975, 0)
 shape = SubResource("SphereShape3D_o1325")
+
+[node name="AreaTransparencia" type="Area3D" parent="." index="2" unique_id=768525149]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" index="0" unique_id=1545474467]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CylinderShape3D_2nqtp")
 
 [connection signal="body_entered" from="AreaClique" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="AreaClique" to="." method="_on_area_3d_body_exited"]

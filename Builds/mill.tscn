@@ -124,6 +124,9 @@ gradient = SubResource("Gradient_5a1o0")
 fill_from = Vector2(0.0045871558, 0)
 fill_to = Vector2(0.036697246, 0.041284405)
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5cmfp"]
+height = 1.0
+
 [node name="unit-mill2" unique_id=527780894 instance=ExtResource("1_6f5ni")]
 script = ExtResource("2_5a1o0")
 tipo = 3
@@ -141,6 +144,9 @@ mesh = SubResource("ArrayMesh_yfluf")
 
 [node name="rotate-x" parent="unit-mill" index="0" unique_id=1487989440]
 mesh = SubResource("ArrayMesh_0ii7m")
+
+[node name="CollisionShape3D" parent="unit-mill/StaticBody3D" parent_id_path=PackedInt32Array(1965987822) index="0" unique_id=473813588]
+disabled = true
 
 [node name="Area3D" type="Area3D" parent="." index="2" unique_id=572346562]
 
@@ -166,6 +172,12 @@ value = 100.0
 nine_patch_stretch = true
 texture_progress = SubResource("GradientTexture2D_1n2p7")
 tint_progress = Color(0, 1, 0, 1)
+
+[node name="AreaTransparencia" type="Area3D" parent="." index="4" unique_id=1984507893]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" index="0" unique_id=1228006437]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+shape = SubResource("CylinderShape3D_5cmfp")
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

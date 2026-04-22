@@ -132,6 +132,9 @@ upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), Su
 [node name="unit-tower" parent="." index="0" unique_id=555590816]
 mesh = SubResource("ArrayMesh_1y2kb")
 
+[node name="CollisionShape3D" parent="unit-tower/StaticBody3D" parent_id_path=PackedInt32Array(204496914) index="0" unique_id=1946866000]
+disabled = true
+
 [node name="AreaTransparencia" type="Area3D" parent="." index="1" unique_id=302779720]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" index="0" unique_id=825667398]
