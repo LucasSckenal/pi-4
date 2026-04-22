@@ -159,7 +159,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060284853, 1.0015615, 14.93
 [node name="D" parent="Spawners" unique_id=379953035 instance=ExtResource("5_ndbvn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 0.40284425)
 
-[node name="gate_simple2" parent="." unique_id=816016666 instance=ExtResource("6_ubxy2")]
+[node name="gate_simple2" parent="." unique_id=1507595663 instance=ExtResource("6_ubxy2")]
 transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, -0.69127154, 0.5363734, -3.8006914)
 
 [node name="Builds" type="Node3D" parent="." unique_id=469107143]
