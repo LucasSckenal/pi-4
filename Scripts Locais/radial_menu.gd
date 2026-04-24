@@ -98,7 +98,16 @@ func abrir_menu(slot: Node) -> void:
 		# ================================
 		
 		novo_botao.configurar(cena_torre, icone, nome, custo, self)
-		
+
+	# Destaque o botão recomendado pelo conselheiro
+	var rec_nome: String = GameManager.recomendacao_conselheiro
+	if rec_nome != "":
+		for botao in _botoes_ativos:
+			var nome_b = botao.get("nome_torre")
+			if nome_b != null and str(nome_b) == rec_nome and botao.has_method("destacar_recomendado"):
+				botao.destacar_recomendado()
+				break
+
 	# Garante que as divisórias sejam desenhadas
 	queue_redraw()
 	show()

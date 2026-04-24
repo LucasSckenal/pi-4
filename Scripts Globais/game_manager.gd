@@ -78,6 +78,7 @@ var banco_de_fases: Dictionary = {
 # ==========================================
 var bonus_dano: int = 0 
 var bonus_moedas_onda: int = 0
+var recomendacao_conselheiro: String = ""
 var bonus_velocidade_ataque: float = 0.0
 var desconto_construcao: int = 0
 var multiplicador_horda: float = 1.0
@@ -93,6 +94,8 @@ var baralho_upgrades: Array = [
 	preload("res://PowerUps/ImpostoGuerra.tres"),
 	preload("res://PowerUps/MuralhasReforçadas.tres"),
 	preload("res://PowerUps/TFRICO.tres"),
+	preload("res://PowerUps/Fúria.tres"),
+	preload("res://PowerUps/Gelo.tres"),
 ]
 
 var reroll_usado: bool = false
@@ -342,29 +345,33 @@ func aplicar_upgrade(dados): # Substitua "dados: CartaUpgrade" se tiver o tipo d
 	get_tree().call_group("Torres", "atualizar_status")
 
 func _processar_efeito(tipo_efeito, valor):
-	# Assumindo que o enum TipoUpgrade está dentro de CartaUpgrade
-	# Se necessário, ajuste o caminho do Enum conforme o seu projeto
+	# Enum CartaUpgrade.TipoUpgrade: DANO=0, MOEDA=1, VIDA=2, VELOCIDADE_ATAQUE=3,
+	#                                VELOCIDADE_INIMIGO=4, CUSTO_CONSTRUCAO=5, QUANTIDADE_INIMIGOS=6
 	match tipo_efeito:
 		0: # DANO
 			bonus_dano += int(valor)
-			print("Novo Bônus de Dano: ", bonus_dano)
+			print("Bônus de Dano: ", bonus_dano)
 		1: # MOEDA
 			bonus_moedas_onda += int(valor)
-			print("Novo Bônus de Moedas: ", bonus_moedas_onda)
-		2: # VELOCIDADE_ATAQUE
+			print("Bônus de Moedas por Onda: ", bonus_moedas_onda)
+		2: # VIDA — aplica ao castelo (flat se |valor|>=1, percentual se |valor|<1)
+			var delta: int = int(valor) if abs(valor) >= 1.0 else int(vida_base_maxima * valor)
+			vida_base_maxima = max(1, vida_base_maxima + delta)
+			vida_base_atual  = clamp(vida_base_atual + max(0, delta), 1, vida_base_maxima)
+			get_tree().call_group("Base", "_aplicar_bonus_vida", delta)
+			print("Vida do castelo: ", vida_base_atual, "/", vida_base_maxima)
+		3: # VELOCIDADE_ATAQUE
 			bonus_velocidade_ataque += float(valor)
-			print("Novo Bônus de Velocidade: ", bonus_velocidade_ataque)
-		3: # CUSTO_CONSTRUCAO
-			desconto_construcao += int(valor) 
-			print("Desconto fixo aplicado! Torres custam -", desconto_construcao, " moedas.")
-		4: # QUANTIDADE_INIMIGOS
-			multiplicador_horda *= float(valor)
-			print("Novo Multiplicador de Horda: ", multiplicador_horda)
-		5: # VELOCIDADE_INIMIGO
-			multiplicador_velocidade_inimigo *= float(valor)
-			print("Velocidade dos Inimigos alterada: ", multiplicador_velocidade_inimigo)
-		6: # VIDA
-			print("Vida aumentada em: ", valor)
+			print("Bônus de Velocidade de Ataque: ", bonus_velocidade_ataque)
+		4: # VELOCIDADE_INIMIGO (aditivo: -0.3 = inimigos 30% mais lentos)
+			multiplicador_velocidade_inimigo = max(0.1, multiplicador_velocidade_inimigo + float(valor))
+			print("Multiplicador de Velocidade Inimigo: ", multiplicador_velocidade_inimigo)
+		5: # CUSTO_CONSTRUCAO
+			desconto_construcao += int(valor)
+			print("Desconto de Construção: -", desconto_construcao, " moedas")
+		6: # QUANTIDADE_INIMIGOS (valor em %, ex: 20.0 = +20% mais inimigos)
+			multiplicador_horda = max(0.1, multiplicador_horda + float(valor) / 100.0)
+			print("Multiplicador de Horda: ", multiplicador_horda)
 
 func rerolar_cartas():
 	if reroll_usado:

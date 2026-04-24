@@ -212,8 +212,9 @@ func _physics_process(delta):
 					if not eh_barreira:
 						velocity.y = jump_velocity
 				
-				velocity.x = dir.x * velocidade
-				velocity.z = dir.z * velocidade
+				var vel_aplicada = velocidade * max(0.1, GameManager.multiplicador_velocidade_inimigo)
+				velocity.x = dir.x * vel_aplicada
+				velocity.z = dir.z * vel_aplicada
 				
 				# ROTAÇÃO
 				var look_dir = Vector2(velocity.z, velocity.x)

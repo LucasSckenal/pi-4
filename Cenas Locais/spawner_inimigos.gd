@@ -46,11 +46,14 @@ func _iniciar_noite(_n):
 
 	fila_inimigos.clear()
 	fila_hp_mult.clear()
+	# Para waves pré-definidas aplica multiplicador_horda; waves procedurais já calculam a quantidade
+	var mult_horda: float = GameManager.multiplicador_horda if onda_atual < ondas.size() else 1.0
 	for config in onda_data.inimigos:
 		if config == null:
 			print("ERRO: Config de inimigo null na onda ", onda_atual)
 			continue
-		for i in range(config.quantidade):
+		var qtd = int(ceil(config.quantidade * mult_horda))
+		for i in range(qtd):
 			fila_inimigos.append(config.cena)
 			fila_hp_mult.append(hp_mult_base)
 
@@ -219,7 +222,8 @@ func _gerar_onda_procedural(onda_global: int) -> WaveData:
 	var onda_data = WaveData.new()
 	onda_data.nome_da_onda = "Onda Infinita %d" % onda_global
 	onda_data.intervalo = max(0.6, 2.0 - onda_global * 0.05)
-	onda_data.inimigos = []
+	# Não atribuímos onda_data.inimigos diretamente — usamos só .append()
+	# porque o campo é Array[InimigoConfig] tipado
 
 	# Escolhe 2-3 tipos aleatórios do pool
 	if pool_normais.size() > 0:
@@ -228,7 +232,6 @@ func _gerar_onda_procedural(onda_global: int) -> WaveData:
 		pool_copia.shuffle()
 		var tipos_escolhidos = pool_copia.slice(0, num_tipos)
 
-		# Distribui a quantidade entre os tipos
 		var restante = qtd_por_spawner
 		for i in range(tipos_escolhidos.size()):
 			var cfg = InimigoConfig.new()
@@ -240,7 +243,7 @@ func _gerar_onda_procedural(onda_global: int) -> WaveData:
 			restante -= cfg.quantidade
 			onda_data.inimigos.append(cfg)
 
-	# Boss: apenas o primeiro spawner (em ordem de grupo) spawna o boss, para não vir 3 bosses
+	# Boss: apenas o primeiro spawner spawna o boss para não vir 3 bosses
 	if eh_onda_boss and cena_boss != null:
 		var spawners = get_tree().get_nodes_in_group("Spawner")
 		if spawners.size() > 0 and spawners[0] == self:

@@ -10,5 +10,5 @@ titulo = "Muralhas Reforçadas"
 descricao = "Adiciona 50 de vida extra ao seu castelo. Agente não cai sem lutar!"
 icone = ExtResource("1_e5rhp")
 tipo_bonus = 2
-valor_bonus = 0.05
+valor_bonus = 50
 metadata/_custom_type_script = "uid://ckllnh0oimgco"

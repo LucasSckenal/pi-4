@@ -10,5 +10,5 @@ titulo = "Gelo"
 descricao = "Flechas aplicam gelo: inimigos movem-se 30% mais devagar."
 icone = ExtResource("1_ticv1")
 tipo_bonus = 4
-valor_bonus = -0.03
+valor_bonus = -0.30
 metadata/_custom_type_script = "uid://ckllnh0oimgco"

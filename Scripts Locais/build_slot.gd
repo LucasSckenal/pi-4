@@ -25,8 +25,11 @@ var player_ref_teclado = null       # Referência ao jogador (para PC)
 var pode_construir: bool = true     # Controlado pelo ciclo dia/noite
 var slot_disponivel: bool = false   # Controlado pelo nível da base
 var ui_atual: Control = null        # Referência à UI instanciada
+var _tween_destaque: Tween = null   # Animação de destaque do conselheiro
 
 func _ready():
+	add_to_group("BuildSlots")
+
 	# Configura visibilidade inicial baseada na plataforma
 	if canvas_mobile:
 		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
@@ -89,6 +92,7 @@ func _ao_iniciar_dia(_onda):
 
 func _ao_iniciar_noite(_onda):
 	pode_construir = false
+	parar_destaque()
 	cancelar_selecao()
 	_atualizar_visibilidade_por_tempo()
 	fechar_ui()
@@ -162,6 +166,7 @@ func construir(cena: PackedScene):
 	temp_instancia.queue_free()
 	
 	if GameManager.gastar_moedas(custo_final):
+		parar_destaque()
 		var nova_const = cena.instantiate()
 		add_child(nova_const)
 		nova_const.global_position = global_position
@@ -276,3 +281,22 @@ func _on_area_3d_body_entered(body):
 func _on_area_3d_body_exited(body):
 	if body == player_ref_teclado:
 		player_ref_teclado = null
+
+# ==========================================
+# DESTAQUE DO CONSELHEIRO IA
+# ==========================================
+func destacar():
+	parar_destaque()
+	if not is_instance_valid(bolha_btn):
+		return
+	bolha_btn.show()
+	_tween_destaque = create_tween().set_loops()
+	_tween_destaque.tween_property(bolha_btn, "modulate", Color(1.6, 1.4, 0.2, 1.0), 0.45)
+	_tween_destaque.tween_property(bolha_btn, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.45)
+
+func parar_destaque():
+	if _tween_destaque != null and is_instance_valid(_tween_destaque):
+		_tween_destaque.kill()
+	_tween_destaque = null
+	if is_instance_valid(bolha_btn):
+		bolha_btn.modulate = Color(1.0, 1.0, 1.0, 1.0)

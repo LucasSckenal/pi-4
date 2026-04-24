@@ -543,6 +543,14 @@ func _inicializar_barra_vida():
 		barra_vida.value = vida_atual
 		container_barra.visible = false
 
+func _aplicar_bonus_vida(delta: int):
+	if tipo != TipoConstrucao.BASE: return
+	vida_maxima = max(1, vida_maxima + delta)
+	vida_atual  = clamp(vida_atual + max(0, delta), 1, vida_maxima)
+	if tem_barra_vida and barra_vida:
+		barra_vida.max_value = vida_maxima
+		barra_vida.value = vida_atual
+
 func _configurar_alcance():
 	if area_ataque and area_ataque.has_node("CollisionShape3D"):
 		

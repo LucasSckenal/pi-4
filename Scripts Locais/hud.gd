@@ -3,6 +3,11 @@ extends CanvasLayer
 #OBS.: NÃO MOVER PARA CIMA DO TUTORIALMANAGER, QUEBRA NA HORA A LÓGICA DE MOVIMENTAÇÃO DO PERSONAGEM
 # E EU NÂO TENHO A MENOR IDEIA DO POR QUÊ
 
+const _ScriptPainelConselheiro = preload("res://UI/HUD/painel_conselheiro.gd")
+const _CenaMenuPausa = preload("res://UI/Menus/menu_pausa.tscn")
+
+var _menu_pausa_inst = null
+
 # ==========================================
 # REFERÊNCIAS DA INTERFACE PRINCIPAL
 # ==========================================
@@ -141,7 +146,17 @@ func _ready():
 	
 	# Conecta o sinal de morte do GameManager à HUD
 	if GameManager.has_signal("game_over"):
-		GameManager.game_over.connect(_on_game_over_hud)	
+		GameManager.game_over.connect(_on_game_over_hud)
+
+	# Painel do conselheiro IA (canto inferior esquerdo)
+	if not get_node_or_null("PainelConselheiro"):
+		var painel_conselheiro = _ScriptPainelConselheiro.new()
+		painel_conselheiro.name = "PainelConselheiro"
+		add_child(painel_conselheiro)
+
+	# Menu de pausa (botão + instância)
+	_instanciar_menu_pausa()
+	_criar_botao_pausa()
 
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
@@ -470,3 +485,46 @@ func _process(_delta: float) -> void:
 func _on_game_over_hud():
 	if game_over_instance and game_over_instance.has_method("mostrar"):
 		game_over_instance.mostrar()
+
+# ==========================================
+# MENU DE PAUSA
+# ==========================================
+func _instanciar_menu_pausa():
+	_menu_pausa_inst = _CenaMenuPausa.instantiate()
+	add_child(_menu_pausa_inst)
+
+func _criar_botao_pausa():
+	var btn := Button.new()
+	btn.text = "☰"
+	btn.custom_minimum_size = Vector2(56, 56)
+	btn.mouse_filter = Control.MOUSE_FILTER_STOP
+	btn.anchor_left   = 1.0
+	btn.anchor_right  = 1.0
+	btn.anchor_top    = 0.0
+	btn.anchor_bottom = 0.0
+	btn.offset_left   = -200
+	btn.offset_right  = -144
+	btn.offset_top    = 14
+	btn.offset_bottom = 70
+
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.10, 0.10, 0.12, 0.92)
+	st.border_color = Color(0.45, 0.45, 0.55)
+	st.set_border_width_all(2)
+	st.corner_radius_top_left    = 12
+	st.corner_radius_top_right   = 12
+	st.corner_radius_bottom_left = 12
+	st.corner_radius_bottom_right = 12
+	var st_hover := st.duplicate() as StyleBoxFlat
+	st_hover.bg_color = Color(0.18, 0.18, 0.22, 0.98)
+
+	btn.add_theme_stylebox_override("normal",  st)
+	btn.add_theme_stylebox_override("hover",   st_hover)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_color_override("font_color", Color.WHITE)
+	btn.add_theme_font_size_override("font_size", 28)
+	btn.pressed.connect(func():
+		if is_instance_valid(_menu_pausa_inst):
+			_menu_pausa_inst._abrir()
+	)
+	add_child(btn)

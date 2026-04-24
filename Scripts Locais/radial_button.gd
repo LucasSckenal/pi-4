@@ -62,17 +62,31 @@ func _desativar_processamento_miniatura(no: Node) -> void:
 	for filho in no.get_children():
 		_desativar_processamento_miniatura(filho)
 
+var _tween_rec: Tween = null
+var _eh_recomendado: bool = false
+
+func destacar_recomendado():
+	_eh_recomendado = true
+	if _tween_rec != null and is_instance_valid(_tween_rec):
+		_tween_rec.kill()
+	_tween_rec = create_tween().set_loops()
+	_tween_rec.tween_property(self, "modulate", Color(1.6, 1.4, 0.2, 1.0), 0.4)
+	_tween_rec.tween_property(self, "modulate", Color(1.1, 1.0, 0.6, 1.0), 0.4)
+
 func _ao_mouse_entrar() -> void:
 	if is_instance_valid(menu_referencia):
 		menu_referencia.atualizar_informacoes(nome_torre, custo_torre)
-	# Feedback visual (hover): fica um pouco mais claro
-	modulate = Color(1.2, 1.2, 1.2, 1.0)
+	if _tween_rec != null and is_instance_valid(_tween_rec):
+		_tween_rec.kill()
+	modulate = Color(1.4, 1.4, 1.4, 1.0)
 
 func _ao_mouse_sair() -> void:
 	if is_instance_valid(menu_referencia):
 		menu_referencia.limpar_informacoes()
-	# Feedback visual: volta ao normal
-	modulate = Color(1.0, 1.0, 1.0, 1.0)
+	if _eh_recomendado:
+		destacar_recomendado()
+	else:
+		modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 func _ao_pressionar() -> void:
 	if is_instance_valid(menu_referencia):
