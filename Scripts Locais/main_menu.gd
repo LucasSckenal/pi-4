@@ -76,10 +76,10 @@ func _on_btn_continuar_pressed():
 		btn_continuar.disabled = false
 
 func _on_btn_jogar_pressed():
-	get_tree().change_scene_to_file("res://Cenas Locais/seletor_fases.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/seletor_fases.tscn")
 
 func _on_btn_conquistas_pressed() -> void:
-	get_tree().change_scene_to_file("res://Cenas Locais/tela_conquistas.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/tela_conquistas.tscn")
 
 func _on_btn_sair_pressed() -> void:
 	get_tree().quit()
@@ -127,4 +127,4 @@ func _varrer_malhas_e_aplicar(no_atual: Node, material_shader: ShaderMaterial):
 		_varrer_malhas_e_aplicar(filho, material_shader)
 
 func _on_btn_personagem_invisivel_pressed() -> void:
-	get_tree().change_scene_to_file("res://Cenas Locais/menu_customizacao.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/menu_customizacao.tscn")

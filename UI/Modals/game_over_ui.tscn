@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cbryxi4nq2e8q"]
 
-[ext_resource type="Script" uid="uid://bkif50hokxb6g" path="res://Cenas Locais/game_over_ui.gd" id="1_jya48"]
+[ext_resource type="Script" uid="uid://bkif50hokxb6g" path="res://UI/Modals/game_over_ui.gd" id="1_jya48"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fundo_noite"]
 content_margin_left = 60.0

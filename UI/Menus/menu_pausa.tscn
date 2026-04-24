@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://drowwcrmpp37r"]
 
-[ext_resource type="Script" path="res://Cenas Locais/menu_pausa.gd" id="1_uhuac"]
+[ext_resource type="Script" path="res://UI/Menus/menu_pausa.gd" id="1_uhuac"]
 
 [node name="MenuPausa" type="CanvasLayer" unique_id=2008901115]
 process_mode = 3

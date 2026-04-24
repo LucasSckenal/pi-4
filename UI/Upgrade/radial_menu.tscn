@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://drevxhatl2ay7"]
 
 [ext_resource type="Script" uid="uid://b307ehcwnuifv" path="res://Scripts Locais/radial_menu.gd" id="1_yu6rj"]
-[ext_resource type="PackedScene" uid="uid://dtvgx1hmd44ji" path="res://Cenas Locais/radial_button.tscn" id="2_ny3wd"]
+[ext_resource type="PackedScene" uid="uid://dtvgx1hmd44ji" path="res://UI/Upgrade/radial_button.tscn" id="2_ny3wd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ny3wd"]
 font_size = 32

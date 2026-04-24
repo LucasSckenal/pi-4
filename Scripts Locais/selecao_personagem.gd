@@ -78,7 +78,7 @@ func _ao_escolher(caminho):
 # ---------------------------------------------------------
 func _on_btn_back_pressed() -> void:
 	print("Voltando para o menu principal...")
-	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
 
 
 # ---------------------------------------------------------
@@ -92,7 +92,7 @@ func _on_btn_select_pressed() -> void:
 		
 	# AGORA SIM! O jogador confirmou. Passamos do temporário para o Global!
 	Global.personagem_escolhido_path = personagem_temporario
-	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
 	print("Personagem salvo com sucesso para o jogo: ", Global.personagem_escolhido_path)
 
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bwf5ew2pcpn7w"]
 
 [ext_resource type="Script" uid="uid://bbkopmygf8dbc" path="res://Cenas Locais/sol_ciclo.gd" id="1_0baal"]
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="2_o3a1e"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="2_o3a1e"]
 [ext_resource type="PackedScene" uid="uid://7ql5qq73ydhw" path="res://Map/building-tower.glb" id="2_wjb0r"]
 [ext_resource type="PackedScene" uid="uid://c17533q6arlt7" path="res://Map/grass-hill.glb" id="3_mc2jv"]
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="4_bo7i5"]

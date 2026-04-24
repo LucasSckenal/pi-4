@@ -5,7 +5,7 @@
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="2_4hbx2"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_ylt60"]
 [ext_resource type="Texture2D" uid="uid://xy6aqodovhk1" path="res://Arena/Textures/colormap.png" id="3_ylt60"]
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="4_qpw32"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="4_qpw32"]
 [ext_resource type="PackedScene" uid="uid://boavsfqect68r" path="res://Map2/Pyramid.glb" id="5_5a8yk"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="6_x8cn2"]
 [ext_resource type="MeshLibrary" uid="uid://dseioa1jkwhth" path="res://Gridmap/Map2Kit.meshlib" id="7_sv780"]

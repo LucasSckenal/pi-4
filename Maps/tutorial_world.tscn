@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_bislj"]
 [ext_resource type="Script" uid="uid://86fmvi2ukonw" path="res://Cenas Locais/tutorial_world.gd" id="1_e0en3"]
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_l2f7a"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_l2f7a"]
 [ext_resource type="Resource" uid="uid://chsnscgwjuv8v" path="res://Conquistas/inicio_aventura.tres" id="2_1adak"]
 [ext_resource type="Resource" uid="uid://dao3guypv65xy" path="res://Conquistas/primeiros_passos.tres" id="2_gtwgk"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_hvshy"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5l8slqarfs0i"]
 
-[ext_resource type="Script" uid="uid://cb2u6080fe5i1" path="res://Cenas Locais/upgrade_ui.gd" id="1_rm7i3"]
-[ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://Cenas Locais/opcao_upgrade_button.tscn" id="2_fqelm"]
+[ext_resource type="Script" uid="uid://cb2u6080fe5i1" path="res://UI/Upgrade/upgrade_ui.gd" id="1_rm7i3"]
+[ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://UI/Upgrade/opcao_upgrade_button.tscn" id="2_fqelm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0.12, 0.13, 0.18, 0.95)

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c6bf0sp4hsun6" path="res://Map5/GLTF format/gate_simple.glb" id="6_ubxy2"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="7_mqy4t"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="8_mlm15"]
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="9_mlm15"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="9_mlm15"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_espaco"]
 sky_top_color = Color(0, 0, 0, 1)

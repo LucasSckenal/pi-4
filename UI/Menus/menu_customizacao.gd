@@ -371,4 +371,4 @@ func _on_btn_avo_f_pressed():
 	_gerar_botoes_chapeus()
 
 func _on_btn_voltar_pressed():
-	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")

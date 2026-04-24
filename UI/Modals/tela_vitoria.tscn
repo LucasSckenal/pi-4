@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://brcbpr4i8gyhb"]
 
-[ext_resource type="Script" uid="uid://cksepmks7bla4" path="res://Cenas Locais/tela_vitoria.gd" id="1_khefl"]
+[ext_resource type="Script" uid="uid://cksepmks7bla4" path="res://UI/Modals/tela_vitoria.gd" id="1_khefl"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.121569, 0.141176, 0.2, 0.95)

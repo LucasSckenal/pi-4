@@ -3,7 +3,8 @@ extends Control
 # Caminho para a sua textura do tracinho
 var textura_linha = preload("res://Icons/textura_tracinho.png")
 var estrela_cheia = preload("res://Icons/star.png")
-var estrela_vazia = preload("res://Icons/star_outline_depth.png") 
+var estrela_vazia = preload("res://Icons/star_outline_depth.png")
+const MODAL_MODO_FASE = preload("res://UI/Modals/modal_modo_fase.tscn")
 # Pegamos o nó do pergaminho para jogar as linhas lá dentro
 @onready var pergaminho = $Meshy_AI_Blank_Scroll_0416004051_texture
 var progresso_atual = 6
@@ -124,32 +125,58 @@ func atualizar_estrelas_do_botao(botao: Button, nivel_da_fase: int) -> void:
 # ==========================================			
 
 func _on_btn_voltar_pressed() -> void:
-	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
 
 
 func _on_map_1_pressed() -> void:
-	MusicaGlobal.tocar_tutorial()
-	get_tree().change_scene_to_file("res://Maps/tutorial_world.tscn")
-
+	_abrir_modal_fase(1)
 
 func _on_map_2_pressed() -> void:
-	MusicaGlobal.tocar_deserto()
-	get_tree().change_scene_to_file("res://Maps/Crimson_Desert.tscn")
-
+	_abrir_modal_fase(2)
 
 func _on_map_3_pressed() -> void:
-	MusicaGlobal.tocar_bruxa()
-	get_tree().change_scene_to_file("res://Maps/Witch_house.tscn")
+	_abrir_modal_fase(3)
 
 func _on_map_4_pressed() -> void:
-	MusicaGlobal.tocar_aquatico()
-	get_tree().change_scene_to_file("res://Maps/fenda_dos_piratas.tscn")
-
+	_abrir_modal_fase(4)
 
 func _on_map_5_pressed() -> void:
-	MusicaGlobal.tocar_tutorial()
-	get_tree().change_scene_to_file("res://Maps/tutorial_world.tscn")
+	_abrir_modal_fase(5)
 
 func _on_map_6_pressed() -> void:
-	MusicaGlobal.tocar_covil()
-	get_tree().change_scene_to_file("res://Maps/Covil_Dragon.tscn")
+	_abrir_modal_fase(6)
+
+
+# ==========================================
+# MODAL DE SELEÇÃO DE MODO (NORMAL / INFINITO)
+# ==========================================
+func _abrir_modal_fase(numero_fase: int) -> void:
+	var modal = MODAL_MODO_FASE.instantiate()
+	add_child(modal)
+	modal.abrir(numero_fase)
+	modal.modo_confirmado.connect(func(infinito: bool):
+		_iniciar_fase(numero_fase, infinito)
+	)
+
+
+func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
+	GameManager.modo_infinito = infinito
+
+	# Toca a música correspondente à fase
+	match numero_fase:
+		1: MusicaGlobal.tocar_tutorial()
+		2: MusicaGlobal.tocar_deserto()
+		3: MusicaGlobal.tocar_bruxa()
+		4: MusicaGlobal.tocar_aquatico()
+		5: MusicaGlobal.tocar_tutorial()
+		6: MusicaGlobal.tocar_covil()
+
+	var caminhos = {
+		1: "res://Maps/tutorial_world.tscn",
+		2: "res://Maps/Crimson_Desert.tscn",
+		3: "res://Maps/Witch_house.tscn",
+		4: "res://Maps/fenda_dos_piratas.tscn",
+		5: "res://Maps/tutorial_world.tscn",
+		6: "res://Maps/Covil_Dragon.tscn"
+	}
+	get_tree().change_scene_to_file(caminhos[numero_fase])

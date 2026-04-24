@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d3h6esyusk8kl"]
 
-[ext_resource type="Script" uid="uid://58a8pnam3ssk" path="res://Cenas Locais/tela_conquistas.gd" id="1_pnd5v"]
+[ext_resource type="Script" uid="uid://58a8pnam3ssk" path="res://UI/Menus/tela_conquistas.gd" id="1_pnd5v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_FundoLista"]
 bg_color = Color(0.08, 0.08, 0.1, 0.8)

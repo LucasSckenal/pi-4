@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://det7oyq61ct6y"]
 
 [ext_resource type="Script" uid="uid://f8n7jkqvkuro" path="res://Scripts Locais/build_slot.gd" id="1_64b41"]
-[ext_resource type="PackedScene" uid="uid://drevxhatl2ay7" path="res://Cenas Locais/radial_menu.tscn" id="2_ckx2x"]
+[ext_resource type="PackedScene" uid="uid://drevxhatl2ay7" path="res://UI/Upgrade/radial_menu.tscn" id="2_ckx2x"]
 [ext_resource type="Texture2D" uid="uid://doyxjky75tunv" path="res://Icons/construction_icon.png" id="3_ckx2x"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_64b41"]

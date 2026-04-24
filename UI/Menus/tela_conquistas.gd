@@ -1,6 +1,6 @@
 extends Control
 
-var painel_cena = preload("res://Cenas Locais/painel_conquista.tscn")
+var painel_cena = preload("res://UI/Modals/painel_conquista.tscn")
 
 # Lista que vai guardar as conquistas
 var banco_conquistas: Array[ConquistaData] = []
@@ -66,4 +66,4 @@ func criar_painel(conquista: ConquistaData):
 		novo_painel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 
 func _on_btn_voltar_pressed() -> void:
-		get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")     
+		get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")     

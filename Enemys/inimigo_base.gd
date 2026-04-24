@@ -403,7 +403,17 @@ func invocar_minions():
 func morrer():
 	esta_morto = true
 	remove_from_group("inimigos")
-	
+
+	# Drop de moedas exclusivo do modo infinito (facilita a economia)
+	if GameManager.modo_infinito:
+		var drop: int = 1
+		match tipo_inimigo:
+			Categoria.MINI_BOSS: drop = 5
+			Categoria.BOSS: drop = 15
+			_: drop = 1
+		GameManager.moedas += drop
+		get_tree().call_group("Interface", "atualizar_moedas")
+
 	if $CollisionShape3D:
 		$CollisionShape3D.set_deferred("disabled", true)
 		

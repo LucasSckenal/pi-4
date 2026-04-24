@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://c5pxe6bsjuyx7"]
 
-[ext_resource type="Script" uid="uid://luygg5bjtkli" path="res://Cenas Locais/controles_mobile.gd" id="1_mnp6r"]
+[ext_resource type="Script" uid="uid://luygg5bjtkli" path="res://UI/HUD/controles_mobile.gd" id="1_mnp6r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BoxEmpty"]
 bg_color = Color(0.2, 0.2, 0.2, 0.6)

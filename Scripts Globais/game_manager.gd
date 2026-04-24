@@ -31,6 +31,11 @@ var modo_dev: bool = false
 var recarregando_save: bool = false
 
 # ==========================================
+# MODO INFINITO
+# ==========================================
+var modo_infinito: bool = false
+
+# ==========================================
 # BANCO DE DADOS DAS FASES
 # ==========================================
 var construcoes_permitidas_na_fase: Dictionary = {}
@@ -195,11 +200,13 @@ func carregar_fase(numero_fase: int):
 	# 2. Se NÃO for um carregamento de save, aplicamos os valores iniciais de "Novo Jogo"
 	if not recarregando_save:
 		moedas = config["moedas_iniciais"]
+		if modo_infinito:
+			moedas += 10  # Bônus de entrada no modo infinito
 		_set_nivel_base(config["nivel_base_inicial"])
-		is_tutorial_ativo = config["tutorial"]
+		is_tutorial_ativo = config["tutorial"] and not modo_infinito
 		onda_atual = 1 # Só resetamos a onda se for um jogo novo
 		iniciar_dia(true)
-		print("Fase ", fase_atual, " iniciada do zero!")
+		print("Fase ", fase_atual, " iniciada do zero!", " [INFINITO]" if modo_infinito else "")
 	else:
 		# Se for save, apenas confirmamos que os dados já foram carregados
 		print("Fase ", fase_atual, " restaurada na onda: ", onda_atual)
@@ -234,7 +241,9 @@ func iniciar_dia(primeiro_dia: bool = false):
 	get_tree().call_group("Torres", "curar_totalmente") 
 	
 	# ADICIONE ESTA LINHA: Salva o jogo sempre que o dia começa em segurança
-	salvar_jogo()
+	# (o modo infinito é uma sessão única, não persiste mid-run)
+	if not modo_infinito:
+		salvar_jogo()
 
 func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
@@ -257,9 +266,10 @@ func terminar_onda():
 	
 	# Verifica se era a última onda da fase (Ex: fase 1 tem 5 ondas)
 	# Você pode definir esse valor no seu banco_de_fases [cite: 2]
-	var ultima_onda = 5 
-	
-	if onda_atual >= ultima_onda:
+	var ultima_onda = 5
+
+	# No modo infinito nunca aciona vitória — só termina com game over (base destruída)
+	if not modo_infinito and onda_atual >= ultima_onda:
 		acionar_vitoria()
 		return
 
@@ -276,6 +286,8 @@ func terminar_onda():
 func calcular_e_recolher_renda():
 	var config_fase = banco_de_fases[fase_atual]
 	var total_renda = config_fase["renda_base_por_onda"] + bonus_moedas_onda
+	if modo_infinito:
+		total_renda += 3  # Renda extra facilitada no modo infinito
 	
 	# Recolhe o dinheiro das casas e moinhos
 	var construcoes_economia = get_tree().get_nodes_in_group("Economia")

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://15yqfa5lpupn"]
 
-[ext_resource type="Script" uid="uid://ch0vwt5rivuxd" path="res://Cenas Locais/menu_customizacao.gd" id="1_q3jha"]
+[ext_resource type="Script" uid="uid://ch0vwt5rivuxd" path="res://UI/Menus/menu_customizacao.gd" id="1_q3jha"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vestiario"]
 sky_top_color = Color(0.2, 0.2, 0.2, 1)

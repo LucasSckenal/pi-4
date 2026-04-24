@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ckafgenj4m0jb"]
 
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_1q4q1"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_1q4q1"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_mb5xg"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="2_1q4q1"]
 [ext_resource type="MeshLibrary" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]

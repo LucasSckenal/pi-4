@@ -42,4 +42,4 @@ func _on_botao_reiniciar_pressed():
 
 func _on_botao_menu_pressed():
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://Cenas Locais/main_menu.tscn")
+	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")

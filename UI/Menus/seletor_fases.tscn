@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dkctxff7rmf4m"]
 
-[ext_resource type="Script" uid="uid://drtuhx0gasbm7" path="res://Cenas Locais/seletor_fases.gd" id="1_nbx80"]
+[ext_resource type="Script" uid="uid://drtuhx0gasbm7" path="res://UI/Menus/seletor_fases.gd" id="1_nbx80"]
 [ext_resource type="PackedScene" uid="uid://fs8pjdhnlgs3" path="res://Assets/Meshy_AI_Blank_Scroll_0416004051_texture.glb" id="2_1miao"]
 [ext_resource type="Texture2D" uid="uid://bnesw0l35idgn" path="res://Icons/Map1Selcetor.png" id="3_ymrsv"]
 [ext_resource type="Texture2D" uid="uid://c6mxapyysije2" path="res://Icons/LabelMap.png" id="4_bp4jj"]

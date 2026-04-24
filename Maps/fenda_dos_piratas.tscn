@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_ph4ei"]
 [ext_resource type="PackedScene" uid="uid://dwygjlxcgtv1e" path="res://Map4/ship-wreck.glb" id="2_vvj8p"]
 [ext_resource type="PackedScene" uid="uid://dtbnd5mgkvaig" path="res://Map4/ship-ghost.glb" id="3_vvj8p"]
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="4_1rk64"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="4_1rk64"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="5_sxogr"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="6_sxogr"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="7_tigay"]

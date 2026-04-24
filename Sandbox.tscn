@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bbsjw4ntde1li"]
 
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
-[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://Cenas Locais/hud.tscn" id="1_vrv26"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_vrv26"]
 [ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
 [ext_resource type="PackedScene" uid="uid://d0i607qaiy12s" path="res://Builds/mill.tscn" id="5_ti018"]
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="5_u6t3p"]

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b0wsp05pdf7u3"]
 
-[ext_resource type="Script" uid="uid://vo7nxu7xmuy3" path="res://Cenas Locais/tela_aviso_inimigo.gd" id="1_rmby8"]
+[ext_resource type="Script" uid="uid://vo7nxu7xmuy3" path="res://UI/Modals/tela_aviso_inimigo.gd" id="1_rmby8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
 bg_color = Color(0.12, 0.12, 0.14, 0.95)
