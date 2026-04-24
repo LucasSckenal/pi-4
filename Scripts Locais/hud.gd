@@ -130,6 +130,10 @@ func _ready():
 		GameManager.dia_iniciado.connect(_ao_iniciar_dia_hud)
 	if GameManager.has_signal("noite_iniciada"):
 		GameManager.noite_iniciada.connect(_ao_iniciar_noite_hud)
+	if GameManager.has_signal("renda_recolhida"):
+		GameManager.renda_recolhida.connect(_mostrar_moedas_flutuante)
+	if Global.has_signal("progresso_salvo"):
+		Global.progresso_salvo.connect(_mostrar_confirmacao_save)
 		
 	# Instancia a UI de Game Over escondida
 	if cena_game_over:
@@ -485,6 +489,54 @@ func _process(_delta: float) -> void:
 func _on_game_over_hud():
 	if game_over_instance and game_over_instance.has_method("mostrar"):
 		game_over_instance.mostrar()
+
+# ==========================================
+# LABEL FLUTUANTE DE MOEDAS
+# ==========================================
+func _mostrar_moedas_flutuante(total: int) -> void:
+	if label_moedas == null:
+		return
+	var lbl := Label.new()
+	lbl.text = "+%d 🪙" % total
+	lbl.add_theme_font_size_override("font_size", 22)
+	lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.20))
+	lbl.add_theme_color_override("font_outline_color", Color.BLACK)
+	lbl.add_theme_constant_override("outline_size", 4)
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var base_pos: Vector2 = label_moedas.get_global_rect().get_center()
+	lbl.position = base_pos + Vector2(-30, 0)
+	add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(lbl, "position:y", lbl.position.y - 70, 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 1.0).set_delay(0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.tween_callback(lbl.queue_free)
+
+# ==========================================
+# CONFIRMAÇÃO VISUAL DE SAVE
+# ==========================================
+func _mostrar_confirmacao_save() -> void:
+	var lbl := Label.new()
+	lbl.text = "✓ Progresso salvo"
+	lbl.add_theme_font_size_override("font_size", 16)
+	lbl.add_theme_color_override("font_color", Color(0.45, 1.0, 0.55))
+	lbl.add_theme_color_override("font_outline_color", Color.BLACK)
+	lbl.add_theme_constant_override("outline_size", 3)
+	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lbl.anchor_left   = 0.5
+	lbl.anchor_right  = 0.5
+	lbl.anchor_top    = 0.0
+	lbl.anchor_bottom = 0.0
+	lbl.offset_left   = -100
+	lbl.offset_right  = 100
+	lbl.offset_top    = 6
+	lbl.offset_bottom = 30
+	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	add_child(lbl)
+	var tw := create_tween()
+	tw.tween_property(lbl, "modulate:a", 1.0, 0.2)
+	tw.tween_interval(2.0)
+	tw.tween_property(lbl, "modulate:a", 0.0, 0.4)
+	tw.tween_callback(lbl.queue_free)
 
 # ==========================================
 # MENU DE PAUSA

@@ -9,13 +9,16 @@ const PASTA_ICONES = "res://Icons/"
 # --- REFERÊNCIAS DA INTERFACE ---
 @onready var manequim_ponto = $PontoPersonagem
 
-# ESTES SÃO OS CAMINHOS NOVOS CORRETOS:
-@onready var grid_itens = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoArmas/ScrollArmas/Margin/GridArmas
-@onready var grid_chapeus = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoChapeus/ScrollChapeus/Margin/GridChapeus
+@onready var grid_itens = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoArmas/Margin/GridArmas
+@onready var grid_chapeus = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoChapeus/Margin/GridChapeus
 @onready var label_nome_item = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/LabelNomeItem
-
-@onready var btn_avo_m = $UI/Tela/ControlesGenero/BtnAvoM
-@onready var btn_avo_f = $UI/Tela/ControlesGenero/BtnAvoF
+@onready var label_estrelas = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/HBoxTitulo/LabelEstrelas
+@onready var secao_chapeus = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoChapeus
+@onready var secao_armas = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoArmas
+@onready var btn_tab_chapeus = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar/BtnTabChapeus
+@onready var btn_tab_armas = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar/BtnTabArmas
+@onready var btn_avo_m = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoM
+@onready var btn_avo_f = $UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoF
 
 # --- VARIÁVEIS DE ESTADO ---
 var player_instanciado: Node3D = null
@@ -42,33 +45,10 @@ func _ready():
 	_gerar_botoes_chapeus()
 	_atualizar_botoes_genero()
 	atualizar_info_estrelas()
-# Adicione isso no final do seu _ready ou crie uma função 'atualizar_info_estrelas'
 func atualizar_info_estrelas():
 	var total = Global.obter_total_estrelas()
-	var proximo_set = ""
-	var estrelas_faltando = 0
-	
-	if total < 3:
-		proximo_set = "Hollow Knight"
-		estrelas_faltando = 3 - total
-	elif total < 8:
-		proximo_set = "Kakashi"
-		estrelas_faltando = 8 - total
-	elif total < 13:
-		proximo_set = "Bloodborne"
-		estrelas_faltando = 13 - total
-	elif total < 18:
-		proximo_set = "Dark Souls"
-		estrelas_faltando = 18 - total
-	else:
-		proximo_set = "Todos desbloqueados!"
-	
-	# Se você tiver um Label para isso, pode exibir assim:
-	# $UI/LabelEstrelas.text = "Estrelas: " + str(total) + "/18"
-	# if total < 18:
-	#    $UI/LabelProxDesbloqueio.text = "Faltam " + str(estrelas_faltando) + " para o Set " + proximo_set
-	
-	print("Progresso: ", total, " estrelas. Próximo: ", proximo_set)
+	if label_estrelas:
+		label_estrelas.text = "⭐ %d/18" % total
 
 # --- LÓGICA 3D (Spawning e Rotação) ---
 
@@ -135,35 +115,37 @@ func _gerar_botoes_armas():
 		# --- VERIFICAÇÃO DE DESBLOQUEIO ---
 		var esta_desbloqueada = id in Global.armas_desbloqueadas 
 		
-		# --- ESTILO ---
 		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color(0.2, 0.2, 0.22, 1)
+		estilo.bg_color = Color(0.18, 0.18, 0.21, 1)
 		estilo.set_corner_radius_all(8)
-		
+
+		var estilo_hover = StyleBoxFlat.new()
+		estilo_hover.bg_color = Color(0.26, 0.26, 0.32, 1)
+		estilo_hover.set_corner_radius_all(8)
+		estilo_hover.set_border_width_all(1)
+		estilo_hover.border_color = Color(0.50, 0.46, 0.72, 1)
+
 		if esta_desbloqueada:
-			# Carrega ícone se existir, senão usa texto
 			var caminho_icone = PASTA_ICONES + id + ".png"
 			if FileAccess.file_exists(caminho_icone):
 				btn.icon = load(caminho_icone)
 			else:
 				btn.text = _obter_nome_formatado(id)
-				
+
 			btn.pressed.connect(func(): _on_arma_selecionada(id))
-			btn.modulate = Color(1, 1, 1) # Cor normal
-			
+
 			if id == arma_equipada:
-				estilo.set_border_width_all(6) 
-				estilo.border_color = Color.GOLD # Destaque dourado para arma equipada
+				estilo.bg_color = Color(0.22, 0.20, 0.10, 1)
+				estilo.set_border_width_all(3)
+				estilo.border_color = Color(1.0, 0.85, 0.25, 1)
 		else:
-			# Se estiver bloqueada, o botão fica escuro e não clica
-			btn.modulate = Color(0.2, 0.2, 0.2, 0.8) 
-			btn.disabled = true 
+			btn.modulate = Color(0.25, 0.25, 0.25, 0.9)
+			btn.disabled = true
 			var cadeado = load("res://Icons/cadeado.png")
 			if cadeado: btn.icon = cadeado
 
-		# Aplica o estilo visual ao botão
 		btn.add_theme_stylebox_override("normal", estilo)
-		btn.add_theme_stylebox_override("hover", estilo)
+		btn.add_theme_stylebox_override("hover", estilo_hover)
 		btn.add_theme_stylebox_override("pressed", estilo)
 		btn.add_theme_stylebox_override("focus", estilo)
 			
@@ -189,10 +171,11 @@ func _on_arma_selecionada(id_arma):
 	_gerar_botoes_armas()
 
 func _gerar_botoes_chapeus():
-	# 1. Limpa os botões atuais
 	for filho in grid_chapeus.get_children():
 		filho.queue_free()
-		
+
+	var chapeu_equipado: String = Global.equip_avo_m["chapeu"] if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f["chapeu"]
+
 	for id in todos_os_chapeus:
 		var bloqueado = false
 		var texto_bloqueio = ""
@@ -240,18 +223,35 @@ func _gerar_botoes_chapeus():
 			# Usa a sua imagem de cadeado para TODOS os itens bloqueados
 			
 		else:
-			# Item Liberado: Mostra o ícone real do chapéu
 			var caminho_icone = PASTA_ICONES + id + ".png"
 			if ResourceLoader.exists(caminho_icone):
 				btn.icon = load(caminho_icone)
 			else:
 				btn.text = id
-				
-			# Garante a cor normal e tira o amarelo/contorno
-			btn.add_theme_color_override("font_color", Color.WHITE)
+
+			btn.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 			btn.add_theme_constant_override("outline_size", 0)
-			btn.modulate = Color(1, 1, 1, 1)
-			
+
+			var estilo_c := StyleBoxFlat.new()
+			estilo_c.set_corner_radius_all(8)
+			var estilo_c_hover := StyleBoxFlat.new()
+			estilo_c_hover.set_corner_radius_all(8)
+			estilo_c_hover.set_border_width_all(1)
+			estilo_c_hover.border_color = Color(0.50, 0.46, 0.72, 1)
+
+			if id == chapeu_equipado:
+				estilo_c.bg_color = Color(0.22, 0.20, 0.10, 1)
+				estilo_c.set_border_width_all(3)
+				estilo_c.border_color = Color(1.0, 0.85, 0.25, 1)
+				estilo_c_hover.bg_color = Color(0.28, 0.26, 0.14, 1)
+			else:
+				estilo_c.bg_color = Color(0.18, 0.18, 0.21, 1)
+				estilo_c_hover.bg_color = Color(0.26, 0.26, 0.32, 1)
+
+			btn.add_theme_stylebox_override("normal", estilo_c)
+			btn.add_theme_stylebox_override("hover", estilo_c_hover)
+			btn.add_theme_stylebox_override("pressed", estilo_c)
+			btn.add_theme_stylebox_override("focus", estilo_c)
 			btn.pressed.connect(_on_chapeu_selecionado.bind(id))
 			
 		grid_chapeus.add_child(btn)
@@ -372,3 +372,15 @@ func _on_btn_avo_f_pressed():
 
 func _on_btn_voltar_pressed():
 	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
+
+func _on_btn_tab_chapeus_pressed():
+	secao_chapeus.visible = true
+	secao_armas.visible = false
+	btn_tab_chapeus.disabled = true
+	btn_tab_armas.disabled = false
+
+func _on_btn_tab_armas_pressed():
+	secao_chapeus.visible = false
+	secao_armas.visible = true
+	btn_tab_chapeus.disabled = false
+	btn_tab_armas.disabled = true

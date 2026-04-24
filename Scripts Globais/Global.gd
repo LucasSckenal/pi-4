@@ -32,6 +32,7 @@ var equip_avo_f = { "arma": "arma_katana", "chapeu": "Nenhum" }
 
 # --- SINAL DO POP-UP (O seu popup_conquista.gd precisa disto!) ---
 signal conquista_desbloqueada(nome_conquista, id_item_liberado, icone_conquista)
+signal progresso_salvo
 
 
 func _ready():
@@ -109,6 +110,9 @@ func salvar_progresso():
 	var err = config.save(SAVE_PATH)
 	if err != OK:
 		print("[ERRO] Falha ao guardar ficheiro: ", err)
+	else:
+		config.save(SAVE_PATH.replace(".cfg", "_backup.cfg"))
+		progresso_salvo.emit()
 
 
 func carregar_progresso():

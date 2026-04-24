@@ -1,58 +1,40 @@
-extends CanvasLayer # (Se você escolheu a Opção A antes, mude isso para 'extends Control')
+extends CanvasLayer
 
-@onready var anim = $AnimationPlayer
 @onready var panel = $PanelContainer
 
 var labelName: Label
-var iconeRect: TextureRect # NOVO: Variável para guardar o nó da imagem
+var iconeRect: TextureRect
+var _tween_popup: Tween = null
 
 func _ready():
-	# Busca os nós dinamicamente em qualquer lugar da cena
 	labelName = find_child("LabelName", true, false) as Label
-	iconeRect = find_child("Icone", true, false) as TextureRect # Busca o nó "Icone"
-	
+	iconeRect = find_child("Icone", true, false) as TextureRect
 	if panel:
-		panel.modulate.a = 0 # Garante que o painel comece invisível
-	
-	# Conecta o sinal do Global.gd de forma segura
+		panel.modulate.a = 0.0
+		panel.position.y = -140.0
 	if Global.has_signal("conquista_desbloqueada"):
 		Global.conquista_desbloqueada.connect(_exibir_popup)
-	else:
-		print("[ERRO] Sinal 'conquista_desbloqueada' não encontrado no Global.gd")
 
-# NOVO: Agora a função recebe 3 parâmetros (incluindo o icone_conquista)
 func _exibir_popup(nome_conquista, _index_liberado, icone_conquista):
-	print("[Popup] Tentando mostrar: ", nome_conquista)
-	
-	# Caso as variáveis tenham se perdido, tenta buscar de novo
 	if not labelName:
 		labelName = find_child("LabelName", true, false) as Label
 	if not iconeRect:
 		iconeRect = find_child("Icone", true, false) as TextureRect
 
-	# Define o texto da conquista
 	if labelName:
 		labelName.text = str(nome_conquista)
-		print("[Popup] Sucesso: Texto definido!")
-	else:
-		print("[ERRO] Nó 'LabelName' não foi encontrado!")
-		
-	# --- NOVIDADE: DEFINE A IMAGEM DO ÍCONE ---
-	if iconeRect:
-		if icone_conquista != null:
-			iconeRect.texture = icone_conquista
-			print("[Popup] Sucesso: Ícone definido!")
-		else:
-			print("[Aviso] Esta conquista não tem ícone cadastrado no arquivo .tres!")
-	else:
-		print("[ERRO] Nó 'Icone' não foi encontrado!")
+	if iconeRect and icone_conquista != null:
+		iconeRect.texture = icone_conquista
 
-	# --- 1. MOSTRAR O POPUP ---
-	if anim:
-		if anim.has_animation("show_popup"):
-			anim.play("show_popup")
-		else:
-			panel.modulate.a = 1
-			print("[Aviso] Animação 'show_popup' não encontrada. Exibindo estaticamente.")
-	elif panel:
-		panel.modulate.a = 1
+	if _tween_popup != null and is_instance_valid(_tween_popup):
+		_tween_popup.kill()
+
+	panel.position.y = -140.0
+	panel.modulate.a = 0.0
+
+	_tween_popup = create_tween()
+	_tween_popup.tween_property(panel, "position:y", 10.0, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_tween_popup.parallel().tween_property(panel, "modulate:a", 1.0, 0.3)
+	_tween_popup.tween_interval(5.5)
+	_tween_popup.tween_property(panel, "modulate:a", 0.0, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_tween_popup.parallel().tween_property(panel, "position:y", -140.0, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)

@@ -23,6 +23,7 @@ func _ready():
 	
 	# 2. Instancia o Player no Menu (Estilo Minecraft)
 	_instanciar_player_no_menu()
+	_animar_entrada_botoes()
 
 func _instanciar_player_no_menu():
 	# Carrega a cena do Player 
@@ -68,6 +69,14 @@ func _atualizar_estado_cabeca(player_instancia: Node):
 # BOTÕES DO MENU (Lógica original de animações restaurada)
 # ---------------------------------------------------------
 
+func _animar_entrada_botoes() -> void:
+	for i in menu_botoes.get_child_count():
+		var btn = menu_botoes.get_child(i)
+		btn.modulate.a = 0.0
+		var delay := i * 0.09
+		var tw := create_tween().set_parallel(true)
+		tw.tween_property(btn, "modulate:a", 1.0, 0.3).set_delay(delay).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
 func _on_btn_continuar_pressed():
 	if btn_continuar:
 		btn_continuar.disabled = true
@@ -85,6 +94,8 @@ func _on_btn_sair_pressed() -> void:
 	get_tree().quit()
 
 func _on_btn_configuracoes_pressed():
+	if not is_instance_valid(cena_configuracoes):
+		return
 	menu_botoes.hide()
 	cena_configuracoes.show()
 	
