@@ -3,38 +3,47 @@
 [ext_resource type="Script" uid="uid://58a8pnam3ssk" path="res://UI/Menus/tela_conquistas.gd" id="1_pnd5v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_FundoLista"]
-bg_color = Color(0.08, 0.08, 0.1, 0.8)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
-shadow_color = Color(0, 0, 0, 0.2)
-shadow_size = 5
+bg_color = Color(0.06, 0.06, 0.09, 0.92)
+border_color = Color(0.20, 0.18, 0.28, 0.6)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 8
 shadow_offset = Vector2(0, 4)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltar"]
-content_margin_left = 20.0
-content_margin_top = 10.0
-content_margin_right = 20.0
-content_margin_bottom = 10.0
-content_margin_left = 20.0
-content_margin_top = 10.0
-content_margin_right = 20.0
-content_margin_bottom = 10.0
-bg_color = Color(0.2, 0.2, 0.25, 0.9)
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.18, 0.18, 0.22, 0.95)
+border_color = Color(0.40, 0.38, 0.50, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltarHover"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnVoltarHover"]
-content_margin_left = 20.0
-content_margin_top = 10.0
-content_margin_right = 20.0
-content_margin_bottom = 10.0
-bg_color = Color(0.3, 0.3, 0.35, 1)
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.28, 0.26, 0.36, 1)
+border_color = Color(0.55, 0.50, 0.72, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -56,21 +65,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.15, 0.15, 0.18, 1)
+color = Color(0.07, 0.07, 0.10, 1)
 
 [node name="LabelTitulo" type="Label" parent="." unique_id=1048512826]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -150.0
-offset_top = 30.0
-offset_right = 150.0
-offset_bottom = 80.0
+offset_left = -260.0
+offset_top = 26.0
+offset_right = 260.0
+offset_bottom = 88.0
 grow_horizontal = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_colors/font_color = Color(0.96, 0.84, 0.30, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.85)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 32
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 40
 text = "🏆 Conquistas"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -94,9 +107,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 60.0
-offset_top = 120.0
+offset_top = 110.0
 offset_right = -60.0
-offset_bottom = -60.0
+offset_bottom = -55.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -109,17 +122,15 @@ theme_override_constants/separation = 15
 [node name="BtnVoltar" type="Button" parent="." unique_id=395051610]
 layout_mode = 0
 offset_left = 40.0
-offset_top = 30.0
-offset_right = 140.0
-offset_bottom = 75.0
+offset_top = 26.0
+offset_right = 155.0
+offset_bottom = 78.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnVoltar")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnVoltar")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnVoltar")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnVoltarHover")
-text = "◀ Voltar"
+text = "◀  Voltar"
 
 [connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]
-

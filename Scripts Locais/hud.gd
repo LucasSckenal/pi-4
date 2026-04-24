@@ -502,8 +502,8 @@ func _criar_botao_pausa():
 	btn.anchor_right  = 1.0
 	btn.anchor_top    = 0.0
 	btn.anchor_bottom = 0.0
-	btn.offset_left   = -200
-	btn.offset_right  = -144
+	btn.offset_left   = -70
+	btn.offset_right  = -70
 	btn.offset_top    = 14
 	btn.offset_bottom = 70
 
