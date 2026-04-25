@@ -55,7 +55,9 @@ fase_5_nivel_base_inicial,0,int,fase,Nivel da base
 fase_6_moedas_iniciais,20,int,fase,Moedas iniciais
 fase_6_renda_onda,10,int,fase,Renda por onda
 fase_6_nivel_base_inicial,0,int,fase,Nivel da base
-ultima_onda,10,int,economia,Numero de ondas para vencer (modo normal) - tutorial tem 5
+ultima_onda,10,int,economia,Numero de ondas para vencer (modo normal)
+tutorial_ultima_onda,5,int,economia,Numero de ondas do tutorial (independente de ultima_onda)
+fase_1_ultima_onda,5,int,economia,Ondas obrigatorias no Mapa 1
 custo_reroll,2,int,economia,Custo em moedas para rerolar cartas
 modo_infinito_bonus_moedas_iniciais,10,int,economia,Moedas extras no inicio do modo infinito
 modo_infinito_bonus_renda,5,int,economia,Renda extra por onda no modo infinito (up de 3)
