@@ -108,13 +108,17 @@ func _gerar_botoes_armas():
 		
 	for id in lista_ordenada:
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(115, 115) # Tamanho ideal para mobile
+		btn.custom_minimum_size = Vector2(0, 155)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.expand_icon = true
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		
+		btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		btn.clip_text = true
+
 		# --- VERIFICAÇÃO DE DESBLOQUEIO ---
-		var esta_desbloqueada = id in Global.armas_desbloqueadas 
-		
+		var esta_desbloqueada = id in Global.armas_desbloqueadas
+
 		var estilo = StyleBoxFlat.new()
 		estilo.bg_color = Color(0.18, 0.18, 0.21, 1)
 		estilo.set_corner_radius_all(8)
@@ -129,9 +133,9 @@ func _gerar_botoes_armas():
 			var caminho_icone = PASTA_ICONES + id + ".png"
 			if FileAccess.file_exists(caminho_icone):
 				btn.icon = load(caminho_icone)
-			else:
-				btn.text = _obter_nome_formatado(id)
-
+			btn.text = _obter_nome_formatado(id)
+			btn.add_theme_font_size_override("font_size", 13)
+			btn.add_theme_color_override("font_color", Color(0.88, 0.88, 0.92, 1))
 			btn.pressed.connect(func(): _on_arma_selecionada(id))
 
 			if id == arma_equipada:
@@ -201,19 +205,22 @@ func _gerar_botoes_chapeus():
 
 		# --- CRIAÇÃO VISUAL DO BOTÃO ---
 		var btn = Button.new()
-		btn.custom_minimum_size = Vector2(120, 120)
+		btn.custom_minimum_size = Vector2(0, 155)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		btn.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		btn.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		btn.expand_icon = true
+		btn.clip_text = true
 		
 		if bloqueado:
 			btn.disabled = true
-			btn.modulate = Color(0.6, 0.6, 0.6, 1) # Escurece um pouco menos para a cor brilhar
+			btn.modulate = Color(0.6, 0.6, 0.6, 1)
 			btn.text = texto_bloqueio
-			
-			# --- DEIXANDO O TEXTO AMARELO E FÁCIL DE LER ---
-			btn.add_theme_color_override("font_disabled_color", Color.YELLOW) # Cor do texto (quando bloqueado)
-			btn.add_theme_color_override("font_outline_color", Color.BLACK) # Cor da borda
-			btn.add_theme_constant_override("outline_size", 4) # Grossura da borda
+			btn.add_theme_color_override("font_disabled_color", Color(1.0, 0.90, 0.20, 1))
+			btn.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
+			btn.add_theme_constant_override("outline_size", 4)
+			btn.add_theme_font_size_override("font_size", 16)
 			
 			# Usa a imagem de cadeado
 			var caminho_cadeado = "res://Icons/cadeado.png"
@@ -226,10 +233,14 @@ func _gerar_botoes_chapeus():
 			var caminho_icone = PASTA_ICONES + id + ".png"
 			if ResourceLoader.exists(caminho_icone):
 				btn.icon = load(caminho_icone)
+			# sempre mostra nome abaixo do ícone
+			if id == "Nenhum":
+				btn.text = "Nenhum"
 			else:
-				btn.text = id
+				btn.text = id if id.length() <= 12 else id.left(11) + "…"
 
-			btn.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+			btn.add_theme_color_override("font_color", Color(0.88, 0.88, 0.92, 1))
+			btn.add_theme_font_size_override("font_size", 13)
 			btn.add_theme_constant_override("outline_size", 0)
 
 			var estilo_c := StyleBoxFlat.new()

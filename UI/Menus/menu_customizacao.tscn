@@ -35,7 +35,7 @@ shadow_size = 24
 shadow_offset = Vector2(0, 8)
 
 [sub_resource type="LabelSettings" id="LabelSettings_Titulo"]
-font_size = 22
+font_size = 28
 font_color = Color(0.95, 0.95, 0.95, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -140,7 +140,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 20.0
 offset_top = 20.0
-offset_right = 500.0
+offset_right = 560.0
 offset_bottom = -20.0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_Painel")
@@ -159,7 +159,7 @@ theme_override_constants/margin_bottom = 20
 
 [node name="VBox" type="VBoxContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer" unique_id=400603659]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 14
 
 [node name="HBoxTitulo" type="HBoxContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=200000001]
 layout_mode = 2
@@ -172,7 +172,7 @@ label_settings = SubResource("LabelSettings_Titulo")
 
 [node name="LabelEstrelas" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/HBoxTitulo" unique_id=200000002]
 layout_mode = 2
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 18
 theme_override_colors/font_color = Color(1.0, 0.85, 0.25, 1)
 text = "⭐ 0/18"
 vertical_alignment = 1
@@ -185,13 +185,13 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="BtnAvoM" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero" unique_id=1343675116]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
@@ -200,13 +200,13 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
 text = "Avô (M)"
 
 [node name="BtnAvoF" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero" unique_id=1200002322]
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
@@ -219,13 +219,13 @@ layout_mode = 2
 theme_override_constants/separation = 4
 
 [node name="BtnTabChapeus" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar" unique_id=200000005]
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnAtivo")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
@@ -235,13 +235,13 @@ text = "🎩 Chapéus"
 disabled = true
 
 [node name="BtnTabArmas" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar" unique_id=200000006]
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
 theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
@@ -295,20 +295,20 @@ theme_override_constants/v_separation = 10
 columns = 3
 
 [node name="LabelNomeItem" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=1758953539]
-custom_minimum_size = Vector2(0, 36)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.75, 0.78, 0.85, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.80, 0.82, 0.90, 1)
 text = "— Nenhum —"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BotaoVoltar" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=445667432]
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 17
+theme_override_font_sizes/font_size = 22
 theme_override_styles/normal = SubResource("StyleBoxFlat_Voltar")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_VoltarHover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_VoltarHover")

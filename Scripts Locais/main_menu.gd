@@ -3,27 +3,52 @@ extends Control
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
 # Referências para a interface
-@onready var menu_botoes = $CanvasLayer/MarginContainer/VBoxContainer
+@onready var menu_botoes = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer
 @onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes
-@onready var btn_continuar = $CanvasLayer/MarginContainer/VBoxContainer/BtnContinuar
+@onready var btn_continuar = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnContinuar
 
 func _ready():
 	MusicaGlobal.tocar_menu()
-	
+
 	# Oculta e desativa o botão de continuar caso não exista um arquivo de save válido
 	if btn_continuar:
 		var existe_save = FileAccess.file_exists(GameManager.SAVE_PATH)
 		btn_continuar.disabled = not existe_save
 		btn_continuar.visible = existe_save
-		
-	# 1. Configurações iniciais de interface 
+
+	# 1. Configurações iniciais de interface
 	if cena_configuracoes:
 		cena_configuracoes.hide()
 		cena_configuracoes.fechar_configuracoes.connect(_voltar_para_menu)
-	
+
 	# 2. Instancia o Player no Menu (Estilo Minecraft)
 	_instanciar_player_no_menu()
 	_animar_entrada_botoes()
+
+	# 3. Layout responsivo — adapta a largura dos botões à tela
+	get_viewport().size_changed.connect(_atualizar_largura_botoes)
+	_atualizar_largura_botoes()
+
+func _atualizar_largura_botoes() -> void:
+	var largura_tela: float = get_viewport_rect().size.x
+	# Largura: 25 % da tela, entre 150 px (mobile) e 450 px (desktop)
+	var largura_btn: float = clamp(largura_tela * 0.25, 150.0, 450.0)
+	# Altura proporcional à largura da tela
+	var altura_principal: float = clamp(largura_tela * 0.02, 45.0, 85.0)
+	var altura_secundaria: float = clamp(largura_tela * 0.04, 35.0, 65.0)
+	# Espaçamento entre botões também escala
+	var separacao: int = int(clamp(largura_tela * 0.025, 8.0, 30.0))
+	menu_botoes.custom_minimum_size.x = largura_btn
+	menu_botoes.add_theme_constant_override("separation", separacao)
+	for filho in menu_botoes.get_children():
+		if filho is Button:
+			filho.custom_minimum_size.x = largura_btn
+			var eh_principal: bool = filho.name in ["BtnContinuar", "BtnJogar"]
+			filho.custom_minimum_size.y = altura_principal if eh_principal else altura_secundaria
+	# Desloca o bloco para a esquerda (personagem 3D fica à direita)
+	var mc: MarginContainer = $CanvasLayer/MarginContainer
+	mc.add_theme_constant_override("margin_right", int(clamp(largura_tela * 0.05, 0.0, 125.0)))
+	mc.add_theme_constant_override("margin_left", 0)
 
 func _instanciar_player_no_menu():
 	# Carrega a cena do Player 

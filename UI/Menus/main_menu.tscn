@@ -366,26 +366,22 @@ spot_angle = 25.85
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1765247065]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=1169369597]
-anchors_preset = -1
-anchor_left = 0.314
-anchor_top = 0.216
-anchor_right = 0.683
-anchor_bottom = 0.77800006
-offset_left = 66.77197
-offset_top = 153.98
-offset_right = -141.31604
-offset_bottom = -149.66003
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer" unique_id=703772984]
-custom_minimum_size = Vector2(200, 180)
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/MarginContainer" unique_id=300000001]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer/CenterContainer" unique_id=703772984]
+custom_minimum_size = Vector2(280, 180)
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="BtnContinuar" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1419933665]
+[node name="BtnContinuar" type="Button" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1419933665]
 custom_minimum_size = Vector2(280, 85)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -401,7 +397,7 @@ icon = ExtResource("5_yo1mr")
 alignment = 0
 expand_icon = true
 
-[node name="BtnJogar" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1102113439]
+[node name="BtnJogar" type="Button" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1102113439]
 custom_minimum_size = Vector2(280, 85)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -417,7 +413,7 @@ icon = ExtResource("9_iqqrd")
 alignment = 0
 expand_icon = true
 
-[node name="BtnConquistas" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1957698945]
+[node name="BtnConquistas" type="Button" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1957698945]
 custom_minimum_size = Vector2(280, 65)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -433,7 +429,7 @@ icon = ExtResource("10_1fi58")
 alignment = 0
 expand_icon = true
 
-[node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1038868166]
+[node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1038868166]
 custom_minimum_size = Vector2(280, 65)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -449,7 +445,7 @@ icon = ExtResource("11_krtp0")
 alignment = 0
 expand_icon = true
 
-[node name="BtnSair" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer" unique_id=1721980212]
+[node name="BtnSair" type="Button" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1721980212]
 custom_minimum_size = Vector2(280, 65)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -485,9 +481,9 @@ grow_vertical = 2
 mouse_default_cursor_shape = 2
 flat = true
 
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnContinuar" to="." method="_on_btn_continuar_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnJogar" to="." method="_on_btn_jogar_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnConquistas" to="." method="_on_btn_conquistas_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]
-[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/BtnSair" to="." method="_on_btn_sair_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnContinuar" to="." method="_on_btn_continuar_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnJogar" to="." method="_on_btn_jogar_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnConquistas" to="." method="_on_btn_conquistas_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnSair" to="." method="_on_btn_sair_pressed"]
 [connection signal="pressed" from="CanvasLayer/BtnPersonagemInvisivel" to="." method="_on_btn_personagem_invisivel_pressed"]
