@@ -325,7 +325,14 @@ func registrar_spawner_concluido():
 func terminar_onda():
 	if estado_atual == EstadoJogo.DIA: return
 
-	var ultima_onda := Balanceamento.get_int("ultima_onda", 5)
+	var ultima_onda := Balanceamento.get_int("ultima_onda", 10)
+	# Tutorial usa sempre 5 ondas, independente do valor global
+	if is_tutorial_ativo:
+		ultima_onda = Balanceamento.get_int("tutorial_ultima_onda", 5)
+	# Cada fase pode ter um limite próprio de ondas (ex: fase_1_ultima_onda = 5)
+	var chave_fase := "fase_%d_ultima_onda" % fase_atual
+	if Balanceamento.tem(chave_fase):
+		ultima_onda = Balanceamento.get_int(chave_fase, ultima_onda)
 
 	if not modo_infinito and onda_atual >= ultima_onda:
 		acionar_vitoria()
