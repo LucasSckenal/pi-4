@@ -18,6 +18,7 @@ config/icon="uid://dpvk2oj1ksekl"
 
 [autoload]
 
+Balanceamento="*uid://7sx4gvgw6mxv"
 GameManager="*uid://ddqkxwp801d88"
 MusicaGlobal="*uid://cbjrscx5ckcm6"
 Global="*uid://ekneedd48nfl"

@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="7_mqy4t"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="8_mlm15"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="9_mlm15"]
+[ext_resource type="Script" path="res://Maps/planeta_maluco.gd" id="99_planetascript"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_espaco"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -49,6 +50,7 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Arr
 cell_height = 0.1
 
 [node name="Planeta Maluco" type="Node3D" unique_id=601620069]
+script = ExtResource("99_planetascript")
 
 [node name="AmbienteEspacial" type="WorldEnvironment" parent="." unique_id=1553868768]
 environment = SubResource("Environment_espaco")

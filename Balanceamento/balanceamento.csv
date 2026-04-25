@@ -1,0 +1,85 @@
+chave,valor,tipo,categoria,descricao
+torre_padrao_custo,3,int,torre,Custo em moedas para construir a torre padrao
+torre_padrao_dano,28,int,torre,Dano por flecha (reduzido de 30 para dar mais peso a upgrades)
+torre_padrao_vida,30,int,torre,Vida maxima da torre
+torre_padrao_tempo_ataque,1.5,float,torre,Intervalo entre disparos em segundos
+torre_fogo_custo,5,int,torre_fogo,Custo em moedas
+torre_fogo_dps,15.0,float,torre_fogo,Dano por segundo base
+torre_fogo_vida,40,int,torre_fogo,Vida maxima
+torre_fogo_alcance,8.0,float,torre_fogo,Alcance em metros
+torre_fogo_max_alvos,3,int,torre_fogo,Inimigos simultaneos
+torre_fogo_mult_dano_max,3.0,float,torre_fogo,DPS maximo = base x mult (reduzido de 4x para 3x - preventivo)
+torre_fogo_tempo_rampup,4.0,float,torre_fogo,Segundos para atingir o DPS maximo
+soldado_velocidade,3.0,float,quartel,Velocidade de movimento do soldado
+soldado_alcance_ataque,10.0,float,quartel,Alcance do disparo
+soldado_tempo_entre_ataques,1.5,float,quartel,Cooldown entre tiros
+soldado_dano,20,int,quartel,Dano por flecha
+soldado_vida,50,int,quartel,Vida maxima
+soldado_alcance_deteccao,15.0,float,quartel,Raio em que detecta inimigos
+casa_custo,3,int,economia,Custo em moedas
+casa_renda_onda,2,int,economia,Moedas geradas por onda
+casa_vida,20,int,economia,Vida maxima
+moinho_custo,5,int,economia,Custo em moedas
+moinho_renda_onda,3,int,economia,Moedas geradas por onda
+moinho_vida,20,int,economia,Vida maxima
+mina_custo,2,int,economia,Custo em moedas
+mina_renda_onda,1,int,economia,Moedas geradas por onda
+mina_vida,20,int,economia,Vida maxima
+castelo_vida,80,int,base,Vida maxima do castelo (reduzida de 100 - cada hit importa mais)
+orc_velocidade,0.60,float,inimigo,Velocidade de movimento (up de 0.5)
+orc_jump_velocity,4.5,float,inimigo,Forca do pulo
+orc_gravity,20.0,float,inimigo,Gravidade aplicada
+orc_distancia_ataque,0.7,float,inimigo,Distancia para atacar
+orc_forca_dano,7,int,inimigo,Dano por golpe (up de 5)
+orc_vida,155,int,inimigo,Vida maxima (up de 120)
+orc_raio_visao_construcao,3.0,float,inimigo,Raio de deteccao de construcoes (up de 2.0)
+orc_raio_visao_aliados,1.0,float,inimigo,Raio para detectar aliados do jogador
+inimigo_mult_vida,1.30,float,inimigo,Multiplicador de vida aplicado a TODOS os inimigos base (1.0 = sem mudanca)
+inimigo_mult_velocidade,1.15,float,inimigo,Multiplicador de velocidade dos inimigos base
+inimigo_mult_dano,1.35,float,inimigo,Multiplicador de dano dos inimigos base
+fase_1_moedas_iniciais,8,int,fase,Moedas no inicio da fase 1 (reduzido de 10)
+fase_1_renda_onda,4,int,fase,Renda fixa por onda na fase 1 (reduzido de 5)
+fase_1_nivel_base_inicial,0,int,fase,Nivel da base no inicio
+fase_2_moedas_iniciais,9,int,fase,Moedas iniciais (reduzido de 10)
+fase_2_renda_onda,5,int,fase,Renda por onda
+fase_2_nivel_base_inicial,0,int,fase,Nivel da base
+fase_3_moedas_iniciais,10,int,fase,Moedas iniciais (reduzido de 12)
+fase_3_renda_onda,6,int,fase,Renda por onda
+fase_3_nivel_base_inicial,0,int,fase,Nivel da base
+fase_4_moedas_iniciais,15,int,fase,Moedas iniciais
+fase_4_renda_onda,7,int,fase,Renda por onda
+fase_4_nivel_base_inicial,0,int,fase,Nivel da base
+fase_5_moedas_iniciais,18,int,fase,Moedas iniciais
+fase_5_renda_onda,8,int,fase,Renda por onda
+fase_5_nivel_base_inicial,0,int,fase,Nivel da base
+fase_6_moedas_iniciais,20,int,fase,Moedas iniciais
+fase_6_renda_onda,10,int,fase,Renda por onda
+fase_6_nivel_base_inicial,0,int,fase,Nivel da base
+ultima_onda,10,int,economia,Numero de ondas para vencer (modo normal) - tutorial tem 5
+custo_reroll,2,int,economia,Custo em moedas para rerolar cartas
+modo_infinito_bonus_moedas_iniciais,10,int,economia,Moedas extras no inicio do modo infinito
+modo_infinito_bonus_renda,5,int,economia,Renda extra por onda no modo infinito (up de 3)
+upgrade_balistica_pesada,15,int,upgrade,+15 de dano fixo em todas as torres (CORRIGIDO - era 0.15 = bug)
+upgrade_engenharia_eficiente,2,int,upgrade,Desconto de 2 moedas por construcao (up de 1)
+upgrade_frequencia_critica,0.25,float,upgrade,+25pct velocidade de ataque (up de 0.20)
+upgrade_imposto_guerra,8,int,upgrade,+8 moedas por onda (reduzido de 10)
+upgrade_muralhas_reforcadas,30,int,upgrade,+30 de vida maxima do castelo (reduzido de 50)
+upgrade_furia_dano,10,int,upgrade,+10 de dano em torres - alto risco alto retorno
+upgrade_furia_debuff_vida,-0.20,float,upgrade,Debuff Furia: -20pct de vida maxima do castelo (era -50pct)
+upgrade_gelo_lentidao,-0.25,float,upgrade,-25pct velocidade dos inimigos (reduzido de -30pct)
+upgrade_ganancia_moedas,25,int,upgrade,+25 moedas instantaneas (reduzido de 30)
+upgrade_ganancia_horda,15,float,upgrade,Debuff Ganancia: +15pct mais inimigos na proxima onda (era 20pct)
+mercado_custo,5,int,economia,Custo do Mercado (exclusivo Mapa 2)
+mercado_renda_onda,4,int,economia,Moedas por onda do Mercado (melhor que moinho)
+mercado_vida,25,int,economia,Vida maxima do Mercado
+caldeiron_custo,6,int,caldeiron,Custo do Caldeirao (exclusivo Mapa 3)
+caldeiron_dano,10,int,caldeiron,Dano por batida de veneno
+caldeiron_intervalo,3.0,float,caldeiron,Segundos entre ataques de area
+caldeiron_alcance,5.0,float,caldeiron,Raio de efeito do veneno
+caldeiron_vida,30,int,caldeiron,Vida maxima do Caldeirao
+taverna_custo,4,int,economia,Custo da Taverna (exclusivo Mapa 4)
+taverna_renda_onda,3,int,economia,Moedas por onda da Taverna
+taverna_vida,25,int,economia,Vida maxima da Taverna
+tesla_chain_jumps,2,int,upgrade,Numero de saltos da corrente Tesla
+tesla_chain_raio,4.0,float,upgrade,Raio de alcance entre saltos Tesla
+tesla_chain_mult,0.60,float,upgrade,Multiplicador de dano por salto Tesla (0.6 = 60pct)

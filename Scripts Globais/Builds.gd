@@ -9,7 +9,8 @@ enum TipoConstrucao {
 	CASA,
 	MOINHO,
 	QUARTEL,
-	BASE
+	BASE,
+	CALDEIRON   # 6 — Veneno em área, exclusivo Mapa 3
 }
 
 # ==========================================
@@ -110,10 +111,19 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 @export var icone: Texture2D
 
 # ==========================================
+# BALANCEAMENTO CUSTOMIZADO (opcional)
+# Se preenchido, sobrescreve custo/vida/moedas/dano
+# com os valores do CSV usando esse prefixo.
+# Ex.: "mercado" lê mercado_custo, mercado_vida, mercado_renda_onda
+# ==========================================
+@export var chave_csv_prefixo: String = ""
+
+# ==========================================
 # VARIÁVEIS DE ESTADO
 # ==========================================
 var y_inicial: float
 var is_fantasma: bool = false
+var _caldeiron_timer: float = 0.0   # Acumulador para o ataque do Caldeirão
 var vida_atual: int
 var inimigos_no_alcance = []
 var alvo_atual: Node3D = null
@@ -143,7 +153,8 @@ func _ready():
 	
 	if tipo == TipoConstrucao.BASE:
 		nivel_atual = GameManager.nivel_base
-		
+
+	_aplicar_balanceamento_csv()
 	_atualizar_valores_pos_upgrades()
 	vida_atual = vida_maxima
 	_inicializar_barra_vida()
@@ -170,6 +181,8 @@ func _ready():
 		TipoConstrucao.QUARTEL:
 			add_to_group("Construcao")
 			GameManager.noite_iniciada.connect(_spawn_aliados)
+		TipoConstrucao.CALDEIRON:
+			add_to_group("Construcao")
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
@@ -221,6 +234,19 @@ func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
 			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
 				indicador_alcance.visible = true
 				print("Anel foi ligado!")
+
+# ==========================================
+# BALANCEAMENTO CSV POR PREFIXO
+# Lê custo, vida, dano e moedas_por_onda do
+# CSV quando chave_csv_prefixo está definido.
+# Também lê valores padrão para tipos comuns.
+# ==========================================
+func _aplicar_balanceamento_csv() -> void:
+	if chave_csv_prefixo != "":
+		custo_moedas    = Balanceamento.get_int(chave_csv_prefixo + "_custo",      custo_moedas)
+		vida_maxima     = Balanceamento.get_int(chave_csv_prefixo + "_vida",       vida_maxima)
+		moedas_por_onda = Balanceamento.get_int(chave_csv_prefixo + "_renda_onda", moedas_por_onda)
+		dano            = Balanceamento.get_int(chave_csv_prefixo + "_dano",       dano)
 
 # ==========================================
 # SISTEMA DE UPGRADES (LÓGICA PRINCIPAL)
@@ -287,16 +313,24 @@ func get_opcoes_proximo_upgrade() -> Array:
 	var escala_perfeita_ui = _calcular_escala_ideal_para_ui()
 
 	if tem_paths and caminho_atual == -1:
-		# Primeira escolha: todos os caminhos disponíveis
+		# Primeira escolha: todos os caminhos disponíveis nesta fase
 		for i in range(upgrade_paths.size()):
 			var path = upgrade_paths[i]
 			if path and path.custos.size() > 0:
+				# Filtro de fase: oculta paths fora da janela de fases permitida
+				var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
+				var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
+				if fase_min > 0 and GameManager.fase_atual < fase_min:
+					continue
+				if fase_max > 0 and GameManager.fase_atual > fase_max:
+					continue
+
 				var nome_path = path.nome
 				if nome_path == null or nome_path == "":
 					nome_path = "Caminho " + str(i + 1)
-				
+
 				var escala_deste_path = _calcular_escala_ideal_para_ui(path)
-				
+
 				# Pega o modelo do NÍVEL 0 deste caminho específico
 				var modelo_correto = null
 				if path.modelos_por_nivel.size() > 0:
@@ -308,7 +342,7 @@ func get_opcoes_proximo_upgrade() -> Array:
 					"icone": path.icone,
 					"custo": path.custos[0],
 					"beneficio": _descrever_beneficio(path, 0),
-					"modelo_3d": modelo_correto, 
+					"modelo_3d": modelo_correto,
 					"escala_modelo": escala_deste_path
 				})
 	elif tem_paths and caminho_atual >= 0:
@@ -490,6 +524,10 @@ func _trocar_modelo(nivel: int):
 	# Aplica o modelo
 	if modelo_scene:
 		var modelo = modelo_scene.instantiate()
+		# Se o modelo tiver is_fantasma (ex: Torre de Fogo), ativa-a ANTES do add_child
+		# para que o script do modelo funcione só como visual, sem lógica própria
+		if "is_fantasma" in modelo:
+			modelo.is_fantasma = true
 		modelo_anchor.add_child(modelo)
 		modelo.scale = escala_modelo
 		
@@ -585,10 +623,32 @@ func _on_area_ataque_body_exited(body):
 	if body in inimigos_no_alcance:
 		inimigos_no_alcance.erase(body)
 
-func _process(_delta):
+func _process(delta):
+	# Caldeirão — ataque em área periódico durante a noite
+	if tipo == TipoConstrucao.CALDEIRON and not is_fantasma and not esta_destruida:
+		if GameManager.is_night:
+			_caldeiron_timer += delta
+			var intervalo: float = Balanceamento.get_float("caldeiron_intervalo", 3.0)
+			if _caldeiron_timer >= intervalo:
+				_caldeiron_timer = 0.0
+				_caldeiron_atacar_area()
+		return
+
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	inimigos_no_alcance = inimigos_no_alcance.filter(func(inimigo): return is_instance_valid(inimigo))
 	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
+
+func _caldeiron_atacar_area() -> void:
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	var raio: float = Balanceamento.get_float("caldeiron_alcance", 5.0)
+	var inimigos: Array = get_tree().get_nodes_in_group("inimigos")
+	if inimigos.is_empty():
+		inimigos = get_tree().get_nodes_in_group("Inimigos")
+	for inimigo in inimigos:
+		if not is_instance_valid(inimigo): continue
+		if global_position.distance_to(inimigo.global_position) <= raio:
+			if inimigo.has_method("receber_dano"):
+				inimigo.receber_dano(dano_base)
 
 func _on_timer_ataque_timeout():
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
@@ -596,13 +656,72 @@ func _on_timer_ataque_timeout():
 		atacar()
 
 func atacar():
-	if cena_flecha == null or not is_instance_valid(alvo_atual):
+	if not is_instance_valid(alvo_atual):
+		return
+
+	# Verifica se o caminho atual usa ataque especial
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		var tipo_atq: String = path.get("tipo_ataque") if "tipo_ataque" in path else ""
+		if tipo_atq == "chain_lightning":
+			_atacar_chain_lightning()
+			return
+
+	# Ataque normal com flecha
+	if cena_flecha == null:
 		return
 	var flecha = cena_flecha.instantiate()
 	get_tree().root.add_child(flecha)
 	flecha.global_position = ponto_tiro.global_position if ponto_tiro else global_position + Vector3(0, 1.5, 0)
 	flecha.dano = max(1, dano_atual + GameManager.bonus_dano)
 	flecha.alvo = alvo_atual
+
+# ==========================================
+# ATAQUE TESLA — Corrente elétrica em cadeia
+# ==========================================
+func _atacar_chain_lightning():
+	if not is_instance_valid(alvo_atual):
+		return
+
+	var num_saltos: int  = Balanceamento.get_int("tesla_chain_jumps", 2)
+	var raio_chain: float = Balanceamento.get_float("tesla_chain_raio", 4.0)
+	var mult_dano: float  = Balanceamento.get_float("tesla_chain_mult", 0.6)
+
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+
+	# Dano no alvo primário
+	if alvo_atual.has_method("receber_dano"):
+		alvo_atual.receber_dano(dano_base)
+
+	# Coleta todos os inimigos no mapa para busca de cadeia
+	var todos_inimigos: Array = get_tree().get_nodes_in_group("inimigos")
+	if todos_inimigos.is_empty():
+		todos_inimigos = get_tree().get_nodes_in_group("Inimigos")
+
+	var alvos_atingidos: Array = [alvo_atual]
+	var alvo_prev: Node3D = alvo_atual
+	var dano_chain: float = float(dano_base)
+
+	for _salto in range(num_saltos):
+		dano_chain *= mult_dano
+		var proximo: Node3D = null
+		var menor_dist: float = raio_chain
+
+		for inimigo in todos_inimigos:
+			if not is_instance_valid(inimigo): continue
+			if inimigo in alvos_atingidos: continue
+			var dist: float = alvo_prev.global_position.distance_to(inimigo.global_position)
+			if dist < menor_dist:
+				menor_dist = dist
+				proximo = inimigo
+
+		if proximo == null:
+			break
+
+		alvos_atingidos.append(proximo)
+		if proximo.has_method("receber_dano"):
+			proximo.receber_dano(max(1, int(dano_chain)))
+		alvo_prev = proximo
 
 # ==========================================
 # SISTEMA ECONÔMICO (MINA, CASA, MOINHO)
@@ -730,7 +849,7 @@ func destruir():
 	remove_from_group("Construcao")
 	
 	# Desconectar sinais para evitar chamadas após destruição
-	if tipo in [TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO]:
+	if tipo in [TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO, TipoConstrucao.CALDEIRON]:
 		if GameManager.onda_terminada.is_connected(_pagar_recompensa):
 			GameManager.onda_terminada.disconnect(_pagar_recompensa)
 	elif tipo == TipoConstrucao.QUARTEL:
@@ -760,6 +879,8 @@ func reviver():
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			if not GameManager.onda_terminada.is_connected(_pagar_recompensa):
 				GameManager.onda_terminada.connect(_pagar_recompensa)
+		TipoConstrucao.CALDEIRON:
+			_caldeiron_timer = 0.0  # Reseta o timer ao reviver
 		TipoConstrucao.QUARTEL:
 			if not GameManager.noite_iniciada.is_connected(_spawn_aliados):
 				GameManager.noite_iniciada.connect(_spawn_aliados)

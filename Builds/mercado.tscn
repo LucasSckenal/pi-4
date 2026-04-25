@@ -1,0 +1,13 @@
+[gd_scene format=4 uid="uid://mercado001"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_mrcdo"]
+
+[node name="Mercado" node_paths=PackedStringArray()]
+script = ExtResource("1_mrcdo")
+tipo = 3
+custo_moedas = 5
+vida_maxima = 25
+moedas_por_onda = 4
+nome_construcao = "Mercado"
+chave_csv_prefixo = "mercado"
+tem_barra_vida = false

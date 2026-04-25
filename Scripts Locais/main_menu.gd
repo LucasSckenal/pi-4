@@ -10,9 +10,9 @@ extends Control
 func _ready():
 	MusicaGlobal.tocar_menu()
 
-	# Oculta e desativa o botão de continuar caso não exista um arquivo de save válido
+	# Oculta e desativa o botão de continuar caso não exista uma sessão de jogo guardada
 	if btn_continuar:
-		var existe_save = FileAccess.file_exists(GameManager.SAVE_PATH)
+		var existe_save = GameManager.tem_jogo_salvo()
 		btn_continuar.disabled = not existe_save
 		btn_continuar.visible = existe_save
 

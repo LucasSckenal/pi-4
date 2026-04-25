@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://3vmcf7dl7t3f" path="res://Assets/graveyard/pumpkin-carved.glb" id="15_4tx5t"]
 [ext_resource type="PackedScene" uid="uid://c8htt1o8vuysa" path="res://Assets/graveyard/detail-chalice.glb" id="16_7wwxt"]
 [ext_resource type="PackedScene" uid="uid://cao6qi8p6xmbk" path="res://Assets/graveyard/Box_02.fbx" id="17_2h26j"]
+[ext_resource type="Script" path="res://Maps/witch_house.gd" id="99_witchscript"]
 
 [sub_resource type="Animation" id="Animation_lblfm"]
 length = 0.001
@@ -329,6 +330,7 @@ region_min_size = 0.0
 vertices_per_polygon = 12.0
 
 [node name="Node3D" type="Node3D" unique_id=1831006418]
+script = ExtResource("99_witchscript")
 
 [node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=875634976]
 libraries/ = SubResource("AnimationLibrary_oxycu")

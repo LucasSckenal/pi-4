@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cj7setbrccrxh" path="res://Upgrades/upgrade_path_data.gd" id="4_772tj"]
 [ext_resource type="PackedScene" uid="uid://imftqykvaxls" path="res://Builds/morteiro.tscn" id="5_xxacq"]
 [ext_resource type="PackedScene" uid="uid://fxiqs7k3e57r" path="res://Builds/sniper.tscn" id="6_ix80u"]
+[ext_resource type="PackedScene" uid="uid://bramst307t8qb" path="res://Builds/torre_de_fogo.tscn" id="9_fogo"]
 [ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="7_xxacq"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="8_ix80u"]
 
@@ -25,6 +26,28 @@ custos = Array[int]([5])
 velocidade_por_nivel = Array[float]([0.6])
 alcance_por_nivel = Array[float]([2.0])
 modelos_por_nivel = Array[PackedScene]([ExtResource("6_ix80u")])
+metadata/_custom_type_script = "uid://cj7setbrccrxh"
+
+[sub_resource type="Resource" id="Resource_tdfogo"]
+script = ExtResource("4_772tj")
+nome = "Torre de Fogo"
+fase_minima = 6
+fase_maxima = 6
+custos = Array[int]([7])
+dano_por_nivel = Array[int]([20])
+velocidade_por_nivel = Array[float]([0.4])
+modelos_por_nivel = Array[PackedScene]([ExtResource("9_fogo")])
+metadata/_custom_type_script = "uid://cj7setbrccrxh"
+
+[sub_resource type="Resource" id="Resource_tesla"]
+script = ExtResource("4_772tj")
+nome = "Tesla"
+fase_minima = 5
+fase_maxima = 5
+tipo_ataque = "chain_lightning"
+custos = Array[int]([7])
+dano_por_nivel = Array[int]([15])
+velocidade_por_nivel = Array[float]([0.3])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1gey0"]
@@ -127,7 +150,7 @@ ponto_de_tiro = NodePath("PontoDeTiro")
 area_ataque_path = NodePath("AreaAtaque")
 indicador_alcance = NodePath("IndicadorAlcance")
 tem_paths = true
-upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), SubResource("Resource_1qiv1")])
+upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), SubResource("Resource_1qiv1"), SubResource("Resource_tdfogo"), SubResource("Resource_tesla")])
 
 [node name="unit-tower" parent="." index="0" unique_id=555590816]
 mesh = SubResource("ArrayMesh_1y2kb")

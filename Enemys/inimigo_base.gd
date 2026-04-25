@@ -100,6 +100,8 @@ var label_vida: Label = null
 
 func _ready():
 	add_to_group("inimigos")
+	# Aplica multiplicadores globais do CSV (preserva valores-base definidos por cena)
+	_aplicar_balanceamento()
 	vida_atual = vida_maxima
 	
 	# Posição de desvio gerada para o cerco ao alvo
@@ -145,6 +147,17 @@ func _ready():
 			modelo_3d.scale = escala_original * 1.3 # Fica 30% maior
 			
 	
+
+# ==========================================
+# BALANCEAMENTO (multiplicadores globais do CSV)
+# Os @export vars vêm do inspector (customizados por cena).
+# O CSV aplica um multiplicador em cima disso — sem quebrar
+# configs de boss, mini-boss ou qualquer inimigo especial.
+# ==========================================
+func _aplicar_balanceamento() -> void:
+	vida_maxima = int(vida_maxima * Balanceamento.get_float("inimigo_mult_vida",        1.0))
+	velocidade  = velocidade      * Balanceamento.get_float("inimigo_mult_velocidade",   1.0)
+	forca_dano  = int(forca_dano  * Balanceamento.get_float("inimigo_mult_dano",         1.0))
 
 func _physics_process(delta):
 	if esta_morto: return

@@ -1,0 +1,13 @@
+[gd_scene format=4 uid="uid://caldeiron001"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_cldro"]
+
+[node name="Caldeiron" node_paths=PackedStringArray()]
+script = ExtResource("1_cldro")
+tipo = 6
+custo_moedas = 6
+vida_maxima = 30
+dano = 10
+nome_construcao = "Caldeirao"
+chave_csv_prefixo = "caldeiron"
+tem_barra_vida = false

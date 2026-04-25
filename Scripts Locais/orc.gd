@@ -25,9 +25,24 @@ var escala_original: Vector3
 
 func _ready():
 	add_to_group("inimigos")
+	# Aplica balanceamento centralizado (CSV)
+	_aplicar_balanceamento()
 	escala_original = modelo.scale
 	nav_agent.path_desired_distance = 0.5
 	nav_agent.target_desired_distance = 0.5
+
+# ==========================================
+# BALANCEAMENTO (CSV)
+# ==========================================
+func _aplicar_balanceamento() -> void:
+	velocidade               = Balanceamento.get_float("orc_velocidade", velocidade)
+	jump_velocity            = Balanceamento.get_float("orc_jump_velocity", jump_velocity)
+	gravity                  = Balanceamento.get_float("orc_gravity", gravity)
+	distancia_ataque         = Balanceamento.get_float("orc_distancia_ataque", distancia_ataque)
+	forca_dano               = Balanceamento.get_int("orc_forca_dano", forca_dano)
+	vida                     = Balanceamento.get_int("orc_vida", vida)
+	raio_visao_construcao    = Balanceamento.get_float("orc_raio_visao_construcao", raio_visao_construcao)
+	raio_visao_aliados       = Balanceamento.get_float("orc_raio_visao_aliados", raio_visao_aliados)
 
 func _physics_process(delta):
 	if esta_morto: return

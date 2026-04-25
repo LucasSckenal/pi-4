@@ -19,14 +19,6 @@ var progresso_atual = 6
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map6
 ]
 
-var estrelas_por_fase = {
-	"Map1": 3,
-	"Map2": 2,
-	"Map3": 1,
-	"Map4": 2,
-	"Map5": 0,
-	"Map6": 0
-}
 
 var linhas_criadas = []
 
@@ -168,15 +160,7 @@ func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 		2: MusicaGlobal.tocar_deserto()
 		3: MusicaGlobal.tocar_bruxa()
 		4: MusicaGlobal.tocar_aquatico()
-		5: MusicaGlobal.tocar_tutorial()
+		5: MusicaGlobal.tocar_tutorial() # TODO: substituir por música do espaço
 		6: MusicaGlobal.tocar_covil()
 
-	var caminhos = {
-		1: "res://Maps/tutorial_world.tscn",
-		2: "res://Maps/Crimson_Desert.tscn",
-		3: "res://Maps/Witch_house.tscn",
-		4: "res://Maps/fenda_dos_piratas.tscn",
-		5: "res://Maps/tutorial_world.tscn",
-		6: "res://Maps/Covil_Dragon.tscn"
-	}
-	get_tree().change_scene_to_file(caminhos[numero_fase])
+	get_tree().change_scene_to_file(GameManager.caminhos_das_fases[numero_fase])

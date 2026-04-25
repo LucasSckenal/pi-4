@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://dxq6t0ujcc1ef"
+
+[deps]
+
+files=["res://Balanceamento/balanceamento.valor.translation", "res://Balanceamento/balanceamento.tipo.translation", "res://Balanceamento/balanceamento.categoria.translation", "res://Balanceamento/balanceamento.descricao.translation"]
+
+source_file="res://Balanceamento/balanceamento.csv"
+dest_files=["res://Balanceamento/balanceamento.valor.translation", "res://Balanceamento/balanceamento.tipo.translation", "res://Balanceamento/balanceamento.categoria.translation", "res://Balanceamento/balanceamento.descricao.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

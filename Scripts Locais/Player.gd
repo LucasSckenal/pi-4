@@ -59,7 +59,7 @@ func _unhandled_input(event):
 		return
 
 	if event.is_action_pressed("ui_cancel"):
-		get_tree().change_scene_to_file("res://Cenas locais/main_menu.tscn")
+		get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -420,8 +420,10 @@ func _configurar_modelo_escolhido():
 	var caminho_novo_modelo = ""
 	
 	if Global.usando_set_bloodborne:
-		# ATENÇÃO: Coloca aqui o caminho real da cena do teu Hunter!
-		caminho_novo_modelo = "res://Assets/Personagens/blood_borne_male.tscn" 
+		caminho_novo_modelo = "res://Assets/Personagens/blood_borne_male.tscn"
+	elif Global.personagem_escolhido_path != "":
+		# Usa o personagem selecionado na tela de seleção
+		caminho_novo_modelo = Global.personagem_escolhido_path
 	elif Global.personagem_jogado_atualmente == "avo_m":
 		caminho_novo_modelo = "res://Assets/Personagens/personagem_m.tscn"
 	else:

@@ -140,7 +140,7 @@ layout_mode = 2
 [node name="SubTitulo" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer" unique_id=1021565683]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.75, 0.8, 1)
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 36
 text = "As defesas caíram. Descanse, prepare a sua estratégia e tente de novo."
 horizontal_alignment = 1
 autowrap_mode = 2
@@ -166,7 +166,7 @@ theme_override_constants/separation = 5
 [node name="TextoDias" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelDias/VBoxDias" unique_id=1690937646]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Dias protegidos:"
 horizontal_alignment = 1
 
@@ -189,7 +189,7 @@ theme_override_constants/separation = 5
 [node name="TextoMoedas" type="Label" parent="CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelMoedas/VBoxMoedas" unique_id=1929794094]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.65, 0.7, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Moedas na bolsa:"
 horizontal_alignment = 1
 
@@ -219,7 +219,7 @@ size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.3)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 40
 theme_override_styles/normal = SubResource("StyleBoxFlat_botao_verde")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")
@@ -236,7 +236,7 @@ size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.3)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 34
 theme_override_styles/normal = SubResource("StyleBoxFlat_botao_cinza")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")
@@ -253,7 +253,7 @@ size_flags_horizontal = 4
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0.3)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 34
 theme_override_styles/normal = SubResource("StyleBoxFlat_botao_cinza")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_botao_hover")
 theme_override_styles/hover = SubResource("StyleBoxFlat_botao_hover")

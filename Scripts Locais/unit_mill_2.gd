@@ -18,10 +18,13 @@ func _ready():
 	if is_fantasma:
 		if health_bar_container: health_bar_container.visible = false
 		return
-		
+
+	# Aplica balanceamento centralizado (CSV)
+	_aplicar_balanceamento()
+
 	# 1. Registro no grupo para os orcs atacarem
 	add_to_group("Construcao")
-	
+
 	# 2. Inicializa Vida e Barra
 	vida_atual = vida_maxima
 	if health_bar:
@@ -91,3 +94,14 @@ func mudar_transparencia(no_atual: Node, valor: float):
 		no_atual.transparency = valor
 	for filho in no_atual.get_children():
 		mudar_transparencia(filho, valor)
+
+# ==========================================
+# BALANCEAMENTO (CSV)
+# ==========================================
+func _aplicar_balanceamento() -> void:
+	custo_moedas    = Balanceamento.get_int("moinho_custo", custo_moedas)
+	moedas_por_onda = Balanceamento.get_int("moinho_renda_onda", moedas_por_onda)
+	vida_maxima     = Balanceamento.get_int("moinho_vida", vida_maxima)
+
+func recarregar_balanceamento() -> void:
+	_aplicar_balanceamento()

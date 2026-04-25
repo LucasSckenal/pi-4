@@ -3,8 +3,7 @@
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_vrv26"]
 [ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
-[ext_resource type="PackedScene" uid="uid://d0i607qaiy12s" path="res://Builds/mill.tscn" id="5_ti018"]
-[ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="5_u6t3p"]
+[ext_resource type="PackedScene" path="res://Builds/torre_de_fogo.tscn" id="4_vrv26"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrv26"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -38,10 +37,16 @@ data = {
 metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=393351379]
-transform = Transform3D(1, 0, 0, 0, 0.79052925, 0.61242425, 0, -0.61242425, 0.79052925, 0.79646266, 1.973958, 3.5262394)
+transform = Transform3D(1, 0, 0, 0, 0.9545529, 0.29804137, 0, -0.29804137, 0.9545529, 0.79646266, 1.973958, 3.5262394)
 
 [node name="Dummy" parent="." unique_id=1599783252 instance=ExtResource("2_vrv26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 1.7445868)
+
+[node name="Dummy2" parent="." unique_id=281185087 instance=ExtResource("2_vrv26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 2.2564826)
+
+[node name="Dummy3" parent="." unique_id=1995720770 instance=ExtResource("2_vrv26")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 1.1643142)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=131716063]
 environment = SubResource("Environment_ti018")
@@ -64,8 +69,5 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 shadow_blur = 2.5
 
-[node name="unit-mill2" parent="." unique_id=527780894 instance=ExtResource("5_ti018")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.97516704, 1, 1.9956844)
-
-[node name="CharacterBody3D" parent="." unique_id=524755320 instance=ExtResource("5_u6t3p")]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0.65251565, 1.2625881, 2.2646906)
+[node name="TorreDeFogo" parent="." unique_id=1050197362 instance=ExtResource("4_vrv26")]
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, -0.35164636, 1.2892423, 1.5840094)

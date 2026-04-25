@@ -18,12 +18,23 @@ func _ready():
 	# A TRAVA: Se for só o holograma do BuildSlot, para o código aqui e não faz mais nada!
 	if is_fantasma == true:
 		return
-		
+
+	# Aplica balanceamento centralizado (CSV)
+	_aplicar_balanceamento()
+
 	# 1. Quando a construção REAL é feita, a vida começa no máximo
 	vida_atual = vida_maxima
-	
+
 	# 2. Fica à escuta do GameManager para o fim da onda (O fantasma nunca chega aqui)
 	GameManager.onda_terminada.connect(_pagar_recompensa)
+
+func _aplicar_balanceamento() -> void:
+	custo_moedas    = Balanceamento.get_int("casa_custo", custo_moedas)
+	moedas_por_onda = Balanceamento.get_int("casa_renda_onda", moedas_por_onda)
+	vida_maxima     = Balanceamento.get_int("casa_vida", vida_maxima)
+
+func recarregar_balanceamento() -> void:
+	_aplicar_balanceamento()
 
 # =========================================================
 # SISTEMA DE PAGAMENTO 

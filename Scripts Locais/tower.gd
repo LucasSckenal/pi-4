@@ -33,12 +33,15 @@ func _ready():
 		# if health_bar_container: health_bar_container.visible = false
 		return
 
+	# Aplica balanceamento centralizado (CSV)
+	_aplicar_balanceamento()
+
 	print("Torre construída!")
-	
+
 	# Registra nos grupos para receber buffs e ser atacada
 	add_to_group("Construcao")
 	add_to_group("Torres")
-	
+
 	# Inicializa vida
 	vida_atual = vida_maxima
 	# if health_bar:
@@ -132,6 +135,18 @@ func atualizar_status():
 		var novo_tempo = tempo_ataque_base / (1.0 + GameManager.bonus_velocidade_ataque)
 		timer_ataque.wait_time = max(0.1, novo_tempo)
 		print("Torre atualizada: novo intervalo de tiro = ", timer_ataque.wait_time)
+
+# Lê os valores do CSV de balanceamento (Balanceamento.gd autoload)
+func _aplicar_balanceamento() -> void:
+	custo_moedas       = Balanceamento.get_int("torre_padrao_custo", custo_moedas)
+	dano               = Balanceamento.get_int("torre_padrao_dano", dano)
+	vida_maxima        = Balanceamento.get_int("torre_padrao_vida", vida_maxima)
+	tempo_ataque_base  = Balanceamento.get_float("torre_padrao_tempo_ataque", tempo_ataque_base)
+
+# Hot-reload F5: reaplica valores sem reiniciar a cena
+func recarregar_balanceamento() -> void:
+	_aplicar_balanceamento()
+	atualizar_status()
 
 func curar_totalmente():
 	# Chamado no início do dia

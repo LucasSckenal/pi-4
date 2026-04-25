@@ -36,6 +36,8 @@ signal morreu(aliado: Node)
 
 func _ready():
 	add_to_group("aliados")
+	# Aplica balanceamento centralizado (CSV) antes de inicializar a vida
+	_aplicar_balanceamento()
 	vida_atual = vida_maxima
 	
 	# --- ADICIONE ESTE BLOCO ---
@@ -305,3 +307,19 @@ func morrer():
 	print("%s morreu." % name)
 	morreu.emit(self)
 	queue_free()
+
+# ==========================================
+# BALANCEAMENTO (CSV)
+# ==========================================
+func _aplicar_balanceamento() -> void:
+	velocidade           = Balanceamento.get_float("soldado_velocidade", velocidade)
+	alcance_ataque       = Balanceamento.get_float("soldado_alcance_ataque", alcance_ataque)
+	tempo_entre_ataques  = Balanceamento.get_float("soldado_tempo_entre_ataques", tempo_entre_ataques)
+	dano                 = Balanceamento.get_int("soldado_dano", dano)
+	vida_maxima          = Balanceamento.get_int("soldado_vida", vida_maxima)
+	alcance_deteccao     = Balanceamento.get_float("soldado_alcance_deteccao", alcance_deteccao)
+
+func recarregar_balanceamento() -> void:
+	_aplicar_balanceamento()
+	if timer_ataque:
+		timer_ataque.wait_time = tempo_entre_ataques
