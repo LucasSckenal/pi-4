@@ -57,6 +57,7 @@ func _criar_ui():
 	_btn_toggle.text = "💡  Pedir Conselho"
 	_btn_toggle.custom_minimum_size = Vector2(220, 68)
 	_btn_toggle.mouse_filter = Control.MOUSE_FILTER_STOP
+	_btn_toggle.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_btn_toggle.anchor_left   = 0.0
 	_btn_toggle.anchor_right  = 0.0
 	_btn_toggle.anchor_top    = 1.0
@@ -144,6 +145,7 @@ func _criar_ui():
 	btn_fechar.custom_minimum_size = Vector2(40, 40)
 	btn_fechar.mouse_filter = Control.MOUSE_FILTER_STOP
 	btn_fechar.add_theme_font_size_override("font_size", 20)
+	btn_fechar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	var st_fechar := StyleBoxFlat.new()
 	st_fechar.bg_color = Color(0.22, 0.10, 0.10, 0.90)
 	st_fechar.border_color = Color(0.65, 0.28, 0.28)
@@ -307,7 +309,7 @@ func _parar_pulso():
 # TEXTO BBCODE (estilo diálogo de personagem)
 # ==========================================
 func _montar_bbcode(rec) -> String:
-	const COR_NOME  = "#FFD700"   # amarelo — nome da Berta
+	const _COR_NOME  = "#FFD700"   # amarelo — nome da Berta
 	const COR_TORRE = "#FFD700"   # dourado — torres
 	const COR_ECO   = "#88FF88"   # verde   — construções econômicas
 	const COR_UPG   = "#88DDFF"   # azul    — upgrades

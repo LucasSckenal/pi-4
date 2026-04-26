@@ -864,7 +864,7 @@ script = ExtResource("6_x8cn2")
 tipo = 5
 vida_maxima = 500
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Pyramid/pyramid" parent_id_path=PackedInt32Array(1327023819, 355768882) index="0" unique_id=1053249656]
+[node name="StaticBody3D" type="StaticBody3D" parent="Pyramid/pyramid" parent_id_path=PackedInt32Array(1327023819, 1890003615) index="0" unique_id=1053249656]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0045369864, 0.39361802, -0.75714254)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Pyramid/pyramid/StaticBody3D" unique_id=761912574]

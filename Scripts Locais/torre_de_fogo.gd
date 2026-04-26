@@ -139,7 +139,7 @@ func _atualizar_alvos() -> void:
 	# Ordena do mais próximo para o mais distante como prioridade
 	em_alcance.sort_custom(func(a: Node3D, b: Node3D) -> bool:
 		return global_position.distance_to(a.global_position) \
-		     < global_position.distance_to(b.global_position)
+			 < global_position.distance_to(b.global_position)
 	)
 
 	# Seleciona os primeiros max_alvos
@@ -217,8 +217,8 @@ func _orientar_laser(laser: MeshInstance3D, de: Vector3, para: Vector3) -> void:
 
 	# Escala: XZ = 0.14 (raio mundial = 0.07), Y = dist/2 (altura mundial = dist)
 	var scale_radius: float = 0.14
-	var basis := Basis(x_axis * scale_radius, y_axis * (dist / 2.0), z_axis * scale_radius)
-	laser.global_transform = Transform3D(basis, (de + para) / 2.0)
+	var base_basis := Basis(x_axis * scale_radius, y_axis * (dist / 2.0), z_axis * scale_radius)
+	laser.global_transform = Transform3D(base_basis, (de + para) / 2.0)
 
 # ==========================================
 # TORRE RECEBENDO DANO DOS INIMIGOS

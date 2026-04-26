@@ -9,6 +9,10 @@ func _ready():
 	_btn_sair_fase = $CenterContainer/VBoxContainer/BotaoSair
 	_btn_sair_jogo = Button.new()
 
+	_btn_voltar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_btn_sair_jogo.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_btn_sair_fase.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
 	# Renomeia o segundo botão para "Sair da Fase"
 	_btn_sair_fase.text = "SAIR DA FASE"
 	_btn_sair_fase.add_theme_color_override("font_hover_color", Color(1.0, 0.80, 0.3, 1))
@@ -20,7 +24,6 @@ func _ready():
 	_btn_sair_jogo.add_theme_font_size_override("font_size", 32)
 	$CenterContainer/VBoxContainer.add_child(_btn_sair_jogo)
 
-	_btn_voltar.pressed.connect(_on_voltar_pressed)
 	_btn_sair_fase.pressed.connect(_on_sair_fase_pressed)
 	_btn_sair_jogo.pressed.connect(_on_sair_jogo_pressed)
 

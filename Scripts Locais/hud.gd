@@ -575,6 +575,7 @@ func _criar_botao_pausa():
 	btn.add_theme_stylebox_override("pressed", st)
 	btn.add_theme_color_override("font_color", Color.WHITE)
 	btn.add_theme_font_size_override("font_size", 28)
+	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.pressed.connect(func():
 		if is_instance_valid(_menu_pausa_inst):
 			_menu_pausa_inst._abrir()
