@@ -160,7 +160,7 @@ func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 		2: MusicaGlobal.tocar_deserto()
 		3: MusicaGlobal.tocar_bruxa()
 		4: MusicaGlobal.tocar_aquatico()
-		5: MusicaGlobal.tocar_tutorial() # TODO: substituir por música do espaço
+		5: MusicaGlobal.tocar_scifi()
 		6: MusicaGlobal.tocar_covil()
 
 	get_tree().change_scene_to_file(GameManager.caminhos_das_fases[numero_fase])

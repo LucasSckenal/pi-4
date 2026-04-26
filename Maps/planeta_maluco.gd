@@ -6,6 +6,7 @@ func _ready():
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.carregar_fase(5)
+	MusicaGlobal.tocar_scifi()
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
 	pass
