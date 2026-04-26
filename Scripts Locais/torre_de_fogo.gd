@@ -219,6 +219,7 @@ func _orientar_laser(laser: MeshInstance3D, de: Vector3, para: Vector3) -> void:
 	var scale_radius: float = 0.14
 	var base_basis := Basis(x_axis * scale_radius, y_axis * (dist / 2.0), z_axis * scale_radius)
 	laser.global_transform = Transform3D(base_basis, (de + para) / 2.0)
+	# AVISO: Se algo quebrou? É por eu ter mudados de "basis" para "base_basis" o nome das variáveis para evitar warnings de override
 
 # ==========================================
 # TORRE RECEBENDO DANO DOS INIMIGOS
