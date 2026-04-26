@@ -165,22 +165,32 @@ func atualizar_opcoes():
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(260, 320) 
+			btn.custom_minimum_size = Vector2(260, 320)
 			opcoes_container.add_child(btn)
-			
+
 			if btn.has_method("configurar"):
 				btn.configurar(opcao)
-				
+
+			# Sempre conecta o sinal — aplicar_upgrade() valida moedas internamente
 			btn.pressed.connect(_on_opcao_escolhida.bind(opcao.get("index", 0)))
+
+			# Feedback visual de moedas insuficientes (botão permanece clicável)
+			var custo_opcao: int = opcao.get("custo", 0)
+			if GameManager.moedas < custo_opcao:
+				btn.modulate = Color(0.55, 0.55, 0.55, 0.85)
+				btn.tooltip_text = "Moedas insuficientes (%d/%d)" % [GameManager.moedas, custo_opcao]
 
 # ==========================================
 # AÇÕES DO JOGADOR
 # ==========================================
 func _on_opcao_escolhida(index: int):
 	if construcao_atual and construcao_atual.has_method("aplicar_upgrade"):
-		construcao_atual.aplicar_upgrade(index)
-		
-	fechar()
+		var sucesso = construcao_atual.aplicar_upgrade(index)
+		if sucesso:
+			fechar()
+		else:
+			# Recarrega os botões para refletir o estado atual de moedas
+			atualizar_opcoes()
 
 func _on_botao_vender_pressed():
 	if construcao_atual and construcao_atual.has_method("vender_construcao"):

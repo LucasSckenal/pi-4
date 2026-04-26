@@ -69,20 +69,8 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_c3eke")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j8pxg"]
-render_priority = 0
-shader = ExtResource("3_dnd01")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pycyc"]
 render_priority = 0
-next_pass = SubResource("ShaderMaterial_j8pxg")
 shader = ExtResource("4_dnd01")
 shader_parameter/time_speed = 1.0
 shader_parameter/spin = 0.0
@@ -109,6 +97,7 @@ transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_dnd01")
 
 [node name="TorreCompleta" type="Node3D" parent="." unique_id=233614548]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="Torre" type="MeshInstance3D" parent="TorreCompleta" unique_id=369280676]
 mesh = SubResource("ArrayMesh_askmk")

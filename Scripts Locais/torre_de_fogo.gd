@@ -139,7 +139,7 @@ func _atualizar_alvos() -> void:
 	# Ordena do mais próximo para o mais distante como prioridade
 	em_alcance.sort_custom(func(a: Node3D, b: Node3D) -> bool:
 		return global_position.distance_to(a.global_position) \
-		     < global_position.distance_to(b.global_position)
+			 < global_position.distance_to(b.global_position)
 	)
 
 	# Seleciona os primeiros max_alvos

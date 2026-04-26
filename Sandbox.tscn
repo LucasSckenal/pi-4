@@ -3,7 +3,7 @@
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_vrv26"]
 [ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
-[ext_resource type="PackedScene" path="res://Builds/torre_de_fogo.tscn" id="4_vrv26"]
+[ext_resource type="PackedScene" path="res://Builds/torre_de_tesla.tscn" id="4_vrv26"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrv26"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -37,7 +37,7 @@ data = {
 metadata/_editor_floor_ = Vector3(0, -1, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=393351379]
-transform = Transform3D(1, 0, 0, 0, 0.9545529, 0.29804137, 0, -0.29804137, 0.9545529, 0.79646266, 1.973958, 3.5262394)
+transform = Transform3D(1, 0, 0, 0, 0.95455295, 0.2980414, 0, -0.2980414, 0.95455295, 2.1928453, 1.973958, 3.5262394)
 
 [node name="Dummy" parent="." unique_id=1599783252 instance=ExtResource("2_vrv26")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7699493, 1.011094, 1.7445868)
@@ -69,5 +69,5 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 shadow_blur = 2.5
 
-[node name="TorreDeFogo" parent="." unique_id=1050197362 instance=ExtResource("4_vrv26")]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, -0.35164636, 1.2892423, 1.5840094)
+[node name="torre_de_tesla" parent="." unique_id=1310765549 instance=ExtResource("4_vrv26")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.005130768, 1.5869586, 1.4485693)

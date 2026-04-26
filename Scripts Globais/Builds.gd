@@ -39,6 +39,8 @@ enum TipoConstrucao {
 @export var tempo_ataque_base: float = 1.5
 @export var alcance: float = 10.0
 @export var cena_flecha: PackedScene
+@export var cena_raio_eletrico: PackedScene
+@export var tipo_ataque_proprio: String = ""  # "chain_lightning" para Tesla standalone
 @export var ponto_de_tiro: NodePath
 @export var area_ataque_path: NodePath
 @export var indicador_alcance: MeshInstance3D
@@ -660,12 +662,15 @@ func atacar():
 		return
 
 	# Verifica se o caminho atual usa ataque especial
+	var tipo_atq: String = tipo_ataque_proprio
 	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
 		var path = upgrade_paths[caminho_atual]
-		var tipo_atq: String = path.get("tipo_ataque") if "tipo_ataque" in path else ""
-		if tipo_atq == "chain_lightning":
-			_atacar_chain_lightning()
-			return
+		if path.tipo_ataque != "":
+			tipo_atq = path.tipo_ataque
+
+	if tipo_atq == "chain_lightning":
+		_atacar_chain_lightning()
+		return
 
 	# Ataque normal com flecha
 	if cena_flecha == null:
@@ -683,15 +688,19 @@ func _atacar_chain_lightning():
 	if not is_instance_valid(alvo_atual):
 		return
 
-	var num_saltos: int  = Balanceamento.get_int("tesla_chain_jumps", 2)
+	var num_saltos: int   = Balanceamento.get_int("tesla_chain_jumps", 2)
 	var raio_chain: float = Balanceamento.get_float("tesla_chain_raio", 4.0)
 	var mult_dano: float  = Balanceamento.get_float("tesla_chain_mult", 0.6)
 
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
 
-	# Dano no alvo primário
+	# Ponto de origem do raio (topo da tesla ou posição genérica)
+	var pos_origem: Vector3 = global_position + Vector3(0, 0.8, 0)
+
+	# Dano + efeito no alvo primário
 	if alvo_atual.has_method("receber_dano"):
 		alvo_atual.receber_dano(dano_base)
+	_spawnar_raio(pos_origem, alvo_atual.global_position)
 
 	# Coleta todos os inimigos no mapa para busca de cadeia
 	var todos_inimigos: Array = get_tree().get_nodes_in_group("inimigos")
@@ -721,7 +730,15 @@ func _atacar_chain_lightning():
 		alvos_atingidos.append(proximo)
 		if proximo.has_method("receber_dano"):
 			proximo.receber_dano(max(1, int(dano_chain)))
+		_spawnar_raio(alvo_prev.global_position, proximo.global_position)
 		alvo_prev = proximo
+
+func _spawnar_raio(origem: Vector3, destino: Vector3) -> void:
+	if cena_raio_eletrico == null:
+		return
+	var raio = cena_raio_eletrico.instantiate()
+	get_tree().root.add_child(raio)
+	raio.configurar(origem, destino)
 
 # ==========================================
 # SISTEMA ECONÔMICO (MINA, CASA, MOINHO)

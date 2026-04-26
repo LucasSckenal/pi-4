@@ -1,0 +1,6 @@
+[gd_scene format=4 uid="uid://cmvpoyu8c7a33"]
+
+[ext_resource type="Script" uid="uid://braioeletrico01" path="res://Cenas Locais/raio_eletrico.gd" id="1_raio"]
+
+[node name="RaioEletrico" type="Node3D"]
+script = ExtResource("1_raio")
