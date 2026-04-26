@@ -1,8 +1,6 @@
 [gd_scene format=3 uid="uid://d15jqr18cihrl"]
 
 [ext_resource type="MeshLibrary" uid="uid://dj8fyl33m6ymq" path="res://Gridmap/map4kit.meshlib" id="1_pebae"]
-[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_ph4ei"]
-[ext_resource type="PackedScene" uid="uid://dwygjlxcgtv1e" path="res://Map4/ship-wreck.glb" id="2_vvj8p"]
 [ext_resource type="PackedScene" uid="uid://dtbnd5mgkvaig" path="res://Map4/ship-ghost.glb" id="3_vvj8p"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="4_1rk64"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="5_sxogr"]
@@ -15,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="13_ruefr"]
 [ext_resource type="PackedScene" uid="uid://do88wspqj0cqr" path="res://Enemys/pirate_boss.tscn" id="14_ruefr"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
+[ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
 
 [sub_resource type="Environment" id="Environment_Agua"]
@@ -443,12 +442,6 @@ light_color = Color(0.4, 0.8, 0.9, 1)
 light_energy = 1.709
 shadow_enabled = true
 
-[node name="ship-wreck2" parent="." unique_id=549962186 groups=["Base"] instance=ExtResource("2_vvj8p")]
-transform = Transform3D(0.17646615, -0.39259392, -0.9026237, 0.07532745, 0.9197119, -0.38529962, 0.9814201, -4.440892e-16, 0.19187112, 1.0822587, -1.3202078, -1.8165274)
-script = ExtResource("2_ph4ei")
-tipo = 5
-vida_maxima = 500
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1730194336]
 navigation_mesh = SubResource("NavigationMesh_sxogr")
 
@@ -572,3 +565,6 @@ transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.0109337
 [node name="BuildSlot14" parent="Builds" unique_id=1684181307 instance=ExtResource("15_mrbo5")]
 transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.16212623, 0.024060674, -0.24076067)
 nivel_necessario = 2
+
+[node name="ship-wreck3" parent="." unique_id=848616913 instance=ExtResource("15_n8yof")]
+transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.9197119, -0.38529962, 0.9814201, 7.450581e-09, 0.19187117, 1.0822587, -1.3202078, -1.8165274)

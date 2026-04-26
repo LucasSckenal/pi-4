@@ -188,7 +188,7 @@ func _physics_process(delta):
 		
 	# 2. IA de Alvo
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
-	   alvo_atual.is_in_group("Base") or (alvo_atual.get("esta_destruida") == true):
+	   (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
 
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
@@ -198,14 +198,16 @@ func _physics_process(delta):
 	if alvo_atual and nav_agent:
 		var alvo_pos = alvo_atual.global_position
 		var dist = global_position.distance_to(alvo_pos)
-		
+		# Distância horizontal (XZ) para não falhar contra bases elevadas no mapa
+		var dist_xz = Vector2(global_position.x - alvo_pos.x, global_position.z - alvo_pos.z).length()
+
 		# Descentraliza o alvo apenas a curtas distâncias para cercar as construções
 		if dist < dist_tornar_random:
 			alvo_pos += desvio_posicao
-			
+
 		nav_agent.target_position = alvo_pos
-		
-		if dist > distancia_ataque:
+
+		if dist_xz > distancia_ataque:
 			if not nav_agent.is_navigation_finished():
 				var next_pos = nav_agent.get_next_path_position()
 				var dir = (next_pos - global_position).normalized()

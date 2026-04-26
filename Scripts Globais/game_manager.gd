@@ -71,7 +71,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/mercado.tscn")]
+			2: [preload("res://Builds/mercadinho_egipcio.tscn")]
 		}
 	},
 	3: {
@@ -82,7 +82,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/morteiro.tscn"), preload("res://Builds/caldeiron.tscn")]
+			2: [preload("res://Builds/caldeiron.tscn")]
 		}
 	},
 	4: {
@@ -93,7 +93,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/morteiro.tscn"), preload("res://Builds/sniper.tscn"), preload("res://Builds/taverna.tscn")]
+			2: [ preload("res://Builds/taverna_dos_piratas.tscn")]
 		}
 	},
 	5: {
@@ -104,7 +104,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/morteiro.tscn"), preload("res://Builds/sniper.tscn")]
+			2: []
 		}
 	},
 	6: {
@@ -115,7 +115,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/morteiro.tscn"), preload("res://Builds/sniper.tscn"), preload("res://Builds/torre_de_fogo.tscn")]
+			2: [preload("res://Builds/torre_de_fogo.tscn")]
 		}
 	}
 }

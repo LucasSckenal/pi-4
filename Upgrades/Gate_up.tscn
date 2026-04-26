@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dt3smm0b53spe"]
+
+[ext_resource type="PackedScene" uid="uid://c0o4ypmxm11bu" path="res://Map5/GLTF format/gate_complex.glb" id="1_tf512"]
+
+[node name="GateUp" type="Node3D" unique_id=1787410811]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="gate_complex2" parent="." unique_id=917822577 instance=ExtResource("1_tf512")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9655807, 0, -1.5390069)

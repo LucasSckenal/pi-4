@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://cup2gi3umot1a"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_5wh7i"]
+[ext_resource type="PackedScene" uid="uid://csrv2pusxikrm" path="res://Map6/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture.glb" id="1_6qfh3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6qfh3"]
+size = Vector3(1.2161129, 2.0011902, 1.3422546)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5wh7i"]
+size = Vector3(1.1325684, 5.276367, 1.2167969)
+
+[node name="Jaula" type="Node3D" unique_id=235904172 groups=["Base", "Castelo"]]
+script = ExtResource("1_5wh7i")
+tipo = 5
+vida_maxima = 600
+upgrade_custos = Array[int]([5, 7])
+upgrade_vida_por_nivel = Array[int]([500, 750])
+
+[node name="Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent="." unique_id=2008967334 instance=ExtResource("1_6qfh3")]
+
+[node name="AreaClique" type="Area3D" parent="." unique_id=455781606]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07692802, 0, -0.08856398)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=1303928353]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.013763219, 0.04060459, 0.08911902)
+shape = SubResource("BoxShape3D_6qfh3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=484903105]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=276127024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020874023, -2.1381836, -0.032226563)
+shape = SubResource("BoxShape3D_5wh7i")

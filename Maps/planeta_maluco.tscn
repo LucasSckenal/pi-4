@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="5_2l7da"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="5_gpya5"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_ndbvn"]
-[ext_resource type="PackedScene" uid="uid://c6bf0sp4hsun6" path="res://Map5/GLTF format/gate_simple.glb" id="6_ubxy2"]
+[ext_resource type="PackedScene" uid="uid://b668vn66nyw27" path="res://Builds/Gate.tscn" id="7_gpya5"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="7_mqy4t"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="8_mlm15"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="9_mlm15"]
@@ -165,8 +165,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060284853, 1.0015615, 14.93
 [node name="D" parent="Spawners" unique_id=379953035 instance=ExtResource("5_ndbvn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 0.40284425)
 
-[node name="gate_simple2" parent="." unique_id=1507595663 instance=ExtResource("6_ubxy2")]
-transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, -0.69127154, 0.5363734, -3.8006914)
+[node name="Portal" parent="." unique_id=683417852 instance=ExtResource("7_gpya5")]
+transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, 0.049744606, 0.5363734, 0.06908631)
+
+[node name="AreaClique" parent="Portal" index="2" unique_id=1281864409]
+visible = true
 
 [node name="Builds" type="Node3D" parent="." unique_id=469107143]
 
@@ -231,3 +234,6 @@ texture_emission = ExtResource("8_mlm15")
 emission_energy = 2.0
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("9_mlm15")]
+
+[editable path="Portal"]
+[editable path="Portal/gate_simple2"]

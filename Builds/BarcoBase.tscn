@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dm588cd2q0rcn"]
+
+[ext_resource type="PackedScene" uid="uid://dwygjlxcgtv1e" path="res://Map4/ship-wreck.glb" id="1_qvxli"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_laode"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t72sw"]
+size = Vector3(1.0033779, 1.1674805, 0.5621948)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qvxli"]
+size = Vector3(5.497162, 9.395386, 10.795479)
+
+[node name="ship-wreck2" unique_id=848616913 groups=["Base", "Castelo"] instance=ExtResource("1_qvxli")]
+script = ExtResource("2_laode")
+tipo = 5
+vida_maxima = 600
+upgrade_custos = Array[int]([5, 7])
+upgrade_vida_por_nivel = Array[int]([500, 750])
+
+[node name="AreaClique" type="Area3D" parent="." index="1" unique_id=552025519]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8026243)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=647785829]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016613007, 0.30484104, 0.0044479966)
+shape = SubResource("BoxShape3D_t72sw")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2" unique_id=185922796]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=1353856468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.20152283, 4.197693, 0.050907135)
+shape = SubResource("BoxShape3D_qvxli")

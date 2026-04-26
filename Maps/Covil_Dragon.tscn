@@ -6,9 +6,8 @@
 [ext_resource type="MeshLibrary" uid="uid://oinygid1j201" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]
 [ext_resource type="Shader" uid="uid://dj3wiq8u2pdq0" path="res://Shaders/Lava.gdshader" id="5_3l4lc"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="5_nekdb"]
+[ext_resource type="PackedScene" uid="uid://cup2gi3umot1a" path="res://Builds/jaula.tscn" id="6_e87ts"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="6_vfgjs"]
-[ext_resource type="PackedScene" uid="uid://csrv2pusxikrm" path="res://Map6/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture.glb" id="7_nekdb"]
-[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="7_vo4i4"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="8_mukah"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="9_x6lc8"]
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_i0ikx"]
@@ -171,10 +170,8 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, -5, 0)
 
-[node name="Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent="NavigationRegion3D" unique_id=2095700117 groups=["Base", "Castelo"] instance=ExtResource("7_nekdb")]
+[node name="Jaula" parent="NavigationRegion3D" unique_id=235904172 instance=ExtResource("6_e87ts")]
 transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, -1.0726833, 38.31988, -0.10500401)
-script = ExtResource("7_vo4i4")
-tipo = 5
 
 [node name="Deco2" type="GridMap" parent="." unique_id=242122450]
 transform = Transform3D(0.33, 0, 0, 0, 0.249, 0, 0, 0, 0.249, 0, 0, 0)

@@ -24,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://c8htt1o8vuysa" path="res://Assets/graveyard/detail-chalice.glb" id="16_7wwxt"]
 [ext_resource type="PackedScene" uid="uid://cao6qi8p6xmbk" path="res://Assets/graveyard/Box_02.fbx" id="17_2h26j"]
 [ext_resource type="Script" path="res://Maps/witch_house.gd" id="99_witchscript"]
+[ext_resource type="PackedScene" path="res://Builds/cripta.tscn" id="100_cripta"]
 
 [sub_resource type="Animation" id="Animation_lblfm"]
 length = 0.001
@@ -708,3 +709,6 @@ transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581
 
 [node name="Book_15" parent="Livros" unique_id=1973199679 instance=ExtResource("4_t0wnn")]
 transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246923, -0.08963423, 0.5276379, -0.84472704, -0.06150222, 0.0081528425, 0.48390067)
+
+[node name="Cripta" parent="." unique_id=3010402001 instance=ExtResource("100_cripta")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0, -2.5)

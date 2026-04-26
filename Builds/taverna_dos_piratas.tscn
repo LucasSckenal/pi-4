@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://cfwa67sg776et" path="res://Builds/taverna_dos_piratas_1.jpg" id="3_f1osv"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="4_05atc"]
 [ext_resource type="Texture2D" uid="uid://bgwf6e4qkbkmt" path="res://Builds/taverna_dos_piratas_2.jpg" id="5_xr4vy"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="6_builds"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="6_builds"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1jqor"]
 render_priority = 0
@@ -66,8 +68,26 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_uyq7b")
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_tv_clique"]
+height = 1.0
+radius = 0.5
+
 [node name="taverna_dos_piratas" unique_id=1214916694 instance=ExtResource("1_80alf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.99869263, 0)
+script = ExtResource("6_builds")
+tipo = 3
+custo_moedas = 4
+vida_maxima = 50
+moedas_por_onda = 3
+nome_construcao = "Taverna dos Piratas"
+chave_csv_prefixo = "taverna"
+tem_barra_vida = false
+node_paths = PackedStringArray()
 
 [node name="Mesh" parent="." index="0" unique_id=710117962]
 mesh = SubResource("ArrayMesh_bwlt6")
+[node name="AreaClique" type="Area3D" parent="." unique_id=2789012345]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=3789012346]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_tv_clique")
