@@ -13,9 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://cpc3alsejwd6c" path="res://Enemys/fish.tscn" id="11_rf658"]
 [ext_resource type="PackedScene" uid="uid://c8nr4eujiufct" path="res://Enemys/Shark.tscn" id="12_n0wf0"]
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="13_ruefr"]
-[ext_resource type="PackedScene" uid="uid://bjnmkioggi5lq" path="res://Enemys/pirate_boss.tscn" id="14_ruefr"]
+[ext_resource type="PackedScene" uid="uid://do88wspqj0cqr" path="res://Enemys/pirate_boss.tscn" id="14_ruefr"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
-[ext_resource type="Script" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
+[ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
 
 [sub_resource type="Environment" id="Environment_Agua"]
 background_mode = 1

@@ -39,6 +39,7 @@ theme_override_constants/separation = 20
 [node name="BotaoVoltar" type="Button" parent="CenterContainer/VBoxContainer" unique_id=398023392]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_hover_color = Color(0.392157, 1, 0.392157, 1)
 theme_override_font_sizes/font_size = 32
 text = "VOLTAR A JOGAR"
@@ -46,6 +47,7 @@ text = "VOLTAR A JOGAR"
 [node name="BotaoSair" type="Button" parent="CenterContainer/VBoxContainer" unique_id=2078554498]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_hover_color = Color(1, 0.313726, 0.313726, 1)
 theme_override_font_sizes/font_size = 32
 text = "SAIR DO JOGO"

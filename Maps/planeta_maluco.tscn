@@ -4,6 +4,7 @@
 [ext_resource type="MeshLibrary" uid="uid://dw1i24tcepvab" path="res://Gridmap/Map5kitDeco.meshlib" id="2_2l7da"]
 [ext_resource type="PackedScene" uid="uid://cigwdfb06br8s" path="res://Map5/GLTF format/craft_racer.glb" id="3_s8s8w"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="5_2l7da"]
+[ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="5_gpya5"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_ndbvn"]
 [ext_resource type="PackedScene" uid="uid://c6bf0sp4hsun6" path="res://Map5/GLTF format/gate_simple.glb" id="6_ubxy2"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="7_mqy4t"]
@@ -144,8 +145,11 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 7, 0)
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=250905563]
+[node name="Camera3D" type="Camera3D" parent="." unique_id=250905563 node_paths=PackedStringArray("player")]
 transform = Transform3D(-0.74929404, -0.39235854, 0.5334916, -0.040869985, 0.8314516, 0.55409205, -0.6609751, 0.39337412, -0.6390374, 5.3873463, 4.288941, -5.890144)
+script = ExtResource("5_gpya5")
+player = NodePath("../Player")
+limite_maximo_pan_z = 5.79
 
 [node name="Spawners" type="Node3D" parent="." unique_id=1994278130]
 

@@ -5,6 +5,8 @@ var musica_tutorial = preload("res://Musicas/Festival_In_The_High_Pines.mp3")  #
 var musica_deserto = preload("res://Musicas/Oasis_at_Noon.mp3")
 var musica_covil = preload("res://Musicas/The_Serpent_s_Last_March.mp3")
 var musica_bruxa = preload("res://Musicas/Crooked_Path_to_the_Bayou.mp3")
+var musica_aquatica = preload("res://Musicas/Salt_and_Nylon.mp3")
+var musica_espacial = preload("res://Musicas/Beneath_the_Southern_Constellation.mp3")
 
 # Definindo propriedade para ter loop na música (agradecemos Bira pelo beta test ao vivo)
 func _ready():
@@ -13,6 +15,8 @@ func _ready():
 	musica_deserto.loop = true
 	musica_covil.loop = true
 	musica_bruxa.loop = true
+	musica_aquatica.loop = true
+	musica_espacial.loop = true
 
 # Função chamada pelos menus para garantir que o tema principal esteja tocando
 func tocar_menu():
@@ -38,14 +42,14 @@ func tocar_bruxa():
 
 func tocar_aquatico():
 	# Trocar pelo certo depois
-	if stream != musica_tutorial:
-		stream = musica_tutorial
+	if stream != musica_aquatica:
+		stream = musica_aquatica
 		play()
 
 func tocar_scifi():
 	# Trocar pelo certo depois
-	if stream != musica_tutorial:
-		stream = musica_tutorial
+	if stream != musica_espacial:
+		stream = musica_espacial
 		play()
 
 func tocar_covil():
