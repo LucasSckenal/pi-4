@@ -6,7 +6,7 @@
 
 **Tower Defense · Ação · Estratégia**
 
-*Avós heroicos atravessam mundos fantásticos para resgatar seus netos*
+_Avós heroicos atravessam mundos fantásticos para resgatar seus netos_
 
 <br/>
 
@@ -36,7 +36,7 @@
 
 ## Sobre o Projeto
 
-**Onde Estão os Netos?** é um jogo *indie* de **Tower Defense com Ação**, desenvolvido como Projeto Integrador IV (PI-4).
+**Onde Estão os Netos?** é um jogo _indie_ de **Tower Defense com Ação**, desenvolvido como Projeto Integrador IV (PI-4).
 
 ### A História
 
@@ -46,14 +46,14 @@ Uma família é sugada para dentro de um antigo jogo de tabuleiro. Os avós **Af
 
 O jogo foi projetado desde o início para o **público idoso**:
 
-| Decisão de Design | Benefício |
-|---|---|
-| Interface com fontes grandes e ícones claros | Leitura confortável |
-| Duas fases bem definidas (Dia / Noite) | Ritmo previsível, sem pressa |
-| Câmera isométrica fixa | Sem desorientação espacial |
-| Controle inteiramente por toque ou clique | Sem necessidade de teclado ou gamepad |
-| Trilha sonora Lo-fi / Bossa Nova | Experiência relaxante e de baixo estresse |
-| Combate automático das torres | Foco em estratégia, não em reflexos |
+| Decisão de Design                            | Benefício                                 |
+| -------------------------------------------- | ----------------------------------------- |
+| Interface com fontes grandes e ícones claros | Leitura confortável                       |
+| Duas fases bem definidas (Dia / Noite)       | Ritmo previsível, sem pressa              |
+| Câmera isométrica fixa                       | Sem desorientação espacial                |
+| Controle inteiramente por toque ou clique    | Sem necessidade de teclado ou gamepad     |
+| Trilha sonora Lo-fi / Bossa Nova             | Experiência relaxante e de baixo estresse |
+| Combate automático das torres                | Foco em estratégia, não em reflexos       |
 
 ---
 
@@ -61,14 +61,14 @@ O jogo foi projetado desde o início para o **público idoso**:
 
 <div align="center">
 
-| | |
-|:---:|:---:|
+|                                                                                       |                                                                                      |
+| :-----------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
 | <img src="./docs/screenshots/gameplay_dia.png" width="420" alt="Fase de Preparação"/> | <img src="./docs/screenshots/gameplay_noite.png" width="420" alt="Fase de Combate"/> |
-| *Fase de Preparação — construção de defesas* | *Fase de Combate — ondas de inimigos* |
-| <img src="./docs/screenshots/mapa_deserto.png" width="420" alt="Deserto Carmesim"/> | <img src="./docs/screenshots/boss_fight.png" width="420" alt="Batalha de Boss"/> |
-| *Deserto Carmesim — Mapa 2* | *Batalha contra o Boss* |
-| <img src="./docs/screenshots/tela_cartas.png" width="420" alt="Seleção de Cartas"/> | <img src="./docs/screenshots/conquistas.png" width="420" alt="Conquistas"/> |
-| *Seleção de Power-up (Roguelike)* | *Sistema de Conquistas* |
+|                     _Fase de Preparação — construção de defesas_                      |                        _Fase de Combate — ondas de inimigos_                         |
+|  <img src="./docs/screenshots/mapa_deserto.png" width="420" alt="Deserto Carmesim"/>  |   <img src="./docs/screenshots/boss_fight.png" width="420" alt="Batalha de Boss"/>   |
+|                              _Deserto Carmesim — Mapa 2_                              |                               _Batalha contra o Boss_                                |
+|  <img src="./docs/screenshots/tela_cartas.png" width="420" alt="Seleção de Cartas"/>  |     <img src="./docs/screenshots/conquistas.png" width="420" alt="Conquistas"/>      |
+|                           _Seleção de Power-up (Roguelike)_                           |                               _Sistema de Conquistas_                                |
 
 > 📸 Adicione as capturas de tela reais na pasta `docs/screenshots/`
 
@@ -97,30 +97,30 @@ O jogo foi projetado desde o início para o **público idoso**:
 
 Ao final de cada fase, o jogador escolhe **uma carta de power-up** entre três opções:
 
-| Carta | Efeito |
-|---|---|
-| Balística Pesada | Aumenta dano das torres de projétil |
-| Engenharia Eficiente | Reduz custo de construção |
-| Frequência Crítica | Aumenta chance de ataque crítico |
-| Fúria | Aumenta velocidade de ataque geral |
-| Gelo | Torres aplicam lentidão nos inimigos |
-| Imposto de Guerra | Aumenta renda por onda |
-| Muralhas Reforçadas | Aumenta HP de todas as estruturas |
+| Carta                | Efeito                               |
+| -------------------- | ------------------------------------ |
+| Balística Pesada     | Aumenta dano das torres de projétil  |
+| Engenharia Eficiente | Reduz custo de construção            |
+| Frequência Crítica   | Aumenta chance de ataque crítico     |
+| Fúria                | Aumenta velocidade de ataque geral   |
+| Gelo                 | Torres aplicam lentidão nos inimigos |
+| Imposto de Guerra    | Aumenta renda por onda               |
+| Muralhas Reforçadas  | Aumenta HP de todas as estruturas    |
 
 ### 🏆 Conquistas
 
 12 conquistas desbloqueáveis que recompensam diferentes estilos de jogo:
 
-| Conquista | Condição |
-|---|---|
-| Querida, Encolhi os Avós | Inicia a aventura |
-| Primeiros Passos | Completa o tutorial |
-| Primeira Compra | Constrói a primeira torre |
-| Defesa Perfeita | Completa uma fase sem perder HP de base |
-| Derrota o Boss Sem Dano | Vence um boss com a base intacta |
-| Acumula 1.000 Moedas | Acumula riqueza |
-| Poder Espacial | Completa o mapa do espaço |
-| Chega à Fase Final | Desbloqueia o covil do dragão |
+| Conquista                | Condição                                |
+| ------------------------ | --------------------------------------- |
+| Querida, Encolhi os Avós | Inicia a aventura                       |
+| Primeiros Passos         | Completa o tutorial                     |
+| Primeira Compra          | Constrói a primeira torre               |
+| Defesa Perfeita          | Completa uma fase sem perder HP de base |
+| Derrota o Boss Sem Dano  | Vence um boss com a base intacta        |
+| Acumula 1.000 Moedas     | Acumula riqueza                         |
+| Poder Espacial           | Completa o mapa do espaço               |
+| Chega à Fase Final       | Desbloqueia o covil do dragão           |
 
 ### 🤖 Conselheiro IA
 
@@ -140,14 +140,14 @@ Sistema original de recomendações em tempo real (`conselheiro_ia.gd`):
 
 ## Mundos do Jogo
 
-| # | Mundo | Tema | Inimigos | Boss |
-|---|---|---|---|---|
-| 1 | **Floresta Medieval** *(Tutorial)* | Medieval / Fantasia | Orc, Cogumelo, Abelha | — |
-| 2 | **Deserto Carmesim** | Egípcio | Anubis, Chacal, Gênio | Faraó |
-| 3 | **Mansão Assombrada** | Terror | Bruxa, Lich | — |
-| 4 | **Fenda dos Piratas** | Oceano | Peixe, Tubarão | Capitão Pirata |
-| 5 | **Planeta Maluco** | Sci-Fi / Espaço | Flamingo Astronauta, Robô Voador | — |
-| 6 | **Covil do Dragão** *(Final)* | Vulcão | Golem de Lava | Dragão |
+| #   | Mundo                              | Tema                | Inimigos                         | Boss           |
+| --- | ---------------------------------- | ------------------- | -------------------------------- | -------------- |
+| 1   | **Floresta Medieval** _(Tutorial)_ | Medieval / Fantasia | Orc, Cogumelo, Abelha            | —              |
+| 2   | **Deserto Carmesim**               | Egípcio             | Anubis, Chacal, Gênio            | Faraó          |
+| 3   | **Mansão Assombrada**              | Terror              | Bruxa, Lich                      | —              |
+| 4   | **Fenda dos Piratas**              | Oceano              | Peixe, Tubarão                   | Capitão Pirata |
+| 5   | **Planeta Maluco**                 | Sci-Fi / Espaço     | Flamingo Astronauta, Robô Voador | —              |
+| 6   | **Covil do Dragão** _(Final)_      | Vulcão              | Golem de Lava                    | Dragão         |
 
 Cada mundo possui: mapa único com NavMesh própria, set de inimigos exclusivo, base temática e trilha sonora específica.
 
@@ -245,11 +245,11 @@ pi-4/
 
 ### Requisitos
 
-| Ferramenta | Versão |
-|---|---|
-| [Godot Engine](https://godotengine.org/download) | **4.6** (Forward Plus) |
-| Sistema Operacional | Windows 10/11 ou Android 8+ |
-| GPU | Compatível com Direct3D 12 (Windows) |
+| Ferramenta                                       | Versão                               |
+| ------------------------------------------------ | ------------------------------------ |
+| [Godot Engine](https://godotengine.org/download) | **4.6** (Forward Plus)               |
+| Sistema Operacional                              | Windows 10/11 ou Android 8+          |
+| GPU                                              | Compatível com Direct3D 12 (Windows) |
 
 ### Passos
 
@@ -276,22 +276,22 @@ O jogo é controlado inteiramente por **toque** (Android) ou **clique** (PC) —
 
 ### HUD — Controles na Tela
 
-| Botão | Fase | Ação |
-|---|---|---|
-| **▶** | Dia | Inicia a onda de inimigos |
-| **❚❚** | Noite | Pausa o jogo |
-| **▶❚** | Noite (pausado) | Retoma o jogo |
-| **🔍+** / **🔍−** | Qualquer | Zoom in / Zoom out (4 níveis) |
+| Botão             | Fase            | Ação                          |
+| ----------------- | --------------- | ----------------------------- |
+| **▶**             | Dia             | Inicia a onda de inimigos     |
+| **❚❚**            | Noite           | Pausa o jogo                  |
+| **▶❚**            | Noite (pausado) | Retoma o jogo                 |
+| **🔍+** / **🔍−** | Qualquer        | Zoom in / Zoom out (4 níveis) |
 
 ### Controle de Velocidade
 
 Durante a fase de noite, três botões aparecem na HUD para controlar o ritmo do combate:
 
-| Botão | Velocidade | Uso |
-|---|---|---|
-| **`> LENTO`** | 0.5× | Analise situações difíceis com mais calma |
-| **`>> NORMAL`** | 1× | Velocidade padrão |
-| **`>>> RÁPIDO`** | 2× | Acelere ondas fáceis |
+| Botão            | Velocidade | Uso                                       |
+| ---------------- | ---------- | ----------------------------------------- |
+| **`> LENTO`**    | 0.5×       | Analise situações difíceis com mais calma |
+| **`>> NORMAL`**  | 1×         | Velocidade padrão                         |
+| **`>>> RÁPIDO`** | 2×         | Acelere ondas fáceis                      |
 
 ### Loop de Jogo
 
@@ -325,20 +325,20 @@ Durante a fase de noite, três botões aparecem na HUD para controlar o ritmo do
     </td>
     <td align="center">
       <img src="./docs/team/luan.png" width="120" height="120" style="border-radius:50%" alt="Luan Vitor Casalli Dalabrida"/><br/>
-      <b>Luan Vitor Casalli Dalabrida</b><br/>
+      <b>Luan Vitor Casali Dallabrida</b><br/>
       <sub>Ciência da Computação</sub><br/>
       <a href="https://linkedin.com/in/luan-dalabrida">LinkedIn</a>
     </td>
     <td align="center">
       <img src="./docs/team/lucas.png" width="120" height="120" style="border-radius:50%" alt="Lucas Panembeker Sckenal"/><br/>
-      <b>Lucas Panembeker Sckenal</b><br/>
+      <b>Lucas Panenbecker Sckenal</b><br/>
       <sub>Ciência da Computação</sub><br/>
       <a href="https://linkedin.com/in/lucas-sckenal">LinkedIn</a>
     </td>
   </tr>
 </table>
 
-*Projeto Integrador IV (PI-4) — SENAC · 2025*
+_Projeto Integrador IV (PI-4) — SENAC · 2025_
 
 </div>
 
