@@ -311,29 +311,33 @@ Durante a fase de noite, três botões aparecem na HUD para controlar o ritmo do
 
 <table>
   <tr>
-    <td align="center">
-      <img src="./docs/team/ana_luiza.png" width="120" height="120" style="border-radius:50%" alt="Ana Luiza Escher"/><br/>
+    <td align="center" width="200">
+      <a href="https://linkedin.com/in/ana-luiza-escher">
+        <img src="./docs/team/ana_luiza.png" width="150" alt="Ana Luiza Escher"/>
+      </a><br/><br/>
       <b>Ana Luiza Escher</b><br/>
-      <sub>Design</sub><br/>
-      <a href="https://linkedin.com/in/ana-luiza-escher">LinkedIn</a>
+      <sub>Design</sub>
     </td>
-    <td align="center">
-      <img src="./docs/team/henrique.png" width="120" height="120" style="border-radius:50%" alt="Henrique Luan Fritz"/><br/>
+    <td align="center" width="200">
+      <a href="https://linkedin.com/in/henrique-fritz">
+        <img src="./docs/team/henrique.png" width="150" alt="Henrique Luan Fritz"/>
+      </a><br/><br/>
       <b>Henrique Luan Fritz</b><br/>
-      <sub>Ciência da Computação</sub><br/>
-      <a href="https://linkedin.com/in/henrique-fritz">LinkedIn</a>
+      <sub>Ciência da Computação</sub>
     </td>
-    <td align="center">
-      <img src="./docs/team/luan.png" width="120" height="120" style="border-radius:50%" alt="Luan Vitor Casalli Dalabrida"/><br/>
-      <b>Luan Vitor Casali Dallabrida</b><br/>
-      <sub>Ciência da Computação</sub><br/>
-      <a href="https://linkedin.com/in/luan-dalabrida">LinkedIn</a>
+    <td align="center" width="200">
+      <a href="https://linkedin.com/in/luan-dalabrida">
+        <img src="./docs/team/luan.png" width="150" alt="Luan Vitor Casalli Dalabrida"/>
+      </a><br/><br/>
+      <b>Luan Vitor Casalli Dalabrida</b><br/>
+      <sub>Ciência da Computação</sub>
     </td>
-    <td align="center">
-      <img src="./docs/team/lucas.png" width="120" height="120" style="border-radius:50%" alt="Lucas Panembeker Sckenal"/><br/>
-      <b>Lucas Panenbecker Sckenal</b><br/>
-      <sub>Ciência da Computação</sub><br/>
-      <a href="https://linkedin.com/in/lucas-sckenal">LinkedIn</a>
+    <td align="center" width="200">
+      <a href="https://linkedin.com/in/lucas-sckenal">
+        <img src="./docs/team/lucas.png" width="150" alt="Lucas Panembeker Sckenal"/>
+      </a><br/><br/>
+      <b>Lucas Panembeker Sckenal</b><br/>
+      <sub>Ciência da Computação</sub>
     </td>
   </tr>
 </table>

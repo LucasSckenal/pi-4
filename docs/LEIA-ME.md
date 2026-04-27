@@ -19,4 +19,6 @@ Adicione os arquivos abaixo para completar o README:
 - `luan.png`       — Foto do Luan Vitor Casalli Dalabrida
 - `lucas.png`      — Foto do Lucas Panembeker Sckenal
 
-> Tamanho recomendado para fotos: 120×120px (quadrado)
+> **Importante para ficarem padronizadas:** as fotos devem ter proporção **1:1 (quadrada)** antes de salvar.
+> Recorte para quadrado (ex.: 400×400 px) antes de colocar na pasta.
+> O README exibe todas com 150 px de largura — se a foto for quadrada, fica uniforme sem distorção.
