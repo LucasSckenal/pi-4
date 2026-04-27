@@ -319,22 +319,22 @@ Durante a fase de noite, três botões aparecem na HUD para controlar o ritmo do
       <sub>Design</sub>
     </td>
     <td align="center" width="200">
-      <a href="https://linkedin.com/in/henrique-fritz">
+      <a href="https://www.linkedin.com/in/henrique-luan-fritz-70412635a">
         <img src="./docs/team/henrique.png" width="150" height="150" alt="Henrique Luan Fritz"/>
       </a><br/><br/>
       <b>Henrique Luan Fritz</b><br/>
       <sub>Ciência da Computação</sub>
     </td>
     <td align="center" width="200">
-      <a href="https://linkedin.com/in/luan-dalabrida">
-        <img src="./docs/team/luan.png" width="150" height="150" alt="Luan Vitor Casalli Dalabrida"/>
+      <a href="https://www.linkedin.com/in/luan-vitor-casali-dallabrida">
+        <img src="./docs/team/luan.png" width="150" height="150" alt="Luan Vitor C. D."/>
       </a><br/><br/>
       <b>Luan Vitor Casalli Dalabrida</b><br/>
       <sub>Ciência da Computação</sub>
     </td>
     <td align="center" width="200">
-      <a href="https://linkedin.com/in/lucas-sckenal">
-        <img src="./docs/team/lucas.png" width="150" height="150" alt="Lucas Panembeker Sckenal"/>
+      <a href="https://linkedin.com/in/lucassckenal">
+        <img src="./docs/team/lucas.png" object-fit="cover" width="150" height="150" alt="Lucas Panembeker Sckenal"/>
       </a><br/><br/>
       <b>Lucas Panembeker Sckenal</b><br/>
       <sub>Ciência da Computação</sub>
