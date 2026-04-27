@@ -1016,7 +1016,7 @@ root_node = NodePath("../WorldEnvironment")
 libraries/ = SubResource("AnimationLibrary_ylt60")
 speed_scale = 1.5
 
-[node name="Piramede" parent="." unique_id=1210502438 groups=["Base", "Castelo"] instance=ExtResource("20_6br4y")]
+[node name="Piramede" parent="." unique_id=1210502438 instance=ExtResource("20_6br4y")]
 transform = Transform3D(4.5, 0, 0, 0, 4.5, 0, 0, 0, 4.5, 0.09287715, 2.190041, -4.2682743)
 upgrade_custos = Array[int]([7, 10])
 

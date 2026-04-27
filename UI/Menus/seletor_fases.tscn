@@ -18,16 +18,46 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7ooa"]
 bg_color = Color(0, 0, 0, 0.7137255)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
 border_blend = true
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
 corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjkm8"]
+bg_color = Color(0, 0, 0, 0.83137256)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_blend = true
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kumk8"]
+bg_color = Color(0.45840502, 0.45840508, 0.45840502, 0.7137255)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_blend = true
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+corner_detail = 20
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
 
 [node name="SeletorFases" type="Control" unique_id=860466080]
 layout_mode = 3
@@ -39,6 +69,7 @@ grow_vertical = 2
 script = ExtResource("1_nbx80")
 
 [node name="Meshy_AI_Blank_Scroll_0416004051_texture" parent="." unique_id=1253914551 instance=ExtResource("2_1miao")]
+transform = Transform3D(1.2, 0, 0, 0, 1.7, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Map1" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1397241155]
 anchors_preset = -1
@@ -373,14 +404,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7083192)
 
 [node name="BtnVoltar" type="Button" parent="." unique_id=885441256]
 layout_mode = 0
-offset_left = 56.0
-offset_right = 576.0
-offset_bottom = 520.0
+offset_left = 122.87519
+offset_top = 18.0
+offset_right = 1116.2626
+offset_bottom = 824.7874
 scale = Vector2(-0.101478375, 0.07679579)
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_i7ooa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sjkm8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kumk8")
 icon = ExtResource("11_nqyad")
 icon_alignment = 1
-expand_icon = true
 
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" to="." method="_on_map_1_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" to="." method="_on_map_2_pressed"]
