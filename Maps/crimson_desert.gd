@@ -8,10 +8,9 @@ func _ready():
 	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
-	
 	await get_tree().process_frame
-	
 	GameManager.carregar_fase(2)
+	MusicaGlobal.tocar_deserto()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
