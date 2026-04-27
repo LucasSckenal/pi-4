@@ -568,3 +568,5 @@ nivel_necessario = 2
 
 [node name="ship-wreck3" parent="." unique_id=848616913 instance=ExtResource("15_n8yof")]
 transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.9197119, -0.38529962, 0.9814201, 7.450581e-09, 0.19187117, 1.0822587, -1.3202078, -1.8165274)
+
+[editable path="ship-wreck3"]

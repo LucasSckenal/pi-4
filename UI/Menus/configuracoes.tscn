@@ -23,41 +23,41 @@ font_color = Color(0.95, 0.95, 0.95, 1)
 shadow_size = 4
 shadow_color = Color(0, 0, 0, 0.6)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Botao"]
-bg_color = Color(0.2, 0.2, 0.25, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-content_margin_left = 20.0
-content_margin_top = 12.0
-content_margin_right = 20.0
-content_margin_bottom = 12.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BotaoHover"]
-bg_color = Color(0.32, 0.28, 0.40, 1)
-border_color = Color(0.55, 0.44, 0.75, 0.8)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-content_margin_left = 20.0
-content_margin_top = 12.0
-content_margin_right = 20.0
-content_margin_bottom = 12.0
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CheckHover"]
-bg_color = Color(0.28, 0.24, 0.38, 1.0)
+bg_color = Color(0.28, 0.24, 0.38, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Configuracoes" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Botao"]
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+bg_color = Color(0.2, 0.2, 0.25, 0.9)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BotaoHover"]
+content_margin_left = 20.0
+content_margin_top = 12.0
+content_margin_right = 20.0
+content_margin_bottom = 12.0
+bg_color = Color(0.32, 0.28, 0.4, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55, 0.44, 0.75, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Configuracoes" type="Control" unique_id=652080611]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,16 +66,17 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_dnuwa")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=759948666]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 180.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.65)
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1230592310]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -83,61 +84,61 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=175982560]
 custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_Painel")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=780413348]
 layout_mode = 2
 theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 36
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=671686919]
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=952346767]
 layout_mode = 2
 text = "⚙️ Configurações"
 label_settings = SubResource("LabelSettings_Titulo")
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=789752313]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1805859892]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 18
 theme_override_styles/hover = SubResource("StyleBoxFlat_CheckHover")
 text = "🖥️ Tela Cheia"
 
-[node name="CheckMudo" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="CheckMudo" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=680332874]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 18
 theme_override_styles/hover = SubResource("StyleBoxFlat_CheckHover")
 text = "🔇 Silenciar Jogo"
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1883774767]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="LabelMaster" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="LabelMaster" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=327225135]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.72, 0.72, 0.78, 1)
+theme_override_font_sizes/font_size = 16
 text = "🔊 Volume Geral"
 
-[node name="HBoxMaster" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxMaster" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1483991813]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster"]
+[node name="HSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster" unique_id=1549602438]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -145,26 +146,26 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="LabelPctMaster" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster"]
+[node name="LabelPctMaster" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster" unique_id=41216871]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.78, 0.9, 1)
 theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.80, 0.78, 0.90, 1)
 text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="LabelMusica" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="LabelMusica" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1320979900]
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.72, 0.72, 0.78, 1)
+theme_override_font_sizes/font_size = 16
 text = "🎵 Volume da Música"
 
-[node name="HBoxMusica" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxMusica" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=268668224]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HSliderMusica" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica"]
+[node name="HSliderMusica" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica" unique_id=802094980]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -172,26 +173,26 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="LabelPctMusica" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica"]
+[node name="LabelPctMusica" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica" unique_id=1474111137]
 custom_minimum_size = Vector2(46, 0)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.78, 0.9, 1)
 theme_override_font_sizes/font_size = 15
-theme_override_colors/font_color = Color(0.80, 0.78, 0.90, 1)
 text = "100%"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Espacador" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="Espacador" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1904585742]
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
-[node name="BtnVoltar" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="BtnVoltar" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=745673826]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_Botao")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BotaoHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_Botao")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BotaoHover")
 text = "◀ Voltar"
 
 [connection signal="toggled" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
