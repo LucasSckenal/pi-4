@@ -312,7 +312,7 @@ Durante a fase de noite, três botões aparecem na HUD para controlar o ritmo do
 <table>
   <tr>
     <td align="center" width="200">
-      <a href="https://linkedin.com/in/ana-luiza-escher">
+      <a href="https://www.behance.net/anaescher">
         <img src="./docs/team/ana_luiza.png" width="150" height="150" alt="Ana Luiza Escher"/>
       </a><br/><br/>
       <b>Ana Luiza Escher</b><br/>
