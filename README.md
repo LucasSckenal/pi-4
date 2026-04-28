@@ -66,7 +66,7 @@ O jogo foi projetado desde o início para o **público idoso**:
 | <img src="./docs/screenshots/gameplay_dia.png" width="420" alt="Fase de Preparação"/> | <img src="./docs/screenshots/gameplay_noite.png" width="420" alt="Fase de Combate"/> |
 |                     _Fase de Preparação — construção de defesas_                      |                        _Fase de Combate — ondas de inimigos_                         |
 |  <img src="./docs/screenshots/mapa_deserto.png" width="420" alt="Deserto Carmesim"/>  |   <img src="./docs/screenshots/boss_fight.png" width="420" alt="Batalha de Boss"/>   |
-|                              _Deserto Carmesim — Mapa 2_                              |                               _Batalha contra o Boss_                                |
+|                                  _Odisseia — Mapa 5_                                  |                               _Batalha contra o Boss_                                |
 |  <img src="./docs/screenshots/tela_cartas.png" width="420" alt="Seleção de Cartas"/>  |     <img src="./docs/screenshots/conquistas.png" width="420" alt="Conquistas"/>      |
 |                           _Seleção de Power-up (Roguelike)_                           |                               _Sistema de Conquistas_                                |
 
