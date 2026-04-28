@@ -70,8 +70,6 @@ O jogo foi projetado desde o início para o **público idoso**:
 |  <img src="./docs/screenshots/tela_cartas.png" width="420" alt="Seleção de Cartas"/>  |     <img src="./docs/screenshots/conquistas.png" width="420" alt="Conquistas"/>      |
 |                           _Seleção de Power-up (Roguelike)_                           |                               _Sistema de Conquistas_                                |
 
-> 📸 Adicione as capturas de tela reais na pasta `docs/screenshots/`
-
 </div>
 
 ---
@@ -111,16 +109,16 @@ Ao final de cada fase, o jogador escolhe **uma carta de power-up** entre três o
 
 12 conquistas desbloqueáveis que recompensam diferentes estilos de jogo:
 
-| Conquista                | Condição                                |
-| ------------------------ | --------------------------------------- |
-| Querida, Encolhi os Avós | Inicia a aventura                       |
-| Primeiros Passos         | Completa o tutorial                     |
-| Primeira Compra          | Constrói a primeira torre               |
-| Defesa Perfeita          | Completa uma fase sem perder HP de base |
-| Derrota o Boss Sem Dano  | Vence um boss com a base intacta        |
-| Acumula 1.000 Moedas     | Acumula riqueza                         |
-| Poder Espacial           | Completa o mapa do espaço               |
-| Chega à Fase Final       | Desbloqueia o covil do dragão           |
+| Conquista                            | Condição                                |
+| ------------------------------------ | --------------------------------------- |
+| Não Estamos Mais no Sofá, Querida... | Inicia a aventura                       |
+| Primeiros Passos                     | Completa o tutorial                     |
+| Primeira Compra                      | Constrói a primeira torre               |
+| Defesa Perfeita                      | Completa uma fase sem perder HP de base |
+| Derrota o Boss Sem Dano              | Vence um boss com a base intacta        |
+| Acumula 1.000 Moedas                 | Acumula riqueza                         |
+| Poder Espacial                       | Completa o mapa do espaço               |
+| Chega à Fase Final                   | Desbloqueia o covil do dragão           |
 
 ### 🤖 Conselheiro IA
 
