@@ -76,6 +76,8 @@ var posicao_de_spawn: Vector3
 var desvio_posicao: Vector3 = Vector3.ZERO
 var tempo_bloqueado: float = 0.0
 var _contador_quedas: int = 0
+var _timer_re_check: float = 0.0
+const RE_CHECK_INTERVALO: float = 0.3
 
 @export_category("Limites do Mapa")
 @export var limite_queda_y: float = -20.0
@@ -190,6 +192,16 @@ func _physics_process(delta):
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
 	   (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
+		_timer_re_check = 0.0
+	elif alvo_atual.is_in_group("Castelo"):
+		# Está indo para a base — verifica periodicamente se há construções mais perto
+		_timer_re_check -= delta
+		if _timer_re_check <= 0.0:
+			_timer_re_check = RE_CHECK_INTERVALO
+			var candidato = procurar_novo_alvo()
+			# Só troca se encontrou uma construção/aliado (não a própria base)
+			if is_instance_valid(candidato) and not candidato.is_in_group("Castelo"):
+				alvo_atual = candidato
 
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
 		alvo_atual = procurar_novo_alvo()
