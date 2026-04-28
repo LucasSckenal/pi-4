@@ -66,6 +66,11 @@ nome_inimigo = "Faraó"
 vida_maxima = 5500
 velocidade = 0.3
 forca_dano = 100
+distancia_ataque = 1.7
+raio_visao_construcao = 4.0
+raio_visao_aliados = 3.0
+dist_tornar_random = 3.5
+quanto_espalhar = 1.5
 
 [node name="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=383528023 instance=ExtResource("1_0ki3c")]
 

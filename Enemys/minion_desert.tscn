@@ -60,9 +60,14 @@ radius = 1.0325928
 height = 2.0651855
 
 [node name="MinionDesert" type="CharacterBody3D" unique_id=769583604 node_paths=PackedStringArray("modelo_3d", "animation_player")]
-transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_ahkvp")
 nome_inimigo = "Desert minion"
+distancia_ataque = 1.7
+raio_visao_construcao = 4.0
+raio_visao_aliados = 3.0
+dist_tornar_random = 3.5
+quanto_espalhar = 1.5
 modelo_3d = NodePath("Minion")
 animation_player = NodePath("Minion/AnimationPlayer")
 anim_andar = "Unsteady_Walk"
@@ -71,7 +76,7 @@ anim_morrer = "Attack"
 
 [node name="Minion" parent="." unique_id=328763851 instance=ExtResource("1_eio5v")]
 
-[node name="Skeleton3D" parent="Minion/Armature" parent_id_path=PackedInt32Array(328763851, 1837334284) index="0" unique_id=2090875510]
+[node name="Skeleton3D" parent="Minion/Armature" parent_id_path=PackedInt32Array(328763851, 1825460150) index="0" unique_id=663242223]
 bones/0/position = Vector3(-0.5011734, 84.19339, -2.768454)
 bones/0/rotation = Quaternion(0.96085864, 0.108039394, -0.119154036, 0.22556713)
 bones/1/position = Vector3(4.5125675, 10.582604, 1.0876213)
@@ -114,7 +119,7 @@ bones/22/rotation = Quaternion(-0.1712146, 0.0020811227, 0.0026017777, 0.9852281
 bones/23/position = Vector3(-0.18059798, 1.7363362, 11.64658)
 bones/23/rotation = Quaternion(0.6528225, -2.6628567e-07, 0.010122815, 0.7574433)
 
-[node name="char1" parent="Minion/Armature/Skeleton3D" index="0" unique_id=2132645693]
+[node name="char1" parent="Minion/Armature/Skeleton3D" index="0" unique_id=43808126]
 mesh = SubResource("ArrayMesh_wb4g2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2075854399]

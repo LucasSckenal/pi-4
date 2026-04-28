@@ -63,6 +63,11 @@ script = ExtResource("1_lips3")
 vida_maxima = 850
 velocidade = 0.3
 forca_dano = 40
+distancia_ataque = 1.7
+raio_visao_construcao = 4.0
+raio_visao_aliados = 3.0
+dist_tornar_random = 3.5
+quanto_espalhar = 1.5
 modelo_3d = NodePath("Anubis")
 animation_player = NodePath("Anubis/AnimationPlayer")
 anim_andar = "Walking"
@@ -71,7 +76,7 @@ anim_morrer = "Dead"
 
 [node name="Anubis" parent="." unique_id=21940137 instance=ExtResource("1_ey8ll")]
 
-[node name="Skeleton3D" parent="Anubis/Armature" parent_id_path=PackedInt32Array(21940137, 481395841) index="0" unique_id=1825943471]
+[node name="Skeleton3D" parent="Anubis/Armature" parent_id_path=PackedInt32Array(21940137, 1634167266) index="0" unique_id=855856459]
 bones/0/position = Vector3(0.55059344, 52.74661, 5.536276)
 bones/0/rotation = Quaternion(-0.3699685, 0.10315853, 0.06782521, 0.92080474)
 bones/1/position = Vector3(13.546588, -7.777976, -2.2383237)
@@ -112,7 +117,7 @@ bones/21/rotation = Quaternion(0.49545062, 0.033249117, -0.023263581, 0.8676878)
 bones/22/rotation = Quaternion(-0.3267399, -0.000742682, -0.005084914, 0.94510037)
 bones/23/rotation = Quaternion(0.3320013, 8.819223e-08, 2.9237373e-08, 0.943279)
 
-[node name="char1" parent="Anubis/Armature/Skeleton3D" index="0" unique_id=316584040]
+[node name="char1" parent="Anubis/Armature/Skeleton3D" index="0" unique_id=859280672]
 mesh = SubResource("ArrayMesh_j8jwn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=842970733]

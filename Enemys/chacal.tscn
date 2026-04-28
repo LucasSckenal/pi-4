@@ -63,6 +63,10 @@ script = ExtResource("1_cecf2")
 vida_maxima = 120
 velocidade = 1.0
 forca_dano = 12
+distancia_ataque = 1.7
+raio_visao_construcao = 4.0
+dist_tornar_random = 3.5
+quanto_espalhar = 1.5
 modelo_3d = NodePath("Chacal")
 animation_player = NodePath("Chacal/AnimationPlayer")
 anim_andar = "Dead"
@@ -71,7 +75,7 @@ anim_morrer = "Running"
 
 [node name="Chacal" parent="." unique_id=1087383694 instance=ExtResource("2_wbrod")]
 
-[node name="Skeleton3D" parent="Chacal/Armature" parent_id_path=PackedInt32Array(1087383694, 382347010) index="0" unique_id=1659321340]
+[node name="Skeleton3D" parent="Chacal/Armature" parent_id_path=PackedInt32Array(1087383694, 415773141) index="0" unique_id=1612401421]
 bones/0/position = Vector3(-0.045747377, 58.338295, 17.843119)
 bones/0/rotation = Quaternion(0.2627804, 0.024942663, -0.16669333, 0.9500199)
 bones/1/position = Vector3(14.718564, -1.2259154, 1.1465797)
@@ -113,7 +117,7 @@ bones/21/rotation = Quaternion(0.4161522, 0.02699881, -0.018090893, 0.90871406)
 bones/22/rotation = Quaternion(-0.39815235, 0.0016693658, -0.003405683, 0.91731155)
 bones/23/rotation = Quaternion(0.3127215, 8.515521e-08, 0.0043862993, 0.94983476)
 
-[node name="char1" parent="Chacal/Armature/Skeleton3D" index="0" unique_id=1952173338]
+[node name="char1" parent="Chacal/Armature/Skeleton3D" index="0" unique_id=1244575736]
 mesh = SubResource("ArrayMesh_blu3w")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=482411525]

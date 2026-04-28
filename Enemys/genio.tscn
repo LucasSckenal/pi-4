@@ -58,15 +58,16 @@ height = 1.6856546
 radius = 1.0325928
 height = 2.0651855
 
-[node name="Genio" type="CharacterBody3D" unique_id=1252573154]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
+[node name="Genio" type="CharacterBody3D" unique_id=1252573154 node_paths=PackedStringArray("modelo_3d")]
+transform = Transform3D(0.77, 0, 0, 0, 0.77, 0, 0, 0, 0.77, 0, 0, 0)
 script = ExtResource("1_36wgu")
 vida_maxima = 200
 forca_dano = 20
+modelo_3d = NodePath("Genio")
 
 [node name="Genio" parent="." unique_id=1307497035 instance=ExtResource("1_no0k8")]
 
-[node name="Skeleton3D" parent="Genio/Armature" parent_id_path=PackedInt32Array(1307497035, 225909651) index="0" unique_id=2054530668]
+[node name="Skeleton3D" parent="Genio/Armature" parent_id_path=PackedInt32Array(1307497035, 1903972108) index="0" unique_id=1213667797]
 bones/0/position = Vector3(1.1547252, 107.80946, 7.498789)
 bones/0/rotation = Quaternion(-0.31312248, 0.025933579, 0.0046538142, 0.9493472)
 bones/1/position = Vector3(10.335477, -11.461492, -2.726887)
@@ -114,7 +115,7 @@ bones/22/rotation = Quaternion(-0.15757613, -5.766932e-05, 0.00820248, 0.9874728
 bones/23/position = Vector3(0.3641616, 1.3765693, 7.224948)
 bones/23/rotation = Quaternion(0.63679105, -1.2479758e-07, -0.032096457, 0.7703682)
 
-[node name="char1" parent="Genio/Armature/Skeleton3D" index="0" unique_id=1539701698]
+[node name="char1" parent="Genio/Armature/Skeleton3D" index="0" unique_id=1627992261]
 mesh = SubResource("ArrayMesh_6jr7r")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=285975801]
