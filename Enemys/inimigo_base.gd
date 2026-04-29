@@ -194,14 +194,16 @@ func _physics_process(delta):
 	   (alvo_atual.get("esta_destruida") == true):
 		alvo_atual = procurar_novo_alvo()
 		_timer_re_check = 0.0
-	elif alvo_atual.is_in_group("Castelo"):
+	elif alvo_atual.is_in_group("Castelo") or alvo_atual.is_in_group("Base"):
 		# Está indo para a base — verifica periodicamente se há construções mais perto
 		_timer_re_check -= delta
 		if _timer_re_check <= 0.0:
 			_timer_re_check = RE_CHECK_INTERVALO
 			var candidato = procurar_novo_alvo()
 			# Só troca se encontrou uma construção/aliado (não a própria base)
-			if is_instance_valid(candidato) and not candidato.is_in_group("Castelo"):
+			if is_instance_valid(candidato) and \
+			   not candidato.is_in_group("Castelo") and \
+			   not candidato.is_in_group("Base"):
 				alvo_atual = candidato
 
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
@@ -282,8 +284,13 @@ func procurar_novo_alvo():
 				menor_dist = d
 				melhor_alvo = c
 	if melhor_alvo: return melhor_alvo
-		
-	return get_tree().get_first_node_in_group("Castelo")
+
+	# Fallback: tenta "Castelo" (castle.gd) e depois "Base" (Builds.gd/BarcoBase)
+	# pois mapas diferentes usam grupos distintos para a base principal.
+	var base_principal = get_tree().get_first_node_in_group("Castelo")
+	if not base_principal:
+		base_principal = get_tree().get_first_node_in_group("Base")
+	return base_principal
 
 func atacar():
 	if eh_necromancer: 

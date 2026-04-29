@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="6_sxogr"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="7_tigay"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="8_x3h70"]
+[ext_resource type="PackedScene" path="res://Enemys/Holandes_voador.tscn" id="9_sxnwc"]
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_3b0o8"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="10_n8yof"]
 [ext_resource type="PackedScene" uid="uid://cpc3alsejwd6c" path="res://Enemys/fish.tscn" id="11_rf658"]
@@ -14,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://dd4aafy61mroo" path="res://Map4/Textures/colormap.png" id="12_sxnwc"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="13_ay0o5"]
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Bombardeiro.tscn" id="13_ruefr"]
-[ext_resource type="PackedScene" uid="uid://do88wspqj0cqr" path="res://Enemys/pirate_boss.tscn" id="14_ruefr"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
@@ -48,7 +48,7 @@ agent_max_climb = 0.7
 [sub_resource type="Resource" id="Resource_n0wf0"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ruefr"]
@@ -60,7 +60,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_3b0o8"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 12
+quantidade = 6
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_rf658"]
@@ -72,7 +72,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_mrbo5"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 8
+quantidade = 4
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_n8yof"]
@@ -89,7 +89,7 @@ metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 [sub_resource type="Resource" id="Resource_sxnwc"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 6
+quantidade = 3
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ay0o5"]
@@ -101,7 +101,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_ms2d8"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 15
+quantidade = 8
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ixa2r"]
@@ -113,13 +113,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_colh8"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 5
+quantidade = 3
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_14jxx"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_0hg87"]
@@ -131,13 +131,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_xvse5"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 3
+quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_xkexh"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_gssta"]
@@ -149,13 +149,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_10vpq"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 5
+quantidade = 3
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ed5xt"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_sn2ws"]
@@ -167,13 +167,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_skfos"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 20
+quantidade = 10
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_f0iut"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_8ttfx"]
@@ -185,7 +185,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_2xnwp"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 30
+quantidade = 12
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_obiuy"]
@@ -201,7 +201,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_h0my1"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 6
+quantidade = 4
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_vv0he"]
@@ -213,7 +213,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_43exh"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 8
+quantidade = 4
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_oddva"]
@@ -225,7 +225,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_efcfn"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_47k5u"]
@@ -237,13 +237,12 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_0uilt"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_srcq0"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_cw4hp"]
@@ -255,7 +254,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_wrsyw"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 15
+quantidade = 8
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_13vmv"]
@@ -267,7 +266,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_2i47k"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 20
+quantidade = 10
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_yp23m"]
@@ -279,13 +278,12 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_6yv1i"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ctnn5"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 20
+quantidade = 10
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_nkmqd"]
@@ -297,13 +295,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_jvwqu"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 15
+quantidade = 8
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_b3dk4"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_23mdf"]
@@ -315,7 +313,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_ueahh"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 10
+quantidade = 4
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_o6hc4"]
@@ -335,7 +333,6 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_keah2"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_mokxb"]
@@ -347,7 +344,6 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_ssmdt"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_521y0"]
@@ -359,13 +355,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_omf54"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 5
+quantidade = 3
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_q5umv"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 5
+quantidade = 3
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_srq6k"]
@@ -377,7 +373,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_c776y"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 4
+quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_4r01v"]
@@ -389,7 +385,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_2hgs0"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 10
+quantidade = 5
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_jiit4"]
@@ -401,13 +397,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_lkvbc"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
-quantidade = 5
+quantidade = 2
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ypva4"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 20
+quantidade = 10
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_mwowu"]
@@ -419,13 +415,13 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_2xj76"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
-quantidade = 15
+quantidade = 8
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_af1qs"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
-quantidade = 8
+quantidade = 4
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_sdwqg"]
@@ -436,7 +432,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_725lu"]
 script = ExtResource("10_3b0o8")
-cena = ExtResource("14_ruefr")
+cena = ExtResource("9_sxnwc")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_nw1gr"]
@@ -531,7 +527,7 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 [node name="Spawners" type="Node3D" parent="NavigationRegion3D" unique_id=851536762]
 
 [node name="A" parent="NavigationRegion3D/Spawners" unique_id=423161848 instance=ExtResource("7_tigay")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9270208, -0.11176777, 26.900162)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9270208, -0.11176777, 21.654905)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_ruefr"), SubResource("Resource_rf658"), SubResource("Resource_n8yof"), SubResource("Resource_ay0o5"), SubResource("Resource_ixa2r"), SubResource("Resource_0hg87"), SubResource("Resource_gssta"), SubResource("Resource_sn2ws"), SubResource("Resource_8ttfx"), SubResource("Resource_obiuy")])
 
 [node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 instance=ExtResource("7_tigay")]
@@ -539,7 +535,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.348438, -0.4743364, 9.137
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResource("Resource_vv0he"), SubResource("Resource_oddva"), SubResource("Resource_47k5u"), SubResource("Resource_cw4hp"), SubResource("Resource_13vmv"), SubResource("Resource_yp23m"), SubResource("Resource_nkmqd"), SubResource("Resource_23mdf"), SubResource("Resource_o6hc4")])
 
 [node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 instance=ExtResource("7_tigay")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.023462, 0, 9.666702)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.286411, -1.2499998, 8.591048)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_4r01v"), SubResource("Resource_jiit4"), SubResource("Resource_mwowu"), SubResource("Resource_sdwqg"), SubResource("Resource_nw1gr")])
 
 [node name="GridMap3" type="GridMap" parent="NavigationRegion3D" unique_id=25302034]
@@ -567,7 +563,7 @@ player = NodePath("../Player")
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
 transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 27.64706, -2.94731, 4.3616343)
 
-[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=85292747]
+[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
 mesh = SubResource("ArrayMesh_colh8")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]

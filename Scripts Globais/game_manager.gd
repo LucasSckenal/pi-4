@@ -306,13 +306,17 @@ func iniciar_dia(primeiro_dia: bool = false):
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Torres", "curar_totalmente")
 
-	if not modo_infinito:
-		salvar_jogo()
-
 func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
 	spawners_concluidos = 0
 	is_night = true
+
+	# Salva ANTES da noite começar — garante que todas as construções
+	# do jogador estão no arquivo. Assim ao carregar/reiniciar a noite
+	# elas são restauradas corretamente, mesmo que sejam destruídas.
+	if not modo_infinito:
+		salvar_jogo()
+
 	noite_iniciada.emit(onda_atual)
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))

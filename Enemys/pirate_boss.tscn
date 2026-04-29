@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://do88wspqj0cqr"]
 
-[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_ga0aa"]
+[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/holandes_voador.gd" id="1_ga0aa"]
 [ext_resource type="PackedScene" uid="uid://cbbrs3mwioewm" path="res://Map4/Pirate Captain.glb" id="2_q5mca"]
 [ext_resource type="Texture2D" uid="uid://qtiyprnreiwl" path="res://Map4/Pirate Captain_Atlas_Pirate.png" id="3_1n3ot"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="4_q5mca"]
@@ -169,6 +169,22 @@ height = 2.1704102
 [node name="Pirate_Boss" type="CharacterBody3D" unique_id=1178030371 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_ga0aa")
+tipo_inimigo = 2
+nome_inimigo = "Holandês Voador"
+vida_maxima = 1800
+velocidade = 0.45
+forca_dano = 35
+distancia_ataque = 2.5
+tempo_recarga_ataque = 2.0
+raio_visao_construcao = 8.0
+raio_visao_aliados = 6.0
+dica_tutorial = "O Holandês Voador! A 50% de vida ele some e reaparece num outro ponto do mapa. Prepare suas defesas por todos os lados!"
+status_velocidade = "LENTA"
+status_vida = "MUITO ALTA"
+hp_gatilho_teleporte = 0.5
+duracao_preparacao = 1.2
+duracao_imunidade_pos_teleporte = 1.0
+alpha_preparacao = 0.3
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|CharacterArmature|CharacterArmature|Walk|CharacterArmature|Walk"

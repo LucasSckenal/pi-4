@@ -52,18 +52,24 @@ blend_shape_mode = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ljdpr"]
 radius = 0.79248047
-height = 2.7450027
+height = 2.1727943
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8ghya"]
 radius = 1.1074219
 height = 3.7821045
 
 [node name="Bombardeiro" type="CharacterBody3D" unique_id=524755320 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0, 0)
 script = ExtResource("1_eat2q")
 eh_kamikaze = true
-vida_maxima = 60
-velocidade = 1.5
-forca_dano = 200
+raio_explosao = 2.5
+dano_explosao = 60
+vida_maxima = 50
+velocidade = 1.3
+forca_dano = 60
+distancia_ataque = 3.5
+raio_visao_construcao = 7.0
+raio_visao_aliados = 5.0
 modelo_3d = NodePath("Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations")
 animation_player = NodePath("Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/AnimationPlayer")
 anim_andar = "Dead"
@@ -74,7 +80,7 @@ anim_pos_explosao = "Walking"
 
 [node name="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=2033068929 instance=ExtResource("1_tdiws")]
 
-[node name="Skeleton3D" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(2033068929, 1697176852) index="0" unique_id=242548167]
+[node name="Skeleton3D" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(2033068929, 1642930175) index="0" unique_id=560801198]
 bones/0/position = Vector3(0.9570303, 55.214466, 4.6002436)
 bones/0/rotation = Quaternion(0.17877841, 0.06510949, -0.80814606, 0.55740374)
 bones/1/rotation = Quaternion(0.51935554, 0.69273955, 0.3051313, 0.3965814)
@@ -114,7 +120,7 @@ bones/22/rotation = Quaternion(-0.054522723, -4.3633239e-07, 0.004845189, 0.9985
 bones/23/position = Vector3(0.12865052, 6.9515343, 1.4477195)
 bones/23/rotation = Quaternion(0.10246937, -4.1916394e-07, -0.009106143, 0.9946946)
 
-[node name="char1" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=691391943]
+[node name="char1" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=638658516]
 mesh = SubResource("ArrayMesh_2tlq6")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Meshy_AI_Pirate_Skullymite_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="1" unique_id=1817804963]
@@ -126,7 +132,7 @@ bone_idx = 11
 transform = Transform3D(49.998043, 0.33248937, 0.29350048, -0.29349363, 49.612404, -6.2067256, -0.33249593, 6.2047625, 49.612404, -7.514187, -2.5787811, -36.393337)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1916221552]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8256635, 0.09258083)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1117676, 0.09258083)
 shape = SubResource("CapsuleShape3D_ljdpr")
 
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=60879854]
