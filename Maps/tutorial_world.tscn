@@ -13,18 +13,19 @@
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="5_hfgki"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="6_l2f7a"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="6_nnxgy"]
-[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Enemys/orc.tscn" id="7_ro1kq"]
+[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Enemys/Map 1/orc.tscn" id="7_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bsmufotireqrl" path="res://Gridmap/InvisibleTilesKit.meshlib" id="9_cg12i"]
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_ucd3c"]
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="11_e0en3"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="11_ro1kq"]
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="15_5f4a7"]
-[ext_resource type="PackedScene" uid="uid://0jci587j1mhe" path="res://Enemys/mushroom.tscn" id="16_hj1xp"]
+[ext_resource type="PackedScene" uid="uid://0jci587j1mhe" path="res://Enemys/Map 1/mushroom.tscn" id="16_hj1xp"]
 [ext_resource type="Texture2D" uid="uid://blfmrgwo1mg4f" path="res://Icons/MushroomPreview.png" id="17_gwkev"]
-[ext_resource type="PackedScene" uid="uid://ttnjie5wa74a" path="res://Enemys/Bee.tscn" id="18_gwkev"]
+[ext_resource type="PackedScene" uid="uid://ttnjie5wa74a" path="res://Enemys/Map 1/Bee.tscn" id="18_gwkev"]
 [ext_resource type="Texture2D" uid="uid://dkfkqq0yxns2b" path="res://Icons/BeePreview.png" id="19_gxr63"]
-[ext_resource type="PackedScene" uid="uid://cx752aosqwapy" path="res://Enemys/golem_boss.tscn" id="19_it188"]
+[ext_resource type="PackedScene" uid="uid://cx752aosqwapy" path="res://Enemys/Map 1/golem_boss.tscn" id="19_it188"]
 [ext_resource type="Texture2D" uid="uid://bjq4gjwdlobb1" path="res://Icons/GolemBossPreview.png" id="20_it188"]
+
 
 [sub_resource type="Animation" id="Animation_bfgkp"]
 length = 0.001
