@@ -167,6 +167,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 0.4028
 
 [node name="Portal" parent="." unique_id=683417852 instance=ExtResource("7_gpya5")]
 transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, 0.049744606, 0.5363734, 0.06908631)
+vida_maxima = 2000
 
 [node name="Builds" type="Node3D" parent="." unique_id=469107143]
 

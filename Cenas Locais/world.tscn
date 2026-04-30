@@ -24,12 +24,13 @@
 [ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Builds/castle.tscn" id="25_k83mh"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="25_mc2jv"]
 [ext_resource type="PackedScene" uid="uid://mpgruuoi13dm" path="res://Builds/tower.tscn" id="25_o3ebs"]
-[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Cenas Locais/orc.tscn" id="26_4h6ng"]
+[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Enemys/Map 1/orc.tscn" id="26_4h6ng"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="26_bo7i5"]
 [ext_resource type="PackedScene" uid="uid://dk4n4qgmeax2x" path="res://Cenas Locais/stairs.tscn" id="26_o3ebs"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="27_4h6ng"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="27_38lot"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="28_l5s07"]
+
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_il2jm"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
