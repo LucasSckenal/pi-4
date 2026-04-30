@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dqnqxmninxq6c"]
 
-[ext_resource type="Shader" uid="uid://c3sg3pxrmmyw0" path="res://Scripts Locais/Sky.gdshader" id="1_gh72r"]
 [ext_resource type="PackedScene" uid="uid://cnpc88cvyiedh" path="res://Assets/graveyard/Ground_01.fbx" id="1_gyldj"]
 [ext_resource type="PackedScene" uid="uid://cd34uruprqypk" path="res://Assets/graveyard/Pot_01.fbx" id="2_aw8id"]
 [ext_resource type="Texture2D" uid="uid://kycwnbsr4rx6" path="res://Assets/Noise/Ultimate Cloud Noise.jpg" id="2_t0wnn"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="3_553vb"]
 [ext_resource type="PackedScene" uid="uid://bc1exvkx6kock" path="res://Assets/graveyard/Table_01.fbx" id="3_gh72r"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="3_lblfm"]
+[ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="3_lo8m5"]
 [ext_resource type="MeshLibrary" uid="uid://bsmufotireqrl" path="res://Gridmap/InvisibleTilesKit.meshlib" id="3_t0wnn"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="4_553vb"]
 [ext_resource type="PackedScene" uid="uid://clf2ctpitnx76" path="res://Assets/graveyard/Book_09.fbx" id="4_t0wnn"]
@@ -23,255 +23,16 @@
 [ext_resource type="PackedScene" uid="uid://3vmcf7dl7t3f" path="res://Assets/graveyard/pumpkin-carved.glb" id="15_4tx5t"]
 [ext_resource type="PackedScene" uid="uid://c8htt1o8vuysa" path="res://Assets/graveyard/detail-chalice.glb" id="16_7wwxt"]
 [ext_resource type="PackedScene" uid="uid://cao6qi8p6xmbk" path="res://Assets/graveyard/Box_02.fbx" id="17_2h26j"]
+[ext_resource type="Shader" uid="uid://c3gxw48lm23kg" path="res://Shaders/EnergyMaterial.gdshader" id="23_oxycu"]
 [ext_resource type="Script" uid="uid://bwlfatxyk7rtv" path="res://Maps/witch_house.gd" id="99_witchscript"]
 [ext_resource type="PackedScene" path="res://Builds/cripta.tscn" id="100_cripta"]
 
 [sub_resource type="Animation" id="Animation_lblfm"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WorldEnvironment:environment:ssao_enabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WorldEnvironment:environment:ssao_radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [4.2]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WorldEnvironment:environment:ssao_intensity")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [2.5]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WorldEnvironment:environment:ssao_power")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [11.999979]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("WorldEnvironment:environment:ssao_detail")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [5.0]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("WorldEnvironment:environment:fog_enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("WorldEnvironment:environment:glow_enabled")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("WorldEnvironment:environment:fog_light_color")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0.65932333, 0.32582715, 1)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("WorldEnvironment:environment:fog_light_energy")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [16.0]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("WorldEnvironment:environment:fog_aerial_perspective")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.822]
-}
 
 [sub_resource type="Animation" id="Animation_553vb"]
 resource_name = "transicao_para_dia"
 length = 2.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WorldEnvironment:environment:ssao_enabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WorldEnvironment:environment:ssao_radius")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [4.2, 1.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WorldEnvironment:environment:ssao_intensity")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [2.5, 2.0]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WorldEnvironment:environment:ssao_power")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [11.999979, 1.5]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("WorldEnvironment:environment:ssao_detail")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [5.0, 0.5]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("WorldEnvironment:environment:fog_enabled")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, true]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath("WorldEnvironment:environment:glow_enabled")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("WorldEnvironment:environment:fog_light_color")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0.65932333, 0.32582715, 1)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("WorldEnvironment:environment:fog_light_energy")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [16.0, 1.0]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("WorldEnvironment:environment:fog_aerial_perspective")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0, 2.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.822, 0.0]
-}
 
 [sub_resource type="Animation" id="Animation_kb83g"]
 resource_name = "transicao_para_noite"
@@ -284,91 +45,63 @@ _data = {
 &"transicao_para_noite": SubResource("Animation_kb83g")
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_lgdko"]
-shader = ExtResource("1_gh72r")
-shader_parameter/use_directional_light = false
-shader_parameter/sun_color = Color(1, 1, 0.49411765, 1)
-shader_parameter/sun_energy = 15.0
-shader_parameter/cloud_color = Color(0.23529412, 0.5764706, 1, 1)
-shader_parameter/cloud_density = 5.0
-shader_parameter/cloud_depth = 0.0
-shader_parameter/cloud_sag = 0.285
-shader_parameter/noise_texture = ExtResource("2_t0wnn")
-shader_parameter/noise_tiling = Vector2(1, 1)
-shader_parameter/wind_speed = Vector2(0.1, 0)
-shader_parameter/ground_bottom_color = Color(0.2, 0.16862746, 0.6666667, 1)
-shader_parameter/ground_curve = 0.04
-shader_parameter/exposure = 1.0
-
-[sub_resource type="Sky" id="Sky_vemgx"]
-sky_material = SubResource("ShaderMaterial_lgdko")
-
-[sub_resource type="Environment" id="Environment_lblfm"]
-background_mode = 2
-sky = SubResource("Sky_vemgx")
-sky_rotation = Vector3(0, -2.5132742, 0)
-ambient_light_source = 3
+[sub_resource type="Environment" id="Environment_553vb"]
+background_mode = 1
+background_color = Color(0.05053036, 0.16392758, 0, 1)
+ambient_light_source = 2
 ambient_light_color = Color(0.34901962, 0, 0.5176471, 1)
-ambient_light_sky_contribution = 0.8
-ambient_light_energy = 10.0
-tonemap_mode = 2
-ssao_enabled = true
+ambient_light_energy = 2.0
 ssao_radius = 4.2
 ssao_intensity = 2.5
 ssao_power = 11.999979
 ssao_detail = 5.0
-glow_enabled = true
-fog_enabled = true
 fog_light_color = Color(0, 0.65932333, 0.32582715, 1)
 fog_light_energy = 16.0
 fog_aerial_perspective = 0.822
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_gyldj"]
-vertices = PackedVector3Array(0.59250003, 0.827, 2.1925, 1.8425, 0.827, 2.1925, 1.5925, 0.827, 1.1925001, 0.59250003, 0.827, 1.4425001)
+vertices = PackedVector3Array(-0.35750002, 0.351, 1.2925001, -0.35750002, 0.351, 2.7925, 2.3925, 0.351, 2.7925, 2.3925, 0.351, 1.2925001)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
-agent_radius = 0.0
+cell_height = 0.01
+agent_radius = 0.05
 region_min_size = 0.0
 vertices_per_polygon = 12.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lo8m5"]
+render_priority = 0
+shader = ExtResource("23_oxycu")
+shader_parameter/time_speed = 0.225
+shader_parameter/spin = 0.0
+shader_parameter/flame_brightness = 1.74
+shader_parameter/color_intensity = 5.27
+shader_parameter/horizontal_frequency = 1.0
+shader_parameter/vertical_frequency = 1.0
+shader_parameter/size = -0.3
+shader_parameter/core_size = 1.0
+shader_parameter/noise_texture = ExtResource("2_t0wnn")
+shader_parameter/color1 = Color(0.3739827, 0.33042863, 0.14830628, 1)
+shader_parameter/color2 = Color(0.98, 0.38, 0.34, 1)
+shader_parameter/color3 = Color(0.98, 0.95, 0.53, 1)
+shader_parameter/color4 = Color(1, 1, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_o1qpm"]
+material = SubResource("ShaderMaterial_lo8m5")
 
 [node name="Node3D" type="Node3D" unique_id=1831006418]
 script = ExtResource("99_witchscript")
 
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2020402294 node_paths=PackedStringArray("player")]
+transform = Transform3D(-1, 6.181724e-08, -6.181724e-08, 0, 0.7071068, 0.7071068, 8.742278e-08, 0.7071068, -0.7071068, 1, 1.4, 0.8)
+current = true
+fov = 79.7
+script = ExtResource("3_553vb")
+player = NodePath("../Player")
+
 [node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=875634976]
 libraries/ = SubResource("AnimationLibrary_oxycu")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1364139838]
-environment = SubResource("Environment_lblfm")
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="WorldEnvironment" unique_id=746428490]
-transform = Transform3D(0.14680685, 0.6705667, 0.72717816, -0.9662361, -0.06015204, 0.25053838, 0.21174392, -0.7394066, 0.63909507, 1.5566385, 0.6129869, 2.112993)
-light_color = Color(1, 1, 0.1764706, 1)
-light_specular = 0.0
-spot_range = 0.07
-spot_attenuation = 3.18
-spot_angle = 87.77
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="WorldEnvironment" unique_id=1285119005]
-transform = Transform3D(0.14680685, 0.6705667, 0.72717816, -0.9662361, -0.06015204, 0.25053838, 0.21174392, -0.7394066, 0.63909507, 1.5566385, 0.6129869, 2.112993)
-light_color = Color(1, 1, 0.1764706, 1)
-light_specular = 0.0
-spot_angle = 87.77
-
-[node name="SpotLight3D2" type="SpotLight3D" parent="WorldEnvironment" unique_id=1975115949]
-transform = Transform3D(-0.9977175, -0.06698731, -0.008518665, 0.009717452, -0.017590314, -0.9997981, 0.066823944, -0.99759877, 0.018201109, 1.0982305, 0.21388477, 2.635361)
-light_color = Color(0, 1, 0.05882353, 1)
-light_energy = 0.707
-light_specular = 7.47
-spot_range = 1.583
-spot_angle = 160.0
-
-[node name="SpotLight3D3" type="SpotLight3D" parent="WorldEnvironment" unique_id=1330628085]
-transform = Transform3D(-0.9977175, -0.06698735, -0.00851867, -0.009717452, 0.017590225, 0.99979806, -0.06682398, 0.99759877, -0.018201021, 1.0982305, 0.7394712, 2.635361)
-light_color = Color(0, 1, 0.05882353, 1)
-light_energy = 2.585
-light_specular = 16.0
-
-[node name="SpotLight3D" type="SpotLight3D" parent="WorldEnvironment" unique_id=358487803]
-transform = Transform3D(-0.9977175, -0.06698731, -0.008518652, -0.054122932, 0.71784717, 0.6940938, -0.04038039, 0.6929706, -0.7198342, 1.1873301, 4.403883, -1.8170923)
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=358487803]
+transform = Transform3D(-0.9977175, -0.06698731, -0.00851865, -0.054122932, 0.71784717, 0.6940938, -0.04038039, 0.6929706, -0.7198342, 1.1873301, 4.403883, -1.8170923)
 light_color = Color(1.3235956e-06, 0.5054883, 0.14968812, 1)
 light_energy = 8.079
 light_negative = true
@@ -376,12 +109,10 @@ light_specular = 6.837
 shadow_enabled = true
 spot_range = 972.725
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=2020402294 node_paths=PackedStringArray("player")]
-transform = Transform3D(-0.99953467, -5.3095134e-10, -0.0305037, -0.020833042, 0.73044837, 0.68265, 0.022281377, 0.6829677, -0.7301085, 1.0427314, 1.0944428, 1.3362631)
-current = true
-fov = 79.7
-script = ExtResource("3_553vb")
-player = NodePath("../Player")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1364139838]
+environment = SubResource("Environment_553vb")
+
+[node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("3_lo8m5")]
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("3_lblfm")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1375964, 0.60615665, 1.9745929)
@@ -401,89 +132,49 @@ emission_energy = 2.0
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1298432368]
 navigation_mesh = SubResource("NavigationMesh_gyldj")
 
+[node name="Book_09" parent="NavigationRegion3D" unique_id=1355731964 instance=ExtResource("4_t0wnn")]
+transform = Transform3D(-0.03248297, -0.020356847, 1.4995099, -0.4726678, 1.4235526, 0.009086562, -1.423211, -0.47231665, -0.037242163, 1.093445, 0.39145568, 2.8905957)
+
+[node name="Ponte" parent="NavigationRegion3D" unique_id=1696412422 instance=ExtResource("8_kb83g")]
+transform = Transform3D(0.4986314, 0, 1.9843996, 0, 2, 0, -3.968799, 0, 0.2493157, -1.4367601, 0.3467682, 1.8326743)
+
 [node name="GridMap" type="GridMap" parent="NavigationRegion3D" unique_id=642880538]
 visible = false
 mesh_library = ExtResource("3_t0wnn")
 cell_size = Vector3(0.15, 0.013, 0.15)
 cell_scale = 0.33
 data = {
-"cells": PackedInt32Array(2228234, 11, 0, 2228228, 11, 0, 2228228, 14, 0, 2228233, 14, 0, 2228234, 13, 0, 2228234, 14, 0, 2228229, 14, 0, 2228230, 14, 0, 2228231, 14, 0, 2228232, 14, 0, 2228233, 13, 0, 2228232, 13, 0, 2228231, 13, 0, 2228230, 13, 0, 2228229, 13, 0, 2228228, 13, 0, 2228228, 12, 0, 2228229, 12, 0, 2228230, 12, 0, 2228231, 12, 0, 2228232, 12, 0, 2228233, 12, 0, 2228234, 12, 0, 2228233, 11, 0, 2228232, 11, 0, 2228231, 11, 0, 2228230, 11, 0, 2228229, 11, 0, 2031622, 10, 0, 2031623, 10, 0, 2031624, 10, 0, 2031624, 9, 0, 2031623, 9, 0, 2031622, 9, 0, 2031622, 8, 0, 2031623, 8, 0, 2031624, 8, 0, 2031627, 12, 0, 2031627, 11, 0, 2031628, 11, 0, 2031628, 12, 0)
+"cells": PackedInt32Array(1245199, 8, 1048576, 1245198, 8, 1048576, 1245197, 8, 1048576, 1245196, 8, 1048576, 1245195, 8, 1048576, 1245194, 8, 1048576, 1245193, 8, 1048576, 1245192, 8, 1048576, 1245191, 8, 1048576, 1245190, 8, 1048576, 1245200, 7, 1048576, 1245199, 7, 1048576, 1245198, 7, 1048576, 1245197, 7, 1048576, 1245196, 7, 1048576, 1245195, 7, 1048576, 1245194, 7, 1048576, 1245193, 7, 1048576, 1245192, 7, 1048576, 1245185, 7, 1048576, 1245186, 7, 1048576, 1245187, 7, 1048576, 1245188, 7, 1048576, 1245189, 7, 1048576, 1245190, 7, 1048576, 1245191, 7, 1048576, 1245184, 7, 1048576, 1310719, 7, 1048576, 1310718, 7, 1048576, 1310717, 7, 1048576, 1310716, 7, 1048576, 1310716, 8, 1048576, 1310716, 9, 1048576, 1310716, 10, 1048576, 1310716, 11, 1048576, 1310717, 11, 1048576, 1310717, 12, 1048576, 1310716, 12, 1048576, 1310717, 13, 1048576, 1310717, 14, 1048576, 1310716, 15, 1048576, 1310717, 15, 1048576, 1310716, 16, 1048576, 1310717, 16, 1048576, 1310717, 17, 1048576, 1310717, 18, 1048576, 1310716, 18, 1048576, 1310716, 17, 1048576, 1245200, 8, 1048576, 1245200, 9, 1048576, 1245200, 10, 1048576, 1245200, 11, 1048576, 1245200, 12, 1048576, 1245199, 13, 1048576, 1245199, 14, 1048576, 1245199, 15, 1048576, 1245200, 14, 1048576, 1245200, 13, 1048576, 1245200, 15, 1048576, 1245200, 16, 1048576, 1245200, 17, 1048576, 1245200, 18, 1048576, 1245200, 19, 1048576, 1245199, 19, 1048576, 1245198, 19, 1048576, 1245197, 19, 1048576, 1245196, 19, 1048576, 1245195, 19, 1048576, 1245194, 19, 1048576, 1245193, 19, 1048576, 1245192, 19, 1048576, 1245191, 19, 1048576, 1245190, 19, 1048576, 1245189, 19, 1048576, 1245188, 19, 1048576, 1245187, 18, 1048576, 1245186, 19, 1048576, 1245186, 18, 1048576, 1245185, 19, 1048576, 1245185, 18, 1048576, 1245184, 19, 1048576, 1245187, 19, 1048576, 1310719, 19, 1048576, 1310718, 19, 1048576, 1310717, 19, 1048576, 1310716, 19, 1048576, 1245193, 14, 1048576, 1245194, 15, 1048576, 1245195, 16, 1048576, 1245195, 17, 1048576, 1245196, 17, 1048576, 1245197, 17, 1048576, 1245197, 18, 1048576, 1245198, 17, 1048576, 1245198, 18, 1048576, 1245199, 18, 1048576, 1245199, 17, 1048576, 1245199, 16, 1048576, 1245199, 12, 1048576, 1245199, 11, 1048576, 1245198, 11, 1048576, 1245198, 10, 1048576, 1245198, 9, 1048576, 1245199, 9, 1048576, 1245199, 10, 1048576, 1245197, 9, 1048576, 1245196, 9, 1048576, 1245196, 10, 1048576, 1245197, 10, 1048576, 1245197, 11, 1048576, 1245197, 12, 1048576, 1245198, 12, 1048576, 1245197, 13, 1048576, 1245198, 13, 1048576, 1245198, 14, 1048576, 1245198, 15, 1048576, 1245198, 16, 1048576, 1245197, 15, 1048576, 1245197, 14, 1048576, 1245196, 14, 1048576, 1245196, 13, 1048576, 1245196, 12, 1048576, 1245195, 12, 1048576, 1245197, 16, 1048576, 1245196, 16, 1048576, 1245195, 15, 1048576, 1245194, 14, 1048576, 1245193, 13, 1048576, 1245192, 13, 1048576, 1245192, 12, 1048576, 1245195, 14, 1048576, 1245196, 15, 1048576, 1245196, 18, 1048576, 1245195, 18, 1048576, 1245194, 18, 1048576, 1245193, 18, 1048576, 1245192, 18, 1048576, 1245191, 18, 1048576, 1245190, 18, 1048576, 1245189, 18, 1048576, 1245188, 18, 1048576, 1245184, 18, 1048576, 1310719, 18, 1048576, 1310718, 18, 1048576, 1310718, 17, 1048576, 1310718, 16, 1048576, 1310718, 15, 1048576, 1310718, 14, 1048576, 1310718, 13, 1048576, 1310718, 12, 1048576, 1310718, 11, 1048576, 1310719, 10, 1048576, 1245184, 10, 1048576, 1245184, 11, 1048576, 1310719, 11, 1048576, 1310719, 12, 1048576, 1310719, 13, 1048576, 1310719, 14, 1048576, 1310719, 15, 1048576, 1310719, 16, 1048576, 1245184, 16, 1048576, 1245184, 17, 1048576, 1245185, 17, 1048576, 1245186, 17, 1048576, 1245187, 17, 1048576, 1310719, 17, 1048576, 1245185, 16, 1048576, 1245186, 16, 1048576, 1245187, 16, 1048576, 1245188, 16, 1048576, 1245189, 16, 1048576, 1245190, 16, 1048576, 1245191, 16, 1048576, 1245192, 16, 1048576, 1245192, 15, 1048576, 1245193, 15, 1048576, 1245193, 16, 1048576, 1245190, 17, 1048576, 1245189, 17, 1048576, 1245188, 17, 1048576, 1245191, 17, 1048576, 1245192, 17, 1048576, 1245193, 17, 1048576, 1245194, 17, 1048576, 1245194, 16, 1048576, 1245195, 13, 1048576, 1245194, 13, 1048576, 1245193, 12, 1048576, 1245193, 11, 1048576, 1245194, 11, 1048576, 1245195, 11, 1048576, 1245196, 11, 1048576, 1245194, 12, 1048576, 1245195, 10, 1048576, 1245195, 9, 1048576, 1245194, 9, 1048576, 1245193, 9, 1048576, 1245192, 9, 1048576, 1245192, 10, 1048576, 1245191, 10, 1048576, 1245190, 10, 1048576, 1245190, 11, 1048576, 1245191, 11, 1048576, 1245192, 11, 1048576, 1245194, 10, 1048576, 1245193, 10, 1048576, 1245190, 9, 1048576, 1245191, 9, 1048576, 1245191, 13, 1048576, 1245191, 14, 1048576, 1245191, 15, 1048576, 1245191, 12, 1048576, 1245192, 14, 1048576, 1245190, 14, 1048576, 1245190, 13, 1048576, 1245190, 12, 1048576, 1245190, 15, 1048576, 1245189, 14, 1048576, 1245188, 13, 1048576, 1245187, 13, 1048576, 1245187, 14, 1048576, 1245188, 14, 1048576, 1245189, 15, 1048576, 1245186, 15, 1048576, 1245185, 15, 1048576, 1245184, 15, 1048576, 1245184, 13, 1048576, 1245185, 13, 1048576, 1245186, 14, 1048576, 1245187, 15, 1048576, 1245188, 15, 1048576, 1245185, 14, 1048576, 1245184, 14, 1048576, 1245186, 12, 1048576, 1245187, 12, 1048576, 1245188, 11, 1048576, 1245188, 12, 1048576, 1245186, 13, 1048576, 1245189, 13, 1048576, 1245189, 12, 1048576, 1245185, 12, 1048576, 1245184, 12, 1048576, 1245187, 11, 1048576, 1245189, 11, 1048576, 1245189, 10, 1048576, 1245186, 11, 1048576, 1245187, 10, 1048576, 1245187, 9, 1048576, 1245186, 9, 1048576, 1245186, 10, 1048576, 1245185, 10, 1048576, 1245188, 9, 1048576, 1245189, 9, 1048576, 1245185, 11, 1048576, 1245188, 8, 1048576, 1245189, 8, 1048576, 1245187, 8, 1048576, 1245186, 8, 1048576, 1245185, 8, 1048576, 1245184, 8, 1048576, 1310719, 8, 1048576, 1310719, 9, 1048576, 1245185, 9, 1048576, 1245184, 9, 1048576, 1310718, 8, 1048576, 1310717, 8, 1048576, 1310717, 9, 1048576, 1310718, 9, 1048576, 1310718, 10, 1048576, 1310717, 10, 1048576)
 }
-metadata/_editor_floor_ = Vector3(0, 31, 0)
+metadata/_editor_floor_ = Vector3(0, 19, 0)
 
-[node name="Livros ponte topo" type="Node3D" parent="." unique_id=622793466]
-transform = Transform3D(-0.9944174, 0.055675257, -0.08963424, 0, 0.84946936, 0.52763796, 0.10551792, 0.52469236, -0.84472716, 1.9297403, 0.41392547, 2.0357258)
+[node name="Caldeirao" parent="." unique_id=1678453625 instance=ExtResource("2_aw8id")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.0858701, -0.10819906, 3.2618637)
 
-[node name="Book_19" parent="Livros ponte topo" unique_id=2092794975 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581e-09, 2.9802322e-08, 0.99999994, 0, 0, 0)
-
-[node name="Book_69" parent="Livros ponte topo" unique_id=1927882837 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581e-09, 2.9802322e-08, 0.99999994, 0.061067104, 0.004203558, 0.13265526)
-
-[node name="Book_10" parent="Livros ponte topo" unique_id=293866515 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581e-09, 2.9802322e-08, 0.99999994, 0.17453218, 0.023644209, 0.15322697)
-
-[node name="Book_18" parent="Livros ponte topo" unique_id=37351076 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581e-09, 2.9802322e-08, 0.99999994, 0.1849376, 0.0017335415, 0.024178028)
-
-[node name="Book_31" parent="Livros ponte topo" unique_id=429619611 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246923, -0.08963423, 0.5276379, -0.84472704, 0.13061535, -0.044361115, 0.23827827)
-
-[node name="Book_26" parent="Livros ponte topo" unique_id=397964090 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581e-09, 2.9802322e-08, 0.99999994, 0.21058536, -0.0071064234, -0.062374473)
-
-[node name="Livros ponte" type="Node3D" parent="." unique_id=1811749915]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.0858701, -0.10819906, 2.655998)
-
-[node name="Book_20" parent="Livros ponte" unique_id=1686506833 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.662945, 0.03711684, -0.05975616, 0, 0.5663129, 0.35175866, 0.07034528, 0.34979492, -0.5631515, 0.5722275, 0.28784624, -0.31520367)
-
-[node name="Book_24" parent="Livros ponte" unique_id=181269115 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.662945, 0.03711684, -0.05975616, 0, 0.5663129, 0.35175866, 0.07034528, 0.34979492, -0.5631515, 0.5064168, 0.28342432, -0.3081715)
-
-[node name="Book_21" parent="Livros ponte" unique_id=1197834767 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.662945, 0.03711684, -0.05975616, 0, 0.5663129, 0.35175866, 0.07034528, 0.34979492, -0.5631515, 0.42364943, 0.2553677, -0.3081715)
-
-[node name="Book_27" parent="Livros ponte" unique_id=312815753 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.662945, 0.03711684, -0.05975616, 0, 0.5663129, 0.35175866, 0.07034528, 0.34979492, -0.5631515, 0.42643714, 0.20285708, -0.25205982)
-
-[node name="Book_22" parent="Livros ponte" unique_id=1211573301 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.662945, 0.03711684, -0.05975616, 0, 0.5663129, 0.35175866, 0.07034528, 0.34979492, -0.5631515, 0.38421965, 0.1483973, -0.16888022)
-
-[node name="Book_23" parent="Livros ponte" unique_id=2140626762 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.66293883, 0.037147358, -0.059805296, 3.7320963e-10, 0.5663129, 0.3517586, 0.07040312, 0.34979162, -0.56314623, 0.46363282, 0.1483973, -0.16889179)
-
-[node name="Book_28" parent="Livros ponte" unique_id=1381630338 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.66293883, 0.037147358, -0.059805296, 3.7320963e-10, 0.5663129, 0.3517586, 0.07040312, 0.34979162, -0.56314623, 0.53102756, 0.1267548, -0.1836462)
-
-[node name="Book_33" parent="Livros ponte" unique_id=2047820692 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(0.6666667, 0, 0, 0, 0.6666667, 0, 0, 0, 0.6666667, 0.57512736, 0.4109317, -0.62480927)
-
-[node name="Book_29" parent="Livros ponte" unique_id=859298399 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(-0.662945, 0.03711684, -0.05975616, 0, 0.5663129, 0.35175866, 0.07034528, 0.34979492, -0.5631515, 0.5068381, 0.19658116, -0.25027657)
-
-[node name="Pot_01" parent="." unique_id=1678453625 instance=ExtResource("2_aw8id")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.0858701, -0.10819906, 2.655998)
-
-[node name="Box_02" parent="." unique_id=79368167 instance=ExtResource("17_2h26j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1127791, 0.2656045, 1.3346094)
-
-[node name="Book_09" parent="." unique_id=1355731964 instance=ExtResource("4_t0wnn")]
-transform = Transform3D(1.0000001, 0, 0, 0, 0.9662234, -0.25770622, 0, 0.25770625, 0.9662233, 1.1195072, 0.5232741, 2.3453715)
+[node name="SpotLight3D3" type="SpotLight3D" parent="Caldeirao" unique_id=1330628085]
+transform = Transform3D(-0.9977175, -0.066987306, -0.008517342, -0.009715936, 0.017587485, 0.9997981, -0.06682396, 0.9975988, -0.018198185, 0.008240223, 0.56511354, -0.002714157)
+light_color = Color(0, 1, 0.05882353, 1)
+light_energy = 2.5
+light_specular = 16.0
+spot_range = 0.588
 
 [node name="Table_01" parent="." unique_id=953588602 instance=ExtResource("3_gh72r")]
-transform = Transform3D(1.1999999, 0, 0.00010471975, 0, 1.1999999, 0, -0.00010471975, 0, 1.1999999, 1.0813391, 0.0016742051, 1.9233373)
+transform = Transform3D(3, 0, 0.0002617994, 0, 3, 0, -0.0002617994, 0, 3, 1, -1, 2)
 
 [node name="Decor" type="Node3D" parent="." unique_id=538408608]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -1.3852925, -1.0097138, -0.027749062)
+
+[node name="pumpkin-carved2" parent="Decor" unique_id=583084256 instance=ExtResource("15_4tx5t")]
+transform = Transform3D(-0.5890976, 0, -0.8080619, 0, 1, 0, 0.8080619, 0, -0.5890976, 3.5235488, 0.01415807, 2.6977057)
 
 [node name="Box_03" parent="Decor" unique_id=194855717 instance=ExtResource("17_2h26j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0140934, 0.27230334, 2.8286026)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9988265, 0.23213208, 2.683911)
 
 [node name="Box_04" parent="Decor" unique_id=1101897841 instance=ExtResource("17_2h26j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5969589, 0.27230334, 3.1053112)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.545272, 0.23213208, 3.1053112)
 
 [node name="Box_05" parent="Decor" unique_id=1236046975 instance=ExtResource("17_2h26j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.869908, 0.71781194, 3.1053112)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0070925, 0.69, 3.105)
 
 [node name="Ground_01" parent="Decor" unique_id=1934833831 instance=ExtResource("1_gyldj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.22440866, 0.0016743243, 1.977972)
@@ -498,10 +189,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24508569, 0.31889987, 3.193
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.28443882, 0.31889987, 3.149601)
 
 [node name="Wall_27" parent="Decor" unique_id=1758137249 instance=ExtResource("6_lblfm")]
-transform = Transform3D(-1.5450525, 0, 8.7422755e-08, 0, 1, 0, -1.3507278e-07, 0, -0.9999998, 1.0847459, -0.44053495, 3.4694886)
+transform = Transform3D(-2.155, 0, 1.509958e-07, 0, 1, 0, -3.2539594e-07, 0, -1, 1.0847459, -0.44053495, 3.4694886)
 
 [node name="WallDecor_05" parent="Decor" unique_id=625890557 instance=ExtResource("7_553vb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.194632, 1.2898546, 3.0502088)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9330828, 1.4422095, 3.0502088)
 
 [node name="Wood_07" parent="Decor" unique_id=1878041594 instance=ExtResource("8_kb83g")]
 transform = Transform3D(-4.3711385e-08, 1, -4.371138e-08, 0, -4.371139e-08, -0.9999998, -0.99999994, -4.371139e-08, 1.910685e-15, -0.46213317, 1.5124431, 3.1811922)
@@ -533,12 +224,6 @@ transform = Transform3D(-0.020384016, 0, -0.9997922, 0, 1, 0, 0.9997922, 0, -0.0
 [node name="Wood_08" parent="Decor" unique_id=660491628 instance=ExtResource("8_kb83g")]
 transform = Transform3D(-0.019185316, -0.34803197, -0.99394447, -0.006957488, 0.9597003, -0.3604505, 1.0009644, 0, -0.02155618, 0.08090094, 0.5303547, 3.195585)
 
-[node name="Wood_10" parent="Decor" unique_id=1913031240 instance=ExtResource("8_kb83g")]
-transform = Transform3D(-0.17970926, -0.48297197, -0.9121257, -0.101736784, 0.8993696, -0.48865777, 0.97964317, 0.004802201, -0.21807119, 0.053237617, 0.29853308, 1.788233)
-
-[node name="Wood_14" parent="Decor" unique_id=1696412422 instance=ExtResource("8_kb83g")]
-transform = Transform3D(-0.17970926, -0.48297197, -0.9121257, -0.101736784, 0.8993696, -0.48865777, 0.97964317, 0.004802201, -0.21807119, 0.053237617, 0.29853308, 1.6739748)
-
 [node name="Wood_09" parent="Decor" unique_id=83302396 instance=ExtResource("8_kb83g")]
 transform = Transform3D(-0.020384016, 0, -0.9997922, 0, 1, 0, 0.9997922, 0, -0.020384016, 0.07362911, 0.30002117, 3.195585)
 
@@ -563,23 +248,36 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2113391, 1.1920929e-07, 3.3
 [node name="Jug_02" parent="Decor" unique_id=724188620 instance=ExtResource("11_o1qpm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.44872713, 0, 3.1919596)
 
-[node name="Light_08" parent="Decor" unique_id=1157366277 instance=ExtResource("12_fme3q")]
-transform = Transform3D(-0.9928493, 0, -0.11937446, 0, 1, 0, 0.11937446, 0, -0.9928493, 1.217676, 1.0963165, 3.2417731)
-
 [node name="Rock_01" parent="Decor" unique_id=157654011 instance=ExtResource("13_gjhjn")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.2531007, 1.1920929e-07, 3.1944406)
 
 [node name="detail-plate2" parent="Decor" unique_id=1184115826 instance=ExtResource("14_sjbvi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.074667126, 0.30091357, 3.222087)
 
-[node name="pumpkin-carved2" parent="Decor" unique_id=583084256 instance=ExtResource("15_4tx5t")]
-transform = Transform3D(-0.2945488, 0, -0.40403092, 0, 0.5, 0, 0.40403092, 0, -0.2945488, 1.5825087, 0.5385574, 2.1289132)
-
 [node name="detail-chalice2" parent="Decor" unique_id=658887404 instance=ExtResource("16_7wwxt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22209322, 0, 3.1886153)
 
+[node name="Tocha" parent="." unique_id=1157366277 instance=ExtResource("12_fme3q")]
+transform = Transform3D(-1.9856986, 0, -0.23874892, 0, 2, 0, 0.23874892, 0, -1.9856986, 1.0500596, -0.036797643, 6.455797)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tocha" unique_id=395565006]
+transform = Transform3D(0.15, 0, 0, 0, 0.125, 0, 0, 0, 0.15, 0.008999646, 0.32747978, 0.16650963)
+mesh = SubResource("CapsuleMesh_o1qpm")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Tocha" unique_id=714545774]
+transform = Transform3D(0.49288136, 0.074615665, -0.03873605, -0.027061468, 0.35892358, 0.3470469, 0.07959683, -0.3400094, 0.35785186, -0.061204135, 0.68478435, 0.69524)
+light_color = Color(1, 0.95, 0, 1)
+light_energy = 3.0
+light_specular = 1.0
+light_bake_mode = 1
+shadow_enabled = true
+shadow_blur = 10.0
+omni_range = 20.0
+omni_attenuation = 0.4
+
 [node name="Livros" type="Node3D" parent="." unique_id=1438413483]
 transform = Transform3D(-0.9944174, 0.055675257, -0.08963424, 0, 0.84946936, 0.52763796, 0.10551792, 0.52469236, -0.84472716, 1.7255257, 0.19608656, 2.2779083)
+visible = false
 
 [node name="Book_36" parent="Livros" unique_id=507482620 instance=ExtResource("4_t0wnn")]
 transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246923, -0.08963423, 0.5276379, -0.84472704, -0.345585, -0.15414786, 0.5229839)
@@ -712,3 +410,4 @@ transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246
 
 [node name="Cripta" parent="." unique_id=-1284565295 instance=ExtResource("100_cripta")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0, -2.5)
+visible = false
