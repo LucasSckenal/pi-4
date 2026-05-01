@@ -119,12 +119,19 @@ height = 3.7821045
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_aq6hx")
 nome_inimigo = "Fernando o flamingo"
+vida_maxima = 130
+velocidade = 0.85
+forca_dano = 8
 distancia_ataque = 1.5
+tempo_recarga_ataque = 1.2
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Walk"
 anim_atacar = "CharacterArmature|Punch"
 anim_morrer = "CharacterArmature|Death"
+dica_tutorial = "Avanca rapido em grupo. Torres de alvo unico seguram melhor quando ha poucos caminhos ativos."
+status_velocidade = "ALTA"
+status_vida = "BAIXA"
 
 [node name="Root Scene" parent="." unique_id=744424339 instance=ExtResource("1_83rpo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17179549, 0, -0.10867405)

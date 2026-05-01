@@ -157,9 +157,9 @@ func fechar_ui():
 # ==========================================
 # CONSTRUÇÃO (chamada pela UI após compra)
 # ==========================================
-func construir(cena: PackedScene):
+func construir(cena: PackedScene) -> bool:
 	if is_built:
-		return
+		return false
 	
 	var temp_instancia = cena.instantiate()
 	var custo_final = GameManager.obter_custo_com_desconto(temp_instancia.custo_moedas)
@@ -181,6 +181,8 @@ func construir(cena: PackedScene):
 		nova_const.tree_exited.connect(reativar_slot)
 		
 		fechar_ui()
+		return true
+	return false
 
 # ==========================================
 # NOVO: REATIVAÇÃO DO SLOT APÓS VENDA

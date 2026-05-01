@@ -2,6 +2,7 @@ extends Node3D
 
 func _ready():
 	get_tree().paused = false
+	GameManager.total_spawners = 4
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame

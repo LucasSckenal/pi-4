@@ -400,15 +400,29 @@ height = 6.9731445
 [node name="Alexa" type="CharacterBody3D" unique_id=1437867825 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_ljr2s")
-distancia_ataque = 2.0
+nome_inimigo = "Alexa astronauta"
+vida_maxima = 190
+velocidade = 0.65
+forca_dano = 12
+distancia_ataque = 2.4
+tempo_recarga_ataque = 1.35
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Walk"
 anim_atacar = "CharacterArmature|Shoot"
 anim_morrer = "CharacterArmature|Dead"
+dica_tutorial = "Ataca de longe e pressiona construcoes antes de encostar."
+status_velocidade = "MEDIA"
+status_vida = "MEDIA"
 
 [node name="Root Scene" parent="." unique_id=610559252 instance=ExtResource("1_bpgao")]
 transform = Transform3D(3.030303, 0, 0, 0, 3.030303, 0, 0, 0, 3.030303, 0, 0, 0)
+
+[node name="Sun_001" parent="Root Scene/RootNode" parent_id_path=PackedInt32Array(610559252, 735226163) index="0" unique_id=1486669123]
+visible = false
+
+[node name="Sun" parent="Root Scene/RootNode" parent_id_path=PackedInt32Array(610559252, 735226163) index="1" unique_id=206118119]
+visible = false
 
 [node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(610559252, 314838228) index="0" unique_id=1295208436]
 bones/1/position = Vector3(-3.4377656e-06, 0.0037819864, 5.038619e-05)

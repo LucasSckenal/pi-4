@@ -11,13 +11,19 @@ func _ready():
 func _process(delta):
 	# Se o alvo ainda existe (não morreu pra outra torre), persegue ele!
 	if is_instance_valid(alvo):
+		var pos_alvo := _get_posicao_alvo()
 		# Olha para o inimigo
-		look_at(alvo.global_position, Vector3.UP)
+		look_at(pos_alvo, Vector3.UP)
 		# Voa para frente (o eixo -Z que acabamos de alinhar!)
 		global_position += transform.basis.z * -velocidade * delta
 	else:
 		# Se o inimigo morreu no meio do caminho, a flecha some
 		queue_free()
+
+func _get_posicao_alvo() -> Vector3:
+	if is_instance_valid(alvo) and alvo.has_method("get_ponto_alvo"):
+		return alvo.get_ponto_alvo()
+	return alvo.global_position
 
 func _on_body_entered(body):
 	# Se a flecha bateu exatamente no alvo que ela estava seguindo

@@ -37,7 +37,12 @@ func _ready() -> void:
 	super._ready()
 	# O spawner define global_position APÓS add_child, então aguardamos um frame
 	# antes de registar a posição de spawn como initial_path e current_path.
-	call_deferred("_init_navigation")
+	add_to_group("Inimigos")
+	await get_tree().process_frame
+	await get_tree().physics_frame
+	if esta_morto or not is_inside_tree():
+		return
+	_init_navigation()
 	initial_path = global_position
 	current_path = global_position
 	posicao_de_spawn = global_position
@@ -46,7 +51,7 @@ func _ready() -> void:
 	# ANTES do primeiro _physics_process, evitando is_navigation_finished()
 	# devolver true no frame inicial e o boss ficar parado.
 	alvo_atual = procurar_novo_alvo()
-	if alvo_atual and nav_agent:
+	if false and alvo_atual and nav_agent:
 		# Se o spawner estiver ligeiramente fora do navmesh, encaixa o boss
 		# no ponto mais próximo para o NavigationServer encontrar o caminho.
 		var nav_map := get_world_3d().navigation_map
@@ -134,6 +139,9 @@ func receber_dano(qtd, origem = "torre") -> void:
 	if porcentagem <= hp_gatilho_teleporte:
 		_salto_fantasma()
 
+func get_ponto_alvo() -> Vector3:
+	return global_position + Vector3(0, 1.4, 0)
+
 # ==========================================
 # HABILIDADE — Salto Fantasma
 # ==========================================
@@ -153,11 +161,7 @@ func _salto_fantasma() -> void:
 
 	if modelo_3d:
 		var tw_fade = create_tween()
-		tw_fade.tween_property(
-			modelo_3d, "modulate:a",
-			alpha_preparacao,
-			duracao_preparacao * 0.6
-		)
+		_tween_model_alpha(alpha_preparacao, duracao_preparacao * 0.6, tw_fade)
 
 	await get_tree().create_timer(duracao_preparacao).timeout
 
@@ -178,7 +182,7 @@ func _salto_fantasma() -> void:
 		# Nenhum caminho válido — desfaz sem punição
 		if modelo_3d:
 			modelo_3d.visible = true
-			modelo_3d.modulate.a = 1.0
+			_set_model_alpha(1.0)
 		is_teleporting = false
 		return
 
@@ -190,10 +194,10 @@ func _salto_fantasma() -> void:
 	await get_tree().process_frame
 
 	if modelo_3d:
-		modelo_3d.modulate.a = alpha_preparacao
+		_set_model_alpha(alpha_preparacao)
 		modelo_3d.visible = true
 		var tw_appear = create_tween()
-		tw_appear.tween_property(modelo_3d, "modulate:a", 1.0, 0.4)
+		_tween_model_alpha(1.0, 0.4, tw_appear)
 
 	teleport_reappear.emit(global_position)
 
@@ -240,3 +244,31 @@ func _init_navigation():
 
 	if alvo_atual and nav_agent:
 		nav_agent.target_position = alvo_atual.global_position
+
+func _set_model_alpha(alpha: float) -> void:
+	var transparency: float = clampf(1.0 - alpha, 0.0, 1.0)
+	for visual in _get_model_visuals():
+		visual.transparency = transparency
+
+func _tween_model_alpha(alpha: float, duration: float, tween: Tween) -> void:
+	var transparency: float = clampf(1.0 - alpha, 0.0, 1.0)
+	var visuals: Array[GeometryInstance3D] = _get_model_visuals()
+	if visuals.is_empty():
+		return
+
+	tween.set_parallel(true)
+	for visual in visuals:
+		tween.tween_property(visual, "transparency", transparency, duration)
+
+func _get_model_visuals() -> Array[GeometryInstance3D]:
+	var result: Array[GeometryInstance3D] = []
+	if modelo_3d == null:
+		return result
+
+	if modelo_3d is GeometryInstance3D:
+		result.append(modelo_3d)
+
+	for child in modelo_3d.find_children("*", "GeometryInstance3D", true, false):
+		result.append(child as GeometryInstance3D)
+
+	return result
