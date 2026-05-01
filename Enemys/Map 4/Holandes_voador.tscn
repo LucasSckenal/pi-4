@@ -46,12 +46,12 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yqujj"]
-radius = 0.2998047
-height = 1.2758503
+radius = 0.79248047
+height = 2.1727943
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jc8sb"]
-radius = 0.9455261
-height = 1.8910522
+radius = 1.1074219
+height = 3.7821045
 
 [node name="CharacterBody3D2" type="CharacterBody3D" unique_id=126271688 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)

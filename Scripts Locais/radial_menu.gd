@@ -133,8 +133,10 @@ func _solicitar_construcao(cena_torre: PackedScene, _custo: int) -> void:
 	# Como o TutorialManager já bloqueia os cliques nos outros botões, 
 	# se chegou aqui, é porque o jogador clicou no sítio certo!
 	if _slot_alvo and _slot_alvo.has_method("construir"):
-		_slot_alvo.construir(cena_torre)
-		fechar_menu()
+		if _slot_alvo.construir(cena_torre):
+			fechar_menu()
+		else:
+			info_label.text = "Moedas insuficientes"
 
 func _limpar_botoes() -> void:
 	for botao in _botoes_ativos:

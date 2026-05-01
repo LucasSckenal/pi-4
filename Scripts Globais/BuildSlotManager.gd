@@ -13,7 +13,6 @@ func abrir_menu_para_slot(slot: Node3D, pos_tela: Vector2):
 		menu_radial_ref.abrir_menu(pos_tela)
 
 # Função chamada pelo Menu Radial quando o jogador confirma a compra
-func construir_no_slot_ativo(cena: PackedScene, custo: int):
-	if slot_ativo and GameManager.gastar_moedas(custo):
-		slot_ativo.construir(cena)
+func construir_no_slot_ativo(cena: PackedScene, _custo: int):
+	if slot_ativo and slot_ativo.construir(cena):
 		slot_ativo = null

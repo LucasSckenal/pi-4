@@ -65,12 +65,20 @@ height = 12.227539
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_40hib")
 tipo_inimigo = 1
-distancia_ataque = 2.0
+nome_inimigo = "Sapao Astronauta"
+vida_maxima = 650
+velocidade = 0.42
+forca_dano = 22
+distancia_ataque = 2.2
+tempo_recarga_ataque = 1.6
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "RobotArmature|Walk"
 anim_atacar = "RobotArmature|Shoot_Big"
 anim_morrer = "RobotArmature|Death"
+dica_tutorial = "Mini-boss resistente. Use dano concentrado e controle de rota."
+status_velocidade = "BAIXA"
+status_vida = "MUITO ALTA"
 
 [node name="Root Scene" parent="." unique_id=1428745751 instance=ExtResource("1_n77yn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09796953, 1.1920929e-07, -0.60544777)

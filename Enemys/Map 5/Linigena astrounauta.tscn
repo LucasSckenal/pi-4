@@ -61,12 +61,20 @@ height = 5.220703
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=867878551 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
 script = ExtResource("1_mhimu")
-distancia_ataque = 1.5
+nome_inimigo = "Linigena astronauta"
+vida_maxima = 260
+velocidade = 0.55
+forca_dano = 14
+distancia_ataque = 1.6
+tempo_recarga_ataque = 1.4
 modelo_3d = NodePath("Root Scene")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Walk"
 anim_atacar = "CharacterArmature|Punch"
 anim_morrer = "CharacterArmature|Death"
+dica_tutorial = "Tem muita vida e segura a linha para os inimigos rapidos passarem."
+status_velocidade = "MEDIA"
+status_vida = "ALTA"
 
 [node name="Root Scene" parent="." unique_id=140585711 instance=ExtResource("2_fw0a8")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12056255, 0, 0.50893617)
