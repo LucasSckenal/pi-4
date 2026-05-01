@@ -51,6 +51,12 @@ cell_height = 0.1
 agent_max_climb = 3.0
 agent_max_slope = 60.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vo4i4"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hmeeu"]
+material = SubResource("StandardMaterial3D_vo4i4")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tna4u"]
 render_priority = 0
 shader = ExtResource("9_sn0hn")
@@ -67,7 +73,7 @@ resource_name = "material_0"
 next_pass = SubResource("ShaderMaterial_tna4u")
 cull_mode = 2
 albedo_texture = ExtResource("7_4l6fq")
-metallic = 1.0
+metallic_specular = 0.0
 metallic_texture = ExtResource("8_wnmgb")
 metallic_texture_channel = 2
 roughness_texture = ExtResource("8_wnmgb")
@@ -243,7 +249,11 @@ metadata/_editor_floor_ = Vector3(0, -5, 0)
 [node name="Jaula" parent="NavigationRegion3D" unique_id=235904172 instance=ExtResource("6_e87ts")]
 transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, -1.0726833, 38.31988, -0.10500401)
 
-[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="0" unique_id=862360045]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="0" unique_id=1991029174]
+transform = Transform3D(0.47576454, 0, 0, 0, -4.371139e-08, -0.56842613, 0, 1, -2.4846695e-08, 0, -0.22699904, -0.6509666)
+mesh = SubResource("PlaneMesh_hmeeu")
+
+[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=862360045]
 mesh = SubResource("ArrayMesh_6dhr1")
 
 [node name="Deco2" type="GridMap" parent="." unique_id=242122450]
