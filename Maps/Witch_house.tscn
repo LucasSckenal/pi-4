@@ -12,10 +12,12 @@
 [ext_resource type="PackedScene" uid="uid://clf2ctpitnx76" path="res://Assets/graveyard/Book_09.fbx" id="4_t0wnn"]
 [ext_resource type="PackedScene" uid="uid://bsl8oowujr003" path="res://Assets/graveyard/Bottle_05.fbx" id="5_lgdko"]
 [ext_resource type="PackedScene" uid="uid://qiueo1taxgtt" path="res://Assets/graveyard/Wall_27.fbx" id="6_lblfm"]
+[ext_resource type="MeshLibrary" uid="uid://cencw2mjvhvie" path="res://Gridmap/Map3Kit.meshlib" id="6_o1qpm"]
 [ext_resource type="PackedScene" uid="uid://3fvjc4nqug2v" path="res://Assets/graveyard/WallDecor_05.fbx" id="7_553vb"]
 [ext_resource type="PackedScene" uid="uid://bxap8367eqs8s" path="res://Assets/graveyard/Wood_02.fbx" id="8_kb83g"]
 [ext_resource type="PackedScene" uid="uid://doh034wlpiuug" path="res://Assets/graveyard/Candle_01.fbx" id="9_oxycu"]
 [ext_resource type="PackedScene" uid="uid://jx8vdbwdxgb3" path="res://Assets/graveyard/Column_01.fbx" id="10_lo8m5"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="10_o1qpm"]
 [ext_resource type="PackedScene" uid="uid://dc63kf1h40fjf" path="res://Assets/graveyard/Jug_02.fbx" id="11_o1qpm"]
 [ext_resource type="PackedScene" uid="uid://mmd8bo0wjruq" path="res://Assets/graveyard/Light_08.fbx" id="12_fme3q"]
 [ext_resource type="PackedScene" uid="uid://bygtcwx0xdara" path="res://Assets/graveyard/Rock_01.fbx" id="13_gjhjn"]
@@ -25,7 +27,6 @@
 [ext_resource type="PackedScene" uid="uid://cao6qi8p6xmbk" path="res://Assets/graveyard/Box_02.fbx" id="17_2h26j"]
 [ext_resource type="Shader" uid="uid://c3gxw48lm23kg" path="res://Shaders/EnergyMaterial.gdshader" id="23_oxycu"]
 [ext_resource type="Script" uid="uid://bwlfatxyk7rtv" path="res://Maps/witch_house.gd" id="99_witchscript"]
-[ext_resource type="PackedScene" path="res://Builds/cripta.tscn" id="100_cripta"]
 
 [sub_resource type="Animation" id="Animation_lblfm"]
 length = 0.001
@@ -58,14 +59,16 @@ ssao_detail = 5.0
 fog_light_color = Color(0, 0.65932333, 0.32582715, 1)
 fog_light_energy = 16.0
 fog_aerial_perspective = 0.822
+adjustment_enabled = true
+adjustment_brightness = 0.7
+adjustment_contrast = 1.2
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_gyldj"]
-vertices = PackedVector3Array(-0.35750002, 0.351, 1.2925001, -0.35750002, 0.351, 2.7925, 2.3925, 0.351, 2.7925, 2.3925, 0.351, 1.2925001)
-polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+vertices = PackedVector3Array(-0.4585662, 0.351, 1.3425002, -0.25856638, 0.351, 1.1425002, -0.55856633, 0.351, 1.1425002, -0.65856636, 0.38099998, 1.6425002, 2.2414339, 0.351, 1.9425001, 1.9414337, 0.351, 1.9425001, 1.9414337, 0.351, 2.4425, 2.4414337, 0.351, 2.9425, -0.058566332, 0.351, 1.6425002, -0.65856636, 0.38099998, 2.2425003, -0.55856633, 0.351, 2.9425, -0.058566332, 0.351, 2.5425, -0.6085663, 0.351, 2.5925002, 2.4414337, 0.351, 1.5425001, 0.7414336, 0.351, 1.4425001, 2.141434, 0.351, 1.1425002, 0.24143362, 0.351, 1.1425002, 1.5414336, 0.351, 2.9425, 1.641434, 0.351, 2.4425, 0.5414338, 0.351, 1.5425001, 0.24143362, 0.351, 2.5425, 0.6414337, 0.351, 2.9425, 1.4414337, 0.351, 1.9425001, 1.641434, 0.351, 1.5425001, 1.1414337, 0.351, 1.7425001, 0.94143367, 0.351, 1.6425002, 0.94143367, 0.46100003, 2.9425, 1.1414337, 0.46100003, 2.9425, 0.94143367, 0.351, 2.5091667, 1.1414337, 0.351, 2.5425, -2.3585663, 0.38099998, 2.0425, -2.4585664, 0.38099998, 1.4425001)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(3, 2, 0), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(0, 8, 3), PackedInt32Array(3, 8, 9), PackedInt32Array(9, 8, 12), PackedInt32Array(12, 8, 11), PackedInt32Array(12, 11, 10), PackedInt32Array(4, 13, 7), PackedInt32Array(16, 15, 14), PackedInt32Array(18, 6, 17), PackedInt32Array(17, 6, 7), PackedInt32Array(16, 19, 20), PackedInt32Array(20, 19, 21), PackedInt32Array(23, 18, 22), PackedInt32Array(22, 18, 17), PackedInt32Array(20, 21, 11), PackedInt32Array(11, 21, 10), PackedInt32Array(23, 22, 24), PackedInt32Array(16, 14, 19), PackedInt32Array(25, 14, 24), PackedInt32Array(24, 14, 23), PackedInt32Array(23, 14, 15), PackedInt32Array(27, 26, 29), PackedInt32Array(29, 26, 28), PackedInt32Array(29, 28, 24), PackedInt32Array(24, 28, 25), PackedInt32Array(9, 30, 3), PackedInt32Array(3, 30, 31)]
+cell_size = 0.1
 cell_height = 0.01
-agent_radius = 0.05
-region_min_size = 0.0
-vertices_per_polygon = 12.0
+agent_radius = 0.01
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lo8m5"]
 render_priority = 0
@@ -91,7 +94,7 @@ material = SubResource("ShaderMaterial_lo8m5")
 script = ExtResource("99_witchscript")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2020402294 node_paths=PackedStringArray("player")]
-transform = Transform3D(-1, 6.181724e-08, -6.181724e-08, 0, 0.7071068, 0.7071068, 8.742278e-08, 0.7071068, -0.7071068, 1, 1.4, 0.8)
+transform = Transform3D(-1, 6.181724e-08, -6.181724e-08, 0, 0.7071068, 0.7071068, 8.742278e-08, 0.7071068, -0.7071068, -0.10079247, 1.4, -1.0721114)
 current = true
 fov = 79.7
 script = ExtResource("3_553vb")
@@ -100,25 +103,17 @@ player = NodePath("../Player")
 [node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=875634976]
 libraries/ = SubResource("AnimationLibrary_oxycu")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=358487803]
-transform = Transform3D(-0.9977175, -0.06698731, -0.00851865, -0.054122932, 0.71784717, 0.6940938, -0.04038039, 0.6929706, -0.7198342, 1.1873301, 4.403883, -1.8170923)
-light_color = Color(1.3235956e-06, 0.5054883, 0.14968812, 1)
-light_energy = 8.079
-light_negative = true
-light_specular = 6.837
-shadow_enabled = true
-spot_range = 972.725
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1364139838]
 environment = SubResource("Environment_553vb")
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("3_lo8m5")]
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("3_lblfm")]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1.1375964, 0.60615665, 1.9745929)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.0368039, 0.60615665, 0.1024816)
 rotation_speed = 20.0
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=1908486518]
+avoidance_enabled = true
 max_neighbors = 20
 
 [node name="LinhaCaminho" type="Decal" parent="Player" unique_id=1755658475]
@@ -129,7 +124,17 @@ texture_normal = ExtResource("4_553vb")
 texture_emission = ExtResource("4_553vb")
 emission_energy = 2.0
 
+[node name="GridMap2" type="GridMap" parent="." unique_id=33423284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1007924, 0, -1.8721113)
+mesh_library = ExtResource("6_o1qpm")
+cell_size = Vector3(0.25, 0.22, 0.25)
+data = {
+"cells": PackedInt32Array(65536, 6, 1441878, 65536, 7, 1048612, 65536, 8, 1048612, 65544, 6, 34, 65543, 6, 36, 65543, 8, 1048676, 65543, 7, 36, 65541, 10, 66, 65541, 9, 36, 65541, 8, 36, 65541, 7, 36, 65539, 10, 36, 65539, 9, 36, 65539, 8, 36, 65539, 6, 36, 65539, 7, 36, 65536, 9, 13, 131079, 6, 655398, 131071, 5, 86, 65536, 5, 655446)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)
+
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=1298432368]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1007924, 0, -1.8721113)
 navigation_mesh = SubResource("NavigationMesh_gyldj")
 
 [node name="Book_09" parent="NavigationRegion3D" unique_id=1355731964 instance=ExtResource("4_t0wnn")]
@@ -148,8 +153,35 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 19, 0)
 
+[node name="NavigationObstacle3D" type="NavigationObstacle3D" parent="NavigationRegion3D" unique_id=1372815089]
+visible = false
+vertices = PackedVector3Array(2.3126144, 0, 1.8376712, 1.9557432, 0, 2.0042868, 1.9210569, 0, 2.395071, 1.5948595, 0, 2.4147825, 1.6375988, 0, 1.5526398, 2.235043, 0, 1.1162564, 2.470187, 0, 1.2672454)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="NavigationObstacle3D2" type="NavigationObstacle3D" parent="NavigationRegion3D" unique_id=1466515146]
+visible = false
+vertices = PackedVector3Array(0.32813928, 0, 1.3532292, 0.33403045, 0, 2.3563442, 0.19364333, 0, 2.5774288, -0.025645792, 0, 2.5246084, 0.041367173, 0, 2.0985537, -0.09122345, 0, 1.6674386, -0.49043322, 0, 1.277253, 0.17744204, 0, 1.0620418)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="NavigationObstacle3D3" type="NavigationObstacle3D" parent="NavigationRegion3D" unique_id=184026343]
+visible = false
+vertices = PackedVector3Array(0.9303612, 0, 2.973092, 0.9107397, 0, 1.6075946, 0.6286862, 0, 1.6010966, 0.62466806, 0, 2.9713235)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="NavigationObstacle3D4" type="NavigationObstacle3D" parent="NavigationRegion3D" unique_id=403352758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0, 0)
+visible = false
+vertices = PackedVector3Array(0.9935016, 0, 2.9458923, 0.81902415, 0, 1.7635559, 0.61037236, 0, 1.7899194, 0.62466806, 0, 2.9713235)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
 [node name="Caldeirao" parent="." unique_id=1678453625 instance=ExtResource("2_aw8id")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.0858701, -0.10819906, 3.2618637)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -0.014922321, -0.10819906, 1.3897524)
+script = ExtResource("10_o1qpm")
+tipo = 5
 
 [node name="SpotLight3D3" type="SpotLight3D" parent="Caldeirao" unique_id=1330628085]
 transform = Transform3D(-0.9977175, -0.066987306, -0.008517342, -0.009715936, 0.017587485, 0.9997981, -0.06682396, 0.9975988, -0.018198185, 0.008240223, 0.56511354, -0.002714157)
@@ -159,10 +191,10 @@ light_specular = 16.0
 spot_range = 0.588
 
 [node name="Table_01" parent="." unique_id=953588602 instance=ExtResource("3_gh72r")]
-transform = Transform3D(3, 0, 0.0002617994, 0, 3, 0, -0.0002617994, 0, 3, 1, -1, 2)
+transform = Transform3D(3, 0, 0.0002617994, 0, 3, 0, -0.0002617994, 0, 3, -0.10079247, -1, 0.12788868)
 
 [node name="Decor" type="Node3D" parent="." unique_id=538408608]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -1.3852925, -1.0097138, -0.027749062)
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -2.486085, -1.0097138, -1.8998604)
 
 [node name="pumpkin-carved2" parent="Decor" unique_id=583084256 instance=ExtResource("15_4tx5t")]
 transform = Transform3D(-0.5890976, 0, -0.8080619, 0, 1, 0, 0.8080619, 0, -0.5890976, 3.5235488, 0.01415807, 2.6977057)
@@ -258,7 +290,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.074667126, 0.30091357, 3.22
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.22209322, 0, 3.1886153)
 
 [node name="Tocha" parent="." unique_id=1157366277 instance=ExtResource("12_fme3q")]
-transform = Transform3D(-1.9856986, 0, -0.23874892, 0, 2, 0, 0.23874892, 0, -1.9856986, 1.0500596, -0.036797643, 6.455797)
+transform = Transform3D(-1.9856986, 0, -0.23874892, 0, 2, 0, 0.23874892, 0, -1.9856986, -0.05073291, -0.036797643, 4.583686)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Tocha" unique_id=395565006]
 transform = Transform3D(0.15, 0, 0, 0, 0.125, 0, 0, 0, 0.15, 0.008999646, 0.32747978, 0.16650963)
@@ -276,7 +308,7 @@ omni_range = 20.0
 omni_attenuation = 0.4
 
 [node name="Livros" type="Node3D" parent="." unique_id=1438413483]
-transform = Transform3D(-0.9944174, 0.055675257, -0.08963424, 0, 0.84946936, 0.52763796, 0.10551792, 0.52469236, -0.84472716, 1.7255257, 0.19608656, 2.2779083)
+transform = Transform3D(-0.9944174, 0.055675257, -0.08963424, 0, 0.84946936, 0.52763796, 0.10551792, 0.52469236, -0.84472716, 0.62473327, 0.19608656, 0.405797)
 visible = false
 
 [node name="Book_36" parent="Livros" unique_id=507482620 instance=ExtResource("4_t0wnn")]
@@ -407,7 +439,3 @@ transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581
 
 [node name="Book_15" parent="Livros" unique_id=1973199679 instance=ExtResource("4_t0wnn")]
 transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246923, -0.08963423, 0.5276379, -0.84472704, -0.06150222, 0.0081528425, 0.48390067)
-
-[node name="Cripta" parent="." unique_id=-1284565295 instance=ExtResource("100_cripta")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1, 0, -2.5)
-visible = false
