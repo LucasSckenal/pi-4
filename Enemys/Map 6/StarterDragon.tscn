@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bhwj6l1k6f0dr"]
 
-[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_e45u3"]
+[ext_resource type="Script" path="res://Enemys/Map 6/dragon_rage.gd" id="1_e45u3"]
 [ext_resource type="PackedScene" uid="uid://pmrhrtpnlx72" path="res://Map6/Dragon.glb" id="1_lg3hq"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_1wk1n"]
 
@@ -224,11 +224,26 @@ height = 1.6181641
 
 [node name="Starter Dragon" type="CharacterBody3D" unique_id=2009090093 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_e45u3")
+tipo_inimigo = 2
+nome_inimigo = "Dragao Inicial"
+vida_maxima = 1300
+velocidade = 0.45
+forca_dano = 24
+distancia_ataque = 2.0
+tempo_recarga_ataque = 1.7
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Flying_Idle"
 anim_atacar = "CharacterArmature|Headbutt"
 anim_morrer = "CharacterArmature|Death"
+rage_velocidade_mult = 1.55
+rage_dano_mult = 1.15
+rage_animacao = "CharacterArmature|Headbutt"
+rage_anim_andar = "CharacterArmature|Flying_Idle"
+rage_duracao_preparacao = 0.8
+dica_tutorial = "Primeiro estagio do dragao final. Ao ficar com metade da vida, entra em rage e acelera."
+status_velocidade = "MEDIA"
+status_vida = "ALTA"
 
 [node name="Root Scene" parent="." unique_id=266215608 instance=ExtResource("1_lg3hq")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)

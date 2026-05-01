@@ -300,14 +300,17 @@ func _conectar_spawners():
 
 func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 	print("HUD recebeu: direcao=", direcao, " inimigos=", inimigos, " pos=", posicao_mundo)
+	var chave_spawner: String = _chave_indicador_spawner(direcao, posicao_mundo)
+	_remover_indicador_por_posicao(posicao_mundo)
 	
 	# Remove container antigo dessa direção
-	if containers_por_direcao.has(direcao):
-		containers_por_direcao[direcao].queue_free()
-		containers_por_direcao.erase(direcao)
+	if containers_por_direcao.has(chave_spawner):
+		containers_por_direcao[chave_spawner].queue_free()
+		containers_por_direcao.erase(chave_spawner)
 	
 	# Se não há inimigos ou direção vazia, apenas remove e sai
 	if direcao == "" or inimigos.size() == 0:
+		_remover_indicador_por_posicao(posicao_mundo)
 		return
 	
 	# Verifica se a cena do ícone está carregada
@@ -317,8 +320,9 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 	
 	# Cria container para esta direção
 	var container_dir = Control.new()
-	container_dir.name = "Direcao_" + direcao
+	container_dir.name = "Direcao_" + chave_spawner
 	container_dir.set_meta("posicao_mundo", posicao_mundo) # Adicione esta linha 
+	container_dir.set_meta("direcao", direcao)
 	container_direcoes.add_child(container_dir)
 	
 	# Define se os ícones serão empilhados na horizontal ou vertical dependendo da direção
@@ -351,8 +355,34 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 			print("ERRO: enemy_icon não tem método configurar")
 	
 	# Armazena referência
-	containers_por_direcao[direcao] = container_dir
+	containers_por_direcao[chave_spawner] = container_dir
 	print("Container criado para ", direcao, " com ", inimigos.size(), " ícones")
+
+func _chave_indicador_spawner(direcao: String, posicao_mundo: Vector3) -> String:
+	return "%s_%d_%d_%d" % [
+		direcao,
+		int(round(posicao_mundo.x * 100.0)),
+		int(round(posicao_mundo.y * 100.0)),
+		int(round(posicao_mundo.z * 100.0))
+	]
+
+func _remover_indicador_por_posicao(posicao_mundo: Vector3) -> void:
+	var chaves_para_remover: Array[String] = []
+	for chave in containers_por_direcao:
+		var chave_str: String = str(chave)
+		var container: Control = containers_por_direcao[chave] as Control
+		if not is_instance_valid(container):
+			chaves_para_remover.append(chave_str)
+			continue
+		if not container.has_meta("posicao_mundo"):
+			continue
+		var pos_salva: Vector3 = container.get_meta("posicao_mundo")
+		if pos_salva.distance_to(posicao_mundo) < 0.1:
+			container.queue_free()
+			chaves_para_remover.append(chave_str)
+	
+	for chave in chaves_para_remover:
+		containers_por_direcao.erase(chave)
 
 func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector2:
 	var camera = get_viewport().get_camera_3d()

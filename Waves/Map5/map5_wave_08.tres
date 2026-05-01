@@ -31,7 +31,6 @@ metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 [sub_resource type="Resource" id="Resource_sapao"]
 script = ExtResource("1_cfg")
 cena = ExtResource("6_sapao")
-quantidade = 1
 cor = Color(1, 0.48, 0.2, 1)
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 

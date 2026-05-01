@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bu3ryox5cgisp"]
 
-[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_2s3nm"]
+[ext_resource type="Script" path="res://Enemys/Map 6/dragon_rage.gd" id="1_2s3nm"]
 [ext_resource type="PackedScene" uid="uid://dwlek4kvan1l6" path="res://Enemys/dragaozinho_malvado.glb" id="1_fstbs"]
 [ext_resource type="Texture2D" uid="uid://rvs66rtk6y8k" path="res://Enemys/dragaozinho_malvado_texture_0.png" id="2_araed"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_2s3nm"]
@@ -56,11 +56,27 @@ height = 1.4963379
 radius = 1.3007813
 height = 2.6015625
 
-[node name="Final Dragon" type="CharacterBody3D" unique_id=2080402072]
+[node name="Final Dragon" type="CharacterBody3D" unique_id=2080402072 node_paths=PackedStringArray("modelo_3d")]
 script = ExtResource("1_2s3nm")
+tipo_inimigo = 2
+nome_inimigo = "Dragao Final"
+vida_maxima = 3600
+velocidade = 0.42
+forca_dano = 48
+distancia_ataque = 2.6
+tempo_recarga_ataque = 1.35
+modelo_3d = NodePath("dragaozinho_malvado")
 anim_andar = "Dead"
 anim_atacar = "Running"
 anim_morrer = "Skill_01"
+rage_velocidade_mult = 1.85
+rage_dano_mult = 1.35
+rage_animacao = "Skill_01"
+rage_anim_andar = "Running"
+rage_duracao_preparacao = 1.2
+dica_tutorial = "Forma final do dragao. Quando entra em rage, fica muito mais rapido."
+status_velocidade = "ALTA"
+status_vida = "EXTREMA"
 
 [node name="dragaozinho_malvado" parent="." unique_id=496095527 instance=ExtResource("1_fstbs")]
 

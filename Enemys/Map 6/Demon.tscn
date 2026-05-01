@@ -7,13 +7,6 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jgll1"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_14wcj"]
 resource_name = "Black"
@@ -33,13 +26,6 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gallv"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fl8v7"]
 resource_name = "Eye_White"
@@ -59,13 +45,6 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rsdxa"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_may1t"]
 resource_name = "Eye_Black"
@@ -135,13 +114,6 @@ blend_shape_mode = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_38vda"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gallv"]
 resource_name = "Black"
@@ -161,13 +133,6 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fl8v7"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rsdxa"]
 resource_name = "Eye_White"
@@ -187,13 +152,6 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_may1t"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ffntf"]
 resource_name = "Demon_Main"
@@ -263,13 +221,6 @@ blend_shape_mode = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nym2b"]
 render_priority = 0
 shader = ExtResource("3_14wcj")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yeihx"]
 resource_name = "Demon_Main"
@@ -318,7 +269,7 @@ height = 1.3945313
 script = ExtResource("1_jgll1")
 eh_aereo = true
 modelo_3d = NodePath(".")
-anim_andar = "CharacterArmature|Fast_Flyiing"
+anim_andar = "CharacterArmature|Flying_Idle"
 anim_atacar = "CharacterArmature|Headbutt"
 anim_morrer = "CharacterArmature|Death"
 
@@ -326,58 +277,58 @@ anim_morrer = "CharacterArmature|Death"
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 
 [node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(1558824736, 675880508) index="0" unique_id=86991114]
-bones/1/position = Vector3(3.2015552e-05, 0.014072696, -0.0010307904)
-bones/3/rotation = Quaternion(0.5678158, -0.0002271428, -0.00015585935, 0.8231557)
-bones/5/rotation = Quaternion(-0.34989855, -0.48602057, -0.5058229, 0.620885)
-bones/6/rotation = Quaternion(0.05003823, -0.116959155, -0.66765463, 0.7335217)
+bones/1/position = Vector3(3.1971842e-05, 0.0143151535, -0.0011103946)
+bones/3/rotation = Quaternion(0.5716656, -0.00022643423, -0.00015693657, 0.82048666)
+bones/5/rotation = Quaternion(-0.36154458, -0.47742063, -0.5206835, 0.6084767)
+bones/6/rotation = Quaternion(0.044054843, -0.11510749, -0.6625982, 0.73876464)
 bones/11/rotation = Quaternion(-0.005516542, -0.0009552736, -0.17064512, 0.9853167)
 bones/14/rotation = Quaternion(-0.0796468, 0.01655708, 0.2028552, 0.9758238)
 bones/19/rotation = Quaternion(-0.2630977, 0.1918512, -0.5517642, 0.76780796)
-bones/20/rotation = Quaternion(0.09973217, -0.6955781, -0.12116165, 0.7011023)
+bones/20/rotation = Quaternion(0.09973216, -0.6955781, -0.12116163, 0.7011023)
 bones/21/rotation = Quaternion(0.075742655, -0.0022282344, 0.03657321, 0.99645406)
-bones/24/rotation = Quaternion(-0.353176, 0.48364407, 0.5100084, 0.6174517)
-bones/25/rotation = Quaternion(0.04850491, 0.12028227, 0.6670279, 0.7336575)
+bones/24/rotation = Quaternion(-0.3615446, 0.4774206, 0.52068347, 0.6084767)
+bones/25/rotation = Quaternion(0.04405489, 0.11510744, 0.6625982, 0.73876464)
 bones/30/rotation = Quaternion(-0.0055165133, 0.0009552944, 0.17064509, 0.9853167)
 bones/38/rotation = Quaternion(-0.26326, -0.18861087, 0.5472431, 0.7717805)
 bones/39/rotation = Quaternion(0.09973222, 0.6955781, 0.121161714, 0.7011024)
 bones/40/rotation = Quaternion(0.07574263, 0.0022282584, -0.03657329, 0.996454)
-bones/42/position = Vector3(3.203466e-05, 0.014091937, -0.0010931809)
+bones/42/position = Vector3(3.197184e-05, 0.014346371, -0.001112804)
 
 [node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=603724263]
-transform = Transform3D(0.9999998, 9.748646e-09, -0.0005504268, 4.670622e-05, -0.99639463, 0.08483726, -0.0005484422, -0.08483714, -0.9963945, -6.3400203e-06, -0.0008013303, 0.021951038)
+transform = Transform3D(0.9999998, 1.1471684e-08, -0.00055049616, 5.18507e-05, -0.995556, 0.09416857, -0.0005480494, -0.094168544, -0.99555594, -6.3837706e-06, -0.0007217262, 0.022193495)
 
 [node name="Middle3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=1051893364]
-transform = Transform3D(-0.7774301, -0.122789964, 0.616867, -0.046181034, -0.96696734, -0.2506802, 0.6272714, -0.22337382, 0.746079, 0.012601631, -0.011163017, 0.009006018)
+transform = Transform3D(-0.74375486, -0.12944755, 0.65579844, -0.061992515, -0.9634841, -0.2604885, 0.6655712, -0.23439418, 0.7085715, 0.012319417, -0.011059322, 0.008640482)
 
 [node name="Pinky3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=1686751524]
-transform = Transform3D(-0.7480662, 0.16861531, 0.6418454, -0.37132764, -0.9079538, -0.19425683, 0.550011, -0.38365185, 0.7418211, 0.014251689, -0.009195187, 0.00779613)
+transform = Transform3D(-0.71683586, 0.15299796, 0.68024796, -0.38551837, -0.8998996, -0.20385328, 0.5809655, -0.40837744, 0.704064, 0.013895158, -0.009060456, 0.007383321)
 
 [node name="Index3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=1533091922]
-transform = Transform3D(-0.7459406, -0.22329761, 0.6274631, 0.18579398, -0.9744869, -0.12591866, 0.639572, 0.022651017, 0.7683966, 0.010866662, -0.01035328, 0.010964049)
+transform = Transform3D(-0.7128038, -0.21707425, 0.66692454, 0.16990247, -0.97601867, -0.13608971, 0.6804727, 0.016306803, 0.7325911, 0.010683982, -0.01029509, 0.010699846)
 
 [node name="Thumb3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=1678325977]
-transform = Transform3D(-0.46024677, -0.6280624, 0.62746316, 0.73601377, -0.6651526, -0.1259186, 0.49644348, 0.40386787, 0.7683967, 0.00903921, -0.006321387, 0.01248094)
+transform = Transform3D(-0.4375717, -0.60311013, 0.6669246, 0.724263, -0.6759604, -0.13608967, 0.53289175, 0.42347986, 0.7325914, 0.0089176865, -0.00630187, 0.012382429)
 
 [node name="Wing4_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=1607382012]
-transform = Transform3D(0.4777143, 0.8372924, -0.2659534, -0.87638146, 0.4752791, -0.07788165, 0.061192386, 0.27028194, 0.9608347, 0.016462674, 0.010597202, 0.024075072)
+transform = Transform3D(0.4777143, 0.8372924, -0.2659534, -0.8763814, 0.47527906, -0.07788165, 0.061192386, 0.27028194, 0.9608347, 0.01646263, 0.010676807, 0.024317529)
 
 [node name="Middle3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="6" unique_id=391521217]
-transform = Transform3D(-0.7644928, 0.124030665, -0.63258755, 0.04829419, -0.9675378, -0.2480683, -0.64282066, -0.22019662, 0.7336858, -0.012541076, -0.011163378, 0.0089017525)
+transform = Transform3D(-0.743755, 0.12944742, -0.6557987, 0.06199256, -0.9634844, -0.26048845, -0.6655715, -0.23439407, 0.7085716, -0.012319417, -0.011059318, 0.008640486)
 
 [node name="Pinky3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="7" unique_id=1028097962]
-transform = Transform3D(-0.7356041, -0.16389191, -0.6572865, 0.37339932, -0.9076756, -0.19156536, -0.565207, -0.38634652, 0.7288874, -0.014159878, -0.009190986, 0.0076575577)
+transform = Transform3D(-0.7168359, -0.15299806, -0.6802481, 0.38551843, -0.8998993, -0.2038531, -0.5809657, -0.40837732, 0.704064, -0.013895159, -0.009060454, 0.0073833237)
 
 [node name="Index3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="8" unique_id=683325445]
-transform = Transform3D(-0.7335371, 0.21954215, -0.6432143, -0.18379346, -0.9752064, -0.123255715, -0.6543265, 0.027805924, 0.7557007, -0.010843167, -0.010357945, 0.010893749)
+transform = Transform3D(-0.71280396, 0.21707441, -0.6669252, -0.1699025, -0.9760186, -0.13608983, -0.68047285, 0.016306797, 0.7325916, -0.010683986, -0.010295086, 0.010699851)
 
 [node name="Thumb3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="9" unique_id=1659048005]
-transform = Transform3D(-0.45261928, 0.61758506, -0.64321417, -0.7348522, -0.6669334, -0.12325573, -0.50510186, 0.4168796, 0.7557007, -0.009033154, -0.0063310154, 0.012444352)
+transform = Transform3D(-0.43757176, 0.6031102, -0.6669251, -0.72426295, -0.6759604, -0.13608985, -0.5328921, 0.42348012, 0.73259157, -0.008917688, -0.0063018706, 0.012382436)
 
 [node name="Wing4_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="10" unique_id=1774085429]
-transform = Transform3D(0.47771448, -0.8372922, 0.2659532, 0.8763815, 0.47527897, -0.07788162, -0.061192214, 0.27028146, 0.96083516, -0.016462581, 0.010597198, 0.02407507)
+transform = Transform3D(0.47771448, -0.8372922, 0.2659532, 0.8763815, 0.47527897, -0.07788162, -0.061192214, 0.27028146, 0.96083516, -0.016462626, 0.010676802, 0.024317527)
 
 [node name="Body1" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="11" unique_id=359148223]
-transform = Transform3D(0.99954796, -0.025646327, -0.0159978, 0.01716872, 0.046113238, 0.998805, -0.024877682, -0.99860686, 0.04653324, 1.8919447e-05, 0.0010943259, 0.014067782)
+transform = Transform3D(0.99954796, -0.025646327, -0.0159978, 0.01716872, 0.046113238, 0.998805, -0.024877682, -0.99860686, 0.04653324, 1.8856615e-05, 0.001113949, 0.014322217)
 
 [node name="Demon_Flying_001" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="12" unique_id=240467847]
 mesh = SubResource("ArrayMesh_ffntf")
@@ -387,6 +338,9 @@ mesh = SubResource("ArrayMesh_cxwvj")
 
 [node name="Demon_Flying" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="14" unique_id=1686768591]
 mesh = SubResource("ArrayMesh_dufq3")
+
+[node name="AnimationPlayer" parent="Root Scene" index="1" unique_id=800572]
+autoplay = &"CharacterArmature|Flying_Idle"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=34837122]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04662993, 0.6087979, -0.017266273)
