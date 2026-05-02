@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bn8k3kr2xj05k"]
 
-[ext_resource type="Shader" path="res://Scripts Locais/Sky.gdshader" id="1_p51yl"]
+[ext_resource type="Shader" uid="uid://c3sg3pxrmmyw0" path="res://Scripts Locais/Sky.gdshader" id="1_p51yl"]
 [ext_resource type="Texture2D" uid="uid://kycwnbsr4rx6" path="res://Assets/Noise/Ultimate Cloud Noise.jpg" id="2_8f0wl"]
 [ext_resource type="PackedScene" uid="uid://ylr4w7m32di4" path="res://Map/grass.glb" id="2_i5arm"]
 [ext_resource type="PackedScene" uid="uid://c17533q6arlt7" path="res://Map/grass-hill.glb" id="2_tuemg"]
@@ -55,7 +55,6 @@ ambient_light_color = Color(0.34901962, 0, 0.5176471, 1)
 ambient_light_sky_contribution = 0.8
 ambient_light_energy = 10.0
 tonemap_mode = 2
-ssao_enabled = true
 ssao_radius = 4.2
 ssao_intensity = 2.5
 ssao_detail = 5.0
@@ -67,10 +66,7 @@ shader = ExtResource("6_pesax")
 shader_parameter/scale = 4.0
 shader_parameter/outline_spread = 1.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2x4os"]
 resource_name = "colormap"
@@ -122,10 +118,7 @@ shader = ExtResource("6_pesax")
 shader_parameter/scale = 1.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ur5j"]
 resource_name = "colormap"
@@ -178,10 +171,7 @@ shader = ExtResource("6_pesax")
 shader_parameter/scale = 1.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pesax"]
 resource_name = "colormap"

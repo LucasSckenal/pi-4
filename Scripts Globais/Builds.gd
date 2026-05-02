@@ -937,7 +937,7 @@ func curar_totalmente():
 # ==========================================
 func _on_area_transparencia_body_entered(body):
 	if body.is_in_group("Player"):
-		_set_transparencia(self, 0.75)
+		_set_transparencia(self, 0.25)
 
 func _on_area_transparencia_body_exited(body):
 	if body.is_in_group("Player"):
@@ -996,20 +996,24 @@ func _aplicar_outline_malhas(no: Node, espessura: float):
 
 func _set_transparencia(no: Node, valor: float):
 	if no is MeshInstance3D:
-		no.transparency = valor
-		
-		var material = no.get_active_material(0)
-		if material and material.next_pass and material.next_pass is ShaderMaterial:
-			# Força a individualidade do material via código caso a engine ignore o Local to Scene
-			var mat_override = no.get_surface_override_material(0)
-			if mat_override == null:
-				mat_override = material.duplicate(true)
-				no.set_surface_override_material(0, mat_override)
+		if valor > 0.0:
+			# Criamos o material de dithering
+			var mat_dither = ShaderMaterial.new()
+			mat_dither.shader = preload("res://Shaders/dithering_effect.gdshader")
 			
-			if valor > 0.0:
-				mat_override.next_pass.set_shader_parameter("scale", 0.0)
-			else:
-				mat_override.next_pass.set_shader_parameter("scale", espessura_outline_normal)
+			# Pegamos o material original para extrair a textura
+			var mat_original = no.get_active_material(0)
+			if mat_original and "albedo_texture" in mat_original:
+				var tex = mat_original.albedo_texture
+				mat_dither.set_shader_parameter("albedo_texture", tex)
+			
+			# Define o nível de transparência na matriz
+			mat_dither.set_shader_parameter("alpha_threshold", valor)
+			
+			no.material_override = mat_dither
+		else:
+			# Remove o override e volta ao normal (com outline)
+			no.material_override = null
 				
 	for filho in no.get_children():
 		_set_transparencia(filho, valor)
