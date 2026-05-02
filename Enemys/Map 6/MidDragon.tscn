@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://v7g5uxby4hkm"]
 
 [ext_resource type="PackedScene" uid="uid://shgjn222oijp" path="res://Map6/Dragon Evolved.glb" id="1_as75k"]
-[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_mli3n"]
+[ext_resource type="Script" path="res://Enemys/Map 6/dragon_rage.gd" id="1_mli3n"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_iid7r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mli3n"]
@@ -224,11 +224,26 @@ height = 1.5126953
 
 [node name="MidDragon" type="CharacterBody3D" unique_id=617332867 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_mli3n")
+tipo_inimigo = 2
+nome_inimigo = "Dragao Evoluido"
+vida_maxima = 2100
+velocidade = 0.5
+forca_dano = 34
+distancia_ataque = 2.2
+tempo_recarga_ataque = 1.45
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Flying_Idle"
 anim_atacar = "CharacterArmature|Headbutt"
 anim_morrer = "CharacterArmature|Death"
+rage_velocidade_mult = 1.65
+rage_dano_mult = 1.25
+rage_animacao = "CharacterArmature|Headbutt"
+rage_anim_andar = "CharacterArmature|Flying_Idle"
+rage_duracao_preparacao = 0.9
+dica_tutorial = "Segundo estagio do dragao. Mais vida, mais dano e rage mais agressivo."
+status_velocidade = "ALTA"
+status_vida = "MUITO ALTA"
 
 [node name="Root Scene" parent="." unique_id=1342031970 instance=ExtResource("1_as75k")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)

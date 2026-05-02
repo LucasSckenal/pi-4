@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="WaveData" format=3]
+
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
+[ext_resource type="PackedScene" uid="uid://bhwj6l1k6f0dr" path="res://Enemys/Map 6/StarterDragon.tscn" id="3_dragon"]
+[ext_resource type="PackedScene" uid="uid://dvhuuy5abjvwr" path="res://Enemys/Map 6/Demon.tscn" id="4_demon"]
+
+[sub_resource type="Resource" id="Resource_dragon"]
+script = ExtResource("1_cfg")
+cena = ExtResource("3_dragon")
+quantidade = 1
+cor = Color(0.2, 0.85, 1, 1)
+metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
+
+[sub_resource type="Resource" id="Resource_demon"]
+script = ExtResource("1_cfg")
+cena = ExtResource("4_demon")
+quantidade = 1
+cor = Color(0.95, 0.18, 0.16, 1)
+metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
+
+[resource]
+script = ExtResource("2_wave")
+nome_da_onda = "Mapa 6 - Estagio 1"
+intervalo = 1.9
+inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_dragon"), SubResource("Resource_demon")])
+metadata/_custom_type_script = "res://Waves/wave_resource.gd"

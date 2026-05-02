@@ -16,6 +16,20 @@
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="10_i0ikx"]
 [ext_resource type="Texture2D" uid="uid://cmbpuc21bp2qx" path="res://Map6/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_2.jpg" id="10_ousfp"]
 [ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="12_nceek"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_01.tres" id="20_s01"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_02.tres" id="21_s02"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_03.tres" id="22_s03"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_04.tres" id="23_s04"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_05.tres" id="24_s05"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_06.tres" id="25_s06"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_07.tres" id="26_s07"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_08.tres" id="27_s08"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_09.tres" id="28_s09"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_support_10.tres" id="29_s10"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_stage_01_starter.tres" id="30_stage01"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_stage_04_mid.tres" id="31_stage04"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_stage_07_mid.tres" id="32_stage07"]
+[ext_resource type="Resource" path="res://Waves/Map6/map6_stage_10_final.tres" id="33_stage10"]
 [ext_resource type="Script" uid="uid://b1xfjldmvf8le" path="res://Maps/covil_dragon.gd" id="99_covilscript"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vo4i4"]
@@ -303,15 +317,15 @@ mesh = SubResource("PlaneMesh_nekdb")
 
 [node name="SpawnerInimigos" parent="Spawners" unique_id=423161848 instance=ExtResource("8_mukah")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.100867, 0.93062633, 2.2267673)
-ondas = Array[ExtResource("9_x6lc8")]([SubResource("Resource_vo4i4"), null, null, null, null, null, null, null, null, null])
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("30_stage01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("31_stage04"), ExtResource("24_s05"), ExtResource("25_s06"), ExtResource("32_stage07"), ExtResource("27_s08"), ExtResource("28_s09"), ExtResource("33_stage10")])
 
 [node name="SpawnerInimigos2" parent="Spawners" unique_id=1448566816 instance=ExtResource("8_mukah")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.299757, 2.8597558, -3.8892033)
-ondas = Array[ExtResource("9_x6lc8")]([null, null, null, null, null, null, null, null, null, null])
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("23_s04"), ExtResource("24_s05"), ExtResource("25_s06"), ExtResource("26_s07"), ExtResource("27_s08"), ExtResource("28_s09"), ExtResource("29_s10")])
 
 [node name="SpawnerInimigos3" parent="Spawners" unique_id=971361423 instance=ExtResource("8_mukah")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9934936, 0.61426646, 12.0816765)
-ondas = Array[ExtResource("9_x6lc8")]([SubResource("Resource_nekdb"), null, null, null, null, null, null, null, null, null])
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("23_s04"), ExtResource("24_s05"), ExtResource("25_s06"), ExtResource("26_s07"), ExtResource("27_s08"), ExtResource("28_s09"), ExtResource("29_s10")])
 
 [node name="Builds" type="Node3D" parent="." unique_id=1436863795]
 
