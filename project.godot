@@ -26,12 +26,15 @@ PopupConquista="*uid://ybiau6ne7umr"
 BuildSlotManager="*uid://crqu4gymu8x62"
 TelaAvisoInimigo="*uid://b0wsp05pdf7u3"
 AiMemory="*uid://qdvgwy7vofc6"
+CursorManager="*uid://brm0aa2i116s4"
 
 [display]
 
 window/size/viewport_height=720
 window/size/window_width_override=1280
 window/size/window_height_override=720
+mouse_cursor/custom_image="uid://bc3kbt4jk3cy8"
+mouse_cursor/tooltip_position_offset=Vector2(0, 0)
 
 [file_customization]
 
