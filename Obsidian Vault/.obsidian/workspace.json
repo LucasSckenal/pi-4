@@ -1,0 +1,202 @@
+{
+  "main": {
+    "id": "d546bf4bd7d54180",
+    "type": "split",
+    "children": [
+      {
+        "id": "ffaf5cfb911c63ba",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "82b56fb5821ec2a7",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Visualização em gráfico"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2b6913ca7d6c44aa",
+    "type": "split",
+    "children": [
+      {
+        "id": "e21b01d2307c5be6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "17384d2615812e4a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Explorador de arquivos"
+            }
+          },
+          {
+            "id": "21c8a53f5387fcbe",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Procurar"
+            }
+          },
+          {
+            "id": "d84976f9a6ba2e1f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Marcadores"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "98bab81deec694bc",
+    "type": "split",
+    "children": [
+      {
+        "id": "598998322229c16f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0dc08dd36037f8f1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Links inversos"
+            }
+          },
+          {
+            "id": "be472521af288b37",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Links de saída"
+            }
+          },
+          {
+            "id": "600885cc7cf6977a",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Etiquetas"
+            }
+          },
+          {
+            "id": "0f5761854c0edaf3",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "Todas as propriedades"
+            }
+          },
+          {
+            "id": "382a51f2f38f8d15",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Sumário"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Abrir a troca rápida": false,
+      "graph:Abrir visualização em gráfico": false,
+      "canvas:Criar novo canvas": false,
+      "daily-notes:Abrir a nota de hoje": false,
+      "templates:Inserir modelo": false,
+      "command-palette:Abrir paleta de comandos": false,
+      "bases:Criar nova base": false
+    }
+  },
+  "active": "82b56fb5821ec2a7",
+  "lastOpenFiles": [
+    "Sistemas/Navegação e Movimento.md",
+    "Código/inimigo_base.gd.md",
+    "graph.canvas",
+    "_COMMUNITY_Boss, Mapa e Efeitos Visuais.md",
+    "_COMMUNITY_Sistemas e Código GDScript.md",
+    "TelaAvisoInimigo.md",
+    "Shaders e Efeitos Visuais.md",
+    "Ondas e Spawner.md",
+    "NavegaÃ§Ã£o e Movimento.md",
+    "InimigoBase.md",
+    "GameManager.md",
+    "Fenda dos Piratas.md",
+    "HolandÃªs Voador.md",
+    "Categorias de Inimigos.md",
+    "spawner_inimigos.gd.md",
+    "inimigo_base.gd.md",
+    "holandes_voador.gd.md",
+    "Bolhas.gdshader.md",
+    "ReferÃªncia RÃ¡pida â€” Bugs e SoluÃ§Ãµes.md",
+    "Index â€” Wiki Principal.md"
+  ]
+}

@@ -1,0 +1,653 @@
+{
+  "nodes": [
+    {
+      "id": "g0",
+      "type": "group",
+      "label": "Sistemas e C\u00f3digo GDScript",
+      "x": 0,
+      "y": 0,
+      "width": 660,
+      "height": 420,
+      "color": "1"
+    },
+    {
+      "id": "n_inimigos_categorias",
+      "type": "file",
+      "file": "Categorias de Inimigos.md",
+      "x": 20,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_sistemas_gamemanager",
+      "type": "file",
+      "file": "GameManager.md",
+      "x": 220,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_sistemas_inimigobase",
+      "type": "file",
+      "file": "InimigoBase.md",
+      "x": 420,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_sistemas_navegacao_movimento",
+      "type": "file",
+      "file": "Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "x": 20,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_sistemas_ondas_spawner",
+      "type": "file",
+      "file": "Ondas e Spawner.md",
+      "x": 220,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_sistemas_tela_aviso_inimigo",
+      "type": "file",
+      "file": "TelaAvisoInimigo.md",
+      "x": 420,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_codigo_holandes_voador_gd",
+      "type": "file",
+      "file": "holandes_voador.gd.md",
+      "x": 20,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_codigo_inimigo_base_gd",
+      "type": "file",
+      "file": "inimigo_base.gd.md",
+      "x": 220,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_codigo_spawner_inimigos_gd",
+      "type": "file",
+      "file": "spawner_inimigos.gd.md",
+      "x": 420,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g1",
+      "type": "group",
+      "label": "Boss, Mapa e Efeitos Visuais",
+      "x": 740,
+      "y": 0,
+      "width": 660,
+      "height": 400,
+      "color": "2"
+    },
+    {
+      "id": "n_codigo_bolhas_gdshader",
+      "type": "file",
+      "file": "Bolhas.gdshader.md",
+      "x": 760,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_mapas_fenda_dos_piratas",
+      "type": "file",
+      "file": "Fenda dos Piratas.md",
+      "x": 960,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_inimigos_holandes_voador",
+      "type": "file",
+      "file": "Holand\u00c3\u00aas Voador.md",
+      "x": 1160,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_index_index",
+      "type": "file",
+      "file": "Index \u00e2\u20ac\u201d Wiki Principal.md",
+      "x": 760,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_bugs_referencia_rapida",
+      "type": "file",
+      "file": "Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md",
+      "x": 960,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_sistemas_shaders_efeitos",
+      "type": "file",
+      "file": "Shaders e Efeitos Visuais.md",
+      "x": 1160,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_index_index_sistemas_gamemanager",
+      "fromNode": "n_index_index",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_sistemas_ondas_spawner",
+      "fromNode": "n_index_index",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_sistemas_inimigobase",
+      "fromNode": "n_index_index",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_sistemas_navegacao_movimento",
+      "fromNode": "n_index_index",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_index_index",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_sistemas_shaders_efeitos",
+      "fromNode": "n_index_index",
+      "toNode": "n_sistemas_shaders_efeitos",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_inimigos_holandes_voador",
+      "fromNode": "n_index_index",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_inimigos_categorias",
+      "fromNode": "n_index_index",
+      "toNode": "n_inimigos_categorias",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_mapas_fenda_dos_piratas",
+      "fromNode": "n_index_index",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_codigo_holandes_voador_gd",
+      "fromNode": "n_index_index",
+      "toNode": "n_codigo_holandes_voador_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_codigo_inimigo_base_gd",
+      "fromNode": "n_index_index",
+      "toNode": "n_codigo_inimigo_base_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_codigo_spawner_inimigos_gd",
+      "fromNode": "n_index_index",
+      "toNode": "n_codigo_spawner_inimigos_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_codigo_bolhas_gdshader",
+      "fromNode": "n_index_index",
+      "toNode": "n_codigo_bolhas_gdshader",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_index_index_bugs_referencia_rapida",
+      "fromNode": "n_index_index",
+      "toNode": "n_bugs_referencia_rapida",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_codigo_holandes_voador_gd",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_codigo_holandes_voador_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_codigo_inimigo_base_gd",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_codigo_inimigo_base_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_mapas_fenda_dos_piratas",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_sistemas_inimigobase",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_sistemas_shaders_efeitos",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_sistemas_shaders_efeitos",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_sistemas_gamemanager",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_sistemas_ondas_spawner",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_inimigos_holandes_voador",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_inimigos_categorias",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_inimigos_categorias",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_codigo_spawner_inimigos_gd",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_codigo_spawner_inimigos_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_codigo_bolhas_gdshader",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_codigo_bolhas_gdshader",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_bolhas_gdshader_mapas_fenda_dos_piratas",
+      "fromNode": "n_codigo_bolhas_gdshader",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_bolhas_gdshader_sistemas_shaders_efeitos",
+      "fromNode": "n_codigo_bolhas_gdshader",
+      "toNode": "n_sistemas_shaders_efeitos",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_bolhas_gdshader_inimigos_holandes_voador",
+      "fromNode": "n_codigo_bolhas_gdshader",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_inimigos_holandes_voador",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_sistemas_inimigobase",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "calls [INFERRED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_codigo_inimigo_base_gd",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_codigo_inimigo_base_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_sistemas_navegacao_movimento",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_sistemas_gamemanager",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_sistemas_ondas_spawner",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_codigo_spawner_inimigos_gd",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_codigo_spawner_inimigos_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_inimigos_categorias",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_inimigos_categorias",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_holandes_voador_gd_mapas_fenda_dos_piratas",
+      "fromNode": "n_codigo_holandes_voador_gd",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_sistemas_inimigobase",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_inimigos_holandes_voador",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_inimigos_categorias",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_inimigos_categorias",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_sistemas_navegacao_movimento",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_sistemas_gamemanager",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_sistemas_ondas_spawner",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_codigo_spawner_inimigos_gd",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_codigo_spawner_inimigos_gd",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_inimigo_base_gd_mapas_fenda_dos_piratas",
+      "fromNode": "n_codigo_inimigo_base_gd",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_sistemas_ondas_spawner",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_sistemas_gamemanager",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_sistemas_inimigobase",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_inimigos_holandes_voador",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_inimigos_categorias",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_inimigos_categorias",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_sistemas_navegacao_movimento",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_codigo_spawner_inimigos_gd_mapas_fenda_dos_piratas",
+      "fromNode": "n_codigo_spawner_inimigos_gd",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_categorias_sistemas_inimigobase",
+      "fromNode": "n_inimigos_categorias",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_categorias_sistemas_ondas_spawner",
+      "fromNode": "n_inimigos_categorias",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_categorias_inimigos_holandes_voador",
+      "fromNode": "n_inimigos_categorias",
+      "toNode": "n_inimigos_holandes_voador",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_categorias_sistemas_gamemanager",
+      "fromNode": "n_inimigos_categorias",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_categorias_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_inimigos_categorias",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_categorias_mapas_fenda_dos_piratas",
+      "fromNode": "n_inimigos_categorias",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_mapas_fenda_dos_piratas",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_mapas_fenda_dos_piratas",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_sistemas_ondas_spawner",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_sistemas_gamemanager",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_sistemas_navegacao_movimento",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_sistemas_shaders_efeitos",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_sistemas_shaders_efeitos",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_mapas_fenda_dos_piratas_sistemas_ondas_spawner",
+      "fromNode": "n_mapas_fenda_dos_piratas",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_mapas_fenda_dos_piratas_sistemas_inimigobase",
+      "fromNode": "n_mapas_fenda_dos_piratas",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_mapas_fenda_dos_piratas_sistemas_gamemanager",
+      "fromNode": "n_mapas_fenda_dos_piratas",
+      "toNode": "n_sistemas_gamemanager",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_mapas_fenda_dos_piratas_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_mapas_fenda_dos_piratas",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_mapas_fenda_dos_piratas_sistemas_navegacao_movimento",
+      "fromNode": "n_mapas_fenda_dos_piratas",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_gamemanager_sistemas_inimigobase",
+      "fromNode": "n_sistemas_gamemanager",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_inimigobase_sistemas_ondas_spawner",
+      "fromNode": "n_sistemas_inimigobase",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_inimigobase_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_sistemas_inimigobase",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_inimigobase_sistemas_navegacao_movimento",
+      "fromNode": "n_sistemas_inimigobase",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_navegacao_movimento_sistemas_ondas_spawner",
+      "fromNode": "n_sistemas_navegacao_movimento",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_navegacao_movimento_sistemas_tela_aviso_inimigo",
+      "fromNode": "n_sistemas_navegacao_movimento",
+      "toNode": "n_sistemas_tela_aviso_inimigo",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_sistemas_gamemanager_sistemas_ondas_spawner",
+      "fromNode": "n_sistemas_gamemanager",
+      "toNode": "n_sistemas_ondas_spawner",
+      "label": "shares_data_with [INFERRED]"
+    },
+    {
+      "id": "e_bugs_referencia_rapida_sistemas_navegacao_movimento",
+      "fromNode": "n_bugs_referencia_rapida",
+      "toNode": "n_sistemas_navegacao_movimento",
+      "label": "rationale_for [INFERRED]"
+    },
+    {
+      "id": "e_inimigos_holandes_voador_sistemas_inimigobase",
+      "fromNode": "n_inimigos_holandes_voador",
+      "toNode": "n_sistemas_inimigobase",
+      "label": "conceptually_related_to [INFERRED]"
+    },
+    {
+      "id": "e_mapas_fenda_dos_piratas_sistemas_shaders_efeitos",
+      "fromNode": "n_mapas_fenda_dos_piratas",
+      "toNode": "n_sistemas_shaders_efeitos",
+      "label": "conceptually_related_to [INFERRED]"
+    }
+  ]
+}

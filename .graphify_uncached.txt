@@ -1,0 +1,15 @@
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Index.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Referência Rápida — Bugs e Soluções.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Código\Bolhas.gdshader.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Código\holandes_voador.gd.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Código\inimigo_base.gd.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Código\spawner_inimigos.gd.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Inimigos\Categorias de Inimigos.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Inimigos\HolandesVoador.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Mapas\FendaDosPiratas.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Sistemas\GameManager.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Sistemas\InimigoBase.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Sistemas\Navegação e Movimento.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Sistemas\Ondas e Spawner.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Sistemas\Shaders e Efeitos Visuais.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Obsidian Vault\Sistemas\TelaAvisoInimigo.md

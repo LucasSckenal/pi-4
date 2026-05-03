@@ -1,0 +1,22 @@
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\README.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Arena\wall.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\cutscene_dinamica.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\flecha.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\raio_eletrico.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\sol_ciclo.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\spawner_inimigos.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\tutorial_manager.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\tutorial_manager.gdshader
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Cenas Locais\tutorial_world.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Conquistas\conquista_data.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\docs\LEIA-ME.md
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Enemys\inimigo_base.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Enemys\inimigo_config.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Enemys\Map 4\holandes_voador.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Enemys\Map 6\dragon_rage.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Ia\ai_memory.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Maps\covil_dragon.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Maps\crimson_desert.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Maps\fenda_dos_piratas.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Maps\planeta_maluco.gd
+C:\Users\robny\Documents\pi-4\.claude\worktrees\happy-kepler-3e73b7\Maps\witch_house.gd
