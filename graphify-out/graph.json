@@ -1,0 +1,1176 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "wave_lifecycle",
+        "label": "Ciclo de Vida de Onda",
+        "nodes": [
+          "sistemas_gamemanager",
+          "sistemas_ondas_spawner",
+          "codigo_spawner_inimigos_gd",
+          "sistemas_inimigobase"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 0.95,
+        "source_file": "Obsidian Vault/Sistemas/GameManager.md"
+      },
+      {
+        "id": "boss_spawn_pipeline",
+        "label": "Pipeline de Spawn do Boss",
+        "nodes": [
+          "codigo_spawner_inimigos_gd",
+          "inimigos_holandes_voador",
+          "codigo_holandes_voador_gd",
+          "sistemas_navegacao_movimento"
+        ],
+        "relation": "participate_in",
+        "confidence": "INFERRED",
+        "confidence_score": 0.88,
+        "source_file": "Obsidian Vault/C\u00c3\u00b3digo/holandes_voador.gd.md"
+      },
+      {
+        "id": "fenda_dos_piratas_ecosystem",
+        "label": "Ecossistema da Fenda dos Piratas",
+        "nodes": [
+          "mapas_fenda_dos_piratas",
+          "inimigos_holandes_voador",
+          "codigo_bolhas_gdshader",
+          "sistemas_shaders_efeitos",
+          "codigo_spawner_inimigos_gd"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 0.92,
+        "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md"
+      },
+      {
+        "id": "bug_fix_navigation_cluster",
+        "label": "Cluster de Bugs de Navega\u00c3\u00a7\u00c3\u00a3o",
+        "nodes": [
+          "bugs_referencia_rapida",
+          "sistemas_navegacao_movimento",
+          "codigo_inimigo_base_gd",
+          "codigo_holandes_voador_gd",
+          "codigo_spawner_inimigos_gd"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 0.9,
+        "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md"
+      },
+      {
+        "id": "inimigo_base_implementors",
+        "label": "Implementa\u00c3\u00a7\u00c3\u00b5es de InimigoBase",
+        "nodes": [
+          "sistemas_inimigobase",
+          "codigo_inimigo_base_gd",
+          "inimigos_holandes_voador",
+          "codigo_holandes_voador_gd",
+          "inimigos_categorias"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 0.95,
+        "source_file": "Obsidian Vault/Sistemas/InimigoBase.md"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "Index \u00e2\u20ac\u201d Wiki Principal",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "index_index",
+      "community": 1,
+      "norm_label": "index a\u20ac\u201d wiki principal"
+    },
+    {
+      "label": "Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "bugs_referencia_rapida",
+      "community": 1,
+      "norm_label": "referaancia ra\u00a1pida a\u20ac\u201d bugs e solua\u00a7a\u03bces"
+    },
+    {
+      "label": "Bolhas.gdshader",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/Bolhas.gdshader.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "codigo_bolhas_gdshader",
+      "community": 1,
+      "norm_label": "bolhas.gdshader"
+    },
+    {
+      "label": "holandes_voador.gd",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/holandes_voador.gd.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "codigo_holandes_voador_gd",
+      "community": 0,
+      "norm_label": "holandes_voador.gd"
+    },
+    {
+      "label": "inimigo_base.gd",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/inimigo_base.gd.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "codigo_inimigo_base_gd",
+      "community": 0,
+      "norm_label": "inimigo_base.gd"
+    },
+    {
+      "label": "spawner_inimigos.gd",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/spawner_inimigos.gd.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "codigo_spawner_inimigos_gd",
+      "community": 0,
+      "norm_label": "spawner_inimigos.gd"
+    },
+    {
+      "label": "Categorias de Inimigos",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Inimigos/Categorias de Inimigos.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "inimigos_categorias",
+      "community": 0,
+      "norm_label": "categorias de inimigos"
+    },
+    {
+      "label": "Holand\u00c3\u00aas Voador",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "inimigos_holandes_voador",
+      "community": 1,
+      "norm_label": "holandaas voador"
+    },
+    {
+      "label": "Fenda dos Piratas",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "mapas_fenda_dos_piratas",
+      "community": 1,
+      "norm_label": "fenda dos piratas"
+    },
+    {
+      "label": "GameManager",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "sistemas_gamemanager",
+      "community": 0,
+      "norm_label": "gamemanager"
+    },
+    {
+      "label": "InimigoBase",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "sistemas_inimigobase",
+      "community": 0,
+      "norm_label": "inimigobase"
+    },
+    {
+      "label": "Navega\u00c3\u00a7\u00c3\u00a3o e Movimento",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "sistemas_navegacao_movimento",
+      "community": 0,
+      "norm_label": "navegaa\u00a7a\u00a3o e movimento"
+    },
+    {
+      "label": "Ondas e Spawner",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "sistemas_ondas_spawner",
+      "community": 0,
+      "norm_label": "ondas e spawner"
+    },
+    {
+      "label": "Shaders e Efeitos Visuais",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/Shaders e Efeitos Visuais.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "sistemas_shaders_efeitos",
+      "community": 1,
+      "norm_label": "shaders e efeitos visuais"
+    },
+    {
+      "label": "TelaAvisoInimigo",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "id": "sistemas_tela_aviso_inimigo",
+      "community": 0,
+      "norm_label": "telaavisoinimigo"
+    }
+  ],
+  "links": [
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 9",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "sistemas_gamemanager"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 13",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "sistemas_ondas_spawner"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 16",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "sistemas_inimigobase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 19",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "sistemas_navegacao_movimento"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 22",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "sistemas_tela_aviso_inimigo"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 25",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "sistemas_shaders_efeitos"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 33",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 34",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 42",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "mapas_fenda_dos_piratas"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 50",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 51",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Index.md",
+      "source_location": "line 52",
+      "weight": 1.0,
+      "source": "index_index",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/Bolhas.gdshader.md",
+      "source_location": "line 118",
+      "weight": 1.0,
+      "source": "codigo_bolhas_gdshader",
+      "target": "index_index"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md",
+      "source_location": "line 109",
+      "weight": 1.0,
+      "source": "bugs_referencia_rapida",
+      "target": "index_index"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/holandes_voador.gd.md",
+      "source_location": "line 166",
+      "weight": 1.0,
+      "source": "codigo_holandes_voador_gd",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/inimigo_base.gd.md",
+      "source_location": "line 159",
+      "weight": 1.0,
+      "source": "codigo_inimigo_base_gd",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md",
+      "source_location": "line 112",
+      "weight": 0.8,
+      "source": "bugs_referencia_rapida",
+      "target": "sistemas_navegacao_movimento"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 103",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": "line 145",
+      "weight": 1.0,
+      "source": "sistemas_inimigobase",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Shaders e Efeitos Visuais.md",
+      "source_location": "line 122",
+      "weight": 1.0,
+      "source": "sistemas_shaders_efeitos",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 83",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 123",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md",
+      "source_location": "line 116",
+      "weight": 1.0,
+      "source": "bugs_referencia_rapida",
+      "target": "sistemas_tela_aviso_inimigo"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 167",
+      "weight": 1.0,
+      "source": "inimigos_holandes_voador",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md",
+      "source_location": "line 121",
+      "weight": 1.0,
+      "source": "bugs_referencia_rapida",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/spawner_inimigos.gd.md",
+      "source_location": "line 157",
+      "weight": 1.0,
+      "source": "codigo_spawner_inimigos_gd",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/Bolhas.gdshader.md",
+      "source_location": "line 117",
+      "weight": 1.0,
+      "source": "codigo_bolhas_gdshader",
+      "target": "bugs_referencia_rapida"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 99",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "codigo_bolhas_gdshader"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Shaders e Efeitos Visuais.md",
+      "source_location": "line 120",
+      "weight": 1.0,
+      "source": "sistemas_shaders_efeitos",
+      "target": "codigo_bolhas_gdshader"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 151",
+      "weight": 1.0,
+      "source": "inimigos_holandes_voador",
+      "target": "codigo_bolhas_gdshader"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 157",
+      "weight": 1.0,
+      "source": "inimigos_holandes_voador",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.95,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/holandes_voador.gd.md",
+      "source_location": "line 6",
+      "weight": 1.0,
+      "source": "codigo_holandes_voador_gd",
+      "target": "sistemas_inimigobase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/inimigo_base.gd.md",
+      "source_location": "line 151",
+      "weight": 1.0,
+      "source": "codigo_inimigo_base_gd",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": "line 124",
+      "weight": 1.0,
+      "source": "sistemas_navegacao_movimento",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 80",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 119",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/spawner_inimigos.gd.md",
+      "source_location": "line 152",
+      "weight": 1.0,
+      "source": "codigo_spawner_inimigos_gd",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/Categorias de Inimigos.md",
+      "source_location": "line 87",
+      "weight": 1.0,
+      "source": "inimigos_categorias",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 92",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "codigo_holandes_voador_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": "line 135",
+      "weight": 1.0,
+      "source": "sistemas_inimigobase",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 159",
+      "weight": 1.0,
+      "source": "inimigos_holandes_voador",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/Categorias de Inimigos.md",
+      "source_location": "line 83",
+      "weight": 1.0,
+      "source": "inimigos_categorias",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": "line 122",
+      "weight": 1.0,
+      "source": "sistemas_navegacao_movimento",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 78",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": "line 73",
+      "weight": 1.0,
+      "source": "sistemas_tela_aviso_inimigo",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 117",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/spawner_inimigos.gd.md",
+      "source_location": "line 150",
+      "weight": 1.0,
+      "source": "codigo_spawner_inimigos_gd",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 97",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "codigo_inimigo_base_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 115",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 76",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": "line 140",
+      "weight": 1.0,
+      "source": "sistemas_inimigobase",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 161",
+      "weight": 1.0,
+      "source": "inimigos_holandes_voador",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/Categorias de Inimigos.md",
+      "source_location": "line 85",
+      "weight": 1.0,
+      "source": "inimigos_categorias",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/spawner_inimigos.gd.md",
+      "source_location": "line 154",
+      "weight": 1.0,
+      "source": "codigo_spawner_inimigos_gd",
+      "target": "sistemas_tela_aviso_inimigo"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": "line 126",
+      "weight": 1.0,
+      "source": "sistemas_navegacao_movimento",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 95",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "codigo_spawner_inimigos_gd"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": "line 138",
+      "weight": 1.0,
+      "source": "sistemas_inimigobase",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 121",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 166",
+      "weight": 1.0,
+      "source": "inimigos_holandes_voador",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 81",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": "line 75",
+      "weight": 1.0,
+      "source": "sistemas_tela_aviso_inimigo",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 93",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "inimigos_categorias"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 50",
+      "weight": 1.0,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "Obsidian Vault/Inimigos/HolandesVoador.md",
+      "source_location": "line 5",
+      "weight": 0.8,
+      "source": "inimigos_holandes_voador",
+      "target": "sistemas_inimigobase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 118",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 79",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": "line 123",
+      "weight": 1.0,
+      "source": "sistemas_navegacao_movimento",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": "line 74",
+      "weight": 1.0,
+      "source": "sistemas_tela_aviso_inimigo",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Shaders e Efeitos Visuais.md",
+      "source_location": "line 121",
+      "weight": 1.0,
+      "source": "sistemas_shaders_efeitos",
+      "target": "inimigos_holandes_voador"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 120",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "mapas_fenda_dos_piratas"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": "line 144",
+      "weight": 1.0,
+      "source": "sistemas_inimigobase",
+      "target": "mapas_fenda_dos_piratas"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md",
+      "source_location": "line 42",
+      "weight": 0.8,
+      "source": "mapas_fenda_dos_piratas",
+      "target": "sistemas_shaders_efeitos"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 82",
+      "weight": 1.0,
+      "source": "sistemas_gamemanager",
+      "target": "mapas_fenda_dos_piratas"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": "line 77",
+      "weight": 1.0,
+      "source": "sistemas_tela_aviso_inimigo",
+      "target": "mapas_fenda_dos_piratas"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": "line 128",
+      "weight": 1.0,
+      "source": "sistemas_navegacao_movimento",
+      "target": "mapas_fenda_dos_piratas"
+    },
+    {
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.9,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md",
+      "source_location": "line 63",
+      "weight": 0.9,
+      "source": "sistemas_gamemanager",
+      "target": "sistemas_ondas_spawner"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md",
+      "source_location": "line 141",
+      "weight": 1.0,
+      "source": "sistemas_inimigobase",
+      "target": "sistemas_gamemanager"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 116",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "sistemas_inimigobase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": "line 72",
+      "weight": 1.0,
+      "source": "sistemas_tela_aviso_inimigo",
+      "target": "sistemas_inimigobase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navega\u00c3\u00a7\u00c3\u00a3o e Movimento.md",
+      "source_location": "line 121",
+      "weight": 1.0,
+      "source": "sistemas_navegacao_movimento",
+      "target": "sistemas_inimigobase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Ondas e Spawner.md",
+      "source_location": "line 122",
+      "weight": 1.0,
+      "source": "sistemas_ondas_spawner",
+      "target": "sistemas_navegacao_movimento"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/TelaAvisoInimigo.md",
+      "source_location": "line 76",
+      "weight": 1.0,
+      "source": "sistemas_tela_aviso_inimigo",
+      "target": "sistemas_navegacao_movimento"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "wave_lifecycle",
+      "label": "Ciclo de Vida de Onda",
+      "nodes": [
+        "sistemas_gamemanager",
+        "sistemas_ondas_spawner",
+        "codigo_spawner_inimigos_gd",
+        "sistemas_inimigobase"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "Obsidian Vault/Sistemas/GameManager.md"
+    },
+    {
+      "id": "boss_spawn_pipeline",
+      "label": "Pipeline de Spawn do Boss",
+      "nodes": [
+        "codigo_spawner_inimigos_gd",
+        "inimigos_holandes_voador",
+        "codigo_holandes_voador_gd",
+        "sistemas_navegacao_movimento"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.88,
+      "source_file": "Obsidian Vault/C\u00c3\u00b3digo/holandes_voador.gd.md"
+    },
+    {
+      "id": "fenda_dos_piratas_ecosystem",
+      "label": "Ecossistema da Fenda dos Piratas",
+      "nodes": [
+        "mapas_fenda_dos_piratas",
+        "inimigos_holandes_voador",
+        "codigo_bolhas_gdshader",
+        "sistemas_shaders_efeitos",
+        "codigo_spawner_inimigos_gd"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.92,
+      "source_file": "Obsidian Vault/Mapas/FendaDosPiratas.md"
+    },
+    {
+      "id": "bug_fix_navigation_cluster",
+      "label": "Cluster de Bugs de Navega\u00c3\u00a7\u00c3\u00a3o",
+      "nodes": [
+        "bugs_referencia_rapida",
+        "sistemas_navegacao_movimento",
+        "codigo_inimigo_base_gd",
+        "codigo_holandes_voador_gd",
+        "codigo_spawner_inimigos_gd"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.9,
+      "source_file": "Obsidian Vault/Refer\u00c3\u00aancia R\u00c3\u00a1pida \u00e2\u20ac\u201d Bugs e Solu\u00c3\u00a7\u00c3\u00b5es.md"
+    },
+    {
+      "id": "inimigo_base_implementors",
+      "label": "Implementa\u00c3\u00a7\u00c3\u00b5es de InimigoBase",
+      "nodes": [
+        "sistemas_inimigobase",
+        "codigo_inimigo_base_gd",
+        "inimigos_holandes_voador",
+        "codigo_holandes_voador_gd",
+        "inimigos_categorias"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "Obsidian Vault/Sistemas/InimigoBase.md"
+    }
+  ],
+  "built_at_commit": "fc98fa99999f6c2cf6f41c37cf41bb05d307398e"
+}
