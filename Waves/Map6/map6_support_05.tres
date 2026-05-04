@@ -4,12 +4,15 @@
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
 [ext_resource type="PackedScene" uid="uid://dvhuuy5abjvwr" path="res://Enemys/Map 6/Demon.tscn" id="3_demon"]
 [ext_resource type="PackedScene" uid="uid://crleyiaceehic" path="res://Enemys/Map 6/Lava_golem.tscn" id="4_golem"]
+[ext_resource type="Texture2D" uid="uid://bsv20p1jbl5e4" path="res://Icons/VermelinPreview.png" id="icon_demon"]
+[ext_resource type="Texture2D" uid="uid://cibwfraw4fbe0" path="res://Icons/FireGolemPreview.png" id="icon_golem"]
 
 [sub_resource type="Resource" id="Resource_demon"]
 script = ExtResource("1_cfg")
 cena = ExtResource("3_demon")
 quantidade = 4
 cor = Color(0.95, 0.18, 0.16, 1)
+icone = ExtResource("icon_demon")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_golem"]
@@ -17,6 +20,7 @@ script = ExtResource("1_cfg")
 cena = ExtResource("4_golem")
 quantidade = 2
 cor = Color(1, 0.45, 0.05, 1)
+icone = ExtResource("icon_golem")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]

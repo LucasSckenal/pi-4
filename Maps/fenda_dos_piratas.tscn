@@ -15,6 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://dd4aafy61mroo" path="res://Map4/Textures/colormap.png" id="12_sxnwc"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="13_ay0o5"]
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Map 4/Bombardeiro.tscn" id="13_ruefr"]
+[ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
+[ext_resource type="Texture2D" uid="uid://r4431siwfts6" path="res://Icons/TubaraoPreview.png" id="icon_tubarao"]
+[ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
@@ -50,6 +53,7 @@ agent_max_climb = 0.75
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 5
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ruefr"]
@@ -62,6 +66,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 6
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_rf658"]
@@ -74,6 +79,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 4
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_n8yof"]
@@ -85,12 +91,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_qwoli"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_sxnwc"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 3
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ay0o5"]
@@ -103,6 +111,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 8
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ixa2r"]
@@ -115,12 +124,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 3
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_14jxx"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 5
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_0hg87"]
@@ -133,12 +144,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
 quantidade = 2
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_xkexh"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 5
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_gssta"]
@@ -151,12 +164,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
 quantidade = 3
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ed5xt"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 5
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_sn2ws"]
@@ -169,12 +184,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 10
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_f0iut"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 5
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_8ttfx"]
@@ -187,6 +204,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 12
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_obiuy"]
@@ -203,6 +221,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 4
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_vv0he"]
@@ -215,6 +234,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 4
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_oddva"]
@@ -227,6 +247,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 5
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_47k5u"]
@@ -238,12 +259,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_0uilt"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_srcq0"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 5
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_cw4hp"]
@@ -256,6 +279,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 8
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_13vmv"]
@@ -268,6 +292,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 10
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_yp23m"]
@@ -279,12 +304,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_6yv1i"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ctnn5"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 10
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_nkmqd"]
@@ -297,12 +324,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 8
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_b3dk4"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 5
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_23mdf"]
@@ -315,6 +344,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
 quantidade = 4
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_o6hc4"]
@@ -334,6 +364,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_keah2"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_mokxb"]
@@ -345,6 +376,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_ssmdt"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_521y0"]
@@ -357,12 +389,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 3
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_q5umv"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 3
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_srq6k"]
@@ -375,6 +409,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
 quantidade = 2
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_4r01v"]
@@ -387,6 +422,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 5
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_jiit4"]
@@ -399,12 +435,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
 quantidade = 2
+icone = ExtResource("icon_tubarao")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_ypva4"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 10
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_mwowu"]
@@ -417,12 +455,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 8
+icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_af1qs"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 4
+icone = ExtResource("icon_bombardeiro")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_sdwqg"]

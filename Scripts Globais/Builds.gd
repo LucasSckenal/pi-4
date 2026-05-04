@@ -597,11 +597,16 @@ func _criar_barra_3d() -> void:
 	if is_instance_valid(_barra_3d_container):
 		_barra_3d_container.queue_free()
 
-	var e_base := (tipo == TipoConstrucao.BASE)
+	var e_base : bool  = (tipo == TipoConstrucao.BASE)
 	var bar_w  : float = 4.5  if e_base else 2.0
 	var bar_h  : float = 0.35 if e_base else 0.22
 	var bar_y  : float = 3.0  if e_base else 1.2
+	var fill_w : float = bar_w - 0.12
+	var fill_h : float = bar_h - 0.06
 
+	# O container é rotacionado em _process para encarar a câmera (billboard manual).
+	# Assim position.x / scale.x dos filhos operam no espaço local já alinhado à câmera
+	# — sem desalinhamento entre deslocamento em world-X e câmera-right.
 	_barra_3d_container      = Node3D.new()
 	_barra_3d_container.name = "BarraVida3D"
 	add_child(_barra_3d_container)
@@ -614,23 +619,27 @@ func _criar_barra_3d() -> void:
 	var quad_bg   := QuadMesh.new()
 	quad_bg.size  = Vector2(bar_w, bar_h)
 	bg.mesh       = quad_bg
-	var mat_bg                := StandardMaterial3D.new()
-	mat_bg.albedo_color       = Color(0.08, 0.08, 0.08, 0.88)
-	mat_bg.transparency       = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat_bg.billboard_mode     = BaseMaterial3D.BILLBOARD_ENABLED
-	mat_bg.no_depth_test      = true
-	bg.material_override      = mat_bg
-	bg.cast_shadow            = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	var mat_bg            := StandardMaterial3D.new()
+	mat_bg.albedo_color   = Color(0.08, 0.08, 0.08, 0.88)
+	mat_bg.transparency   = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat_bg.shading_mode   = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat_bg.no_depth_test  = true
+	bg.material_override  = mat_bg
+	bg.cast_shadow        = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	_barra_3d_container.add_child(bg)
 
 	# ── Preenchimento ─────────────────────────────────────────────────────────
-	_bar_fill_3d       = MeshInstance3D.new()
-	var quad_fill      := QuadMesh.new()
-	quad_fill.size     = Vector2(bar_w - 0.12, bar_h - 0.06)
-	_bar_fill_3d.mesh  = quad_fill
+	# QuadMesh com tamanho fill_w × fill_h.
+	# Em _atualizar_barra_3d: scale.x = ratio encolhe a largura,
+	# position.x = fill_w * 0.5 * (ratio - 1) mantém a borda esquerda fixa.
+	# Como o container já está orientado para a câmera, não há overflow lateral.
+	_bar_fill_3d          = MeshInstance3D.new()
+	var quad_fill         := QuadMesh.new()
+	quad_fill.size        = Vector2(fill_w, fill_h)
+	_bar_fill_3d.mesh     = quad_fill
 	_mat_fill_3d                   = StandardMaterial3D.new()
 	_mat_fill_3d.albedo_color      = Color(0.15, 0.85, 0.20, 1.0)
-	_mat_fill_3d.billboard_mode    = BaseMaterial3D.BILLBOARD_ENABLED
+	_mat_fill_3d.shading_mode      = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_mat_fill_3d.no_depth_test     = true
 	_mat_fill_3d.render_priority   = 1
 	_bar_fill_3d.material_override = _mat_fill_3d
@@ -644,12 +653,18 @@ func _atualizar_barra_3d() -> void:
 			or not is_instance_valid(_barra_3d_container):
 		return
 
-	var e_base := (tipo == TipoConstrucao.BASE)
-	var bar_w  : float = 4.5 if e_base else 2.0
+	var e_base : bool  = (tipo == TipoConstrucao.BASE)
+	var bar_w  : float = 4.5  if e_base else 2.0
+	var fill_w : float = bar_w - 0.12
 	var ratio  : float = clamp(float(vida_atual) / float(vida_maxima), 0.0, 1.0)
 
+	# scale.x encolhe o quad a partir do centro; position.x desloca o centro para
+	# a esquerda de modo que a borda esquerda permaneça sempre fixa em -fill_w/2.
+	# Como o container é girado pelo billboard manual em _process, o eixo X local
+	# coincide com o eixo "câmera-direita" → sem overflow em nenhum ângulo.
+	_bar_fill_3d.visible    = (ratio > 0.0)
 	_bar_fill_3d.scale.x    = ratio
-	_bar_fill_3d.position.x = (bar_w - 0.12) / 2.0 * (ratio - 1.0)
+	_bar_fill_3d.position.x = fill_w * 0.5 * (ratio - 1.0)
 
 	if ratio > 0.5:
 		_mat_fill_3d.albedo_color = Color(0.15, 0.85, 0.20, 1.0)
@@ -706,6 +721,21 @@ func _on_area_ataque_body_exited(body):
 		inimigos_no_alcance.erase(body)
 
 func _process(delta):
+	# Billboard manual: gira o container da barra de vida para sempre encarar a câmera.
+	# Rotação apenas em torno do eixo Y (cilíndrica) → barra permanece horizontal.
+	# Fazemos look_at na direção OPOSTA à câmera para que o +Z (face do quad) aponte
+	# para ela, já que look_at aponta o -Z do nó em direção ao alvo.
+	if not is_fantasma and is_instance_valid(_barra_3d_container):
+		var camera := get_viewport().get_camera_3d()
+		if camera:
+			var dir := camera.global_position - _barra_3d_container.global_position
+			dir.y = 0.0
+			if dir.length_squared() > 0.001:
+				_barra_3d_container.look_at(
+					_barra_3d_container.global_position - dir.normalized(),
+					Vector3.UP
+				)
+
 	# Caldeirão — ataque em área periódico durante a noite
 	if tipo == TipoConstrucao.CALDEIRON and not is_fantasma and not esta_destruida:
 		if GameManager.is_night:

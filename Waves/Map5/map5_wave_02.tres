@@ -4,18 +4,22 @@
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
 [ext_resource type="PackedScene" uid="uid://c6nno474wj706" path="res://Enemys/Map 5/flamingo_lo_astronauta.tscn" id="3_flamingo"]
 [ext_resource type="PackedScene" uid="uid://bq8r5q3g2qyh1" path="res://Enemys/Map 5/Alexa astronauta.tscn" id="4_alexa"]
+[ext_resource type="Texture2D" uid="uid://bm4omkvmu57s6" path="res://Icons/AlexaPreview.png" id="icon_alexa"]
+[ext_resource type="Texture2D" uid="uid://iqepmnum4x5a" path="res://Icons/FlamingoPreview.png" id="icon_flamingo"]
 
 [sub_resource type="Resource" id="Resource_flamingo"]
 script = ExtResource("1_cfg")
 cena = ExtResource("3_flamingo")
 quantidade = 3
 cor = Color(0.25, 0.78, 1, 1)
+icone = ExtResource("icon_flamingo")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_alexa"]
 script = ExtResource("1_cfg")
 cena = ExtResource("4_alexa")
 cor = Color(0.58, 0.95, 0.35, 1)
+icone = ExtResource("icon_alexa")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]

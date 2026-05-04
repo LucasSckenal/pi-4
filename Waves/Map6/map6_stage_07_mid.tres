@@ -4,11 +4,14 @@
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
 [ext_resource type="PackedScene" uid="uid://v7g5uxby4hkm" path="res://Enemys/Map 6/MidDragon.tscn" id="3_dragon"]
 [ext_resource type="PackedScene" uid="uid://crleyiaceehic" path="res://Enemys/Map 6/Lava_golem.tscn" id="4_golem"]
+[ext_resource type="Texture2D" uid="uid://d2tagr0u6bgce" path="res://Icons/DragaoJovemPreview.png" id="icon_dragon"]
+[ext_resource type="Texture2D" uid="uid://cibwfraw4fbe0" path="res://Icons/FireGolemPreview.png" id="icon_golem"]
 
 [sub_resource type="Resource" id="Resource_dragon"]
 script = ExtResource("1_cfg")
 cena = ExtResource("3_dragon")
 cor = Color(0.5, 0.2, 1, 1)
+icone = ExtResource("icon_dragon")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_golem"]
@@ -16,6 +19,7 @@ script = ExtResource("1_cfg")
 cena = ExtResource("4_golem")
 quantidade = 2
 cor = Color(1, 0.45, 0.05, 1)
+icone = ExtResource("icon_golem")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]

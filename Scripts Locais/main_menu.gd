@@ -3,9 +3,10 @@ extends Control
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
 # Referências para a interface
-@onready var menu_botoes = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer
+@onready var menu_botoes        = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer
 @onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes
-@onready var btn_continuar = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnContinuar
+@onready var btn_continuar      = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnContinuar
+@onready var titulo_img         = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/Titulo
 
 func _ready():
 	MusicaGlobal.tocar_menu()
@@ -49,6 +50,14 @@ func _atualizar_largura_botoes() -> void:
 	var mc: MarginContainer = $CanvasLayer/MarginContainer
 	mc.add_theme_constant_override("margin_right", int(clamp(largura_tela * 0.05, 0.0, 125.0)))
 	mc.add_theme_constant_override("margin_left", 0)
+
+	# Escala e reposiciona o título (Sprite2D) proporcionalmente à largura dos botões.
+	# Baseia-se nos valores originais: vbox_width=280, scale=0.7, pos=(-89, -194).
+	# Assim o título ocupa a mesma proporção visual em desktop e mobile.
+	if is_instance_valid(titulo_img):
+		var fator: float = largura_btn / 280.0
+		titulo_img.scale    = Vector2(0.7 * fator, 0.7 * fator)
+		titulo_img.position = Vector2(-89.0 * fator, -194.0 * fator)
 
 func _instanciar_player_no_menu():
 	# Carrega a cena do Player 

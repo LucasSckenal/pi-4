@@ -4,12 +4,15 @@
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
 [ext_resource type="PackedScene" uid="uid://0d51ytvkkhod" path="res://Enemys/Map 3/abobora.tscn" id="3_abo"]
 [ext_resource type="PackedScene" uid="uid://b3c5hgtqmdtmi" path="res://Enemys/Map 3/knight.tscn" id="4_knight"]
+[ext_resource type="Texture2D" uid="uid://h4an3uj06fr7" path="res://Icons/AboboraPreview.png" id="icon_abo"]
+[ext_resource type="Texture2D" uid="uid://2o060fwqlrxd" path="res://Icons/CavaleiroPreview.png" id="icon_knight"]
 
 [sub_resource type="Resource" id="Resource_abo"]
 script = ExtResource("1_cfg")
 cena = ExtResource("3_abo")
 quantidade = 3
 cor = Color(0.95, 0.5, 0.1, 1)
+icone = ExtResource("icon_abo")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_knight"]
@@ -17,6 +20,7 @@ script = ExtResource("1_cfg")
 cena = ExtResource("4_knight")
 quantidade = 3
 cor = Color(0.45, 0.35, 0.95, 1)
+icone = ExtResource("icon_knight")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]

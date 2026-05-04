@@ -23,7 +23,10 @@
       "Bash(Get-ChildItem \"Obsidian Vault\" -Name)",
       "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('hooks',{}\\), indent=2\\)\\)\")",
       "Bash(grep -E \"\\\\.\\(tscn|tres\\)$\")",
-      "Bash(grep -i \"\\\\.gd$\")"
+      "Bash(grep -i \"\\\\.gd$\")",
+      "Bash(where python *)",
+      "Bash(where python3 *)",
+      "Bash(py --version)"
     ]
   }
 }

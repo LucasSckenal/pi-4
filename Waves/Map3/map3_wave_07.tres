@@ -5,12 +5,16 @@
 [ext_resource type="PackedScene" uid="uid://byu7mutqbi4rt" path="res://Enemys/Map 3/Witch.tscn" id="3_witch"]
 [ext_resource type="PackedScene" uid="uid://0d51ytvkkhod" path="res://Enemys/Map 3/abobora.tscn" id="4_abo"]
 [ext_resource type="PackedScene" uid="uid://b3c5hgtqmdtmi" path="res://Enemys/Map 3/knight.tscn" id="5_knight"]
+[ext_resource type="Texture2D" uid="uid://c7gjmfcsrxd1i" path="res://Icons/BruxaPreview.png" id="icon_witch"]
+[ext_resource type="Texture2D" uid="uid://h4an3uj06fr7" path="res://Icons/AboboraPreview.png" id="icon_abo"]
+[ext_resource type="Texture2D" uid="uid://2o060fwqlrxd" path="res://Icons/CavaleiroPreview.png" id="icon_knight"]
 
 [sub_resource type="Resource" id="Resource_witch"]
 script = ExtResource("1_cfg")
 cena = ExtResource("3_witch")
 quantidade = 2
 cor = Color(0.65, 0.2, 0.9, 1)
+icone = ExtResource("icon_witch")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_abo"]
@@ -18,6 +22,7 @@ script = ExtResource("1_cfg")
 cena = ExtResource("4_abo")
 quantidade = 4
 cor = Color(0.95, 0.5, 0.1, 1)
+icone = ExtResource("icon_abo")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_knight"]
@@ -25,6 +30,7 @@ script = ExtResource("1_cfg")
 cena = ExtResource("5_knight")
 quantidade = 4
 cor = Color(0.45, 0.35, 0.95, 1)
+icone = ExtResource("icon_knight")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]

@@ -76,22 +76,19 @@ func abrir(construcao: Node):
 	atualizar_status_atuais()
 	atualizar_opcoes()
 	
-	painel_principal.size = Vector2.ZERO
-	
-	painel_principal.pivot_offset = painel_principal.size / 2
-	
-	var camera = get_viewport().get_camera_3d()
-	if camera and "global_position" in construcao_atual:
-		var pos_2d = camera.unproject_position(construcao_atual.global_position)
-		var tela = get_viewport_rect().size
-		var distancia_segura = 150
-		
-		if pos_2d.x > tela.x / 2.0:
-			painel_principal.global_position.x = pos_2d.x - painel_principal.size.x - distancia_segura
-		else:
-			painel_principal.global_position.x = pos_2d.x + distancia_segura
-			
-		painel_principal.global_position.y = clamp(pos_2d.y - (painel_principal.size.y / 2.0), 20.0, tela.y - painel_principal.size.y - 20.0)
+	# Reseta o tamanho para o PanelContainer recalcular a partir do conteúdo.
+	# Ancora no canto superior-esquerdo para que position controle o layout.
+	painel_principal.reset_size()
+	painel_principal.set_anchors_preset(Control.PRESET_TOP_LEFT)
+
+	# Estimativa de pivot para a animação de entrada ficar centrada visualmente.
+	# O valor exato é corrigido em _centralizar_painel() após o layout ser calculado.
+	painel_principal.pivot_offset = Vector2(320.0, 220.0)
+
+	# call_deferred garante que o Godot já terminou o passo de layout e
+	# painel_principal.size reflete o tamanho real do conteúdo.
+	# Funciona tanto no editor (1280×720) quanto em builds mobile.
+	call_deferred("_centralizar_painel_deferred")
 	
 	painel_principal.scale = Vector2(0.5, 0.5)
 	fundo_escuro.modulate.a = 0
@@ -205,11 +202,25 @@ func fechar():
 	var tw = create_tween().set_parallel(true)
 	tw.tween_property(fundo_escuro, "modulate:a", 0.0, 0.1)
 	tw.tween_property(painel_principal, "scale", Vector2(0.5, 0.5), 0.1)
-	
+
 	tw.chain().tween_callback(func():
 		hide()
-		painel_principal.scale = Vector2.ONE 
+		painel_principal.scale = Vector2.ONE
 		fechado.emit()
-		get_tree().paused = false 
+		get_tree().paused = false
 	)
+
+# Chamado via call_deferred para garantir que o layout já foi calculado.
+# Centraliza o painel no meio exato da tela independente do tamanho do conteúdo
+# ou da resolução (funciona no editor com 1280×720 e em builds mobile).
+func _centralizar_painel_deferred() -> void:
+	if not is_instance_valid(painel_principal): return
+	var tela : Vector2 = get_viewport_rect().size
+	var s    : Vector2 = painel_principal.size
+	# Garante que o painel nunca saia dos limites da tela
+	var margem : float = 20.0
+	var pos_x  : float = clamp((tela.x - s.x) / 2.0, margem, tela.x - s.x - margem)
+	var pos_y  : float = clamp((tela.y - s.y) / 2.0, margem, tela.y - s.y - margem)
+	painel_principal.position     = Vector2(pos_x, pos_y)
+	painel_principal.pivot_offset = s / 2.0
 	

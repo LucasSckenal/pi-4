@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://ctwihwfbfohj8" path="res://Icons/image-removebg-preview(4).png" id="9_iqqrd"]
 [ext_resource type="Texture2D" uid="uid://cwxya3tj0fpd5" path="res://Icons/image-removebg-preview(3).png" id="10_1fi58"]
 [ext_resource type="Texture2D" uid="uid://c1rfb8bqso8vv" path="res://Icons/image-removebg-preview(2).png" id="11_krtp0"]
+[ext_resource type="Texture2D" uid="uid://ckcd3kc4osevg" path="res://Assets/Titulo.png" id="11_lvola"]
 [ext_resource type="Texture2D" uid="uid://b27udja6qybus" path="res://Icons/image-removebg-preview(1).png" id="12_xsw65"]
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_aaagv"]
@@ -366,7 +367,6 @@ spot_angle = 25.85
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1765247065]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer" unique_id=1169369597]
-layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -460,6 +460,12 @@ text = "     Sair do Jogo"
 icon = ExtResource("12_xsw65")
 alignment = 0
 expand_icon = true
+
+[node name="Titulo" type="Sprite2D" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1118383611]
+position = Vector2(-88.999985, -194.00002)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("11_lvola")
+centered = false
 
 [node name="Configuracoes" parent="CanvasLayer/MarginContainer" unique_id=635436861 instance=ExtResource("5_wr2lu")]
 visible = false
