@@ -10,18 +10,19 @@
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="7_mqy4t"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="8_mlm15"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="9_mlm15"]
-[ext_resource type="Script" path="res://Waves/wave_resource.gd" id="10_wave_script"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_01.tres" id="11_wave01"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_02.tres" id="12_wave02"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_03.tres" id="13_wave03"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_04.tres" id="14_wave04"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_05.tres" id="15_wave05"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_06.tres" id="16_wave06"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_07.tres" id="17_wave07"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_08.tres" id="18_wave08"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_09.tres" id="19_wave09"]
-[ext_resource type="Resource" path="res://Waves/Map5/map5_wave_10.tres" id="20_wave10"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="10_wave_script"]
+[ext_resource type="Resource" uid="uid://b5xkw0eq5rpmd" path="res://Waves/Map5/map5_wave_01.tres" id="11_wave01"]
+[ext_resource type="Resource" uid="uid://w2huihv54fnt" path="res://Waves/Map5/map5_wave_02.tres" id="12_wave02"]
+[ext_resource type="Resource" uid="uid://dsnouqa3eri8g" path="res://Waves/Map5/map5_wave_03.tres" id="13_wave03"]
+[ext_resource type="Resource" uid="uid://dcl0prwni710v" path="res://Waves/Map5/map5_wave_04.tres" id="14_wave04"]
+[ext_resource type="Resource" uid="uid://ld6ycblj58qi" path="res://Waves/Map5/map5_wave_05.tres" id="15_wave05"]
+[ext_resource type="Resource" uid="uid://cci00wpu7xpiv" path="res://Waves/Map5/map5_wave_06.tres" id="16_wave06"]
+[ext_resource type="Resource" uid="uid://0jpxgoj1vjr8" path="res://Waves/Map5/map5_wave_07.tres" id="17_wave07"]
+[ext_resource type="Resource" uid="uid://bynge2cn8vvgm" path="res://Waves/Map5/map5_wave_08.tres" id="18_wave08"]
+[ext_resource type="Resource" uid="uid://yv34qd7j4myr" path="res://Waves/Map5/map5_wave_09.tres" id="19_wave09"]
+[ext_resource type="Resource" uid="uid://c5ay0d8ruiyve" path="res://Waves/Map5/map5_wave_10.tres" id="20_wave10"]
 [ext_resource type="Resource" path="res://Waves/Map5/map5_wave_empty.tres" id="21_wave_empty"]
+[ext_resource type="Resource" uid="uid://b5wkraken11" path="res://Waves/Map5/map5_wave_11_kraken.tres" id="22_wave11_kraken"]
 [ext_resource type="Script" uid="uid://q3rph4cfatr" path="res://Maps/planeta_maluco.gd" id="99_planetascript"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_espaco"]
@@ -167,19 +168,19 @@ limite_maximo_pan_z = 5.79
 
 [node name="A" parent="Spawners" unique_id=423161848 instance=ExtResource("5_ndbvn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.194841, 0.5364938, -0.013455629)
-ondas = Array[ExtResource("10_wave_script")]([ExtResource("11_wave01"), ExtResource("12_wave02"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10")])
+ondas = Array[ExtResource("10_wave_script")]([ExtResource("11_wave01"), ExtResource("12_wave02"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10"), ExtResource("22_wave11_kraken")])
 
 [node name="B" parent="Spawners" unique_id=2047679414 instance=ExtResource("5_ndbvn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.025367916, 0.7890465, -12.1809845)
-ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("12_wave02"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10")])
+ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("12_wave02"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10"), ExtResource("21_wave_empty")])
 
 [node name="C" parent="Spawners" unique_id=517632661 instance=ExtResource("5_ndbvn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060284853, 1.0015615, 14.935911)
-ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10")])
+ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10"), ExtResource("21_wave_empty")])
 
 [node name="D" parent="Spawners" unique_id=379953035 instance=ExtResource("5_ndbvn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 0.40284425)
-ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10")])
+ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("16_wave06"), ExtResource("17_wave07"), ExtResource("18_wave08"), ExtResource("19_wave09"), ExtResource("20_wave10"), ExtResource("21_wave_empty")])
 
 [node name="Portal" parent="." unique_id=683417852 instance=ExtResource("7_gpya5")]
 transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, 0.049744606, 0.5363734, 0.06908631)
@@ -191,19 +192,19 @@ vida_maxima = 2000
 transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 4.4924183, 0.39232057, 2.5060964)
 
 [node name="BuildSlot9" parent="Builds" unique_id=1572361030 instance=ExtResource("5_2l7da")]
-transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 1.8154902, 0.39232057, -0.026390553)
+transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 2.369981, 0.39232057, -0.026390553)
 nivel_necessario = 0
 
 [node name="BuildSlot10" parent="Builds" unique_id=962336628 instance=ExtResource("5_2l7da")]
-transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 0.18373609, 0.39232057, -1.9854559)
+transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 0.18373609, 0.39232057, -2.5319834)
 nivel_necessario = 0
 
 [node name="BuildSlot11" parent="Builds" unique_id=682673982 instance=ExtResource("5_2l7da")]
-transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, -2.09836, 0.39232057, -0.12986267)
+transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, -2.5347812, 0.39232057, -0.12986267)
 nivel_necessario = 0
 
 [node name="BuildSlot12" parent="Builds" unique_id=138638035 instance=ExtResource("5_2l7da")]
-transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 0.1358099, 0.39232057, 2.168692)
+transform = Transform3D(1.7985816, 0, 0.8747024, 0, 2, 0, -0.8747024, 0, 1.7985816, 0.1358099, 0.39232057, 2.8800688)
 nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=1999525065 instance=ExtResource("5_2l7da")]

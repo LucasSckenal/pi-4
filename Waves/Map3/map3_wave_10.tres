@@ -6,17 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://byu7mutqbi4rt" path="res://Enemys/Map 3/Witch.tscn" id="4_witch"]
 [ext_resource type="PackedScene" uid="uid://0d51ytvkkhod" path="res://Enemys/Map 3/abobora.tscn" id="5_abo"]
 [ext_resource type="PackedScene" uid="uid://b3c5hgtqmdtmi" path="res://Enemys/Map 3/knight.tscn" id="6_knight"]
-[ext_resource type="Texture2D" uid="uid://pe148cm73hb3" path="res://Icons/FrankPreview.png" id="icon_frank"]
-[ext_resource type="Texture2D" uid="uid://c7gjmfcsrxd1i" path="res://Icons/BruxaPreview.png" id="icon_witch"]
 [ext_resource type="Texture2D" uid="uid://h4an3uj06fr7" path="res://Icons/AboboraPreview.png" id="icon_abo"]
+[ext_resource type="Texture2D" uid="uid://pe148cm73hb3" path="res://Icons/FrankPreview.png" id="icon_frank"]
 [ext_resource type="Texture2D" uid="uid://2o060fwqlrxd" path="res://Icons/CavaleiroPreview.png" id="icon_knight"]
+[ext_resource type="Texture2D" uid="uid://c7gjmfcsrxd1i" path="res://Icons/BruxaPreview.png" id="icon_witch"]
 
 [sub_resource type="Resource" id="Resource_franke"]
 script = ExtResource("1_cfg")
 cena = ExtResource("3_franke")
 cor = Color(0.25, 0.8, 0.25, 1)
 icone = ExtResource("icon_frank")
-metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_witch"]
 script = ExtResource("1_cfg")
@@ -24,7 +23,6 @@ cena = ExtResource("4_witch")
 quantidade = 2
 cor = Color(0.65, 0.2, 0.9, 1)
 icone = ExtResource("icon_witch")
-metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_abo"]
 script = ExtResource("1_cfg")
@@ -32,7 +30,6 @@ cena = ExtResource("5_abo")
 quantidade = 4
 cor = Color(0.95, 0.5, 0.1, 1)
 icone = ExtResource("icon_abo")
-metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_knight"]
 script = ExtResource("1_cfg")
@@ -40,11 +37,9 @@ cena = ExtResource("6_knight")
 quantidade = 2
 cor = Color(0.45, 0.35, 0.95, 1)
 icone = ExtResource("icon_knight")
-metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]
 script = ExtResource("2_wave")
 nome_da_onda = "Mapa 3 - Onda Final"
 intervalo = 1.8
 inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_franke"), SubResource("Resource_witch"), SubResource("Resource_abo"), SubResource("Resource_knight")])
-metadata/_custom_type_script = "res://Waves/wave_resource.gd"

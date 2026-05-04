@@ -14,13 +14,14 @@
 [ext_resource type="PackedScene" uid="uid://c8nr4eujiufct" path="res://Enemys/Map 4/Shark.tscn" id="12_n0wf0"]
 [ext_resource type="Texture2D" uid="uid://dd4aafy61mroo" path="res://Map4/Textures/colormap.png" id="12_sxnwc"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="13_ay0o5"]
+[ext_resource type="Texture2D" uid="uid://b4uycaww6uxih" path="res://Icons/HolandesPreview.png" id="13_colh8"]
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Map 4/Bombardeiro.tscn" id="13_ruefr"]
-[ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
-[ext_resource type="Texture2D" uid="uid://r4431siwfts6" path="res://Icons/TubaraoPreview.png" id="icon_tubarao"]
-[ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
+[ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
+[ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
+[ext_resource type="Texture2D" uid="uid://r4431siwfts6" path="res://Icons/TubaraoPreview.png" id="icon_tubarao"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mrbo5"]
 sky_top_color = Color(0.33507562, 0.35175762, 0.94232005, 1)
@@ -474,6 +475,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_725lu"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("9_sxnwc")
+icone = ExtResource("13_colh8")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_nw1gr"]
@@ -488,10 +490,7 @@ shader = ExtResource("13_ay0o5")
 shader_parameter/scale = 1.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ixa2r"]
 resource_name = "colormap"
@@ -633,7 +632,7 @@ player = NodePath("../Player")
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
 transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
 
-[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=85292747]
+[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
 mesh = SubResource("ArrayMesh_colh8")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]

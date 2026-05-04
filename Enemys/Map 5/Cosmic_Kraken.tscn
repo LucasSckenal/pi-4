@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://ch5u6n18i5nvs"]
+
+[ext_resource type="Script" path="res://Enemys/Map 5/cosmic_kraken.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b5tentmkraken1" path="res://Enemys/Map 5/Tentaculo.tscn" id="2_tentaculo"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_col"]
+height = 0.5
+radius = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sensor"]
+radius = 0.5
+
+[node name="CosmicKraken" type="CharacterBody3D" groups=["inimigos"]]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_script")
+tipo_inimigo = 2
+nome_inimigo = "Cosmic Kraken"
+eh_aereo = false
+vida_maxima = 1000
+velocidade = 0.0
+forca_dano = 0
+distancia_ataque = 0.5
+tempo_recarga_ataque = 999.0
+raio_visao_construcao = 0.0
+raio_visao_aliados = 0.0
+limite_queda_y = -1000.0
+modelo_3d = NodePath("ModeloAnchor")
+dica_tutorial = "Algo cósmico se manifesta sob a base. Você não consegue feri-lo diretamente — destrua os tentáculos invocados."
+status_velocidade = "PARADO"
+status_vida = "ALTA"
+cena_tentaculo = ExtResource("2_tentaculo")
+max_tentaculos_vivos = 4
+intervalo_invocacao = 4.0
+dano_por_tentaculo_morto = 100
+offset_y_sob_base = -2.5
+intensidade_olhos = 4.0
+cor_olhos = Color(0.7, 0, 1, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_col")
+disabled = true
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="ModeloAnchor" type="Node3D" parent="."]
+
+[node name="OlhoEsquerdo" type="OmniLight3D" parent="ModeloAnchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 1.2, 0.6)
+light_color = Color(0.7, 0, 1, 1)
+light_energy = 4.0
+omni_range = 2.5
+
+[node name="OlhoDireito" type="OmniLight3D" parent="ModeloAnchor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 1.2, 0.6)
+light_color = Color(0.7, 0, 1, 1)
+light_energy = 4.0
+omni_range = 2.5
+
+[node name="SensorAtaque" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque"]
+shape = SubResource("SphereShape3D_sensor")
+disabled = true
