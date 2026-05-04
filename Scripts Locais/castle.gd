@@ -20,7 +20,7 @@ func recarregar_balanceamento() -> void:
 func receber_dano(quantidade: int):
 	vida_atual -= quantidade
 	print("O Castelo sofreu dano! Vida: ", vida_atual)
-	
+
 	if vida_atual <= 0:
 		destruir_castelo()
 

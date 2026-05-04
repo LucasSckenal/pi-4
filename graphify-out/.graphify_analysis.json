@@ -1,0 +1,316 @@
+{
+  "communities": {
+    "0": [
+      "bolhas_gdshader_bolhasgdshader",
+      "bug_colorrect_bloqueia_cliques",
+      "bug_inimigo_parado_spawn",
+      "bug_inimigos_nao_encontram_base",
+      "bug_salto_fantasma_multiplo",
+      "bug_sem_candidatos_teleporte",
+      "bug_teleporte_origem",
+      "categorias_de_inimigos_categorias",
+      "codigo_bolhas_gdshader",
+      "community_boss_mapa_efeitos",
+      "community_sistemas_codigo_gdscript",
+      "fenda_dos_piratas_fenda",
+      "holandes_voador_concept",
+      "holandes_voador_gd_script",
+      "index_wiki_principal",
+      "inimigo_base_gd_script",
+      "inimigobase_concept",
+      "navegacao_e_movimento_concept",
+      "ondas_e_spawner_concept",
+      "referencia_bugs_solucoes",
+      "shaders_efeitos_visuais_concept",
+      "spawner_inimigos_gd_script",
+      "telaaviso_inimigo_concept"
+    ],
+    "1": [
+      "autoload_gamemanager",
+      "autoload_global",
+      "autoload_musicaglobal",
+      "conquista_data",
+      "conselheiro_ia",
+      "controles_mobile_script",
+      "game_over_ui_script",
+      "lava_shader",
+      "menu_customizacao_script",
+      "menu_pausa_script",
+      "modal_modo_fase_modalmodofase",
+      "painel_conselheiro_painelconselheiro",
+      "seletor_fases_script",
+      "tela_aviso_inimigo_script",
+      "tela_conquistas_script",
+      "tela_vitoria_script",
+      "upgrade_ui_script"
+    ],
+    "2": [
+      "balanceamento_balanceamento",
+      "bolhas_gdshader_bolhas",
+      "bug_type_inference_gamemanager",
+      "castle_castle",
+      "energymaterial_gdshader_energy",
+      "gamemanager_gamemanager",
+      "opcao_upgrade_button_opcaoupgradebutton",
+      "orc_orc",
+      "radial_button_radialbutton",
+      "radial_menu_radialmenu",
+      "soldier_soldier",
+      "torre_de_fogo_torrefogo",
+      "tower_tower",
+      "unit_house_2_unithouse",
+      "unit_mill_2_unitmill"
+    ],
+    "3": [
+      "conquista_data_conquistadata",
+      "dithering_effect_gdshader_dithering",
+      "global_global",
+      "highlight_gdshader_highlight",
+      "main_menu_mainmenu",
+      "musica_global_musicaglobal",
+      "outline_gdshader_outline",
+      "player_player",
+      "popup_conquista_popupconquista",
+      "selecao_personagem_selecaopersonagem",
+      "sky_gdshader_sky",
+      "slot_personagem_slotpersonagem",
+      "wall_2_wall2",
+      "wall_gate_2_wallgate2",
+      "walls_word_1_wall"
+    ],
+    "4": [
+      "bugs_referencia_rapida",
+      "codigo_holandes_voador_gd",
+      "codigo_inimigo_base_gd",
+      "codigo_spawner_inimigos_gd",
+      "index_index",
+      "inimigos_categorias",
+      "inimigos_holandes_voador",
+      "mapas_fenda_dos_piratas",
+      "sistemas_gamemanager",
+      "sistemas_inimigobase",
+      "sistemas_navegacao_movimento",
+      "sistemas_ondas_spawner",
+      "sistemas_shaders_efeitos",
+      "sistemas_tela_aviso_inimigo"
+    ],
+    "5": [
+      "build_slot_buildslot",
+      "building_mine_buildingmine",
+      "builds_builds",
+      "buildslotmanager_buildslotmanager",
+      "carta_ui_cartaui",
+      "carta_upgrade_cartaupgrade",
+      "conselheiro_ia_conselheiroia",
+      "enemy_icon_enemyicon",
+      "game_manager_gamemanager",
+      "hud_hud",
+      "level_lightning_controller_levellightningcontroller",
+      "upgrade_path_data_upgradepathdata"
+    ],
+    "6": [
+      "holandes_voador_holadesvoador",
+      "inimigo_base_inimigobase",
+      "navegacao_e_movimento_doc",
+      "navigationagent3d_system"
+    ],
+    "7": [
+      "mobile_outline_shader",
+      "outline_shader"
+    ],
+    "8": [
+      "water_shader",
+      "waterflat_shader"
+    ],
+    "9": [
+      "wave_resource_inimigoconfig",
+      "wave_resource_wavedata"
+    ],
+    "10": [
+      "camera_follow_camerafollow"
+    ],
+    "11": [
+      "configuracoes_configuracoes"
+    ],
+    "12": [
+      "dummy_dummy"
+    ],
+    "13": [
+      "readme_onde_estao_os_netos"
+    ],
+    "14": [
+      "cursor_manager_cursormanager"
+    ],
+    "15": [
+      "camera_3d_camera3d"
+    ],
+    "16": [
+      "canto_canto"
+    ]
+  },
+  "cohesion": {
+    "0": 0.43,
+    "1": 0.14,
+    "2": 0.23,
+    "3": 0.21,
+    "4": 0.85,
+    "5": 0.32,
+    "6": 0.5,
+    "7": 1.0,
+    "8": 1.0,
+    "9": 1.0,
+    "10": 1.0,
+    "11": 1.0,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0
+  },
+  "gods": [
+    {
+      "id": "referencia_bugs_solucoes",
+      "label": "Referência Rápida — Bugs e Soluções",
+      "degree": 26
+    },
+    {
+      "id": "codigo_inimigo_base_gd",
+      "label": "inimigo_base.gd",
+      "degree": 24
+    },
+    {
+      "id": "codigo_spawner_inimigos_gd",
+      "label": "spawner_inimigos.gd",
+      "degree": 24
+    },
+    {
+      "id": "gamemanager_gamemanager",
+      "label": "GameManager",
+      "degree": 24
+    },
+    {
+      "id": "codigo_holandes_voador_gd",
+      "label": "holandes_voador.gd",
+      "degree": 22
+    },
+    {
+      "id": "fenda_dos_piratas_fenda",
+      "label": "Fenda dos Piratas",
+      "degree": 21
+    },
+    {
+      "id": "holandes_voador_gd_script",
+      "label": "holandes_voador.gd",
+      "degree": 20
+    },
+    {
+      "id": "holandes_voador_concept",
+      "label": "Holandês Voador (Boss)",
+      "degree": 19
+    },
+    {
+      "id": "inimigo_base_gd_script",
+      "label": "inimigo_base.gd",
+      "degree": 19
+    },
+    {
+      "id": "inimigobase_concept",
+      "label": "InimigoBase",
+      "degree": 16
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Builds (Node3D)",
+      "target": "Castle (Castelo)",
+      "source_files": [
+        "Scripts Globais/Builds.gd",
+        "Scripts Locais/castle.gd"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities; peripheral node `Castle (Castelo)` unexpectedly reaches hub `Builds (Node3D)`"
+    },
+    {
+      "source": "Opcao Upgrade Button",
+      "target": "GameManager",
+      "source_files": [
+        "Scripts Locais/opcao_upgrade_button.gd",
+        "Obsidian Vault/GameManager.md"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Opcao Upgrade Button` unexpectedly reaches hub `GameManager`"
+    },
+    {
+      "source": "BuildingMine",
+      "target": "Balanceamento (Autoload)",
+      "source_files": [
+        "Scripts Locais/building_mine.gd",
+        "Scripts Globais/Balanceamento.gd"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "connects across different repos/directories; bridges separate communities; peripheral node `BuildingMine` unexpectedly reaches hub `Balanceamento (Autoload)`"
+    },
+    {
+      "source": "Upgrade UI (Upgrade Panel)",
+      "target": "UpgradePathData (Resource)",
+      "source_files": [
+        "UI/Upgrade/upgrade_ui.gd",
+        "Scripts Globais/Builds.gd"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Bolhas Shader (Bubble/Underwater Screen Effect)",
+      "target": "Orc (Enemy)",
+      "source_files": [
+        "Shaders/Bolhas.gdshader",
+        "Scripts Locais/orc.gd"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; connects across different repos/directories; peripheral node `Bolhas Shader (Bubble/Underwater Screen Effect)` unexpectedly reaches hub `Orc (Enemy)`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `GameManager` connect `Community 2` to `Community 0`, `Community 3`, `Community 4`?",
+      "why": "High betweenness centrality (0.387) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Builds (Node3D)` connect `Community 5` to `Community 2`?",
+      "why": "High betweenness centrality (0.240) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Balanceamento (Autoload)` connect `Community 2` to `Community 5`?",
+      "why": "High betweenness centrality (0.226) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 3 inferred relationships involving `GameManager` (e.g. with `Ondas e Spawner` and `Orc (Enemy)`) actually correct?",
+      "why": "`GameManager` has 3 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `holandes_voador.gd` (e.g. with `InimigoBase` and `holandes_voador.gd`) actually correct?",
+      "why": "`holandes_voador.gd` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Onde Estão os Netos? (Game)`, `BuildSlotManager`, `CursorManager (Autoload)` to the rest of the system?",
+      "why": "33 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `Community 1` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.14 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

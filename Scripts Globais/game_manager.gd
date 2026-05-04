@@ -499,20 +499,23 @@ func acionar_vitoria():
 	vitoria.emit()
 	get_tree().paused = true
 
-func reiniciar_partida():
-	get_tree().paused = false
-
-	onda_atual = 1
-	moedas = banco_de_fases[1]["moedas_iniciais"]
-	nivel_base = banco_de_fases[1]["nivel_base_inicial"]
-
-	bonus_dano = 0
-	bonus_moedas_onda = 0
-	bonus_velocidade_ataque = 0.0
-	desconto_construcao = 0
-	multiplicador_horda = 1.0
+func limpar_estado_sessao() -> void:
+	# Reseta bônus e modificadores de sessão sem trocar de cena nem emitir sinais.
+	# Chame (com get_tree().paused = false no chamador) antes de change_scene_to_file().
+	onda_atual         = 1
+	bonus_dano         = 0
+	bonus_moedas_onda  = 0
+	bonus_velocidade_ataque     = 0.0
+	desconto_construcao         = 0
+	multiplicador_horda              = 1.0
 	multiplicador_velocidade_inimigo = 1.0
 
+func reiniciar_partida():
+	get_tree().paused = false
+	var cfg = banco_de_fases.get(fase_atual, banco_de_fases[1])
+	moedas      = cfg["moedas_iniciais"]
+	nivel_base  = cfg["nivel_base_inicial"]
+	limpar_estado_sessao()
 	get_tree().reload_current_scene()
 
 func adicionar_moedas(quantidade: int):

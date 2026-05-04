@@ -128,6 +128,11 @@ var is_fantasma: bool = false
 var _caldeiron_timer: float = 0.0   # Acumulador para o ataque do Caldeirão
 var vida_atual: int
 var inimigos_no_alcance = []
+
+# ── Barra de vida 3D (criada por código, funciona em todos os builds) ──────
+var _barra_3d_container: Node3D
+var _bar_fill_3d: MeshInstance3D
+var _mat_fill_3d: StandardMaterial3D
 var alvo_atual: Node3D = null
 var esta_destruida: bool = false
 
@@ -582,6 +587,80 @@ func _inicializar_barra_vida():
 		barra_vida.max_value = vida_maxima
 		barra_vida.value = vida_atual
 		container_barra.visible = false
+	_criar_barra_3d()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BARRA DE VIDA 3D
+# ─────────────────────────────────────────────────────────────────────────────
+func _criar_barra_3d() -> void:
+	# Recria a barra (chamada também pelo reviver)
+	if is_instance_valid(_barra_3d_container):
+		_barra_3d_container.queue_free()
+
+	var e_base := (tipo == TipoConstrucao.BASE)
+	var bar_w  : float = 4.5  if e_base else 2.0
+	var bar_h  : float = 0.35 if e_base else 0.22
+	var bar_y  : float = 3.0  if e_base else 1.2
+
+	_barra_3d_container      = Node3D.new()
+	_barra_3d_container.name = "BarraVida3D"
+	add_child(_barra_3d_container)
+	_barra_3d_container.position = Vector3(0.0, bar_y, 0.0)
+	# BASE: sempre visível; outros: escondido quando vida cheia
+	_barra_3d_container.visible = e_base
+
+	# ── Fundo ────────────────────────────────────────────────────────────────
+	var bg        := MeshInstance3D.new()
+	var quad_bg   := QuadMesh.new()
+	quad_bg.size  = Vector2(bar_w, bar_h)
+	bg.mesh       = quad_bg
+	var mat_bg                := StandardMaterial3D.new()
+	mat_bg.albedo_color       = Color(0.08, 0.08, 0.08, 0.88)
+	mat_bg.transparency       = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat_bg.billboard_mode     = BaseMaterial3D.BILLBOARD_ENABLED
+	mat_bg.no_depth_test      = true
+	bg.material_override      = mat_bg
+	bg.cast_shadow            = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_barra_3d_container.add_child(bg)
+
+	# ── Preenchimento ─────────────────────────────────────────────────────────
+	_bar_fill_3d       = MeshInstance3D.new()
+	var quad_fill      := QuadMesh.new()
+	quad_fill.size     = Vector2(bar_w - 0.12, bar_h - 0.06)
+	_bar_fill_3d.mesh  = quad_fill
+	_mat_fill_3d                   = StandardMaterial3D.new()
+	_mat_fill_3d.albedo_color      = Color(0.15, 0.85, 0.20, 1.0)
+	_mat_fill_3d.billboard_mode    = BaseMaterial3D.BILLBOARD_ENABLED
+	_mat_fill_3d.no_depth_test     = true
+	_mat_fill_3d.render_priority   = 1
+	_bar_fill_3d.material_override = _mat_fill_3d
+	_bar_fill_3d.cast_shadow       = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_barra_3d_container.add_child(_bar_fill_3d)
+
+	_atualizar_barra_3d()
+
+func _atualizar_barra_3d() -> void:
+	if not is_instance_valid(_bar_fill_3d) or not is_instance_valid(_mat_fill_3d) \
+			or not is_instance_valid(_barra_3d_container):
+		return
+
+	var e_base := (tipo == TipoConstrucao.BASE)
+	var bar_w  : float = 4.5 if e_base else 2.0
+	var ratio  : float = clamp(float(vida_atual) / float(vida_maxima), 0.0, 1.0)
+
+	_bar_fill_3d.scale.x    = ratio
+	_bar_fill_3d.position.x = (bar_w - 0.12) / 2.0 * (ratio - 1.0)
+
+	if ratio > 0.5:
+		_mat_fill_3d.albedo_color = Color(0.15, 0.85, 0.20, 1.0)
+	elif ratio > 0.25:
+		_mat_fill_3d.albedo_color = Color(0.95, 0.75, 0.10, 1.0)
+	else:
+		_mat_fill_3d.albedo_color = Color(0.90, 0.15, 0.10, 1.0)
+
+	# Visibilidade: BASE sempre visível; outros só quando danificado
+	if not e_base:
+		_barra_3d_container.visible = (ratio < 1.0)
 
 func _aplicar_bonus_vida(delta: int):
 	if tipo != TipoConstrucao.BASE: return
@@ -590,6 +669,7 @@ func _aplicar_bonus_vida(delta: int):
 	if tem_barra_vida and barra_vida:
 		barra_vida.max_value = vida_maxima
 		barra_vida.value = vida_atual
+	_atualizar_barra_3d()
 
 func _configurar_alcance():
 	if area_ataque and area_ataque.has_node("CollisionShape3D"):
@@ -842,6 +922,7 @@ func receber_dano(quantidade: int):
 		container_barra.visible = true
 		if barra_vida:
 			barra_vida.value = vida_atual
+	_atualizar_barra_3d()
 			
 	if tipo == TipoConstrucao.BASE:
 		GameManager.vida_base_atual = vida_atual
@@ -929,7 +1010,8 @@ func curar_totalmente():
 	if tem_barra_vida and container_barra:
 		container_barra.visible = false
 	if tipo == TipoConstrucao.BASE:
-		GameManager.vida_base_atual = vida_atual	
+		GameManager.vida_base_atual = vida_atual
+	_atualizar_barra_3d()
 	print("%s curada!" % name)
 
 # ==========================================
