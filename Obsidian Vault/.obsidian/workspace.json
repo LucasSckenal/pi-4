@@ -178,6 +178,7 @@
   },
   "active": "82b56fb5821ec2a7",
   "lastOpenFiles": [
+    "graph.canvas",
     "Index â€” Wiki Principal.md",
     "spawner_inimigos.gd.md",
     "_COMMUNITY_Canto.md",
@@ -202,8 +203,6 @@
     "MusicaGlobal (Autoload).md",
     "Global (Autoload)_1.md",
     "GameManager (Autoload)_1.md",
-    "InimigoConfig Resource.md",
-    "WaveData Resource.md",
-    "graph.canvas"
+    "InimigoConfig Resource.md"
   ]
 }

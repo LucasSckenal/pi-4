@@ -108,9 +108,11 @@ mesh = SubResource("ArrayMesh_klgug")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1479240833]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0034119785, 0.45515358, 0.023120478)
+visible = false
 shape = SubResource("CapsuleShape3D_0hahq")
 
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=1185415727]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1197664846]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39944875, 0.109820575)

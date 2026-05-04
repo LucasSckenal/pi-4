@@ -98,6 +98,19 @@ shader_parameter/color4 = Color(1, 1, 1, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_o1qpm"]
 material = SubResource("ShaderMaterial_lo8m5")
 
+[ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="100_spawner"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="101_wavedata"]
+[ext_resource type="Resource" uid="uid://ahrvj0474ha1h" path="res://Waves/Map3/map3_wave_01.tres" id="102_w01"]
+[ext_resource type="Resource" uid="uid://owguylbv1n9fg" path="res://Waves/Map3/map3_wave_02.tres" id="103_w02"]
+[ext_resource type="Resource" uid="uid://1ra4lt9up2tqn" path="res://Waves/Map3/map3_wave_03.tres" id="104_w03"]
+[ext_resource type="Resource" uid="uid://b6ip9hon1ivod" path="res://Waves/Map3/map3_wave_04.tres" id="105_w04"]
+[ext_resource type="Resource" uid="uid://zwcml3f9c2ayy" path="res://Waves/Map3/map3_wave_05.tres" id="106_w05"]
+[ext_resource type="Resource" uid="uid://l96ifzlu3xcdx" path="res://Waves/Map3/map3_wave_06.tres" id="107_w06"]
+[ext_resource type="Resource" uid="uid://9a9sjinhqawiu" path="res://Waves/Map3/map3_wave_07.tres" id="108_w07"]
+[ext_resource type="Resource" uid="uid://92dmifktuim0i" path="res://Waves/Map3/map3_wave_08.tres" id="109_w08"]
+[ext_resource type="Resource" uid="uid://e5303qq8qids5" path="res://Waves/Map3/map3_wave_09.tres" id="110_w09"]
+[ext_resource type="Resource" uid="uid://5vv6d7uvmhqo0" path="res://Waves/Map3/map3_wave_10.tres" id="111_w10"]
+[ext_resource type="Resource" uid="uid://zcnj40x93lrys" path="res://Waves/Map3/map3_wave_empty.tres" id="112_wempty"]
 [node name="Node3D" type="Node3D" unique_id=1831006418]
 script = ExtResource("99_witchscript")
 
@@ -510,6 +523,21 @@ transform = Transform3D(0.99999994, 0, -7.450581e-09, 0, 0.99999994, 0, 7.450581
 
 [node name="Book_15" parent="Livros" unique_id=1973199679 instance=ExtResource("4_t0wnn")]
 transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246923, -0.08963423, 0.5276379, -0.84472704, -0.06150222, 0.0081528425, 0.48390067)
+
+
+[node name="Spawners" type="Node3D" parent="." unique_id=759731134]
+
+[node name="SpawnerA" parent="Spawners" unique_id=1949187913 instance=ExtResource("100_spawner")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -12)
+ondas = Array[ExtResource("101_wavedata")]([ExtResource("102_w01"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("107_w06"), ExtResource("108_w07"), ExtResource("109_w08"), ExtResource("110_w09"), ExtResource("111_w10")])
+
+[node name="SpawnerB" parent="Spawners" unique_id=1550141656 instance=ExtResource("100_spawner")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, 6)
+ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("107_w06"), ExtResource("108_w07"), ExtResource("109_w08"), ExtResource("110_w09"), ExtResource("111_w10")])
+
+[node name="SpawnerC" parent="Spawners" unique_id=647405914 instance=ExtResource("100_spawner")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, 6)
+ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("112_wempty"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("107_w06"), ExtResource("108_w07"), ExtResource("109_w08"), ExtResource("110_w09"), ExtResource("111_w10")])
 
 [editable path="Ponte"]
 [editable path="cooking-spoon2"]
