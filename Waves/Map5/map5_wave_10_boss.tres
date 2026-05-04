@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://b5w10boss5krk"]
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://bqd6kv3aws2ou"]
 
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
@@ -15,8 +15,7 @@
 [sub_resource type="Resource" id="Resource_kraken"]
 script = ExtResource("1_cfg")
 cena = ExtResource("7_kraken")
-quantidade = 1
-cor = Color(0.7, 0.0, 1.0, 1)
+cor = Color(0.7, 0, 1, 1)
 icone = ExtResource("icon_linigena")
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cyuqepup8cejs"]
 
-[ext_resource type="Script" path="res://Enemys/Map 5/tentaculo.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cir5o22586cv1" path="res://Enemys/Map 5/tentaculo.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://ckg4fp2xehecm" path="res://Map5/Tentaculo.glb" id="2_mesh"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_col"]
@@ -10,12 +10,10 @@ radius = 0.6
 [sub_resource type="SphereShape3D" id="SphereShape3D_sensor"]
 radius = 1.5
 
-[node name="Tentaculo" type="CharacterBody3D" groups=["inimigos"]]
+[node name="Tentaculo" type="CharacterBody3D" unique_id=2118301557 groups=["inimigos"]]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_script")
-tipo_inimigo = 0
 nome_inimigo = "Tentáculo Cósmico"
-eh_aereo = false
-prioriza_construcoes = true
 vida_maxima = 250
 velocidade = 0.0
 forca_dano = 12
@@ -28,20 +26,19 @@ dica_tutorial = "Tentáculo do Cosmic Kraken. Está fixo perto das construções
 status_velocidade = "ESTÁTICA"
 status_vida = "ALTA"
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=982095314]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
 shape = SubResource("CylinderShape3D_col")
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1403138920]
 path_desired_distance = 0.5
 target_desired_distance = 0.5
 
-[node name="ModeloAnchor" type="Node3D" parent="."]
+[node name="ModeloAnchor" type="Node3D" parent="." unique_id=903976036]
 
-[node name="Modelo" parent="ModeloAnchor" instance=ExtResource("2_mesh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="Modelo" parent="ModeloAnchor" unique_id=1569291843 instance=ExtResource("2_mesh")]
 
-[node name="SensorAtaque" type="Area3D" parent="."]
+[node name="SensorAtaque" type="Area3D" parent="." unique_id=1477858210]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorAtaque" unique_id=1077154203]
 shape = SubResource("SphereShape3D_sensor")

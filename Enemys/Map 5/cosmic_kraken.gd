@@ -263,6 +263,11 @@ func _pulso_imunidade() -> void:
 func morrer() -> void:
 	if esta_morto:
 		return
+	# IMPORTANTE: marcar morto AGORA bloqueia a recursão.
+	# Sem isso, ao matar os tentáculos abaixo, cada um chamaria
+	# notificar_tentaculo_morto() → receber_dano() → morrer() de novo
+	# (esta_morto ainda seria false até super.morrer() rodar) → stack overflow.
+	esta_morto = true
 
 	# Mata todos os tentáculos vivos para a wave conseguir terminar
 	for t in _tentaculos_ativos:
