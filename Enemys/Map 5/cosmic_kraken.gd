@@ -29,6 +29,12 @@ class_name CosmicKraken
 @export var dano_por_tentaculo_morto: int = 100
 ## Quanto o Kraken se enterra abaixo da base
 @export var offset_y_sob_base: float = -2.5
+## Distância mínima entre dois tentáculos (evita stack na mesma construção)
+@export var distancia_minima_entre_tentaculos: float = 3.0
+## Offset lateral do tentáculo em relação à construção que ele ataca
+@export var offset_da_construcao: float = 1.8
+## Raio em torno da base usado quando todas as construções foram destruídas
+@export var raio_fallback_base: float = 4.5
 ## Intensidade base da luz dos olhos (energia)
 @export var intensidade_olhos: float = 4.0
 ## Cor dos olhos (roxo cósmico)
@@ -39,7 +45,6 @@ var _olho_esquerdo: OmniLight3D = null
 var _olho_direito: OmniLight3D = null
 var _tentaculos_ativos: Array = []
 var _timer_invocacao: float = 0.0
-var _spawners_ref: Array = []
 
 # ============================================================================
 # READY
@@ -64,12 +69,13 @@ func _ready() -> void:
 
 	super._ready()
 
+	# Kraken NÃO conta como "inimigo restante" da wave. Ele é apenas um "hazard"
+	# que abre caminho via tentáculos — a wave finaliza quando os inimigos normais
+	# (Flamingo/Alexa/Linigena/Sapão) e os tentáculos ativos forem todos derrotados.
+	remove_from_group("inimigos")
+
 	# Posiciona embaixo da base (uma frame depois pra garantir base existindo)
 	call_deferred("_posicionar_sob_base")
-
-	# Coleta refs aos spawners (paths)
-	await get_tree().process_frame
-	_spawners_ref = get_tree().get_nodes_in_group("Spawner")
 
 	# Animação de pulso dos olhos — loop infinito
 	_iniciar_pulso_olhos()
@@ -101,53 +107,115 @@ func _physics_process(delta: float) -> void:
 	_tentaculos_ativos = _tentaculos_ativos.filter(func(t):
 		return is_instance_valid(t) and not t.get("esta_morto"))
 
-	# Invoca novo tentáculo se houver espaço e o timer permitir
+	# Invoca novo tentáculo se houver espaço e o timer permitir.
+	# Para de invocar quando só restam tentáculos vivos (wave em fase de limpeza),
+	# senão o spawner ficaria preso esperando uma corrente infinita de tentáculos.
 	_timer_invocacao -= delta
 	if _timer_invocacao <= 0.0 and _tentaculos_ativos.size() < max_tentaculos_vivos:
+		if _wave_em_limpeza():
+			return
 		_invocar_tentaculo()
 		_timer_invocacao = intervalo_invocacao
 
+# Retorna true se não há mais inimigos "normais" vivos — só tentáculos (ou nada).
+# Usado para parar invocações no fim da wave e deixar o spawner finalizar.
+func _wave_em_limpeza() -> bool:
+	for i in get_tree().get_nodes_in_group("inimigos"):
+		if not is_instance_valid(i):
+			continue
+		if i is Tentaculo:
+			continue
+		# Achou um inimigo normal vivo → wave ainda em curso
+		return false
+	return true
+
 # ============================================================================
 # INVOCAÇÃO DE TENTÁCULOS
+# ----------------------------------------------------------------------------
+# Estratégia:
+#   1) Procura uma construção VIVA do jogador que ainda não tenha tentáculo
+#      próximo. Spawna o tentáculo a uma curta distância dela → tentáculo
+#      ataca essa construção (build slot ocupado).
+#   2) Se TODAS as construções caíram, faz fallback: spawn em volta da base
+#      em ângulo aleatório (raio_fallback_base) — o Kraken muda de tática e
+#      passa a atacar diretamente perto do portal.
 # ============================================================================
 func _invocar_tentaculo() -> void:
 	if cena_tentaculo == null:
 		push_warning("Cosmic Kraken: cena_tentaculo não configurada")
 		return
-	if _spawners_ref.size() == 0:
-		_spawners_ref = get_tree().get_nodes_in_group("Spawner")
-		if _spawners_ref.size() == 0:
-			return
 
-	# Prefere spawners que ainda não têm tentáculo próximo (1 por path)
-	var disponiveis: Array = _spawners_ref.duplicate()
-	disponiveis.shuffle()
-
-	var escolhido: Node3D = null
-	for s in disponiveis:
-		if not is_instance_valid(s):
-			continue
-		var ja_ocupado: bool = false
-		for t in _tentaculos_ativos:
-			if is_instance_valid(t) and t.global_position.distance_to(s.global_position) < 3.0:
-				ja_ocupado = true
-				break
-		if not ja_ocupado:
-			escolhido = s
-			break
-
-	# Fallback: aceita qualquer spawner se todos estiverem "ocupados"
-	if not is_instance_valid(escolhido) and disponiveis.size() > 0:
-		escolhido = disponiveis[0]
-	if not is_instance_valid(escolhido):
+	var pos_spawn = _escolher_posicao_invocacao()
+	if pos_spawn == null:
 		return
 
 	var tentaculo = cena_tentaculo.instantiate()
 	get_parent().add_child(tentaculo)
-	tentaculo.global_position = escolhido.global_position
+	tentaculo.global_position = pos_spawn
 	if "kraken_pai" in tentaculo:
 		tentaculo.kraken_pai = self
 	_tentaculos_ativos.append(tentaculo)
+
+# Devolve um Vector3 (posição) ou null se nenhum spot for viável.
+func _escolher_posicao_invocacao():
+	# 1. Procura construções vivas sem tentáculo nearby
+	var candidatas: Array = []
+	for c in get_tree().get_nodes_in_group("Construcao"):
+		if not is_instance_valid(c):
+			continue
+		# Ignora a base (Castelo / Base) — tentáculo só vai de torres/casas/etc
+		if c.is_in_group("Castelo") or c.is_in_group("Base"):
+			continue
+		if "esta_destruida" in c and c.esta_destruida:
+			continue
+		if "vida_atual" in c and c.vida_atual <= 0:
+			continue
+		# Pula se já há tentáculo grudado nessa construção
+		var ja_ocupada: bool = false
+		for t in _tentaculos_ativos:
+			if is_instance_valid(t) and \
+			   t.global_position.distance_to(c.global_position) < distancia_minima_entre_tentaculos:
+				ja_ocupada = true
+				break
+		if not ja_ocupada:
+			candidatas.append(c)
+
+	if candidatas.size() > 0:
+		var alvo: Node3D = candidatas[randi() % candidatas.size()]
+		# Offset lateral aleatório para o tentáculo emergir AO LADO da construção
+		var ang: float = randf() * TAU
+		var off: Vector3 = Vector3(cos(ang), 0.0, sin(ang)) * offset_da_construcao
+		var pos: Vector3 = alvo.global_position + off
+		pos.y = alvo.global_position.y  # mesma altura da construção
+		return pos
+
+	# 2. FALLBACK: nenhuma construção viva — spawn em volta da base
+	var base = get_tree().get_first_node_in_group("Castelo")
+	if not base:
+		base = get_tree().get_first_node_in_group("Base")
+	if not is_instance_valid(base):
+		return null
+
+	# Tenta achar um spot com distância mínima dos outros tentáculos
+	for tentativa in range(8):
+		var ang: float = randf() * TAU
+		var pos: Vector3 = base.global_position + Vector3(
+			cos(ang) * raio_fallback_base, 0.0, sin(ang) * raio_fallback_base
+		)
+		var ok: bool = true
+		for t in _tentaculos_ativos:
+			if is_instance_valid(t) and \
+			   t.global_position.distance_to(pos) < distancia_minima_entre_tentaculos:
+				ok = false
+				break
+		if ok:
+			return pos
+
+	# Último recurso: aceita qualquer ângulo
+	var ang_final: float = randf() * TAU
+	return base.global_position + Vector3(
+		cos(ang_final) * raio_fallback_base, 0.0, sin(ang_final) * raio_fallback_base
+	)
 
 # Chamado pelos tentáculos quando morrem — fonte ÚNICA de dano no Kraken.
 func notificar_tentaculo_morto() -> void:
