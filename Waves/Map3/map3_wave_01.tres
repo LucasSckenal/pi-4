@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://ahrvj0474ha1h"]
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://hrvj0474ha1h"]
 
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]

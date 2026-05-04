@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://1ra4lt9up2tqn"]
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://dktv2irdcuk62"]
 
 [ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
@@ -26,6 +26,5 @@ metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 [resource]
 script = ExtResource("2_wave")
 nome_da_onda = "Mapa 3 - Onda 3"
-intervalo = 2.0
 inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_abo"), SubResource("Resource_knight")])
 metadata/_custom_type_script = "res://Waves/wave_resource.gd"
