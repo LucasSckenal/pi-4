@@ -546,15 +546,15 @@ transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246
 
 [node name="SpawnerA" parent="Spawners" unique_id=1949187913 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.018281162, 3.6681845, -4.5453496)
-ondas = Array[ExtResource("101_wavedata")]([ExtResource("102_w01"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("107_w06"), ExtResource("108_w07"), ExtResource("109_w08"), ExtResource("110_w09"), ExtResource("111_w10")])
+ondas = Array[ExtResource("101_wavedata")]([ExtResource("102_w01"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
 [node name="SpawnerB" parent="Spawners" unique_id=1550141656 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.73182, 3.8260355, -0.3767725)
-ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("107_w06"), ExtResource("108_w07"), ExtResource("109_w08"), ExtResource("110_w09"), ExtResource("111_w10")])
+ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
 [node name="SpawnerC" parent="Spawners" unique_id=647405914 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.371412, 3.7880163, 1.6408707)
-ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("112_wempty"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("107_w06"), ExtResource("108_w07"), ExtResource("109_w08"), ExtResource("110_w09"), ExtResource("111_w10")])
+ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("112_wempty"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
 [editable path="cooking-spoon2"]
 [editable path="NavigationRegion3D/Ponte"]

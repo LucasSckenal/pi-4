@@ -614,15 +614,15 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="A" parent="NavigationRegion3D/Spawners" unique_id=423161848 instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9270208, -0.11176777, 21.654905)
-ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_ruefr"), SubResource("Resource_rf658"), SubResource("Resource_n8yof"), SubResource("Resource_ay0o5"), SubResource("Resource_ixa2r"), SubResource("Resource_0hg87"), SubResource("Resource_gssta"), SubResource("Resource_sn2ws"), SubResource("Resource_8ttfx"), SubResource("Resource_obiuy")])
+ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_ruefr"), SubResource("Resource_rf658"), SubResource("Resource_n8yof"), SubResource("Resource_ay0o5"), SubResource("Resource_ixa2r"), SubResource("Resource_obiuy")])
 
 [node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.348438, -0.4743364, 9.137367)
-ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResource("Resource_vv0he"), SubResource("Resource_oddva"), SubResource("Resource_47k5u"), SubResource("Resource_cw4hp"), SubResource("Resource_13vmv"), SubResource("Resource_yp23m"), SubResource("Resource_nkmqd"), SubResource("Resource_23mdf"), SubResource("Resource_o6hc4")])
+ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResource("Resource_vv0he"), SubResource("Resource_oddva"), SubResource("Resource_47k5u"), SubResource("Resource_cw4hp"), SubResource("Resource_o6hc4")])
 
 [node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.286411, -1.2499998, 8.591048)
-ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_4r01v"), SubResource("Resource_jiit4"), SubResource("Resource_mwowu"), SubResource("Resource_sdwqg"), SubResource("Resource_nw1gr")])
+ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_nw1gr")])
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1139841382 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.83867055, 0.54463905, 0, -0.54463905, 0.83867055, -1, 7, 22)

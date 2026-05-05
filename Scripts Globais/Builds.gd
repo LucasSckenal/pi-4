@@ -136,6 +136,15 @@ var _mat_fill_3d: StandardMaterial3D
 var alvo_atual: Node3D = null
 var esta_destruida: bool = false
 
+# Indicador de upgrade disponível — anel + seta + pontos de luz, criados por código.
+# Dois modos: DESTAQUE (anel brilhante + seta ⬆ + pontos) e SUTIL (só anel apagado).
+var _indicador_upgrade: Node3D          = null
+var _anel_upgrade:      MeshInstance3D  = null
+var _mat_anel_upgrade:  StandardMaterial3D = null
+var _seta_upgrade:      Node3D          = null
+var _pontos_upgrade:    Array           = []   # List[MeshInstance3D]
+var _timer_indicador:   float           = 0.0  # Atraso entre checagens (evita overhead a cada frame)
+
 # Valores atuais após upgrades (calculados dinamicamente)
 var dano_atual: int
 var moedas_por_onda_atual: int
@@ -171,6 +180,8 @@ func _ready():
 	
 	# Carrega o modelo do nível atual (se houver)
 	_trocar_modelo(nivel_atual)
+	if tipo != TipoConstrucao.BASE:
+		_criar_indicador_upgrade()
 	if sprite_respawn:
 		sprite_respawn.visible = false
 		
@@ -600,7 +611,7 @@ func _criar_barra_3d() -> void:
 	var e_base : bool  = (tipo == TipoConstrucao.BASE)
 	var bar_w  : float = 4.5  if e_base else 2.0
 	var bar_h  : float = 0.35 if e_base else 0.22
-	var bar_y  : float = 3.0  if e_base else 1.2
+	var bar_y  : float = 2.0  if e_base else 0.75
 	var fill_w : float = bar_w - 0.12
 	var fill_h : float = bar_h - 0.06
 
@@ -736,6 +747,13 @@ func _process(delta):
 					Vector3.UP
 				)
 
+	# Indicador de upgrade: checa a cada 0.5 s (evita custo por frame)
+	if not is_fantasma and _indicador_upgrade:
+		_timer_indicador -= delta
+		if _timer_indicador <= 0.0:
+			_timer_indicador = 0.5
+			_atualizar_indicador_upgrade()
+
 	# Caldeirão — ataque em área periódico durante a noite
 	if tipo == TipoConstrucao.CALDEIRON and not is_fantasma and not esta_destruida:
 		if GameManager.is_night:
@@ -761,6 +779,257 @@ func _caldeiron_atacar_area() -> void:
 		if global_position.distance_to(inimigo.global_position) <= raio:
 			if inimigo.has_method("receber_dano"):
 				inimigo.receber_dano(dano_base)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# INDICADOR DE UPGRADE DISPONÍVEL
+# • Modo DESTAQUE  — anel brilhante + seta ⬆ grande + pontos flutuantes
+# • Modo SUTIL     — só o anel, 25 % de opacidade (não polui a tela)
+# A construção em destaque é calculada pelo GameManager a cada 1 s
+# usando a mesma lógica do ConselheiroIA (torres têm prioridade).
+# ──────────────────────────────────────────────────────────────────────────────
+func _criar_indicador_upgrade() -> void:
+	var container := Node3D.new()
+	container.name    = "IndicadorUpgrade"
+	container.visible = false
+	add_child(container)
+	_indicador_upgrade = container
+
+	# Material próprio do anel (precisamos alterar opacidade/emissão em runtime)
+	_mat_anel_upgrade = StandardMaterial3D.new()
+	_mat_anel_upgrade.albedo_color               = Color(0.1, 0.95, 0.22, 0.92)
+	_mat_anel_upgrade.shading_mode               = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_mat_anel_upgrade.emission_enabled           = true
+	_mat_anel_upgrade.emission                   = Color(0.1, 0.95, 0.22)
+	_mat_anel_upgrade.emission_energy_multiplier = 2.5
+	_mat_anel_upgrade.transparency               = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_mat_anel_upgrade.cull_mode                  = BaseMaterial3D.CULL_DISABLED
+
+	# Material dos pontos de luz (compartilhado — animação via scale)
+	var mat_pontos := StandardMaterial3D.new()
+	mat_pontos.albedo_color               = Color(0.15, 1.0, 0.25)
+	mat_pontos.shading_mode               = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat_pontos.emission_enabled           = true
+	mat_pontos.emission                   = Color(0.15, 1.0, 0.25)
+	mat_pontos.emission_energy_multiplier = 3.5
+
+	# ── Anel fino giratório no chão ──────────────────────────────────────────
+	_anel_upgrade = MeshInstance3D.new()
+	var torus := TorusMesh.new()
+	torus.inner_radius  = 0.58
+	torus.outer_radius  = 0.70
+	torus.rings         = 32
+	torus.ring_segments = 8
+	_anel_upgrade.mesh             = torus
+	_anel_upgrade.material_override = _mat_anel_upgrade
+	_anel_upgrade.cast_shadow      = MeshInstance3D.SHADOW_CASTING_SETTING_OFF
+	_anel_upgrade.position.y       = 0.05
+	container.add_child(_anel_upgrade)
+
+	# ── Badge retangular arredondado com seta ⬆ (shader inline, sem fonte) ────
+	# Posicionado no meio da construção; billboard pelo vertex shader.
+	_seta_upgrade          = MeshInstance3D.new()
+	_seta_upgrade.name     = "BadgeSeta"
+	_seta_upgrade.position = Vector3(0.0, 0.5, 0.0)
+	_seta_upgrade.visible  = false
+	_seta_upgrade.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_OFF
+
+	var _quad := QuadMesh.new()
+	_quad.size = Vector2(0.65, 0.65)
+	(_seta_upgrade as MeshInstance3D).mesh = _quad
+
+	var _badge_shader := Shader.new()
+	_badge_shader.code = """
+shader_type spatial;
+render_mode unshaded, cull_disabled, shadows_disabled, depth_draw_never, depth_test_disabled;
+
+// SDF retangulo arredondado
+float sd_box(vec2 p, vec2 b, float r) {
+    vec2 q = abs(p) - b + r;
+    return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+}
+
+// Billboard esférico: preserva escala, remove rotação
+void vertex() {
+    MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
+        INV_VIEW_MATRIX[0] * length(MODEL_MATRIX[0]),
+        INV_VIEW_MATRIX[1] * length(MODEL_MATRIX[1]),
+        INV_VIEW_MATRIX[2] * length(MODEL_MATRIX[2]),
+        MODEL_MATRIX[3]);
+}
+
+void fragment() {
+    // p em [-1,1]: p.y=-1 = topo visual, p.y=+1 = base visual
+    vec2 p = UV * 2.0 - 1.0;
+
+    // Fundo: retângulo arredondado
+    float d_bg = sd_box(p, vec2(0.74, 0.74), 0.32);
+    if (d_bg > 0.02) discard;
+    float bg_a = smoothstep(0.02, -0.01, d_bg);
+
+    // Seta apontando para CIMA (pico em p.y negativo = topo da tela)
+    float aa = 0.03;
+
+    // Haste: retângulo vertical
+    float shaft = smoothstep(0.10+aa, 0.10-aa, abs(p.x))
+                * smoothstep(-0.04-aa, -0.04+aa, p.y)
+                * smoothstep(0.36+aa,  0.36-aa,  p.y);
+
+    // Ponta: triângulo, pico (0,-0.38), base (-0.27,-0.04) a (0.27,-0.04)
+    float t   = clamp((p.y + 0.04) / (-0.34), 0.0, 1.0);
+    float hw  = mix(0.27, 0.0, t);
+    float head = smoothstep(hw+aa,    hw-aa,    abs(p.x))
+               * smoothstep(-0.38-aa, -0.38+aa, p.y)
+               * smoothstep(-0.04+aa, -0.04-aa, p.y);
+
+    float arrow = max(shaft, head);
+
+    ALBEDO = mix(vec3(0.04, 0.38, 0.10), vec3(0.96, 1.0, 0.96), arrow);
+    ALPHA  = bg_a * 0.94;
+}
+"""
+	var _badge_mat := ShaderMaterial.new()
+	_badge_mat.shader = _badge_shader
+	(_seta_upgrade as MeshInstance3D).material_override = _badge_mat
+	container.add_child(_seta_upgrade)
+
+	# ── 3 pontos de luz flutuantes entre edifício e seta ─────────────────────
+	_pontos_upgrade = []
+	for y: float in [0.12, 0.25, 0.38]:
+		var ponto := MeshInstance3D.new()
+		var esfera := SphereMesh.new()
+		esfera.radius = 0.04
+		esfera.height = 0.08
+		ponto.mesh             = esfera
+		ponto.material_override = mat_pontos
+		ponto.cast_shadow      = MeshInstance3D.SHADOW_CASTING_SETTING_OFF
+		ponto.position.y       = y
+		ponto.scale            = Vector3.ONE * 0.3  # começa pequeno; tween de escala
+		ponto.visible          = false
+		container.add_child(ponto)
+		_pontos_upgrade.append(ponto)
+
+	_animar_indicador_upgrade()
+
+# Inicia as animações contínuas — ficam rodando mesmo quando o container está
+# invisível (nenhum custo visual) e retomam naturalmente ao se tornar visível.
+func _animar_indicador_upgrade() -> void:
+	# Anel gira 360° a cada 4 s (sempre ativo)
+	if is_instance_valid(_anel_upgrade):
+		var tw_ring := create_tween().set_loops()
+		tw_ring.tween_property(_anel_upgrade, "rotation:y", TAU, 4.0)\
+			.from(0.0).set_trans(Tween.TRANS_LINEAR)
+
+	# Seta sobe e desce suavemente
+	if is_instance_valid(_seta_upgrade):
+		var y0 := _seta_upgrade.position.y
+		var tw_seta := create_tween().set_loops()
+		tw_seta.tween_property(_seta_upgrade, "position:y", y0 + 0.22, 0.60)\
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tw_seta.tween_property(_seta_upgrade, "position:y", y0, 0.60)\
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+
+	# Pontos pulsam em cascata (crescem/encolhem via scale)
+	for i in _pontos_upgrade.size():
+		var ponto: Node3D = _pontos_upgrade[i]
+		if not is_instance_valid(ponto):
+			continue
+		if i == 0:
+			var tw_p := create_tween().set_loops()
+			tw_p.tween_property(ponto, "scale", Vector3.ONE * 1.3, 0.38)\
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			tw_p.tween_property(ponto, "scale", Vector3.ONE * 0.25, 0.38)\
+				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		else:
+			# Defasagem inicial via timer — mantém período igual entre os pontos
+			get_tree().create_timer(i * 0.25).timeout.connect(func():
+				if not is_instance_valid(ponto):
+					return
+				var tw_p2 := ponto.create_tween().set_loops()
+				tw_p2.tween_property(ponto, "scale", Vector3.ONE * 1.3, 0.38)\
+					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				tw_p2.tween_property(ponto, "scale", Vector3.ONE * 0.25, 0.38)\
+					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+			)
+
+func _atualizar_indicador_upgrade() -> void:
+	if not is_instance_valid(_indicador_upgrade):
+		return
+	# Esconde durante a noite ou se a construção foi destruída
+	if esta_destruida or GameManager.is_night:
+		_indicador_upgrade.visible = false
+		_set_borda_destaque(false)
+		return
+	if not _pode_fazer_upgrade():
+		_indicador_upgrade.visible = false
+		_set_borda_destaque(false)
+		return
+
+	_indicador_upgrade.visible = true
+
+	# Decide o modo: DESTAQUE (esta construção) ou SUTIL (as demais)
+	var eh_destaque: bool = (GameManager.construcao_destaque_upgrade == self)
+
+	# Escala do container: tamanho normal no destaque, menor no sutil
+	_indicador_upgrade.scale = Vector3.ONE if eh_destaque else Vector3.ONE * 0.65
+
+	# Borda verde ao redor do modelo da construção em destaque
+	_set_borda_destaque(eh_destaque)
+
+	# Seta e pontos: visíveis só no destaque
+	if is_instance_valid(_seta_upgrade):
+		_seta_upgrade.visible = eh_destaque
+	for p: Node3D in _pontos_upgrade:
+		if is_instance_valid(p):
+			p.visible = eh_destaque
+
+	# Anel: sempre visível, mas opacidade/emissão mudam conforme o modo
+	if is_instance_valid(_mat_anel_upgrade):
+		if eh_destaque:
+			_mat_anel_upgrade.albedo_color               = Color(0.1, 0.95, 0.22, 0.92)
+			_mat_anel_upgrade.emission_energy_multiplier = 2.5
+		else:
+			_mat_anel_upgrade.albedo_color               = Color(0.1, 0.95, 0.22, 0.25)
+			_mat_anel_upgrade.emission_energy_multiplier = 0.6
+
+# Aplica ou remove a borda verde nos modelos 3D da construção em destaque.
+# Usa o parâmetro _Color do Outline.gdshader (next_pass) para colorir o contorno.
+func _set_borda_destaque(ativo: bool) -> void:
+	var espessura: float = 5.0 if ativo else espessura_outline_normal
+	var cor: Color = Color(0.0, 0.62, 0.10, 1.0) if ativo else Color(0.0, 0.0, 0.0, 1.0)
+	_aplicar_borda_colorida(self, espessura, cor)
+
+func _aplicar_borda_colorida(no: Node, espessura: float, cor: Color) -> void:
+	if no is MeshInstance3D:
+		var material = no.get_active_material(0)
+		if material and material.next_pass and material.next_pass is ShaderMaterial:
+			var mat_override = no.get_surface_override_material(0)
+			if mat_override == null:
+				mat_override = material.duplicate(true)
+				no.set_surface_override_material(0, mat_override)
+			mat_override.next_pass.set_shader_parameter("scale", espessura)
+			mat_override.next_pass.set_shader_parameter("_Color", cor)
+	for filho in no.get_children():
+		_aplicar_borda_colorida(filho, espessura, cor)
+
+# Retorna true se há pelo menos um upgrade acessível com as moedas atuais.
+func _pode_fazer_upgrade() -> bool:
+	# Caminho não escolhido ainda: verifica o caminho mais barato disponível
+	if tem_paths and caminho_atual == -1:
+		for path in upgrade_paths:
+			if not path or path.custos.size() == 0:
+				continue
+			var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
+			var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
+			if fase_min > 0 and GameManager.fase_atual < fase_min:
+				continue
+			if fase_max > 0 and GameManager.fase_atual > fase_max:
+				continue
+			if GameManager.moedas >= path.custos[0]:
+				return true
+		return false
+	# Caminho já escolhido ou upgrades lineares
+	var custo: int = get_custo_proximo_upgrade()
+	return custo > 0 and GameManager.moedas >= custo
 
 func _on_timer_ataque_timeout():
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
@@ -967,10 +1236,12 @@ func receber_dano(quantidade: int):
 func destruir():
 	print("%s destruída!" % name)
 	if tipo == TipoConstrucao.BASE:
-		GameManager.acionar_game_over() 
+		GameManager.acionar_game_over()
 		return
 
 	esta_destruida = true
+	if is_instance_valid(_indicador_upgrade):
+		_indicador_upgrade.visible = false
 	visible = false 
 	
 	# Remove do grupo para os Orcs pararem de focar nela
@@ -998,6 +1269,9 @@ func reviver():
 	esta_destruida = false
 	visible = true
 	vida_atual = vida_maxima
+	# Cancela qualquer tween de dano que tenha ficado pendente e garante
+	# que a construção volta à altura correta (evita o bug de underground).
+	position.y = y_inicial
 	
 	# MOSTRA AOS ORCS NOVAMENTE
 	add_to_group("Construcao")
@@ -1089,6 +1363,10 @@ func _on_area_clique_mouse_entered():
 func _on_area_clique_mouse_exited():
 	if esta_destruida or is_fantasma or GameManager.is_night: return
 	_aplicar_outline_malhas(self, espessura_outline_normal)
+	# Restaura a borda verde imediatamente se esta construção ainda for o destaque
+	if GameManager.construcao_destaque_upgrade == self \
+	   and is_instance_valid(_indicador_upgrade) and _indicador_upgrade.visible:
+		_set_borda_destaque(true)
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 # Varre os nós filhos para encontrar malhas e altera o parâmetro do shader

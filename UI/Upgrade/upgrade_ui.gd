@@ -198,6 +198,14 @@ func _on_botao_vender_pressed():
 			
 	fechar()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			get_viewport().set_input_as_handled()
+			fechar()
+
 func fechar():
 	var tw = create_tween().set_parallel(true)
 	tw.tween_property(fundo_escuro, "modulate:a", 0.0, 0.1)

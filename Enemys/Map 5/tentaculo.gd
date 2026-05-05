@@ -17,12 +17,19 @@ class_name Tentaculo
 ## Tempo (s) sem alvo até o tentáculo se auto-destruir
 ## (evita travar o fim da wave caso todas as construções já tenham caído)
 @export var timeout_sem_alvo: float = 12.0
+## Tempo (s) com alvo mas fora de alcance antes de se auto-destruir
+## (evita travar se o spawn ficou longe demais da construção)
+@export var timeout_fora_alcance: float = 20.0
 
 # Referência ao boss que invocou este tentáculo
 var kraken_pai: Node = null
 
-# Quanto tempo está sem alvo
+# Contador de tempo sem alvo válido
 var _tempo_sem_alvo: float = 0.0
+# Contador de tempo com alvo mas fora do alcance de ataque
+var _tempo_fora_alcance: float = 0.0
+# AnimationPlayer encontrado no modelo (pode ser null se o GLB não tiver animações)
+var _anim_player: AnimationPlayer = null
 
 # ============================================================================
 # READY
@@ -37,15 +44,41 @@ func _ready() -> void:
 
 	super._ready()
 
+	# Busca o AnimationPlayer no sub-tree do modelo (GLB pode exportar um)
+	_anim_player = _buscar_anim_player(get_node_or_null("ModeloAnchor"))
+
 	# Animação dramática: tentáculo emerge do chão
 	_animar_emergencia()
+
+# Percorre recursivamente a sub-árvore em busca do primeiro AnimationPlayer.
+func _buscar_anim_player(raiz: Node) -> AnimationPlayer:
+	if raiz == null:
+		return null
+	if raiz is AnimationPlayer:
+		return raiz
+	for filho in raiz.get_children():
+		var encontrado: AnimationPlayer = _buscar_anim_player(filho)
+		if encontrado:
+			return encontrado
+	return null
 
 func _animar_emergencia() -> void:
 	var alvo_y: float = global_position.y
 	global_position.y = alvo_y - altura_emergencia
-	var tw = create_tween()
+
+	# O modelo começa invisível (escala zero) e expande junto com a subida —
+	# cria um efeito de brotamento do chão mais dramático sem tocar no
+	# collision shape do CharacterBody3D (usamos o ModeloAnchor como pivot).
+	var modelo: Node3D = get_node_or_null("ModeloAnchor")
+	if modelo:
+		modelo.scale = Vector3.ZERO
+
+	var tw = create_tween().set_parallel(true)
 	tw.tween_property(self, "global_position:y", alvo_y, duracao_emergencia)\
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if modelo:
+		tw.tween_property(modelo, "scale", Vector3.ONE, duracao_emergencia * 0.75)\
+			.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 
 # ============================================================================
 # FÍSICA — Sobrescreve completamente. Tentáculo é ESTÁTICO:
@@ -78,8 +111,10 @@ func _physics_process(delta: float) -> void:
 			_tempo_sem_alvo += delta
 			if _tempo_sem_alvo >= timeout_sem_alvo:
 				morrer()
+			_tocar_animacao("idle")
 			return
 		_tempo_sem_alvo = 0.0
+		_tempo_fora_alcance = 0.0
 
 	# Vira pra encarar a construção (rotação horizontal apenas)
 	var alvo_pos: Vector3 = alvo_atual.global_position
@@ -87,13 +122,38 @@ func _physics_process(delta: float) -> void:
 	if not global_position.is_equal_approx(alvo_pos):
 		look_at(alvo_pos, Vector3.UP, true)
 
-	# Ataca se em alcance
+	# Ataca se em alcance; acumula timeout se ficar preso fora do alcance
 	var dist_xz: float = Vector2(
 		global_position.x - alvo_atual.global_position.x,
 		global_position.z - alvo_atual.global_position.z
 	).length()
 	if dist_xz <= distancia_ataque:
+		_tempo_fora_alcance = 0.0
+		_tocar_animacao("attack")
 		atacar()
+	else:
+		_tempo_fora_alcance += delta
+		_tocar_animacao("idle")
+		if _tempo_fora_alcance >= timeout_fora_alcance:
+			morrer()
+
+# ============================================================================
+# ANIMAÇÃO — Toca animação pelo nome; cai automaticamente na primeira
+#             disponível se o nome exato não existir no GLB
+# ============================================================================
+func _tocar_animacao(nome: String) -> void:
+	if not _anim_player:
+		return
+	# Já tocando a animação certa? Nada a fazer.
+	if _anim_player.current_animation == nome and _anim_player.is_playing():
+		return
+	if _anim_player.has_animation(nome):
+		_anim_player.play(nome)
+	elif not _anim_player.is_playing():
+		# Fallback: primeira animação disponível (idle genérico do GLB)
+		var lista: PackedStringArray = _anim_player.get_animation_list()
+		if lista.size() > 0:
+			_anim_player.play(lista[0])
 
 # ============================================================================
 # ALVO — Apenas construções (ignora a base e outros tentáculos)
@@ -126,6 +186,12 @@ func procurar_novo_alvo():
 func morrer() -> void:
 	if esta_morto:
 		return
+	# Garante que o modelo está em escala normal mesmo que o tentáculo morra
+	# durante a animação de surgimento (onde ModeloAnchor começa em scale zero).
+	# Sem isso, o tentáculo ficaria invisível durante a animação de morte.
+	var modelo: Node3D = get_node_or_null("ModeloAnchor")
+	if modelo:
+		modelo.scale = Vector3.ONE
 	if is_instance_valid(kraken_pai) and kraken_pai.has_method("notificar_tentaculo_morto"):
 		kraken_pai.notificar_tentaculo_morto()
 	super.morrer()
