@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dpvk2oj1ksekl"
-path.s3tc="res://.godot/imported/icon.svg-ed7653cfceda465bd029c9408192217c.s3tc.ctex"
+uid="uid://bl4bvrlu4upem"
+path.s3tc="res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Icons/icon.svg"
-dest_files=["res://.godot/imported/icon.svg-ed7653cfceda465bd029c9408192217c.s3tc.ctex"]
+source_file="res://Assets/Noise/Voronoi Noise.png"
+dest_files=["res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.s3tc.ctex"]
 
 [params]
 
@@ -39,6 +39,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=0
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

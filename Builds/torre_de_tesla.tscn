@@ -15,10 +15,7 @@ shader = ExtResource("3_ms3iq")
 shader_parameter/scale = 1.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcqba"]
 resource_name = "material_0"
@@ -98,10 +95,6 @@ height = 0.8
 [sub_resource type="SphereShape3D" id="SphereShape3D_tesla"]
 radius = 1.5
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_click"]
-height = 0.8
-radius = 0.35
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_stencil"]
 render_priority = 1
 transparency = 1
@@ -129,10 +122,13 @@ stencil_outline_thickness = 0.005
 material = SubResource("StandardMaterial3D_indicator")
 outer_radius = 0.48
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_click"]
+height = 0.8
+radius = 0.35
+
 [node name="torre_de_tesla" type="Node3D" unique_id=1310765549 node_paths=PackedStringArray("indicador_alcance")]
 transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0, 0, 0)
 script = ExtResource("6_builds")
-tipo = 0
 custo_moedas = 7
 vida_maxima = 500
 dano = 15
@@ -140,10 +136,10 @@ tempo_ataque_base = 0.9
 alcance = 1.5
 cena_flecha = ExtResource("7_flecha")
 cena_raio_eletrico = ExtResource("8_raio")
+tipo_ataque_proprio = "chain_lightning"
 ponto_de_tiro = NodePath("PontoDeTiro")
 area_ataque_path = NodePath("AreaAtaque")
 indicador_alcance = NodePath("IndicadorAlcance")
-tipo_ataque_proprio = "chain_lightning"
 nome_construcao = "Torre Tesla"
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=1360077509]
@@ -151,28 +147,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("ArrayMesh_6nk8r")
 
 [node name="EsferaEletricidade" type="MeshInstance3D" parent="." unique_id=325999770]
-transform = Transform3D(0.64000005, 0, 0, 0, 0.616, 0, 0, 0, 0.64000005, -0.016104221, 0.7650728, 0)
+transform = Transform3D(0.64000005, 0, 0, 0, 0.616, 0, 0, 0, 0.64000005, -0.016104221, 1.8122177, 0)
 mesh = SubResource("SphereMesh_50qre")
-[node name="AreaAtaque" type="Area3D" parent="." index="2"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" index="0"]
+[node name="AreaAtaque" type="Area3D" parent="." unique_id=2139888107]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" unique_id=1913822358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24, 0)
 shape = SubResource("SphereShape3D_tesla")
 
-[node name="TimerAtaque" type="Timer" parent="AreaAtaque" index="1"]
+[node name="TimerAtaque" type="Timer" parent="AreaAtaque" unique_id=1263058484]
 wait_time = 0.9
 autostart = true
 
-[node name="PontoDeTiro" type="Marker3D" parent="." index="3"]
+[node name="PontoDeTiro" type="Marker3D" parent="." unique_id=1739609106]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
 
-[node name="IndicadorAlcance" type="MeshInstance3D" parent="." index="4"]
+[node name="IndicadorAlcance" type="MeshInstance3D" parent="." unique_id=1698262]
 visible = false
 mesh = SubResource("TorusMesh_tesla")
 
-[node name="AreaClique" type="Area3D" parent="." index="5"]
+[node name="AreaClique" type="Area3D" parent="." unique_id=40011468]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=155373204]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("CylinderShape3D_click")
 
