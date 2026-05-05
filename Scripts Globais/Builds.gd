@@ -141,7 +141,7 @@ var esta_destruida: bool = false
 var _indicador_upgrade: Node3D          = null
 var _anel_upgrade:      MeshInstance3D  = null
 var _mat_anel_upgrade:  StandardMaterial3D = null
-var _seta_upgrade:      Label3D         = null
+var _seta_upgrade:      Node3D          = null
 var _pontos_upgrade:    Array           = []   # List[MeshInstance3D]
 var _timer_indicador:   float           = 0.0  # Atraso entre checagens (evita overhead a cada frame)
 
@@ -825,22 +825,76 @@ func _criar_indicador_upgrade() -> void:
 	_anel_upgrade.position.y       = 0.05
 	container.add_child(_anel_upgrade)
 
-	# ── Seta principal ⬆ (billboard, só aparece no modo destaque) ────────────
-	_seta_upgrade = Label3D.new()
-	_seta_upgrade.text             = "⬆"
-	_seta_upgrade.font_size        = 96
-	_seta_upgrade.modulate         = Color(0.18, 1.0, 0.28, 1.0)
-	_seta_upgrade.outline_size     = 8
-	_seta_upgrade.outline_modulate = Color(0.0, 0.35, 0.0, 1.0)
-	_seta_upgrade.billboard        = BaseMaterial3D.BILLBOARD_ENABLED
-	_seta_upgrade.no_depth_test    = true
-	_seta_upgrade.position         = Vector3(0.0, 0.9, 0.0)
-	_seta_upgrade.visible          = false
+	# ── Badge retangular arredondado com seta ⬆ (shader inline, sem fonte) ────
+	# Posicionado no meio da construção; billboard pelo vertex shader.
+	_seta_upgrade          = MeshInstance3D.new()
+	_seta_upgrade.name     = "BadgeSeta"
+	_seta_upgrade.position = Vector3(0.0, 0.5, 0.0)
+	_seta_upgrade.visible  = false
+	_seta_upgrade.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_OFF
+
+	var _quad := QuadMesh.new()
+	_quad.size = Vector2(0.65, 0.65)
+	(_seta_upgrade as MeshInstance3D).mesh = _quad
+
+	var _badge_shader := Shader.new()
+	_badge_shader.code = """
+shader_type spatial;
+render_mode unshaded, cull_disabled, shadows_disabled, depth_draw_never, depth_test_disabled;
+
+// SDF retangulo arredondado
+float sd_box(vec2 p, vec2 b, float r) {
+    vec2 q = abs(p) - b + r;
+    return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+}
+
+// Billboard esférico: preserva escala, remove rotação
+void vertex() {
+    MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
+        INV_VIEW_MATRIX[0] * length(MODEL_MATRIX[0]),
+        INV_VIEW_MATRIX[1] * length(MODEL_MATRIX[1]),
+        INV_VIEW_MATRIX[2] * length(MODEL_MATRIX[2]),
+        MODEL_MATRIX[3]);
+}
+
+void fragment() {
+    // p em [-1,1]: p.y=-1 = topo visual, p.y=+1 = base visual
+    vec2 p = UV * 2.0 - 1.0;
+
+    // Fundo: retângulo arredondado
+    float d_bg = sd_box(p, vec2(0.74, 0.74), 0.32);
+    if (d_bg > 0.02) discard;
+    float bg_a = smoothstep(0.02, -0.01, d_bg);
+
+    // Seta apontando para CIMA (pico em p.y negativo = topo da tela)
+    float aa = 0.03;
+
+    // Haste: retângulo vertical
+    float shaft = smoothstep(0.10+aa, 0.10-aa, abs(p.x))
+                * smoothstep(-0.04-aa, -0.04+aa, p.y)
+                * smoothstep(0.36+aa,  0.36-aa,  p.y);
+
+    // Ponta: triângulo, pico (0,-0.38), base (-0.27,-0.04) a (0.27,-0.04)
+    float t   = clamp((p.y + 0.04) / (-0.34), 0.0, 1.0);
+    float hw  = mix(0.27, 0.0, t);
+    float head = smoothstep(hw+aa,    hw-aa,    abs(p.x))
+               * smoothstep(-0.38-aa, -0.38+aa, p.y)
+               * smoothstep(-0.04+aa, -0.04-aa, p.y);
+
+    float arrow = max(shaft, head);
+
+    ALBEDO = mix(vec3(0.04, 0.38, 0.10), vec3(0.96, 1.0, 0.96), arrow);
+    ALPHA  = bg_a * 0.94;
+}
+"""
+	var _badge_mat := ShaderMaterial.new()
+	_badge_mat.shader = _badge_shader
+	(_seta_upgrade as MeshInstance3D).material_override = _badge_mat
 	container.add_child(_seta_upgrade)
 
 	# ── 3 pontos de luz flutuantes entre edifício e seta ─────────────────────
 	_pontos_upgrade = []
-	for y: float in [0.40, 0.60, 0.78]:
+	for y: float in [0.12, 0.25, 0.38]:
 		var ponto := MeshInstance3D.new()
 		var esfera := SphereMesh.new()
 		esfera.radius = 0.04
@@ -941,7 +995,7 @@ func _atualizar_indicador_upgrade() -> void:
 # Usa o parâmetro _Color do Outline.gdshader (next_pass) para colorir o contorno.
 func _set_borda_destaque(ativo: bool) -> void:
 	var espessura: float = 5.0 if ativo else espessura_outline_normal
-	var cor: Color = Color(0.0, 1.0, 0.15, 1.0) if ativo else Color(0.0, 0.0, 0.0, 1.0)
+	var cor: Color = Color(0.0, 0.62, 0.10, 1.0) if ativo else Color(0.0, 0.0, 0.0, 1.0)
 	_aplicar_borda_colorida(self, espessura, cor)
 
 func _aplicar_borda_colorida(no: Node, espessura: float, cor: Color) -> void:
