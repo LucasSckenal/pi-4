@@ -154,6 +154,13 @@ func _abrir_modal_fase(numero_fase: int) -> void:
 func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 	GameManager.modo_infinito = infinito
 
+	# Limpa o estado da sessão anterior antes de trocar de cena.
+	# Isso garante que nivel_base (e demais bônus) estejam zerados quando a nova
+	# cena carregar — a base lê GameManager.nivel_base em _ready(), então se esse
+	# valor ficar sujo de uma sessão anterior a base aparece no nível máximo.
+	get_tree().paused = false
+	GameManager.limpar_estado_sessao()
+
 	# Toca a música correspondente à fase
 	match numero_fase:
 		1: MusicaGlobal.tocar_tutorial()

@@ -39,12 +39,15 @@ class_name CosmicKraken
 @export var intensidade_olhos: float = 4.0
 ## Cor dos olhos (roxo cósmico)
 @export var cor_olhos: Color = Color(0.7, 0.0, 1.0, 1.0)
+## Quantos segundos antes de invocar os olhos se acendem (telegraf visual)
+@export var tempo_telegraf: float = 1.5
 
 # Referências internas
 var _olho_esquerdo: OmniLight3D = null
 var _olho_direito: OmniLight3D = null
 var _tentaculos_ativos: Array = []
 var _timer_invocacao: float = 0.0
+var _telegrafando: bool = false
 
 # ============================================================================
 # READY
@@ -111,7 +114,18 @@ func _physics_process(delta: float) -> void:
 	# Para de invocar quando só restam tentáculos vivos (wave em fase de limpeza),
 	# senão o spawner ficaria preso esperando uma corrente infinita de tentáculos.
 	_timer_invocacao -= delta
+
+	# Telegraf visual: acende os olhos quando falta <tempo_telegraf> para invocar
+	if _timer_invocacao <= tempo_telegraf \
+			and _timer_invocacao > 0.0 \
+			and not _telegrafando \
+			and _tentaculos_ativos.size() < max_tentaculos_vivos \
+			and not _wave_em_limpeza():
+		_telegrafando = true
+		_pulso_telegraf()
+
 	if _timer_invocacao <= 0.0 and _tentaculos_ativos.size() < max_tentaculos_vivos:
+		_telegrafando = false
 		if _wave_em_limpeza():
 			return
 		_invocar_tentaculo()
@@ -257,6 +271,18 @@ func _pulso_imunidade() -> void:
 		tw.tween_property(_olho_direito, "light_color", Color(1, 0.1, 0.1), 0.08)
 		tw.chain().tween_property(_olho_direito, "light_color", cor_orig, 0.25)
 
+# Telegraf: acende forte antes de invocar tentáculo — avisa o jogador
+func _pulso_telegraf() -> void:
+	if not _olho_esquerdo and not _olho_direito:
+		return
+	var tw = create_tween().set_parallel(true)
+	if _olho_esquerdo:
+		tw.tween_property(_olho_esquerdo, "light_energy", intensidade_olhos * 4.0, 0.2)
+		tw.chain().tween_property(_olho_esquerdo, "light_energy", intensidade_olhos * 2.0, 0.5)
+	if _olho_direito:
+		tw.tween_property(_olho_direito, "light_energy", intensidade_olhos * 4.0, 0.2)
+		tw.chain().tween_property(_olho_direito, "light_energy", intensidade_olhos * 2.0, 0.5)
+
 # ============================================================================
 # MORTE — Mata tentáculos restantes e finaliza com fade dramático
 # ============================================================================
@@ -268,6 +294,11 @@ func morrer() -> void:
 	# notificar_tentaculo_morto() → receber_dano() → morrer() de novo
 	# (esta_morto ainda seria false até super.morrer() rodar) → stack overflow.
 	esta_morto = true
+
+	# Esconde a barra de vida imediatamente — evita que o jogador veja a barra
+	# zerada no intervalo entre a morte do boss e a tela de vitória aparecer.
+	if canvas_boss:
+		canvas_boss.hide()
 
 	# Mata todos os tentáculos vivos para a wave conseguir terminar
 	for t in _tentaculos_ativos:

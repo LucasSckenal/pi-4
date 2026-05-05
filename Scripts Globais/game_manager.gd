@@ -39,6 +39,14 @@ var recarregando_save: bool = false
 var modo_infinito: bool = false
 
 # ==========================================
+# DESTAQUE DE UPGRADE
+# ==========================================
+# Qual construção exibe o indicador completo (seta + anel brilhante).
+# As demais exibem apenas o anel apagado. Atualizado a cada 1 s durante o dia.
+var construcao_destaque_upgrade: Node = null
+var _timer_destaque_upgrade: float = 0.0
+
+# ==========================================
 # BANCO DE DADOS DAS FASES
 # ==========================================
 var construcoes_permitidas_na_fase: Dictionary = {}
@@ -250,7 +258,7 @@ func carregar_jogo_salvo_manual() -> bool:
 # ==========================================
 # INPUTS GERAIS
 # ==========================================
-func _process(_delta):
+func _process(delta):
 	if Input.is_action_just_pressed("passar_onda"):
 		if estado_atual == EstadoJogo.DIA and not is_tutorial_ativo:
 			iniciar_noite()
@@ -259,6 +267,13 @@ func _process(_delta):
 		modo_dev = true
 		moedas += 10000
 		get_tree().call_group("Interface", "atualizar_moedas")
+
+	# Atualiza o destaque de upgrade a cada 1 s (somente durante o dia)
+	if not is_night:
+		_timer_destaque_upgrade -= delta
+		if _timer_destaque_upgrade <= 0.0:
+			_timer_destaque_upgrade = 1.0
+			_atualizar_destaque_upgrade()
 
 # ==========================================
 # INICIALIZAÇÃO DE FASE E CONSTRUÇÕES
@@ -276,6 +291,8 @@ func carregar_fase(numero_fase: int):
 		_set_nivel_base(config["nivel_base_inicial"])
 		is_tutorial_ativo = config["tutorial"] and not modo_infinito
 		onda_atual = 1
+		# Descarta qualquer construção pendente de uma sessão anterior
+		dados_construcoes_pendentes.clear()
 		iniciar_dia(true)
 	# Se for save, os dados já foram carregados — não sobrescrevemos
 
@@ -310,6 +327,7 @@ func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
 	spawners_concluidos = 0
 	is_night = true
+	construcao_destaque_upgrade = null   # Limpa o destaque ao entrar na noite
 
 	# Salva ANTES da noite começar — garante que todas as construções
 	# do jogador estão no arquivo. Assim ao carregar/reiniciar a noite
@@ -509,6 +527,12 @@ func limpar_estado_sessao() -> void:
 	desconto_construcao         = 0
 	multiplicador_horda              = 1.0
 	multiplicador_velocidade_inimigo = 1.0
+	# Garante que construções de uma sessão antiga nunca vazem para outra
+	dados_construcoes_pendentes.clear()
+	recarregando_save = false
+	# Reseta nivel_base para 0: a base lê esse valor em _ready() ao carregar a cena,
+	# então deve estar limpo antes de qualquer change_scene_to_file() para nova partida.
+	_set_nivel_base(0)
 
 func reiniciar_partida():
 	get_tree().paused = false
@@ -591,7 +615,11 @@ func carregar_jogo() -> bool:
 	onda_atual        = config.get_value("sessao", "onda_atual", 1)
 	_set_nivel_base(config.get_value("sessao", "nivel_base", 0))
 	is_tutorial_ativo = config.get_value("sessao", "is_tutorial_ativo", false)
-	iniciar_dia()
+	# NÃO chama iniciar_dia() aqui — isso adicionaria renda como se fosse um
+	# novo dia. Os chamadores (carregar_jogo_salvo_manual / reiniciar_noite_atual)
+	# emitem dia_iniciado no momento certo, depois das construções restauradas.
+	estado_atual = EstadoJogo.DIA
+	is_night     = false
 
 	bonus_dano                    = config.get_value("sessao", "bonus_dano", 0)
 	bonus_moedas_onda             = config.get_value("sessao", "bonus_moedas_onda", 0)
@@ -619,7 +647,8 @@ func _migrar_save_json() -> bool:
 	onda_atual        = dados_save.get("onda_atual", 1)
 	_set_nivel_base(dados_save.get("nivel_base", 0))
 	is_tutorial_ativo = dados_save.get("is_tutorial_ativo", false)
-	iniciar_dia()
+	estado_atual = EstadoJogo.DIA
+	is_night     = false
 
 	bonus_dano                    = dados_save.get("bonus_dano", 0)
 	bonus_moedas_onda             = dados_save.get("bonus_moedas_onda", 0)
@@ -735,3 +764,59 @@ func reiniciar_noite_atual():
 	else:
 		push_warning("[GameManager] Nenhum save encontrado ao reiniciar a noite. Fazendo reload simples.")
 		get_tree().reload_current_scene()
+
+# ==========================================
+# DESTAQUE DE UPGRADE — lógica de seleção
+# ==========================================
+# Mesmo critério do ConselheiroIA (prioridade 3):
+#   torres têm preferência; em empate, o upgrade mais barato vence.
+
+# Helper: custo candidato para o próximo upgrade.
+# Lida com construções de múltiplos caminhos (tem_paths) que ainda não
+# escolheram um caminho — nesses casos retorna o menor custo inicial entre
+# os paths disponíveis, em vez de -1 (que get_custo_proximo_upgrade retorna).
+func _custo_candidato_upgrade(c: Node) -> int:
+	var tem_paths_c: bool = c.get("tem_paths") if "tem_paths" in c else false
+	var caminho_c: int    = c.get("caminho_atual") if "caminho_atual" in c else -1
+	if tem_paths_c and caminho_c == -1:
+		var paths = c.get("upgrade_paths")
+		if paths == null or paths.size() == 0:
+			return -1
+		var menor: int = -1
+		for path in paths:
+			if path == null or path.custos.size() == 0:
+				continue
+			var cp: int = path.custos[0]
+			if menor < 0 or cp < menor:
+				menor = cp
+		return menor
+	if c.has_method("get_custo_proximo_upgrade"):
+		return c.get_custo_proximo_upgrade()
+	return -1
+
+func _atualizar_destaque_upgrade() -> void:
+	if get_tree() == null:
+		construcao_destaque_upgrade = null
+		return
+	var construcoes = get_tree().get_nodes_in_group("Construcao")
+	var melhor: Node  = null
+	var melhor_custo: int = moedas + 1
+	for c in construcoes:
+		if not is_instance_valid(c):        continue
+		if c.is_in_group("Base"):           continue
+		if not ("tipo" in c):               continue
+		var est = c.get("esta_destruida")
+		if est != null and est:             continue
+		var custo_raw: int = _custo_candidato_upgrade(c)
+		if custo_raw <= 0:                  continue
+		var custo_final: int = obter_custo_com_desconto(custo_raw)
+		if custo_final > moedas:            continue
+		# Torres têm prioridade; em empate escolhe o mais barato
+		var eh_torre: bool       = (c.tipo == 0)
+		var melhor_eh_torre: bool = (melhor != null and melhor.tipo == 0)
+		if melhor == null \
+		   or (eh_torre and not melhor_eh_torre) \
+		   or (eh_torre == melhor_eh_torre and custo_final < melhor_custo):
+			melhor_custo = custo_final
+			melhor       = c
+	construcao_destaque_upgrade = melhor

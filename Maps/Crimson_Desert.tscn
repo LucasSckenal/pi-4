@@ -1084,15 +1084,15 @@ transform = Transform3D(-97.207565, 0, 23.46671, 0, 100.000015, 0, -23.46671, 0,
 
 [node name="Spawner A" parent="Spawns" unique_id=423161848 instance=ExtResource("8_dk0kk")]
 transform = Transform3D(0.9782704, 0, 0.20733172, 0, 0.99999964, 0, -0.20733172, 0, 0.9782704, 1.8222699, 0.17400353, 2.7453864)
-ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_1adak"), SubResource("Resource_hj1xp"), SubResource("Resource_gwkev"), SubResource("Resource_qmdqv"), SubResource("Resource_it188"), SubResource("Resource_dk0kk"), SubResource("Resource_sv780"), SubResource("Resource_b2idl"), SubResource("Resource_068fl"), SubResource("Resource_qphxd")])
+ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_1adak"), SubResource("Resource_hj1xp"), SubResource("Resource_gwkev"), SubResource("Resource_qmdqv"), SubResource("Resource_it188"), SubResource("Resource_qphxd")])
 
 [node name="Spawner B" parent="Spawns" unique_id=34138668 instance=ExtResource("8_dk0kk")]
 transform = Transform3D(0.451827, 0, 0.8921051, 0, 0.9999996, 0, -0.8921051, 0, 0.451827, 1.9104922, 0.16818234, 2.7571769)
-ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_gxr63"), SubResource("Resource_vbs5l"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje"), SubResource("Resource_2h005"), SubResource("Resource_1lte0"), SubResource("Resource_u6451"), SubResource("Resource_sqfto"), SubResource("Resource_d3pib")])
+ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_gxr63"), SubResource("Resource_vbs5l"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje"), SubResource("Resource_d3pib")])
 
 [node name="Spawner C" parent="Spawns" unique_id=878883450 instance=ExtResource("8_dk0kk")]
 transform = Transform3D(0.6841775, 0, 0.72931504, 0, 0.9999997, 0, -0.72931504, 0, 0.6841775, 1.7545505, 0.16787104, 2.798553)
-ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_a3xla"), SubResource("Resource_m1uej"), SubResource("Resource_dx84t"), SubResource("Resource_7aht3"), SubResource("Resource_6oh1h"), SubResource("Resource_4hbx2"), SubResource("Resource_mdkjs"), SubResource("Resource_mn3i6"), SubResource("Resource_l3ung"), SubResource("Resource_pi6cv")])
+ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_a3xla"), SubResource("Resource_m1uej"), SubResource("Resource_dx84t"), SubResource("Resource_7aht3"), SubResource("Resource_6oh1h"), SubResource("Resource_pi6cv")])
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("20_2h005")]
 transform = Transform3D(2.9999335, 0.018277364, -0.008100863, -0.018275728, 2.9999444, 0.00063045596, 0.008104553, -0.00058109226, 2.999989, 0.1185745, 1.1493058, -1.6705356)
