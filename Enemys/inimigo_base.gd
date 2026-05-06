@@ -10,11 +10,14 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var tipo_inimigo: Categoria = Categoria.NORMAL
 @export var nome_inimigo: String = "Monstro Desconhecido"
 @export var eh_aereo: bool = false
+@export var usar_video_custom := false
+@export var video_stream: VideoStream
 @export_category("Comportamento Kamikaze (Quebra-Muro)")
 @export var eh_kamikaze: bool = false
 @export var raio_explosao: float = 3.0
 @export var dano_explosao: int = 50
 @export var prioriza_construcoes: bool = true # Se true, ele ignora tropas do jogador no caminho
+
 # ==========================================
 # CONFIGURAÇÕES
 # ==========================================
@@ -119,6 +122,14 @@ func _ready():
 		nav_agent.path_desired_distance = 0.5
 		nav_agent.target_desired_distance = 0.5
 		
+	if tipo_inimigo == Categoria.BOSS:
+		await _tocar_cutscene()
+		
+	# SE FOR MINI BOSS, PODEMOS DEIXÁ-LO UM POUCO MAIOR AUTOMATICAMENTE (Opcional)
+	elif tipo_inimigo == Categoria.MINI_BOSS:
+		if modelo_3d:
+			modelo_3d.scale = escala_original * 1.3 # Fica 30% maior
+				
 	# ==========================================
 	# TELA DE AVISO (TUTORIAL / ENCYCLOPEDIA)
 	# ==========================================
@@ -139,15 +150,6 @@ func _ready():
 				status_velocidade, 
 				status_vida
 			)
-		
-	# SE FOR UM BOSS, CRIA A BARRA DE VIDA NA TELA
-	if tipo_inimigo == Categoria.BOSS:
-		_criar_interface_do_boss()
-		
-	# SE FOR MINI BOSS, PODEMOS DEIXÁ-LO UM POUCO MAIOR AUTOMATICAMENTE (Opcional)
-	elif tipo_inimigo == Categoria.MINI_BOSS:
-		if modelo_3d:
-			modelo_3d.scale = escala_original * 1.3 # Fica 30% maior
 			
 	
 
@@ -658,3 +660,13 @@ func _criar_efeito_explosao():
 
 	# Quando tudo terminar, apaga os efeitos visuais
 	tween.tween_callback(node_explosao.queue_free)
+
+func _tocar_cutscene():
+	var cutscene = preload("res://Cenas Locais/boss_intro.tscn").instantiate()
+	get_tree().current_scene.add_child(cutscene)
+
+	cutscene.reproduzir_stream(video_stream, nome_inimigo)
+
+	await cutscene.cutscene_finished
+
+	_criar_interface_do_boss()

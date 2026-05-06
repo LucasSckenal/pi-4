@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://02p5a0hquh4a"]
+
+[ext_resource type="Script" uid="uid://bm8syky5p5tig" path="res://Cenas Locais/boss_intro.gd" id="1_ii320"]
+[ext_resource type="VideoStream" uid="uid://cl477o02su4p3" path="res://Assets/Videos/Boss2.ogv" id="2_c4vi8"]
+
+[node name="Boss intro" type="CanvasLayer" unique_id=1410766590]
+script = ExtResource("1_ii320")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=121315009]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="Control" type="Control" parent="." unique_id=2132875932]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Control" unique_id=574441261]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_c4vi8")
+expand = true
+
+[node name="boss_name" type="Label" parent="Control" unique_id=206807102]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -355.0
+offset_right = 365.0
+offset_bottom = 110.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="skip_button" type="Button" parent="Control" unique_id=1004536998]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -49.0
+offset_bottom = 31.0
+grow_horizontal = 0
+text = "Pular"

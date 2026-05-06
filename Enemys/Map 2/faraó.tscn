@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://duu7n3v1uixxc" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="1_0ki3c"]
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_oswje"]
+[ext_resource type="VideoStream" uid="uid://cl477o02su4p3" path="res://Assets/Videos/Boss2.ogv" id="2_uht6h"]
 [ext_resource type="Texture2D" uid="uid://cluya4y2jmkmb" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations_texture_0_1.png" id="3_wbft7"]
 [ext_resource type="Texture2D" uid="uid://bujvotcqjdnda" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png" id="4_akyxp"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_akyxp"]
@@ -12,10 +13,7 @@ shader = ExtResource("5_akyxp")
 shader_parameter/scale = 1.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywuqp"]
 resource_name = "Material_1"
@@ -63,6 +61,8 @@ transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_oswje")
 tipo_inimigo = 2
 nome_inimigo = "Faraó"
+usar_video_custom = true
+video_stream = ExtResource("2_uht6h")
 vida_maxima = 5500
 velocidade = 0.3
 forca_dano = 100
@@ -74,7 +74,7 @@ quanto_espalhar = 1.5
 
 [node name="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=383528023 instance=ExtResource("1_0ki3c")]
 
-[node name="char1" parent="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" parent_id_path=PackedInt32Array(383528023, 254524566) index="0" unique_id=1993716904]
+[node name="char1" parent="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" parent_id_path=PackedInt32Array(383528023, 2107088771) index="0" unique_id=308236732]
 mesh = SubResource("ArrayMesh_ir0ho")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=62345733]
