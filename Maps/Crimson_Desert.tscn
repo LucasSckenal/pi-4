@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="1_ofgoq"]
 [ext_resource type="Script" uid="uid://wuna1usnsj7k" path="res://Maps/crimson_desert.gd" id="1_ylt60"]
 [ext_resource type="Shader" uid="uid://d0hqhsfsut5yr" path="res://Shaders/Water.gdshader" id="2_4hbx2"]
+[ext_resource type="Resource" uid="uid://dbb0hcibw1q4h" path="res://Conquistas/fuga_piramide.tres" id="2_sv780"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="2_ylt60"]
 [ext_resource type="Texture2D" uid="uid://xy6aqodovhk1" path="res://Arena/Textures/colormap.png" id="3_ylt60"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="4_qpw32"]
@@ -287,85 +288,6 @@ nome_da_onda = "Onda 5"
 inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_2r26d"), SubResource("Resource_qpw32")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_06eca"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-quantidade = 2
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_8aef0"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("15_5a8yk")
-quantidade = 4
-icone = ExtResource("icon_genio")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_dk0kk"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 6"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_06eca"), SubResource("Resource_8aef0")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_x8cn2"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("17_qpw32")
-icone = ExtResource("icon_litch")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_64pmn"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-quantidade = 2
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_sv780"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 7"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_x8cn2"), SubResource("Resource_64pmn")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_xfyyf"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-quantidade = 3
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_edpil"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 10
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_b2idl"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 8"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_xfyyf"), SubResource("Resource_edpil")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_hmk8q"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("17_qpw32")
-quantidade = 2
-icone = ExtResource("icon_litch")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_uv82r"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("15_5a8yk")
-quantidade = 5
-icone = ExtResource("icon_genio")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_068fl"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 9"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_hmk8q"), SubResource("Resource_uv82r")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
 [sub_resource type="Resource" id="Resource_4sdy8"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("18_5a8yk")
@@ -441,79 +363,6 @@ nome_da_onda = "Onda 5"
 inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_il2bk"), SubResource("Resource_csbm0")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_0s2pb"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 12
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_2h005"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 6"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_0s2pb")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_biaja"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("15_5a8yk")
-quantidade = 8
-icone = ExtResource("icon_genio")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_li8t6"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 10
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_1lte0"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 7"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_biaja"), SubResource("Resource_li8t6")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_7nngq"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-quantidade = 3
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_wphqy"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("15_5a8yk")
-quantidade = 5
-icone = ExtResource("icon_genio")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_u6451"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 8"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_7nngq"), SubResource("Resource_wphqy")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_3m25x"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("15_5a8yk")
-quantidade = 10
-icone = ExtResource("icon_genio")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_t1xkd"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 10
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_sqfto"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 9"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_3m25x"), SubResource("Resource_t1xkd")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
 [sub_resource type="Resource" id="Resource_cd0h3"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("17_qpw32")
@@ -585,78 +434,6 @@ metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 script = ExtResource("9_06eca")
 nome_da_onda = "Onda 5"
 inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_k6sui"), SubResource("Resource_wppfb")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_6br4y"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_ofgoq"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("15_5a8yk")
-quantidade = 6
-icone = ExtResource("icon_genio")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_4hbx2"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 6"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_6br4y"), SubResource("Resource_ofgoq")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_ylt60"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 20
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_mdkjs"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 7"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_ylt60")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_v36hl"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-quantidade = 3
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_tev0m"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 10
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_mn3i6"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 8"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_v36hl"), SubResource("Resource_tev0m")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_01knh"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("16_x8cn2")
-quantidade = 5
-icone = ExtResource("icon_anubis")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_yruhd"]
-script = ExtResource("10_8aef0")
-cena = ExtResource("11_64pmn")
-quantidade = 10
-icone = ExtResource("12_b2idl")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_l3ung"]
-script = ExtResource("9_06eca")
-nome_da_onda = "Onda 9"
-inimigos = Array[ExtResource("10_8aef0")]([SubResource("Resource_01knh"), SubResource("Resource_yruhd")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [sub_resource type="Resource" id="Resource_kcimh"]
@@ -915,6 +692,7 @@ _data = {
 
 [node name="CrimsonDesert" type="Node3D" unique_id=1102453505]
 script = ExtResource("1_ylt60")
+conquista_fim_Deserto = ExtResource("2_sv780")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1501268943 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0.45, 6.5, 10)
@@ -1031,7 +809,7 @@ upgrade_custos = Array[int]([7, 10])
 [node name="Pyramid" parent="Piramide" index="0" unique_id=1454481357]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="pyramid" parent="Piramide/Pyramid" index="0" unique_id=2134748517]
+[node name="pyramid" parent="Piramide/Pyramid" index="0" unique_id=1554172668]
 mesh = SubResource("ArrayMesh_x8cn2")
 
 [node name="CollisionShape3D" parent="Piramide/AreaClique" parent_id_path=PackedInt32Array(1210502438, 2023916221) index="0" unique_id=1854250557]

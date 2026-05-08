@@ -9,6 +9,7 @@ func _ready():
 	await get_tree().process_frame
 	GameManager.carregar_fase(5)
 	MusicaGlobal.tocar_scifi()
+	GameManager.vitoria.connect(_on_fase_vencida)
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
 	pass
