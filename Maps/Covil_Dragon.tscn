@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_1q4q1"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="1_mb5xg"]
 [ext_resource type="Texture2D" uid="uid://cogfnl53gx411" path="res://Icons/Crosshair.png" id="2_1q4q1"]
+[ext_resource type="Resource" uid="uid://ca20tossy4qx5" path="res://Conquistas/chega_fase_final.tres" id="2_8wjj5"]
 [ext_resource type="MeshLibrary" uid="uid://oinygid1j201" path="res://Gridmap/Map5kit.meshlib" id="2_jiea4"]
 [ext_resource type="Shader" uid="uid://dj3wiq8u2pdq0" path="res://Shaders/Lava.gdshader" id="5_3l4lc"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="5_nekdb"]
@@ -19,14 +20,9 @@
 [ext_resource type="Resource" uid="uid://dw43abv6hwvaa" path="res://Waves/Map6/map6_support_03.tres" id="22_s03"]
 [ext_resource type="Resource" uid="uid://gg2uj0l41vav" path="res://Waves/Map6/map6_support_04.tres" id="23_s04"]
 [ext_resource type="Resource" uid="uid://cktmfb2cea5tb" path="res://Waves/Map6/map6_support_05.tres" id="24_s05"]
-[ext_resource type="Resource" uid="uid://8dptcguja2ch" path="res://Waves/Map6/map6_support_06.tres" id="25_s06"]
-[ext_resource type="Resource" uid="uid://dk2y1boxhphys" path="res://Waves/Map6/map6_support_07.tres" id="26_s07"]
-[ext_resource type="Resource" uid="uid://fw8xhg5425rn" path="res://Waves/Map6/map6_support_08.tres" id="27_s08"]
-[ext_resource type="Resource" uid="uid://co3bsbivrqcn0" path="res://Waves/Map6/map6_support_09.tres" id="28_s09"]
 [ext_resource type="Resource" uid="uid://cik6wmybfla45" path="res://Waves/Map6/map6_support_10.tres" id="29_s10"]
 [ext_resource type="Resource" uid="uid://jo5fw1efj10t" path="res://Waves/Map6/map6_stage_01_starter.tres" id="30_stage01"]
 [ext_resource type="Resource" uid="uid://11gdjhgat1vk" path="res://Waves/Map6/map6_stage_04_mid.tres" id="31_stage04"]
-[ext_resource type="Resource" uid="uid://cjejp3dtcbytm" path="res://Waves/Map6/map6_stage_07_mid.tres" id="32_stage07"]
 [ext_resource type="Resource" uid="uid://bqvw5tr4v5wy0" path="res://Waves/Map6/map6_stage_10_final.tres" id="33_stage10"]
 [ext_resource type="Script" uid="uid://b1xfjldmvf8le" path="res://Maps/covil_dragon.gd" id="99_covilscript"]
 
@@ -166,6 +162,7 @@ subdivide_depth = 32
 
 [node name="Node3D" type="Node3D" unique_id=671841865]
 script = ExtResource("99_covilscript")
+conquista_fim = ExtResource("2_8wjj5")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1022373301]
 environment = SubResource("Environment_qm0rk")
@@ -220,7 +217,7 @@ transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, -1.0726824, 38.31988
 transform = Transform3D(0.47576454, 0, 0, 0, -4.371139e-08, -0.56842613, 0, 1, -2.4846695e-08, 0, -0.22699904, -0.6509666)
 mesh = SubResource("PlaneMesh_hmeeu")
 
-[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=862360045]
+[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=1295461056]
 mesh = SubResource("ArrayMesh_6dhr1")
 
 [node name="Floor" type="GridMap" parent="NavigationRegion3D" unique_id=2061120942]

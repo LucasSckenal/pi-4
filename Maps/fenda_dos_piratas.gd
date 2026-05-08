@@ -1,5 +1,5 @@
 extends Node3D
-
+@export var conquista_fim_Fenda: ConquistaData
 const BolhasFundo = preload("res://Cenas Locais/bolhas_fundo.tscn")
 
 func _ready():
@@ -16,3 +16,6 @@ func _on_dia_iniciado(_onda_atual: int) -> void:
 
 func _on_noite_iniciada(_onda_atual: int) -> void:
 	pass
+
+func _on_fase_vencida():
+	Global.processar_recompensa(conquista_fim_Fenda)
