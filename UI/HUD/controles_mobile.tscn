@@ -1,300 +1,179 @@
 [gd_scene format=3 uid="uid://c5pxe6bsjuyx7"]
 
 [ext_resource type="Script" uid="uid://luygg5bjtkli" path="res://UI/HUD/controles_mobile.gd" id="1_mnp6r"]
+[ext_resource type="Texture2D" uid="uid://c6uq8kb8l1yt7" path="res://Assets/UI/BotaoZoomAumentar.png" id="2_zoom_plus"]
+[ext_resource type="Texture2D" uid="uid://btcq30yvh5e05" path="res://Assets/UI/BotaoZoomDiminuir.png" id="3_zoom_minus"]
+[ext_resource type="Texture2D" uid="uid://es34nb6bewh2" path="res://Assets/UI/BotaoPause.png" id="4_pause"]
+[ext_resource type="Texture2D" uid="uid://dnwx5qus6s6x1" path="res://Assets/UI/NivelZoom.png" id="5_zoom_empty"]
+[ext_resource type="Texture2D" uid="uid://c5e4phie5qqs" path="res://Assets/UI/NivelZoomPreenchido.png" id="6_zoom_full"]
+[ext_resource type="Texture2D" uid="uid://jmrjygm3aqhm" path="res://Assets/UI/BotaoVelocidadeTempo.png" id="7_speed"]
+[ext_resource type="Texture2D" uid="uid://ddjwvxjc5tovg" path="res://Assets/UI/BotaoVelocidadeTempoSelecionado.png" id="8_speed_selected"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BoxEmpty"]
-bg_color = Color(0.2, 0.2, 0.2, 0.6)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.8, 0.8, 0.8, 0.5)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ZoomEmpty"]
+texture = ExtResource("5_zoom_empty")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BoxFilled"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ZoomFull"]
+texture = ExtResource("6_zoom_full")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_RoundBtn"]
-bg_color = Color(0.15, 0.15, 0.15, 0.8)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 0.8)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_clear"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_RoundBtnHover"]
-bg_color = Color(0.25, 0.25, 0.25, 0.9)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_Speed"]
+texture = ExtResource("7_speed")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_MenuBtnGigante"]
-bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.83137256)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 200
-corner_radius_top_right = 200
-corner_radius_bottom_right = 200
-corner_radius_bottom_left = 200
-shadow_size = 10
-shadow_offset = Vector2(0, 5)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_SpeedSelected"]
+texture = ExtResource("8_speed_selected")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohsd6"]
-bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.8666667)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 200
-corner_radius_top_right = 200
-corner_radius_bottom_right = 200
-corner_radius_bottom_left = 200
-shadow_size = 10
-shadow_offset = Vector2(0, 5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rsojh"]
-bg_color = Color(0.14901961, 0.14901961, 0.14901961, 0.68235296)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 0.8)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udtqn"]
-bg_color = Color(0.050980393, 0.050980393, 0.050980393, 0.8862745)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 200
-corner_radius_top_right = 200
-corner_radius_bottom_right = 200
-corner_radius_bottom_left = 200
-shadow_size = 10
-shadow_offset = Vector2(0, 5)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SpeedInactivePill"]
-bg_color = Color(0.15, 0.15, 0.15, 0.8)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 0.8)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnp6r"]
-bg_color = Color(0.14901961, 0.14901961, 0.14901961, 0.94509804)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 0.8)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_SpeedActivePill"]
-bg_color = Color(1, 1, 1, 0.95)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 100
-corner_radius_top_right = 100
-corner_radius_bottom_right = 100
-corner_radius_bottom_left = 100
-
-[node name="HudMobileCompleto" type="MarginContainer" unique_id=768701112]
+[node name="HudMobileCompleto" type="MarginContainer" unique_id=1105595404]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -600.0
+offset_left = -430.0
 offset_bottom = 300.0
 grow_horizontal = 0
 mouse_filter = 2
 theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
+theme_override_constants/margin_right = 0
 script = ExtResource("1_mnp6r")
 
-[node name="AreaInterativa" type="Control" parent="." unique_id=1166497661]
-custom_minimum_size = Vector2(600, 300)
+[node name="AreaInterativa" type="Control" parent="." unique_id=2104301358]
+custom_minimum_size = Vector2(430, 300)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxZoom" type="HBoxContainer" parent="AreaInterativa" unique_id=1023938532]
+[node name="HBoxZoom" type="HBoxContainer" parent="AreaInterativa" unique_id=1453379889]
 layout_mode = 0
-offset_left = 277.0
-offset_top = 27.0
-offset_right = 365.0
-offset_bottom = 157.0
-theme_override_constants/separation = 12
+offset_left = 85.0
+offset_top = 5.0
+offset_right = 177.0
+offset_bottom = 137.0
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="VBoxIndicadorZoom" type="VBoxContainer" parent="AreaInterativa/HBoxZoom" unique_id=2109488798]
+[node name="VBoxIndicadorZoom" type="VBoxContainer" parent="AreaInterativa/HBoxZoom" unique_id=824572735]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Box4" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1247784580]
-custom_minimum_size = Vector2(16, 16)
+[node name="Box4" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1203001497]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_BoxEmpty")
+theme_override_styles/panel = SubResource("StyleBoxTexture_ZoomEmpty")
 
-[node name="Box3" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=75068939]
-custom_minimum_size = Vector2(16, 16)
+[node name="Box3" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=5344188]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_BoxFilled")
+theme_override_styles/panel = SubResource("StyleBoxTexture_ZoomFull")
 
-[node name="Box2" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=2133363910]
-custom_minimum_size = Vector2(16, 16)
+[node name="Box2" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=601630987]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_BoxFilled")
+theme_override_styles/panel = SubResource("StyleBoxTexture_ZoomFull")
 
-[node name="Box1" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=1693668868]
-custom_minimum_size = Vector2(16, 16)
+[node name="Box1" type="Panel" parent="AreaInterativa/HBoxZoom/VBoxIndicadorZoom" unique_id=752626435]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_BoxFilled")
+theme_override_styles/panel = SubResource("StyleBoxTexture_ZoomFull")
 
-[node name="VBoxLupas" type="VBoxContainer" parent="AreaInterativa/HBoxZoom" unique_id=590487265]
+[node name="VBoxLupas" type="VBoxContainer" parent="AreaInterativa/HBoxZoom" unique_id=647458257]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="BtnLupaMais" type="Button" parent="AreaInterativa/HBoxZoom/VBoxLupas" unique_id=809546924]
-custom_minimum_size = Vector2(60, 60)
+[node name="BtnLupaMais" type="Button" parent="AreaInterativa/HBoxZoom/VBoxLupas" unique_id=885279144]
+custom_minimum_size = Vector2(58, 58)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.5918669, 0.99999994, 0.3134567, 1)
-theme_override_colors/font_focus_color = Color(0.5918669, 0.99999994, 0.3134567, 1)
-theme_override_colors/font_pressed_color = Color(0.5918669, 0.99999994, 0.3134567, 1)
-theme_override_colors/font_hover_color = Color(0.5918669, 0.99999994, 0.3134567, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_RoundBtn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_RoundBtnHover")
-theme_override_styles/hover = SubResource("StyleBoxFlat_RoundBtnHover")
-text = "🔍+"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_clear")
+icon = ExtResource("2_zoom_plus")
+expand_icon = true
 
-[node name="BtnLupaMenos" type="Button" parent="AreaInterativa/HBoxZoom/VBoxLupas" unique_id=599671105]
-custom_minimum_size = Vector2(60, 60)
+[node name="BtnLupaMenos" type="Button" parent="AreaInterativa/HBoxZoom/VBoxLupas" unique_id=882680366]
+custom_minimum_size = Vector2(58, 58)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_colors/font_color = Color(0.99977463, 0.2604176, 0.20120478, 1)
-theme_override_colors/font_focus_color = Color(0.99977463, 0.2604176, 0.20120478, 1)
-theme_override_colors/font_pressed_color = Color(0.99977463, 0.2604176, 0.20120478, 1)
-theme_override_colors/font_hover_color = Color(0.99977463, 0.2604176, 0.20120478, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("StyleBoxFlat_RoundBtn")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_RoundBtnHover")
-theme_override_styles/hover = SubResource("StyleBoxFlat_RoundBtnHover")
-text = "🔍-"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_clear")
+icon = ExtResource("3_zoom_minus")
+expand_icon = true
 
-[node name="BtnMenuGigante" type="Button" parent="AreaInterativa" unique_id=779330721 groups=["BotaoIniciarNoite"]]
-custom_minimum_size = Vector2(160, 160)
+[node name="BtnMenuGigante" type="Button" parent="AreaInterativa" unique_id=1953719275 groups=["BotaoIniciarNoite"]]
+custom_minimum_size = Vector2(150, 150)
 layout_mode = 0
-offset_left = 380.0
-offset_top = 20.0
-offset_right = 540.0
-offset_bottom = 180.0
+offset_left = 177.0
+offset_top = -5.0
+offset_right = 327.0
+offset_bottom = 145.0
 mouse_default_cursor_shape = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 8
-theme_override_font_sizes/font_size = 80
-theme_override_styles/normal = SubResource("StyleBoxFlat_MenuBtnGigante")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_ohsd6")
-theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_udtqn")
-text = "❚❚"
+theme_override_styles/normal = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_clear")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_clear")
+icon = ExtResource("4_pause")
+expand_icon = true
 
-[node name="GrupoVelocidades" type="Control" parent="AreaInterativa" unique_id=2143394960]
+[node name="GrupoVelocidades" type="Control" parent="AreaInterativa" unique_id=1746051755]
 anchors_preset = 0
-offset_left = 1.0
-offset_top = 20.0
-offset_right = 601.0
-offset_bottom = 320.0
+offset_left = 95.0
+offset_top = 188.0
+offset_right = 525.0
+offset_bottom = 488.0
 mouse_filter = 2
 
-[node name="BtnLento" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=2054495768]
-custom_minimum_size = Vector2(90, 90)
+[node name="BtnLento" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=1546018766]
+custom_minimum_size = Vector2(122, 76)
 layout_mode = 0
-offset_left = 323.0
-offset_top = 147.0
-offset_right = 413.0
-offset_bottom = 237.0
+offset_left = -23.0
+offset_top = -46.0
+offset_right = 99.0
+offset_bottom = 30.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_SpeedInactivePill")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mnp6r")
-theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mnp6r")
-text = "<<
+theme_override_styles/normal = SubResource("StyleBoxTexture_Speed")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_SpeedSelected")
+theme_override_styles/hover = SubResource("StyleBoxTexture_SpeedSelected")
+text = "<
 LENTO"
+icon_alignment = 1
 
-[node name="BtnNormal" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=1638397328]
-custom_minimum_size = Vector2(90, 90)
+[node name="BtnNormal" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=950136734]
+custom_minimum_size = Vector2(122, 76)
 layout_mode = 0
-offset_left = 415.0
-offset_top = 185.0
-offset_right = 505.0
-offset_bottom = 275.0
+offset_left = 96.0
+offset_top = -12.0
+offset_right = 218.0
+offset_bottom = 64.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_SpeedActivePill")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mnp6r")
-theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mnp6r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_SpeedSelected")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_SpeedSelected")
+theme_override_styles/hover = SubResource("StyleBoxTexture_SpeedSelected")
 text = ">
 NORMAL"
 
-[node name="BtnRapido" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=1762973540]
-custom_minimum_size = Vector2(90, 90)
+[node name="BtnRapido" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=337263353]
+custom_minimum_size = Vector2(122, 76)
 layout_mode = 0
-offset_left = 507.0
-offset_top = 147.0
-offset_right = 597.0
-offset_bottom = 237.0
+offset_left = 210.0
+offset_top = -53.0
+offset_right = 334.0
+offset_bottom = 23.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("StyleBoxFlat_SpeedInactivePill")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_mnp6r")
-theme_override_styles/hover = SubResource("StyleBoxFlat_rsojh")
-theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_mnp6r")
+theme_override_styles/normal = SubResource("StyleBoxTexture_Speed")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_SpeedSelected")
+theme_override_styles/hover = SubResource("StyleBoxTexture_SpeedSelected")
 text = ">>
-RÁPIDO"
+RAPIDO"

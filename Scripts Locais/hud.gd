@@ -5,6 +5,9 @@ extends CanvasLayer
 
 const _ScriptPainelConselheiro = preload("res://UI/HUD/painel_conselheiro.gd")
 const _CenaMenuPausa = preload("res://UI/Menus/menu_pausa.tscn")
+const _TexBauFechado = preload("res://Assets/UI/BauFechado.png")
+const _TexBauAberto = preload("res://Assets/UI/BauAberto.png")
+const _TexBotaoMenu = preload("res://Assets/UI/BotaoMenu.png")
 
 var _menu_pausa_inst = null
 
@@ -17,7 +20,7 @@ var _menu_pausa_inst = null
 @onready var margin_direita = $InterfacePrincipal/MarginDireita
 @export var cena_carta_ui: PackedScene
 
-@onready var anim_bau = $InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/SubViewport/chest2/AnimationPlayer
+@onready var imagem_bau: TextureRect = $InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau/BauIcon
 
 # ==========================================
 # SISTEMA DE UPGRADE POR CARTAS (ROGUELIKE)
@@ -101,6 +104,8 @@ func _ready():
 		botao_reroll.pressed.connect(_on_botao_reroll_pressed)
 	
 	atualizar_moedas()
+	if label_onda:
+		label_onda.text = _formatar_texto_onda(GameManager.onda_atual)
 	verificar_estado_dia_noite()
 	
 	# Configura o container de direções (para os ícones de onda)
@@ -216,13 +221,16 @@ func mostrar_wave_na_tela(texto: String):
 
 func atualizar_moedas():
 	if label_moedas != null: 
-		label_moedas.text = "💰 " + str(GameManager.moedas)
+		label_moedas.text = "🪙 " + str(GameManager.moedas)
 
 func animar_bau_abrindo():
-	if anim_bau != null:
-		anim_bau.play("open") 
-		await get_tree().create_timer(1.0).timeout 
-		anim_bau.play_backwards("open")
+	if imagem_bau != null:
+		imagem_bau.texture = _TexBauAberto
+		var tween := create_tween()
+		tween.tween_property(imagem_bau, "scale", Vector2(1.08, 1.08), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(imagem_bau, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		await get_tree().create_timer(1.0).timeout
+		imagem_bau.texture = _TexBauFechado
 
 # ==========================================
 # SISTEMA DE UPGRADE POR CARTAS
@@ -434,7 +442,7 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 func _ao_iniciar_dia_hud(onda: int) -> void:
-	label_onda.text = "ONDA " + str(onda)
+	label_onda.text = _formatar_texto_onda(onda)
 	label_turno.text = "DIA"
 	_animar_transicao_ampulheta(true)
 	
@@ -446,7 +454,7 @@ func _ao_iniciar_dia_hud(onda: int) -> void:
 
 # Atualiza os rótulos de texto, inicia a transição visual e oculta os controles de preparação
 func _ao_iniciar_noite_hud(onda: int) -> void:
-	label_onda.text = "ONDA " + str(onda)
+	label_onda.text = _formatar_texto_onda(onda)
 	label_turno.text = "NOITE"
 	_animar_transicao_ampulheta(false)
 	
@@ -457,6 +465,19 @@ func _ao_iniciar_noite_hud(onda: int) -> void:
 
 # Executa a animação de rotação e distorção ("smear") da ampulheta.
 # A troca entre as texturas ocorre instantaneamente no meio da rotação para mascarar a mudança.
+func _formatar_texto_onda(onda: int) -> String:
+	if GameManager.modo_infinito:
+		return "ONDA " + str(onda)
+
+	var ultima_onda := Balanceamento.get_int("ultima_onda", 10)
+	if GameManager.is_tutorial_ativo:
+		ultima_onda = Balanceamento.get_int("tutorial_ultima_onda", 5)
+	else:
+		var chave_fase := "fase_%d_ultima_onda" % GameManager.fase_atual
+		ultima_onda = Balanceamento.get_int(chave_fase, ultima_onda)
+
+	return "ONDA %d/%d" % [onda, ultima_onda]
+
 func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 	# Define o ponto de origem da rotação e escala para o centro absoluto do controle
 	pivot_ampulheta.pivot_offset = pivot_ampulheta.size / 2.0
@@ -577,8 +598,10 @@ func _instanciar_menu_pausa():
 
 func _criar_botao_pausa():
 	var btn := Button.new()
-	btn.text = "☰"
 	btn.custom_minimum_size = Vector2(56, 56)
+	btn.text = ""
+	btn.icon = _TexBotaoMenu
+	btn.expand_icon = true
 	btn.mouse_filter = Control.MOUSE_FILTER_STOP
 	btn.anchor_left   = 1.0
 	btn.anchor_right  = 1.0
@@ -589,22 +612,12 @@ func _criar_botao_pausa():
 	btn.offset_top    = 14
 	btn.offset_bottom = 70
 
-	var st := StyleBoxFlat.new()
-	st.bg_color = Color(0.10, 0.10, 0.12, 0.92)
-	st.border_color = Color(0.45, 0.45, 0.55)
-	st.set_border_width_all(2)
-	st.corner_radius_top_left    = 12
-	st.corner_radius_top_right   = 12
-	st.corner_radius_bottom_left = 12
-	st.corner_radius_bottom_right = 12
-	var st_hover := st.duplicate() as StyleBoxFlat
-	st_hover.bg_color = Color(0.18, 0.18, 0.22, 0.98)
+	var st := StyleBoxEmpty.new()
+	var st_hover := StyleBoxEmpty.new()
 
 	btn.add_theme_stylebox_override("normal",  st)
 	btn.add_theme_stylebox_override("hover",   st_hover)
 	btn.add_theme_stylebox_override("pressed", st)
-	btn.add_theme_color_override("font_color", Color.WHITE)
-	btn.add_theme_font_size_override("font_size", 28)
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.pressed.connect(func():
 		if is_instance_valid(_menu_pausa_inst):
