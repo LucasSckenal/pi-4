@@ -10,9 +10,9 @@ extends MarginContainer
 @onready var btn_rapido: Button = $AreaInterativa/GrupoVelocidades/BtnRapido
 @onready var grupo_velocidades: Control = $AreaInterativa/GrupoVelocidades
 
-const TEX_MENU = preload("res://Assets/UI/BotaoPauseVazio.png")
+const TEX_PLAY = preload("res://Assets/UI/BotaoPlay.png")
 const TEX_PAUSE = preload("res://Assets/UI/BotaoPause.png")
-const TEX_PAUSE_VAZIO = preload("res://Assets/UI/BotaoPauseVazio.png")
+const TEX_RESUME = preload("res://Assets/UI/BotaoResume.png")
 
 var nivel_zoom_atual := 1
 const MAX_NIVEIS_ZOOM := 4
@@ -49,7 +49,7 @@ func _ready() -> void:
 		GameManager.noite_iniciada.connect(_ao_iniciar_noite)
 
 	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
-		_definir_icone_menu(TEX_MENU)
+		_definir_icone_menu(TEX_PLAY)
 		grupo_velocidades.hide()
 	else:
 		_definir_icone_menu(TEX_PAUSE)
@@ -88,7 +88,7 @@ func _aplicar_fov_na_camera() -> void:
 func _ao_iniciar_dia(_onda) -> void:
 	jogo_pausado = false
 	_alterar_velocidade(1.0, btn_normal)
-	_definir_icone_menu(TEX_MENU)
+	_definir_icone_menu(TEX_PLAY)
 	grupo_velocidades.hide()
 
 func _ao_iniciar_noite(_onda) -> void:
@@ -109,7 +109,7 @@ func _pausar_jogo() -> void:
 	jogo_pausado = true
 	ultima_velocidade = Engine.time_scale
 	Engine.time_scale = 0.0
-	_definir_icone_menu(TEX_PAUSE_VAZIO)
+	_definir_icone_menu(TEX_RESUME)
 
 func _retomar_jogo() -> void:
 	jogo_pausado = false
@@ -141,7 +141,7 @@ func verificar_estado_dia_noite() -> void:
 
 		if is_instance_valid(btn_menu_gigante):
 			btn_menu_gigante.disabled = false
-			_definir_icone_menu(TEX_MENU)
+			_definir_icone_menu(TEX_PLAY)
 
 		if is_instance_valid(grupo_velocidades):
 			grupo_velocidades.hide()

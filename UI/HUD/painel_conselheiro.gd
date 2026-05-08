@@ -94,15 +94,15 @@ func _criar_ui():
 	label_ajuda.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label_ajuda.anchor_left = 0.0
 	label_ajuda.anchor_top = 0.0
-	label_ajuda.anchor_right = 1.0
-	label_ajuda.anchor_bottom = 1.0
-	label_ajuda.offset_left = 148.0
-	label_ajuda.offset_top = 44.0
-	label_ajuda.offset_right = -24.0
-	label_ajuda.offset_bottom = -32.0
+	label_ajuda.anchor_right = 0.95
+	label_ajuda.anchor_bottom = 0.80
+	label_ajuda.offset_left = 142.0
+	label_ajuda.offset_top = 52.0
+	label_ajuda.offset_right = -18.0
+	label_ajuda.offset_bottom = -36.0
 	label_ajuda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label_ajuda.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label_ajuda.add_theme_font_size_override("font_size", 42)
+	label_ajuda.add_theme_font_size_override("font_size", 40)
 	label_ajuda.add_theme_color_override("font_color", Color.WHITE)
 	label_ajuda.add_theme_color_override("font_outline_color", Color.BLACK)
 	label_ajuda.add_theme_constant_override("outline_size", 6)

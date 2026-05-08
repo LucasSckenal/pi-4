@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://luygg5bjtkli" path="res://UI/HUD/controles_mobile.gd" id="1_mnp6r"]
 [ext_resource type="Texture2D" uid="uid://c6uq8kb8l1yt7" path="res://Assets/UI/BotaoZoomAumentar.png" id="2_zoom_plus"]
 [ext_resource type="Texture2D" uid="uid://btcq30yvh5e05" path="res://Assets/UI/BotaoZoomDiminuir.png" id="3_zoom_minus"]
-[ext_resource type="Texture2D" uid="uid://es34nb6bewh2" path="res://Assets/UI/BotaoPause.png" id="4_pause"]
+[ext_resource type="Texture2D" path="res://Assets/UI/BotaoPlay.png" id="4_play"]
 [ext_resource type="Texture2D" uid="uid://dnwx5qus6s6x1" path="res://Assets/UI/NivelZoom.png" id="5_zoom_empty"]
 [ext_resource type="Texture2D" uid="uid://c5e4phie5qqs" path="res://Assets/UI/NivelZoomPreenchido.png" id="6_zoom_full"]
 [ext_resource type="Texture2D" uid="uid://jmrjygm3aqhm" path="res://Assets/UI/BotaoVelocidadeTempo.png" id="7_speed"]
@@ -118,7 +118,7 @@ mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_clear")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_clear")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_clear")
-icon = ExtResource("4_pause")
+icon = ExtResource("4_play")
 expand_icon = true
 
 [node name="GrupoVelocidades" type="Control" parent="AreaInterativa" unique_id=1746051755]
