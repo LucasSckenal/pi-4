@@ -1,4 +1,5 @@
 extends Node3D
+@export var conquista_fim: ConquistaData
 
 func _ready():
 	get_tree().paused = false
@@ -10,7 +11,11 @@ func _ready():
 	MusicaGlobal.tocar_covil()
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
-	pass
+	print("Dia iniciado!!!!")
+	
 
 func _on_noite_iniciada(_onda_atual: int) -> void:
 	pass
+
+func _on_fase_vencida():
+	Global.processar_recompensa(conquista_fim)

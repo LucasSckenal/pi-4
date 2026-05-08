@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://d15jqr18cihrl"]
 
 [ext_resource type="MeshLibrary" uid="uid://dj8fyl33m6ymq" path="res://Gridmap/map4kit.meshlib" id="1_pebae"]
+[ext_resource type="Resource" uid="uid://taylvj1vct4w" path="res://Conquistas/completa_fase_4.tres" id="2_0hg87"]
 [ext_resource type="PackedScene" uid="uid://dtbnd5mgkvaig" path="res://Map4/ship-ghost.glb" id="3_vvj8p"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="4_1rk64"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="5_sxogr"]
@@ -121,86 +122,6 @@ nome_da_onda = "Onda 5"
 inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_ms2d8")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_colh8"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("13_ruefr")
-quantidade = 3
-icone = ExtResource("icon_bombardeiro")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_14jxx"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 5
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_0hg87"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 6"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_colh8"), SubResource("Resource_14jxx")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_xvse5"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("12_n0wf0")
-quantidade = 2
-icone = ExtResource("icon_tubarao")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_xkexh"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 5
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_gssta"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 7"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_xvse5"), SubResource("Resource_xkexh")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_10vpq"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("12_n0wf0")
-quantidade = 3
-icone = ExtResource("icon_tubarao")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_ed5xt"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 5
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_sn2ws"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 8"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_10vpq"), SubResource("Resource_ed5xt")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_skfos"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 10
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_f0iut"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("13_ruefr")
-quantidade = 5
-icone = ExtResource("icon_bombardeiro")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_8ttfx"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 9"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_skfos"), SubResource("Resource_f0iut")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
 [sub_resource type="Resource" id="Resource_2xnwp"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
@@ -276,71 +197,6 @@ nome_da_onda = "Onda 5"
 inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_0uilt"), SubResource("Resource_srcq0")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_wrsyw"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 8
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_13vmv"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 6"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_wrsyw")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_2i47k"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("13_ruefr")
-quantidade = 10
-icone = ExtResource("icon_bombardeiro")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_yp23m"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 7"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_2i47k")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_6yv1i"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("12_n0wf0")
-icone = ExtResource("icon_tubarao")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_ctnn5"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("13_ruefr")
-quantidade = 10
-icone = ExtResource("icon_bombardeiro")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_nkmqd"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 8"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_6yv1i"), SubResource("Resource_ctnn5")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_jvwqu"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 8
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_b3dk4"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("13_ruefr")
-quantidade = 5
-icone = ExtResource("icon_bombardeiro")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_23mdf"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 9"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_jvwqu"), SubResource("Resource_b3dk4")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
 [sub_resource type="Resource" id="Resource_ueahh"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("12_n0wf0")
@@ -406,72 +262,6 @@ nome_da_onda = "Onda 5"
 inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_omf54"), SubResource("Resource_q5umv")])
 metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
-[sub_resource type="Resource" id="Resource_c776y"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("12_n0wf0")
-quantidade = 2
-icone = ExtResource("icon_tubarao")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_4r01v"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 6"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_c776y")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_2hgs0"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 5
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_jiit4"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 7"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_2hgs0")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_lkvbc"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("12_n0wf0")
-quantidade = 2
-icone = ExtResource("icon_tubarao")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_ypva4"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 10
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_mwowu"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 8"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_lkvbc"), SubResource("Resource_ypva4")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
-[sub_resource type="Resource" id="Resource_2xj76"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("11_rf658")
-quantidade = 8
-icone = ExtResource("icon_peixe")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_af1qs"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("13_ruefr")
-quantidade = 4
-icone = ExtResource("icon_bombardeiro")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_sdwqg"]
-script = ExtResource("8_x3h70")
-nome_da_onda = "Onda 9"
-inimigos = Array[ExtResource("10_3b0o8")]([SubResource("Resource_2xj76"), SubResource("Resource_af1qs")])
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
-
 [sub_resource type="Resource" id="Resource_725lu"]
 script = ExtResource("10_3b0o8")
 cena = ExtResource("9_sxnwc")
@@ -534,6 +324,7 @@ shadow_mesh = SubResource("ArrayMesh_fp0b7")
 
 [node name="FendaDosPiratas" type="Node3D" unique_id=653532525]
 script = ExtResource("99_fendascript")
+conquista_fim_Fenda = ExtResource("2_0hg87")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=293910453]
 environment = SubResource("Environment_n8yof")
