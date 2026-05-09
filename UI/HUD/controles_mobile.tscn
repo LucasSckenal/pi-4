@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://luygg5bjtkli" path="res://UI/HUD/controles_mobile.gd" id="1_mnp6r"]
 [ext_resource type="Texture2D" uid="uid://c6uq8kb8l1yt7" path="res://Assets/UI/BotaoZoomAumentar.png" id="2_zoom_plus"]
 [ext_resource type="Texture2D" uid="uid://btcq30yvh5e05" path="res://Assets/UI/BotaoZoomDiminuir.png" id="3_zoom_minus"]
-[ext_resource type="Texture2D" path="res://Assets/UI/BotaoPlay.png" id="4_play"]
+[ext_resource type="Texture2D" uid="uid://dekielvgfhtbv" path="res://Assets/UI/BotaoPlay.png" id="4_play"]
 [ext_resource type="Texture2D" uid="uid://dnwx5qus6s6x1" path="res://Assets/UI/NivelZoom.png" id="5_zoom_empty"]
 [ext_resource type="Texture2D" uid="uid://c5e4phie5qqs" path="res://Assets/UI/NivelZoomPreenchido.png" id="6_zoom_full"]
 [ext_resource type="Texture2D" uid="uid://jmrjygm3aqhm" path="res://Assets/UI/BotaoVelocidadeTempo.png" id="7_speed"]
@@ -50,10 +50,10 @@ mouse_filter = 2
 
 [node name="HBoxZoom" type="HBoxContainer" parent="AreaInterativa" unique_id=1453379889]
 layout_mode = 0
-offset_left = 85.0
-offset_top = 5.0
-offset_right = 177.0
-offset_bottom = 137.0
+offset_left = 106.0
+offset_top = 6.0
+offset_right = 198.0
+offset_bottom = 138.0
 theme_override_constants/separation = 8
 alignment = 1
 
@@ -110,10 +110,10 @@ expand_icon = true
 [node name="BtnMenuGigante" type="Button" parent="AreaInterativa" unique_id=1953719275 groups=["BotaoIniciarNoite"]]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 0
-offset_left = 177.0
-offset_top = -5.0
-offset_right = 327.0
-offset_bottom = 145.0
+offset_left = 199.0
+offset_top = 3.0
+offset_right = 349.0
+offset_bottom = 153.0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_clear")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_clear")
@@ -130,12 +130,11 @@ offset_bottom = 488.0
 mouse_filter = 2
 
 [node name="BtnLento" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=1546018766]
-custom_minimum_size = Vector2(122, 76)
 layout_mode = 0
-offset_left = -23.0
-offset_top = -46.0
-offset_right = 99.0
-offset_bottom = 30.0
+offset_left = 11.0
+offset_top = -49.0
+offset_right = 117.0
+offset_bottom = 20.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 16
@@ -147,12 +146,11 @@ LENTO"
 icon_alignment = 1
 
 [node name="BtnNormal" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=950136734]
-custom_minimum_size = Vector2(122, 76)
 layout_mode = 0
-offset_left = 96.0
-offset_top = -12.0
-offset_right = 218.0
-offset_bottom = 64.0
+offset_left = 122.0
+offset_top = -13.0
+offset_right = 228.0
+offset_bottom = 56.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 16
@@ -163,12 +161,11 @@ text = ">
 NORMAL"
 
 [node name="BtnRapido" type="Button" parent="AreaInterativa/GrupoVelocidades" unique_id=337263353]
-custom_minimum_size = Vector2(122, 76)
 layout_mode = 0
-offset_left = 210.0
-offset_top = -53.0
-offset_right = 334.0
-offset_bottom = 23.0
+offset_left = 231.0
+offset_top = -55.0
+offset_right = 337.0
+offset_bottom = 14.0
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 16

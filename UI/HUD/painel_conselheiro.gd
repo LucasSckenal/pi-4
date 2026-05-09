@@ -53,22 +53,26 @@ func _ready():
 # CRIAÇÃO DA UI
 # ==========================================
 func _criar_ui():
-
-	# ── Botão grande (canto inferior esquerdo) ────────────────────────────
+	# ── Botão de Ajuda (Tamanho Médio/Equilibrado) ────────────────────────────
 	_btn_toggle = Button.new()
 	_btn_toggle.text = ""
 	_btn_toggle.icon = TEX_AJUDA
 	_btn_toggle.expand_icon = true
-	_btn_toggle.custom_minimum_size = Vector2(350, 154)
+	
+	# Tamanho intermediário: 260x114 (Redução de ~25% do original)
+	_btn_toggle.custom_minimum_size = Vector2(260, 114) 
+	
 	_btn_toggle.mouse_filter = Control.MOUSE_FILTER_STOP
 	_btn_toggle.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_btn_toggle.anchor_left   = 0.0
 	_btn_toggle.anchor_right  = 0.0
 	_btn_toggle.anchor_top    = 1.0
 	_btn_toggle.anchor_bottom = 1.0
-	_btn_toggle.offset_left   = 0
-	_btn_toggle.offset_right  = 350
-	_btn_toggle.offset_top    = -166
+	
+	# Posicionamento com margem leve
+	_btn_toggle.offset_left   = 10
+	_btn_toggle.offset_right  = 270 # offset_left + largura
+	_btn_toggle.offset_top    = -126 # -(altura + 12px de margem)
 	_btn_toggle.offset_bottom = -12
 
 	_style_btn = StyleBoxFlat.new()
@@ -89,23 +93,29 @@ func _criar_ui():
 	_btn_toggle.add_theme_color_override("font_color", Color.WHITE)
 	_btn_toggle.add_theme_font_size_override("font_size", 20)
 
+	# ── Label AJUDA ────────────────
 	var label_ajuda := Label.new()
 	label_ajuda.text = "AJUDA"
 	label_ajuda.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label_ajuda.anchor_left = 0.0
 	label_ajuda.anchor_top = 0.0
-	label_ajuda.anchor_right = 0.95
-	label_ajuda.anchor_bottom = 0.80
-	label_ajuda.offset_left = 142.0
-	label_ajuda.offset_top = 52.0
-	label_ajuda.offset_right = -18.0
-	label_ajuda.offset_bottom = -36.0
+	label_ajuda.anchor_right = 1.0
+	label_ajuda.anchor_bottom = 1.0
+	
+	# Ajuste do texto para o centro da área de escrita da placa
+	label_ajuda.offset_left = 100.0   
+	label_ajuda.offset_top = 0
+	label_ajuda.offset_right = -15.0
+	label_ajuda.offset_bottom = -5.0
+	
 	label_ajuda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label_ajuda.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label_ajuda.add_theme_font_size_override("font_size", 40)
+	
+	# Fonte em 30px (Equilíbrio entre o 40 original e o 22 pequeno)
+	label_ajuda.add_theme_font_size_override("font_size", 30) 
 	label_ajuda.add_theme_color_override("font_color", Color.WHITE)
 	label_ajuda.add_theme_color_override("font_outline_color", Color.BLACK)
-	label_ajuda.add_theme_constant_override("outline_size", 6)
+	label_ajuda.add_theme_constant_override("outline_size", 5)
 	_btn_toggle.add_child(label_ajuda)
 
 	add_child(_btn_toggle)
