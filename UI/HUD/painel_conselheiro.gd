@@ -1,6 +1,8 @@
 extends Control
 class_name PainelConselheiro
 
+const TEX_AJUDA = preload("res://Assets/UI/Ajuda.png")
+
 # ==========================================
 # CORES POR PRIORIDADE
 # ==========================================
@@ -51,41 +53,71 @@ func _ready():
 # CRIAÇÃO DA UI
 # ==========================================
 func _criar_ui():
-
-	# ── Botão grande (canto inferior esquerdo) ────────────────────────────
+	# ── Botão de Ajuda (Tamanho Médio/Equilibrado) ────────────────────────────
 	_btn_toggle = Button.new()
-	_btn_toggle.text = "💡  Pedir Conselho"
-	_btn_toggle.custom_minimum_size = Vector2(220, 68)
+	_btn_toggle.text = ""
+	_btn_toggle.icon = TEX_AJUDA
+	_btn_toggle.expand_icon = true
+	
+	# Tamanho intermediário: 260x114 (Redução de ~25% do original)
+	_btn_toggle.custom_minimum_size = Vector2(260, 114) 
+	
 	_btn_toggle.mouse_filter = Control.MOUSE_FILTER_STOP
 	_btn_toggle.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_btn_toggle.anchor_left   = 0.0
 	_btn_toggle.anchor_right  = 0.0
 	_btn_toggle.anchor_top    = 1.0
 	_btn_toggle.anchor_bottom = 1.0
-	_btn_toggle.offset_left   = 16
-	_btn_toggle.offset_right  = 236
-	_btn_toggle.offset_top    = -84
-	_btn_toggle.offset_bottom = -16
+	
+	# Posicionamento com margem leve
+	_btn_toggle.offset_left   = 10
+	_btn_toggle.offset_right  = 270 # offset_left + largura
+	_btn_toggle.offset_top    = -126 # -(altura + 12px de margem)
+	_btn_toggle.offset_bottom = -12
 
 	_style_btn = StyleBoxFlat.new()
-	_style_btn.bg_color = Color(0.10, 0.08, 0.22, 0.96)
+	_style_btn.bg_color = Color(1, 1, 1, 0)
 	_style_btn.border_color = COR_NENHUMA
-	_style_btn.set_border_width_all(3)
-	_style_btn.corner_radius_top_left    = 14
-	_style_btn.corner_radius_top_right   = 14
-	_style_btn.corner_radius_bottom_left = 14
-	_style_btn.corner_radius_bottom_right = 14
-	_style_btn.content_margin_left  = 14
-	_style_btn.content_margin_right = 14
+	_style_btn.set_border_width_all(0)
+	_style_btn.content_margin_left = 0
+	_style_btn.content_margin_top = 0
+	_style_btn.content_margin_right = 0
+	_style_btn.content_margin_bottom = 0
 
 	var style_hover := _style_btn.duplicate() as StyleBoxFlat
-	style_hover.bg_color = Color(0.16, 0.13, 0.32, 0.98)
+	style_hover.bg_color = Color(1, 1, 1, 0.08)
 
 	_btn_toggle.add_theme_stylebox_override("normal",  _style_btn)
 	_btn_toggle.add_theme_stylebox_override("hover",   style_hover)
 	_btn_toggle.add_theme_stylebox_override("pressed", _style_btn)
 	_btn_toggle.add_theme_color_override("font_color", Color.WHITE)
 	_btn_toggle.add_theme_font_size_override("font_size", 20)
+
+	# ── Label AJUDA ────────────────
+	var label_ajuda := Label.new()
+	label_ajuda.text = "AJUDA"
+	label_ajuda.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label_ajuda.anchor_left = 0.0
+	label_ajuda.anchor_top = 0.0
+	label_ajuda.anchor_right = 1.0
+	label_ajuda.anchor_bottom = 1.0
+	
+	# Ajuste do texto para o centro da área de escrita da placa
+	label_ajuda.offset_left = 100.0   
+	label_ajuda.offset_top = 0
+	label_ajuda.offset_right = -15.0
+	label_ajuda.offset_bottom = -5.0
+	
+	label_ajuda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label_ajuda.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	
+	# Fonte em 30px (Equilíbrio entre o 40 original e o 22 pequeno)
+	label_ajuda.add_theme_font_size_override("font_size", 30) 
+	label_ajuda.add_theme_color_override("font_color", Color.WHITE)
+	label_ajuda.add_theme_color_override("font_outline_color", Color.BLACK)
+	label_ajuda.add_theme_constant_override("outline_size", 5)
+	_btn_toggle.add_child(label_ajuda)
+
 	add_child(_btn_toggle)
 	_btn_toggle.pressed.connect(_toggle)
 
@@ -276,11 +308,11 @@ func _aplicar_cor_prioridade(prio: int):
 	_style_btn.border_color    = cor
 
 	if prio <= ConselheiroIA.PRIO_ALTA:
-		_btn_toggle.text = "⚠   Urgente!"
+		_btn_toggle.text = ""
 		_btn_toggle.add_theme_color_override("font_color", cor)
 		_iniciar_pulso(cor)
 	else:
-		_btn_toggle.text = "💡  Pedir Conselho"
+		_btn_toggle.text = ""
 		_btn_toggle.add_theme_color_override("font_color", Color.WHITE)
 		_parar_pulso()
 
@@ -358,11 +390,11 @@ func _verificar_urgencia():
 	var rec = _conselheiro.analisar()
 	_style_btn.border_color = _cor_prio(rec.prioridade)
 	if rec.prioridade <= ConselheiroIA.PRIO_ALTA:
-		_btn_toggle.text = "⚠   Urgente!"
+		_btn_toggle.text = ""
 		_btn_toggle.add_theme_color_override("font_color", _cor_prio(rec.prioridade))
 		_iniciar_pulso(_cor_prio(rec.prioridade))
 	else:
-		_btn_toggle.text = "💡  Pedir Conselho"
+		_btn_toggle.text = ""
 		_btn_toggle.add_theme_color_override("font_color", Color.WHITE)
 		_parar_pulso()
 
@@ -372,7 +404,7 @@ func _ao_iniciar_noite():
 	GameManager.recomendacao_conselheiro = ""
 	_parar_pulso()
 	_style_btn.border_color = COR_NENHUMA
-	_btn_toggle.text = "💡  Pedir Conselho"
+	_btn_toggle.text = ""
 	_btn_toggle.add_theme_color_override("font_color", Color.WHITE)
 
 # ==========================================

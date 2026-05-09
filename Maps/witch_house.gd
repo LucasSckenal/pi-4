@@ -10,6 +10,8 @@ func _ready():
 	await get_tree().process_frame
 	GameManager.carregar_fase(3)
 	MusicaGlobal.tocar_bruxa()
+	GameManager.vitoria.connect(_on_fase_vencida)
+
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
 	if anim_player and anim_player.has_animation("transicao_para_dia"):

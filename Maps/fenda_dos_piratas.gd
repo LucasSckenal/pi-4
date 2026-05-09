@@ -10,7 +10,9 @@ func _ready():
 	GameManager.carregar_fase(4)
 	MusicaGlobal.tocar_aquatico()
 	add_child(BolhasFundo.instantiate())
+	GameManager.vitoria.connect(_on_fase_vencida)
 
+	
 func _on_dia_iniciado(_onda_atual: int) -> void:
 	pass
 

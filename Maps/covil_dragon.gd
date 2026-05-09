@@ -9,6 +9,8 @@ func _ready():
 	GameManager.total_spawners = 3
 	GameManager.carregar_fase(6)
 	MusicaGlobal.tocar_covil()
+	GameManager.vitoria.connect(_on_fase_vencida)
+
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
 	print("Dia iniciado!!!!")
