@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://cao6qi8p6xmbk" path="res://Assets/graveyard/Box_02.fbx" id="17_2h26j"]
 [ext_resource type="Shader" uid="uid://c3gxw48lm23kg" path="res://Shaders/EnergyMaterial.gdshader" id="23_oxycu"]
 [ext_resource type="PackedScene" uid="uid://cqvr2ov4p0xel" path="res://Assets/Wepons/cooking-spoon.glb" id="28_fme3q"]
+[ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="39_v1blp"]
 [ext_resource type="Script" uid="uid://bwlfatxyk7rtv" path="res://Maps/witch_house.gd" id="99_witchscript"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="100_spawner"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="101_wavedata"]
@@ -553,6 +554,49 @@ ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResour
 [node name="SpawnerC" parent="Spawners" unique_id=647405914 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.371412, 3.7880163, 1.6408707)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("112_wempty"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
+
+[node name="Builds" type="Node3D" parent="." unique_id=1250627241]
+
+[node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, 0.7061798, 3.35135, 0.8732059)
+nivel_necessario = 0
+
+[node name="BuildSlot2" parent="Builds" unique_id=323855109 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -0.86246496, 3.35135, 0.8732059)
+nivel_necessario = 0
+
+[node name="BuildSlot3" parent="Builds" unique_id=1808681391 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -0.13600135, 3.35135, -0.6024053)
+
+[node name="BuildSlot4" parent="Builds" unique_id=892535448 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, 0.48420262, 3.35135, 2.2482116)
+nivel_necessario = 0
+
+[node name="BuildSlot5" parent="Builds" unique_id=902647744 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -0.81483185, 3.35135, 2.2482116)
+nivel_necessario = 0
+
+[node name="BuildSlot6" parent="Builds" unique_id=323295134 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -2.7558222, 3.35135, 2.2482116)
+
+[node name="BuildSlot7" parent="Builds" unique_id=585468263 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, 2.606172, 3.35135, 2.2482116)
+
+[node name="BuildSlot8" parent="Builds" unique_id=121186711 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, 2.606172, 3.35135, 0.014054775)
+nivel_necessario = 2
+
+[node name="BuildSlot9" parent="Builds" unique_id=1998137908 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -3.2449307, 3.35135, -0.2396977)
+nivel_necessario = 2
+
+[node name="BuildSlot10" parent="Builds" unique_id=1003770424 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -1.161694, 3.35135, -2.1016107)
+nivel_necessario = 2
+
+[node name="BuildSlot11" parent="Builds" unique_id=2025777271 instance=ExtResource("39_v1blp")]
+transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, 1.2128041, 3.35135, -2.2142892)
+nivel_necessario = 2
 
 [editable path="cooking-spoon2"]
 [editable path="NavigationRegion3D/Ponte"]
