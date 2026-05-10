@@ -750,7 +750,7 @@ nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=1518294179 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.20213696, 0.0179891, -0.08333281)
-nivel_necessario = 0
+nivel_necessario = 2
 
 [node name="BuildSlot3" parent="Builds" unique_id=1285772858 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.16934082, 0.017761888, 0.028064266)
@@ -758,7 +758,7 @@ nivel_necessario = 0
 
 [node name="BuildSlot4" parent="Builds" unique_id=1380109134 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.12629274, 0.017761888, 0.07195186)
-nivel_necessario = 0
+nivel_necessario = 2
 
 [node name="BuildSlot6" parent="Builds" unique_id=348491458 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.12616704, 0.022905495, -0.079203434)
@@ -770,19 +770,15 @@ nivel_necessario = 0
 
 [node name="BuildSlot8" parent="Builds" unique_id=1786553746 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.20575455, 0.017918136, 0.02926061)
-nivel_necessario = 0
 
 [node name="BuildSlot9" parent="Builds" unique_id=1659260526 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.21676609, 0.018149262, 0.0065550506)
-nivel_necessario = 0
 
 [node name="BuildSlot10" parent="Builds" unique_id=1520989149 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.23737204, 0.01821153, -0.076077096)
-nivel_necessario = 0
 
 [node name="BuildSlot11" parent="Builds" unique_id=863431366 instance=ExtResource("1_ofgoq")]
 transform = Transform3D(0.010909052, 0, -0.022494279, 0, 0.025000006, 0, 0.022494279, 0, 0.010909052, -0.15377806, 0.01776189, 0.09426398)
-nivel_necessario = 0
 
 [node name="DecoracaoDeserto" type="GridMap" parent="." unique_id=1797055914]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
