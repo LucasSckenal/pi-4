@@ -26,3 +26,10 @@ class_name UpgradePathData
 @export var alcance_por_nivel: Array[float] = []
 @export var vida_por_nivel: Array[int] = []
 @export var modelos_por_nivel: Array[PackedScene] = []  # Modelos 3D para cada nível
+
+# Descrições visuais (até 3) exibidas no card de upgrade — sem números, só texto descritivo.
+# Deixe vazio para geração automática baseada nos arrays de stats.
+@export var descricoes: Array[String] = []
+
+# Cor do card de upgrade. Deixe transparente (alpha=0) para cor automática pelo índice.
+@export var cor: Color = Color(0, 0, 0, 0)
