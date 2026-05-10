@@ -11,10 +11,7 @@ shader = ExtResource("3_2scqa")
 shader_parameter/scale = 2.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqg7f"]
 resource_name = "colormap"
@@ -75,10 +72,7 @@ shader = ExtResource("3_2scqa")
 shader_parameter/scale = 2.0
 shader_parameter/outline_spread = 5.0
 shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
 shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6vp4"]
 resource_name = "colormap"
@@ -3189,14 +3183,16 @@ radius = 0.08105469
 height = 0.2591629
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kapy6"]
-radius = 0.16259766
-height = 0.3263855
+radius = 0.25927734
+height = 0.5185547
 
 [node name="Orc" type="CharacterBody3D" unique_id=844430660 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_4uil2")
 nome_inimigo = "Orc"
 vida_maxima = 120
 raio_visao_construcao = 1.5
+dist_tornar_random = 0.0
+quanto_espalhar = 0.0
 modelo_3d = NodePath(".")
 animation_player = NodePath("character-orc2/AnimationPlayer")
 som_dano_stream = ExtResource("2_edil1")
@@ -3280,5 +3276,18 @@ shape = SubResource("CapsuleShape3D_3xw0u")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 shape = SubResource("CapsuleShape3D_kapy6")
 
+[node name="SensorTransparencia" type="Area3D" parent="." unique_id=1862957479]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SensorTransparencia" unique_id=1163051885]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("CapsuleShape3D_kapy6")
+
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1713673120]
 path_desired_distance = 1.5
+avoidance_enabled = true
+radius = 0.1
+neighbor_distance = 0.2
+time_horizon_agents = 0.3
+
+[connection signal="body_entered" from="SensorTransparencia" to="." method="_on_area_transparencia_body_entered"]
+[connection signal="body_exited" from="SensorTransparencia" to="." method="_on_area_transparencia_body_exited"]

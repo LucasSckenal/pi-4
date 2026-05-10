@@ -805,7 +805,7 @@ upgrade_custos = Array[int]([7, 10])
 [node name="Pyramid" parent="Piramide" index="0" unique_id=1454481357]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="pyramid" parent="Piramide/Pyramid" index="0" unique_id=1554172668]
+[node name="pyramid" parent="Piramide/Pyramid" index="0" unique_id=562560893]
 mesh = SubResource("ArrayMesh_x8cn2")
 
 [node name="CollisionShape3D" parent="Piramide/AreaClique" parent_id_path=PackedInt32Array(1210502438, 2023916221) index="0" unique_id=1854250557]
