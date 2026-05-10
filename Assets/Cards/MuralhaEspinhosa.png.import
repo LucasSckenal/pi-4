@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bc3kbt4jk3cy8"
-path="res://.godot/imported/cursor.png-1fdd180f40c268f865adaccfdee5f9cd.ctex"
+uid="uid://bselawthatvv2"
+path="res://.godot/imported/MuralhaEspinhosa.png-fbac5d7687bf769b588b0f4bb63df153.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/Cursor/cursor.png"
-dest_files=["res://.godot/imported/cursor.png-1fdd180f40c268f865adaccfdee5f9cd.ctex"]
+source_file="res://Assets/Cards/MuralhaEspinhosa.png"
+dest_files=["res://.godot/imported/MuralhaEspinhosa.png-fbac5d7687bf769b588b0f4bb63df153.ctex"]
 
 [params]
 

@@ -188,7 +188,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 90
 
 [node name="BotaoReroll" type="Button" parent="InterfacePrincipal/MenuUpgrade" unique_id=1100744267]
 z_index = 160
@@ -217,6 +217,7 @@ offset_top = 10.0
 
 [node name="MarginEsquerda" type="Control" parent="InterfacePrincipal" unique_id=1790859775]
 layout_mode = 1
+anchors_preset = 0
 offset_top = 42.0
 offset_right = 338.0
 offset_bottom = 176.0
@@ -234,6 +235,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = -18.045158
+offset_right = 10.0
+offset_bottom = 18.045166
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("11_ondas")

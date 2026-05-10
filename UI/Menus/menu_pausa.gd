@@ -29,8 +29,6 @@ func _ready():
 	_btn_sair_jogo.add_theme_font_size_override("font_size", 32)
 	$CenterContainer/VBoxContainer.add_child(_btn_sair_jogo)
 
-	_btn_repetir.pressed.connect(_on_repetir_pressed)
-	_btn_sair_fase.pressed.connect(_on_sair_fase_pressed)
 	_btn_sair_jogo.pressed.connect(_on_sair_jogo_pressed)
 
 	hide()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qjhfpajk0o11"
-path="res://.godot/imported/cursor_none.png-8e6fbc5cd306b65a65258b88048838d0.ctex"
+uid="uid://cld1vhee5nkx4"
+path="res://.godot/imported/FrequenciaCritica.png-4c3d190a713c86fe78773d490b44b185.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/Cursor/cursor_none.png"
-dest_files=["res://.godot/imported/cursor_none.png-8e6fbc5cd306b65a65258b88048838d0.ctex"]
+source_file="res://Assets/Cards/FrequenciaCritica.png"
+dest_files=["res://.godot/imported/FrequenciaCritica.png-4c3d190a713c86fe78773d490b44b185.ctex"]
 
 [params]
 

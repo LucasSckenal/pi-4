@@ -57,7 +57,7 @@ func _animar_nome(nome: String):
 	create_tween().tween_property(skip_button, "modulate:a", 1, 0.5)
 
 # 🧪 fallback
-func _process(delta):
+func _process(_delta):
 	if not ja_finalizou and video_player.stream and not video_player.is_playing():
 		_finalizar()
 

@@ -52,7 +52,7 @@ func _ready():
 
 	# Define o pivô no centro e o cursor do mouse
 	if bolha_btn:
-		bolha_btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		bolha_btn.mouse_default_cursor_shape = Control.CURSOR_CROSS
 		bolha_btn.pivot_offset = bolha_btn.size / 2.0
 
 # ==========================================

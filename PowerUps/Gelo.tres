@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://d2oc716bna55r"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1_20hq1"]
-[ext_resource type="Texture2D" uid="uid://dpvk2oj1ksekl" path="res://Icons/icon.svg" id="1_ticv1"]
+[ext_resource type="Texture2D" uid="uid://brrk4k66g4c3p" path="res://Assets/Cards/Gelo.png" id="1_ticv1"]
 
 [resource]
 script = ExtResource("1_20hq1")
@@ -10,5 +10,5 @@ titulo = "Gelo"
 descricao = "Flechas aplicam gelo: inimigos movem-se 30% mais devagar."
 icone = ExtResource("1_ticv1")
 tipo_bonus = 4
-valor_bonus = -0.30
+valor_bonus = -0.3
 metadata/_custom_type_script = "uid://ckllnh0oimgco"

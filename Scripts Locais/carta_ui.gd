@@ -20,41 +20,34 @@ func configurar(dados: CartaUpgrade):
 	if texture_icone: texture_icone.texture = dados.icone
 	
 	# ==========================================
-	# SISTEMA DE CORES DA BORDA (Seguro)
+	# SISTEMA DE IMAGEM DE FUNDO (Texturas)
 	# ==========================================
-	if has_theme_stylebox("normal"):
-		var estilo_original = get_theme_stylebox("normal")
+	var caminho_imagem = ""
+	
+	match dados.tipo_bonus:
+		CartaUpgrade.TipoUpgrade.DANO:
+			caminho_imagem = "res://Assets/UI/CartaDano.png"
+		CartaUpgrade.TipoUpgrade.VELOCIDADE_ATAQUE:
+			caminho_imagem = "res://Assets/UI/CartaDano.png"
+		CartaUpgrade.TipoUpgrade.VIDA:
+			caminho_imagem = "res://Assets/UI/CartaVida.png"
+		CartaUpgrade.TipoUpgrade.MOEDA:
+			caminho_imagem = "res://Assets/UI/CartaEconomia.png"
+		CartaUpgrade.TipoUpgrade.CUSTO_CONSTRUCAO:
+			caminho_imagem = "res://Assets/UI/CartaEconomia.png"
+		_:
+			# Caso não tenha uma imagem específica, pode usar uma padrão ou a de Dano
+			caminho_imagem = "res://Assets/UI/CartaDano.png" 
+
+	if caminho_imagem != "":
+		var textura_fundo = load(caminho_imagem)
+		var estilo_imagem = StyleBoxTexture.new()
+		estilo_imagem.texture = textura_fundo
 		
-		# Só tenta pintar a borda se o botão realmente tiver um StyleBox do tipo Flat
-		if estilo_original is StyleBoxFlat:
-			var estilo_borda = estilo_original.duplicate() 
-			
-			# Criamos uma variação para o Hover com borda mais grossa
-			var estilo_hover = estilo_borda.duplicate()
-			estilo_hover.border_width_left = 4
-			estilo_hover.border_width_top = 4
-			estilo_hover.border_width_right = 4
-			estilo_hover.border_width_bottom = 4
-			
-			add_theme_stylebox_override("normal", estilo_borda)
-			add_theme_stylebox_override("hover", estilo_hover) # <--- Aplicando o estilo de destaque
-			
-			match dados.tipo_bonus:
-				CartaUpgrade.TipoUpgrade.DANO:
-					estilo_borda.border_color = Color.RED
-					estilo_hover.border_color = Color.RED.lightened(0.2) # Brilha um pouco mais no hover
-				CartaUpgrade.TipoUpgrade.VIDA:
-					estilo_borda.border_color = Color.GREEN
-					estilo_hover.border_color = Color.GREEN.lightened(0.2)
-				CartaUpgrade.TipoUpgrade.VELOCIDADE_ATAQUE:
-					estilo_borda.border_color = Color.SKY_BLUE
-					estilo_hover.border_color = Color.SKY_BLUE.lightened(0.2)
-				CartaUpgrade.TipoUpgrade.MOEDA:
-					estilo_borda.border_color = Color.GOLD
-					estilo_hover.border_color = Color.YELLOW
-				_:
-					estilo_borda.border_color = Color.WHITE
-					estilo_hover.border_color = Color.WHITE
+		# Aplica a textura aos estados do botão
+		add_theme_stylebox_override("normal", estilo_imagem)
+		add_theme_stylebox_override("hover", estilo_imagem)
+		add_theme_stylebox_override("pressed", estilo_imagem)
 
 # ==========================================
 # ANIMAÇÕES DE HOVER (Suave)

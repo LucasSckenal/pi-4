@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tpm7miqysndd"
-path="res://.godot/imported/cursor_upgrade.png-be4ef641afef0edff4a97216c572a7c6.ctex"
+uid="uid://chpw438uqbupw"
+path="res://.godot/imported/Furia.png-1983db66ae405b8b9801682266f02dfe.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/Cursor/cursor_upgrade.png"
-dest_files=["res://.godot/imported/cursor_upgrade.png-be4ef641afef0edff4a97216c572a7c6.ctex"]
+source_file="res://Assets/Cards/Furia.png"
+dest_files=["res://.godot/imported/Furia.png-1983db66ae405b8b9801682266f02dfe.ctex"]
 
 [params]
 

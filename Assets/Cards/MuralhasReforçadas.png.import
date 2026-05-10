@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ia6gywjrjei"
-path="res://.godot/imported/cursor_build.png-74685ddcdc0bc7a2794154c7d924d13c.ctex"
+uid="uid://d3e31ieuhihhs"
+path="res://.godot/imported/MuralhasReforçadas.png-49c61112ff2106b9e22d1ccf86f72ef8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/Cursor/cursor_build.png"
-dest_files=["res://.godot/imported/cursor_build.png-74685ddcdc0bc7a2794154c7d924d13c.ctex"]
+source_file="res://Assets/Cards/MuralhasReforçadas.png"
+dest_files=["res://.godot/imported/MuralhasReforçadas.png-49c61112ff2106b9e22d1ccf86f72ef8.ctex"]
 
 [params]
 

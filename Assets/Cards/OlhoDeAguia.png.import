@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clv8pb14bnkuw"
-path="res://.godot/imported/cursor_cogs.png-c1efe25b926724ffa2a8bbd7afdb6af0.ctex"
+uid="uid://e5nvh7hasdgt"
+path="res://.godot/imported/OlhoDeAguia.png-70a639ba96e00ce4d5cb82b253989822.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/Cursor/cursor_cogs.png"
-dest_files=["res://.godot/imported/cursor_cogs.png-c1efe25b926724ffa2a8bbd7afdb6af0.ctex"]
+source_file="res://Assets/Cards/OlhoDeAguia.png"
+dest_files=["res://.godot/imported/OlhoDeAguia.png-70a639ba96e00ce4d5cb82b253989822.ctex"]
 
 [params]
 

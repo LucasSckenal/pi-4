@@ -14,6 +14,97 @@ enum TipoConstrucao {
 }
 
 # ==========================================
+# SHADER DE VIDA CUSTOMIZADA
+# ==========================================
+const BARRA_VIDA_SHADER = """
+shader_type spatial;
+render_mode unshaded, depth_test_disabled, cull_disabled, blend_mix;
+
+uniform float u_aspect;
+uniform vec4 progress_color : source_color = vec4(0.15, 0.85, 0.20, 1.0);
+uniform vec4 background_color : source_color = vec4(0.08, 0.08, 0.08, 0.88);
+uniform vec4 outline_color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform float progress : hint_range(0.0, 1.0) = 0.9;
+
+const float corner_radius = 0.2;
+const float grain_darkness = 0.01;
+const vec4 white_color = vec4(1.0);
+const float gradient_length = 0.05;
+const float star_size = 20.0;
+const float border_size = 0.05;
+const float edge_softness = 0.01;
+
+float sdBox(in vec2 pos, in vec2 half_size) {
+    vec2 d = abs(pos) - half_size;
+    return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0);
+}
+
+float sdRoundedBox(in vec2 pos, in vec2 half_size, in float r) {
+    return sdBox(pos , half_size) - r;
+}
+
+float sdStar(in vec2 p, in float r) {
+    const float k1x = 0.809016994;
+    const float k2x = 0.309016994;
+    const float k1y = 0.587785252;
+    const float k2y = 0.951056516;
+    const float k1z = 0.726542528;
+    const vec2  v1  = vec2( k1x,-k1y);
+    const vec2  v2  = vec2(-k1x,-k1y);
+    const vec2  v3  = vec2( k2x,-k2y);
+    p.x = abs(p.x);
+    p -= 2.0*max(dot(v1,p),0.0)*v1;
+    p -= 2.0*max(dot(v2,p),0.0)*v2;
+    p.x = abs(p.x);
+    p.y -= r;
+    return length(p-v3*clamp(dot(p,v3),0.0,k1z*r)) * sign(p.y*v3.x-p.x*v3.y);
+}
+
+void vertex() {
+	// Billboard cilíndrico para a barra sempre encarar a câmera no eixo Y
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
+		vec4(normalize(INV_VIEW_MATRIX[0].xyz), 0.0),
+		vec4(normalize(INV_VIEW_MATRIX[1].xyz), 0.0),
+		vec4(normalize(INV_VIEW_MATRIX[2].xyz), 0.0),
+		MODEL_MATRIX[3]
+	);
+}
+
+void fragment() {
+    vec2 aspect = vec2(u_aspect, 1.0);
+    vec2 half_size = vec2(0.5, 0.5) * aspect;
+    vec2 pos = UV * aspect - half_size;
+    float distance = sdRoundedBox(pos, half_size - corner_radius, corner_radius);
+
+    vec4 final_color;
+    if (UV.x < progress) {
+        final_color = progress_color;
+        float position_gradient = UV.x - (progress - gradient_length);
+        float normalized_position = clamp(position_gradient / gradient_length, 0.0, 1.0);
+        final_color += white_color * normalized_position * 0.2;
+
+        float shift = TIME * 1.5;
+        vec2 grid_coord = (UV * aspect * 10.0 + vec2(-shift, shift));
+        const mat2 rot36 = mat2(vec2(0.8090, -0.5878), vec2(0.5878, 0.8090));
+        grid_coord *= rot36;
+        float index_y = floor(grid_coord.y);
+        vec2 fraction = fract(grid_coord) - 0.5;
+        if (mod(index_y, 2.0) == 1.0) fraction.x = fract(grid_coord.x + 0.5) - 0.5;
+        
+        if (sdStar(fraction, 0.3) < 0.0) final_color *= 0.93;
+    } else {
+        final_color = background_color;
+    }
+
+    float border_alpha = 1.0 - smoothstep(border_size - edge_softness, border_size, abs(distance));
+    final_color = mix(final_color, outline_color, border_alpha);
+    float smoothed_alpha = 1.0 - smoothstep(0.0, edge_softness, distance);
+    ALBEDO = final_color.rgb;
+    ALPHA = final_color.a * smoothed_alpha;
+}
+"""
+
+# ==========================================
 # CONFIGURAÇÕES BÁSICAS (COMUNS A TODOS)
 # ==========================================
 @export var tipo: TipoConstrucao = TipoConstrucao.TORRE :
@@ -130,9 +221,9 @@ var vida_atual: int
 var inimigos_no_alcance = []
 
 # ── Barra de vida 3D (criada por código, funciona em todos os builds) ──────
-var _barra_3d_container: Node3D
-var _bar_fill_3d: MeshInstance3D
-var _mat_fill_3d: StandardMaterial3D
+var _barra_3d_mesh: MeshInstance3D
+var _barra_3d_mat: ShaderMaterial
+
 var alvo_atual: Node3D = null
 var esta_destruida: bool = false
 
@@ -601,92 +692,56 @@ func _inicializar_barra_vida():
 	_criar_barra_3d()
 
 # ─────────────────────────────────────────────────────────────────────────────
-# BARRA DE VIDA 3D
+# NOVA BARRA DE VIDA 3D COM SHADER CUSTOMIZADA
 # ─────────────────────────────────────────────────────────────────────────────
 func _criar_barra_3d() -> void:
-	# Recria a barra (chamada também pelo reviver)
-	if is_instance_valid(_barra_3d_container):
-		_barra_3d_container.queue_free()
+	if is_instance_valid(_barra_3d_mesh):
+		_barra_3d_mesh.queue_free()
 
 	var e_base : bool  = (tipo == TipoConstrucao.BASE)
-	var bar_w  : float = 4.5  if e_base else 2.0
-	var bar_h  : float = 0.35 if e_base else 0.22
-	var bar_y  : float = 2.0  if e_base else 0.75
-	var fill_w : float = bar_w - 0.12
-	var fill_h : float = bar_h - 0.06
+	var bar_w  : float = 4.5 if e_base else 0.8
+	var bar_h  : float = 0.45 if e_base else 0.12
+	# Posição ajustada: alta na base, levemente abaixo nas torres
+	var bar_y  : float = 4.0 if e_base else -0.2 
 
-	# O container é rotacionado em _process para encarar a câmera (billboard manual).
-	# Assim position.x / scale.x dos filhos operam no espaço local já alinhado à câmera
-	# — sem desalinhamento entre deslocamento em world-X e câmera-right.
-	_barra_3d_container      = Node3D.new()
-	_barra_3d_container.name = "BarraVida3D"
-	add_child(_barra_3d_container)
-	_barra_3d_container.position = Vector3(0.0, bar_y, 0.0)
-	# BASE: sempre visível; outros: escondido quando vida cheia
-	_barra_3d_container.visible = e_base
-
-	# ── Fundo ────────────────────────────────────────────────────────────────
-	var bg        := MeshInstance3D.new()
-	var quad_bg   := QuadMesh.new()
-	quad_bg.size  = Vector2(bar_w, bar_h)
-	bg.mesh       = quad_bg
-	var mat_bg            := StandardMaterial3D.new()
-	mat_bg.albedo_color   = Color(0.08, 0.08, 0.08, 0.88)
-	mat_bg.transparency   = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat_bg.shading_mode   = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat_bg.no_depth_test  = true
-	bg.material_override  = mat_bg
-	bg.cast_shadow        = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_barra_3d_container.add_child(bg)
-
-	# ── Preenchimento ─────────────────────────────────────────────────────────
-	# QuadMesh com tamanho fill_w × fill_h.
-	# Em _atualizar_barra_3d: scale.x = ratio encolhe a largura,
-	# position.x = fill_w * 0.5 * (ratio - 1) mantém a borda esquerda fixa.
-	# Como o container já está orientado para a câmera, não há overflow lateral.
-	_bar_fill_3d          = MeshInstance3D.new()
-	var quad_fill         := QuadMesh.new()
-	quad_fill.size        = Vector2(fill_w, fill_h)
-	_bar_fill_3d.mesh     = quad_fill
-	_mat_fill_3d                   = StandardMaterial3D.new()
-	_mat_fill_3d.albedo_color      = Color(0.15, 0.85, 0.20, 1.0)
-	_mat_fill_3d.shading_mode      = BaseMaterial3D.SHADING_MODE_UNSHADED
-	_mat_fill_3d.no_depth_test     = true
-	_mat_fill_3d.render_priority   = 1
-	_bar_fill_3d.material_override = _mat_fill_3d
-	_bar_fill_3d.cast_shadow       = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_barra_3d_container.add_child(_bar_fill_3d)
-
+	_barra_3d_mesh = MeshInstance3D.new()
+	_barra_3d_mesh.name = "BarraVidaShader"
+	var quad := QuadMesh.new()
+	quad.size = Vector2(bar_w, bar_h)
+	_barra_3d_mesh.mesh = quad
+	
+	_barra_3d_mat = ShaderMaterial.new()
+	_barra_3d_mat.shader = Shader.new()
+	_barra_3d_mat.shader.code = BARRA_VIDA_SHADER
+	_barra_3d_mat.set_shader_parameter("u_aspect", bar_w / bar_h)
+	
+	_barra_3d_mesh.material_override = _barra_3d_mat
+	_barra_3d_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_barra_3d_mesh.sorting_offset = 10.0 # Garante que desenha na frente de outros efeitos
+	
+	add_child(_barra_3d_mesh)
+	_barra_3d_mesh.position = Vector3(0.0, bar_y, 0.0)
+	_barra_3d_mesh.visible = e_base
+	
 	_atualizar_barra_3d()
 
 func _atualizar_barra_3d() -> void:
-	if not is_instance_valid(_bar_fill_3d) or not is_instance_valid(_mat_fill_3d) \
-			or not is_instance_valid(_barra_3d_container):
+	if not is_instance_valid(_barra_3d_mesh) or not _barra_3d_mat:
 		return
 
-	var e_base : bool  = (tipo == TipoConstrucao.BASE)
-	var bar_w  : float = 4.5  if e_base else 2.0
-	var fill_w : float = bar_w - 0.12
-	var ratio  : float = clamp(float(vida_atual) / float(vida_maxima), 0.0, 1.0)
+	var ratio : float = clamp(float(vida_atual) / float(vida_maxima), 0.0, 1.0)
+	_barra_3d_mat.set_shader_parameter("progress", ratio)
+	
+	# Cores baseadas na porcentagem de vida
+	var cor_v = Color(0.15, 0.85, 0.20, 1.0)
+	if ratio <= 0.25:
+		cor_v = Color(0.90, 0.15, 0.10, 1.0)
+	elif ratio <= 0.5:
+		cor_v = Color(0.95, 0.75, 0.10, 1.0)
+	_barra_3d_mat.set_shader_parameter("progress_color", cor_v)
 
-	# scale.x encolhe o quad a partir do centro; position.x desloca o centro para
-	# a esquerda de modo que a borda esquerda permaneça sempre fixa em -fill_w/2.
-	# Como o container é girado pelo billboard manual em _process, o eixo X local
-	# coincide com o eixo "câmera-direita" → sem overflow em nenhum ângulo.
-	_bar_fill_3d.visible    = (ratio > 0.0)
-	_bar_fill_3d.scale.x    = ratio
-	_bar_fill_3d.position.x = fill_w * 0.5 * (ratio - 1.0)
-
-	if ratio > 0.5:
-		_mat_fill_3d.albedo_color = Color(0.15, 0.85, 0.20, 1.0)
-	elif ratio > 0.25:
-		_mat_fill_3d.albedo_color = Color(0.95, 0.75, 0.10, 1.0)
-	else:
-		_mat_fill_3d.albedo_color = Color(0.90, 0.15, 0.10, 1.0)
-
-	# Visibilidade: BASE sempre visível; outros só quando danificado
-	if not e_base:
-		_barra_3d_container.visible = (ratio < 1.0)
+	if tipo != TipoConstrucao.BASE:
+		_barra_3d_mesh.visible = (ratio < 1.0)
 
 func _aplicar_bonus_vida(delta: int):
 	if tipo != TipoConstrucao.BASE: return
@@ -732,21 +787,6 @@ func _on_area_ataque_body_exited(body):
 		inimigos_no_alcance.erase(body)
 
 func _process(delta):
-	# Billboard manual: gira o container da barra de vida para sempre encarar a câmera.
-	# Rotação apenas em torno do eixo Y (cilíndrica) → barra permanece horizontal.
-	# Fazemos look_at na direção OPOSTA à câmera para que o +Z (face do quad) aponte
-	# para ela, já que look_at aponta o -Z do nó em direção ao alvo.
-	if not is_fantasma and is_instance_valid(_barra_3d_container):
-		var camera := get_viewport().get_camera_3d()
-		if camera:
-			var dir := camera.global_position - _barra_3d_container.global_position
-			dir.y = 0.0
-			if dir.length_squared() > 0.001:
-				_barra_3d_container.look_at(
-					_barra_3d_container.global_position - dir.normalized(),
-					Vector3.UP
-				)
-
 	# Indicador de upgrade: checa a cada 0.5 s (evita custo por frame)
 	if not is_fantasma and _indicador_upgrade:
 		_timer_indicador -= delta
@@ -860,7 +900,6 @@ void vertex() {
 void fragment() {
     // p em [-1,1]: p.y=-1 = topo visual, p.y=+1 = base visual
     vec2 p = UV * 2.0 - 1.0;
-
     // Fundo: retângulo arredondado
     float d_bg = sd_box(p, vec2(0.74, 0.74), 0.32);
     if (d_bg > 0.02) discard;
@@ -868,19 +907,16 @@ void fragment() {
 
     // Seta apontando para CIMA (pico em p.y negativo = topo da tela)
     float aa = 0.03;
-
     // Haste: retângulo vertical
     float shaft = smoothstep(0.10+aa, 0.10-aa, abs(p.x))
                 * smoothstep(-0.04-aa, -0.04+aa, p.y)
                 * smoothstep(0.36+aa,  0.36-aa,  p.y);
-
     // Ponta: triângulo, pico (0,-0.38), base (-0.27,-0.04) a (0.27,-0.04)
     float t   = clamp((p.y + 0.04) / (-0.34), 0.0, 1.0);
     float hw  = mix(0.27, 0.0, t);
     float head = smoothstep(hw+aa,    hw-aa,    abs(p.x))
                * smoothstep(-0.38-aa, -0.38+aa, p.y)
                * smoothstep(-0.04+aa, -0.04-aa, p.y);
-
     float arrow = max(shaft, head);
 
     ALBEDO = mix(vec3(0.04, 0.38, 0.10), vec3(0.96, 1.0, 0.96), arrow);
@@ -1358,7 +1394,7 @@ func vender_construcao():
 func _on_area_clique_mouse_entered():
 	if esta_destruida or is_fantasma or GameManager.is_night: return
 	_aplicar_outline_malhas(self, espessura_outline_hover)
-	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
+	Input.set_default_cursor_shape(Input.CURSOR_DRAG)
 
 func _on_area_clique_mouse_exited():
 	if esta_destruida or is_fantasma or GameManager.is_night: return
