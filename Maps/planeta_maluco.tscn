@@ -182,11 +182,9 @@ ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtR
 
 [node name="Portal" parent="." unique_id=683417852 instance=ExtResource("7_gpya5")]
 transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, 0.049744606, 0.5363734, 0.06908631)
-tipo = 0
-escala_modelo = Vector3(0.44, 0.44, 0.44)
-upgrade_custos = Array[int]([])
-upgrade_vida_por_nivel = Array[int]([])
-modelos_por_nivel = Array[int]([])
+tipo = 5
+upgrade_custos = Array[int]([7, 10])
+upgrade_vida_por_nivel = Array[int]([500, 700])
 
 [node name="StaticBody3D" parent="Portal" index="1" unique_id=774108571]
 visible = true

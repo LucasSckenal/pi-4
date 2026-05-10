@@ -124,9 +124,19 @@ func _ready():
 		escala_original = scale 
 		
 	if nav_agent:
-		nav_agent.path_desired_distance = 0.5
-		nav_agent.target_desired_distance = 0.5
+		nav_agent.path_desired_distance    = 0.5
+		nav_agent.target_desired_distance  = 0.5
+		# Avoidance RVO — impede que os inimigos se empilhem uns nos outros
+		nav_agent.avoidance_enabled        = true
+		nav_agent.radius                   = 0.1
+		nav_agent.neighbor_distance        = 0.2
+		nav_agent.time_horizon_agents      = 0.3
+		nav_agent.time_horizon_obstacles   = 0.0
+		nav_agent.max_speed                = 10.0
+		nav_agent.keep_y_velocity          = true
 		nav_agent.velocity_computed.connect(_on_navigation_agent_3d_velocity_computed)
+
+	_configurar_sensor_transparencia()
 		
 	if tipo_inimigo == Categoria.BOSS:
 		await _tocar_cutscene()
@@ -626,6 +636,42 @@ func _tocar_cutscene():
 	await cutscene.cutscene_finished
 
 	_criar_interface_do_boss()
+
+# ==========================================
+# SENSOR DE TRANSPARÊNCIA — criação automática
+# Garante que TODOS os inimigos tenham o sensor, mesmo sem ele no .tscn.
+# Para cenas que já têm (ex.: Orc), apenas assegura que os sinais estão ligados.
+# ==========================================
+func _configurar_sensor_transparencia() -> void:
+	var sensor: Area3D = get_node_or_null("SensorTransparencia")
+	if sensor:
+		# Já existe — garante que os sinais estão conectados
+		if not sensor.body_entered.is_connected(_on_area_transparencia_body_entered):
+			sensor.body_entered.connect(_on_area_transparencia_body_entered)
+		if not sensor.body_exited.is_connected(_on_area_transparencia_body_exited):
+			sensor.body_exited.connect(_on_area_transparencia_body_exited)
+		return
+
+	# Cria dinamicamente para inimigos que ainda não têm o nó na cena
+	sensor = Area3D.new()
+	sensor.name = "SensorTransparencia"
+	add_child(sensor)
+
+	var col_shape := CollisionShape3D.new()
+	var col_principal: CollisionShape3D = get_node_or_null("CollisionShape3D")
+	if col_principal and col_principal.shape:
+		col_shape.shape     = col_principal.shape.duplicate()
+		col_shape.transform = col_principal.transform
+	else:
+		# Fallback: cápsula genérica caso não exista CollisionShape3D raiz
+		var caps := CapsuleShape3D.new()
+		caps.radius = 0.3
+		caps.height = 0.6
+		col_shape.shape = caps
+
+	sensor.add_child(col_shape)
+	sensor.body_entered.connect(_on_area_transparencia_body_entered)
+	sensor.body_exited.connect(_on_area_transparencia_body_exited)
 
 # ==========================================
 # EFEITO DE DITHERING (TRANSPARÊNCIA VISUAL)
