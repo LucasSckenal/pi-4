@@ -55,8 +55,9 @@ func configurar(opcao: Dictionary):
 	var descricoes: Array = opcao.get("descricoes", [])
 	_popular_bullets(descricoes)
 
-	# Modelo 3D ou ícone 2D
 	set_meta("caminho_index", opcao.get("index", 0))
+
+	# Modelo 3D ou ícone 2D
 	var mod_3d = opcao.get("modelo_3d")
 	if mod_3d != null:
 		_carregar_modelo_3d(mod_3d, opcao.get("escala_modelo", Vector3(1, 1, 1)))
@@ -112,6 +113,8 @@ func _carregar_modelo_3d(cena_modelo: PackedScene, escala: Vector3):
 			child.queue_free()
 	if cena_modelo:
 		modelo_instanciado = cena_modelo.instantiate()
+		if "is_fantasma" in modelo_instanciado:
+			modelo_instanciado.is_fantasma = true
 		container_3d.add_child(modelo_instanciado)
 		modelo_instanciado.position = Vector3.ZERO
 		modelo_instanciado.scale = escala

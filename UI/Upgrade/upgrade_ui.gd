@@ -13,6 +13,7 @@ signal fechado
 @onready var titulo           = $PainelPrincipal/VBoxContainer/HeaderBand/HeaderVBox/Titulo
 @onready var status_container = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/StatusContainer
 @onready var opcoes_container = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/OpcoesContainer
+@onready var conteudo_vbox    = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox
 @onready var botao_vender     = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/BotoesRow/BotaoVender
 @onready var botao_fechar     = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/BotoesRow/BotaoFechar
 
@@ -20,6 +21,7 @@ signal fechado
 # VARIÁVEIS DE ESTADO
 # ==========================================
 var construcao_atual: Node = null
+var _sec_desbloqueios: Control = null
 
 func _ready():
 	hide()
@@ -164,6 +166,11 @@ func atualizar_opcoes():
 		opcoes_container.remove_child(child)
 		child.queue_free()
 
+	# Remove seção de desbloqueios anterior (free() imediato evita duplicata)
+	if is_instance_valid(_sec_desbloqueios):
+		_sec_desbloqueios.free()
+	_sec_desbloqueios = null
+
 	if not construcao_atual.has_method("get_opcoes_proximo_upgrade"):
 		return
 
@@ -177,6 +184,13 @@ func atualizar_opcoes():
 		label_max.add_theme_font_size_override("font_size", 24)
 		opcoes_container.add_child(label_max)
 		return
+
+	# Seção de desbloqueios (estilo CoC) — mostrada acima dos cards de upgrade
+	for opcao in opcoes:
+		var desbs: Array = opcao.get("desbloqueios", [])
+		if desbs.size() > 0:
+			_criar_secao_desbloqueios(desbs)
+			break
 
 	for opcao in opcoes:
 		if cena_opcao_button:
@@ -237,6 +251,106 @@ func fechar():
 		fechado.emit()
 		get_tree().paused = false
 	)
+
+func _criar_secao_desbloqueios(desbloqueios: Array) -> void:
+	var sec = VBoxContainer.new()
+	sec.name = "DesbloqueiosSection"
+	sec.add_theme_constant_override("separation", 6)
+	conteudo_vbox.add_child(sec)
+	# Abaixo dos cards de upgrade, acima dos botões
+	conteudo_vbox.move_child(sec, opcoes_container.get_index() + 1)
+	_sec_desbloqueios = sec
+
+	var lbl_title = Label.new()
+	lbl_title.text = "Desbloqueia:"
+	lbl_title.add_theme_font_size_override("font_size", 12)
+	lbl_title.add_theme_color_override("font_color", Color(0.55, 0.58, 0.66, 1.0))
+	sec.add_child(lbl_title)
+
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 6)
+	sec.add_child(row)
+
+	for item in desbloqueios:
+		row.add_child(_criar_icone_desbloqueio(item))
+
+func _criar_icone_desbloqueio(item: Dictionary) -> Control:
+	# Cartão compacto: badge "Novo" + área de ícone + nome
+	# Prioridade: icone_2d (Texture2D) → emoji (fallback)
+	# Adicionar uma Texture2D em @export var icone no Builds.gd ativa o modo ícone automaticamente.
+	var outer = VBoxContainer.new()
+	outer.add_theme_constant_override("separation", 0)
+	outer.custom_minimum_size = Vector2(62, 80)
+
+	# Badge "Novo" (verde, cantos arredondados no topo)
+	var badge = PanelContainer.new()
+	var bsty = StyleBoxFlat.new()
+	bsty.bg_color                   = Color(0.08, 0.55, 0.20, 1.0)
+	bsty.corner_radius_top_left     = 7
+	bsty.corner_radius_top_right    = 7
+	bsty.content_margin_left        = 0
+	bsty.content_margin_right       = 0
+	bsty.content_margin_top         = 2
+	bsty.content_margin_bottom      = 2
+	badge.add_theme_stylebox_override("panel", bsty)
+	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var blbl = Label.new()
+	blbl.text = "Novo"
+	blbl.add_theme_font_size_override("font_size", 10)
+	blbl.add_theme_color_override("font_color", Color.WHITE)
+	blbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge.add_child(blbl)
+	outer.add_child(badge)
+
+	# Área do ícone (fundo escuro, cantos arredondados em baixo)
+	var panel = PanelContainer.new()
+	var psty = StyleBoxFlat.new()
+	psty.bg_color                    = Color(0.16, 0.19, 0.28, 1.0)
+	psty.border_color                = Color(0.26, 0.30, 0.48, 1.0)
+	psty.border_width_left           = 2
+	psty.border_width_right          = 2
+	psty.border_width_bottom         = 2
+	psty.corner_radius_bottom_right  = 7
+	psty.corner_radius_bottom_left   = 7
+	psty.content_margin_left         = 4
+	psty.content_margin_right        = 4
+	psty.content_margin_top          = 4
+	psty.content_margin_bottom       = 4
+	panel.add_theme_stylebox_override("panel", psty)
+	panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	panel.size_flags_vertical   = Control.SIZE_EXPAND_FILL
+
+	var inner = VBoxContainer.new()
+	inner.add_theme_constant_override("separation", 2)
+	panel.add_child(inner)
+
+	# Ícone: Texture2D se disponível, senão emoji grande
+	var icone_2d = item.get("icone_2d")
+	if icone_2d is Texture2D:
+		var tr = TextureRect.new()
+		tr.texture = icone_2d
+		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.custom_minimum_size = Vector2(44, 44)
+		tr.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		inner.add_child(tr)
+	else:
+		var elbl = Label.new()
+		elbl.text = item.get("emoji", "•")
+		elbl.add_theme_font_size_override("font_size", 26)
+		elbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		inner.add_child(elbl)
+
+	var nlbl = Label.new()
+	nlbl.text = item.get("nome", "")
+	nlbl.add_theme_font_size_override("font_size", 10)
+	nlbl.add_theme_color_override("font_color", Color(0.78, 0.80, 0.90, 1.0))
+	nlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	nlbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	inner.add_child(nlbl)
+
+	outer.add_child(panel)
+	return outer
 
 func _centralizar_painel_deferred() -> void:
 	if not is_instance_valid(painel_principal): return

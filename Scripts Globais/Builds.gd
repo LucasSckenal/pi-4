@@ -479,10 +479,12 @@ func get_opcoes_proximo_upgrade() -> Array:
 			
 			var escala_deste_path = _calcular_escala_ideal_para_ui(path)
 			
-			# Pega o modelo do PRÓXIMO NÍVEL exato!
+			# Pega o modelo do PRÓXIMO NÍVEL exato! Fallback: último disponível
 			var modelo_correto = null
 			if prox_nivel < path.modelos_por_nivel.size():
 				modelo_correto = path.modelos_por_nivel[prox_nivel]
+			if modelo_correto == null and path.modelos_por_nivel.size() > 0:
+				modelo_correto = path.modelos_por_nivel[path.modelos_por_nivel.size() - 1]
 
 			opcoes.append({
 				"index": caminho_atual,
@@ -499,15 +501,19 @@ func get_opcoes_proximo_upgrade() -> Array:
 		# Sem paths: opção única (upgrade linear)
 		var custo = get_custo_proximo_upgrade()
 		if custo != -1:
-			
-			# Pega o modelo do PRÓXIMO NÍVEL na lista geral
+
+			# Pega o modelo do PRÓXIMO NÍVEL na lista geral. Fallback: último disponível ou cena atual
 			var modelo_correto = null
 			if nivel_atual < modelos_por_nivel.size():
 				modelo_correto = modelos_por_nivel[nivel_atual]
-				
-			opcoes.append({
+			if modelo_correto == null and modelos_por_nivel.size() > 0:
+				modelo_correto = modelos_por_nivel[modelos_por_nivel.size() - 1]
+			if modelo_correto == null and scene_file_path != "":
+				modelo_correto = ResourceLoader.load(scene_file_path)
+
+			var opcao_entry = {
 				"index": 0,
-				"nome": "Upgrade",
+				"nome": nome_construcao if nome_construcao != "" else "Upgrade",
 				"icone": icone,
 				"custo": custo,
 				"beneficio": _descrever_beneficio_simples(),
@@ -515,8 +521,80 @@ func get_opcoes_proximo_upgrade() -> Array:
 				"cor": _get_cor_path(0, null),
 				"modelo_3d": modelo_correto,
 				"escala_modelo": escala_perfeita_ui
-			})
+			}
+			if tipo == TipoConstrucao.BASE:
+				opcao_entry["desbloqueios"] = _get_desbloqueios_base(nivel_atual + 1)
+			opcoes.append(opcao_entry)
 	return opcoes
+
+func _get_desbloqueios_base(proximo_nivel: int) -> Array:
+	var items: Array = []
+
+	# Novos lotes de construção
+	if is_inside_tree():
+		var slots_novos = 0
+		for slot in get_tree().get_nodes_in_group("BuildSlots"):
+			if slot.get("nivel_necessario") == proximo_nivel:
+				slots_novos += 1
+		if slots_novos > 0:
+			items.append({"emoji": "🔓", "nome": "+%d lotes" % slots_novos,
+				"icone_2d": null, "modelo_3d": null, "escala_modelo": Vector3.ONE})
+
+	# Novas construções disponíveis no próximo nível
+	var construcoes_nivel: Array = GameManager.construcoes_permitidas_na_fase.get(proximo_nivel, [])
+	for cena in construcoes_nivel:
+		if cena == null: continue
+		var inst = cena.instantiate()
+		var nome: String = inst.get("nome_construcao") if "nome_construcao" in inst else ""
+		if nome == "" or nome == "Construção": nome = cena.resource_path.get_file().get_basename().capitalize()
+		var t: int   = inst.get("tipo")  if "tipo"  in inst else -1
+		var icone_2d = inst.get("icone") if "icone" in inst else null
+		inst.free()
+		items.append({"emoji": _emoji_tipo_build(t), "nome": nome,
+			"icone_2d": icone_2d, "modelo_3d": cena, "escala_modelo": _escala_por_tipo_build(t)})
+
+	# Torres especiais que requerem exatamente este nível de base
+	if is_inside_tree():
+		var _vistos: Array = []
+		for tower in get_tree().get_nodes_in_group("Torres"):
+			if not is_instance_valid(tower): continue
+			if not tower.get("tem_paths"): continue
+			for path in tower.upgrade_paths:
+				var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+				if nivel_min != proximo_nivel: continue
+				var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
+				var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
+				if fase_min > 0 and GameManager.fase_atual < fase_min: continue
+				if fase_max > 0 and GameManager.fase_atual > fase_max: continue
+				var nome_path: String = path.nome if path.nome and path.nome != "" else "Torre Especial"
+				if nome_path in _vistos: continue
+				_vistos.append(nome_path)
+				var modelo_path = path.modelos_por_nivel[0] if path.modelos_por_nivel.size() > 0 else null
+				var icone_path  = path.icone if "icone" in path else null
+				items.append({"emoji": "🗼", "nome": nome_path,
+					"icone_2d": icone_path, "modelo_3d": modelo_path, "escala_modelo": _escala_por_tipo_build(0)})
+
+	return items
+
+func _emoji_tipo_build(t: int) -> String:
+	match t:
+		0: return "🗼"
+		1: return "⛏️"
+		2: return "🏠"
+		3: return "🌾"
+		4: return "🛡️"
+		5: return "🏰"
+		6: return "☠️"
+		_: return "🏗️"
+
+func _escala_por_tipo_build(t: int) -> Vector3:
+	match t:
+		0: return Vector3(0.5, 0.5, 0.5)
+		1: return Vector3(1.2, 1.2, 1.2)
+		2: return Vector3(1.2, 1.2, 1.2)
+		3: return Vector3(0.8, 0.8, 0.8)
+		4: return Vector3(0.5, 0.5, 0.5)
+		_: return Vector3(0.8, 0.8, 0.8)
 
 func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 	# 1. Tenta pegar a escala específica definida no PathData (se existir no futuro)
@@ -542,8 +620,8 @@ func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 			return escala_padrao_media
 		4: # QUARTEL
 			return escala_padrao_grande
-		5: # BASE
-			return escala_padrao_grande
+		5: # BASE — modelos gltf grandes precisam de escala bem menor
+			return escala_modelo * 0.5
 		_:
 			return Vector3(1, 1, 1) # Fallback seguro
 
@@ -959,53 +1037,45 @@ func _criar_circulo_caldeiron(raio: float = 4.5) -> void:
 	raiz.name = "CirculoVeneno"
 	raiz.position = Vector3(0, 0.03, 0)  # ajustado para o chão via raycast abaixo
 
-	# ── Disco fill interno (semi-transparente) ───────────────────────────────
-	var disco := MeshInstance3D.new()
-	var cyl := CylinderMesh.new()
-	cyl.top_radius    = raio - 0.3
-	cyl.bottom_radius = raio - 0.3
-	cyl.height = 0.01
-	cyl.radial_segments = 64
-	disco.mesh = cyl
-	disco.material_override = _mat_circulo(Color(0.15, 0.9, 0.2, 0.18), 0.0, true)
-	raiz.add_child(disco)
+	# ── Anéis concêntricos emissivos — [frac_raio, espessura, cor, emission, seg, tempo_rot, sentido]
+	var config_aneis = [
+		[1.00, 0.18, Color(0.20, 1.00, 0.25), 2.5, 64,  8.0,  1.0],
+		[0.76, 0.13, Color(0.25, 1.00, 0.20), 1.8, 56,  5.5, -1.0],
+		[0.55, 0.11, Color(0.15, 0.90, 0.30), 1.5, 48,  7.0,  1.0],
+		[0.36, 0.09, Color(0.30, 1.00, 0.20), 1.2, 40,  4.0, -1.0],
+		[0.18, 0.07, Color(0.20, 1.00, 0.30), 2.0, 32,  3.0,  1.0],
+	]
+	var anel_nodes: Array = []
+	for d in config_aneis:
+		var rf: float   = d[0]; var esp: float = d[1]
+		var cor: Color  = d[2]; var em: float  = d[3]
+		var segs: int   = d[4]; var trot: float = d[5]; var sent: float = d[6]
+		var mi := MeshInstance3D.new()
+		var tm := TorusMesh.new()
+		tm.outer_radius  = raio * rf
+		tm.inner_radius  = raio * rf - esp
+		tm.rings         = segs
+		tm.ring_segments = 6
+		mi.mesh  = tm
+		mi.scale = Vector3(1.0, 0.1, 1.0)
+		mi.material_override = _mat_circulo(cor, em)
+		raiz.add_child(mi)
+		mi.create_tween().set_loops()\
+			.tween_property(mi, "rotation:y", TAU * sent, trot)\
+			.set_trans(Tween.TRANS_LINEAR)
+		anel_nodes.append(mi)
 
-	# ── Anel externo (TorusMesh achatado no chão) ────────────────────────────
-	var anel := MeshInstance3D.new()
-	var torus := TorusMesh.new()
-	torus.outer_radius   = raio
-	torus.inner_radius   = raio - 0.22
-	torus.rings          = 64
-	torus.ring_segments  = 8
-	anel.mesh = torus
-	anel.scale = Vector3(1.0, 0.12, 1.0)
-	anel.material_override = _mat_circulo(Color(0.25, 1.0, 0.3), 2.0)
-	raiz.add_child(anel)
-
-	# ── Anel interno decorativo (achatado) ───────────────────────────────────
-	var anel2 := MeshInstance3D.new()
-	var torus2 := TorusMesh.new()
-	torus2.outer_radius  = raio * 0.55
-	torus2.inner_radius  = raio * 0.55 - 0.12
-	torus2.rings         = 48
-	torus2.ring_segments = 8
-	anel2.mesh = torus2
-	anel2.scale = Vector3(1.0, 0.12, 1.0)
-	anel2.material_override = _mat_circulo(Color(0.25, 1.0, 0.3), 1.0)
-	raiz.add_child(anel2)
-
-	# ── Rotação contrária dos dois anéis (efeito mágico) ────────────────────
-	var tw_rot = raiz.create_tween().set_loops()
-	tw_rot.tween_property(raiz, "rotation:y", TAU, 8.0).set_trans(Tween.TRANS_LINEAR)
-
-	var tw_rot2 = anel2.create_tween().set_loops()
-	tw_rot2.tween_property(anel2, "rotation:y", -TAU, 5.0).set_trans(Tween.TRANS_LINEAR)
-
-	# ── Pulso de brilho no anel externo ─────────────────────────────────────
-	var tw_pulse = anel.create_tween().set_loops()
-	tw_pulse.tween_property(anel, "material_override:emission_energy_multiplier", 4.0, 1.4)\
+	# Anel externo pulsa forte
+	var tw_p1 = anel_nodes[0].create_tween().set_loops()
+	tw_p1.tween_property(anel_nodes[0], "material_override:emission_energy_multiplier", 5.5, 1.0)\
 		.set_trans(Tween.TRANS_SINE)
-	tw_pulse.tween_property(anel, "material_override:emission_energy_multiplier", 1.0, 1.4)\
+	tw_p1.tween_property(anel_nodes[0], "material_override:emission_energy_multiplier", 2.0, 1.0)\
+		.set_trans(Tween.TRANS_SINE)
+	# Anel centro pulsa em fase oposta
+	var tw_p2 = anel_nodes[4].create_tween().set_loops()
+	tw_p2.tween_property(anel_nodes[4], "material_override:emission_energy_multiplier", 0.8, 1.0)\
+		.set_trans(Tween.TRANS_SINE)
+	tw_p2.tween_property(anel_nodes[4], "material_override:emission_energy_multiplier", 3.5, 1.0)\
 		.set_trans(Tween.TRANS_SINE)
 
 	# ── Area3D para detectar inimigos ────────────────────────────────────────
