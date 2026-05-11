@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://bv18ljnwtohhk"]
+
+[ext_resource type="Script" uid="uid://bbrwhro8pld6e" path="res://Cenas Locais/spawner_inimigos.gd" id="1_76pqh"]
+
+[node name="SpawnerInimigos" type="Node3D" unique_id=423161848]
+script = ExtResource("1_76pqh")
+
+[node name="TimerSpawn" type="Timer" parent="." unique_id=1887400803]
+
+[connection signal="timeout" from="TimerSpawn" to="." method="_on_timer_spawn_timeout"]

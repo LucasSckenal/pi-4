@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://cxftwv2xsv5xq"]
+
+[ext_resource type="Texture2D" uid="uid://bselawthatvv2" path="res://Assets/Cards/MuralhaEspinhosa.png" id="1_espi"]
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="2_espi"]
+
+[resource]
+script = ExtResource("2_espi")
+id = "12"
+titulo = "Espinhosa"
+descricao = "Inimigos que atacam construções recebem dano de volta."
+icone = ExtResource("1_espi")
+tipo_bonus = 10
+valor_bonus = 10.0
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

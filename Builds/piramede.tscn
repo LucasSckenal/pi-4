@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://c024sji4nk8n1"]
+
+[ext_resource type="PackedScene" uid="uid://boavsfqect68r" path="res://Map2/Pyramid.glb" id="1_nur0f"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_v0w2e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v0w2e"]
+size = Vector3(1.9546738, 1.1674805, 2.1469727)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oyn4j"]
+size = Vector3(2.0531616, 1.576294, 2.2304688)
+
+[node name="Piramede" type="Node3D" unique_id=1210502438 groups=["Base", "Castelo"]]
+script = ExtResource("1_v0w2e")
+tipo = 5
+vida_maxima = 600
+upgrade_custos = Array[int]([5, 7])
+upgrade_vida_por_nivel = Array[int]([500, 750])
+
+[node name="Pyramid" parent="." unique_id=1454481357 instance=ExtResource("1_nur0f")]
+
+[node name="pyramid" parent="Pyramid" index="0" unique_id=940130453]
+
+[node name="StaticBody3D" parent="Pyramid/pyramid" index="0" unique_id=1631217539]
+
+[node name="CollisionShape3D" parent="Pyramid/pyramid/StaticBody3D" index="0" unique_id=1516147576]
+
+[node name="AreaClique" type="Area3D" parent="." unique_id=2023916221]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8026243)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=1854250557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.016613007, 0.30484104, 0.0044479966)
+shape = SubResource("BoxShape3D_v0w2e")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=9681227]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7948957)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=2126560925]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.021331787, 0.28814697, -0.14575195)
+shape = SubResource("BoxShape3D_oyn4j")
+
+[editable path="Pyramid"]

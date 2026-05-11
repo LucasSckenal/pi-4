@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://blq8av0x8e3u3"]
+
+[ext_resource type="Texture2D" uid="uid://bdymy3eytauin" path="res://Icons/Building icon.png" id="1_og83g"]
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_x0c1r"]
+
+[resource]
+script = ExtResource("1_x0c1r")
+id = "defesa_perfeita"
+nome = "No Meu Tempo Era Mais Difícil!"
+descricao = "Termina uma fase inteira sem que o teu Núcleo sofra um único ponto de dano. (Mostra a esses monstros como se limpa a casa!)"
+icone = ExtResource("1_og83g")
+libera_arma_id = "arma_frigideira"
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"

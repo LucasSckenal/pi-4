@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs grep *)",
+      "Bash(python3 -c ' *)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\\\\patch_taverna.ps1\")",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\\\\patch_mercadinho.ps1\")",
+      "WebSearch",
+      "WebFetch(domain:graphify.net)",
+      "WebFetch(domain:github.com)",
+      "Bash(pip show *)",
+      "Read(//c/Users/robny/Documents/pi-4/**)",
+      "Bash(graphify claude *)",
+      "Bash(graphify . --obsidian --obsidian-dir \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\\\\Obsidian Vault\")",
+      "Bash(python -c ' *)",
+      "Bash(del /q .graphify_detect.json .graphify_extract.json .graphify_ast.json .graphify_semantic.json .graphify_analysis.json .graphify_labels.json .graphify_python)",
+      "Bash(dir \"graphify-out\" /b)",
+      "Bash(dir \"Obsidian Vault\" /b)",
+      "Bash(Remove-Item -ErrorAction SilentlyContinue .graphify_detect.json, .graphify_extract.json, .graphify_ast.json, .graphify_semantic.json, .graphify_analysis.json, .graphify_labels.json, .graphify_python)",
+      "Bash(Write-Host \"Temp files removidos\")",
+      "Bash(n=== Outputs em graphify-out/ ===\" && Get-ChildItem \"graphify-out\" -Name && Write-Host \")",
+      "Bash(Write-Host \"`n=== Outputs em graphify-out/ ===\" && Get-ChildItem \"graphify-out\" -Name && Write-Host \"`n=== Novas notas no vault ===\")",
+      "Bash(Get-ChildItem \"Obsidian Vault\" -Name)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('hooks',{}\\), indent=2\\)\\)\")",
+      "Bash(grep -E \"\\\\.\\(tscn|tres\\)$\")",
+      "Bash(grep -i \"\\\\.gd$\")",
+      "Bash(where python *)",
+      "Bash(where python3 *)",
+      "Bash(py --version)"
+    ]
+  }
+}

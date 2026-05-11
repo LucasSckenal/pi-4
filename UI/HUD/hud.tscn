@@ -1,0 +1,317 @@
+[gd_scene format=3 uid="uid://cri36f13bdtw1"]
+
+[ext_resource type="Script" uid="uid://bdk4hwc1fa0fx" path="res://Scripts Locais/hud.gd" id="1_fiyi4"]
+[ext_resource type="PackedScene" uid="uid://c24yx1fwvuwxu" path="res://UI/Upgrade/carta_ui.tscn" id="2_iy34l"]
+[ext_resource type="PackedScene" uid="uid://b5l8slqarfs0i" path="res://UI/Upgrade/upgrade_ui.tscn" id="3_ebwb2"]
+[ext_resource type="PackedScene" uid="uid://b1vxy8eat0f8p" path="res://UI/Upgrade/opcao_upgrade_button.tscn" id="4_8v21c"]
+[ext_resource type="PackedScene" uid="uid://cbryxi4nq2e8q" path="res://UI/Modals/game_over_ui.tscn" id="5_0fpak"]
+[ext_resource type="PackedScene" uid="uid://c5pxe6bsjuyx7" path="res://UI/HUD/controles_mobile.tscn" id="5_8v21c"]
+[ext_resource type="PackedScene" uid="uid://brcbpr4i8gyhb" path="res://UI/Modals/tela_vitoria.tscn" id="6_oqepp"]
+[ext_resource type="Texture2D" uid="uid://blksu1rcamgta" path="res://Icons/AmpulhetaDiaBorda.png" id="8_o14n6"]
+[ext_resource type="Texture2D" uid="uid://dg3s442t7ls8l" path="res://Icons/AmpulhetaNoiteBorda.png" id="9_0fpak"]
+[ext_resource type="Texture2D" uid="uid://ct2cevmt2tork" path="res://Assets/UI/BauFechado.png" id="10_bau_fechado"]
+[ext_resource type="Texture2D" uid="uid://cr4w3wgek56kr" path="res://Assets/UI/Ondas.png" id="11_ondas"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_Transparente"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oqepp"]
+bg_color = Color(0.12955844, 0.1295585, 0.12955838, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a54df"]
+bg_color = Color(0.072842635, 0.072842635, 0.072842635, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13k3g"]
+bg_color = Color(0.16565654, 0.16565636, 0.16565639, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_left = 8.0
+expand_margin_top = 8.0
+expand_margin_right = 8.0
+expand_margin_bottom = 8.0
+
+[node name="HUD" type="CanvasLayer" unique_id=1178528872]
+script = ExtResource("1_fiyi4")
+cena_carta_ui = ExtResource("2_iy34l")
+upgrade_ui_scene = ExtResource("3_ebwb2")
+cena_opcao_button = ExtResource("4_8v21c")
+cena_game_over = ExtResource("5_0fpak")
+cena_vitoria = ExtResource("6_oqepp")
+
+[node name="InterfacePrincipal" type="Control" parent="." unique_id=562351409]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="CentroTela" type="CenterContainer" parent="InterfacePrincipal" unique_id=1246110216]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LabelWave" type="Label" parent="InterfacePrincipal/CentroTela" unique_id=1482058559]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "ONDA 1/10"
+
+[node name="MarginInferior" type="MarginContainer" parent="InterfacePrincipal" unique_id=486124078]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4496528
+anchor_top = 0.66512346
+anchor_right = 0.5529514
+anchor_bottom = 0.77469134
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 40
+metadata/_edit_use_anchors_ = true
+
+[node name="CenterContainer" type="CenterContainer" parent="InterfacePrincipal/MarginInferior" unique_id=345088075]
+layout_mode = 2
+
+[node name="MarginDireita" type="MarginContainer" parent="InterfacePrincipal" unique_id=1955128057]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -238.0
+offset_top = -198.0
+offset_right = -18.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="VBoxDireita" type="Control" parent="InterfacePrincipal/MarginDireita" unique_id=1732296998]
+custom_minimum_size = Vector2(220, 180)
+layout_mode = 2
+
+[node name="ContainerBau" type="Control" parent="InterfacePrincipal/MarginDireita/VBoxDireita" unique_id=270829609]
+custom_minimum_size = Vector2(220, 180)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BauIcon" type="TextureRect" parent="InterfacePrincipal/MarginDireita/VBoxDireita/ContainerBau" unique_id=971425504]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(110, 90)
+texture = ExtResource("10_bau_fechado")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="FundoMoedas" type="PanelContainer" parent="InterfacePrincipal/MarginDireita/VBoxDireita" unique_id=160279703]
+layout_mode = 1
+offset_left = 42.0
+offset_top = 132.0
+offset_right = 178.0
+offset_bottom = 174.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_Transparente")
+
+[node name="LabelMoedas" type="Label" parent="InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas" unique_id=1015318735]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "💰 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuUpgrade" type="ColorRect" parent="InterfacePrincipal" unique_id=1898831811]
+process_mode = 3
+z_index = 150
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0035191667, 0.0035191681, 0.0035191672, 0.627451)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InterfacePrincipal/MenuUpgrade" unique_id=1518823646]
+z_index = 160
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 90
+
+[node name="BotaoReroll" type="Button" parent="InterfacePrincipal/MenuUpgrade" unique_id=1100744267]
+z_index = 160
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.86200005
+anchor_right = 0.5
+anchor_bottom = 0.86200005
+offset_left = -72.0
+offset_top = -16.57605
+offset_right = 80.0
+offset_bottom = 14.42395
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_oqepp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_a54df")
+theme_override_styles/hover = SubResource("StyleBoxFlat_13k3g")
+text = "Reroll (2 moedas)"
+
+[node name="HudMobileCompleto" parent="InterfacePrincipal" unique_id=768701112 instance=ExtResource("5_8v21c")]
+layout_mode = 1
+offset_left = -438.0
+offset_top = 10.0
+
+[node name="MarginEsquerda" type="Control" parent="InterfacePrincipal" unique_id=1790859775]
+layout_mode = 1
+anchors_preset = 0
+offset_top = 42.0
+offset_right = 338.0
+offset_bottom = 176.0
+
+[node name="HBoxTempo" type="Control" parent="InterfacePrincipal/MarginEsquerda" unique_id=1718043392]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FundoOndas" type="TextureRect" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo" unique_id=137793777]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = -18.045158
+offset_right = 10.0
+offset_bottom = 18.045166
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_ondas")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="PivotAmpulheta" type="Control" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo" unique_id=1609279580]
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 1
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 128.0
+
+[node name="Dia" type="TextureRect" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta" unique_id=71453623]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_o14n6")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Noite" type="TextureRect" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta" unique_id=141135915]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_0fpak")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="VBoxTextos" type="Control" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo" unique_id=79853452]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 92.0
+offset_top = 14.0
+offset_right = 284.0
+offset_bottom = 126.0
+
+[node name="LabelOnda" type="Label" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos" unique_id=538206937]
+layout_mode = 1
+offset_left = -11.0
+offset_top = -8.0
+offset_right = 177.0
+offset_bottom = 46.0
+theme_override_font_sizes/font_size = 30
+text = "ONDA 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LabelTurno" type="Label" parent="InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos" unique_id=920234852]
+layout_mode = 1
+offset_left = -15.0
+offset_top = 62.0
+offset_right = 173.0
+offset_bottom = 112.0
+theme_override_font_sizes/font_size = 30
+text = "DIA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContainerDirecoes" type="Control" parent="." unique_id=1423487210]
+z_index = -1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

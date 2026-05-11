@@ -1,0 +1,13 @@
+[gd_scene format=4 uid="uid://taverna001"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_tvrna"]
+
+[node name="Taverna" node_paths=PackedStringArray()]
+script = ExtResource("1_tvrna")
+tipo = 3
+custo_moedas = 4
+vida_maxima = 25
+moedas_por_onda = 3
+nome_construcao = "Taverna"
+chave_csv_prefixo = "taverna"
+tem_barra_vida = false

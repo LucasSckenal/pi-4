@@ -1,0 +1,340 @@
+[gd_scene format=3 uid="uid://15yqfa5lpupn"]
+
+[ext_resource type="Script" uid="uid://ch0vwt5rivuxd" path="res://UI/Menus/menu_customizacao.gd" id="1_q3jha"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vestiario"]
+sky_top_color = Color(0.2, 0.2, 0.2, 1)
+sky_horizon_color = Color(0.1, 0.1, 0.1, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="Sky" id="Sky_vestiario"]
+sky_material = SubResource("ProceduralSkyMaterial_vestiario")
+
+[sub_resource type="Environment" id="Environment_vestiario"]
+background_mode = 2
+sky = SubResource("Sky_vestiario")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Painel"]
+bg_color = Color(0.09, 0.09, 0.11, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.28, 0.24, 0.38, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 24
+shadow_offset = Vector2(0, 8)
+
+[sub_resource type="LabelSettings" id="LabelSettings_Titulo"]
+font_size = 28
+font_color = Color(0.95, 0.95, 0.95, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnAtivo"]
+bg_color = Color(0.16, 0.35, 0.60, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.60, 0.95, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnInativo"]
+bg_color = Color(0.15, 0.15, 0.18, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.28, 0.28, 0.32, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
+bg_color = Color(0.22, 0.22, 0.28, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.45, 0.42, 0.65, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Voltar"]
+bg_color = Color(0.22, 0.35, 0.55, 1)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 3
+border_color = Color(0.12, 0.20, 0.35, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_VoltarHover"]
+bg_color = Color(0.15, 0.24, 0.40, 1)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 3
+border_color = Color(0.08, 0.14, 0.25, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Vestiario" type="Node3D" unique_id=1826749913]
+script = ExtResource("1_q3jha")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=714097115]
+environment = SubResource("Environment_vestiario")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=64441171]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 3, 4)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="DirectionalLight3D_Fill" type="DirectionalLight3D" parent="." unique_id=240768798]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 3, 0)
+light_color = Color(0.6, 0.7, 1, 1)
+light_energy = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=582221384]
+transform = Transform3D(1, 0, 0, 0, 0.9848078, 0.17364796, 0, -0.17364796, 0.9848078, 0.89411867, 0.14941406, 0.32174468)
+fov = 60.0
+
+[node name="PontoPersonagem" type="Node3D" parent="." unique_id=633315300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1227658516]
+
+[node name="Tela" type="Control" parent="UI" unique_id=725676252]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="QuadroPrincipal" type="Panel" parent="UI/Tela" unique_id=1894310516]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 560.0
+offset_bottom = -20.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_Painel")
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Tela/QuadroPrincipal" unique_id=1355991765]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer" unique_id=400603659]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HBoxTitulo" type="HBoxContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=200000001]
+layout_mode = 2
+
+[node name="Titulo" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/HBoxTitulo" unique_id=186852159]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "CUSTOMIZAÇÃO"
+label_settings = SubResource("LabelSettings_Titulo")
+
+[node name="LabelEstrelas" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/HBoxTitulo" unique_id=200000002]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1.0, 0.85, 0.25, 1)
+text = "⭐ 0/18"
+vertical_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=200000003]
+layout_mode = 2
+
+[node name="BotoesGenero" type="HBoxContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=821742389]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="BtnAvoM" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero" unique_id=1343675116]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
+text = "Avô (M)"
+
+[node name="BtnAvoF" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero" unique_id=1200002322]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
+text = "Avó (F)"
+
+[node name="TabBar" type="HBoxContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=200000004]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="BtnTabChapeus" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar" unique_id=200000005]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
+text = "🎩 Chapéus"
+disabled = true
+
+[node name="BtnTabArmas" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar" unique_id=200000006]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
+text = "⚔️ Armas"
+
+[node name="SecaoChapeus" type="ScrollContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=2014836824]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoChapeus" unique_id=254539366]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridChapeus" type="GridContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoChapeus/Margin" unique_id=1528196131]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="SecaoArmas" type="ScrollContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=561473281]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+visible = false
+
+[node name="Margin" type="MarginContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoArmas" unique_id=631405466]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="GridArmas" type="GridContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoArmas/Margin" unique_id=1512854945]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="LabelNomeItem" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=1758953539]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.80, 0.82, 0.90, 1)
+text = "— Nenhum —"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotaoVoltar" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=445667432]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_Voltar")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_VoltarHover")
+theme_override_styles/hover = SubResource("StyleBoxFlat_VoltarHover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_Voltar")
+theme_override_styles/focus = SubResource("StyleBoxFlat_Voltar")
+text = "◀  VOLTAR / SALVAR"
+
+[node name="DicaGirar" type="Label" parent="UI/Tela" unique_id=1301690239]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.93
+anchor_right = 0.5
+anchor_bottom = 0.93
+offset_left = -140.0
+offset_top = -18.0
+offset_right = 140.0
+offset_bottom = 18.0
+grow_horizontal = 2
+text = "Arraste para girar"
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.55, 0.55, 0.60, 0.80)
+horizontal_alignment = 1
+
+[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotaoVoltar" to="." method="_on_btn_voltar_pressed"]
+[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoM" to="." method="_on_btn_avo_m_pressed"]
+[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoF" to="." method="_on_btn_avo_f_pressed"]
+[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar/BtnTabChapeus" to="." method="_on_btn_tab_chapeus_pressed"]
+[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar/BtnTabArmas" to="." method="_on_btn_tab_armas_pressed"]

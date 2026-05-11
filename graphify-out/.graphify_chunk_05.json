@@ -1,0 +1,561 @@
+{
+  "nodes": [
+    {
+      "id": "lava_shader",
+      "label": "Lava Shader",
+      "file_type": "code",
+      "source_file": "Shaders/Lava.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "mobile_outline_shader",
+      "label": "Mobile Outline Shader",
+      "file_type": "code",
+      "source_file": "Shaders/Mobile_Outline.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "outline_shader",
+      "label": "Outline Shader",
+      "file_type": "code",
+      "source_file": "Shaders/Outline.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "water_shader",
+      "label": "Water Shader (3D Animated)",
+      "file_type": "code",
+      "source_file": "Shaders/Water.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "waterflat_shader",
+      "label": "WaterFlat Shader (Wind Waker Style)",
+      "file_type": "code",
+      "source_file": "Shaders/WaterFlat.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "controles_mobile_script",
+      "label": "Controles Mobile HUD",
+      "file_type": "code",
+      "source_file": "UI/HUD/controles_mobile.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "painel_conselheiro_painelconselheiro",
+      "label": "PainelConselheiro (Advisor Panel)",
+      "file_type": "code",
+      "source_file": "UI/HUD/painel_conselheiro.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "menu_customizacao_script",
+      "label": "Menu Customizacao (Customization Menu)",
+      "file_type": "code",
+      "source_file": "UI/Menus/menu_customizacao.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "menu_pausa_script",
+      "label": "Menu Pausa (Pause Menu)",
+      "file_type": "code",
+      "source_file": "UI/Menus/menu_pausa.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "seletor_fases_script",
+      "label": "Seletor de Fases (Level Selector)",
+      "file_type": "code",
+      "source_file": "UI/Menus/seletor_fases.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tela_conquistas_script",
+      "label": "Tela Conquistas (Achievements Screen)",
+      "file_type": "code",
+      "source_file": "UI/Menus/tela_conquistas.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "game_over_ui_script",
+      "label": "Game Over UI",
+      "file_type": "code",
+      "source_file": "UI/Modals/game_over_ui.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "modal_modo_fase_modalmodofase",
+      "label": "ModalModoFase (Level Mode Modal)",
+      "file_type": "code",
+      "source_file": "UI/Modals/modal_modo_fase.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tela_aviso_inimigo_script",
+      "label": "Tela Aviso Inimigo (Enemy Warning Screen)",
+      "file_type": "code",
+      "source_file": "UI/Modals/tela_aviso_inimigo.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tela_vitoria_script",
+      "label": "Tela Vitoria (Victory Screen)",
+      "file_type": "code",
+      "source_file": "UI/Modals/tela_vitoria.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "upgrade_ui_script",
+      "label": "Upgrade UI (Upgrade Panel)",
+      "file_type": "code",
+      "source_file": "UI/Upgrade/upgrade_ui.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "upgrade_path_data_upgradepathdata",
+      "label": "UpgradePathData Resource",
+      "file_type": "code",
+      "source_file": "Upgrades/upgrade_path_data.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "wave_resource_wavedata",
+      "label": "WaveData Resource",
+      "file_type": "code",
+      "source_file": "Waves/wave_resource.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "wave_resource_inimigoconfig",
+      "label": "InimigoConfig Resource",
+      "file_type": "code",
+      "source_file": "Waves/wave_resource.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "autoload_gamemanager",
+      "label": "GameManager (Autoload)",
+      "file_type": "code",
+      "source_file": "GameManager.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "autoload_global",
+      "label": "Global (Autoload)",
+      "file_type": "code",
+      "source_file": "Global.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "autoload_musicaglobal",
+      "label": "MusicaGlobal (Autoload)",
+      "file_type": "code",
+      "source_file": "MusicaGlobal.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "conselheiro_ia",
+      "label": "ConselheiroIA (AI Advisor Logic)",
+      "file_type": "code",
+      "source_file": "UI/HUD/painel_conselheiro.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "conquista_data",
+      "label": "ConquistaData Resource",
+      "file_type": "code",
+      "source_file": "Conquistas/ConquistaData.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "controles_mobile_script",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/HUD/controles_mobile.gd",
+      "source_location": "line 52-55, 57, 112-114",
+      "weight": 1.0
+    },
+    {
+      "source": "controles_mobile_script",
+      "target": "autoload_gamemanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/HUD/controles_mobile.gd",
+      "source_location": "line 52 (dia_iniciado signal), line 54 (noite_iniciada signal)",
+      "weight": 1.0
+    },
+    {
+      "source": "painel_conselheiro_painelconselheiro",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/HUD/painel_conselheiro.gd",
+      "source_location": "line 45-48, 241, 372",
+      "weight": 1.0
+    },
+    {
+      "source": "painel_conselheiro_painelconselheiro",
+      "target": "conselheiro_ia",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/HUD/painel_conselheiro.gd",
+      "source_location": "line 39-41, 236",
+      "weight": 1.0
+    },
+    {
+      "source": "menu_customizacao_script",
+      "target": "autoload_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/menu_customizacao.gd",
+      "source_location": "line 49, 107, 162, 168-169, 273-288",
+      "weight": 1.0
+    },
+    {
+      "source": "menu_customizacao_script",
+      "target": "autoload_gamemanager",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "UI/Menus/menu_customizacao.gd",
+      "source_location": "line 42 (add_to_group MenuCustomizacao)",
+      "weight": 0.75
+    },
+    {
+      "source": "menu_pausa_script",
+      "target": "seletor_fases_script",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/menu_pausa.gd",
+      "source_location": "line 50 (change_scene_to_file seletor_fases.tscn)",
+      "weight": 1.0
+    },
+    {
+      "source": "seletor_fases_script",
+      "target": "autoload_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/seletor_fases.gd",
+      "source_location": "line 37, 100",
+      "weight": 1.0
+    },
+    {
+      "source": "seletor_fases_script",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/seletor_fases.gd",
+      "source_location": "line 155-166",
+      "weight": 1.0
+    },
+    {
+      "source": "seletor_fases_script",
+      "target": "autoload_musicaglobal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/seletor_fases.gd",
+      "source_location": "line 159-164",
+      "weight": 1.0
+    },
+    {
+      "source": "seletor_fases_script",
+      "target": "modal_modo_fase_modalmodofase",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/seletor_fases.gd",
+      "source_location": "line 7, 146-151",
+      "weight": 1.0
+    },
+    {
+      "source": "tela_conquistas_script",
+      "target": "autoload_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/tela_conquistas.gd",
+      "source_location": "line 39, 65, 128",
+      "weight": 1.0
+    },
+    {
+      "source": "tela_conquistas_script",
+      "target": "conquista_data",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/tela_conquistas.gd",
+      "source_location": "line 3, 25",
+      "weight": 1.0
+    },
+    {
+      "source": "game_over_ui_script",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Modals/game_over_ui.gd",
+      "source_location": "line 13-14, 34-35, 39",
+      "weight": 1.0
+    },
+    {
+      "source": "tela_vitoria_script",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Modals/tela_vitoria.gd",
+      "source_location": "line 16 (vitoria signal), 23 (apagar_save), 37 (carregar_fase)",
+      "weight": 1.0
+    },
+    {
+      "source": "tela_vitoria_script",
+      "target": "autoload_gamemanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Modals/tela_vitoria.gd",
+      "source_location": "line 16 (GameManager.vitoria.connect)",
+      "weight": 1.0
+    },
+    {
+      "source": "tela_aviso_inimigo_script",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "UI/Modals/tela_aviso_inimigo.gd",
+      "source_location": "line 53 (get_tree().paused = true pauses game on enemy encounter)",
+      "weight": 0.85
+    },
+    {
+      "source": "modal_modo_fase_modalmodofase",
+      "target": "autoload_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Modals/modal_modo_fase.gd",
+      "source_location": "line 43",
+      "weight": 1.0
+    },
+    {
+      "source": "upgrade_ui_script",
+      "target": "autoload_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Upgrade/upgrade_ui.gd",
+      "source_location": "line 55, 179, 199-200",
+      "weight": 1.0
+    },
+    {
+      "source": "upgrade_ui_script",
+      "target": "upgrade_path_data_upgradepathdata",
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "UI/Upgrade/upgrade_ui.gd",
+      "source_location": "line 153 (get_opcoes_proximo_upgrade), 187 (aplicar_upgrade)",
+      "weight": 0.85
+    },
+    {
+      "source": "wave_resource_wavedata",
+      "target": "wave_resource_inimigoconfig",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Waves/wave_resource.gd",
+      "source_location": "line 6 (Array[InimigoConfig])",
+      "weight": 1.0
+    },
+    {
+      "source": "lava_shader",
+      "target": "autoload_gamemanager",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "source_file": "Shaders/Lava.gdshader",
+      "source_location": null,
+      "weight": 0.55
+    },
+    {
+      "source": "water_shader",
+      "target": "waterflat_shader",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Shaders/Water.gdshader",
+      "source_location": "both implement Zelda Wind Waker toon water style with shared waterlayer circle pattern",
+      "weight": 1.0
+    },
+    {
+      "source": "outline_shader",
+      "target": "mobile_outline_shader",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Shaders/Outline.gdshader",
+      "source_location": "both create outline/silhouette effects; Outline uses DEPTH_TEXTURE+SCREEN_TEXTURE, Mobile_Outline uses normal expansion",
+      "weight": 1.0
+    },
+    {
+      "source": "menu_customizacao_script",
+      "target": "conquista_data",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "UI/Menus/menu_customizacao.gd",
+      "source_location": "line 188-199 (armadura unlock flags tied to achievement system)",
+      "weight": 0.75
+    },
+    {
+      "source": "painel_conselheiro_painelconselheiro",
+      "target": "autoload_gamemanager",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/HUD/painel_conselheiro.gd",
+      "source_location": "line 241 (GameManager.recomendacao_conselheiro = ...)",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "end_game_flow",
+      "label": "End-Game Flow: Victory, GameOver and GameManager",
+      "nodes": ["tela_vitoria_script", "game_over_ui_script", "autoload_gamemanager"],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Modals/tela_vitoria.gd"
+    },
+    {
+      "id": "water_shader_family",
+      "label": "Water Shader Family (toon-style water effects)",
+      "nodes": ["water_shader", "waterflat_shader", "lava_shader"],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Shaders/Water.gdshader"
+    },
+    {
+      "id": "level_selection_flow",
+      "label": "Level Selection Flow: Selector, Modal, GameManager",
+      "nodes": ["seletor_fases_script", "modal_modo_fase_modalmodofase", "autoload_gamemanager"],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "UI/Menus/seletor_fases.gd"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

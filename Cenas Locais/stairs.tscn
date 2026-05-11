@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dk4n4qgmeax2x"]
+
+[ext_resource type="PackedScene" uid="uid://df82cdpb0rcmi" path="res://Arena/stairs.glb" id="1_l5oqe"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_l5oqe"]
+height = 1.2475586
+radius = 0.7050781
+
+[node name="stairs2" unique_id=1106050691 instance=ExtResource("1_l5oqe")]
+
+[node name="stairs" parent="." index="0" unique_id=1101029288]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="StaticBody3D" parent="stairs" index="0" unique_id=1016317095]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="CollisionShape3D" parent="stairs/StaticBody3D" index="0" unique_id=245365702]
+transform = Transform3D(0.99999976, 0, 0, 0, 0.89603746, -0.44397843, 0, 0.44397843, 0.89603746, 0, -0.08060069, -0.12464719)
+shape = null
+disabled = true
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="1" unique_id=1447884409]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=60843403]
+transform = Transform3D(0.99734974, 0.06659323, -0.029291999, -0.07275079, 0.9129351, -0.40156782, 0, 0.40263474, 0.9153607, -0.02505375, -0.2916899, -0.17896713)
+shape = SubResource("CylinderShape3D_l5oqe")

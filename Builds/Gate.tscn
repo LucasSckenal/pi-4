@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://b668vn66nyw27"]
+
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_2loxh"]
+[ext_resource type="PackedScene" uid="uid://c6bf0sp4hsun6" path="res://Map5/GLTF format/gate_simple.glb" id="2_f0hs8"]
+[ext_resource type="PackedScene" uid="uid://dt3smm0b53spe" path="res://Upgrades/Gate_up.tscn" id="2_m5uad"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2loxh"]
+size = Vector3(0.9959564, 0.9970856, 0.6229019)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f0hs8"]
+
+[node name="Portal" type="Node3D" unique_id=683417852 groups=["Castelo"]]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+script = ExtResource("1_2loxh")
+tipo = 5
+upgrade_custos = Array[int]([7, 10])
+upgrade_vida_por_nivel = Array[int]([500, 700])
+modelos_por_nivel = Array[PackedScene]([ExtResource("2_m5uad"), ExtResource("2_m5uad")])
+escala_modelo = Vector3(1.0, 1.0, 1.0)
+
+[node name="gate_simple2" parent="." unique_id=1855232070 instance=ExtResource("2_f0hs8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.0412793, -1.1920929e-07, -1.6339583)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=774108571]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.051057696, 0.56766105, 0)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=894238364]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020378113, -0.010139465, -0.13228226)
+shape = SubResource("BoxShape3D_2loxh")
+
+[node name="AreaClique" type="Area3D" parent="." unique_id=1281864409]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065301895, 0.24608552, -0.8026243)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" unique_id=1118970051]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.070687294, 0.30484104, 0.6619492)
+shape = SubResource("SphereShape3D_f0hs8")
+
+[editable path="gate_simple2"]

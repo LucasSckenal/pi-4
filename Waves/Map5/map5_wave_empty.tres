@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="WaveData" format=3]
+
+[ext_resource type="Script" path="res://Waves/wave_resource.gd" id="1_wave"]
+
+[resource]
+script = ExtResource("1_wave")
+nome_da_onda = "Mapa 5 - Caminho inativo"
+intervalo = 1.0
+metadata/_custom_type_script = "res://Waves/wave_resource.gd"

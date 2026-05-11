@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dj4cofx573awl"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_0g4yc"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_har5c"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="InvisibleTiles" type="Node3D" unique_id=235590397]
+
+[node name="BigTile" type="Node3D" parent="." unique_id=156816226]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BigTile" unique_id=931671632]
+mesh = SubResource("BoxMesh_0g4yc")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BigTile/MeshInstance3D" unique_id=1955943431]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BigTile/MeshInstance3D/StaticBody3D" unique_id=272615193]
+shape = SubResource("BoxShape3D_har5c")

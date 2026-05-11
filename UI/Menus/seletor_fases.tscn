@@ -1,0 +1,425 @@
+[gd_scene format=3 uid="uid://dkctxff7rmf4m"]
+
+[ext_resource type="Script" uid="uid://drtuhx0gasbm7" path="res://UI/Menus/seletor_fases.gd" id="1_nbx80"]
+[ext_resource type="PackedScene" uid="uid://fs8pjdhnlgs3" path="res://Assets/Meshy_AI_Blank_Scroll_0416004051_texture.glb" id="2_1miao"]
+[ext_resource type="Texture2D" uid="uid://bnesw0l35idgn" path="res://Icons/Map1Selcetor.png" id="3_ymrsv"]
+[ext_resource type="Texture2D" uid="uid://c6mxapyysije2" path="res://Icons/LabelMap.png" id="4_bp4jj"]
+[ext_resource type="Texture2D" uid="uid://bxey4wkvmacm3" path="res://Icons/Map2Selector.png" id="4_ecws0"]
+[ext_resource type="Texture2D" uid="uid://b0qtkebf5b6p3" path="res://Icons/Map3Selector.png" id="5_bp4jj"]
+[ext_resource type="Texture2D" uid="uid://c0tt1lesa5c8w" path="res://Icons/star_outline_depth.png" id="5_mfnoj"]
+[ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
+[ext_resource type="Texture2D" uid="uid://y3aqhhbpej6t" path="res://Icons/Map4Selector.png" id="8_mfnoj"]
+[ext_resource type="Texture2D" uid="uid://dk5tfcfk0lbp0" path="res://Icons/Map5Selector.png" id="9_vhorf"]
+[ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="11_nqyad"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_mfnoj"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_vhorf"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7ooa"]
+bg_color = Color(0, 0, 0, 0.7137255)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_blend = true
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjkm8"]
+bg_color = Color(0, 0, 0, 0.83137256)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_blend = true
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kumk8"]
+bg_color = Color(0.45840502, 0.45840508, 0.45840502, 0.7137255)
+border_width_left = 16
+border_width_top = 16
+border_width_right = 16
+border_width_bottom = 16
+border_blend = true
+corner_radius_top_left = 120
+corner_radius_top_right = 120
+corner_radius_bottom_right = 120
+corner_radius_bottom_left = 120
+corner_detail = 20
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[node name="SeletorFases" type="Control" unique_id=860466080]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nbx80")
+
+[node name="Meshy_AI_Blank_Scroll_0416004051_texture" parent="." unique_id=1253914551 instance=ExtResource("2_1miao")]
+transform = Transform3D(1.2, 0, 0, 0, 1.7, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="Map1" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1397241155]
+anchors_preset = -1
+anchor_left = 0.099826396
+anchor_top = 0.25138888
+anchor_right = 0.27897695
+anchor_bottom = 0.5233639
+offset_top = 1.5258789e-05
+offset_right = 413.61856
+offset_bottom = 220.17801
+scale = Vector2(0.33287326, 0.47072595)
+mouse_default_cursor_shape = 2
+icon = ExtResource("3_ymrsv")
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelBG" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" unique_id=666256323]
+position = Vector2(312.43127, -21.24376)
+rotation = 3.134085
+scale = Vector2(497.59488, 126.46156)
+skew = -0.0015482903
+mesh = SubResource("QuadMesh_mfnoj")
+texture = ExtResource("4_bp4jj")
+
+[node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" unique_id=142509434]
+layout_mode = 0
+offset_left = 201.27776
+offset_top = -63.731354
+offset_right = 401.27777
+offset_bottom = 49.268646
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "Tutorial
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+uppercase = true
+
+[node name="Star1" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" unique_id=1446771275]
+position = Vector2(138.19069, 420.6269)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star2" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" unique_id=1095528220]
+position = Vector2(300.4146, 456.74133)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star3" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" unique_id=884381007]
+position = Vector2(450.62195, 424.87564)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Map2" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1757016339]
+anchors_preset = -1
+anchor_left = 0.23871528
+anchor_top = 0.47916666
+anchor_right = 0.4178658
+anchor_bottom = 0.75114167
+offset_right = 413.6186
+offset_bottom = 220.17798
+scale = Vector2(0.33287326, 0.47072595)
+mouse_default_cursor_shape = 2
+icon = ExtResource("4_ecws0")
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelBG" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" unique_id=1522205939]
+position = Vector2(312.43127, -21.24376)
+rotation = 3.134085
+scale = Vector2(497.59488, 126.46156)
+skew = -0.0015482903
+mesh = SubResource("QuadMesh_mfnoj")
+texture = ExtResource("4_bp4jj")
+
+[node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" unique_id=198200639]
+layout_mode = 0
+offset_left = 201.27776
+offset_top = -63.731354
+offset_right = 401.27777
+offset_bottom = 49.268646
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "Deserto
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 3
+uppercase = true
+
+[node name="Star1" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" unique_id=774914150]
+position = Vector2(138.19069, 420.6269)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star2" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" unique_id=713165437]
+position = Vector2(300.4146, 456.74133)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star3" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" unique_id=520570301]
+position = Vector2(450.62195, 424.87564)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Map3" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1373141864]
+anchors_preset = -1
+anchor_left = 0.34461808
+anchor_top = 0.125
+anchor_right = 0.52376866
+anchor_bottom = 0.39697504
+offset_right = 413.61853
+offset_bottom = 220.17804
+scale = Vector2(0.33287326, 0.47072595)
+mouse_default_cursor_shape = 2
+icon = ExtResource("5_bp4jj")
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelBG" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" unique_id=1938801145]
+position = Vector2(312.43127, -21.24376)
+rotation = 3.134085
+scale = Vector2(497.59488, 126.46156)
+skew = -0.0015482903
+mesh = SubResource("QuadMesh_mfnoj")
+texture = ExtResource("4_bp4jj")
+
+[node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" unique_id=2004291546]
+layout_mode = 0
+offset_left = 150.20728
+offset_top = -63.73142
+offset_right = 459.20728
+offset_bottom = 49.26858
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "Casa da bruxa
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Star1" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" unique_id=130457947]
+position = Vector2(138.19069, 420.6269)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star2" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" unique_id=1485572305]
+position = Vector2(300.4146, 456.74133)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star3" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" unique_id=1232336309]
+position = Vector2(450.62195, 424.87564)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Map4" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1003730286]
+anchors_preset = -1
+anchor_left = 0.45225695
+anchor_top = 0.46944448
+anchor_right = 0.6314075
+anchor_bottom = 0.7414195
+offset_right = 413.61853
+offset_bottom = 220.17798
+scale = Vector2(0.33287326, 0.47072595)
+mouse_default_cursor_shape = 2
+icon = ExtResource("8_mfnoj")
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelBG" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" unique_id=2074050246]
+position = Vector2(312.43127, -21.24376)
+rotation = 3.134085
+scale = Vector2(497.59488, 126.46156)
+skew = -0.0015482903
+mesh = SubResource("QuadMesh_mfnoj")
+texture = ExtResource("4_bp4jj")
+
+[node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" unique_id=680354085]
+layout_mode = 0
+offset_left = 129.17825
+offset_top = -84.975204
+offset_right = 482.17825
+offset_bottom = 28.024796
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "Navio submerso"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Star1" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" unique_id=1974061591]
+position = Vector2(138.19069, 420.6269)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star2" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" unique_id=457528660]
+position = Vector2(300.4146, 456.74133)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star3" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" unique_id=1044132760]
+position = Vector2(450.62195, 424.87564)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Map5" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=242603204]
+anchors_preset = -1
+anchor_left = 0.6015625
+anchor_top = 0.20972222
+anchor_right = 0.780713
+anchor_bottom = 0.48169726
+offset_right = 413.6186
+offset_bottom = 220.17804
+scale = Vector2(0.33287326, 0.47072595)
+mouse_default_cursor_shape = 2
+icon = ExtResource("9_vhorf")
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelBG" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" unique_id=2034331236]
+position = Vector2(312.43127, -21.24376)
+rotation = 3.134085
+scale = Vector2(497.59488, 126.46156)
+skew = -0.0015482903
+mesh = SubResource("QuadMesh_mfnoj")
+texture = ExtResource("4_bp4jj")
+
+[node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" unique_id=2107430161]
+layout_mode = 0
+offset_left = 156.21556
+offset_top = -82.85075
+offset_right = 478.21558
+offset_bottom = 30.149246
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "Espaço sideral"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Star1" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" unique_id=648858572]
+position = Vector2(138.19069, 420.6269)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star2" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" unique_id=381564052]
+position = Vector2(300.4146, 456.74133)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star3" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" unique_id=381037739]
+position = Vector2(450.62195, 424.87564)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Map6" type="Button" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=1084889550]
+anchors_preset = -1
+anchor_left = 0.7439236
+anchor_top = 0.375
+anchor_right = 0.9230742
+anchor_bottom = 0.646975
+offset_right = 413.61853
+offset_bottom = 220.17801
+scale = Vector2(0.33287326, 0.47072595)
+mouse_default_cursor_shape = 2
+icon = ExtResource("6_mfnoj")
+flat = true
+metadata/_edit_use_anchors_ = true
+
+[node name="LabelBG" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" unique_id=1749909224]
+position = Vector2(312.43127, -21.24376)
+rotation = 3.134085
+scale = Vector2(497.59488, 126.46156)
+skew = -0.0015482903
+mesh = SubResource("QuadMesh_mfnoj")
+texture = ExtResource("4_bp4jj")
+
+[node name="Label" type="Label" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" unique_id=806050689]
+layout_mode = 0
+offset_left = 126.174095
+offset_top = -57.358253
+offset_right = 492.1741
+offset_bottom = 55.641747
+theme_override_constants/outline_size = 14
+theme_override_font_sizes/font_size = 40
+text = "Covil do dragão
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="Star1" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" unique_id=894380910]
+position = Vector2(138.19069, 420.6269)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star2" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" unique_id=1409481722]
+position = Vector2(300.4146, 456.74133)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Star3" type="MeshInstance2D" parent="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" unique_id=676864530]
+position = Vector2(450.62195, 424.87564)
+scale = Vector2(-102.615, -62.264)
+mesh = SubResource("QuadMesh_vhorf")
+texture = ExtResource("5_mfnoj")
+
+[node name="Camera3D" type="Camera3D" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=2058200856]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.84632933)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=2018396110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7083192)
+
+[node name="BtnVoltar" type="Button" parent="." unique_id=885441256]
+layout_mode = 0
+offset_left = 122.87519
+offset_top = 18.0
+offset_right = 1116.2626
+offset_bottom = 824.7874
+scale = Vector2(-0.101478375, 0.07679579)
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_i7ooa")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sjkm8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kumk8")
+icon = ExtResource("11_nqyad")
+icon_alignment = 1
+
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" to="." method="_on_map_1_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" to="." method="_on_map_2_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map3" to="." method="_on_map_3_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" to="." method="_on_map_4_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" to="." method="_on_map_5_pressed"]
+[connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" to="." method="_on_map_6_pressed"]
+[connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]

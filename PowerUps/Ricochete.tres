@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3]
+
+[ext_resource type="Texture2D" uid="uid://cn0f5v3u5g41x" path="res://Assets/Cards/Ricochete.png" id="1_rico"]
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="2_rico"]
+
+[resource]
+script = ExtResource("2_rico")
+id = "10"
+titulo = "Ricochete"
+descricao = "Flechas ricocheteiam em inimigos próximos após o primeiro impacto."
+icone = ExtResource("1_rico")
+tipo_bonus = 8
+valor_bonus = 1.0
+metadata/_custom_type_script = "uid://ckllnh0oimgco"

@@ -1,0 +1,816 @@
+{
+  "nodes": [
+    {
+      "id": "main_menu_mainmenu",
+      "label": "Main Menu",
+      "file_type": "code",
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "musica_global_musicaglobal",
+      "label": "Musica Global (Audio Autoload)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/musica_global.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "opcao_upgrade_button_opcaoupgradebutton",
+      "label": "Opcao Upgrade Button",
+      "file_type": "code",
+      "source_file": "Scripts Locais/opcao_upgrade_button.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "orc_orc",
+      "label": "Orc (Enemy)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/orc.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "player_player",
+      "label": "Player (Hero Character)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/Player.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "radial_button_radialbutton",
+      "label": "Radial Button (Tower Build Button)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/radial_button.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "radial_menu_radialmenu",
+      "label": "Radial Menu (Tower Selection UI)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/radial_menu.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "selecao_personagem_selecaopersonagem",
+      "label": "Selecao Personagem (Character Selection Screen)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/selecao_personagem.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "sky_gdshader_sky",
+      "label": "Sky Shader (Procedural Sky with Clouds)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/Sky.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "slot_personagem_slotpersonagem",
+      "label": "Slot Personagem (Character Slot UI)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/slot_personagem.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "soldier_soldier",
+      "label": "Soldier (Allied Ranged Unit)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/soldier.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "torre_de_fogo_torrefogo",
+      "label": "Torre de Fogo (Fire Tower, Laser AoE)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/torre_de_fogo.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tower_tower",
+      "label": "Tower (Standard Arrow Tower)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/tower.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "unit_house_2_unithouse",
+      "label": "Unit House 2 (Passive Income Building)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/unit_house_2.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "unit_mill_2_unitmill",
+      "label": "Unit Mill 2 (Passive Income Building)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/unit_mill_2.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "walls_word_1_wall",
+      "label": "Walls Word 1 (Wall Transparency Sensor)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/walls_word_1.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "wall_2_wall2",
+      "label": "Wall 2 (Wall Transparency Sensor)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/wall_2.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "wall_gate_2_wallgate2",
+      "label": "Wall Gate 2 (Gate Transparency Sensor)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/wall_gate_2.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "bolhas_gdshader_bolhas",
+      "label": "Bolhas Shader (Bubble/Underwater Screen Effect)",
+      "file_type": "code",
+      "source_file": "Shaders/Bolhas.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "dithering_effect_gdshader_dithering",
+      "label": "Dithering Effect Shader (Bayer Matrix Transparency)",
+      "file_type": "code",
+      "source_file": "Shaders/dithering_effect.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "energymaterial_gdshader_energy",
+      "label": "Energy Material Shader (Flame/Glow Energy Effect)",
+      "file_type": "code",
+      "source_file": "Shaders/EnergyMaterial.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "highlight_gdshader_highlight",
+      "label": "Highlight Shader (Shield/Fresnel Unit Highlight)",
+      "file_type": "code",
+      "source_file": "Shaders/Highlight.gdshader",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "gamemanager_gamemanager",
+      "label": "GameManager (Autoload)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "global_global",
+      "label": "Global (Autoload - Player State)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/Player.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "balanceamento_balanceamento",
+      "label": "Balanceamento (Autoload - CSV Balance)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/orc.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "outline_gdshader_outline",
+      "label": "Outline Shader (Character Outline)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "main_menu_mainmenu",
+      "target": "musica_global_musicaglobal",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": "line 11",
+      "weight": 1.0
+    },
+    {
+      "source": "main_menu_mainmenu",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": "line 15",
+      "weight": 1.0
+    },
+    {
+      "source": "main_menu_mainmenu",
+      "target": "player_player",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": "line 56",
+      "weight": 1.0
+    },
+    {
+      "source": "main_menu_mainmenu",
+      "target": "outline_gdshader_outline",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": "line 144",
+      "weight": 1.0
+    },
+    {
+      "source": "main_menu_mainmenu",
+      "target": "global_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/main_menu.gd",
+      "source_location": "line 91",
+      "weight": 1.0
+    },
+    {
+      "source": "musica_global_musicaglobal",
+      "target": "musica_global_musicaglobal",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/musica_global.gd",
+      "source_location": "line 1",
+      "weight": 1.0
+    },
+    {
+      "source": "orc_orc",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/orc.gd",
+      "source_location": "line 38",
+      "weight": 1.0
+    },
+    {
+      "source": "orc_orc",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Scripts Locais/orc.gd",
+      "source_location": null,
+      "weight": 1.0
+    },
+    {
+      "source": "player_player",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/Player.gd",
+      "source_location": "line 67",
+      "weight": 1.0
+    },
+    {
+      "source": "player_player",
+      "target": "global_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/Player.gd",
+      "source_location": "line 272",
+      "weight": 1.0
+    },
+    {
+      "source": "player_player",
+      "target": "outline_gdshader_outline",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/Player.gd",
+      "source_location": "line 13",
+      "weight": 1.0
+    },
+    {
+      "source": "player_player",
+      "target": "orc_orc",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/Player.gd",
+      "source_location": "line 297",
+      "weight": 1.0
+    },
+    {
+      "source": "soldier_soldier",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/soldier.gd",
+      "source_location": "line 315",
+      "weight": 1.0
+    },
+    {
+      "source": "soldier_soldier",
+      "target": "orc_orc",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/soldier.gd",
+      "source_location": "line 280",
+      "weight": 1.0
+    },
+    {
+      "source": "torre_de_fogo_torrefogo",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/torre_de_fogo.gd",
+      "source_location": "line 268",
+      "weight": 1.0
+    },
+    {
+      "source": "torre_de_fogo_torrefogo",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/torre_de_fogo.gd",
+      "source_location": "line 184",
+      "weight": 1.0
+    },
+    {
+      "source": "torre_de_fogo_torrefogo",
+      "target": "orc_orc",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/torre_de_fogo.gd",
+      "source_location": "line 191",
+      "weight": 1.0
+    },
+    {
+      "source": "tower_tower",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/tower.gd",
+      "source_location": "line 140",
+      "weight": 1.0
+    },
+    {
+      "source": "tower_tower",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/tower.gd",
+      "source_location": "line 99",
+      "weight": 1.0
+    },
+    {
+      "source": "radial_menu_radialmenu",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/radial_menu.gd",
+      "source_location": "line 33",
+      "weight": 1.0
+    },
+    {
+      "source": "radial_menu_radialmenu",
+      "target": "radial_button_radialbutton",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/radial_menu.gd",
+      "source_location": "line 81",
+      "weight": 1.0
+    },
+    {
+      "source": "radial_button_radialbutton",
+      "target": "radial_menu_radialmenu",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/radial_button.gd",
+      "source_location": "line 77",
+      "weight": 1.0
+    },
+    {
+      "source": "selecao_personagem_selecaopersonagem",
+      "target": "global_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/selecao_personagem.gd",
+      "source_location": "line 13",
+      "weight": 1.0
+    },
+    {
+      "source": "selecao_personagem_selecaopersonagem",
+      "target": "slot_personagem_slotpersonagem",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/selecao_personagem.gd",
+      "source_location": "line 3",
+      "weight": 1.0
+    },
+    {
+      "source": "selecao_personagem_selecaopersonagem",
+      "target": "outline_gdshader_outline",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/selecao_personagem.gd",
+      "source_location": "line 100",
+      "weight": 1.0
+    },
+    {
+      "source": "selecao_personagem_selecaopersonagem",
+      "target": "main_menu_mainmenu",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/selecao_personagem.gd",
+      "source_location": "line 80",
+      "weight": 1.0
+    },
+    {
+      "source": "slot_personagem_slotpersonagem",
+      "target": "outline_gdshader_outline",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/slot_personagem.gd",
+      "source_location": "line 27",
+      "weight": 1.0
+    },
+    {
+      "source": "unit_house_2_unithouse",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/unit_house_2.gd",
+      "source_location": "line 21",
+      "weight": 1.0
+    },
+    {
+      "source": "unit_house_2_unithouse",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/unit_house_2.gd",
+      "source_location": "line 29",
+      "weight": 1.0
+    },
+    {
+      "source": "unit_mill_2_unitmill",
+      "target": "gamemanager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/unit_mill_2.gd",
+      "source_location": "line 37",
+      "weight": 1.0
+    },
+    {
+      "source": "unit_mill_2_unitmill",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/unit_mill_2.gd",
+      "source_location": "line 100",
+      "weight": 1.0
+    },
+    {
+      "source": "walls_word_1_wall",
+      "target": "player_player",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/walls_word_1.gd",
+      "source_location": "line 3",
+      "weight": 1.0
+    },
+    {
+      "source": "wall_2_wall2",
+      "target": "player_player",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/wall_2.gd",
+      "source_location": "line 3",
+      "weight": 1.0
+    },
+    {
+      "source": "wall_gate_2_wallgate2",
+      "target": "player_player",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/wall_gate_2.gd",
+      "source_location": "line 3",
+      "weight": 1.0
+    },
+    {
+      "source": "walls_word_1_wall",
+      "target": "wall_2_wall2",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/walls_word_1.gd",
+      "source_location": null,
+      "weight": 0.7
+    },
+    {
+      "source": "wall_2_wall2",
+      "target": "wall_gate_2_wallgate2",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/wall_2.gd",
+      "source_location": null,
+      "weight": 0.7
+    },
+    {
+      "source": "bolhas_gdshader_bolhas",
+      "target": "orc_orc",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "source_file": "Shaders/Bolhas.gdshader",
+      "source_location": null,
+      "weight": 0.5
+    },
+    {
+      "source": "dithering_effect_gdshader_dithering",
+      "target": "player_player",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "Shaders/dithering_effect.gdshader",
+      "source_location": null,
+      "weight": 0.6
+    },
+    {
+      "source": "energymaterial_gdshader_energy",
+      "target": "torre_de_fogo_torrefogo",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "Shaders/EnergyMaterial.gdshader",
+      "source_location": null,
+      "weight": 0.6
+    },
+    {
+      "source": "highlight_gdshader_highlight",
+      "target": "player_player",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "Shaders/Highlight.gdshader",
+      "source_location": null,
+      "weight": 0.6
+    },
+    {
+      "source": "sky_gdshader_sky",
+      "target": "main_menu_mainmenu",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "source_file": "Scripts Locais/Sky.gdshader",
+      "source_location": null,
+      "weight": 0.5
+    },
+    {
+      "source": "opcao_upgrade_button_opcaoupgradebutton",
+      "target": "gamemanager_gamemanager",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Scripts Locais/opcao_upgrade_button.gd",
+      "source_location": null,
+      "weight": 0.7
+    },
+    {
+      "source": "torre_de_fogo_torrefogo",
+      "target": "tower_tower",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/torre_de_fogo.gd",
+      "source_location": null,
+      "weight": 0.8
+    },
+    {
+      "source": "unit_house_2_unithouse",
+      "target": "unit_mill_2_unitmill",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/unit_house_2.gd",
+      "source_location": null,
+      "weight": 0.8
+    },
+    {
+      "source": "soldier_soldier",
+      "target": "player_player",
+      "relation": "shares_data_with",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Scripts Locais/soldier.gd",
+      "source_location": null,
+      "weight": 0.7
+    },
+    {
+      "source": "orc_orc",
+      "target": "tower_tower",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/orc.gd",
+      "source_location": "line 159",
+      "weight": 0.9
+    },
+    {
+      "source": "orc_orc",
+      "target": "unit_house_2_unithouse",
+      "relation": "calls",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/orc.gd",
+      "source_location": "line 159",
+      "weight": 0.9
+    },
+    {
+      "source": "musica_global_musicaglobal",
+      "target": "main_menu_mainmenu",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/musica_global.gd",
+      "source_location": "line 22",
+      "weight": 1.0
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "combat_units_group",
+      "label": "Combat Units (Player, Soldier, Orc, Tower, Torre de Fogo)",
+      "nodes": [
+        "player_player",
+        "soldier_soldier",
+        "orc_orc",
+        "tower_tower",
+        "torre_de_fogo_torrefogo"
+      ],
+      "relation": "participate_in",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/orc.gd"
+    },
+    {
+      "id": "passive_income_buildings",
+      "label": "Passive Income Buildings (House, Mill)",
+      "nodes": [
+        "unit_house_2_unithouse",
+        "unit_mill_2_unitmill"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/unit_house_2.gd"
+    },
+    {
+      "id": "fortification_structures",
+      "label": "Fortification Structures (Wall, Wall 2, Wall Gate 2)",
+      "nodes": [
+        "walls_word_1_wall",
+        "wall_2_wall2",
+        "wall_gate_2_wallgate2"
+      ],
+      "relation": "form",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "Scripts Locais/wall_2.gd"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

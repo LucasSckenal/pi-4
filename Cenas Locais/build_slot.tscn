@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://det7oyq61ct6y"]
+
+[ext_resource type="Script" uid="uid://f8n7jkqvkuro" path="res://Scripts Locais/build_slot.gd" id="1_64b41"]
+[ext_resource type="PackedScene" uid="uid://drevxhatl2ay7" path="res://UI/Upgrade/radial_menu.tscn" id="2_ckx2x"]
+[ext_resource type="Texture2D" uid="uid://doyxjky75tunv" path="res://Icons/construction_icon.png" id="3_ckx2x"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_64b41"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_64b41"]
+transparency = 1
+albedo_color = Color(0.8666667, 0.5372549, 0.15294118, 0)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_w3lxa"]
+material = SubResource("StandardMaterial3D_64b41")
+
+[node name="BuildSlot" type="Node3D" unique_id=612575103 groups=["BuildSlots"]]
+script = ExtResource("1_64b41")
+ui_construcao_prefab = ExtResource("2_ckx2x")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=771383889]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1707795691]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+shape = SubResource("SphereShape3D_64b41")
+
+[node name="BaseMesh" type="MeshInstance3D" parent="." unique_id=104872137]
+transform = Transform3D(-0.2, 0, 1.7484556e-08, 0, 0.02, 0, -1.7484556e-08, 0, -0.2, 0, 0, 0)
+visible = false
+mesh = SubResource("CylinderMesh_w3lxa")
+
+[node name="PromptLabel" type="Label3D" parent="." unique_id=1916682363]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.28337383, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+text = "[E] Construir"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1244953447]
+layer = 0
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer" unique_id=16713609]
+top_level = true
+offset_right = 70.0
+offset_bottom = 70.0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("3_ckx2x")
+ignore_texture_size = true
+stretch_mode = 5
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]
+[connection signal="pressed" from="CanvasLayer/TextureButton" to="." method="_on_texture_button_pressed"]

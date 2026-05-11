@@ -1,0 +1,744 @@
+{
+  "nodes": [
+    {
+      "id": "navegacao_e_movimento_doc",
+      "label": "Navegação e Movimento (Doc)",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "carta_upgrade_cartaupgrade",
+      "label": "CartaUpgrade",
+      "file_type": "code",
+      "source_file": "PowerUps/carta_upgrade.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "balanceamento_balanceamento",
+      "label": "Balanceamento (Autoload)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/Balanceamento.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "builds_builds",
+      "label": "Builds (Node3D)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "buildslotmanager_buildslotmanager",
+      "label": "BuildSlotManager",
+      "file_type": "code",
+      "source_file": "Scripts Globais/BuildSlotManager.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "conselheiro_ia_conselheiroia",
+      "label": "ConselheiroIA",
+      "file_type": "code",
+      "source_file": "Scripts Globais/conselheiro_ia.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cursor_manager_cursormanager",
+      "label": "CursorManager (Autoload)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/cursor_manager.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "game_manager_gamemanager",
+      "label": "GameManager (Autoload)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/game_manager.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "global_global",
+      "label": "Global (Autoload)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/Global.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "popup_conquista_popupconquista",
+      "label": "PopupConquista",
+      "file_type": "code",
+      "source_file": "Scripts Globais/popup_conquista.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "building_mine_buildingmine",
+      "label": "BuildingMine",
+      "file_type": "code",
+      "source_file": "Scripts Locais/building_mine.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "build_slot_buildslot",
+      "label": "BuildSlot",
+      "file_type": "code",
+      "source_file": "Scripts Locais/build_slot.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "camera_3d_camera3d",
+      "label": "Camera3D (Spinning)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/camera_3d.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "camera_follow_camerafollow",
+      "label": "CameraFollow",
+      "file_type": "code",
+      "source_file": "Scripts Locais/camera_follow.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "canto_canto",
+      "label": "Canto (Transparency Sensor)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/canto.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "carta_ui_cartaui",
+      "label": "CartaUI (Button)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/carta_ui.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "castle_castle",
+      "label": "Castle (Castelo)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/castle.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "configuracoes_configuracoes",
+      "label": "Configuracoes (Settings UI)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/configuracoes.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "dummy_dummy",
+      "label": "Dummy (DPS Test Target)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/dummy.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "enemy_icon_enemyicon",
+      "label": "EnemyIcon (HUD Indicator)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/enemy_icon.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "hud_hud",
+      "label": "HUD (CanvasLayer)",
+      "file_type": "code",
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "level_lightning_controller_levellightningcontroller",
+      "label": "LevelLightningController",
+      "file_type": "code",
+      "source_file": "Scripts Locais/level_lightning_controller.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "navigationagent3d_system",
+      "label": "NavigationAgent3D System",
+      "file_type": "document",
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "inimigo_base_inimigobase",
+      "label": "InimigoBase (referenced)",
+      "file_type": "code",
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "holandes_voador_holadesvoador",
+      "label": "HolandesVoador (referenced)",
+      "file_type": "code",
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "conquista_data_conquistadata",
+      "label": "ConquistaData (Resource)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/Global.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "upgrade_path_data_upgradepathdata",
+      "label": "UpgradePathData (Resource)",
+      "file_type": "code",
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    }
+  ],
+  "edges": [
+    {
+      "source": "balanceamento_balanceamento",
+      "target": "game_manager_gamemanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Balanceamento.gd",
+      "source_location": "line 128-129 (call_group Torres/Construcao on reload)",
+      "weight": 1.0
+    },
+    {
+      "source": "game_manager_gamemanager",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/game_manager.gd",
+      "source_location": "lines 170-172, 177-190 (_aplicar_balanceamento uses Balanceamento.get_int/get_float)",
+      "weight": 1.0
+    },
+    {
+      "source": "game_manager_gamemanager",
+      "target": "global_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/game_manager.gd",
+      "source_location": "lines 491-497 (acionar_vitoria calls Global.fases_liberadas, Global.estrelas_por_fase, Global.salvar_progresso)",
+      "weight": 1.0
+    },
+    {
+      "source": "builds_builds",
+      "target": "game_manager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": "lines 157, 163-165, 471, 491, 859, 964 (multiple GameManager calls)",
+      "weight": 1.0
+    },
+    {
+      "source": "builds_builds",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": "lines 248-251, 634, 645, 691-693 (Balanceamento.get_int/get_float calls)",
+      "weight": 1.0
+    },
+    {
+      "source": "builds_builds",
+      "target": "upgrade_path_data_upgradepathdata",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": "line 94 (@export var upgrade_paths: Array[UpgradePathData])",
+      "weight": 1.0
+    },
+    {
+      "source": "conselheiro_ia_conselheiroia",
+      "target": "game_manager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/conselheiro_ia.gd",
+      "source_location": "lines 39-41, 65-66, 155, 158, 268, 326 (multiple GameManager reads)",
+      "weight": 1.0
+    },
+    {
+      "source": "conselheiro_ia_conselheiroia",
+      "target": "build_slot_buildslot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/conselheiro_ia.gd",
+      "source_location": "line 194 (get_nodes_in_group BuildSlots, checks slot.is_built and slot.slot_disponivel)",
+      "weight": 1.0
+    },
+    {
+      "source": "buildslotmanager_buildslotmanager",
+      "target": "build_slot_buildslot",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/BuildSlotManager.gd",
+      "source_location": "line 17 (slot_ativo.construir(cena))",
+      "weight": 1.0
+    },
+    {
+      "source": "popup_conquista_popupconquista",
+      "target": "global_global",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/popup_conquista.gd",
+      "source_location": "line 16 (Global.conquista_desbloqueada.connect(_exibir_popup))",
+      "weight": 1.0
+    },
+    {
+      "source": "global_global",
+      "target": "conquista_data_conquistadata",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Global.gd",
+      "source_location": "line 54 (processar_recompensa(conquista: ConquistaData))",
+      "weight": 1.0
+    },
+    {
+      "source": "building_mine_buildingmine",
+      "target": "game_manager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/building_mine.gd",
+      "source_location": "line 29 (GameManager.onda_terminada.connect(_pagar_recompensa))",
+      "weight": 1.0
+    },
+    {
+      "source": "building_mine_buildingmine",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/building_mine.gd",
+      "source_location": "lines 32-34 (Balanceamento.get_int calls in _aplicar_balanceamento)",
+      "weight": 1.0
+    },
+    {
+      "source": "build_slot_buildslot",
+      "target": "game_manager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/build_slot.gd",
+      "source_location": "lines 39-44, 77-78, 104, 165-168 (GameManager signals/calls)",
+      "weight": 1.0
+    },
+    {
+      "source": "carta_ui_cartaui",
+      "target": "carta_upgrade_cartaupgrade",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/carta_ui.gd",
+      "source_location": "line 14 (configurar(dados: CartaUpgrade)), line 43 (CartaUpgrade.TipoUpgrade)",
+      "weight": 1.0
+    },
+    {
+      "source": "hud_hud",
+      "target": "game_manager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "lines 76-77, 129-134, 153, 206, 219, 265, 271, 287 (many GameManager signal connects and calls)",
+      "weight": 1.0
+    },
+    {
+      "source": "hud_hud",
+      "target": "global_global",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "line 136 (Global.progresso_salvo.connect)",
+      "weight": 1.0
+    },
+    {
+      "source": "hud_hud",
+      "target": "conselheiro_ia_conselheiroia",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "lines 6-7, 156-159 (preloads painel_conselheiro.gd and instantiates PainelConselheiro)",
+      "weight": 1.0
+    },
+    {
+      "source": "hud_hud",
+      "target": "carta_ui_cartaui",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "line 18 (@export var cena_carta_ui: PackedScene), line 256 (nova_carta.configurar(dados))",
+      "weight": 1.0
+    },
+    {
+      "source": "hud_hud",
+      "target": "enemy_icon_enemyicon",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "line 33 (@export var cena_enemy_icon), line 117 (preload enemy_icon.tscn)",
+      "weight": 1.0
+    },
+    {
+      "source": "hud_hud",
+      "target": "builds_builds",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "lines 174-181 (connects to Construcao group, _on_construcao_selecionada listens to construcao_selecionada signal)",
+      "weight": 1.0
+    },
+    {
+      "source": "level_lightning_controller_levellightningcontroller",
+      "target": "game_manager_gamemanager",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/level_lightning_controller.gd",
+      "source_location": "lines 8-9 (GameManager.dia_iniciado.connect, GameManager.noite_iniciada.connect)",
+      "weight": 1.0
+    },
+    {
+      "source": "castle_castle",
+      "target": "balanceamento_balanceamento",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/castle.gd",
+      "source_location": "line 8 (Balanceamento.get_int castelo_vida)",
+      "weight": 1.0
+    },
+    {
+      "source": "navegacao_e_movimento_doc",
+      "target": "inimigo_base_inimigobase",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": "Relações section (InimigoBase link)",
+      "weight": 1.0
+    },
+    {
+      "source": "navegacao_e_movimento_doc",
+      "target": "holandes_voador_holadesvoador",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": "Relações section (HolandesVoador link + code examples)",
+      "weight": 1.0
+    },
+    {
+      "source": "navegacao_e_movimento_doc",
+      "target": "navigationagent3d_system",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Obsidian Vault/Sistemas/Navegação e Movimento.md",
+      "source_location": "entire document describes NavigationAgent3D usage and bugs",
+      "weight": 1.0
+    },
+    {
+      "source": "builds_builds",
+      "target": "carta_upgrade_cartaupgrade",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": "both part of upgrade system (builds has nivel_atual, upgrade_paths; carta is the card that triggers upgrades)",
+      "weight": 0.65
+    },
+    {
+      "source": "game_manager_gamemanager",
+      "target": "carta_upgrade_cartaupgrade",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/game_manager.gd",
+      "source_location": "lines 137-146 (baralho_upgrades contains CartaUpgrade .tres resources), lines 394-411 (aplicar_upgrade processes CartaUpgrade data)",
+      "weight": 1.0
+    },
+    {
+      "source": "camera_follow_camerafollow",
+      "target": "camera_follow_camerafollow",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Scripts Locais/camera_follow.gd",
+      "source_location": "line 3 (@export var player: Node3D) - follows Player group node",
+      "weight": 0.75
+    },
+    {
+      "source": "build_slot_buildslot",
+      "target": "builds_builds",
+      "relation": "uses",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/build_slot.gd",
+      "source_location": "line 160 (construir(cena: PackedScene) instantiates Builds scene), line 181 (nova_const.tree_exited.connect(reativar_slot))",
+      "weight": 1.0
+    },
+    {
+      "source": "dummy_dummy",
+      "target": "dummy_dummy",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.55,
+      "source_file": "Scripts Locais/dummy.gd",
+      "source_location": "lines 11-12 (add_to_group inimigos and Construcao — used only for DPS testing purposes)",
+      "weight": 0.55
+    },
+    {
+      "source": "configuracoes_configuracoes",
+      "target": "configuracoes_configuracoes",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "Scripts Locais/configuracoes.gd",
+      "source_location": "line 44 (get_node_or_null /root/MusicaGlobal) references MusicaGlobal autoload",
+      "weight": 0.75
+    },
+    {
+      "source": "game_manager_gamemanager",
+      "target": "game_manager_gamemanager",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/game_manager.gd",
+      "source_location": "lines 238-241 (carregar_jogo_salvo_manual calls MusicaGlobal autoload for music transitions)",
+      "weight": 0.9
+    },
+    {
+      "source": "conselheiro_ia_conselheiroia",
+      "target": "builds_builds",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/conselheiro_ia.gd",
+      "source_location": "lines 44-58 (iterates Construcao group, reads tipo, esta_destruida, moedas_por_onda_atual from Builds nodes)",
+      "weight": 1.0
+    },
+    {
+      "source": "builds_builds",
+      "target": "builds_builds",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": "line 206 (get_tree().get_nodes_in_group Interface calls _conectar_construcao)",
+      "weight": 0.85
+    },
+    {
+      "source": "carta_ui_cartaui",
+      "target": "carta_upgrade_cartaupgrade",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/carta_ui.gd",
+      "source_location": "line 9 (var carta_dados: CartaUpgrade)",
+      "weight": 1.0
+    },
+    {
+      "source": "build_slot_buildslot",
+      "target": "conselheiro_ia_conselheiroia",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/build_slot.gd",
+      "source_location": "lines 290-303 (destacar/parar_destaque methods called by IA adviser)",
+      "weight": 0.85
+    },
+    {
+      "source": "hud_hud",
+      "target": "build_slot_buildslot",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Locais/hud.gd",
+      "source_location": "lines 121-123 (_conectar_spawners + _conectar_construcoes on node_added/Construcao group)",
+      "weight": 0.9
+    },
+    {
+      "source": "builds_builds",
+      "target": "castle_castle",
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "Scripts Globais/Builds.gd",
+      "source_location": "Builds.gd has TipoConstrucao.BASE which functionally overlaps with castle.gd Castelo group",
+      "weight": 0.65
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "day_night_cycle_pipeline",
+      "label": "Day/Night Cycle Pipeline",
+      "nodes": [
+        "game_manager_gamemanager",
+        "build_slot_buildslot",
+        "builds_builds",
+        "hud_hud",
+        "level_lightning_controller_levellightningcontroller"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/game_manager.gd"
+    },
+    {
+      "id": "build_upgrade_system",
+      "label": "Build and Upgrade System",
+      "nodes": [
+        "game_manager_gamemanager",
+        "builds_builds",
+        "build_slot_buildslot",
+        "buildslotmanager_buildslotmanager",
+        "carta_upgrade_cartaupgrade",
+        "carta_ui_cartaui",
+        "hud_hud"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 0.95,
+      "source_file": "Scripts Globais/Builds.gd"
+    },
+    {
+      "id": "balanceamento_csv_pipeline",
+      "label": "CSV Balanceamento Hot-Reload Pipeline",
+      "nodes": [
+        "balanceamento_balanceamento",
+        "game_manager_gamemanager",
+        "builds_builds",
+        "castle_castle",
+        "building_mine_buildingmine"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "Scripts Globais/Balanceamento.gd"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

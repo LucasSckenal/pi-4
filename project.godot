@@ -18,8 +18,42 @@ config/icon="uid://dpvk2oj1ksekl"
 
 [autoload]
 
+Balanceamento="*uid://7sx4gvgw6mxv"
 GameManager="*uid://ddqkxwp801d88"
+MusicaGlobal="*uid://cbjrscx5ckcm6"
 Global="*uid://ekneedd48nfl"
+PopupConquista="*uid://ybiau6ne7umr"
+BuildSlotManager="*uid://crqu4gymu8x62"
+TelaAvisoInimigo="*uid://b0wsp05pdf7u3"
+AiMemory="*uid://qdvgwy7vofc6"
+CursorManager="*uid://brm0aa2i116s4"
+
+[display]
+
+window/size/viewport_height=720
+window/size/window_width_override=1280
+window/size/window_height_override=720
+mouse_cursor/custom_image="uid://bc3kbt4jk3cy8"
+mouse_cursor/tooltip_position_offset=Vector2(0, 0)
+
+[file_customization]
+
+folder_colors={
+"res://Cenas Locais/": "gray",
+"res://Conquistas/": "gray",
+"res://Enemys/": "red",
+"res://Map/": "purple",
+"res://Map2/": "purple",
+"res://Map3/": "purple",
+"res://Map4/": "purple",
+"res://Map5/": "purple",
+"res://Map6/": "purple",
+"res://Maps/": "purple",
+"res://PowerUps/": "gray",
+"res://Scripts Globais/": "teal",
+"res://Scripts Locais/": "teal",
+"res://Upgrades/": "gray"
+}
 
 [global_group]
 
@@ -81,5 +115,4 @@ pointing/emulate_touch_from_mouse=true
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-anti_aliasing/quality/msaa_3d=3
-anti_aliasing/quality/screen_space_aa=2
+renderer/rendering_method="mobile"

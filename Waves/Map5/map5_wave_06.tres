@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://cci00wpu7xpiv"]
+
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
+[ext_resource type="PackedScene" uid="uid://c6nno474wj706" path="res://Enemys/Map 5/flamingo_lo_astronauta.tscn" id="3_flamingo"]
+[ext_resource type="PackedScene" uid="uid://bq8r5q3g2qyh1" path="res://Enemys/Map 5/Alexa astronauta.tscn" id="4_alexa"]
+[ext_resource type="PackedScene" uid="uid://dxjqtcs1t8x3m" path="res://Enemys/Map 5/Linigena astrounauta.tscn" id="5_linigena"]
+[ext_resource type="Texture2D" uid="uid://bm4omkvmu57s6" path="res://Icons/AlexaPreview.png" id="icon_alexa"]
+[ext_resource type="Texture2D" uid="uid://iqepmnum4x5a" path="res://Icons/FlamingoPreview.png" id="icon_flamingo"]
+[ext_resource type="Texture2D" uid="uid://blt8ipq6r4e5a" path="res://Icons/AlienPreview.png" id="icon_linigena"]
+
+[sub_resource type="Resource" id="Resource_flamingo"]
+script = ExtResource("1_cfg")
+cena = ExtResource("3_flamingo")
+quantidade = 5
+cor = Color(0.25, 0.78, 1, 1)
+icone = ExtResource("icon_flamingo")
+metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
+
+[sub_resource type="Resource" id="Resource_alexa"]
+script = ExtResource("1_cfg")
+cena = ExtResource("4_alexa")
+quantidade = 3
+cor = Color(0.58, 0.95, 0.35, 1)
+icone = ExtResource("icon_alexa")
+metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
+
+[sub_resource type="Resource" id="Resource_linigena"]
+script = ExtResource("1_cfg")
+cena = ExtResource("5_linigena")
+quantidade = 2
+cor = Color(0.78, 0.45, 1, 1)
+icone = ExtResource("icon_linigena")
+metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
+
+[resource]
+script = ExtResource("2_wave")
+nome_da_onda = "Mapa 5 - Onda 6"
+intervalo = 1.35
+inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_flamingo"), SubResource("Resource_alexa"), SubResource("Resource_linigena")])
+metadata/_custom_type_script = "res://Waves/wave_resource.gd"
