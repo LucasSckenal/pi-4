@@ -385,6 +385,24 @@ func terminar_onda():
 	onda_atual += 1
 	iniciar_dia()
 
+func get_renda_preview() -> int:
+	var config_fase = banco_de_fases.get(fase_atual, {})
+	var total: int = config_fase.get("renda_base_por_onda", 0) + bonus_moedas_onda
+	if modo_infinito:
+		total += Balanceamento.get_int("modo_infinito_bonus_renda", 3)
+	var bonus_onda = max(1, 6 - onda_atual)
+	for construcao in get_tree().get_nodes_in_group("Construcao"):
+		if not is_instance_valid(construcao): continue
+		if construcao.is_in_group("Base"): continue
+		if construcao.get("is_fantasma"): continue
+		if construcao.get("esta_destruida"): continue
+		if not onda_terminada.is_connected(Callable(construcao, "_pagar_recompensa")): continue
+		if "moedas_por_onda_atual" in construcao:
+			total += construcao.moedas_por_onda_atual + bonus_onda
+		elif "moedas_por_onda" in construcao:
+			total += construcao.moedas_por_onda
+	return total
+
 func calcular_e_recolher_renda():
 	var config_fase = banco_de_fases[fase_atual]
 	var total_renda = config_fase["renda_base_por_onda"] + bonus_moedas_onda

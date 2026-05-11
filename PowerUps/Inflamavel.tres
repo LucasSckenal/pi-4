@@ -1,12 +1,14 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://debu88cogntp"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1_infl"]
+[ext_resource type="Texture2D" uid="uid://cpv1cn6u8hkk3" path="res://Assets/Cards/Inflamavel.png" id="1_kpfw3"]
 
 [resource]
 script = ExtResource("1_infl")
 id = "11"
 titulo = "Inflamável"
 descricao = "Projéteis incendiários causam queimadura"
+icone = ExtResource("1_kpfw3")
 tipo_bonus = 9
 valor_bonus = 5.0
 metadata/_custom_type_script = "uid://ckllnh0oimgco"
