@@ -451,6 +451,8 @@ func get_opcoes_proximo_upgrade() -> Array:
 					"icone": path.icone,
 					"custo": path.custos[0],
 					"beneficio": _descrever_beneficio(path, 0),
+					"descricoes": _gerar_descricoes(path, 0),
+					"cor": _get_cor_path(i, path),
 					"modelo_3d": modelo_correto,
 					"escala_modelo": escala_deste_path
 				})
@@ -476,7 +478,9 @@ func get_opcoes_proximo_upgrade() -> Array:
 				"icone": path.icone,
 				"custo": path.custos[prox_nivel],
 				"beneficio": _descrever_beneficio(path, prox_nivel),
-				"modelo_3d": modelo_correto, 
+				"descricoes": _gerar_descricoes(path, prox_nivel),
+				"cor": _get_cor_path(caminho_atual, path),
+				"modelo_3d": modelo_correto,
 				"escala_modelo": escala_deste_path
 			})
 	else:
@@ -495,7 +499,9 @@ func get_opcoes_proximo_upgrade() -> Array:
 				"icone": icone,
 				"custo": custo,
 				"beneficio": _descrever_beneficio_simples(),
-				"modelo_3d": modelo_correto, 
+				"descricoes": _gerar_descricoes_simples(),
+				"cor": _get_cor_path(0, null),
+				"modelo_3d": modelo_correto,
 				"escala_modelo": escala_perfeita_ui
 			})
 	return opcoes
@@ -566,6 +572,84 @@ func _descrever_beneficio_simples() -> String:
 	if partes.size() == 0:
 		return "Melhora geral"
 	return " | ".join(partes)
+
+# Retorna até 3 descrições visuais sem números para um path específico.
+func _gerar_descricoes(path: UpgradePathData, nivel: int) -> Array:
+	if "descricoes" in path and path.descricoes.size() > 0:
+		return path.descricoes.duplicate()
+
+	var desc: Array = []
+
+	if nivel < path.dano_por_nivel.size() and path.dano_por_nivel[nivel] > 0:
+		desc.append("⚔️ Mais dano")
+	if nivel < path.vida_por_nivel.size() and path.vida_por_nivel[nivel] > 0:
+		desc.append("❤️ Mais resistência")
+	if nivel < path.alcance_por_nivel.size() and path.alcance_por_nivel[nivel] > 0:
+		desc.append("🎯 Maior alcance")
+	if nivel < path.moedas_por_nivel.size() and path.moedas_por_nivel[nivel] > 0:
+		desc.append("💰 Mais ouro")
+	if nivel < path.aliados_por_nivel.size() and path.aliados_por_nivel[nivel] > 0:
+		desc.append("🛡️ Mais soldados")
+	if "tipo_ataque" in path and path.tipo_ataque == "chain_lightning":
+		desc.append("⚡ Dano em cadeia")
+	if nivel < path.velocidade_por_nivel.size():
+		var vel: float = path.velocidade_por_nivel[nivel]
+		if vel > 0.8:
+			desc.append("🐢 Cadência reduzida")
+		elif vel > 0.0:
+			desc.append("⏱️ Mais devagar")
+		elif vel < 0.0:
+			desc.append("⚡ Mais rápido")
+
+	var fallbacks = ["✨ Melhora geral", "🔧 Potência extra", "⬆️ Eficiência"]
+	var fi = 0
+	while desc.size() < 3:
+		desc.append(fallbacks[fi % fallbacks.size()])
+		fi += 1
+
+	return desc.slice(0, 3)
+
+# Descrições descritivas para upgrades sem path (arrays base da construção).
+func _gerar_descricoes_simples() -> Array:
+	var nivel = nivel_atual
+	var desc: Array = []
+
+	if nivel < upgrade_dano_por_nivel.size() and upgrade_dano_por_nivel[nivel] != 0:
+		desc.append("⚔️ Mais dano")
+	if nivel < upgrade_vida_por_nivel.size() and upgrade_vida_por_nivel[nivel] != 0:
+		desc.append("❤️ Mais resistência")
+	if nivel < upgrade_alcance_por_nivel.size() and upgrade_alcance_por_nivel[nivel] != 0:
+		desc.append("🎯 Maior alcance")
+	if nivel < upgrade_moedas_por_nivel.size() and upgrade_moedas_por_nivel[nivel] != 0:
+		desc.append("💰 Mais ouro")
+	if nivel < upgrade_aliados_por_nivel.size() and upgrade_aliados_por_nivel[nivel] != 0:
+		desc.append("🛡️ Mais soldados")
+	if nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] > 0:
+		desc.append("⏱️ Mais devagar")
+	elif nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] < 0:
+		desc.append("⚡ Mais rápido")
+
+	var fallbacks = ["✨ Melhora geral", "🔧 Potência extra", "⬆️ Eficiência"]
+	var fi = 0
+	while desc.size() < 3:
+		desc.append(fallbacks[fi % fallbacks.size()])
+		fi += 1
+
+	return desc.slice(0, 3)
+
+# Retorna a cor padrão para o card de upgrade baseada no índice do path.
+func _get_cor_path(index: int, path) -> Color:
+	if path != null and "cor" in path:
+		var c = path.get("cor")
+		if c != null and c is Color and (c as Color).a > 0.01:
+			return c as Color
+	const CORES = [
+		Color(0.13, 0.62, 0.22, 1.0),  # Verde
+		Color(0.12, 0.42, 0.82, 1.0),  # Azul
+		Color(0.45, 0.15, 0.72, 1.0),  # Roxo
+		Color(0.78, 0.52, 0.08, 1.0),  # Dourado
+	]
+	return CORES[index % CORES.size()]
 
 func aplicar_upgrade(index: int = 0) -> bool:
 	# index é o índice do caminho escolhido (usado apenas se tem_paths e caminho_atual == -1)
