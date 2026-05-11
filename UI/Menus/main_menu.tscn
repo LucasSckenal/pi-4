@@ -462,7 +462,7 @@ alignment = 0
 expand_icon = true
 
 [node name="Titulo" type="Sprite2D" parent="CanvasLayer/MarginContainer/CenterContainer/VBoxContainer" unique_id=1118383611]
-position = Vector2(-88.999985, -194.00002)
+position = Vector2(-88.99997, -158.00003)
 scale = Vector2(0.7, 0.7)
 texture = ExtResource("11_lvola")
 centered = false
