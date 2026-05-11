@@ -7,8 +7,7 @@
 script = ExtResource("2_6m1ak")
 id = "3"
 titulo = "Reforçado"
-descricao = "Adiciona 50 de vida extra ao seu castelo. Agente não cai sem lutar!"
+descricao = "Adiciona mais vida a sua base."
 icone = ExtResource("1_e5rhp")
 tipo_bonus = 2
-valor_bonus = 50
 metadata/_custom_type_script = "uid://ckllnh0oimgco"

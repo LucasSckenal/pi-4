@@ -422,7 +422,6 @@ func sortear_cartas():
 		escolhidas[0] = baralho_upgrades[0]
 
 	mostrar_menu_upgrade.emit(escolhidas)
-	get_tree().paused = true
 
 func aplicar_upgrade(dados):
 	# Sobrescreve valores das cartas com o que estiver no CSV (se houver)

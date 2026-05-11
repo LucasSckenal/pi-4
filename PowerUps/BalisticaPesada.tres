@@ -7,7 +7,7 @@
 script = ExtResource("2_aqdbg")
 id = "1"
 titulo = "Balística Pesada"
-descricao = "Torres causam +15 de dano. Simples, bruto e eficaz."
+descricao = "Torres causam mais dano"
 icone = ExtResource("1_fffr2")
 valor_bonus = 0.15
 metadata/_custom_type_script = "uid://ckllnh0oimgco"

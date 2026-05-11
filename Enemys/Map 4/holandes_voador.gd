@@ -102,7 +102,7 @@ func _physics_process(delta: float) -> void:
 		
 		if dir.length_squared() > 0.01:
 			dir = dir.normalized()
-			var vel: float = velocidade * max(0.1, GameManager.multiplicador_velocidade_inimigo as float)
+			var vel: float = velocidade * max(0.1, _multiplicador_gelo)
 			velocity.x = dir.x * vel
 			velocity.z = dir.z * vel
 			

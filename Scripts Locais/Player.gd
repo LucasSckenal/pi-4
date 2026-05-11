@@ -26,13 +26,16 @@ const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 # --- ESTADOS ---
 var pode_atacar: bool = true
 var inimigo_focado: Node3D = null
+var posicao_inicial: Vector3
 var tween_clique: Tween
 var rotation_tween: Tween = null
 var materiais_outline: Array[ShaderMaterial] = [] # Cache dos materiais para otimizar o zoom
 
 func _ready():
 	add_to_group("Player")
-	
+	posicao_inicial = global_position
+	GameManager.onda_terminada.connect(_retornar_ao_spawn)
+
 	# Configura o Timer de Ataque
 	timer_ataque.wait_time = velocidade_ataque
 	timer_ataque.one_shot = true
@@ -370,33 +373,46 @@ func _on_timer_ataque_timeout():
 	pode_atacar = true
 	inimigo_focado = null # Limpa o alvo quando termina o golpe
 
+func _retornar_ao_spawn() -> void:
+	global_position = posicao_inicial
+	velocity = Vector3.ZERO
+	if nav_agent:
+		nav_agent.target_position = global_position
+	if linha_caminho:
+		linha_caminho.hide()
+		if rotation_tween:
+			rotation_tween.kill()
+
 
 # ==========================================
 # SISTEMAS AUXILIARES E ANIMAÇÕES
 # ==========================================
 
 func _gerenciar_animacoes(direction):
-	if not anim_player: return # Proteção caso ainda não tenha carregado
-	
-	# 1. Define os nomes corretos dependendo se é o Bloodborne ou o Avô/Avó
+	if not anim_player: return
+
 	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
 	var anim_andar = "Walking" if Global.usando_set_bloodborne else "walk"
 	var anim_parado = "Idle" if Global.usando_set_bloodborne else "idle"
 	var anim_pulo = "jump"
-	
-	# 2. Se estiver a atacar, não interrompe com a animação de andar/parado
+
 	if anim_player.current_animation == anim_ataque and anim_player.is_playing():
 		return
-		
-	# 3. Dá play na animação correta com o nome traduzido
+
+	# Durante o dia: senta em loop
+	if not GameManager.is_night:
+		if anim_player.has_animation("sit") and anim_player.current_animation != "sit":
+			anim_player.play("sit")
+		return
+
 	if not is_on_floor():
-		if anim_player.has_animation(anim_pulo) and anim_player.current_animation != anim_pulo: 
+		if anim_player.has_animation(anim_pulo) and anim_player.current_animation != anim_pulo:
 			anim_player.play(anim_pulo)
 	elif direction.length() > 0:
-		if anim_player.has_animation(anim_andar) and anim_player.current_animation != anim_andar: 
+		if anim_player.has_animation(anim_andar) and anim_player.current_animation != anim_andar:
 			anim_player.play(anim_andar)
 	else:
-		if anim_player.has_animation(anim_parado) and anim_player.current_animation != anim_parado: 
+		if anim_player.has_animation(anim_parado) and anim_player.current_animation != anim_parado:
 			anim_player.play(anim_parado)
 
 # ==========================================
@@ -448,7 +464,7 @@ func _configurar_modelo_escolhido():
 		if "anim_player" in self: self.anim_player = novo_anim_player
 		
 		# Define quais animações devem ficar em repetição contínua (Loop)
-		for anim_name in ["idle", "walk", "Idle", "Walking"]:
+		for anim_name in ["idle", "walk", "Idle", "Walking", "sit"]:
 			if novo_anim_player.has_animation(anim_name):
 				novo_anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
 				

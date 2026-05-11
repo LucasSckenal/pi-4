@@ -237,37 +237,40 @@ func animar_bau_abrindo():
 # ==========================================
 func _on_abrir_menu_upgrade(cartas_sorteadas):
 	# ELEVA A HUD INTEIRA PARA COBRIR TUDO
-	self.layer = 128 
-	
+	self.layer = 128
+
 	for crianca in container_cartas.get_children():
 		crianca.queue_free()
-	
-	menu_upgrade.show()
-	
+
 	# ESCONDE TUDO QUE PODE BUGAR OU ATRAPALHAR O CURSOR
 	if container_direcoes:
 		container_direcoes.hide()
 	if hud_mobile_completo:
 		hud_mobile_completo.hide()
-	
-	# PAUSAR O JOGO
-	get_tree().paused = true
-	
-	var indice_carta = 0 
-	
+
+	# Força o baú visível e anima ANTES de abrir o menu
+	if margin_direita:
+		margin_direita.show()
+	await animar_bau_abrindo()
+
+	# Só agora abre o menu com as cartas
+	menu_upgrade.show()
+
+	var indice_carta = 0
+
 	for dados in cartas_sorteadas:
 		if cena_carta_ui != null:
 			var nova_carta = cena_carta_ui.instantiate()
 			nova_carta.name = "CartaTutorial" + str(indice_carta)
 			indice_carta += 1
-			
+
 			container_cartas.add_child(nova_carta)
-			
+
 			if nova_carta.has_method("configurar"):
-				nova_carta.configurar(dados) 
-				
+				nova_carta.configurar(dados)
+
 			nova_carta.pressed.connect(_ao_escolher_upgrade.bind(dados))
-			
+
 	if botao_reroll != null:
 		botao_reroll.disabled = GameManager.reroll_usado
 		if GameManager.moedas < GameManager.custo_reroll:
@@ -288,8 +291,6 @@ func _ao_escolher_upgrade(dados):
 		margin_direita.show()
 	if hud_mobile_completo:
 		hud_mobile_completo.show()
-		
-	get_tree().paused = false
 
 func _on_botao_reroll_pressed():
 	GameManager.rerolar_cartas()

@@ -33,12 +33,18 @@ func _on_body_entered(body):
 		if body.has_method("receber_dano"):
 			body.receber_dano(dano_total)
 
+		_tentar_aplicar_gelo(body)
+
 		if GameManager.dano_inflamavel > 0:
 			_aplicar_queimadura(body)
 		if GameManager.bonus_ricochete > 0:
 			_ricochetar(body)
 
 		queue_free()
+
+func _tentar_aplicar_gelo(alvo_hit: Node) -> void:
+	if GameManager.multiplicador_velocidade_inimigo < 1.0 and alvo_hit.has_method("aplicar_gelo"):
+		alvo_hit.aplicar_gelo()
 
 func _aplicar_queimadura(alvo_queimado: Node) -> void:
 	if alvo_queimado.has_method("iniciar_queimadura"):
@@ -72,4 +78,5 @@ func _ricochetar(primeiro_alvo: Node3D) -> void:
 		atingidos.append(proximo)
 		if proximo.has_method("receber_dano"):
 			proximo.receber_dano(max(1, dano / 2))
+		_tentar_aplicar_gelo(proximo)
 		ultimo = proximo

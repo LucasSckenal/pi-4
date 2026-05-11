@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CartaUpgrade" format=3]
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://i3hqq0w2kxte"]
 
 [ext_resource type="Texture2D" uid="uid://e5nvh7hasdgt" path="res://Assets/Cards/OlhoDeAguia.png" id="1_prec"]
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="2_prec"]
@@ -7,7 +7,7 @@
 script = ExtResource("2_prec")
 id = "9"
 titulo = "Precisão"
-descricao = "O olho de águia guia cada flecha. Torres ganham alcance significativamente maior."
+descricao = "Torres ganham alcance significativamente maior."
 icone = ExtResource("1_prec")
 tipo_bonus = 7
 valor_bonus = 2.0

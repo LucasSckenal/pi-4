@@ -7,7 +7,7 @@
 script = ExtResource("1_20hq1")
 id = "8"
 titulo = "Gelo"
-descricao = "Flechas aplicam gelo: inimigos movem-se 30% mais devagar."
+descricao = "Flechas aplicam gelo: inimigos movem-se mais devagar."
 icone = ExtResource("1_ticv1")
 tipo_bonus = 4
 valor_bonus = -0.3

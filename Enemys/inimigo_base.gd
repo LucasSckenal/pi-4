@@ -82,6 +82,8 @@ var tempo_bloqueado: float = 0.0
 var _contador_quedas: int = 0
 var _timer_re_check: float = 0.0
 const RE_CHECK_INTERVALO: float = 0.3
+var _multiplicador_gelo: float = 1.0
+var _gelo_timer: float = 0.0
 var _gelo_ativo: bool = false
 var _fogo_ativo: bool = false
 var _fogo_ticks_restantes: int = 0
@@ -168,7 +170,12 @@ func _aplicar_balanceamento() -> void:
 
 func _physics_process(delta):
 	if esta_morto: return
-	_verificar_tint_gelo()
+	if _gelo_timer > 0.0:
+		_gelo_timer -= delta
+		if _gelo_timer <= 0.0:
+			_multiplicador_gelo = 1.0
+			_gelo_ativo = false
+			_atualizar_tints()
 
 	if global_position.y < limite_queda_y:
 		_contador_quedas += 1
@@ -248,7 +255,7 @@ func _physics_process(delta):
 					if not eh_barreira:
 						velocity.y = jump_velocity
 				
-				var vel_aplicada = velocidade * max(0.1, GameManager.multiplicador_velocidade_inimigo)
+				var vel_aplicada = velocidade * max(0.1, _multiplicador_gelo)
 				
 				# Passa 0 no eixo Y para o Avoidance calcular com segurança no plano XZ
 				var vel_desejada = Vector3(dir.x * vel_aplicada, 0, dir.z * vel_aplicada)
@@ -682,10 +689,12 @@ func _configurar_sensor_transparencia() -> void:
 # ==========================================
 # EFEITOS VISUAIS DE STATUS (GELO / FOGO)
 # ==========================================
-func _verificar_tint_gelo() -> void:
-	var deve := GameManager.multiplicador_velocidade_inimigo < 0.99
-	if deve != _gelo_ativo:
-		_gelo_ativo = deve
+func aplicar_gelo() -> void:
+	if GameManager.multiplicador_velocidade_inimigo >= 1.0: return
+	_multiplicador_gelo = GameManager.multiplicador_velocidade_inimigo
+	_gelo_timer = 3.0
+	if not _gelo_ativo:
+		_gelo_ativo = true
 		_atualizar_tints()
 
 func iniciar_queimadura(dano_tick: int) -> void:

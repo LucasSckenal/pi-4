@@ -7,7 +7,7 @@
 script = ExtResource("1_78uu3")
 id = "6"
 titulo = "Fúria"
-descricao = "Torres causam +2 de dano, mas o castelo perde metade da vida atual."
+descricao = "Torres causam mais dano, mas o castelo perde metade da vida atual."
 icone = ExtResource("1_ggg21")
 valor_bonus = 2.0
 tipo_debuff = 2

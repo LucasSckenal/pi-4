@@ -131,6 +131,7 @@ void fragment() {
 @export var alcance: float = 10.0
 @export var cena_flecha: PackedScene
 @export var cena_raio_eletrico: PackedScene
+@export var cena_bala_morteiro: PackedScene
 @export var tipo_ataque_proprio: String = ""  # "chain_lightning" para Tesla standalone
 @export var ponto_de_tiro: NodePath
 @export var area_ataque_path: NodePath
@@ -1172,6 +1173,10 @@ func atacar():
 		_atacar_chain_lightning()
 		return
 
+	if tipo_atq == "morteiro":
+		_atacar_morteiro()
+		return
+
 	# Ataque normal com flecha
 	if cena_flecha == null:
 		return
@@ -1241,6 +1246,20 @@ func _spawnar_raio(origem: Vector3, destino: Vector3) -> void:
 	var raio = cena_raio_eletrico.instantiate()
 	get_tree().root.add_child(raio)
 	raio.configurar(origem, destino)
+
+# ==========================================
+# ATAQUE MORTEIRO — Projétil com explosão em área
+# ==========================================
+func _atacar_morteiro() -> void:
+	if not is_instance_valid(alvo_atual):
+		return
+	if cena_bala_morteiro == null:
+		return
+	var bala = cena_bala_morteiro.instantiate()
+	get_tree().root.add_child(bala)
+	bala.global_position = global_position + Vector3(0, 1.4, 0)
+	bala.dano = max(1, dano_atual + GameManager.bonus_dano)
+	bala.alvo = alvo_atual
 
 # ==========================================
 # SISTEMA ECONÔMICO (MINA, CASA, MOINHO)

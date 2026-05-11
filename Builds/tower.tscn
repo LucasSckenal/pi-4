@@ -11,10 +11,12 @@
 [ext_resource type="PackedScene" uid="uid://bramst307t8qb" path="res://Builds/torre_de_fogo.tscn" id="9_fogo"]
 [ext_resource type="PackedScene" uid="uid://ino2raplk5re" path="res://Builds/torre_de_tesla.tscn" id="10_tesla"]
 [ext_resource type="PackedScene" uid="uid://cmvpoyu8c7a33" path="res://Cenas Locais/raio_eletrico.tscn" id="11_raio"]
+[ext_resource type="PackedScene" uid="uid://cbfqv1hx2i3y4" path="res://Cenas Locais/bala_de_canhao.tscn" id="12_bala"]
 
 [sub_resource type="Resource" id="Resource_qny8x"]
 script = ExtResource("4_772tj")
 nome = "Morteiro"
+tipo_ataque = "morteiro"
 custos = Array[int]([5])
 dano_por_nivel = Array[int]([150])
 velocidade_por_nivel = Array[float]([2.0])
@@ -147,6 +149,7 @@ tempo_ataque_base = 1.2
 alcance = 1.5
 cena_flecha = ExtResource("3_ned14")
 cena_raio_eletrico = ExtResource("11_raio")
+cena_bala_morteiro = ExtResource("12_bala")
 ponto_de_tiro = NodePath("PontoDeTiro")
 area_ataque_path = NodePath("AreaAtaque")
 indicador_alcance = NodePath("IndicadorAlcance")

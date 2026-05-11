@@ -7,7 +7,7 @@
 script = ExtResource("1_4lqsm")
 id = "4"
 titulo = "Frequência"
-descricao = "Suas torres disparam 20% mais rápido. Chova flechas nos orcs!"
+descricao = "Suas torres disparam  mais rápido."
 icone = ExtResource("1_7s1oi")
 tipo_bonus = 3
 valor_bonus = 0.2

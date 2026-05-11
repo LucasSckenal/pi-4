@@ -7,7 +7,7 @@
 script = ExtResource("2_idhwt")
 id = "2"
 titulo = "Imposto"
-descricao = " +10 moedas extras ao final de cada noite. Ouro compra a vitória."
+descricao = " +10 moedas extras ao final de cada noite"
 icone = ExtResource("1_1pjuq")
 tipo_bonus = 1
 valor_bonus = 10.0
