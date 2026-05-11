@@ -277,6 +277,7 @@ func _physics_process(delta):
 		move_and_slide()
 
 func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3):
+	if esta_morto: return
 	# Aplica apenas o desvio horizontal, preservando a gravidade e o pulo nativos no Y
 	velocity.x = safe_velocity.x
 	velocity.z = safe_velocity.z
@@ -445,6 +446,9 @@ func invocar_minions():
 
 func morrer():
 	esta_morto = true
+	velocity = Vector3.ZERO
+	if nav_agent:
+		nav_agent.set_velocity(Vector3.ZERO)
 	remove_from_group("inimigos")
 
 	if GameManager.modo_infinito:
