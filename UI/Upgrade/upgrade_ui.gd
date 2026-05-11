@@ -192,19 +192,21 @@ func atualizar_opcoes():
 
 	# Ajusta largura do painel e label de instrução conforme o nº de opções
 	var n_opcoes = opcoes.size()
+	var altura_painel := get_viewport_rect().size.y - 20.0
+
 	if n_opcoes == 1:
-		painel_principal.custom_minimum_size = Vector2(340, 560)
+		painel_principal.custom_minimum_size = Vector2(340, altura_painel)
 		instrucao_label.hide()
 		spacer_b.hide()
 		spacer_c.hide()
 	elif n_opcoes == 2:
-		painel_principal.custom_minimum_size = Vector2(560, 560)
+		painel_principal.custom_minimum_size = Vector2(560, altura_painel)
 		instrucao_label.text = "Escolha um caminho:"
 		instrucao_label.show()
 		spacer_b.show()
 		spacer_c.show()
 	else:
-		painel_principal.custom_minimum_size = Vector2(720, 560)
+		painel_principal.custom_minimum_size = Vector2(720, altura_painel)
 		instrucao_label.text = "Escolha uma melhoria:"
 		instrucao_label.show()
 		spacer_b.show()
@@ -221,7 +223,7 @@ func atualizar_opcoes():
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(200, 200)
+			btn.custom_minimum_size = Vector2(230, 300)
 			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			btn.size_flags_vertical   = Control.SIZE_EXPAND_FILL
 			opcoes_container.add_child(btn)
