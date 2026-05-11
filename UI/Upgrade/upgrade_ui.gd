@@ -16,6 +16,9 @@ signal fechado
 @onready var conteudo_vbox    = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox
 @onready var botao_vender     = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/BotoesRow/BotaoVender
 @onready var botao_fechar     = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/BotoesRow/BotaoFechar
+@onready var instrucao_label  = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/Instrucao
+@onready var spacer_b         = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/SpacerB
+@onready var spacer_c         = $PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox/SpacerC
 
 # ==========================================
 # VARIÁVEIS DE ESTADO
@@ -177,6 +180,8 @@ func atualizar_opcoes():
 	var opcoes = construcao_atual.get_opcoes_proximo_upgrade()
 
 	if opcoes.size() == 0:
+		instrucao_label.hide()
+		painel_principal.custom_minimum_size.x = 360
 		var label_max = Label.new()
 		label_max.text = "🌟 NÍVEL MÁXIMO ALCANÇADO 🌟"
 		label_max.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -185,7 +190,27 @@ func atualizar_opcoes():
 		opcoes_container.add_child(label_max)
 		return
 
-	# Seção de desbloqueios (estilo CoC) — mostrada acima dos cards de upgrade
+	# Ajusta largura do painel e label de instrução conforme o nº de opções
+	var n_opcoes = opcoes.size()
+	if n_opcoes == 1:
+		painel_principal.custom_minimum_size = Vector2(340, 560)
+		instrucao_label.hide()
+		spacer_b.hide()
+		spacer_c.hide()
+	elif n_opcoes == 2:
+		painel_principal.custom_minimum_size = Vector2(560, 560)
+		instrucao_label.text = "Escolha um caminho:"
+		instrucao_label.show()
+		spacer_b.show()
+		spacer_c.show()
+	else:
+		painel_principal.custom_minimum_size = Vector2(720, 560)
+		instrucao_label.text = "Escolha uma melhoria:"
+		instrucao_label.show()
+		spacer_b.show()
+		spacer_c.show()
+
+	# Seção de desbloqueios (estilo CoC)
 	for opcao in opcoes:
 		var desbs: Array = opcao.get("desbloqueios", [])
 		if desbs.size() > 0:
@@ -196,7 +221,9 @@ func atualizar_opcoes():
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(230, 420)
+			btn.custom_minimum_size = Vector2(200, 200)
+			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			btn.size_flags_vertical   = Control.SIZE_EXPAND_FILL
 			opcoes_container.add_child(btn)
 
 			if btn.has_method("configurar"):
@@ -255,7 +282,7 @@ func fechar():
 func _criar_secao_desbloqueios(desbloqueios: Array) -> void:
 	var sec = VBoxContainer.new()
 	sec.name = "DesbloqueiosSection"
-	sec.add_theme_constant_override("separation", 6)
+	sec.add_theme_constant_override("separation", 10)
 	conteudo_vbox.add_child(sec)
 	# Abaixo dos cards de upgrade, acima dos botões
 	conteudo_vbox.move_child(sec, opcoes_container.get_index() + 1)
@@ -263,26 +290,23 @@ func _criar_secao_desbloqueios(desbloqueios: Array) -> void:
 
 	var lbl_title = Label.new()
 	lbl_title.text = "Desbloqueia:"
-	lbl_title.add_theme_font_size_override("font_size", 12)
+	lbl_title.add_theme_font_size_override("font_size", 16)
 	lbl_title.add_theme_color_override("font_color", Color(0.55, 0.58, 0.66, 1.0))
 	sec.add_child(lbl_title)
 
 	var row = HBoxContainer.new()
-	row.add_theme_constant_override("separation", 6)
+	row.add_theme_constant_override("separation", 10)
 	sec.add_child(row)
 
 	for item in desbloqueios:
 		row.add_child(_criar_icone_desbloqueio(item))
 
 func _criar_icone_desbloqueio(item: Dictionary) -> Control:
-	# Cartão compacto: badge "Novo" + área de ícone + nome
-	# Prioridade: icone_2d (Texture2D) → emoji (fallback)
-	# Adicionar uma Texture2D em @export var icone no Builds.gd ativa o modo ícone automaticamente.
 	var outer = VBoxContainer.new()
 	outer.add_theme_constant_override("separation", 0)
-	outer.custom_minimum_size = Vector2(62, 80)
+	outer.custom_minimum_size = Vector2(78, 100)
 
-	# Badge "Novo" (verde, cantos arredondados no topo)
+	# Badge "Novo"
 	var badge = PanelContainer.new()
 	var bsty = StyleBoxFlat.new()
 	bsty.bg_color                   = Color(0.08, 0.55, 0.20, 1.0)
@@ -296,13 +320,13 @@ func _criar_icone_desbloqueio(item: Dictionary) -> Control:
 	badge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var blbl = Label.new()
 	blbl.text = "Novo"
-	blbl.add_theme_font_size_override("font_size", 10)
+	blbl.add_theme_font_size_override("font_size", 12)
 	blbl.add_theme_color_override("font_color", Color.WHITE)
 	blbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	badge.add_child(blbl)
 	outer.add_child(badge)
 
-	# Área do ícone (fundo escuro, cantos arredondados em baixo)
+	# Área do ícone
 	var panel = PanelContainer.new()
 	var psty = StyleBoxFlat.new()
 	psty.bg_color                    = Color(0.16, 0.19, 0.28, 1.0)
@@ -324,26 +348,25 @@ func _criar_icone_desbloqueio(item: Dictionary) -> Control:
 	inner.add_theme_constant_override("separation", 2)
 	panel.add_child(inner)
 
-	# Ícone: Texture2D se disponível, senão emoji grande
 	var icone_2d = item.get("icone_2d")
 	if icone_2d is Texture2D:
 		var tr = TextureRect.new()
 		tr.texture = icone_2d
 		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.custom_minimum_size = Vector2(44, 44)
+		tr.custom_minimum_size = Vector2(52, 52)
 		tr.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		inner.add_child(tr)
 	else:
 		var elbl = Label.new()
 		elbl.text = item.get("emoji", "•")
-		elbl.add_theme_font_size_override("font_size", 26)
+		elbl.add_theme_font_size_override("font_size", 32)
 		elbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		inner.add_child(elbl)
 
 	var nlbl = Label.new()
 	nlbl.text = item.get("nome", "")
-	nlbl.add_theme_font_size_override("font_size", 10)
+	nlbl.add_theme_font_size_override("font_size", 11)
 	nlbl.add_theme_color_override("font_color", Color(0.78, 0.80, 0.90, 1.0))
 	nlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	nlbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -354,18 +377,34 @@ func _criar_icone_desbloqueio(item: Dictionary) -> Control:
 
 func _centralizar_painel_deferred() -> void:
 	if not is_instance_valid(painel_principal): return
-	# Aguarda um frame extra para SubViewports e containers aninhados
-	# terminarem o layout antes de ler o tamanho real.
 	await get_tree().process_frame
 	if not is_instance_valid(painel_principal): return
 
-	var s : Vector2 = painel_principal.size
+	var s  : Vector2 = painel_principal.size
+	var vp : Vector2 = get_viewport_rect().size
+	const MARGEM := 10.0
 
 	painel_principal.set_anchors_preset(Control.PRESET_CENTER)
 	painel_principal.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	painel_principal.grow_vertical   = Control.GROW_DIRECTION_BOTH
-	painel_principal.offset_left   = -s.x * 0.5
-	painel_principal.offset_right  =  s.x * 0.5
-	painel_principal.offset_top    = -s.y * 0.5
-	painel_principal.offset_bottom =  s.y * 0.5
-	painel_principal.pivot_offset  =  s   * 0.5
+
+	var off_x := -s.x * 0.5
+	var off_y := -s.y * 0.5
+
+	# Garante que o topo não saia da tela
+	var topo_abs := vp.y * 0.5 + off_y
+	if topo_abs < MARGEM:
+		off_y = MARGEM - vp.y * 0.5
+
+	# Garante que o rodapé também não saia da tela
+	var base_abs := vp.y * 0.5 + off_y + s.y
+	if base_abs > vp.y - MARGEM:
+		off_y -= base_abs - (vp.y - MARGEM)
+		# Re-clamp o topo caso a altura seja maior que a tela
+		off_y = max(off_y, MARGEM - vp.y * 0.5)
+
+	painel_principal.offset_left   = off_x
+	painel_principal.offset_right  = off_x + s.x
+	painel_principal.offset_top    = off_y
+	painel_principal.offset_bottom = off_y + s.y
+	painel_principal.pivot_offset  = s * 0.5

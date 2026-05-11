@@ -64,6 +64,7 @@ radius = 0.6071644
 
 [node name="building-castle2" unique_id=1806970837 groups=["Base", "Castelo"] instance=ExtResource("1_xtwgx")]
 script = ExtResource("2_07545")
+nome_construcao = "Castelo"
 tipo = 5
 vida_maxima = 600
 upgrade_custos = Array[int]([5, 7])

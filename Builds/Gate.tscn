@@ -12,6 +12,7 @@ size = Vector3(0.9959564, 0.9970856, 0.6229019)
 [node name="Portal" type="Node3D" unique_id=683417852 groups=["Castelo"]]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_2loxh")
+nome_construcao = "Portal"
 tipo = 5
 upgrade_custos = Array[int]([7, 10])
 upgrade_vida_por_nivel = Array[int]([500, 700])

@@ -11,6 +11,7 @@ size = Vector3(2.0531616, 1.576294, 2.2304688)
 
 [node name="Piramede" type="Node3D" unique_id=1210502438 groups=["Base", "Castelo"]]
 script = ExtResource("1_v0w2e")
+nome_construcao = "Pirâmide"
 tipo = 5
 vida_maxima = 600
 upgrade_custos = Array[int]([5, 7])

@@ -143,19 +143,19 @@ vertical_alignment = 1
 
 [node name="ConteudoMargin" type="MarginContainer" parent="PainelPrincipal/VBoxContainer" unique_id=2001000004]
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 0
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 12
 
 [node name="ConteudoVBox" type="VBoxContainer" parent="PainelPrincipal/VBoxContainer/ConteudoMargin" unique_id=2001000005]
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_vertical = 3
 theme_override_constants/separation = 0
 
 [node name="SpacerA" type="Control" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=2001000006]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 
 [node name="StatusContainer" type="HBoxContainer" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=1234447454]
@@ -182,17 +182,18 @@ layout_mode = 2
 
 [node name="OpcoesContainer" type="HBoxContainer" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=1948368700]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 12
 alignment = 1
 
 [node name="SpacerD" type="Control" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=2001000009]
-custom_minimum_size = Vector2(0, 10)
+custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 
 [node name="BotoesRow" type="HBoxContainer" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=2001000010]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 12
 alignment = 1
@@ -220,5 +221,5 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_fechar_h")
 text = "FECHAR"
 
 [node name="SpacerE" type="Control" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=2001000011]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 14)
 layout_mode = 2

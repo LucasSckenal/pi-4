@@ -57,14 +57,14 @@ func configurar(opcao: Dictionary):
 
 	set_meta("caminho_index", opcao.get("index", 0))
 
-	# Modelo 3D ou ícone 2D
-	var mod_3d = opcao.get("modelo_3d")
-	if mod_3d != null:
-		_carregar_modelo_3d(mod_3d, opcao.get("escala_modelo", Vector3(1, 1, 1)))
+	# Ícone 2D tem prioridade. SubViewport 3D só como último recurso.
+	var img_2d = opcao.get("icone")
+	if img_2d is Texture2D:
+		_mostrar_icone_2d(img_2d)
 	else:
-		var img_2d = opcao.get("icone")
-		if img_2d != null:
-			_mostrar_icone_2d(img_2d)
+		var mod_3d = opcao.get("modelo_3d")
+		if mod_3d != null:
+			_carregar_modelo_3d(mod_3d, opcao.get("escala_modelo", Vector3(1, 1, 1)))
 		else:
 			container_viewport.hide()
 

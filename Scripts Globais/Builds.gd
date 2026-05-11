@@ -248,9 +248,10 @@ var alcance_atual: float
 signal construcao_selecionada(construcao: Node)
 
 func _ready():
-	
+
 	y_inicial = position.y
-	
+	_resolver_icone_construcao()
+
 	if is_fantasma:
 		_modo_fantasma()
 		return
@@ -455,10 +456,11 @@ func get_opcoes_proximo_upgrade() -> Array:
 				if path.modelos_por_nivel.size() > 0:
 					modelo_correto = path.modelos_por_nivel[0]
 
+				var icone_path = path.icone if path.icone != null else _icone_por_path_nome(nome_path)
 				opcoes.append({
 					"index": i,
 					"nome": nome_path,
-					"icone": path.icone,
+					"icone": icone_path,
 					"custo": path.custos[0],
 					"beneficio": _descrever_beneficio(path, 0),
 					"descricoes": _gerar_descricoes(path, 0),
@@ -486,10 +488,11 @@ func get_opcoes_proximo_upgrade() -> Array:
 			if modelo_correto == null and path.modelos_por_nivel.size() > 0:
 				modelo_correto = path.modelos_por_nivel[path.modelos_por_nivel.size() - 1]
 
+			var icone_path2 = path.icone if path.icone != null else _icone_por_path_nome(nome_path)
 			opcoes.append({
 				"index": caminho_atual,
 				"nome": nome_path,
-				"icone": path.icone,
+				"icone": icone_path2,
 				"custo": path.custos[prox_nivel],
 				"beneficio": _descrever_beneficio(path, prox_nivel),
 				"descricoes": _gerar_descricoes(path, prox_nivel),
@@ -545,6 +548,8 @@ func _get_desbloqueios_base(proximo_nivel: int) -> Array:
 	for cena in construcoes_nivel:
 		if cena == null: continue
 		var inst = cena.instantiate()
+		if inst.has_method("_resolver_icone_construcao"):
+			inst._resolver_icone_construcao()
 		var nome: String = inst.get("nome_construcao") if "nome_construcao" in inst else ""
 		if nome == "" or nome == "Construção": nome = cena.resource_path.get_file().get_basename().capitalize()
 		var t: int   = inst.get("tipo")  if "tipo"  in inst else -1
@@ -595,6 +600,41 @@ func _escala_por_tipo_build(t: int) -> Vector3:
 		3: return Vector3(0.8, 0.8, 0.8)
 		4: return Vector3(0.5, 0.5, 0.5)
 		_: return Vector3(0.8, 0.8, 0.8)
+
+func _resolver_icone_construcao() -> void:
+	if icone != null: return
+	if tipo == TipoConstrucao.BASE:
+		match GameManager.fase_atual:
+			1: icone = preload("res://Assets/Construcoes/BaseCastelo2.png")
+			2: icone = preload("res://Assets/Construcoes/BaseDeserto.png")
+			3: icone = preload("res://Assets/Construcoes/BaseBruxa.png")
+			4: icone = preload("res://Assets/Construcoes/BasePirata.png")
+			5: icone = preload("res://Assets/Construcoes/BaseScifi2.png")
+			6: icone = preload("res://Assets/Construcoes/BaseCovil.png")
+		return
+	match scene_file_path:
+		"res://Builds/mina.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoMina.png")
+		"res://Builds/quartel.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoQuartel.png")
+		"res://Builds/house.tscn", "res://Builds/casebre.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoCasa2.png")
+		"res://Builds/casa_classe_media.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoCasa3.png")
+		"res://Builds/mercadinho_egipcio.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoDeserto.png")
+		"res://Builds/taverna_dos_piratas.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoPirata.png")
+		"res://Builds/torre_de_tesla.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoScifi.png")
+		"res://Builds/torre_de_fogo.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoCovil.png")
+
+func _icone_por_path_nome(nome: String) -> Texture2D:
+	match nome:
+		"Morteiro": return preload("res://Assets/Construcoes/ConstrucaoTorre2A.png")
+		"Sniper":   return preload("res://Assets/Construcoes/ConstrucaoTorre2B.png")
+		_: return null
 
 func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 	# 1. Tenta pegar a escala específica definida no PathData (se existir no futuro)

@@ -63,6 +63,7 @@ size = Vector3(9.072805, 9.395386, 12.293125)
 
 [node name="ship-wreck2" unique_id=848616913 groups=["Base", "Castelo"] instance=ExtResource("1_qvxli")]
 script = ExtResource("2_laode")
+nome_construcao = "Barco"
 tipo = 5
 vida_maxima = 600
 tem_barra_vida = true

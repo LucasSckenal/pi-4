@@ -77,6 +77,8 @@ func abrir_menu(slot: Node) -> void:
 		novo_botao.position = (direcao * raio_menu) - (novo_botao.size / 2.0)
 
 		var temp_instancia = cena_torre.instantiate()
+		if temp_instancia.has_method("_resolver_icone_construcao"):
+			temp_instancia._resolver_icone_construcao()
 		var nome = temp_instancia.get("nome_construcao") if "nome_construcao" in temp_instancia else "Torre"
 		var icone = temp_instancia.get("icone") if "icone" in temp_instancia else null
 		var custo = temp_instancia.get("custo_moedas") if "custo_moedas" in temp_instancia else 0
