@@ -1,18 +1,8 @@
 [gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://b47clogrpejf7"]
 
-[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
-[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
-[ext_resource type="PackedScene" uid="uid://0d51ytvkkhod" path="res://Enemys/Map 3/abobora.tscn" id="3_abo"]
-
-[sub_resource type="Resource" id="Resource_abo"]
-script = ExtResource("1_cfg")
-cena = ExtResource("3_abo")
-cor = Color(0.95, 0.5, 0.1, 1)
-metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="1_wave"]
 
 [resource]
-script = ExtResource("2_wave")
+script = ExtResource("1_wave")
 nome_da_onda = "Mapa 3 - Preparar"
 intervalo = 2.5
-inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_abo")])
-metadata/_custom_type_script = "res://Waves/wave_resource.gd"

@@ -86,6 +86,7 @@ var _multiplicador_gelo: float = 1.0
 var _gelo_timer: float = 0.0
 var _gelo_ativo: bool = false
 var _fogo_ativo: bool = false
+var _veneno_ativo: bool = false
 var _fogo_ticks_restantes: int = 0
 
 @export_category("Limites do Mapa")
@@ -716,10 +717,20 @@ func iniciar_queimadura(dano_tick: int) -> void:
 				_atualizar_tints()
 		)
 
+func iniciar_veneno() -> void:
+	if not _veneno_ativo:
+		_veneno_ativo = true
+		_atualizar_tints()
+
+func parar_veneno() -> void:
+	if _veneno_ativo:
+		_veneno_ativo = false
+		_atualizar_tints()
+
 func _atualizar_tints() -> void:
 	var raiz: Node = modelo_3d if modelo_3d else self
 	var mat: StandardMaterial3D = null
-	if _gelo_ativo or _fogo_ativo:
+	if _gelo_ativo or _fogo_ativo or _veneno_ativo:
 		mat = StandardMaterial3D.new()
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -727,8 +738,10 @@ func _atualizar_tints() -> void:
 			mat.albedo_color = Color(0.7, 0.3, 1.0, 0.40)
 		elif _fogo_ativo:
 			mat.albedo_color = Color(1.0, 0.35, 0.05, 0.40)
-		else:
+		elif _gelo_ativo:
 			mat.albedo_color = Color(0.25, 0.65, 1.0, 0.35)
+		else:
+			mat.albedo_color = Color(0.2, 0.9, 0.2, 0.40)
 	for mesh in raiz.find_children("*", "MeshInstance3D", true, false):
 		if mesh is MeshInstance3D:
 			mesh.material_overlay = mat

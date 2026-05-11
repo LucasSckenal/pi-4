@@ -103,6 +103,9 @@ func _ready():
 	
 	if botao_reroll != null:
 		botao_reroll.pressed.connect(_on_botao_reroll_pressed)
+		botao_reroll.custom_minimum_size = Vector2(220, 56)
+	if container_cartas != null:
+		container_cartas.mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	atualizar_moedas()
 	_criar_label_renda_preview()
@@ -259,8 +262,9 @@ func animar_bau_abrindo():
 # SISTEMA DE UPGRADE POR CARTAS
 # ==========================================
 func _on_abrir_menu_upgrade(cartas_sorteadas):
-	# ELEVA A HUD INTEIRA PARA COBRIR TUDO
-	self.layer = 128
+	# Durante tutorial o TutorialManager (layer 128) deve ficar acima das cartas
+	# para que o fundo_escuro bloqueie cliques acidentais.
+	self.layer = 64 if GameManager.is_tutorial_ativo else 128
 
 	for crianca in container_cartas.get_children():
 		crianca.queue_free()
@@ -278,6 +282,8 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 
 	# Só agora abre o menu com as cartas
 	menu_upgrade.show()
+	# Aguarda um frame para o layout recalcular antes de adicionar as cartas
+	await get_tree().process_frame
 
 	var indice_carta = 0
 
@@ -382,7 +388,7 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 		var icon = cena_enemy_icon.instantiate()
 		box.add_child(icon)
 		if icon.has_method("configurar"):
-			icon.configurar(info.get("icone"), info.get("cor"), info.qtd)
+			icon.configurar(info.get("icone"), info.get("cor"), info.get("qtd", 1), info.get("descricao", ""))
 		else:
 			print("ERRO: enemy_icon não tem método configurar")
 	

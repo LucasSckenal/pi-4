@@ -90,7 +90,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/caldeiron.tscn")]
+			2: []
 		}
 	},
 	4: {
@@ -324,6 +324,18 @@ func get_construcoes_disponiveis() -> Array:
 		if nivel <= nivel_base:
 			disponiveis += construcoes_permitidas_na_fase[nivel]
 	return disponiveis
+
+func get_todas_construcoes_da_fase() -> Array:
+	var resultado = []
+	for nivel in construcoes_permitidas_na_fase:
+		for cena in construcoes_permitidas_na_fase[nivel]:
+			if cena == null: continue
+			resultado.append({
+				"cena": cena,
+				"nivel_necessario": nivel,
+				"bloqueado": nivel > nivel_base
+			})
+	return resultado
 
 # ==========================================
 # CICLO DIA / NOITE E ECONOMIA

@@ -23,34 +23,24 @@ func _ready() -> void:
 # DESENHO VISUAL DO MENU (BACKGROUND E DIVISÓRIAS)
 # ==========================================
 func _draw() -> void:
-	# Cores para o fundo e o anel
 	var cor_fundo_geral = Color(0.15, 0.16, 0.18, 0.95)
-	
-	# Desenha o círculo de fundo principal (fundo de todo o HUD)
 	draw_circle(Vector2.ZERO, raio_menu + 70.0, cor_fundo_geral)
-	
-	# Obtém as construções para saber quantas divisórias desenhar
-	var construcoes = GameManager.get_construcoes_disponiveis()
-	if construcoes.is_empty():
+
+	var todas = GameManager.get_todas_construcoes_da_fase()
+	if todas.is_empty():
 		return
-		
-	var quantidade = construcoes.size()
+
+	var quantidade = todas.size()
 	var angulo_passo = (2 * PI) / quantidade
-	var angulo_inicial = -PI / 2.0 # Começa no topo
-	
-	# Desenha as fatias de fundo e as linhas divisórias
+	var angulo_inicial = -PI / 2.0
+
 	for i in range(quantidade):
 		var angulo_atual = angulo_inicial + (i * angulo_passo)
-		var angulo_linha = angulo_atual + (angulo_passo / 2.0) # Desloca a linha para a metade do espaço entre as fatias
-		
-		# Define os pontos para desenhar a linha divisória (do centro para fora) usando o ângulo deslocado
+		var angulo_linha = angulo_atual + (angulo_passo / 2.0)
 		var ponto_interno = Vector2(cos(angulo_linha), sin(angulo_linha)) * (raio_menu - 40.0)
 		var ponto_externo = Vector2(cos(angulo_linha), sin(angulo_linha)) * (raio_menu + 70.0)
-		
-		# Desenha a linha divisória
 		draw_line(ponto_interno, ponto_externo, _cor_divisoria, 2.0)
-		
-	# Desenha os anéis de borda para dar acabamento
+
 	draw_arc(Vector2.ZERO, raio_menu + 70.0, 0, 2*PI, 128, _cor_divisoria, 2.0)
 	draw_arc(Vector2.ZERO, raio_menu - 40.0, 0, 2*PI, 128, _cor_divisoria, 2.0)
 
@@ -60,46 +50,44 @@ func _draw() -> void:
 func abrir_menu(slot: Node) -> void:
 	_slot_alvo = slot
 	_limpar_botoes()
-	
-	var construcoes_disponiveis = GameManager.get_construcoes_disponiveis()
-	
-	if construcoes_disponiveis.is_empty():
+
+	var todas_construcoes = GameManager.get_todas_construcoes_da_fase()
+
+	if todas_construcoes.is_empty():
 		info_label.text = "Nenhuma torre liberada"
 		show()
 		return
-		
+
 	info_label.text = "Selecione\numa torre"
-	
-	var quantidade = construcoes_disponiveis.size()
+
+	var quantidade = todas_construcoes.size()
 	var angulo_passo = (2 * PI) / quantidade
-	var angulo_inicial = -PI / 2.0 # Começa no topo (-90 graus)
-	
+	var angulo_inicial = -PI / 2.0
+
 	for i in range(quantidade):
-		var cena_torre = construcoes_disponiveis[i]
+		var dados = todas_construcoes[i]
+		var cena_torre = dados.cena
 		var angulo_atual = angulo_inicial + (i * angulo_passo)
-		
+
 		var novo_botao = prefab_botao.instantiate()
 		add_child(novo_botao)
 		_botoes_ativos.append(novo_botao)
-		
-		# Calcula a posição circular e subtrai metade do tamanho para centralizar o botão na linha
+
 		var direcao = Vector2(cos(angulo_atual), sin(angulo_atual))
 		novo_botao.position = (direcao * raio_menu) - (novo_botao.size / 2.0)
-		
-		# Instancia temporariamente para pegar os dados
+
 		var temp_instancia = cena_torre.instantiate()
 		var nome = temp_instancia.get("nome_construcao") if "nome_construcao" in temp_instancia else "Torre"
 		var icone = temp_instancia.get("icone") if "icone" in temp_instancia else null
 		var custo = temp_instancia.get("custo_moedas") if "custo_moedas" in temp_instancia else 0
 		temp_instancia.queue_free()
-		
-		# A MÁGICA PARA O TUTORIAL ESTÁ AQUI: Dá o nome exato da construção ao botão!
-		novo_botao.name = nome 
-		# ================================
-		
+
+		novo_botao.name = nome
 		novo_botao.configurar(cena_torre, icone, nome, custo, self)
 
-	# Destaque o botão recomendado pelo conselheiro
+		if dados.bloqueado and novo_botao.has_method("bloquear"):
+			novo_botao.bloquear(dados.nivel_necessario)
+
 	var rec_nome: String = GameManager.recomendacao_conselheiro
 	if rec_nome != "":
 		for botao in _botoes_ativos:
@@ -108,7 +96,6 @@ func abrir_menu(slot: Node) -> void:
 				botao.destacar_recomendado()
 				break
 
-	# Garante que as divisórias sejam desenhadas
 	queue_redraw()
 	show()
 
@@ -122,9 +109,11 @@ func fechar_menu() -> void:
 # LÓGICA DE INTERAÇÃO DOS BOTÕES
 # ==========================================
 func atualizar_informacoes(nome: String, custo: int) -> void:
-	# Aplica desconto antes de exibir (opcional, se o menu já receber o custo final)
 	var custo_final = GameManager.obter_custo_com_desconto(custo)
 	info_label.text = "%s\nCusta: %d" % [nome, custo_final]
+
+func atualizar_info_bloqueado(nome: String, nivel: int) -> void:
+	info_label.text = "%s\n🔒 Base nível %d" % [nome, nivel]
 
 func limpar_informacoes() -> void:
 	info_label.text = "Selecione\numa torre"

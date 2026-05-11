@@ -1,4 +1,4 @@
-extends Node3D
+﻿extends Node3D
 
 # ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
@@ -217,7 +217,8 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 # ==========================================
 var y_inicial: float
 var is_fantasma: bool = false
-var _caldeiron_timer: float = 0.0   # Acumulador para o ataque do Caldeirão
+var _caldeiron_timer: float = 0.0
+var _inimigos_no_veneno: Array = []  # Inimigos dentro do círculo de veneno
 var vida_atual: int
 var inimigos_no_alcance = []
 
@@ -285,6 +286,10 @@ func _ready():
 			atualizar_status()
 			if timer_ataque:
 				timer_ataque.start()
+			if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+				var _p = upgrade_paths[caminho_atual]
+				if "tipo_ataque" in _p and _p.tipo_ataque == "caldeiron_area":
+					_criar_circulo_caldeiron(alcance_atual * 0.85)
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			add_to_group("Construcao")
 			GameManager.onda_terminada.connect(_pagar_recompensa)
@@ -293,6 +298,7 @@ func _ready():
 			GameManager.noite_iniciada.connect(_spawn_aliados)
 		TipoConstrucao.CALDEIRON:
 			add_to_group("Construcao")
+			_criar_circulo_caldeiron(Balanceamento.get_float("caldeiron_alcance", 5.0))
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
@@ -423,11 +429,11 @@ func get_opcoes_proximo_upgrade() -> Array:
 	var escala_perfeita_ui = _calcular_escala_ideal_para_ui()
 
 	if tem_paths and caminho_atual == -1:
-		# Primeira escolha: todos os caminhos disponíveis nesta fase
+		# Primeira escolha: todos os caminhos da fase atual (bloqueados ou não)
 		for i in range(upgrade_paths.size()):
 			var path = upgrade_paths[i]
 			if path and path.custos.size() > 0:
-				# Filtro de fase: oculta paths fora da janela de fases permitida
+				# Filtro de fase: oculta paths de outros mapas
 				var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
 				var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
 				if fase_min > 0 and GameManager.fase_atual < fase_min:
@@ -435,13 +441,16 @@ func get_opcoes_proximo_upgrade() -> Array:
 				if fase_max > 0 and GameManager.fase_atual > fase_max:
 					continue
 
+				# Verifica se está bloqueado por nivel_base_minimo
+				var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+				var bloqueado: bool = nivel_min > 0 and GameManager.nivel_base < nivel_min
+
 				var nome_path = path.nome
 				if nome_path == null or nome_path == "":
 					nome_path = "Caminho " + str(i + 1)
 
 				var escala_deste_path = _calcular_escala_ideal_para_ui(path)
 
-				# Pega o modelo do NÍVEL 0 deste caminho específico
 				var modelo_correto = null
 				if path.modelos_por_nivel.size() > 0:
 					modelo_correto = path.modelos_por_nivel[0]
@@ -455,7 +464,9 @@ func get_opcoes_proximo_upgrade() -> Array:
 					"descricoes": _gerar_descricoes(path, 0),
 					"cor": _get_cor_path(i, path),
 					"modelo_3d": modelo_correto,
-					"escala_modelo": escala_deste_path
+					"escala_modelo": escala_deste_path,
+					"bloqueado": bloqueado,
+					"motivo_bloqueio": "Base nível %d necessário" % nivel_min if bloqueado else ""
 				})
 	elif tem_paths and caminho_atual >= 0:
 		# Já tem caminho: próximo nível desse caminho
@@ -670,6 +681,8 @@ func aplicar_upgrade(index: int = 0) -> bool:
 				GameManager.upgrade_base_aplicado.emit()
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
+				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
+					_criar_circulo_caldeiron(alcance_atual * 0.85)
 				atualizar_status()
 			print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
 			return true
@@ -896,15 +909,136 @@ func _process(delta):
 
 func _caldeiron_atacar_area() -> void:
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
-	var raio: float = Balanceamento.get_float("caldeiron_alcance", 5.0)
-	var inimigos: Array = get_tree().get_nodes_in_group("inimigos")
-	if inimigos.is_empty():
-		inimigos = get_tree().get_nodes_in_group("Inimigos")
-	for inimigo in inimigos:
-		if not is_instance_valid(inimigo): continue
-		if global_position.distance_to(inimigo.global_position) <= raio:
-			if inimigo.has_method("receber_dano"):
-				inimigo.receber_dano(dano_base)
+	_inimigos_no_veneno = _inimigos_no_veneno.filter(
+		func(e): return is_instance_valid(e) and not e.get("esta_morto", false))
+	for inimigo in _inimigos_no_veneno:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+
+func _caldeiron_atacar_area_torre() -> void:
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	inimigos_no_alcance = inimigos_no_alcance.filter(func(e): return is_instance_valid(e))
+	for inimigo in inimigos_no_alcance:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+
+# Chamado quando um corpo entra no círculo de veneno
+func _on_veneno_entrou(corpo: Node3D) -> void:
+	if not (corpo.is_in_group("inimigos") or corpo.is_in_group("Inimigos")):
+		return
+	if corpo in _inimigos_no_veneno:
+		return
+	_inimigos_no_veneno.append(corpo)
+	if corpo.has_method("iniciar_veneno"):
+		corpo.iniciar_veneno()
+
+func _on_veneno_saiu(corpo: Node3D) -> void:
+	_inimigos_no_veneno.erase(corpo)
+	if is_instance_valid(corpo) and corpo.has_method("parar_veneno"):
+		corpo.parar_veneno()
+
+func _mat_circulo(cor: Color, emission_energy: float = 0.0, fill: bool = false) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.render_priority = -2
+	m.albedo_color = cor
+	if fill:
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	if emission_energy > 0.0:
+		m.emission_enabled = true
+		m.emission = Color(cor.r, cor.g, cor.b)
+		m.emission_energy_multiplier = emission_energy
+	return m
+
+func _criar_circulo_caldeiron(raio: float = 4.5) -> void:
+	if get_node_or_null("CirculoVeneno") != null:
+		return
+
+	var raiz := Node3D.new()
+	raiz.name = "CirculoVeneno"
+	raiz.position = Vector3(0, 0.03, 0)  # ajustado para o chão via raycast abaixo
+
+	# ── Disco fill interno (semi-transparente) ───────────────────────────────
+	var disco := MeshInstance3D.new()
+	var cyl := CylinderMesh.new()
+	cyl.top_radius    = raio - 0.3
+	cyl.bottom_radius = raio - 0.3
+	cyl.height = 0.01
+	cyl.radial_segments = 64
+	disco.mesh = cyl
+	disco.material_override = _mat_circulo(Color(0.15, 0.9, 0.2, 0.18), 0.0, true)
+	raiz.add_child(disco)
+
+	# ── Anel externo (TorusMesh achatado no chão) ────────────────────────────
+	var anel := MeshInstance3D.new()
+	var torus := TorusMesh.new()
+	torus.outer_radius   = raio
+	torus.inner_radius   = raio - 0.22
+	torus.rings          = 64
+	torus.ring_segments  = 8
+	anel.mesh = torus
+	anel.scale = Vector3(1.0, 0.12, 1.0)
+	anel.material_override = _mat_circulo(Color(0.25, 1.0, 0.3), 2.0)
+	raiz.add_child(anel)
+
+	# ── Anel interno decorativo (achatado) ───────────────────────────────────
+	var anel2 := MeshInstance3D.new()
+	var torus2 := TorusMesh.new()
+	torus2.outer_radius  = raio * 0.55
+	torus2.inner_radius  = raio * 0.55 - 0.12
+	torus2.rings         = 48
+	torus2.ring_segments = 8
+	anel2.mesh = torus2
+	anel2.scale = Vector3(1.0, 0.12, 1.0)
+	anel2.material_override = _mat_circulo(Color(0.25, 1.0, 0.3), 1.0)
+	raiz.add_child(anel2)
+
+	# ── Rotação contrária dos dois anéis (efeito mágico) ────────────────────
+	var tw_rot = raiz.create_tween().set_loops()
+	tw_rot.tween_property(raiz, "rotation:y", TAU, 8.0).set_trans(Tween.TRANS_LINEAR)
+
+	var tw_rot2 = anel2.create_tween().set_loops()
+	tw_rot2.tween_property(anel2, "rotation:y", -TAU, 5.0).set_trans(Tween.TRANS_LINEAR)
+
+	# ── Pulso de brilho no anel externo ─────────────────────────────────────
+	var tw_pulse = anel.create_tween().set_loops()
+	tw_pulse.tween_property(anel, "material_override:emission_energy_multiplier", 4.0, 1.4)\
+		.set_trans(Tween.TRANS_SINE)
+	tw_pulse.tween_property(anel, "material_override:emission_energy_multiplier", 1.0, 1.4)\
+		.set_trans(Tween.TRANS_SINE)
+
+	# ── Area3D para detectar inimigos ────────────────────────────────────────
+	var area := Area3D.new()
+	area.name = "AreaVeneno"
+	area.collision_layer = 0
+	area.collision_mask  = 0xFFFFFFFF
+	var col := CollisionShape3D.new()
+	var esfera := SphereShape3D.new()
+	esfera.radius = raio
+	col.shape = esfera
+	area.add_child(col)
+	area.body_entered.connect(_on_veneno_entrou)
+	area.body_exited.connect(_on_veneno_saiu)
+	raiz.add_child(area)
+
+	add_child(raiz)
+	_fixar_circulo_no_chao.call_deferred(raiz)
+
+func _fixar_circulo_no_chao(raiz: Node3D) -> void:
+	if not is_inside_tree(): return
+	var space := get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.create(
+		global_position + Vector3(0, 3.0, 0),
+		global_position + Vector3(0, -8.0, 0)
+	)
+	var exclusoes: Array[RID] = []
+	for corpo in find_children("*", "CollisionObject3D"):
+		exclusoes.append(corpo.get_rid())
+	query.exclude = exclusoes
+	var resultado := space.intersect_ray(query)
+	if resultado:
+		raiz.global_position.y = resultado["position"].y + 0.03
 
 # ──────────────────────────────────────────────────────────────────────────────
 # INDICADOR DE UPGRADE DISPONÍVEL
@@ -1097,6 +1231,9 @@ func _pode_fazer_upgrade() -> bool:
 				continue
 			if fase_max > 0 and GameManager.fase_atual > fase_max:
 				continue
+			var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+			if nivel_min > 0 and GameManager.nivel_base < nivel_min:
+				continue
 			if GameManager.moedas >= path.custos[0]:
 				return true
 		return false
@@ -1126,6 +1263,10 @@ func atacar():
 
 	if tipo_atq == "morteiro":
 		_atacar_morteiro()
+		return
+
+	if tipo_atq == "caldeiron_area":
+		_caldeiron_atacar_area_torre()
 		return
 
 	# Ataque normal com flecha
@@ -1521,4 +1662,7 @@ func _set_transparencia(no: Node, valor: float):
 			no.material_override = null
 				
 	for filho in no.get_children():
+		if filho == _indicador_upgrade: continue
+		if filho == indicador_alcance: continue
+		if filho.name == "CirculoVeneno": continue
 		_set_transparencia(filho, valor)

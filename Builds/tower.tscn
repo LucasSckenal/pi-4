@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ino2raplk5re" path="res://Builds/torre_de_tesla.tscn" id="10_tesla"]
 [ext_resource type="PackedScene" uid="uid://cmvpoyu8c7a33" path="res://Cenas Locais/raio_eletrico.tscn" id="11_raio"]
 [ext_resource type="PackedScene" uid="uid://cbfqv1hx2i3y4" path="res://Cenas Locais/bala_de_canhao.tscn" id="12_bala"]
+[ext_resource type="PackedScene" path="res://Map3/Caldeirao.glb" id="13_cald"]
 
 [sub_resource type="Resource" id="Resource_qny8x"]
 script = ExtResource("4_772tj")
@@ -32,11 +33,27 @@ alcance_por_nivel = Array[float]([2.0])
 modelos_por_nivel = Array[PackedScene]([ExtResource("6_ix80u")])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
+[sub_resource type="Resource" id="Resource_caldeiron"]
+script = ExtResource("4_772tj")
+nome = "Caldeirão"
+fase_minima = 3
+fase_maxima = 3
+nivel_base_minimo = 1
+tipo_ataque = "caldeiron_area"
+custos = Array[int]([7])
+dano_por_nivel = Array[int]([25])
+velocidade_por_nivel = Array[float]([-1.5])
+alcance_por_nivel = Array[float]([0.0])
+modelos_por_nivel = Array[PackedScene]([ExtResource("13_cald")])
+descricoes = Array[String](["Névoa venenosa que queima inimigos próximos", "Dano em área constante ao redor", "Ideal contra grupos de inimigos"])
+metadata/_custom_type_script = "uid://cj7setbrccrxh"
+
 [sub_resource type="Resource" id="Resource_tdfogo"]
 script = ExtResource("4_772tj")
 nome = "Torre de Fogo"
 fase_minima = 6
 fase_maxima = 6
+nivel_base_minimo = 1
 custos = Array[int]([7])
 dano_por_nivel = Array[int]([20])
 velocidade_por_nivel = Array[float]([0.4])
@@ -48,6 +65,7 @@ script = ExtResource("4_772tj")
 nome = "Tesla"
 fase_minima = 5
 fase_maxima = 5
+nivel_base_minimo = 1
 tipo_ataque = "chain_lightning"
 custos = Array[int]([7])
 dano_por_nivel = Array[int]([15])
@@ -154,7 +172,7 @@ ponto_de_tiro = NodePath("PontoDeTiro")
 area_ataque_path = NodePath("AreaAtaque")
 indicador_alcance = NodePath("IndicadorAlcance")
 tem_paths = true
-upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), SubResource("Resource_1qiv1"), SubResource("Resource_tdfogo"), SubResource("Resource_tesla")])
+upgrade_paths = Array[ExtResource("4_772tj")]([SubResource("Resource_qny8x"), SubResource("Resource_1qiv1"), SubResource("Resource_caldeiron"), SubResource("Resource_tdfogo"), SubResource("Resource_tesla")])
 
 [node name="unit-tower" parent="." index="0" unique_id=996159750]
 mesh = SubResource("ArrayMesh_1y2kb")

@@ -60,15 +60,15 @@ func _ready() -> void:
 	forca_dano   = 0
 	eh_aereo     = false
 
-	# Pega refs aos olhos no ModeloAnchor — ajusta cor/intensidade iniciais
+	# Pega refs aos olhos no ModeloAnchor — começam APAGADOS para a intro dramática
 	_olho_esquerdo = get_node_or_null("ModeloAnchor/OlhoEsquerdo")
 	_olho_direito  = get_node_or_null("ModeloAnchor/OlhoDireito")
 	if _olho_esquerdo:
 		_olho_esquerdo.light_color  = cor_olhos
-		_olho_esquerdo.light_energy = intensidade_olhos
+		_olho_esquerdo.light_energy = 0.0
 	if _olho_direito:
 		_olho_direito.light_color  = cor_olhos
-		_olho_direito.light_energy = intensidade_olhos
+		_olho_direito.light_energy = 0.0
 
 	super._ready()
 
@@ -76,12 +76,13 @@ func _ready() -> void:
 	# que abre caminho via tentáculos — a wave finaliza quando os inimigos normais
 	# (Flamingo/Alexa/Linigena/Sapão) e os tentáculos ativos forem todos derrotados.
 	remove_from_group("inimigos")
+	add_to_group("Chefe")
 
 	# Posiciona embaixo da base (uma frame depois pra garantir base existindo)
 	call_deferred("_posicionar_sob_base")
 
-	# Animação de pulso dos olhos — loop infinito
-	_iniciar_pulso_olhos()
+	# Piscadas dramáticas de spawn — coroutine independente, não bloqueia _ready
+	_intro_olhos()
 
 	# Pequeno delay teatral antes da primeira invocação
 	_timer_invocacao = 1.5
@@ -94,6 +95,50 @@ func _posicionar_sob_base() -> void:
 		return
 	global_position  = base.global_position + Vector3(0, offset_y_sob_base, 0)
 	posicao_de_spawn = global_position
+
+	# Posiciona os olhos perto dos BuildSlot7 e BuildSlot8.
+	var slot7: Node3D = null
+	var slot8: Node3D = null
+	for slot in get_tree().get_nodes_in_group("BuildSlots"):
+		if slot.name == "BuildSlot7":
+			slot7 = slot
+		elif slot.name == "BuildSlot8":
+			slot8 = slot
+
+	if slot7 and slot8:
+		# Olho do slot7 vai para a direita do slot, olho do slot8 vai para a esquerda.
+		# "Lado" é perpendicular à direção base→slot no plano XZ.
+		var centro: Vector3 = base.global_position
+		var dir_e := (slot7.global_position - centro)
+		dir_e.y = 0.0
+		dir_e = dir_e.normalized()
+		var lado_dir_e := Vector3(dir_e.z, 0.0, -dir_e.x)   # 90° horário = direita
+
+		var dir_d := (slot8.global_position - centro)
+		dir_d.y = 0.0
+		dir_d = dir_d.normalized()
+		var lado_esq_d := Vector3(-dir_d.z, 0.0, dir_d.x)   # 90° anti-horário = esquerda
+
+		var pos_e: Vector3 = to_local(slot7.global_position + lado_dir_e * 2.0)
+		var pos_d: Vector3 = to_local(slot8.global_position + lado_esq_d * 2.0)
+		pos_e.y = 0.5
+		pos_d.y = 0.5
+		if _olho_esquerdo:
+			_olho_esquerdo.position = pos_e
+			_olho_esquerdo.omni_range = 3.5
+		if _olho_direito:
+			_olho_direito.position = pos_d
+			_olho_direito.omni_range = 3.5
+	else:
+		push_warning("CosmicKraken: BuildSlot7/8 não encontrados, usando posição padrão")
+		var y_borda: float = abs(offset_y_sob_base) - 1.0
+		if _olho_esquerdo:
+			_olho_esquerdo.position = Vector3(-4.5, y_borda, 0.0)
+			_olho_esquerdo.omni_range = 3.0
+		if _olho_direito:
+			_olho_direito.position = Vector3(4.5, y_borda, 0.0)
+			_olho_direito.omni_range = 3.0
+	_criar_malha_olhos()
 
 # ============================================================================
 # FÍSICA — Sobrescreve o _physics_process do InimigoBase
@@ -305,7 +350,8 @@ func morrer() -> void:
 		if is_instance_valid(t) and t.has_method("receber_dano"):
 			t.receber_dano(99999, "kraken_morte")
 
-	# Apaga os olhos lentamente
+	# Apaga os olhos lentamente (pupilas permanecem visíveis até sumir com o fade)
+	_set_visibilidade_pupilas(true)
 	if _olho_esquerdo:
 		var tw_l = create_tween()
 		tw_l.tween_property(_olho_esquerdo, "light_energy", 0.0, 1.5)
@@ -316,8 +362,81 @@ func morrer() -> void:
 	super.morrer()
 
 # ============================================================================
-# ANIMAÇÃO DOS OLHOS — pulso lento de cosmic horror
+# ANIMAÇÃO DOS OLHOS — intro dramática + pulso lento de cosmic horror
 # ============================================================================
+
+# Adiciona esferas emissivas aos nós dos olhos para torná-los visíveis como objetos.
+# Chamado em _posicionar_sob_base após reposicionar os olhos.
+func _criar_malha_olhos() -> void:
+	for olho in [_olho_esquerdo, _olho_direito]:
+		if not olho or olho.get_node_or_null("Pupila") != null:
+			continue
+		var mesh_inst := MeshInstance3D.new()
+		mesh_inst.name = "Pupila"
+		var esfera := SphereMesh.new()
+		esfera.radius = 0.22
+		esfera.height = 0.44
+		mesh_inst.mesh = esfera
+		var mat := StandardMaterial3D.new()
+		mat.emission_enabled = true
+		mat.emission = cor_olhos
+		mat.emission_energy_multiplier = 4.0
+		mat.albedo_color = Color(cor_olhos.r, cor_olhos.g, cor_olhos.b, 1.0)
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mesh_inst.material_override = mat
+		olho.add_child(mesh_inst)
+
+# Sequência de spawn: olhos piscam do nada, 2 vezes, depois entram no loop.
+func _intro_olhos() -> void:
+	if not _olho_esquerdo and not _olho_direito:
+		return
+	# Esferas invisíveis durante a pausa inicial
+	_set_visibilidade_pupilas(false)
+
+	# Pausa inicial — o boss acabou de aparecer embaixo da base
+	await get_tree().create_timer(1.0).timeout
+	if esta_morto: return
+
+	# 1ª piscada: flash muito forte (susto)
+	_set_visibilidade_pupilas(true)
+	var tw = create_tween().set_parallel(true)
+	if _olho_esquerdo:
+		tw.tween_property(_olho_esquerdo, "light_energy", intensidade_olhos * 6.0, 0.08)
+	if _olho_direito:
+		tw.tween_property(_olho_direito, "light_energy", intensidade_olhos * 6.0, 0.08)
+	await get_tree().create_timer(0.12).timeout
+	if esta_morto: return
+
+	# Apaga
+	_set_visibilidade_pupilas(false)
+	tw = create_tween().set_parallel(true)
+	if _olho_esquerdo:
+		tw.tween_property(_olho_esquerdo, "light_energy", 0.0, 0.2)
+	if _olho_direito:
+		tw.tween_property(_olho_direito, "light_energy", 0.0, 0.2)
+	await get_tree().create_timer(0.4).timeout
+	if esta_morto: return
+
+	# 2ª piscada: os olhos "se abrem de verdade" e ficam
+	_set_visibilidade_pupilas(true)
+	tw = create_tween().set_parallel(true)
+	if _olho_esquerdo:
+		tw.tween_property(_olho_esquerdo, "light_energy", intensidade_olhos * 4.0, 0.15)
+	if _olho_direito:
+		tw.tween_property(_olho_direito, "light_energy", intensidade_olhos * 4.0, 0.15)
+	await get_tree().create_timer(0.5).timeout
+	if esta_morto: return
+
+	# Entra no pulso contínuo
+	_iniciar_pulso_olhos()
+
+func _set_visibilidade_pupilas(visivel: bool) -> void:
+	for olho in [_olho_esquerdo, _olho_direito]:
+		if not olho: continue
+		var pupila = olho.get_node_or_null("Pupila")
+		if pupila:
+			pupila.visible = visivel
+
 func _iniciar_pulso_olhos() -> void:
 	if not _olho_esquerdo and not _olho_direito:
 		return

@@ -188,14 +188,17 @@ func atualizar_opcoes():
 			if btn.has_method("configurar"):
 				btn.configurar(opcao)
 
-			# Sempre conecta — aplicar_upgrade() valida moedas internamente
-			btn.pressed.connect(_on_opcao_escolhida.bind(opcao.get("index", 0)))
+			if opcao.get("bloqueado", false):
+				if btn.has_method("bloquear"):
+					btn.bloquear(opcao.get("motivo_bloqueio", ""))
+			else:
+				btn.pressed.connect(_on_opcao_escolhida.bind(opcao.get("index", 0)))
 
-			# Feedback visual de moedas insuficientes
-			var custo_opcao: int = opcao.get("custo", 0)
-			if GameManager.moedas < custo_opcao:
-				btn.modulate = Color(0.55, 0.55, 0.55, 0.85)
-				btn.tooltip_text = "Moedas insuficientes (%d/%d)" % [GameManager.moedas, custo_opcao]
+				# Feedback visual de moedas insuficientes
+				var custo_opcao: int = opcao.get("custo", 0)
+				if GameManager.moedas < custo_opcao:
+					btn.modulate = Color(0.55, 0.55, 0.55, 0.85)
+					btn.tooltip_text = "Moedas insuficientes (%d/%d)" % [GameManager.moedas, custo_opcao]
 
 # ==========================================
 # AÇÕES DO JOGADOR

@@ -104,10 +104,14 @@ func iniciar_sequencia_tutorial():
 	await tutorial.mostrar_dialogo("Berta: Ainda não. O Quartel é Nível 1. Nosso Castelo é Nível 0. Precisamos gastar 5 moedas pra evoluir ele primeiro.")
 	
 	var carta = get_tree().root.find_child("CartaTutorial0", true, false)
-	while carta == null:
+	var tempo_carta: float = 0.0
+	while (carta == null or not is_instance_valid(carta)) and tempo_carta < 10.0:
 		if not GameManager.is_tutorial_ativo: break
-		await get_tree().create_timer(0.01).timeout
-	await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
+		await get_tree().create_timer(0.05).timeout
+		tempo_carta += 0.05
+		carta = get_tree().root.find_child("CartaTutorial0", true, false)
+	if is_instance_valid(carta):
+		await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
 	
 	# Upgrade do Castelo usando passo_upgrade (mais confiável)
 	await passo_upgrade(castelo, "Afonso: Toca no Castelo para melhorá-lo.")
