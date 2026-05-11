@@ -908,7 +908,7 @@ func _caldeiron_atacar_area() -> void:
 
 # ──────────────────────────────────────────────────────────────────────────────
 # INDICADOR DE UPGRADE DISPONÍVEL
-# • Modo DESTAQUE  — anel brilhante + seta ⬆ grande + pontos flutuantes
+# • Modo DESTAQUE  — anel brilhante + ícone animado + pontos flutuantes
 # • Modo SUTIL     — só o anel, 25 % de opacidade (não polui a tela)
 # A construção em destaque é calculada pelo GameManager a cada 1 s
 # usando a mesma lógica do ConselheiroIA (torres têm prioridade).
@@ -951,67 +951,17 @@ func _criar_indicador_upgrade() -> void:
 	_anel_upgrade.position.y       = 0.05
 	container.add_child(_anel_upgrade)
 
-	# ── Badge retangular arredondado com seta ⬆ (shader inline, sem fonte) ────
-	# Posicionado no meio da construção; billboard pelo vertex shader.
-	_seta_upgrade          = MeshInstance3D.new()
+	# ── Badge com ícone 2D mapeado em 3D ─────────────────────────────────────
+	_seta_upgrade          = Sprite3D.new()
 	_seta_upgrade.name     = "BadgeSeta"
-	_seta_upgrade.position = Vector3(0.0, 0.5, 0.0)
+	_seta_upgrade.texture  = preload("res://Icons/upgrading_icon.png")
+	_seta_upgrade.position = Vector3(0.0, 0.3, 0.0)
+	_seta_upgrade.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	_seta_upgrade.no_depth_test = true
+	_seta_upgrade.render_priority = 10
+	_seta_upgrade.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_seta_upgrade.pixel_size = 0.0015 # Tamanho do pixel pode ser ajustado conforme a resolução da imagem
 	_seta_upgrade.visible  = false
-	_seta_upgrade.cast_shadow = MeshInstance3D.SHADOW_CASTING_SETTING_OFF
-
-	var _quad := QuadMesh.new()
-	_quad.size = Vector2(0.65, 0.65)
-	(_seta_upgrade as MeshInstance3D).mesh = _quad
-
-	var _badge_shader := Shader.new()
-	_badge_shader.code = """
-shader_type spatial;
-render_mode unshaded, cull_disabled, shadows_disabled, depth_draw_never, depth_test_disabled;
-
-// SDF retangulo arredondado
-float sd_box(vec2 p, vec2 b, float r) {
-    vec2 q = abs(p) - b + r;
-    return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
-}
-
-// Billboard esférico: preserva escala, remove rotação
-void vertex() {
-    MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
-        INV_VIEW_MATRIX[0] * length(MODEL_MATRIX[0]),
-        INV_VIEW_MATRIX[1] * length(MODEL_MATRIX[1]),
-        INV_VIEW_MATRIX[2] * length(MODEL_MATRIX[2]),
-        MODEL_MATRIX[3]);
-}
-
-void fragment() {
-    // p em [-1,1]: p.y=-1 = topo visual, p.y=+1 = base visual
-    vec2 p = UV * 2.0 - 1.0;
-    // Fundo: retângulo arredondado
-    float d_bg = sd_box(p, vec2(0.74, 0.74), 0.32);
-    if (d_bg > 0.02) discard;
-    float bg_a = smoothstep(0.02, -0.01, d_bg);
-
-    // Seta apontando para CIMA (pico em p.y negativo = topo da tela)
-    float aa = 0.03;
-    // Haste: retângulo vertical
-    float shaft = smoothstep(0.10+aa, 0.10-aa, abs(p.x))
-                * smoothstep(-0.04-aa, -0.04+aa, p.y)
-                * smoothstep(0.36+aa,  0.36-aa,  p.y);
-    // Ponta: triângulo, pico (0,-0.38), base (-0.27,-0.04) a (0.27,-0.04)
-    float t   = clamp((p.y + 0.04) / (-0.34), 0.0, 1.0);
-    float hw  = mix(0.27, 0.0, t);
-    float head = smoothstep(hw+aa,    hw-aa,    abs(p.x))
-               * smoothstep(-0.38-aa, -0.38+aa, p.y)
-               * smoothstep(-0.04+aa, -0.04-aa, p.y);
-    float arrow = max(shaft, head);
-
-    ALBEDO = mix(vec3(0.04, 0.38, 0.10), vec3(0.96, 1.0, 0.96), arrow);
-    ALPHA  = bg_a * 0.94;
-}
-"""
-	var _badge_mat := ShaderMaterial.new()
-	_badge_mat.shader = _badge_shader
-	(_seta_upgrade as MeshInstance3D).material_override = _badge_mat
 	container.add_child(_seta_upgrade)
 
 	# ── 3 pontos de luz flutuantes entre edifício e seta ─────────────────────
@@ -1076,14 +1026,15 @@ func _animar_indicador_upgrade() -> void:
 func _atualizar_indicador_upgrade() -> void:
 	if not is_instance_valid(_indicador_upgrade):
 		return
+		
 	# Esconde durante a noite ou se a construção foi destruída
-	if esta_destruida or GameManager.is_night:
+	if esta_destruida or GameManager.is_night or not _pode_fazer_upgrade():
 		_indicador_upgrade.visible = false
 		_set_borda_destaque(false)
-		return
-	if not _pode_fazer_upgrade():
-		_indicador_upgrade.visible = false
-		_set_borda_destaque(false)
+		# Força o material a estado inativo para evitar bugs visuais de transição entre dias
+		if is_instance_valid(_mat_anel_upgrade):
+			_mat_anel_upgrade.albedo_color = Color(0.1, 0.95, 0.22, 0.0)
+			_mat_anel_upgrade.emission_energy_multiplier = 0.0
 		return
 
 	_indicador_upgrade.visible = true
@@ -1517,12 +1468,20 @@ func _on_area_clique_mouse_entered():
 	Input.set_default_cursor_shape(Input.CURSOR_DRAG)
 
 func _on_area_clique_mouse_exited():
-	if esta_destruida or is_fantasma or GameManager.is_night: return
+	if esta_destruida or is_fantasma:
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+		return
+		
 	_aplicar_outline_malhas(self, espessura_outline_normal)
-	# Restaura a borda verde imediatamente se esta construção ainda for o destaque
+	
+	# Restaura a borda verde imediatamente se esta construção ainda for o destaque e não for noite
 	if GameManager.construcao_destaque_upgrade == self \
-	   and is_instance_valid(_indicador_upgrade) and _indicador_upgrade.visible:
+	   and is_instance_valid(_indicador_upgrade) and _indicador_upgrade.visible \
+	   and not GameManager.is_night:
 		_set_borda_destaque(true)
+	else:
+		_set_borda_destaque(false)
+		
 	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
 # Varre os nós filhos para encontrar malhas e altera o parâmetro do shader
