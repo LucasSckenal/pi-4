@@ -82,6 +82,9 @@ var tempo_bloqueado: float = 0.0
 var _contador_quedas: int = 0
 var _timer_re_check: float = 0.0
 const RE_CHECK_INTERVALO: float = 0.3
+var _gelo_ativo: bool = false
+var _fogo_ativo: bool = false
+var _fogo_ticks_restantes: int = 0
 
 @export_category("Limites do Mapa")
 @export var limite_queda_y: float = -20.0
@@ -165,6 +168,7 @@ func _aplicar_balanceamento() -> void:
 
 func _physics_process(delta):
 	if esta_morto: return
+	_verificar_tint_gelo()
 
 	if global_position.y < limite_queda_y:
 		_contador_quedas += 1
@@ -376,7 +380,7 @@ func receber_dano(qtd, origem = "torre"):
 			var tw_color = create_tween()
 			tw_color.tween_property(overlay, "albedo_color:a", 0.6, 0.05)
 			tw_color.tween_property(overlay, "albedo_color:a", 0.0, 0.15)
-			tw_color.tween_callback(func(): child.material_overlay = null)
+			tw_color.tween_callback(func(): if is_instance_valid(self): _atualizar_tints())
 	
 	if vida_atual <= 0: morrer()
 	
@@ -675,6 +679,47 @@ func _configurar_sensor_transparencia() -> void:
 
 # ==========================================
 # EFEITO DE DITHERING (TRANSPARÊNCIA VISUAL)
+# ==========================================
+# EFEITOS VISUAIS DE STATUS (GELO / FOGO)
+# ==========================================
+func _verificar_tint_gelo() -> void:
+	var deve := GameManager.multiplicador_velocidade_inimigo < 0.99
+	if deve != _gelo_ativo:
+		_gelo_ativo = deve
+		_atualizar_tints()
+
+func iniciar_queimadura(dano_tick: int) -> void:
+	_fogo_ticks_restantes = 3
+	if not _fogo_ativo:
+		_fogo_ativo = true
+		_atualizar_tints()
+	for i in range(3):
+		get_tree().create_timer(float(i + 1) * 1.0).timeout.connect(func():
+			if not is_instance_valid(self) or esta_morto: return
+			receber_dano(dano_tick)
+			_fogo_ticks_restantes -= 1
+			if _fogo_ticks_restantes <= 0:
+				_fogo_ativo = false
+				_atualizar_tints()
+		)
+
+func _atualizar_tints() -> void:
+	var raiz: Node = modelo_3d if modelo_3d else self
+	var mat: StandardMaterial3D = null
+	if _gelo_ativo or _fogo_ativo:
+		mat = StandardMaterial3D.new()
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		if _gelo_ativo and _fogo_ativo:
+			mat.albedo_color = Color(0.7, 0.3, 1.0, 0.40)
+		elif _fogo_ativo:
+			mat.albedo_color = Color(1.0, 0.35, 0.05, 0.40)
+		else:
+			mat.albedo_color = Color(0.25, 0.65, 1.0, 0.35)
+	for mesh in raiz.find_children("*", "MeshInstance3D", true, false):
+		if mesh is MeshInstance3D:
+			mesh.material_overlay = mat
+
 # ==========================================
 func _set_transparencia(no: Node, valor: float):
 	if no is MeshInstance3D:

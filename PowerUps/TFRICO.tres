@@ -7,7 +7,7 @@
 script = ExtResource("1_v47va")
 id = "7"
 titulo = "Ganância"
-descricao = "Recebe 30 moedas, mas a próxima wave terá 20% mais inimigos"
+descricao = "Recebe 30 moedas, mas a próxima wave terá  mais inimigos"
 icone = ExtResource("1_sepjp")
 tipo_bonus = 1
 valor_bonus = 30.0
