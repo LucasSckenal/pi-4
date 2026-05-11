@@ -56,8 +56,8 @@ func _atualizar_largura_botoes() -> void:
 	# Assim o título ocupa a mesma proporção visual em desktop e mobile.
 	if is_instance_valid(titulo_img):
 		var fator: float = largura_btn / 280.0
-		titulo_img.scale    = Vector2(0.7 * fator, 0.7 * fator)
-		titulo_img.position = Vector2(-89.0 * fator, -194.0 * fator)
+		titulo_img.scale    = Vector2(0.6 * fator, 0.6 * fator)
+		titulo_img.position = Vector2(-52.5 * fator, -140.0 * fator)
 
 func _instanciar_player_no_menu():
 	# Carrega a cena do Player 
