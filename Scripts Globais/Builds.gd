@@ -1521,4 +1521,6 @@ func _set_transparencia(no: Node, valor: float):
 			no.material_override = null
 				
 	for filho in no.get_children():
+		if filho == _indicador_upgrade: continue
+		if filho == indicador_alcance: continue
 		_set_transparencia(filho, valor)
