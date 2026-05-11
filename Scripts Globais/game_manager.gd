@@ -138,6 +138,11 @@ var bonus_velocidade_ataque: float = 0.0
 var desconto_construcao: int = 0
 var multiplicador_horda: float = 1.0
 var multiplicador_velocidade_inimigo: float = 1.0
+var bonus_alcance: float = 0.0
+var bonus_ricochete: int = 0
+var dano_inflamavel: int = 0
+var bonus_espinho: int = 0
+var bonus_dano_chefe: int = 0
 
 # ==========================================
 # BARALHO DE UPGRADES
@@ -151,6 +156,11 @@ var baralho_upgrades: Array = [
 	preload("res://PowerUps/TFRICO.tres"),
 	preload("res://PowerUps/Fúria.tres"),
 	preload("res://PowerUps/Gelo.tres"),
+	preload("res://PowerUps/Precisao.tres"),
+	preload("res://PowerUps/Ricochete.tres"),
+	preload("res://PowerUps/Inflamavel.tres"),
+	preload("res://PowerUps/Espinhosa.tres"),
+	preload("res://PowerUps/Cacador.tres"),
 ]
 
 var reroll_usado: bool = false
@@ -207,6 +217,11 @@ const _MAPA_UPGRADES: Dictionary = {
 	"6": "upgrade_furia_dano",
 	"7": "upgrade_ganancia_moedas",
 	"8": "upgrade_gelo_lentidao",
+	"9": "upgrade_precisao_alcance",
+	"10": "upgrade_ricochete",
+	"11": "upgrade_inflamavel",
+	"12": "upgrade_espinhosa",
+	"13": "upgrade_cacador_chefe",
 }
 const _MAPA_DEBUFFS: Dictionary = {
 	"6": "upgrade_furia_debuff_vida",
@@ -450,6 +465,16 @@ func _processar_efeito(tipo_efeito, valor):
 			desconto_construcao += int(valor)
 		6: # QUANTIDADE_INIMIGOS
 			multiplicador_horda = max(0.1, multiplicador_horda + float(valor) / 100.0)
+		7: # ALCANCE
+			bonus_alcance += float(valor)
+		8: # RICOCHETE
+			bonus_ricochete += int(valor)
+		9: # INFLAMAVEL
+			dano_inflamavel += int(valor)
+		10: # ESPINHO
+			bonus_espinho += int(valor)
+		11: # DANO_CHEFE
+			bonus_dano_chefe += int(valor)
 
 func rerolar_cartas():
 	if reroll_usado:
@@ -527,6 +552,11 @@ func limpar_estado_sessao() -> void:
 	desconto_construcao         = 0
 	multiplicador_horda              = 1.0
 	multiplicador_velocidade_inimigo = 1.0
+	bonus_alcance      = 0.0
+	bonus_ricochete    = 0
+	dano_inflamavel    = 0
+	bonus_espinho      = 0
+	bonus_dano_chefe   = 0
 	# Garante que construções de uma sessão antiga nunca vazem para outra
 	dados_construcoes_pendentes.clear()
 	recarregando_save = false
@@ -576,6 +606,11 @@ func salvar_jogo():
 	config.set_value("sessao", "desconto_construcao", desconto_construcao)
 	config.set_value("sessao", "multiplicador_horda", multiplicador_horda)
 	config.set_value("sessao", "multiplicador_velocidade_inimigo", multiplicador_velocidade_inimigo)
+	config.set_value("sessao", "bonus_alcance", bonus_alcance)
+	config.set_value("sessao", "bonus_ricochete", bonus_ricochete)
+	config.set_value("sessao", "dano_inflamavel", dano_inflamavel)
+	config.set_value("sessao", "bonus_espinho", bonus_espinho)
+	config.set_value("sessao", "bonus_dano_chefe", bonus_dano_chefe)
 
 	# Recolhe construções dos dois grupos (por compatibilidade)
 	var lista_construcoes: Array = []
@@ -627,6 +662,11 @@ func carregar_jogo() -> bool:
 	desconto_construcao           = config.get_value("sessao", "desconto_construcao", 0)
 	multiplicador_horda           = config.get_value("sessao", "multiplicador_horda", 1.0)
 	multiplicador_velocidade_inimigo = config.get_value("sessao", "multiplicador_velocidade_inimigo", 1.0)
+	bonus_alcance                 = config.get_value("sessao", "bonus_alcance", 0.0)
+	bonus_ricochete               = config.get_value("sessao", "bonus_ricochete", 0)
+	dano_inflamavel               = config.get_value("sessao", "dano_inflamavel", 0)
+	bonus_espinho                 = config.get_value("sessao", "bonus_espinho", 0)
+	bonus_dano_chefe              = config.get_value("sessao", "bonus_dano_chefe", 0)
 
 	dados_construcoes_pendentes = config.get_value("construcoes", "lista", [])
 
@@ -656,6 +696,11 @@ func _migrar_save_json() -> bool:
 	desconto_construcao           = dados_save.get("desconto_construcao", 0)
 	multiplicador_horda           = dados_save.get("multiplicador_horda", 1.0)
 	multiplicador_velocidade_inimigo = dados_save.get("multiplicador_velocidade_inimigo", 1.0)
+	bonus_alcance                 = dados_save.get("bonus_alcance", 0.0)
+	bonus_ricochete               = dados_save.get("bonus_ricochete", 0)
+	dano_inflamavel               = dados_save.get("dano_inflamavel", 0)
+	bonus_espinho                 = dados_save.get("bonus_espinho", 0)
+	bonus_dano_chefe              = dados_save.get("bonus_dano_chefe", 0)
 	dados_construcoes_pendentes   = dados_save.get("construcoes", [])
 
 	get_tree().call_group("Interface", "atualizar_moedas")

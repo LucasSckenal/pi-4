@@ -837,24 +837,25 @@ func _aplicar_bonus_vida(delta: int):
 	_atualizar_barra_3d()
 
 func _configurar_alcance():
+	var alcance_efetivo = alcance_atual + GameManager.bonus_alcance
 	if area_ataque and area_ataque.has_node("CollisionShape3D"):
-		
+
 		# 1. CONSRETA O BUG DO CLIQUE: O mouse vai ignorar essa área gigante
-		area_ataque.input_ray_pickable = false 
-		
+		area_ataque.input_ray_pickable = false
+
 		# 2. CONSERTA O BUG DE ATIRAR LONGE: Separa a área de cada torre
 		var shape_original = area_ataque.get_node("CollisionShape3D").shape
 		var shape_unica = shape_original.duplicate() # <- A mágica acontece aqui!
 		area_ataque.get_node("CollisionShape3D").shape = shape_unica
-		
+
 		if shape_unica is SphereShape3D or shape_unica is CylinderShape3D:
-			shape_unica.radius = alcance_atual
-			
-		print("Alcance da torre ajustado para: ", alcance_atual)
+			shape_unica.radius = alcance_efetivo
+
+		print("Alcance da torre ajustado para: ", alcance_efetivo)
 
 	# 3. FAZ O ANEL APARECER NO TAMANHO CERTO
 	if indicador_alcance:
-		indicador_alcance.scale = Vector3(alcance_atual * 2, 1, alcance_atual * 2)
+		indicador_alcance.scale = Vector3(alcance_efetivo * 2, 1, alcance_efetivo * 2)
 
 # ==========================================
 # SISTEMA DE ATAQUE (TORRE)
@@ -1187,11 +1188,13 @@ func _atacar_chain_lightning():
 	if not is_instance_valid(alvo_atual):
 		return
 
-	var num_saltos: int   = Balanceamento.get_int("tesla_chain_jumps", 2)
+	var num_saltos: int   = Balanceamento.get_int("tesla_chain_jumps", 2) + GameManager.bonus_ricochete
 	var raio_chain: float = Balanceamento.get_float("tesla_chain_raio", 4.0)
 	var mult_dano: float  = Balanceamento.get_float("tesla_chain_mult", 0.6)
 
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	if GameManager.bonus_dano_chefe > 0 and alvo_atual.is_in_group("Chefe"):
+		dano_base += GameManager.bonus_dano_chefe
 
 	# Ponto de origem do raio (topo da tesla ou posição genérica)
 	var pos_origem: Vector3 = global_position + Vector3(0, 0.8, 0)
@@ -1342,7 +1345,10 @@ func receber_dano(quantidade: int):
 		if barra_vida:
 			barra_vida.value = vida_atual
 	_atualizar_barra_3d()
-			
+
+	if GameManager.bonus_espinho > 0 and quantidade > 0:
+		_aplicar_espinho()
+
 	if tipo == TipoConstrucao.BASE:
 		GameManager.vida_base_atual = vida_atual
 	
@@ -1383,6 +1389,15 @@ func destruir():
 		
 	if not GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.connect(reviver)
+
+func _aplicar_espinho() -> void:
+	var inimigos = get_tree().get_nodes_in_group("inimigos")
+	if inimigos.is_empty():
+		inimigos = get_tree().get_nodes_in_group("Inimigos")
+	for inimigo in inimigos:
+		if is_instance_valid(inimigo) and global_position.distance_to(inimigo.global_position) <= 3.0:
+			if inimigo.has_method("receber_dano"):
+				inimigo.receber_dano(GameManager.bonus_espinho)
 
 func reviver():
 	print("%s reconstruída!" % name)
@@ -1426,6 +1441,8 @@ func atualizar_status():
 		var tempo_com_upgrade = tempo_ataque_atual
 		var tempo_final = tempo_com_upgrade / (1.0 + GameManager.bonus_velocidade_ataque)
 		timer_ataque.wait_time = max(0.1, tempo_final)
+		if GameManager.bonus_alcance > 0.0:
+			_configurar_alcance()
 
 func curar_totalmente():
 	vida_atual = vida_maxima

@@ -26,10 +26,50 @@ func _get_posicao_alvo() -> Vector3:
 	return alvo.global_position
 
 func _on_body_entered(body):
-	# Se a flecha bateu exatamente no alvo que ela estava seguindo
 	if body == alvo:
+		var dano_total = dano
+		if GameManager.bonus_dano_chefe > 0 and body.is_in_group("Chefe"):
+			dano_total += GameManager.bonus_dano_chefe
 		if body.has_method("receber_dano"):
-			body.receber_dano(dano)
-		
-		# Destrói a flecha depois de bater
+			body.receber_dano(dano_total)
+
+		if GameManager.dano_inflamavel > 0:
+			_aplicar_queimadura(body)
+		if GameManager.bonus_ricochete > 0:
+			_ricochetar(body)
+
 		queue_free()
+
+func _aplicar_queimadura(alvo_queimado: Node) -> void:
+	if alvo_queimado.has_method("iniciar_queimadura"):
+		alvo_queimado.iniciar_queimadura(GameManager.dano_inflamavel)
+		return
+	var dano_tick = GameManager.dano_inflamavel
+	for i in range(3):
+		get_tree().create_timer(float(i + 1) * 1.0).timeout.connect(func():
+			if is_instance_valid(alvo_queimado) and alvo_queimado.has_method("receber_dano"):
+				alvo_queimado.receber_dano(dano_tick)
+		)
+
+func _ricochetar(primeiro_alvo: Node3D) -> void:
+	var todos = get_tree().get_nodes_in_group("inimigos")
+	if todos.is_empty():
+		todos = get_tree().get_nodes_in_group("Inimigos")
+	var atingidos := [primeiro_alvo]
+	var ultimo: Node3D = primeiro_alvo
+	for _salto in range(GameManager.bonus_ricochete):
+		var proximo: Node3D = null
+		var menor_dist: float = 6.0
+		for inimigo in todos:
+			if not is_instance_valid(inimigo): continue
+			if inimigo in atingidos: continue
+			var dist = ultimo.global_position.distance_to(inimigo.global_position)
+			if dist < menor_dist:
+				menor_dist = dist
+				proximo = inimigo
+		if proximo == null:
+			break
+		atingidos.append(proximo)
+		if proximo.has_method("receber_dano"):
+			proximo.receber_dano(max(1, dano / 2))
+		ultimo = proximo
