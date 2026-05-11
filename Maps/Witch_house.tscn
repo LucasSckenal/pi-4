@@ -586,7 +586,7 @@ transform = Transform3D(0.4368018, 0, -0.89955777, 0, 1, 0, 0.89955777, 0, 0.436
 nivel_necessario = 0
 
 [node name="BuildSlot3" parent="Builds" unique_id=1808681391 instance=ExtResource("39_v1blp")]
-transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -0.13600135, 3.35135, -0.6024053)
+transform = Transform3D(0.4368018, 0, -0.89955777, 0, 1, 0, 0.89955777, 0, 0.4368018, -0.13600135, 3.35135, -0.6024053)
 
 [node name="BuildSlot4" parent="Builds" unique_id=892535448 instance=ExtResource("39_v1blp")]
 transform = Transform3D(0.4368018, 0, -0.89955777, 0, 1, 0, 0.89955777, 0, 0.4368018, 0.48420262, 3.35135, 2.2482116)

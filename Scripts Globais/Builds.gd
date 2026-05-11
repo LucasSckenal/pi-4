@@ -217,7 +217,8 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 # ==========================================
 var y_inicial: float
 var is_fantasma: bool = false
-var _caldeiron_timer: float = 0.0   # Acumulador para o ataque do Caldeirão
+var _caldeiron_timer: float = 0.0
+var _inimigos_no_veneno: Array = []  # Inimigos dentro do círculo de veneno
 var vida_atual: int
 var inimigos_no_alcance = []
 
@@ -288,7 +289,7 @@ func _ready():
 			if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
 				var _p = upgrade_paths[caminho_atual]
 				if "tipo_ataque" in _p and _p.tipo_ataque == "caldeiron_area":
-					_criar_nevoa_caldeiron(alcance_atual * 0.85)
+					_criar_circulo_caldeiron(alcance_atual * 0.85)
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			add_to_group("Construcao")
 			GameManager.onda_terminada.connect(_pagar_recompensa)
@@ -297,7 +298,7 @@ func _ready():
 			GameManager.noite_iniciada.connect(_spawn_aliados)
 		TipoConstrucao.CALDEIRON:
 			add_to_group("Construcao")
-			_criar_nevoa_caldeiron(Balanceamento.get_float("caldeiron_alcance", 5.0))
+			_criar_circulo_caldeiron(Balanceamento.get_float("caldeiron_alcance", 5.0))
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
@@ -681,7 +682,7 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
 				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
-					_criar_nevoa_caldeiron(alcance_atual * 0.85)
+					_criar_circulo_caldeiron(alcance_atual * 0.85)
 				atualizar_status()
 			print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
 			return true
@@ -908,15 +909,11 @@ func _process(delta):
 
 func _caldeiron_atacar_area() -> void:
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
-	var raio: float = Balanceamento.get_float("caldeiron_alcance", 5.0)
-	var inimigos: Array = get_tree().get_nodes_in_group("inimigos")
-	if inimigos.is_empty():
-		inimigos = get_tree().get_nodes_in_group("Inimigos")
-	for inimigo in inimigos:
-		if not is_instance_valid(inimigo): continue
-		if global_position.distance_to(inimigo.global_position) <= raio:
-			if inimigo.has_method("receber_dano"):
-				inimigo.receber_dano(dano_base)
+	_inimigos_no_veneno = _inimigos_no_veneno.filter(
+		func(e): return is_instance_valid(e) and not e.get("esta_morto", false))
+	for inimigo in _inimigos_no_veneno:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
 
 func _caldeiron_atacar_area_torre() -> void:
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
@@ -925,55 +922,123 @@ func _caldeiron_atacar_area_torre() -> void:
 		if inimigo.has_method("receber_dano"):
 			inimigo.receber_dano(dano_base)
 
-func _criar_nevoa_caldeiron(raio_fog: float = 4.5) -> void:
-	if get_node_or_null("NevoaCaldeiron") != null:
+# Chamado quando um corpo entra no círculo de veneno
+func _on_veneno_entrou(corpo: Node3D) -> void:
+	if not (corpo.is_in_group("inimigos") or corpo.is_in_group("Inimigos")):
+		return
+	if corpo in _inimigos_no_veneno:
+		return
+	_inimigos_no_veneno.append(corpo)
+	if corpo.has_method("iniciar_veneno"):
+		corpo.iniciar_veneno()
+
+func _on_veneno_saiu(corpo: Node3D) -> void:
+	_inimigos_no_veneno.erase(corpo)
+	if is_instance_valid(corpo) and corpo.has_method("parar_veneno"):
+		corpo.parar_veneno()
+
+func _mat_circulo(cor: Color, emission_energy: float = 0.0, fill: bool = false) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.render_priority = -2
+	m.albedo_color = cor
+	if fill:
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	if emission_energy > 0.0:
+		m.emission_enabled = true
+		m.emission = Color(cor.r, cor.g, cor.b)
+		m.emission_energy_multiplier = emission_energy
+	return m
+
+func _criar_circulo_caldeiron(raio: float = 4.5) -> void:
+	if get_node_or_null("CirculoVeneno") != null:
 		return
 
-	var particulas := GPUParticles3D.new()
-	particulas.name = "NevoaCaldeiron"
-	particulas.amount = 55
-	particulas.lifetime = 5.0
-	particulas.visibility_aabb = AABB(
-		Vector3(-raio_fog - 2, -0.5, -raio_fog - 2),
-		Vector3((raio_fog + 2) * 2.0, 6.0, (raio_fog + 2) * 2.0)
+	var raiz := Node3D.new()
+	raiz.name = "CirculoVeneno"
+	raiz.position = Vector3(0, 0.03, 0)  # ajustado para o chão via raycast abaixo
+
+	# ── Disco fill interno (semi-transparente) ───────────────────────────────
+	var disco := MeshInstance3D.new()
+	var cyl := CylinderMesh.new()
+	cyl.top_radius    = raio - 0.3
+	cyl.bottom_radius = raio - 0.3
+	cyl.height = 0.01
+	cyl.radial_segments = 64
+	disco.mesh = cyl
+	disco.material_override = _mat_circulo(Color(0.15, 0.9, 0.2, 0.18), 0.0, true)
+	raiz.add_child(disco)
+
+	# ── Anel externo (TorusMesh achatado no chão) ────────────────────────────
+	var anel := MeshInstance3D.new()
+	var torus := TorusMesh.new()
+	torus.outer_radius   = raio
+	torus.inner_radius   = raio - 0.22
+	torus.rings          = 64
+	torus.ring_segments  = 8
+	anel.mesh = torus
+	anel.scale = Vector3(1.0, 0.12, 1.0)
+	anel.material_override = _mat_circulo(Color(0.25, 1.0, 0.3), 2.0)
+	raiz.add_child(anel)
+
+	# ── Anel interno decorativo (achatado) ───────────────────────────────────
+	var anel2 := MeshInstance3D.new()
+	var torus2 := TorusMesh.new()
+	torus2.outer_radius  = raio * 0.55
+	torus2.inner_radius  = raio * 0.55 - 0.12
+	torus2.rings         = 48
+	torus2.ring_segments = 8
+	anel2.mesh = torus2
+	anel2.scale = Vector3(1.0, 0.12, 1.0)
+	anel2.material_override = _mat_circulo(Color(0.25, 1.0, 0.3), 1.0)
+	raiz.add_child(anel2)
+
+	# ── Rotação contrária dos dois anéis (efeito mágico) ────────────────────
+	var tw_rot = raiz.create_tween().set_loops()
+	tw_rot.tween_property(raiz, "rotation:y", TAU, 8.0).set_trans(Tween.TRANS_LINEAR)
+
+	var tw_rot2 = anel2.create_tween().set_loops()
+	tw_rot2.tween_property(anel2, "rotation:y", -TAU, 5.0).set_trans(Tween.TRANS_LINEAR)
+
+	# ── Pulso de brilho no anel externo ─────────────────────────────────────
+	var tw_pulse = anel.create_tween().set_loops()
+	tw_pulse.tween_property(anel, "material_override:emission_energy_multiplier", 4.0, 1.4)\
+		.set_trans(Tween.TRANS_SINE)
+	tw_pulse.tween_property(anel, "material_override:emission_energy_multiplier", 1.0, 1.4)\
+		.set_trans(Tween.TRANS_SINE)
+
+	# ── Area3D para detectar inimigos ────────────────────────────────────────
+	var area := Area3D.new()
+	area.name = "AreaVeneno"
+	area.collision_layer = 0
+	area.collision_mask  = 0xFFFFFFFF
+	var col := CollisionShape3D.new()
+	var esfera := SphereShape3D.new()
+	esfera.radius = raio
+	col.shape = esfera
+	area.add_child(col)
+	area.body_entered.connect(_on_veneno_entrou)
+	area.body_exited.connect(_on_veneno_saiu)
+	raiz.add_child(area)
+
+	add_child(raiz)
+	_fixar_circulo_no_chao.call_deferred(raiz)
+
+func _fixar_circulo_no_chao(raiz: Node3D) -> void:
+	if not is_inside_tree(): return
+	var space := get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.create(
+		global_position + Vector3(0, 3.0, 0),
+		global_position + Vector3(0, -8.0, 0)
 	)
-	particulas.position = Vector3(0, 0.3, 0)
-
-	var mat_proc := ParticleProcessMaterial.new()
-	mat_proc.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
-	mat_proc.emission_sphere_radius = raio_fog * 0.72
-	mat_proc.direction = Vector3(0, 1, 0)
-	mat_proc.spread = 65.0
-	mat_proc.initial_velocity_min = 0.08
-	mat_proc.initial_velocity_max = 0.32
-	mat_proc.gravity = Vector3.ZERO
-	mat_proc.scale_min = 0.7
-	mat_proc.scale_max = 1.5
-
-	var gradient := Gradient.new()
-	gradient.set_color(0, Color(0.35, 0.85, 0.28, 0.0))
-	gradient.add_point(0.18, Color(0.42, 0.78, 0.32, 0.30))
-	gradient.add_point(0.55, Color(0.55, 0.68, 0.28, 0.22))
-	gradient.set_color(1, Color(0.40, 0.55, 0.22, 0.0))
-	var grad_tex := GradientTexture1D.new()
-	grad_tex.gradient = gradient
-	mat_proc.color_ramp = grad_tex
-
-	particulas.process_material = mat_proc
-
-	var quad := QuadMesh.new()
-	quad.size = Vector2(1.5, 1.5)
-	var mat_draw := StandardMaterial3D.new()
-	mat_draw.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat_draw.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat_draw.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
-	mat_draw.albedo_color = Color(0.45, 0.88, 0.32, 0.28)
-	mat_draw.vertex_color_use_as_albedo = true
-	mat_draw.cull_mode = BaseMaterial3D.CULL_DISABLED
-	quad.material = mat_draw
-	particulas.draw_pass_1 = quad
-
-	add_child(particulas)
+	var exclusoes: Array[RID] = []
+	for corpo in find_children("*", "CollisionObject3D"):
+		exclusoes.append(corpo.get_rid())
+	query.exclude = exclusoes
+	var resultado := space.intersect_ray(query)
+	if resultado:
+		raiz.global_position.y = resultado["position"].y + 0.03
 
 # ──────────────────────────────────────────────────────────────────────────────
 # INDICADOR DE UPGRADE DISPONÍVEL
@@ -1599,4 +1664,5 @@ func _set_transparencia(no: Node, valor: float):
 	for filho in no.get_children():
 		if filho == _indicador_upgrade: continue
 		if filho == indicador_alcance: continue
+		if filho.name == "CirculoVeneno": continue
 		_set_transparencia(filho, valor)

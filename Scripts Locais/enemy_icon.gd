@@ -30,8 +30,7 @@ func atualizar_seta(angulo_radianos: float):
 		# Posiciona a seta subtraindo a metade do próprio tamanho para centralizá-la no ponto exato
 		seta.position = centro + Vector2(pos_x, pos_y) - (seta.size / 2.0)
 
-func configurar(icone: Texture2D, cor: Color, qtd: int):
-	# Ícone ou fallback colorido
+func configurar(icone: Texture2D, cor: Color, qtd: int, descricao: String = ""):
 	if icone:
 		texture_rect.show()
 		color_rect.hide()
@@ -40,5 +39,6 @@ func configurar(icone: Texture2D, cor: Color, qtd: int):
 		texture_rect.hide()
 		color_rect.show()
 		color_rect.color = cor
-	
+
 	label.text = str(qtd)
+	tooltip_text = descricao

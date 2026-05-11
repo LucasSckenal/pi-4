@@ -90,7 +90,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/caldeiron.tscn")]
+			2: []
 		}
 	},
 	4: {

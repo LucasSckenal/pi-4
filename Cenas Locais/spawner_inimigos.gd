@@ -137,7 +137,8 @@ func emitir_info():
 		info.append({
 			"icone": config.icone,
 			"cor": config.cor,
-			"qtd": config.quantidade
+			"qtd": config.quantidade,
+			"descricao": config.descricao
 		})
 	var dir = _calcular_direcao()
 	info_proxima_onda.emit(dir, info, global_position)

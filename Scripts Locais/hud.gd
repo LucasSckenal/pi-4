@@ -388,7 +388,7 @@ func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
 		var icon = cena_enemy_icon.instantiate()
 		box.add_child(icon)
 		if icon.has_method("configurar"):
-			icon.configurar(info.get("icone"), info.get("cor"), info.qtd)
+			icon.configurar(info.get("icone"), info.get("cor"), info.get("qtd", 1), info.get("descricao", ""))
 		else:
 			print("ERRO: enemy_icon não tem método configurar")
 	
