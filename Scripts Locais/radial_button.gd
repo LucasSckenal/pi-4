@@ -64,6 +64,29 @@ func _desativar_processamento_miniatura(no: Node) -> void:
 
 var _tween_rec: Tween = null
 var _eh_recomendado: bool = false
+var _bloqueado: bool = false
+var _nivel_necessario: int = 0
+
+func bloquear(nivel_necessario: int) -> void:
+	_bloqueado = true
+	_nivel_necessario = nivel_necessario
+	disabled = true
+	mouse_default_cursor_shape = Control.CURSOR_ARROW
+	modulate = Color(0.45, 0.45, 0.45, 0.9)
+
+	var overlay = ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.55)
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(overlay)
+
+	var cadeado = TextureRect.new()
+	cadeado.texture = load("res://Icons/cadeado.png")
+	cadeado.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cadeado.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	cadeado.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cadeado.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(cadeado)
 
 func destacar_recomendado():
 	_eh_recomendado = true
@@ -74,6 +97,10 @@ func destacar_recomendado():
 	_tween_rec.tween_property(self, "modulate", Color(1.1, 1.0, 0.6, 1.0), 0.4)
 
 func _ao_mouse_entrar() -> void:
+	if _bloqueado:
+		if is_instance_valid(menu_referencia) and menu_referencia.has_method("atualizar_info_bloqueado"):
+			menu_referencia.atualizar_info_bloqueado(nome_torre, _nivel_necessario)
+		return
 	if is_instance_valid(menu_referencia):
 		menu_referencia.atualizar_informacoes(nome_torre, custo_torre)
 	if _tween_rec != null and is_instance_valid(_tween_rec):
@@ -83,6 +110,8 @@ func _ao_mouse_entrar() -> void:
 func _ao_mouse_sair() -> void:
 	if is_instance_valid(menu_referencia):
 		menu_referencia.limpar_informacoes()
+	if _bloqueado:
+		return
 	if _eh_recomendado:
 		destacar_recomendado()
 	else:

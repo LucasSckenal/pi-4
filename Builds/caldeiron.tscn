@@ -1,13 +1,26 @@
-[gd_scene format=4 uid="uid://caldeiron001"]
+[gd_scene format=4 uid="uid://b_caldeiron_map3"]
 
-[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_cldro"]
+[ext_resource type="PackedScene" uid="uid://c8m5dnt2liguh" path="res://Map3/Caldeirao.glb" id="1_cald"]
+[ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_builds"]
 
-[node name="Caldeiron" node_paths=PackedStringArray()]
-script = ExtResource("1_cldro")
+[sub_resource type="SphereShape3D" id="SphereShape3D_clique"]
+radius = 0.55
+
+[node name="caldeiron" type="Node3D"]
+script = ExtResource("2_builds")
 tipo = 6
-custo_moedas = 6
-vida_maxima = 30
-dano = 10
-nome_construcao = "Caldeirao"
+custo_moedas = 12
+vida_maxima = 20
+nivel_atual = 1
+modelos_por_nivel = Array[PackedScene]([ExtResource("1_cald")])
+nome_construcao = "Caldeirão"
 chave_csv_prefixo = "caldeiron"
-tem_barra_vida = false
+
+[node name="ModeloAnchor" type="Node3D" parent="."]
+
+[node name="AreaClique" type="Area3D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique"]
+shape = SubResource("SphereShape3D_clique")

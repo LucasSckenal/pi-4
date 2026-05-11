@@ -1,4 +1,4 @@
-extends Node3D
+﻿extends Node3D
 
 # ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
@@ -285,6 +285,10 @@ func _ready():
 			atualizar_status()
 			if timer_ataque:
 				timer_ataque.start()
+			if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+				var _p = upgrade_paths[caminho_atual]
+				if "tipo_ataque" in _p and _p.tipo_ataque == "caldeiron_area":
+					_criar_nevoa_caldeiron(alcance_atual * 0.85)
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			add_to_group("Construcao")
 			GameManager.onda_terminada.connect(_pagar_recompensa)
@@ -293,6 +297,7 @@ func _ready():
 			GameManager.noite_iniciada.connect(_spawn_aliados)
 		TipoConstrucao.CALDEIRON:
 			add_to_group("Construcao")
+			_criar_nevoa_caldeiron(Balanceamento.get_float("caldeiron_alcance", 5.0))
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
@@ -423,11 +428,11 @@ func get_opcoes_proximo_upgrade() -> Array:
 	var escala_perfeita_ui = _calcular_escala_ideal_para_ui()
 
 	if tem_paths and caminho_atual == -1:
-		# Primeira escolha: todos os caminhos disponíveis nesta fase
+		# Primeira escolha: todos os caminhos da fase atual (bloqueados ou não)
 		for i in range(upgrade_paths.size()):
 			var path = upgrade_paths[i]
 			if path and path.custos.size() > 0:
-				# Filtro de fase: oculta paths fora da janela de fases permitida
+				# Filtro de fase: oculta paths de outros mapas
 				var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
 				var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
 				if fase_min > 0 and GameManager.fase_atual < fase_min:
@@ -435,13 +440,16 @@ func get_opcoes_proximo_upgrade() -> Array:
 				if fase_max > 0 and GameManager.fase_atual > fase_max:
 					continue
 
+				# Verifica se está bloqueado por nivel_base_minimo
+				var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+				var bloqueado: bool = nivel_min > 0 and GameManager.nivel_base < nivel_min
+
 				var nome_path = path.nome
 				if nome_path == null or nome_path == "":
 					nome_path = "Caminho " + str(i + 1)
 
 				var escala_deste_path = _calcular_escala_ideal_para_ui(path)
 
-				# Pega o modelo do NÍVEL 0 deste caminho específico
 				var modelo_correto = null
 				if path.modelos_por_nivel.size() > 0:
 					modelo_correto = path.modelos_por_nivel[0]
@@ -455,7 +463,9 @@ func get_opcoes_proximo_upgrade() -> Array:
 					"descricoes": _gerar_descricoes(path, 0),
 					"cor": _get_cor_path(i, path),
 					"modelo_3d": modelo_correto,
-					"escala_modelo": escala_deste_path
+					"escala_modelo": escala_deste_path,
+					"bloqueado": bloqueado,
+					"motivo_bloqueio": "Base nível %d necessário" % nivel_min if bloqueado else ""
 				})
 	elif tem_paths and caminho_atual >= 0:
 		# Já tem caminho: próximo nível desse caminho
@@ -670,6 +680,8 @@ func aplicar_upgrade(index: int = 0) -> bool:
 				GameManager.upgrade_base_aplicado.emit()
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
+				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
+					_criar_nevoa_caldeiron(alcance_atual * 0.85)
 				atualizar_status()
 			print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
 			return true
@@ -906,6 +918,63 @@ func _caldeiron_atacar_area() -> void:
 			if inimigo.has_method("receber_dano"):
 				inimigo.receber_dano(dano_base)
 
+func _caldeiron_atacar_area_torre() -> void:
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	inimigos_no_alcance = inimigos_no_alcance.filter(func(e): return is_instance_valid(e))
+	for inimigo in inimigos_no_alcance:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+
+func _criar_nevoa_caldeiron(raio_fog: float = 4.5) -> void:
+	if get_node_or_null("NevoaCaldeiron") != null:
+		return
+
+	var particulas := GPUParticles3D.new()
+	particulas.name = "NevoaCaldeiron"
+	particulas.amount = 55
+	particulas.lifetime = 5.0
+	particulas.visibility_aabb = AABB(
+		Vector3(-raio_fog - 2, -0.5, -raio_fog - 2),
+		Vector3((raio_fog + 2) * 2.0, 6.0, (raio_fog + 2) * 2.0)
+	)
+	particulas.position = Vector3(0, 0.3, 0)
+
+	var mat_proc := ParticleProcessMaterial.new()
+	mat_proc.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+	mat_proc.emission_sphere_radius = raio_fog * 0.72
+	mat_proc.direction = Vector3(0, 1, 0)
+	mat_proc.spread = 65.0
+	mat_proc.initial_velocity_min = 0.08
+	mat_proc.initial_velocity_max = 0.32
+	mat_proc.gravity = Vector3.ZERO
+	mat_proc.scale_min = 0.7
+	mat_proc.scale_max = 1.5
+
+	var gradient := Gradient.new()
+	gradient.set_color(0, Color(0.35, 0.85, 0.28, 0.0))
+	gradient.add_point(0.18, Color(0.42, 0.78, 0.32, 0.30))
+	gradient.add_point(0.55, Color(0.55, 0.68, 0.28, 0.22))
+	gradient.set_color(1, Color(0.40, 0.55, 0.22, 0.0))
+	var grad_tex := GradientTexture1D.new()
+	grad_tex.gradient = gradient
+	mat_proc.color_ramp = grad_tex
+
+	particulas.process_material = mat_proc
+
+	var quad := QuadMesh.new()
+	quad.size = Vector2(1.5, 1.5)
+	var mat_draw := StandardMaterial3D.new()
+	mat_draw.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat_draw.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat_draw.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+	mat_draw.albedo_color = Color(0.45, 0.88, 0.32, 0.28)
+	mat_draw.vertex_color_use_as_albedo = true
+	mat_draw.cull_mode = BaseMaterial3D.CULL_DISABLED
+	quad.material = mat_draw
+	particulas.draw_pass_1 = quad
+
+	add_child(particulas)
+
 # ──────────────────────────────────────────────────────────────────────────────
 # INDICADOR DE UPGRADE DISPONÍVEL
 # • Modo DESTAQUE  — anel brilhante + ícone animado + pontos flutuantes
@@ -1097,6 +1166,9 @@ func _pode_fazer_upgrade() -> bool:
 				continue
 			if fase_max > 0 and GameManager.fase_atual > fase_max:
 				continue
+			var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+			if nivel_min > 0 and GameManager.nivel_base < nivel_min:
+				continue
 			if GameManager.moedas >= path.custos[0]:
 				return true
 		return false
@@ -1126,6 +1198,10 @@ func atacar():
 
 	if tipo_atq == "morteiro":
 		_atacar_morteiro()
+		return
+
+	if tipo_atq == "caldeiron_area":
+		_caldeiron_atacar_area_torre()
 		return
 
 	# Ataque normal com flecha

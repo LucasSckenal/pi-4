@@ -199,8 +199,10 @@ func _gerar_botoes_chapeus():
 			texto_bloqueio = "8★"
 		
 		# --- REGRA 2: CHAPÉUS NORMAIS (POR CONQUISTA / LISTA) ---
-		# Se não for um dos especiais acima e não for o "Nenhum"
-		elif id != "Nenhum" and not (id in Global.chapeus_desbloqueados):
+		# Exclui sets especiais (controlados por flags próprias, não por chapeus_desbloqueados)
+		elif id != "Nenhum" \
+				and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
+				and not (id in Global.chapeus_desbloqueados):
 			bloqueado = true
 
 		# --- CRIAÇÃO VISUAL DO BOTÃO ---

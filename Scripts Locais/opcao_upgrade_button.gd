@@ -137,6 +137,58 @@ func _esconder_icone_2d():
 	var icone_rect = $MarginContainer/VBoxContainer.get_node_or_null("FallbackIcone2D")
 	if icone_rect: icone_rect.hide()
 
+func bloquear(motivo: String) -> void:
+	disabled = true
+	mouse_default_cursor_shape = Control.CURSOR_ARROW
+
+	# Preserva o visual do card no estado disabled
+	var style_base = get_theme_stylebox("normal").duplicate()
+	add_theme_stylebox_override("disabled", style_base)
+
+	var overlay = ColorRect.new()
+	overlay.name = "LockOverlay"
+	overlay.color = Color(0, 0, 0, 0.68)
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(overlay)
+
+	var cadeado = TextureRect.new()
+	cadeado.texture = load("res://Icons/cadeado.png")
+	cadeado.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cadeado.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	cadeado.custom_minimum_size = Vector2(56, 56)
+	cadeado.anchor_left = 0.5
+	cadeado.anchor_top = 0.38
+	cadeado.anchor_right = 0.5
+	cadeado.anchor_bottom = 0.38
+	cadeado.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	cadeado.grow_vertical = Control.GROW_DIRECTION_BOTH
+	cadeado.offset_left = -28
+	cadeado.offset_right = 28
+	cadeado.offset_top = -28
+	cadeado.offset_bottom = 28
+	cadeado.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(cadeado)
+
+	if motivo != "":
+		var lbl = Label.new()
+		lbl.text = motivo
+		lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		lbl.add_theme_font_size_override("font_size", 14)
+		lbl.add_theme_color_override("font_color", Color(1, 0.85, 0.3))
+		lbl.add_theme_color_override("font_outline_color", Color.BLACK)
+		lbl.add_theme_constant_override("outline_size", 4)
+		lbl.anchor_left = 0.0
+		lbl.anchor_top = 0.62
+		lbl.anchor_right = 1.0
+		lbl.anchor_bottom = 0.62
+		lbl.grow_horizontal = Control.GROW_DIRECTION_BOTH
+		lbl.grow_vertical = Control.GROW_DIRECTION_BOTH
+		lbl.offset_top = -12
+		lbl.offset_bottom = 12
+		lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(lbl)
+
 # === FUNÇÕES AUXILIARES ===
 func _ignorar_mouse_filhos(node: Node):
 	for child in node.get_children():

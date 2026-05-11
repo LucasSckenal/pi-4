@@ -14,6 +14,10 @@ class_name UpgradePathData
 # Ex.: Tesla com fase_minima=5 e fase_maxima=5 só aparece no Mapa 5
 @export var fase_maxima: int = 0
 
+# Nível mínimo da base necessário para desbloquear este caminho.
+# Se > 0, o caminho aparece no menu mas fica bloqueado com cadeado até atingir o nível.
+@export var nivel_base_minimo: int = 0
+
 # Tipo de ataque especial ("chain_lightning" = Tesla; "" = ataque normal com flecha)
 @export var tipo_ataque: String = ""
 

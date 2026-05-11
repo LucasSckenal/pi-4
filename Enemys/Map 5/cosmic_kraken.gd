@@ -76,6 +76,7 @@ func _ready() -> void:
 	# que abre caminho via tentáculos — a wave finaliza quando os inimigos normais
 	# (Flamingo/Alexa/Linigena/Sapão) e os tentáculos ativos forem todos derrotados.
 	remove_from_group("inimigos")
+	add_to_group("Chefe")
 
 	# Posiciona embaixo da base (uma frame depois pra garantir base existindo)
 	call_deferred("_posicionar_sob_base")

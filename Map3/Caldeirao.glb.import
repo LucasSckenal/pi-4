@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c8m5dnt2liguh"
-path="res://.godot/imported/Meshy_AI_Verdant_Cauldron_0507003152_texture.glb-22d964a22a25c67f3119454e773b7805.scn"
+path="res://.godot/imported/Caldeirao.glb-ccdd9a2cb9cfc8a1b74eaa84182a9bea.scn"
 
 [deps]
 
-source_file="res://Map3/Meshy_AI_Verdant_Cauldron_0507003152_texture.glb"
-dest_files=["res://.godot/imported/Meshy_AI_Verdant_Cauldron_0507003152_texture.glb-22d964a22a25c67f3119454e773b7805.scn"]
+source_file="res://Map3/Caldeirao.glb"
+dest_files=["res://.godot/imported/Caldeirao.glb-ccdd9a2cb9cfc8a1b74eaa84182a9bea.scn"]
 
 [params]
 

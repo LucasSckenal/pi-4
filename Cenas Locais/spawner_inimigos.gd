@@ -105,7 +105,8 @@ func _spawnar_proximo():
 	print(name, " spawnou inimigo. Restam na fila: ", fila_inimigos.size())
 
 func _esperar_limpeza():
-	while get_tree().get_nodes_in_group("inimigos").size() > 0:
+	while get_tree().get_nodes_in_group("inimigos").size() > 0 \
+			or get_tree().get_nodes_in_group("Chefe").size() > 0:
 		await get_tree().create_timer(1.0).timeout
 	_finalizar_onda()
 

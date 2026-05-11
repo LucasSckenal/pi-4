@@ -192,15 +192,27 @@ func obter_total_estrelas() -> int:
 
 func verificar_desbloqueios_por_estrelas():
 	var total = obter_total_estrelas()
+	var houve_novo := false
 
-	if total >= 3:
+	if total >= 3 and not armadura_hollow_knight_desbloqueada:
 		armadura_hollow_knight_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("HollowKnight Head", ["HollowKnight Head"], null)
 
-	if total >= 8:
+	if total >= 8 and not armadura_kakashi_desbloqueada:
 		armadura_kakashi_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Kakashi", ["Set Kakashi"], null)
 
-	if total >= 13:
+	if total >= 13 and not armadura_bloodborne_desbloqueada:
 		armadura_bloodborne_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Bloodborne", ["Set Bloodborne"], null)
 
-	if total >= 18:
+	if total >= 18 and not armadura_darksouls_desbloqueada:
 		armadura_darksouls_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Dark Souls", ["Set Dark Souls"], null)
+
+	if houve_novo:
+		_atualizar_interface_customizacao()
