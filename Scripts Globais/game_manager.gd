@@ -165,6 +165,7 @@ var baralho_upgrades: Array = [
 
 var reroll_usado: bool = false
 var custo_reroll: int = 2
+var upgrades_escolhidos: Array = []
 
 var caminhos_das_fases = {
 	1: "res://Maps/tutorial_world.tscn",
@@ -385,6 +386,24 @@ func terminar_onda():
 	onda_atual += 1
 	iniciar_dia()
 
+func get_renda_preview() -> int:
+	var config_fase = banco_de_fases.get(fase_atual, {})
+	var total: int = config_fase.get("renda_base_por_onda", 0) + bonus_moedas_onda
+	if modo_infinito:
+		total += Balanceamento.get_int("modo_infinito_bonus_renda", 3)
+	var bonus_onda = max(1, 6 - onda_atual)
+	for construcao in get_tree().get_nodes_in_group("Construcao"):
+		if not is_instance_valid(construcao): continue
+		if construcao.is_in_group("Base"): continue
+		if construcao.get("is_fantasma"): continue
+		if construcao.get("esta_destruida"): continue
+		if not onda_terminada.is_connected(Callable(construcao, "_pagar_recompensa")): continue
+		if "moedas_por_onda_atual" in construcao:
+			total += construcao.moedas_por_onda_atual + bonus_onda
+		elif "moedas_por_onda" in construcao:
+			total += construcao.moedas_por_onda
+	return total
+
 func calcular_e_recolher_renda():
 	var config_fase = banco_de_fases[fase_atual]
 	var total_renda = config_fase["renda_base_por_onda"] + bonus_moedas_onda
@@ -403,6 +422,20 @@ func calcular_e_recolher_renda():
 # ==========================================
 # SISTEMA DE UPGRADES E CARTAS
 # ==========================================
+func _baralho_filtrado() -> Array:
+	var disponiveis = baralho_upgrades.filter(func(u): return not upgrades_escolhidos.has(u))
+	if disponiveis.size() < 3:
+		# Fallback: se restam menos de 3, completa com as já escolhidas
+		var extras = baralho_upgrades.duplicate()
+		extras.shuffle()
+		for u in extras:
+			if not disponiveis.has(u):
+				disponiveis.append(u)
+			if disponiveis.size() >= 3:
+				break
+	disponiveis.shuffle()
+	return disponiveis
+
 func sortear_cartas():
 	if baralho_upgrades.size() == 0:
 		push_error("[GameManager] O baralho de upgrades está vazio no Inspetor!")
@@ -410,9 +443,7 @@ func sortear_cartas():
 
 	reroll_usado = false
 
-	var copia = baralho_upgrades.duplicate()
-	copia.shuffle()
-
+	var copia = _baralho_filtrado()
 	var escolhidas = []
 	for i in range(3):
 		if i < copia.size():
@@ -424,6 +455,8 @@ func sortear_cartas():
 	mostrar_menu_upgrade.emit(escolhidas)
 
 func aplicar_upgrade(dados):
+	if not upgrades_escolhidos.has(dados):
+		upgrades_escolhidos.append(dados)
 	# Sobrescreve valores das cartas com o que estiver no CSV (se houver)
 	var valor_bonus_final = dados.valor_bonus
 	var id_carta = str(dados.id) if "id" in dados else ""
@@ -487,8 +520,7 @@ func rerolar_cartas():
 	moedas -= custo_reroll
 	get_tree().call_group("Interface", "atualizar_moedas")
 
-	var copia = baralho_upgrades.duplicate()
-	copia.shuffle()
+	var copia = _baralho_filtrado()
 	var escolhidas = []
 	for i in range(3):
 		if i < copia.size():
@@ -556,6 +588,7 @@ func limpar_estado_sessao() -> void:
 	dano_inflamavel    = 0
 	bonus_espinho      = 0
 	bonus_dano_chefe   = 0
+	upgrades_escolhidos.clear()
 	# Garante que construções de uma sessão antiga nunca vazem para outra
 	dados_construcoes_pendentes.clear()
 	recarregando_save = false

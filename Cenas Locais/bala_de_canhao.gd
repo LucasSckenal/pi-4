@@ -1,8 +1,8 @@
 extends Area3D
 
-var velocidade: float = 12.0
+var velocidade: float = 5.0
 var dano: int = 30
-var raio_explosao: float = 2.0
+var raio_explosao: float = 1.3
 var alvo: Node3D = null
 
 func _ready():
@@ -14,8 +14,8 @@ func _ready():
 func _process(delta):
 	if is_instance_valid(alvo):
 		var pos_alvo := _get_posicao_alvo()
-		look_at(pos_alvo, Vector3.UP)
-		global_position += transform.basis.z * -velocidade * delta
+		var direcao := (pos_alvo - global_position).normalized()
+		global_position += direcao * velocidade * delta
 	else:
 		queue_free()
 

@@ -46,6 +46,7 @@ var containers_por_direcao = {}
 @export var cena_opcao_button: PackedScene         # Arraste a cena OpcaoUpgradeButton.tscn aqui
 var upgrade_ui_instance: Control = null
 var torre_atual = null
+var label_renda_preview: Label = null
 # ==========================================
 # UI DE AMPULHETA E PROGRESSÃO
 # ==========================================
@@ -104,6 +105,7 @@ func _ready():
 		botao_reroll.pressed.connect(_on_botao_reroll_pressed)
 	
 	atualizar_moedas()
+	_criar_label_renda_preview()
 	if label_onda:
 		label_onda.text = _formatar_texto_onda(GameManager.onda_atual)
 	verificar_estado_dia_noite()
@@ -219,9 +221,30 @@ func mostrar_wave_na_tela(texto: String):
 	tween.tween_interval(2.0)
 	tween.tween_property(label_wave, "modulate:a", 0.0, 1.0)
 
+func _criar_label_renda_preview() -> void:
+	if label_moedas == null:
+		return
+	label_renda_preview = Label.new()
+	label_renda_preview.add_theme_font_size_override("font_size", 14)
+	label_renda_preview.add_theme_color_override("font_color", Color(1.0, 0.88, 0.20, 0.6))
+	label_renda_preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label_renda_preview.size_flags_horizontal = Control.SIZE_SHRINK_END
+	label_moedas.get_parent().add_child(label_renda_preview)
+	_atualizar_renda_preview()
+
+func _atualizar_renda_preview() -> void:
+	if label_renda_preview == null:
+		return
+	if GameManager.is_night:
+		label_renda_preview.hide()
+		return
+	label_renda_preview.show()
+	label_renda_preview.text = "(+%d)" % GameManager.get_renda_preview()
+
 func atualizar_moedas():
-	if label_moedas != null: 
+	if label_moedas != null:
 		label_moedas.text = "🪙 " + str(GameManager.moedas)
+	_atualizar_renda_preview()
 
 func animar_bau_abrindo():
 	if imagem_bau != null:
@@ -452,17 +475,19 @@ func _ao_iniciar_dia_hud(onda: int) -> void:
 		container_direcoes.show()
 	if margin_direita and not menu_upgrade.visible:
 		margin_direita.show()
+	_atualizar_renda_preview()
 
 # Atualiza os rótulos de texto, inicia a transição visual e oculta os controles de preparação
 func _ao_iniciar_noite_hud(onda: int) -> void:
 	label_onda.text = _formatar_texto_onda(onda)
 	label_turno.text = "NOITE"
 	_animar_transicao_ampulheta(false)
-	
+
 	if container_direcoes:
 		container_direcoes.hide()
 	if margin_direita:
 		margin_direita.hide()
+	_atualizar_renda_preview()
 
 # Executa a animação de rotação e distorção ("smear") da ampulheta.
 # A troca entre as texturas ocorre instantaneamente no meio da rotação para mascarar a mudança.
