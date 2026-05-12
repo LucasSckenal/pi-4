@@ -423,51 +423,63 @@ func _remover_indicador_por_posicao(posicao_mundo: Vector3) -> void:
 		containers_por_direcao.erase(chave)
 
 func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector2:
-	var camera = get_viewport().get_camera_3d()
-	if camera == null:
-		return Vector2(100, 100)
-	
-	var pos_tela = camera.unproject_position(posicao_mundo)
-	var viewport_size = get_viewport().get_visible_rect().size
-	var centro = viewport_size / 2
-	
+	var cam = get_viewport().get_camera_3d()
+
+	if cam == null:
+		return Vector2.ZERO
+
+	var vp = get_viewport().get_visible_rect().size
+	var centro = vp * 0.5
+
+	# posição do mundo -> tela
+	var pos_tela = cam.unproject_position(posicao_mundo)
+
+	# direção centro -> alvo
 	var dir = pos_tela - centro
+
+	# SE ESTIVER ATRÁS DA CAMERA
+	if cam.is_position_behind(posicao_mundo):
+		dir *= -1.0
+
+	# evita NaN
 	if dir.length() < 0.001:
-		dir = Vector2(0, -1)
-	
+		dir = Vector2.UP
+
 	dir = dir.normalized()
-	
-	var t_x = INF
-	var t_y = INF
-	if dir.x > 0:
-		t_x = (viewport_size.x - centro.x) / dir.x
-	elif dir.x < 0:
-		t_x = -centro.x / dir.x
-	
-	if dir.y > 0:
-		t_y = (viewport_size.y - centro.y) / dir.y
-	elif dir.y < 0:
-		t_y = -centro.y / dir.y
-	
-	var t = min(t_x, t_y)
-	var ponto_borda = centro + dir * t
-	
-	# Margens de segurança customizadas para evitar sobreposição com os elementos de interface
-	var margem_topo: float = 200.0
-	var margem_baixo: float = 120.0
-	var margem_esq: float = 120.0
-	var margem_dir: float = 280.0
-	
-	var metade = tamanho / 2
-	var min_x = metade.x + margem_esq
-	var max_x = viewport_size.x - metade.x - margem_dir
-	var min_y = metade.y + margem_topo
-	var max_y = viewport_size.y - metade.y - margem_baixo
-	
-	ponto_borda.x = clamp(ponto_borda.x, min_x, max_x)
-	ponto_borda.y = clamp(ponto_borda.y, min_y, max_y)
-	
-	return ponto_borda - metade
+
+	var margem_topo = 90.0
+	var margem_baixo = 90.0
+	var margem_esq = 90.0
+	var margem_dir = 90.0
+
+	var metade = tamanho * 0.5
+
+	var limite_x = (
+		vp.x - margem_dir - metade.x
+		if dir.x > 0.0
+		else margem_esq + metade.x
+	)
+
+	var limite_y = (
+		vp.y - margem_baixo - metade.y
+		if dir.y > 0.0
+		else margem_topo + metade.y
+	)
+
+	var tx = INF
+	var ty = INF
+
+	if abs(dir.x) > 0.001:
+		tx = (limite_x - centro.x) / dir.x
+
+	if abs(dir.y) > 0.001:
+		ty = (limite_y - centro.y) / dir.y
+
+	var t = min(abs(tx), abs(ty))
+
+	var final_pos = centro + dir * t
+
+	return final_pos - metade
 
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
@@ -549,7 +561,10 @@ func _process(_delta: float) -> void:
 		if is_instance_valid(container) and container.has_meta("posicao_mundo"):
 			var pos_mundo = container.get_meta("posicao_mundo")
 			# Recalcula a posição com base no tamanho atual da tela utilizando o tamanho dinâmico do container
-			container.position = _calcular_posicao_borda(pos_mundo, container.size)
+			container.position = _calcular_posicao_borda(
+				pos_mundo,
+				tamanho_container
+			)
 			
 			# Calcula a rotação da seta apontando para a posição real do spawner
 			var camera = get_viewport().get_camera_3d()

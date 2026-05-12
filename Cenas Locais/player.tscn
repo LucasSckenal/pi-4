@@ -1393,10 +1393,7 @@ shape = SubResource("CapsuleShape3D_fb3t6")
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 
 [node name="Skeleton3D" parent="character-male-f2/character-male-f" parent_id_path=PackedInt32Array(2069908664, 197656033) index="0" unique_id=1987212521]
-bones/0/position = Vector3(0, -0.15, 0)
-bones/1/rotation = Quaternion(-0.6087615, 0, 0, 0.7933534)
-bones/2/rotation = Quaternion(-0.6087615, 0, 0, 0.7933534)
-bones/4/rotation = Quaternion(0, 0, -0.3826835, 0.92387956)
+bones/4/rotation = Quaternion(0, 0, -0.38268346, 0.9238795)
 bones/5/rotation = Quaternion(0, 0, 0.3826835, 0.92387956)
 
 [node name="body-mesh" parent="character-male-f2/character-male-f/Skeleton3D" index="0" unique_id=65653570]
@@ -1406,7 +1403,7 @@ mesh = SubResource("ArrayMesh_iuptr")
 mesh = SubResource("ArrayMesh_sc4sl")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="2" unique_id=624303708]
-transform = Transform3D(0.7071067, 0.70710677, 0, -0.70710677, 0.7071067, 0, 0, 0, 1, 0.09989677, 0.13775, -0.017250001)
+transform = Transform3D(0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0, 0, 0, 1, 0.09989677, 0.28775, -0.017250001)
 bone_name = "arm-left"
 bone_idx = 4
 
@@ -1499,9 +1496,9 @@ mesh = SubResource("ArrayMesh_wnb4d")
 
 [node name="arma_light_saber" type="Node3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1710690403]
 transform = Transform3D(0.006642431, -0.79335773, 0.10266083, -0.79335773, 0.006641984, 0.10266088, -0.10266083, -0.10266085, -0.78671557, 0.1994409, 0.0064391494, 0.14212845)
+visible = false
 
 [node name="Node" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D/arma_light_saber" unique_id=1218622771]
-visible = false
 mesh = SubResource("ArrayMesh_0fce2")
 
 [node name="DarkS" type="MeshInstance3D" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D" unique_id=1574393726]
@@ -1520,7 +1517,7 @@ visible = false
 mesh = SubResource("ArrayMesh_fspfk")
 
 [node name="BoneAttachment3D_Cabeca" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="3" unique_id=548242284]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8196878e-09, 0.19324999, -0.002361223)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8196878e-09, 0.34324998, -0.002361223)
 bone_name = "head"
 bone_idx = 6
 
@@ -1746,7 +1743,7 @@ visible = false
 mesh = SubResource("ArrayMesh_4yhib")
 
 [node name="BoneAttachment3D_torso" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="4" unique_id=1441509294]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4438228e-15, 0.02624999, -0.02875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4438228e-15, 0.17625, -0.02875)
 visible = false
 bone_name = "torso"
 bone_idx = 3
@@ -1756,7 +1753,7 @@ transform = Transform3D(0.48, 0, 0, 0, -0.007927047, 0.3299712, 0, -0.5999477, -
 mesh = SubResource("ArrayMesh_l0gc4")
 
 [node name="BoneAttachment3D_leg_left" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="5" unique_id=648468285]
-transform = Transform3D(1, 0, 0, 0, 0.25881898, 0.9659259, 0, -0.9659259, 0.25881898, -0.083570965, 0.02624999, -0.02875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083570965, 0.17625, -0.02875)
 visible = false
 bone_name = "leg-right"
 bone_idx = 2
@@ -1766,7 +1763,7 @@ transform = Transform3D(-0.83305186, 0, -0.019055557, 0, 0.49999997, 0, 0.021654
 mesh = SubResource("ArrayMesh_ql1ow")
 
 [node name="BoneAttachment3D_leg_right" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="6" unique_id=1748994966]
-transform = Transform3D(1, 0, 0, 0, 0.25881898, 0.9659259, 0, -0.9659259, 0.25881898, -0.083570965, 0.02624999, -0.02875)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.083570965, 0.17625, -0.02875)
 visible = false
 bone_name = "leg-right"
 bone_idx = 2
@@ -1776,7 +1773,7 @@ transform = Transform3D(-0.83299994, 0, -1.10679885e-07, 0, 0.49999988, 0, 1.257
 mesh = SubResource("ArrayMesh_hd7dg")
 
 [node name="BoneAttachment3D2" type="BoneAttachment3D" parent="character-male-f2/character-male-f/Skeleton3D" index="7" unique_id=1662835227]
-transform = Transform3D(0.7071067, -0.70710677, 0, 0.70710677, 0.7071067, 0, 0, 0, 1, -0.09989677, 0.13775, -0.017250001)
+transform = Transform3D(0.7071067, -0.70710677, 0, 0.70710677, 0.7071067, 0, 0, 0, 1, -0.09989677, 0.28775, -0.017250001)
 visible = false
 bone_name = "arm-right"
 bone_idx = 5

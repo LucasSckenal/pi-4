@@ -68,6 +68,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
+clip_contents = true
 theme_override_styles/normal = SubResource("StyleBoxFlat_bg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
@@ -106,7 +107,7 @@ layout_mode = 2
 theme_override_constants/separation = 1
 
 [node name="ViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer" unique_id=1422205194]
-custom_minimum_size = Vector2(150, 130)
+custom_minimum_size = Vector2(150, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -127,20 +128,20 @@ theme_override_constants/separation = 6
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(0.76, 0.8, 0.92, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 17
 text = "✨ Melhora geral"
 autowrap_mode = 3
 
 [node name="Bullet1" type="Label" parent="MarginContainer/VBoxContainer/BulletsVBox" unique_id=-293967294]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.76, 0.8, 0.92, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 17
 autowrap_mode = 3
 
 [node name="Bullet2" type="Label" parent="MarginContainer/VBoxContainer/BulletsVBox" unique_id=-293967293]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.76, 0.8, 0.92, 1)
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 17
 autowrap_mode = 3
 
 [node name="CostBadge" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=706032705]
