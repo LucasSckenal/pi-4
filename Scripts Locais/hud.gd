@@ -37,8 +37,7 @@ var _menu_pausa_inst = null
 @export var tamanho_container: Vector2 = Vector2(80, 100)
 @export var margem_borda: float = 20.0
 
-var containers_por_direcao = {}
-
+var containers_por_spawner = {}
 # ==========================================
 # UI DE UPGRADE INDIVIDUAL (PATHS)
 # ==========================================
@@ -336,150 +335,114 @@ func _conectar_spawners():
 			print("HUD conectada ao spawner: ", spawner.name)
 			spawner.emitir_info()
 
-func _on_info_spawner(direcao: String, inimigos: Array, posicao_mundo: Vector3):
-	print("HUD recebeu: direcao=", direcao, " inimigos=", inimigos, " pos=", posicao_mundo)
-	var chave_spawner: String = _chave_indicador_spawner(direcao, posicao_mundo)
-	_remover_indicador_por_posicao(posicao_mundo)
-	
-	# Remove container antigo dessa direção
-	if containers_por_direcao.has(chave_spawner):
-		containers_por_direcao[chave_spawner].queue_free()
-		containers_por_direcao.erase(chave_spawner)
-	
-	# Se não há inimigos ou direção vazia, apenas remove e sai
+func _on_info_spawner(id_spawner, direcao, inimigos, posicao_mundo):
+	print("HUD recebeu: ", id_spawner)
+
+	# remove indicador antigo
+	if containers_por_spawner.has(id_spawner):
+		var antigo = containers_por_spawner[id_spawner]
+
+		if is_instance_valid(antigo):
+			antigo.queue_free()
+
+		containers_por_spawner.erase(id_spawner)
+
+	# sem inimigos -> remove e sai
 	if direcao == "" or inimigos.size() == 0:
-		_remover_indicador_por_posicao(posicao_mundo)
 		return
-	
-	# Verifica se a cena do ícone está carregada
+
+	# segurança
 	if cena_enemy_icon == null:
 		print("ERRO: cena_enemy_icon é null")
 		return
-	
-	# Cria container para esta direção
+
+	# cria container
 	var container_dir = Control.new()
-	container_dir.name = "Direcao_" + chave_spawner
-	container_dir.set_meta("posicao_mundo", posicao_mundo) # Adicione esta linha 
+	container_dir.name = "Direcao_" + str(id_spawner)
+
+	container_dir.set_meta("posicao_mundo", posicao_mundo)
 	container_dir.set_meta("direcao", direcao)
+
 	container_direcoes.add_child(container_dir)
-	
-	# Define se os ícones serão empilhados na horizontal ou vertical dependendo da direção
+
+	# layout
 	var tamanho_real = tamanho_container
 	var box = null
-	if direcao == "Leste" or direcao == "Oeste":
-		tamanho_real = Vector2(tamanho_container.y, tamanho_container.x)
-		box = HBoxContainer.new()
-	else:
-		box = VBoxContainer.new()
 	
-	# Calcula posição na borda
-	var pos_tela = _calcular_posicao_borda(posicao_mundo, tamanho_real)
+	if direcao in ["Leste", "Oeste", "Nordeste", "Noroeste", "Sudeste", "Sudoeste"]:
+		tamanho_real = Vector2(tamanho_container.x, tamanho_container.y)
+		box = VBoxContainer.new()
+	else:
+		box = HBoxContainer.new()
+
+	# posição
+	var pos_tela = _calcular_posicao_borda(
+		posicao_mundo,
+		tamanho_real
+	)
+
 	container_dir.position = pos_tela
 	container_dir.size = tamanho_real
-	
-	# Configura o container para empilhar os ícones
+	container_dir.pivot_offset = tamanho_real * 0.5
+
+	# box
 	box.size = tamanho_real
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
 	box.add_theme_constant_override("separation", 5)
+
 	container_dir.add_child(box)
-	
-	# Adiciona os ícones dos inimigos
+
+	# ícones
 	for info in inimigos:
 		var icon = cena_enemy_icon.instantiate()
+
 		box.add_child(icon)
+
 		if icon.has_method("configurar"):
-			icon.configurar(info.get("icone"), info.get("cor"), info.get("qtd", 1), info.get("descricao", ""))
-		else:
-			print("ERRO: enemy_icon não tem método configurar")
-	
-	# Armazena referência
-	containers_por_direcao[chave_spawner] = container_dir
-	print("Container criado para ", direcao, " com ", inimigos.size(), " ícones")
+			icon.configurar(
+				info.get("icone"),
+				info.get("cor"),
+				info.get("qtd", 1),
+				info.get("descricao", "")
+			)
 
-func _chave_indicador_spawner(direcao: String, posicao_mundo: Vector3) -> String:
-	return "%s_%d_%d_%d" % [
-		direcao,
-		int(round(posicao_mundo.x * 100.0)),
-		int(round(posicao_mundo.y * 100.0)),
-		int(round(posicao_mundo.z * 100.0))
-	]
+	# salva
+	containers_por_spawner[id_spawner] = container_dir
 
-func _remover_indicador_por_posicao(posicao_mundo: Vector3) -> void:
-	var chaves_para_remover: Array[String] = []
-	for chave in containers_por_direcao:
-		var chave_str: String = str(chave)
-		var container: Control = containers_por_direcao[chave] as Control
-		if not is_instance_valid(container):
-			chaves_para_remover.append(chave_str)
-			continue
-		if not container.has_meta("posicao_mundo"):
-			continue
-		var pos_salva: Vector3 = container.get_meta("posicao_mundo")
-		if pos_salva.distance_to(posicao_mundo) < 0.1:
-			container.queue_free()
-			chaves_para_remover.append(chave_str)
-	
-	for chave in chaves_para_remover:
-		containers_por_direcao.erase(chave)
+
 
 func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector2:
 	var cam = get_viewport().get_camera_3d()
+	if cam == null: return Vector2.ZERO
 
-	if cam == null:
-		return Vector2.ZERO
-
-	var vp = get_viewport().get_visible_rect().size
-	var centro = vp * 0.5
-
-	# posição do mundo -> tela
+	var vp_rect = get_viewport().get_visible_rect()
+	var vp_size = vp_rect.size
+	var centro = vp_size * 0.5
+	
+	# Projeta a posição 3D para a tela 2D
 	var pos_tela = cam.unproject_position(posicao_mundo)
+	var esta_atras = cam.is_position_behind(posicao_mundo)
+	
+	# Margem de segurança para considerar "fora da tela"
+	var margem_interna = 50.0 
+	var limite_tela = vp_rect.grow(-margem_interna)
 
-	# direção centro -> alvo
-	var dir = pos_tela - centro
+	# SE estiver na frente da câmera E dentro dos limites da tela, retorna a posição real
+	if not esta_atras and limite_tela.has_point(pos_tela):
+		return pos_tela - (tamanho * 0.5)
 
-	# SE ESTIVER ATRÁS DA CAMERA
-	if cam.is_position_behind(posicao_mundo):
-		dir *= -1.0
+	# CASO CONTRÁRIO (está fora ou atrás), aplicamos a lógica de borda
+	var dir = (pos_tela - centro).normalized()
+	if esta_atras:
+		dir = -dir # Inverte se estiver atrás para a seta apontar corretamente
 
-	# evita NaN
-	if dir.length() < 0.001:
-		dir = Vector2.UP
+	# Cálculo de intersecção com a borda (retângulo)
+	var escala_x = (vp_size.x * 0.5 - margem_borda) / abs(dir.x) if abs(dir.x) > 0.001 else INF
+	var escala_y = (vp_size.y * 0.5 - margem_borda) / abs(dir.y) if abs(dir.y) > 0.001 else INF
+	var escala = min(escala_x, escala_y)
 
-	dir = dir.normalized()
-
-	var margem_topo = 90.0
-	var margem_baixo = 90.0
-	var margem_esq = 90.0
-	var margem_dir = 90.0
-
-	var metade = tamanho * 0.5
-
-	var limite_x = (
-		vp.x - margem_dir - metade.x
-		if dir.x > 0.0
-		else margem_esq + metade.x
-	)
-
-	var limite_y = (
-		vp.y - margem_baixo - metade.y
-		if dir.y > 0.0
-		else margem_topo + metade.y
-	)
-
-	var tx = INF
-	var ty = INF
-
-	if abs(dir.x) > 0.001:
-		tx = (limite_x - centro.x) / dir.x
-
-	if abs(dir.y) > 0.001:
-		ty = (limite_y - centro.y) / dir.y
-
-	var t = min(abs(tx), abs(ty))
-
-	var final_pos = centro + dir * t
-
-	return final_pos - metade
+	var pos_final = centro + dir * escala
+	return pos_final - (tamanho * 0.5)
 
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
@@ -553,33 +516,46 @@ func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 func _process(_delta: float) -> void:
 	if menu_upgrade.visible:
 		return
-		
-	for direcao in containers_por_direcao:
-		var container = containers_por_direcao[direcao]
-		
-		# Verifica se o container ainda é válido antes de atualizar
-		if is_instance_valid(container) and container.has_meta("posicao_mundo"):
-			var pos_mundo = container.get_meta("posicao_mundo")
-			# Recalcula a posição com base no tamanho atual da tela utilizando o tamanho dinâmico do container
-			container.position = _calcular_posicao_borda(
-				pos_mundo,
-				tamanho_container
-			)
-			
-			# Calcula a rotação da seta apontando para a posição real do spawner
-			var camera = get_viewport().get_camera_3d()
-			if camera:
-				var pos_tela = camera.unproject_position(pos_mundo)
-				var centro = get_viewport().get_visible_rect().size / 2.0
-				var dir_vetor = (pos_tela - centro).normalized()
-				var angulo = dir_vetor.angle()
-				
-				# Atualiza a rotação da seta nos ícones filhos deste container
-				var box = container.get_child(0)
-				if box:
-					for icon in box.get_children():
-						if icon.has_method("atualizar_seta"):
-							icon.atualizar_seta(angulo)
+
+	var centro = get_viewport().get_visible_rect().size / 2.0
+
+	for id_spawner in containers_por_spawner:
+		var container = containers_por_spawner[id_spawner]
+
+		if not is_instance_valid(container):
+			continue
+
+		if not container.has_meta("posicao_mundo"):
+			continue
+
+		var pos_mundo: Vector3 = container.get_meta("posicao_mundo")
+
+		# atualiza posição do indicador
+		container.position = _calcular_posicao_borda(
+			pos_mundo,
+			tamanho_container
+		)
+
+		# centro real do indicador
+		var pos_indicador = container.position + (tamanho_container * 0.5)
+
+		# direção da seta
+		var dir_vetor = (pos_indicador - centro).normalized()
+
+		var angulo = dir_vetor.angle()
+
+		# pega VBox OU HBox
+		var box = null
+
+		for child in container.get_children():
+			if child is VBoxContainer or child is HBoxContainer:
+				box = child
+				break
+
+		if box:
+			for icon in box.get_children():
+				if icon.has_method("atualizar_seta"):
+					icon.atualizar_seta(angulo)
 							
 # ==========================================
 # EVENTOS DE GAME OVER

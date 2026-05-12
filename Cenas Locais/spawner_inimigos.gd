@@ -1,9 +1,10 @@
 extends Node3D
 
-signal info_proxima_onda(direcao: String, inimigos: Array, posicao: Vector3)
+signal info_proxima_onda(id_spawner: String, direcao: String, inimigos: Array, posicao: Vector3)
 
 @export var ondas: Array[WaveData] = []
 @export var label_wave: Label
+@export var hud_point: Marker3D
 
 var onda_atual: int = 0
 var fila_inimigos: Array[PackedScene] = []
@@ -140,22 +141,55 @@ func emitir_info():
 			"qtd": config.quantidade,
 			"descricao": config.descricao
 		})
+	var id_spawner = str(get_instance_id())
+	var pos_hud = global_position
+
+	if hud_point:
+		pos_hud = hud_point.global_position
 	var dir = _calcular_direcao()
-	info_proxima_onda.emit(dir, info, global_position)
+	info_proxima_onda.emit(
+						str(get_instance_id()),
+						dir,
+						info,
+						pos_hud
+					)
 
 func _calcular_direcao() -> String:
 	if not base:
 		return "?"
+
 	var diff = global_position - base.global_position
-	var ang = atan2(diff.x, diff.z)
-	if abs(ang) < 0.785:
-		return "Norte"
-	elif ang >= 0.785 and ang < 2.356:
+
+	var ang = atan2(diff.z, diff.x)
+	var deg = rad_to_deg(ang)
+
+	if deg < 0:
+		deg += 360
+
+	# 8 direções
+	if deg >= 337.5 or deg < 22.5:
 		return "Leste"
-	elif ang <= -0.785 and ang > -2.356:
-		return "Oeste"
-	else:
+
+	elif deg >= 22.5 and deg < 67.5:
+		return "Sudeste"
+
+	elif deg >= 67.5 and deg < 112.5:
 		return "Sul"
+
+	elif deg >= 112.5 and deg < 157.5:
+		return "Sudoeste"
+
+	elif deg >= 157.5 and deg < 202.5:
+		return "Oeste"
+
+	elif deg >= 202.5 and deg < 247.5:
+		return "Noroeste"
+
+	elif deg >= 247.5 and deg < 292.5:
+		return "Norte"
+
+	else:
+		return "Nordeste"
 
 func restaurar_onda_do_save():
 	onda_atual = GameManager.onda_atual - 1

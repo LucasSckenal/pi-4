@@ -177,8 +177,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.060284853, 1.0015615, 14.93
 ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("13_wave03"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("20_wave10")])
 
 [node name="D" parent="Spawners" unique_id=379953035 instance=ExtResource("5_ndbvn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 0.40284425)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.400116, 0.7139138, 1.5024116)
 ondas = Array[ExtResource("10_wave_script")]([ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("21_wave_empty"), ExtResource("14_wave04"), ExtResource("15_wave05"), ExtResource("20_wave10")])
+
+[node name="Spawner A" type="Marker3D" parent="Spawners" unique_id=603176488]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.280369, 0.45088357, 0.014814377)
+
+[node name="Spawner B" type="Marker3D" parent="Spawners" unique_id=1878642501]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014278114, 0.45088357, -6.9730997)
+
+[node name="Spawner C" type="Marker3D" parent="Spawners" unique_id=1564765204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10360932, 1.3086884, 12.37175)
+
+[node name="Spawner D" type="Marker3D" parent="Spawners" unique_id=1551502654]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.794447, 0.45088357, -0.09791303)
 
 [node name="Portal" parent="." unique_id=683417852 instance=ExtResource("7_gpya5")]
 transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, 0.049744606, 0.5363734, 0.06908631)
