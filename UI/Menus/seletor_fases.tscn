@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
 [ext_resource type="Texture2D" uid="uid://y3aqhhbpej6t" path="res://Icons/Map4Selector.png" id="8_mfnoj"]
 [ext_resource type="Texture2D" uid="uid://dk5tfcfk0lbp0" path="res://Icons/Map5Selector.png" id="9_vhorf"]
-ack [ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="11_kumk8"]
+[ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="11_kumk8"]
 [ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="11_nqyad"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_mfnoj"]
