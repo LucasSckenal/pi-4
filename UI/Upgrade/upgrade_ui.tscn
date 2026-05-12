@@ -160,7 +160,6 @@ layout_mode = 2
 
 [node name="StatusContainer" type="HBoxContainer" parent="PainelPrincipal/VBoxContainer/ConteudoMargin/ConteudoVBox" unique_id=1234447454]
 layout_mode = 2
-size_flags_vertical = 0
 theme_override_constants/separation = 8
 alignment = 1
 

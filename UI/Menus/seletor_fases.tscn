@@ -10,54 +10,32 @@
 [ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
 [ext_resource type="Texture2D" uid="uid://y3aqhhbpej6t" path="res://Icons/Map4Selector.png" id="8_mfnoj"]
 [ext_resource type="Texture2D" uid="uid://dk5tfcfk0lbp0" path="res://Icons/Map5Selector.png" id="9_vhorf"]
+[ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="11_kumk8"]
 [ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="11_nqyad"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_mfnoj"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_vhorf"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7ooa"]
-bg_color = Color(0, 0, 0, 0.7137255)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_blend = true
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-corner_detail = 20
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pfc0p"]
+texture = ExtResource("11_kumk8")
+expand_margin_left = 125.0
+expand_margin_top = 200.0
+expand_margin_bottom = 230.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjkm8"]
-bg_color = Color(0, 0, 0, 0.83137256)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_blend = true
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-corner_detail = 20
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kumk8"]
+texture = ExtResource("11_kumk8")
+expand_margin_left = 100.0
+expand_margin_top = 175.0
+expand_margin_bottom = 215.0
+modulate_color = Color(0.47007585, 0.47007585, 0.47007596, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kumk8"]
-bg_color = Color(0.45840502, 0.45840508, 0.45840502, 0.7137255)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_blend = true
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-corner_detail = 20
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_right = 6.0
-expand_margin_bottom = 6.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ohijy"]
+texture = ExtResource("11_kumk8")
+expand_margin_left = 150.0
+expand_margin_top = 225.0
+expand_margin_right = 25.0
+expand_margin_bottom = 255.0
 
 [node name="SeletorFases" type="Control" unique_id=860466080]
 layout_mode = 3
@@ -410,9 +388,9 @@ offset_right = 1116.2626
 offset_bottom = 824.7874
 scale = Vector2(-0.101478375, 0.07679579)
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_i7ooa")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_sjkm8")
-theme_override_styles/hover = SubResource("StyleBoxFlat_kumk8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_pfc0p")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kumk8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ohijy")
 icon = ExtResource("11_nqyad")
 icon_alignment = 1
 
