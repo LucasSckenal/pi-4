@@ -2,96 +2,87 @@ extends Control
 
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
-# Referências para a interface
-@onready var menu_botoes        = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer
-@onready var cena_configuracoes = $CanvasLayer/MarginContainer/Configuracoes
-@onready var btn_continuar      = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/BtnContinuar
-@onready var titulo_img         = $CanvasLayer/MarginContainer/CenterContainer/VBoxContainer/Titulo
+# Referências para a interface (Atualizadas para a nova hierarquia sem MarginContainer)
+@onready var btn_jogar          = $CanvasLayer/BtnJogar
+@onready var menu_icones        = $CanvasLayer/HBoxContainer
+@onready var btn_continuar      = $CanvasLayer/BtnContinuar
+@onready var btn_sair           = $CanvasLayer/BtnSair
+@onready var cena_configuracoes = $CanvasLayer/Configuracoes
+@onready var titulo_img         = $CanvasLayer/Titulo
 
 func _ready():
 	MusicaGlobal.tocar_menu()
 
-	# Oculta e desativa o botão de continuar caso não exista uma sessão de jogo guardada
 	if btn_continuar:
 		var existe_save = GameManager.tem_jogo_salvo()
 		btn_continuar.disabled = not existe_save
 		btn_continuar.visible = existe_save
 
-	# 1. Configurações iniciais de interface
 	if cena_configuracoes:
 		cena_configuracoes.hide()
 		cena_configuracoes.fechar_configuracoes.connect(_voltar_para_menu)
 
-	# 2. Instancia o Player no Menu (Estilo Minecraft)
 	_instanciar_player_no_menu()
 	_animar_entrada_botoes()
 
-	# 3. Layout responsivo — adapta a largura dos botões à tela
 	get_viewport().size_changed.connect(_atualizar_largura_botoes)
 	_atualizar_largura_botoes()
 
 func _atualizar_largura_botoes() -> void:
 	var largura_tela: float = get_viewport_rect().size.x
-	# Largura: 25 % da tela, entre 150 px (mobile) e 450 px (desktop)
 	var largura_btn: float = clamp(largura_tela * 0.25, 150.0, 450.0)
-	# Altura proporcional à largura da tela
 	var altura_principal: float = clamp(largura_tela * 0.02, 45.0, 85.0)
 	var altura_secundaria: float = clamp(largura_tela * 0.04, 35.0, 65.0)
-	# Espaçamento entre botões também escala
-	var separacao: int = int(clamp(largura_tela * 0.025, 8.0, 30.0))
-	menu_botoes.custom_minimum_size.x = largura_btn
-	menu_botoes.add_theme_constant_override("separation", separacao)
-	for filho in menu_botoes.get_children():
-		if filho is Button:
-			filho.custom_minimum_size.x = largura_btn
-			var eh_principal: bool = filho.name in ["BtnContinuar", "BtnJogar"]
-			filho.custom_minimum_size.y = altura_principal if eh_principal else altura_secundaria
-	# Desloca o bloco para a esquerda (personagem 3D fica à direita)
-	var mc: MarginContainer = $CanvasLayer/MarginContainer
-	mc.add_theme_constant_override("margin_right", int(clamp(largura_tela * 0.05, 0.0, 125.0)))
-	mc.add_theme_constant_override("margin_left", 0)
+	
+	# Aplica o redimensionamento em todos os botões, onde quer que estejam
+	var todos_botoes = _obter_todos_os_botoes()
+	for btn in todos_botoes:
+		var eh_principal: bool = btn.name in ["BtnContinuar", "BtnJogar"]
+		btn.custom_minimum_size.y = altura_principal if eh_principal else altura_secundaria
+		
+		# Define largura fixa para os botões principais de navegação
+		if eh_principal:
+			btn.custom_minimum_size.x = largura_btn
 
-	# Escala e reposiciona o título (Sprite2D) proporcionalmente à largura dos botões.
-	# Baseia-se nos valores originais: vbox_width=280, scale=0.7, pos=(-89, -194).
-	# Assim o título ocupa a mesma proporção visual em desktop e mobile.
 	if is_instance_valid(titulo_img):
 		var fator: float = largura_btn / 280.0
-		titulo_img.scale    = Vector2(0.6 * fator, 0.6 * fator)
-		titulo_img.position = Vector2(-52.5 * fator, -140.0 * fator)
+		titulo_img.scale = Vector2(0.8 * fator, 0.8 * fator)
+		
+		# Centralização dinâmica do título
+		var largura_titulo_escalado = titulo_img.texture.get_width() * titulo_img.scale.x
+		titulo_img.position.x = (largura_tela - largura_titulo_escalado) / 1.95
+		titulo_img.position.y = 100.0
+
+# Função auxiliar para localizar botões espalhados
+func _obter_todos_os_botoes() -> Array:
+	var lista = []
+	if btn_jogar: lista.append(btn_jogar)
+	if menu_icones: lista.append_array(menu_icones.get_children())
+	if btn_continuar: lista.append(btn_continuar)
+	if btn_sair: lista.append(btn_sair)
+	
+	return lista.filter(func(node): return node is Button)
 
 func _instanciar_player_no_menu():
-	# Carrega a cena do Player 
-	# AJUSTE O CAMINHO ABAIXO para o caminho real da sua cena .tscn
 	var cena_p = load("res://Cenas Locais/player.tscn")
 	
 	if cena_p and ponto_lobby:
 		var player_instancia = cena_p.instantiate()
 		ponto_lobby.add_child(player_instancia)
-		
-		# POSICIONAMENTO
 		player_instancia.global_position = ponto_lobby.global_position
-		
-		# ESCALA ORIGINAL: Revertido para (1, 1, 1) para usar o tamanho real da cena
 		player_instancia.scale = Vector3(1, 1, 1)
-		
-		# TRAVA DE SEGURANÇA PARA MENU: 
-		# Desativa física e scripts de movimento para ele ficar estático 
 		player_instancia.set_physics_process(false)
 		player_instancia.set_process(false)
 		
 		if player_instancia is CharacterBody3D:
 			player_instancia.motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
 		
-		# Aplica o visual salvo (Avô/Avó) chamando a função do Player.gd 
 		if player_instancia.has_method("_configurar_modelo_escolhido"):
 			player_instancia._configurar_modelo_escolhido()
 			
 		call_deferred("_atualizar_estado_cabeca", player_instancia)
-			
-		# Aplica o outline automático em todas as malhas
 		_aplicar_outline_automatico(player_instancia)
 
-# Processa a visibilidade da malha da cabeca base garantindo o estado visual apos instanciar o modelo
 func _atualizar_estado_cabeca(player_instancia: Node):
 	if is_instance_valid(player_instancia):
 		var todos_os_nos = player_instancia.find_children("*", "", true, false)
@@ -99,13 +90,10 @@ func _atualizar_estado_cabeca(player_instancia: Node):
 			if "head-mesh" in no.name.to_lower():
 				no.visible = not Global.usando_set_hollow_knight
 
-# ---------------------------------------------------------
-# BOTÕES DO MENU (Lógica original de animações restaurada)
-# ---------------------------------------------------------
-
 func _animar_entrada_botoes() -> void:
-	for i in menu_botoes.get_child_count():
-		var btn = menu_botoes.get_child(i)
+	var botoes = _obter_todos_os_botoes()
+	for i in botoes.size():
+		var btn = botoes[i]
 		btn.modulate.a = 0.0
 		var delay := i * 0.09
 		var tw := create_tween().set_parallel(true)
@@ -130,9 +118,15 @@ func _on_btn_sair_pressed() -> void:
 func _on_btn_configuracoes_pressed():
 	if not is_instance_valid(cena_configuracoes):
 		return
-	menu_botoes.hide()
-	cena_configuracoes.show()
 	
+	# Esconde os elementos da interface principal individualmente
+	if btn_jogar: btn_jogar.hide()
+	if menu_icones: menu_icones.hide()
+	if btn_continuar: btn_continuar.hide()
+	if btn_sair: btn_sair.hide()
+	if titulo_img: titulo_img.hide()
+	
+	cena_configuracoes.show()
 	cena_configuracoes.pivot_offset = cena_configuracoes.size / 2
 	cena_configuracoes.scale = Vector2(0.8, 0.8)
 	cena_configuracoes.modulate.a = 0.0
@@ -142,14 +136,17 @@ func _on_btn_configuracoes_pressed():
 
 func _voltar_para_menu():
 	cena_configuracoes.hide()
-	menu_botoes.show()
+	
+	if btn_jogar: btn_jogar.show()
+	if menu_icones: menu_icones.show()
+	if btn_sair: btn_sair.show()
+	if titulo_img: titulo_img.show()
+	if btn_continuar:
+		btn_continuar.visible = GameManager.tem_jogo_salvo()
 
 func _voltar_para_menu_do_seletor():
-	menu_botoes.show()
+	if btn_jogar: btn_jogar.show()
 
-# ---------------------------------------------------------
-# SHADER DE OUTLINE (Lógica original de varredura)
-# ---------------------------------------------------------
 const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 
 func _aplicar_outline_automatico(no_raiz: Node):
