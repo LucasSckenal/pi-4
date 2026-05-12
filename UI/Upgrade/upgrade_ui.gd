@@ -63,11 +63,7 @@ func abrir(construcao: Node):
 	var tipo_val = construcao_atual.get("tipo") if "tipo" in construcao_atual else -1
 	titulo_header.text = "MELHORAR " + _get_nome_tipo(tipo_val)
 
-	# Subtítulo: "unit-tower2 • Nível 0"
-	var sub = construcao_atual.name
-	if "nivel_atual" in construcao_atual:
-		sub += " • Nível " + str(construcao_atual.nivel_atual)
-	titulo.text = sub
+	titulo.hide()
 
 	# Botão vender: oculto na BASE
 	if construcao_atual.get("tipo") == 5:
@@ -114,7 +110,8 @@ func atualizar_status_atuais():
 
 	var atributos = []
 
-	if "vida_maxima" in construcao_atual:
+	var tipo_check = construcao_atual.get("tipo") if "tipo" in construcao_atual else -1
+	if "vida_maxima" in construcao_atual and tipo_check != 5:
 		atributos.append({"icone": "❤️", "nome": "Vida"})
 
 	if "tipo" in construcao_atual:
@@ -197,7 +194,7 @@ func atualizar_opcoes():
 	if n_opcoes == 1:
 		painel_principal.custom_minimum_size = Vector2(340, altura_painel)
 		instrucao_label.hide()
-		spacer_b.hide()
+		spacer_b.show()
 		spacer_c.hide()
 	elif n_opcoes == 2:
 		painel_principal.custom_minimum_size = Vector2(560, altura_painel)
@@ -223,7 +220,7 @@ func atualizar_opcoes():
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(230, 300)
+			btn.custom_minimum_size = Vector2(230, 245)
 			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			btn.size_flags_vertical   = Control.SIZE_EXPAND_FILL
 			opcoes_container.add_child(btn)

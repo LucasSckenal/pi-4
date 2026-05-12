@@ -62,6 +62,11 @@ corner_radius_bottom_left = 10
 
 [node name="OpcaoUpgradeButton" type="Button" unique_id=1505631107]
 custom_minimum_size = Vector2(175, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxFlat_bg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
@@ -70,7 +75,7 @@ theme_override_styles/focus = SubResource("StyleBoxFlat_bg")
 script = ExtResource("1_s13y7")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=-1293967295]
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(0, 220)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -84,12 +89,14 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=88641876]
 layout_mode = 2
-theme_override_constants/separation = 8
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
 
 [node name="Titulo" type="Label" parent="MarginContainer/VBoxContainer" unique_id=799717177]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.8, 0.3, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 22
 text = "UPGRADE"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -99,10 +106,10 @@ layout_mode = 2
 theme_override_constants/separation = 1
 
 [node name="ViewportContainer" type="SubViewportContainer" parent="MarginContainer/VBoxContainer" unique_id=1422205194]
-custom_minimum_size = Vector2(150, 150)
+custom_minimum_size = Vector2(150, 130)
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/ViewportContainer" unique_id=475393906]
@@ -120,20 +127,20 @@ theme_override_constants/separation = 6
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_colors/font_color = Color(0.76, 0.8, 0.92, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 19
 text = "✨ Melhora geral"
 autowrap_mode = 3
 
 [node name="Bullet1" type="Label" parent="MarginContainer/VBoxContainer/BulletsVBox" unique_id=-293967294]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.76, 0.8, 0.92, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 19
 autowrap_mode = 3
 
 [node name="Bullet2" type="Label" parent="MarginContainer/VBoxContainer/BulletsVBox" unique_id=-293967293]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.76, 0.8, 0.92, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 19
 autowrap_mode = 3
 
 [node name="CostBadge" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=706032705]
