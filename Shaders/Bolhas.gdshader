@@ -1,73 +1,240 @@
 shader_type canvas_item;
 
-// ==========================================
-// BOLHAS SUBINDO — efeito de tela
-// ==========================================
+// =====================================================
+// BOLHAS SUBINDO — GODOT 4.x
+// Compatível com AMD / NVIDIA / Intel
+// =====================================================
 
-uniform float velocidade : hint_range(0.02, 0.25) = 0.065;
-uniform float opacidade  : hint_range(0.0,  1.0)  = 0.60;
-uniform float raio_max   : hint_range(0.005, 0.07) = 0.030;
+// Quantidade de bolhas
+uniform int quantidade = 40;
 
-// Hash pseudoaleatório determinístico
+// Velocidade geral
+uniform float velocidade : hint_range(0.01, 1.0) = 0.08;
+
+// Tamanho mínimo e máximo
+uniform float tamanho_min : hint_range(0.002, 0.10) = 0.010;
+uniform float tamanho_max : hint_range(0.002, 0.20) = 0.040;
+
+// Transparência geral
+uniform float opacidade : hint_range(0.0, 1.0) = 0.45;
+
+// Intensidade do movimento sinuoso
+uniform float sinuoso : hint_range(0.0, 0.20) = 0.035;
+
+// =====================================================
+// HASH ALEATÓRIO
+// =====================================================
+
 float hash(float n) {
-	return fract(sin(n * 127.1) * 43758.5453);
+	return fract(sin(n * 127.1) * 43758.5453123);
 }
 
+// =====================================================
+// CÍRCULO SUAVE
+// =====================================================
+
+float bubble_circle(vec2 uv, vec2 pos, float radius, float aspect) {
+
+	vec2 diff = uv - pos;
+
+	// mantém bolhas circulares
+	diff.x *= aspect;
+
+	float dist = length(diff);
+
+	return 1.0 - smoothstep(
+		radius * 0.85,
+		radius,
+		dist
+	);
+}
+
+// =====================================================
+// FRAGMENT
+// =====================================================
+
 void fragment() {
+
 	vec2 uv = UV;
 
-	// Correção de aspecto: garante bolhas circulares em qualquer resolução
-	float aspect = SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x;
+	// Aspect ratio da tela
+	float aspect =
+		SCREEN_PIXEL_SIZE.y /
+		SCREEN_PIXEL_SIZE.x;
 
-	vec4 cor = vec4(0.0);
+	vec4 final_color = vec4(0.0);
 
-	// 22 bolhas independentes — cada uma com vel/raio/fase únicas
-	for (int i = 0; i < 22; i++) {
-		float f = float(i);
+	// =================================================
+	// LOOP DAS BOLHAS
+	// =================================================
 
-		float vel    = velocidade * (0.50 + hash(f * 13.71));
-		float raio   = raio_max   * (0.25 + hash(f *  7.31) * 0.75);
-		float x_base = hash(f *  3.17);
-		float fase   = hash(f *  5.73) * 6.2832;
-		float wobble = 0.010 + hash(f *  9.31) * 0.016;
-		float w_freq = 1.50  + hash(f * 11.13) * 3.50;
-		float inicio = hash(f * 17.37);   // offset de fase para não subirem juntas
+	for (int i = 0; i < quantidade; i++) {
 
-		// t: ciclo 0→1 (nasce em baixo, desaparece em cima)
-		float t = mod(TIME * vel + inicio, 1.0);
-		float y = 1.0 - t;
-		float x = x_base + sin(t * w_freq * 6.2832 + fase) * wobble;
+		float fi = float(i);
 
-		vec2 centro = vec2(x, y);
+		// ---------------------------------------------
+		// Aleatórios
+		// ---------------------------------------------
 
-		// Distância com aspecto corrigido
-		vec2 diff  = uv - centro;
-		diff.x    *= aspect;
-		float dist = length(diff);
+		float seed1 = hash(fi * 12.345);
+		float seed2 = hash(fi * 45.678);
+		float seed3 = hash(fi * 91.234);
+		float seed4 = hash(fi * 27.891);
+		float seed5 = hash(fi * 63.726);
 
-		// Fade: aparece gradualmente (t=0), desaparece no topo (t=1)
-		float alpha = smoothstep(0.0, 0.12, t) * smoothstep(0.0, 0.08, 1.0 - t);
+		// ---------------------------------------------
+		// Tamanho aleatório
+		// ---------------------------------------------
 
-		// Anel da bolha (camada externa - interna)
-		float outer = smoothstep(raio + 0.004, raio - 0.001, dist);
-		float inner = smoothstep(raio * 0.72 + 0.003, raio * 0.72, dist);
-		float anel  = outer - inner;
+		float radius = mix(
+			tamanho_min,
+			tamanho_max,
+			seed1
+		);
 
-		// Reflexo/brilho no canto superior-esquerdo
-		vec2 h_diff = uv - (centro + vec2(-raio * 0.38 / aspect, -raio * 0.38));
-		h_diff.x   *= aspect;
-		float shine = smoothstep(raio * 0.22, 0.0, length(h_diff));
+		// ---------------------------------------------
+		// Velocidade individual
+		// ---------------------------------------------
 
-		float ints = alpha * opacidade;
+		float vel =
+			velocidade *
+			mix(0.6, 1.4, seed2);
 
-		// Anel azul-claro
-		cor.rgb += vec3(0.50, 0.87, 1.00) * anel  * ints;
-		cor.a   += anel  * ints * 0.85;
+		// ---------------------------------------------
+		// Tempo da bolha
+		// ---------------------------------------------
 
-		// Brilho branco
-		cor.rgb += vec3(0.95, 0.98, 1.00) * shine * ints * 0.45;
-		cor.a   += shine * ints * 0.35;
+		float t =
+			fract(TIME * vel + seed3);
+
+		// ---------------------------------------------
+		// Movimento vertical
+		// ---------------------------------------------
+
+		float y =
+			1.2 - (t * 1.4);
+
+		// ---------------------------------------------
+		// Movimento sinuoso horizontal
+		// ---------------------------------------------
+
+		float freq =
+			mix(1.0, 4.0, seed4);
+
+		float wave =
+			sin(
+				t * freq * 6.28318 +
+				seed5 * 10.0
+			) * sinuoso;
+
+		float x =
+			seed2 + wave;
+
+		// wrap horizontal
+		x = fract(x + 1.0);
+
+		vec2 pos = vec2(x, y);
+
+		// ---------------------------------------------
+		// Bolha principal
+		// ---------------------------------------------
+
+		float bubble =
+			bubble_circle(
+				uv,
+				pos,
+				radius,
+				aspect
+			);
+
+		// ---------------------------------------------
+		// Borda da bolha
+		// ---------------------------------------------
+
+		float border =
+			bubble_circle(
+				uv,
+				pos,
+				radius,
+				aspect
+			)
+			-
+			bubble_circle(
+				uv,
+				pos,
+				radius * 0.72,
+				aspect
+			);
+
+		// ---------------------------------------------
+		// Brilho/reflexo
+		// ---------------------------------------------
+
+		vec2 shine_pos =
+			pos +
+			vec2(
+				-radius * 0.30,
+				-radius * 0.30
+			);
+
+		float shine =
+			bubble_circle(
+				uv,
+				shine_pos,
+				radius * 0.18,
+				aspect
+			);
+
+		// ---------------------------------------------
+		// Fade entrada/saída
+		// ---------------------------------------------
+
+		float fade_in =
+			smoothstep(0.0, 0.08, t);
+
+		float fade_out =
+			smoothstep(0.0, 0.08, 1.0 - t);
+
+		float fade =
+			fade_in * fade_out;
+
+		// ---------------------------------------------
+		// Cor da bolha
+		// ---------------------------------------------
+
+		vec3 bubble_color =
+			vec3(0.65, 0.90, 1.0);
+
+		vec3 border_color =
+			vec3(0.85, 0.97, 1.0);
+
+		// Interior
+		final_color.rgb +=
+			bubble_color *
+			bubble *
+			0.08 *
+			fade;
+
+		// Borda
+		final_color.rgb +=
+			border_color *
+			border *
+			0.9 *
+			fade;
+
+		// Brilho
+		final_color.rgb +=
+			vec3(1.0) *
+			shine *
+			0.8 *
+			fade;
+
+		// Alpha
+		final_color.a +=
+			(border * 0.5 + bubble * 0.08) *
+			fade *
+			opacidade;
 	}
 
-	COLOR = clamp(cor, vec4(0.0), vec4(1.0));
+	COLOR = clamp(final_color, 0.0, 1.0);
 }

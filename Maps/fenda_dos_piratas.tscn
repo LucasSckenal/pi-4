@@ -423,7 +423,7 @@ player = NodePath("../Player")
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
 transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
 
-[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
+[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1763396086]
 mesh = SubResource("ArrayMesh_colh8")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]

@@ -61,6 +61,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="OpcaoUpgradeButton" type="Button" unique_id=1505631107]
+clip_contents = true
 custom_minimum_size = Vector2(175, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -68,7 +69,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 focus_mode = 0
-clip_contents = true
 theme_override_styles/normal = SubResource("StyleBoxFlat_bg")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
@@ -90,8 +90,8 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=88641876]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 10
 
 [node name="Titulo" type="Label" parent="MarginContainer/VBoxContainer" unique_id=799717177]
@@ -116,7 +116,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/VBoxContainer/ViewportContainer" unique_id=475393906]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(150, 150)
+size = Vector2i(150, 80)
 render_target_update_mode = 4
 
 [node name="BulletsVBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1314974882]
