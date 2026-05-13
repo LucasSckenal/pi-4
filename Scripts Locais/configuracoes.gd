@@ -10,6 +10,7 @@ var master_bus: int = -1
 var temp_cursor_size: float = 1.5
 var temp_cursor_color: Color = Color.WHITE
 
+# Referências de Áudio
 @onready var _slider_master:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster")
 @onready var _lbl_master:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/LabelPctMaster")
 
@@ -19,20 +20,25 @@ var temp_cursor_color: Color = Color.WHITE
 @onready var _slider_voz:     HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz")
 @onready var _lbl_voz:        Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/LabelPctVoz")
 
+# Referências de Vídeo
 @onready var _check_mudo:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckMudo")
 @onready var _check_tela:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia")
 @onready var _check_hud:      CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckHUD")
 
-@onready var _slider_cursor:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxCursor/SliderCursor")
-@onready var _lbl_cursor:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxCursor/LabelScaleCursor")
-@onready var _color_picker:   ColorPickerButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/ColorPickerCursor")
-
+# Referências de Cursor
 @onready var _preview_cursor: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/PreviewArea/PreviewCursor")
-
 @onready var _card_cursor:    Control     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita")
+
+# Referência do Painel da Equipe
+@onready var _painel_equipe:  ColorRect   = get_node_or_null("FundoEquipe")
 
 func _ready():
 	master_bus = AudioServer.get_bus_index("Master")
+	
+	# Garante que o painel da equipe comece invisível
+	if _painel_equipe:
+		_painel_equipe.hide()
+		
 	_carregar_configuracoes()
 
 	if OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios"):
@@ -59,13 +65,6 @@ func _ready():
 		var manager = get_node("/root/CursorManager")
 		temp_cursor_size = manager.cursor_size
 		temp_cursor_color = manager.cursor_color
-		
-		if _slider_cursor:
-			_slider_cursor.value = temp_cursor_size
-			_lbl_cursor.text = "%.1fx" % temp_cursor_size
-		
-		if _color_picker:
-			_color_picker.color = temp_cursor_color
 			
 		if _preview_cursor:
 			_atualizar_preview_cursor()
@@ -88,8 +87,9 @@ func _atualizar_preview_cursor() -> void:
 		_preview_cursor.modulate = temp_cursor_color
 		_preview_cursor.custom_minimum_size = Vector2(48 * temp_cursor_size, 48 * temp_cursor_size)
 
+
 # ==========================================
-# SINAIS DOS CONTROLES
+# SINAIS DOS CONTROLES DE ÁUDIO E VÍDEO
 # ==========================================
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(master_bus, linear_to_db(value))
@@ -120,16 +120,52 @@ func _on_check_tela_cheia_toggled(toggled_on: bool) -> void:
 func _on_check_hud_toggled(_toggled_on: bool) -> void:
 	pass
 
-func _on_cursor_scale_changed(value: float) -> void:
-	temp_cursor_size = value
-	if _lbl_cursor:
-		_lbl_cursor.text = "%.1fx" % value
+# ==========================================
+# SINAIS DO CURSOR (Tamanho)
+# ==========================================
+func _on_btn_pequeno_pressed() -> void:
+	temp_cursor_size = 1.0
 	_atualizar_preview_cursor()
 
-func _on_cursor_color_changed(color: Color) -> void:
-	temp_cursor_color = color
+func _on_btn_medio_pressed() -> void:
+	temp_cursor_size = 1.5
 	_atualizar_preview_cursor()
 
+func _on_btn_grande_pressed() -> void:
+	temp_cursor_size = 2.0
+	_atualizar_preview_cursor()
+
+# ==========================================
+# SINAIS DO CURSOR (Cores)
+# ==========================================
+func _on_btn_branco_pressed() -> void:
+	temp_cursor_color = Color.WHITE
+	_atualizar_preview_cursor()
+
+func _on_btn_ciano_pressed() -> void:
+	temp_cursor_color = Color.CYAN
+	_atualizar_preview_cursor()
+
+func _on_btn_vermelho_pressed() -> void:
+	temp_cursor_color = Color.RED
+	_atualizar_preview_cursor()
+
+func _on_btn_rosa_pressed() -> void:
+	temp_cursor_color = Color("ff99c2")
+	_atualizar_preview_cursor()
+
+func _on_btn_gold_pressed() -> void:
+	temp_cursor_color = Color(0.93, 0.72, 0.28, 1)
+	_atualizar_preview_cursor()
+
+func _on_btn_roxo_pressed() -> void:
+	temp_cursor_color = Color("9933ff")
+	_atualizar_preview_cursor()
+
+
+# ==========================================
+# SINAIS DOS BOTÕES DO RODAPÉ E DA EQUIPE
+# ==========================================
 func _on_btn_salvar_pressed() -> void:
 	if has_node("/root/CursorManager"):
 		var manager = get_node("/root/CursorManager")
@@ -138,11 +174,20 @@ func _on_btn_salvar_pressed() -> void:
 		
 	_salvar_configuracoes()
 
+# Abre o painel da equipe
 func _on_btn_equipe_pressed() -> void:
-	pass
+	if _painel_equipe:
+		_painel_equipe.show()
 
+# Fecha o painel da equipe
+func _on_button_fechar_equipe_pressed() -> void:
+	if _painel_equipe:
+		_painel_equipe.hide()
+
+# Botão Voltar (Fecha o menu de configurações)
 func _on_button_pressed() -> void:
 	fechar_configuracoes.emit()
+
 
 # ==========================================
 # PERSISTÊNCIA
