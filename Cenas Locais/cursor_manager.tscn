@@ -4,3 +4,6 @@
 
 [node name="CursorManager" type="Node" unique_id=1864139326]
 script = ExtResource("1_y1qlt")
+cursor_offset = Vector2(25, 25)
+cursor_size = 10.0
+cursor_color = Color(1, 0, 0, 1)

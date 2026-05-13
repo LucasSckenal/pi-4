@@ -1,202 +1,468 @@
-[gd_scene format=3 uid="uid://d3cdnd7wk3m3s"]
+[gd_scene load_steps=14 format=3 uid="uid://configuracoes_clean"]
 
-[ext_resource type="Script" uid="uid://csnwqdn10atkj" path="res://Scripts Locais/configuracoes.gd" id="1_dnuwa"]
+[ext_resource type="Script" path="res://Scripts Locais/configuracoes.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Assets/Cursor/cursor.png" id="2_cursor"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Painel"]
-bg_color = Color(0.109804, 0.109804, 0.137255, 1)
+[sub_resource type="StyleBoxFlat" id="BG"]
+bg_color = Color(0.11, 0.07, 0.03, 0.96)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.93, 0.72, 0.28, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="Card"]
+bg_color = Color(0.17, 0.10, 0.04, 0.95)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.56, 0.21, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="CheckBG"]
+bg_color = Color(0.25, 0.16, 0.08, 0.8)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.42, 0.32, 0.62, 1)
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-shadow_color = Color(0, 0, 0, 0.5)
-shadow_size = 20
-shadow_offset = Vector2(0, 10)
+border_color = Color(0.93, 0.72, 0.28, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
 
-[sub_resource type="LabelSettings" id="LabelSettings_Titulo"]
-font_size = 32
-font_color = Color(0.95, 0.95, 0.95, 1)
-shadow_size = 4
-shadow_color = Color(0, 0, 0, 0.6)
+[sub_resource type="StyleBoxFlat" id="CheckBGHover"]
+bg_color = Color(0.3, 0.2, 0.1, 0.8)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.85, 0.4, 0.8)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_CheckHover"]
-bg_color = Color(0.28, 0.24, 0.38, 1)
+[sub_resource type="StyleBoxFlat" id="Botao"]
+bg_color = Color(0.76, 0.57, 0.18, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="BotaoHover"]
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="TrilhaSlider"]
+bg_color = Color(0.25, 0.16, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Botao"]
-content_margin_left = 20.0
-content_margin_top = 12.0
-content_margin_right = 20.0
-content_margin_bottom = 12.0
-bg_color = Color(0.2, 0.2, 0.25, 0.9)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="StyleBoxFlat" id="AreaSlider"]
+bg_color = Color(0.92, 0.72, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BotaoHover"]
-content_margin_left = 20.0
-content_margin_top = 12.0
-content_margin_right = 20.0
-content_margin_bottom = 12.0
-bg_color = Color(0.32, 0.28, 0.4, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.55, 0.44, 0.75, 0.8)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[sub_resource type="LabelSettings" id="Titulo"]
+font_size = 34
+font_color = Color(1, 0.95, 0.84, 1)
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.7)
 
-[node name="Configuracoes" type="Control" unique_id=652080611]
+[sub_resource type="LabelSettings" id="Texto"]
+font_size = 20
+font_color = Color(0.96, 0.90, 0.82, 1)
+
+[sub_resource type="LabelSettings" id="ValorPorcentagem"]
+font_size = 22
+font_color = Color(1, 1, 1, 1)
+
+[node name="Configuracoes" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_dnuwa")
+script = ExtResource("1")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=759948666]
+[node name="Escurecer" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 180.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.65)
+color = Color(0, 0, 0, 0.55)
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1230592310]
+[node name="CenterContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
 
-[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=175982560]
-custom_minimum_size = Vector2(460, 0)
+[node name="Painel" type="PanelContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_Painel")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("BG")
 
-[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=780413348]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Painel"]
 layout_mode = 2
-theme_override_constants/margin_left = 36
-theme_override_constants/margin_top = 32
-theme_override_constants/margin_right = 36
-theme_override_constants/margin_bottom = 32
+theme_override_constants/margin_left = 34
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 34
+theme_override_constants/margin_bottom = 28
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=671686919]
+[node name="VBoxRoot" type="VBoxContainer" parent="CenterContainer/Painel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Titulo" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot"]
+layout_mode = 2
+text = "CONFIGURAÇÕES"
+horizontal_alignment = 1
+label_settings = SubResource("Titulo")
+
+[node name="Linha" type="HSeparator" parent="CenterContainer/Painel/Margin/VBoxRoot"]
+layout_mode = 2
+
+[node name="Conteudo" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 24
+
+[node name="Esquerda" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="CardVideo" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("Card")
+
+[node name="MarginVideo" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxVideo" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelVideo" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo"]
+layout_mode = 2
+text = "VÍDEO"
+label_settings = SubResource("Texto")
+
+[node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+text = "Tela Cheia"
+
+[node name="CheckMudo" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+text = "Silenciar Jogo"
+
+[node name="CheckHUD" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo"]
+layout_mode = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+text = "HUD Customizado Temático"
+
+[node name="CardAudio" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("Card")
+
+[node name="MarginAudio" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxAudio" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelAudio" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+text = "ÁUDIO"
+label_settings = SubResource("Texto")
+
+[node name="LabelMaster" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+text = "Volume Geral"
+label_settings = SubResource("Texto")
+
+[node name="HBoxMaster" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SliderMaster" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("TrilhaSlider")
+theme_override_styles/grabber_area = SubResource("AreaSlider")
+theme_override_styles/grabber_area_hl = SubResource("AreaSlider")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LabelPctMaster" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("ValorPorcentagem")
+horizontal_alignment = 2
+
+[node name="LabelMusica" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+text = "Volume da Música"
+label_settings = SubResource("Texto")
+
+[node name="HBoxMusica" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SliderMusica" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("TrilhaSlider")
+theme_override_styles/grabber_area = SubResource("AreaSlider")
+theme_override_styles/grabber_area_hl = SubResource("AreaSlider")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LabelPctMusica" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("ValorPorcentagem")
+horizontal_alignment = 2
+
+[node name="LabelVoz" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+text = "Volume da Voz"
+label_settings = SubResource("Texto")
+
+[node name="HBoxVoz" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="SliderVoz" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("TrilhaSlider")
+theme_override_styles/grabber_area = SubResource("AreaSlider")
+theme_override_styles/grabber_area_hl = SubResource("AreaSlider")
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="LabelPctVoz" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("ValorPorcentagem")
+horizontal_alignment = 2
+
+[node name="Direita" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_constants/separation = 18
 
-[node name="Label" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=952346767]
+[node name="CardCursor" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita"]
 layout_mode = 2
-text = "⚙️ Configurações"
-label_settings = SubResource("LabelSettings_Titulo")
-horizontal_alignment = 1
+theme_override_styles/panel = SubResource("Card")
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=789752313]
+[node name="MarginCursor" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
 
-[node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1805859892]
+[node name="VBoxCursor" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 18
-theme_override_styles/hover = SubResource("StyleBoxFlat_CheckHover")
-text = "🖥️ Tela Cheia"
+theme_override_constants/separation = 16
 
-[node name="CheckMudo" type="CheckButton" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=680332874]
+[node name="LabelCursor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 18
-theme_override_styles/hover = SubResource("StyleBoxFlat_CheckHover")
-text = "🔇 Silenciar Jogo"
+text = "CURSOR"
+label_settings = SubResource("Texto")
 
-[node name="HSeparator2" type="HSeparator" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1883774767]
+[node name="PreviewArea" type="CenterContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor"]
+custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
-theme_override_constants/separation = 8
 
-[node name="LabelMaster" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=327225135]
+[node name="PreviewCursor" type="TextureRect" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/PreviewArea"]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.72, 0.78, 1)
-theme_override_font_sizes/font_size = 16
-text = "🔊 Volume Geral"
+texture = ExtResource("2_cursor")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="HBoxMaster" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1483991813]
+[node name="TextoTamanho" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor"]
 layout_mode = 2
-theme_override_constants/separation = 12
+text = "Tamanho do Cursor"
+label_settings = SubResource("Texto")
 
-[node name="HSlider" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster" unique_id=1549602438]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-max_value = 1.0
-step = 0.05
-value = 1.0
-
-[node name="LabelPctMaster" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster" unique_id=41216871]
-custom_minimum_size = Vector2(46, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.78, 0.9, 1)
-theme_override_font_sizes/font_size = 15
-text = "100%"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="LabelMusica" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1320979900]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.72, 0.78, 1)
-theme_override_font_sizes/font_size = 16
-text = "🎵 Volume da Música"
-
-[node name="HBoxMusica" type="HBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=268668224]
+[node name="HBoxCursor" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor"]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HSliderMusica" type="HSlider" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica" unique_id=802094980]
+[node name="SliderCursor" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxCursor"]
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
-mouse_default_cursor_shape = 2
-max_value = 1.0
-step = 0.05
-value = 1.0
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("TrilhaSlider")
+theme_override_styles/grabber_area = SubResource("AreaSlider")
+theme_override_styles/grabber_area_hl = SubResource("AreaSlider")
+min_value = 1.0
+max_value = 5.0
+step = 0.5
+value = 1.5
+tick_count = 9
+ticks_on_borders = true
 
-[node name="LabelPctMusica" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica" unique_id=1474111137]
-custom_minimum_size = Vector2(46, 0)
+[node name="LabelScaleCursor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxCursor"]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.78, 0.9, 1)
-theme_override_font_sizes/font_size = 15
-text = "100%"
+text = "1.5x"
+label_settings = SubResource("ValorPorcentagem")
 horizontal_alignment = 2
-vertical_alignment = 1
 
-[node name="Espacador" type="Control" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=1904585742]
-custom_minimum_size = Vector2(0, 4)
+[node name="TextoCor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor"]
+layout_mode = 2
+text = "Cor do Cursor"
+label_settings = SubResource("Texto")
+
+[node name="ColorPickerCursor" type="ColorPickerButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor"]
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
 
-[node name="BtnVoltar" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=745673826]
+[node name="Rodape" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot"]
 layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_font_sizes/font_size = 20
-theme_override_styles/normal = SubResource("StyleBoxFlat_Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_Botao")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BotaoHover")
-text = "◀ Voltar"
+theme_override_constants/separation = 24
 
-[connection signal="toggled" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
-[connection signal="toggled" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/CheckMudo" to="." method="_on_check_mudo_toggled"]
-[connection signal="value_changed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMaster/HSlider" to="." method="_on_h_slider_value_changed"]
-[connection signal="value_changed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxMusica/HSliderMusica" to="." method="_on_slider_musica_changed"]
-[connection signal="pressed" from="CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnVoltar" to="." method="_on_button_pressed"]
+[node name="BtnVoltar" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "VOLTAR"
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/hover = SubResource("BotaoHover")
+
+[node name="BtnEquipe" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SOBRE A EQUIPE"
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/hover = SubResource("BotaoHover")
+
+[node name="BtnSalvar" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "SALVAR ALTERAÇÕES"
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/hover = SubResource("BotaoHover")
+
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Rodape/BtnVoltar" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Rodape/BtnEquipe" to="." method="_on_btn_equipe_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Rodape/BtnSalvar" to="." method="_on_btn_salvar_pressed"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica" to="." method="_on_slider_musica_changed"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz" to="." method="_on_slider_voz_changed"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxCursor/SliderCursor" to="." method="_on_cursor_scale_changed"]
+[connection signal="color_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/ColorPickerCursor" to="." method="_on_cursor_color_changed"]
