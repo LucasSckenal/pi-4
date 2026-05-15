@@ -85,7 +85,7 @@ func _criar_ui():
 	_style_btn.content_margin_bottom = 0
 
 	var style_hover := _style_btn.duplicate() as StyleBoxFlat
-	style_hover.bg_color = Color(1, 1, 1, 0.08)
+	style_hover.bg_color = Color(1, 1, 1, 0)
 
 	_btn_toggle.add_theme_stylebox_override("normal",  _style_btn)
 	_btn_toggle.add_theme_stylebox_override("hover",   style_hover)
@@ -120,6 +120,17 @@ func _criar_ui():
 
 	add_child(_btn_toggle)
 	_btn_toggle.pressed.connect(_toggle)
+
+	# Configura a animação de hover no botão de ajuda
+	_btn_toggle.pivot_offset = _btn_toggle.custom_minimum_size / 2.0
+	_btn_toggle.mouse_entered.connect(func():
+		var tween := create_tween()
+		tween.tween_property(_btn_toggle, "scale", Vector2(1.05, 1.05), 0.1).set_trans(Tween.TRANS_SINE)
+	)
+	_btn_toggle.mouse_exited.connect(func():
+		var tween := create_tween()
+		tween.tween_property(_btn_toggle, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
+	)
 
 	# ── Container do diálogo (aparece na parte inferior da tela) ──────────
 	_dialogo = Control.new()

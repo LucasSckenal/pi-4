@@ -39,6 +39,15 @@ func _ready() -> void:
 	btn_lupa_menos.pressed.connect(_zoom_afastar)
 	btn_menu_gigante.pressed.connect(_on_menu_pressionado)
 
+	_configurar_animacao_hover(btn_lupa_mais)
+	_configurar_animacao_hover(btn_lupa_menos)
+	_configurar_animacao_hover(btn_menu_gigante)
+
+	for btn in [btn_lento, btn_normal, btn_rapido]:
+		btn.add_theme_color_override("font_hover_color", Color.BLACK)
+		btn.add_theme_color_override("font_hover_pressed_color", Color.BLACK)
+		_configurar_animacao_hover(btn)
+
 	btn_lento.pressed.connect(func(): _alterar_velocidade(0.5, btn_lento))
 	btn_normal.pressed.connect(func(): _alterar_velocidade(1.0, btn_normal))
 	btn_rapido.pressed.connect(func(): _alterar_velocidade(2.0, btn_rapido))
@@ -145,3 +154,19 @@ func verificar_estado_dia_noite() -> void:
 
 		if is_instance_valid(grupo_velocidades):
 			grupo_velocidades.hide()
+
+func _configurar_animacao_hover(botao: Button) -> void:
+	if botao.custom_minimum_size != Vector2.ZERO:
+		botao.pivot_offset = botao.custom_minimum_size / 2.0
+	else:
+		botao.pivot_offset = botao.size / 2.0
+	
+	botao.mouse_entered.connect(func():
+		var tween := create_tween()
+		tween.tween_property(botao, "scale", Vector2(1.1, 1.1), 0.1).set_trans(Tween.TRANS_SINE)
+	)
+	
+	botao.mouse_exited.connect(func():
+		var tween := create_tween()
+		tween.tween_property(botao, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
+	)

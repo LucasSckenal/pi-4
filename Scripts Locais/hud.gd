@@ -646,4 +646,15 @@ func _criar_botao_pausa():
 		if is_instance_valid(_menu_pausa_inst):
 			_menu_pausa_inst._abrir()
 	)
+
+	# Configura a animação de hover no botão de ajuda
+	btn.pivot_offset = btn.custom_minimum_size / 2.0
+	btn.mouse_entered.connect(func():
+		var tween := create_tween()
+		tween.tween_property(btn, "scale", Vector2(1.05, 1.05), 0.1).set_trans(Tween.TRANS_SINE)
+	)
+	btn.mouse_exited.connect(func():
+		var tween := create_tween()
+		tween.tween_property(btn, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
+	)
 	add_child(btn)
