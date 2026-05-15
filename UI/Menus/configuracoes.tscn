@@ -943,6 +943,7 @@ horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="FundoEquipe/CenterContainer/PainelSobre/MarginContainer/VBoxContainer" unique_id=760874280]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")

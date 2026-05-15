@@ -1,4 +1,4 @@
-﻿extends Node3D
+extends Node3D
 
 # ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
@@ -197,6 +197,10 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 @onready var timer_ataque = get_node_or_null("TimerAtaque") if tipo == TipoConstrucao.TORRE else null
 @onready var modelo_anchor = get_node_or_null("ModeloAnchor")  # Nó vazio para conter o modelo 3D
 
+# Hover
+var _tween_hover: Tween
+var _escalas_base_malhas: Dictionary = {}
+
 # ==========================================
 # INFORMAÇÕES DE INTERFACE
 # ==========================================
@@ -321,7 +325,13 @@ func _ready():
 	for interface_node in get_tree().get_nodes_in_group("Interface"):
 		if interface_node.has_method("_conectar_construcao"):
 			interface_node._conectar_construcao(self)
-
+	# Notifica a interface sobre a existência desta construção após a inicialização dos grupos
+	for interface_node in get_tree().get_nodes_in_group("Interface"):
+		if interface_node.has_method("_conectar_construcao"):
+			interface_node._conectar_construcao(self)
+			
+	_registrar_escalas_base(self)
+	
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
 # ==========================================
@@ -780,6 +790,17 @@ func _get_cor_path(index: int, path) -> Color:
 		Color(0.78, 0.52, 0.08, 1.0),  # Dourado
 	]
 	return CORES[index % CORES.size()]
+
+# Registra as escalas iniciais das malhas nativas da cena para a animação de hover
+func _registrar_escalas_base(no: Node):
+	if no is MeshInstance3D:
+		if no != indicador_alcance and no != _anel_upgrade and no.name != "BarraVidaShader" and no.name != "CirculoVeneno":
+			_escalas_base_malhas[no] = no.scale
+			
+	for filho in no.get_children():
+		if filho == modelo_anchor or filho.name == "IndicadorUpgrade" or filho.name == "RespawnViewport":
+			continue
+		_registrar_escalas_base(filho)
 
 func aplicar_upgrade(index: int = 0) -> bool:
 	# index é o índice do caminho escolhido (usado apenas se tem_paths e caminho_atual == -1)
@@ -1715,17 +1736,41 @@ func vender_construcao():
 # ==========================================
 func _on_area_clique_mouse_entered():
 	if esta_destruida or is_fantasma or GameManager.is_night: return
-	_aplicar_outline_malhas(self, espessura_outline_hover)
 	Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+
+	if _tween_hover and _tween_hover.is_running():
+		_tween_hover.kill()
+		
+	_tween_hover = create_tween().set_parallel(true)
+	
+	# Anima as malhas originais (usadas no nível 0)
+	for malha in _escalas_base_malhas.keys():
+		if is_instance_valid(malha) and malha.visible:
+			_tween_hover.tween_property(malha, "scale", _escalas_base_malhas[malha] * 1.08, 0.15).set_trans(Tween.TRANS_SINE)
+			
+	# Anima o container de upgrades (usado no nível 1 em diante)
+	if is_instance_valid(modelo_anchor):
+		_tween_hover.tween_property(modelo_anchor, "scale", Vector3(1.08, 1.08, 1.08), 0.15).set_trans(Tween.TRANS_SINE)
 
 func _on_area_clique_mouse_exited():
 	if esta_destruida or is_fantasma:
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		return
 		
-	_aplicar_outline_malhas(self, espessura_outline_normal)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	
-	# Restaura a borda verde imediatamente se esta construção ainda for o destaque e não for noite
+	if _tween_hover and _tween_hover.is_running():
+		_tween_hover.kill()
+		
+	_tween_hover = create_tween().set_parallel(true)
+	
+	for malha in _escalas_base_malhas.keys():
+		if is_instance_valid(malha):
+			_tween_hover.tween_property(malha, "scale", _escalas_base_malhas[malha], 0.15).set_trans(Tween.TRANS_SINE)
+			
+	if is_instance_valid(modelo_anchor):
+		_tween_hover.tween_property(modelo_anchor, "scale", Vector3.ONE, 0.15).set_trans(Tween.TRANS_SINE)
+	
 	if GameManager.construcao_destaque_upgrade == self \
 	   and is_instance_valid(_indicador_upgrade) and _indicador_upgrade.visible \
 	   and not GameManager.is_night:
