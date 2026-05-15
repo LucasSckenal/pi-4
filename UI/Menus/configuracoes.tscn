@@ -429,6 +429,7 @@ label_settings = SubResource("Texto")
 
 [node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=2029256183]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
@@ -441,6 +442,7 @@ text = "Tela Cheia"
 
 [node name="CheckMudo" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=231025745]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
@@ -453,6 +455,7 @@ text = "Silenciar Jogo"
 
 [node name="CheckHUD" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=758748905]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
@@ -497,6 +500,7 @@ custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("TrilhaSlider")
 theme_override_styles/grabber_area = SubResource("AreaSlider")
 max_value = 1.0
@@ -524,6 +528,7 @@ custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("TrilhaSlider")
 theme_override_styles/grabber_area = SubResource("AreaSlider")
 max_value = 1.0
@@ -551,6 +556,7 @@ custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
+mouse_default_cursor_shape = 2
 theme_override_styles/slider = SubResource("TrilhaSlider")
 theme_override_styles/grabber_area = SubResource("AreaSlider")
 max_value = 1.0
@@ -610,6 +616,7 @@ layout_mode = 2
 
 [node name="BtnPequeno" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=397218502]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
@@ -617,6 +624,7 @@ text = "Pequeno"
 
 [node name="BtnMedio" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=2006163299]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
@@ -624,6 +632,7 @@ text = "Medio"
 
 [node name="BtnGrande" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=1654076982]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
@@ -645,6 +654,7 @@ theme_override_constants/separation = 30
 [node name="BtnBranco" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1057477151]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_v3dhh")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_m0lqh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3onyl")
@@ -652,6 +662,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_3onyl")
 [node name="BtnCiano" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=776854515]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_1acin")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pa8gg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_uqgq3")
@@ -659,6 +670,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_uqgq3")
 [node name="BtnVermelho" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1175908982]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_i7sfl")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_r1puj")
 theme_override_styles/hover = SubResource("StyleBoxFlat_4q6f4")
@@ -670,6 +682,7 @@ theme_override_constants/separation = 30
 [node name="BtnRosa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1158616299]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_kew2u")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7q47h")
 theme_override_styles/hover = SubResource("StyleBoxFlat_5d7kw")
@@ -677,6 +690,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_5d7kw")
 [node name="BtnGold" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1356528822]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_5aece")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_8bgb5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w7881")
@@ -684,6 +698,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_w7881")
 [node name="BtnRoxo" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=131356615]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_axpow")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_piupd")
 theme_override_styles/hover = SubResource("StyleBoxFlat_4ayaw")
@@ -696,6 +711,7 @@ theme_override_constants/separation = 24
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
@@ -706,6 +722,7 @@ text = "VOLTAR"
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
@@ -716,6 +733,7 @@ text = "SOBRE A EQUIPE"
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
