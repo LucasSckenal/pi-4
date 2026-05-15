@@ -1,6 +1,104 @@
 [gd_scene format=3 uid="uid://drowwcrmpp37r"]
 
 [ext_resource type="Script" uid="uid://d1aowstqolqnu" path="res://UI/Menus/menu_pausa.gd" id="1_uhuac"]
+[ext_resource type="Texture2D" uid="uid://wt70410pl58x" path="res://Assets/Menu/IconeJogar.png" id="2_12tp8"]
+[ext_resource type="Texture2D" uid="uid://bqlmtbrfrc7ot" path="res://Assets/Menu/IconeLivro.png" id="3_1aypu"]
+[ext_resource type="Texture2D" uid="uid://mkrpqrdvqn3p" path="res://Assets/Menu/IconeOpcoes.png" id="4_1aypu"]
+[ext_resource type="Texture2D" uid="uid://dtmaytkg0y8kf" path="res://Assets/Menu/IconeSair.png" id="4_4r6dx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24iwf"]
+bg_color = Color(0.11, 0.07, 0.03, 0.96)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.93, 0.72, 0.28, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+expand_margin_left = 13.0
+expand_margin_top = 15.0
+expand_margin_right = 14.0
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_obi5d"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.6878053, 0.5119215, 0.154755, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1aypu"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jgqkm"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.6878053, 0.5119215, 0.154755, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4r6dx"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vba1w"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12tp8"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.6878053, 0.5119215, 0.154755, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jonr"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
 [node name="MenuPausa" type="CanvasLayer" unique_id=2008901115]
 process_mode = 3
@@ -15,15 +113,23 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.588235)
 
-[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1109266574]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="CenterContainer" type="Panel" parent="." unique_id=1194133404]
+custom_minimum_size = Vector2(500, 650)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_24iwf")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=407888480]
-layout_mode = 2
+layout_mode = 0
+offset_left = 20.0
+offset_top = 31.0
+offset_right = 477.0
+offset_bottom = 674.0
 theme_override_constants/separation = 30
 
 [node name="TituloPausa" type="Label" parent="CenterContainer/VBoxContainer" unique_id=43727026]
@@ -40,26 +146,55 @@ theme_override_constants/separation = 20
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_colors/font_hover_color = Color(0.392157, 1, 0.392157, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(5.426742e-06, 0.43525678, 0.04231341, 1)
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_obi5d")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1aypu")
 text = "VOLTAR A JOGAR"
+icon = ExtResource("2_12tp8")
+expand_icon = true
 
 [node name="BotaoRepetir" type="Button" parent="CenterContainer/VBoxContainer" unique_id=789456123]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(0.392157, 0.784314, 1, 1)
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_jgqkm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4r6dx")
 text = "REPETIR FASE"
+icon = ExtResource("3_1aypu")
+expand_icon = true
+
+[node name="BotaoConfiguracoes" type="Button" parent="CenterContainer/VBoxContainer" unique_id=2135038804]
+custom_minimum_size = Vector2(300, 80)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.392157, 0.784314, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_jgqkm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_vba1w")
+text = "CONFIGURACOES"
+icon = ExtResource("4_1aypu")
+expand_icon = true
 
 [node name="BotaoSair" type="Button" parent="CenterContainer/VBoxContainer" unique_id=2078554498]
 custom_minimum_size = Vector2(300, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_hover_color = Color(1, 0.313726, 0.313726, 1)
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_12tp8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_3jonr")
 text = "SAIR DO JOGO"
+icon = ExtResource("4_4r6dx")
+expand_icon = true
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/BotaoVoltar" to="." method="_on_voltar_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/BotaoRepetir" to="." method="_on_repetir_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/BotaoConfiguracoes" to="." method="_on_repetir_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/BotaoSair" to="." method="_on_sair_fase_pressed"]
