@@ -57,7 +57,8 @@ func configurar(opcao: Dictionary):
 
 	set_meta("caminho_index", opcao.get("index", 0))
 
-	# Ícone 2D tem prioridade. SubViewport 3D só como último recurso.
+	# Ícone 2D tem prioridade — mais legível e consistente visualmente.
+	# Modelo 3D apenas como fallback quando não há ícone configurado.
 	var img_2d = opcao.get("icone")
 	if img_2d is Texture2D:
 		_mostrar_icone_2d(img_2d)

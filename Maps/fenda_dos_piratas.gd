@@ -20,4 +20,5 @@ func _on_noite_iniciada(_onda_atual: int) -> void:
 	pass
 
 func _on_fase_vencida():
-	Global.processar_recompensa(conquista_fim_Fenda)
+	if conquista_fim_Fenda != null:
+		Global.processar_recompensa(conquista_fim_Fenda)

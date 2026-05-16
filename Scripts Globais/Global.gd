@@ -36,6 +36,7 @@ var armadura_kakashi_desbloqueada: bool = false
 var usando_set_kakashi: bool = false
 
 var inimigos_descobertos: Array = []
+var total_ondas_completadas: int = 0
 
 # O que cada um tem equipado neste momento
 var equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
@@ -102,6 +103,7 @@ func salvar_progresso():
 	config.set_value("progresso", "estrelas_por_fase", estrelas_por_fase)
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
+	config.set_value("progresso", "total_ondas_completadas", total_ondas_completadas)
 	config.set_value("inventario", "armas_ganhas", armas_desbloqueadas)
 	config.set_value("inventario", "chapeus_ganhos", chapeus_desbloqueados)
 	config.set_value("equipamentos", "avo_m", equip_avo_m)
@@ -137,8 +139,9 @@ func carregar_progresso():
 	estrelas_por_fase = config.get_value("progresso", "estrelas_por_fase",
 						config.get_value("mapa", "estrelas_por_fase", {}))
 
-	inimigos_descobertos      = config.get_value("progresso", "inimigos", [])
-	conquistas_desbloqueadas  = config.get_value("progresso", "conquistas", [])
+	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
+	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
+	total_ondas_completadas      = config.get_value("progresso", "total_ondas_completadas", 0)
 	armas_desbloqueadas       = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
 	chapeus_desbloqueados     = config.get_value("inventario", "chapeus_ganhos", ["Nenhum"])
 	equip_avo_m               = config.get_value("equipamentos", "avo_m", {"arma": "arma_katana", "chapeu": "Nenhum"})

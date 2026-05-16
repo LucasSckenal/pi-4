@@ -167,6 +167,14 @@ var reroll_usado: bool = false
 var custo_reroll: int = 2
 var upgrades_escolhidos: Array = []
 
+# ==========================================
+# RASTREAMENTO DE CONQUISTAS
+# ==========================================
+var _conquistas_cache: Dictionary = {}
+var _moedas_ao_inicio_dia: int = 0
+var _dias_sem_gastar: int = 0
+var _vida_base_ao_iniciar_noite: int = 0
+
 var caminhos_das_fases = {
 	1: "res://Maps/tutorial_world.tscn",
 	2: "res://Maps/Crimson_Desert.tscn",
@@ -309,6 +317,17 @@ func carregar_fase(numero_fase: int):
 		onda_atual = 1
 		# Descarta qualquer construção pendente de uma sessão anterior
 		dados_construcoes_pendentes.clear()
+		# Reset dos contadores de conquista por sessão
+		_dias_sem_gastar = 0
+		_moedas_ao_inicio_dia = moedas
+		_vida_base_ao_iniciar_noite = 0
+		# Corrige o ícone da base: _ready() das construções corre antes deste ponto,
+		# por isso fase_atual ainda era o valor antigo quando _resolver_icone_construcao()
+		# foi chamado. Forçamos a re-resolução agora que fase_atual está correcto.
+		get_tree().call_group("Base", "_atualizar_icone_base")
+		# Conquista: chegou à fase final
+		if numero_fase == 6:
+			_tentar_conquista("res://Conquistas/chega_fase_final.tres")
 		iniciar_dia(true)
 	# Se for save, os dados já foram carregados — não sobrescrevemos
 
@@ -337,6 +356,18 @@ func ir_para_proxima_fase() -> void:
 func _set_nivel_base(valor):
 	nivel_base = valor
 	upgrade_base_aplicado.emit()
+
+# Tenta desbloquear uma conquista pelo caminho do .tres.
+# Carrega lazy (uma vez) e ignora silenciosamente se já desbloqueada.
+func _tentar_conquista(caminho: String) -> void:
+	var id := caminho.get_file().get_basename()
+	if id in Global.conquistas_desbloqueadas:
+		return
+	if not _conquistas_cache.has(caminho):
+		_conquistas_cache[caminho] = load(caminho)
+	var c = _conquistas_cache.get(caminho)
+	if c:
+		Global.processar_recompensa(c)
 
 func get_construcoes_disponiveis() -> Array:
 	var disponiveis = []
@@ -367,6 +398,7 @@ func iniciar_dia(primeiro_dia: bool = false):
 
 	if not primeiro_dia:
 		calcular_e_recolher_renda()
+	_moedas_ao_inicio_dia = moedas   # snapshot APÓS a renda para detectar gasto
 
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Torres", "curar_totalmente")
@@ -376,6 +408,7 @@ func iniciar_noite():
 	spawners_concluidos = 0
 	is_night = true
 	construcao_destaque_upgrade = null   # Limpa o destaque ao entrar na noite
+	_vida_base_ao_iniciar_noite = vida_base_atual
 
 	# Salva ANTES da noite começar — garante que todas as construções
 	# do jogador estão no arquivo. Assim ao carregar/reiniciar a noite
@@ -388,6 +421,7 @@ func iniciar_noite():
 	get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
 
 func registrar_spawner_concluido():
+
 	spawners_concluidos += 1
 	if spawners_concluidos >= total_spawners:
 		terminar_onda()
@@ -411,6 +445,23 @@ func terminar_onda():
 	estado_atual = EstadoJogo.DIA
 	is_night = false
 	onda_terminada.emit()
+
+	# ── Conquistas por onda ──────────────────────────────────────────
+	# Sobreviveu a primeira onda
+	if onda_atual == 1:
+		_tentar_conquista("res://Conquistas/inicio_aventura.tres")
+	# Dias consecutivos sem gastar moedas
+	if moedas >= _moedas_ao_inicio_dia:
+		_dias_sem_gastar += 1
+		if _dias_sem_gastar >= 3:
+			_tentar_conquista("res://Conquistas/guarda_dinheiro_ondas.tres")
+	else:
+		_dias_sem_gastar = 0
+	# Total acumulado de ondas (persiste entre sessões)
+	Global.total_ondas_completadas += 1
+	if Global.total_ondas_completadas >= 20:
+		_tentar_conquista("res://Conquistas/pagamento_20_ondas.tres")
+	# ────────────────────────────────────────────────────────────────
 
 	if onda_atual % 2 != 0:
 		sortear_cartas()
@@ -450,6 +501,9 @@ func calcular_e_recolher_renda():
 	moedas += total_renda
 	renda_recolhida.emit(total_renda)
 	get_tree().call_group("Interface", "atualizar_moedas")
+	# Conquista: acumular 1000 moedas ao mesmo tempo
+	if moedas >= 1000:
+		_tentar_conquista("res://Conquistas/acumula_1000_moedas.tres")
 
 # ==========================================
 # SISTEMA DE UPGRADES E CARTAS
@@ -601,6 +655,18 @@ func acionar_vitoria():
 		Global.estrelas_por_fase[str(fase_atual)] = estrelas_ganhas
 
 	Global.salvar_progresso()
+
+	# ── Conquistas por vitória ───────────────────────────────────────
+	# Fase concluída sem nenhum dano na base
+	if vida_base_atual == vida_base_maxima and vida_base_maxima > 0:
+		_tentar_conquista("res://Conquistas/defesa_perfeita.tres")
+	# Última onda (boss) concluída sem dano na base
+	if _vida_base_ao_iniciar_noite == vida_base_atual and vida_base_maxima > 0:
+		_tentar_conquista("res://Conquistas/derrota_boss_sem_dano_base.tres")
+	# Concluiu o tutorial (fase 1)
+	if fase_atual == 1:
+		_tentar_conquista("res://Conquistas/primeiros_passos.tres")
+	# ────────────────────────────────────────────────────────────────
 
 	vitoria.emit()
 	get_tree().paused = true
@@ -908,6 +974,16 @@ func _atualizar_destaque_upgrade() -> void:
 		construcao_destaque_upgrade = null
 		return
 	var construcoes = get_tree().get_nodes_in_group("Construcao")
+
+	# Conquista: primeira construção colocada (verifica a cada segundo durante o dia)
+	for c in construcoes:
+		if not is_instance_valid(c): continue
+		if c.is_in_group("Base"): continue
+		if c.get("is_fantasma"): continue
+		if c.get("tipo") == 5: continue  # ignora a própria base
+		_tentar_conquista("res://Conquistas/primeira_compra.tres")
+		break
+
 	var melhor: Node  = null
 	var melhor_custo: int = moedas + 1
 	for c in construcoes:
