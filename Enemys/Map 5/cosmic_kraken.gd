@@ -22,11 +22,14 @@ class_name CosmicKraken
 ## Cena do tentáculo invocado
 @export var cena_tentaculo: PackedScene
 ## Quantos tentáculos podem estar vivos simultaneamente
-@export var max_tentaculos_vivos: int = 4
+@export var max_tentaculos_vivos: int = 3
+## Quantidade total de tentáculos que o Kraken invoca ao longo do combate.
+## Ao matar todos eles o boss morre (dano = vida_maxima / total_tentaculos por kill)
+@export var total_tentaculos: int = 9
 ## Intervalo entre invocações (em segundos)
 @export var intervalo_invocacao: float = 4.0
-## Dano causado no Kraken quando um tentáculo é destruído
-@export var dano_por_tentaculo_morto: int = 100
+## Dano no Kraken por tentáculo morto — calculado em _ready() a partir de vida_maxima
+var dano_por_tentaculo_morto: int = 0
 ## Quanto o Kraken se enterra abaixo da base
 @export var offset_y_sob_base: float = -2.5
 ## Distância mínima entre dois tentáculos (evita stack na mesma construção)
@@ -46,6 +49,7 @@ class_name CosmicKraken
 var _olho_esquerdo: OmniLight3D = null
 var _olho_direito: OmniLight3D = null
 var _tentaculos_ativos: Array = []
+var _tentaculos_invocados: int = 0
 var _timer_invocacao: float = 0.0
 var _telegrafando: bool = false
 
@@ -71,6 +75,10 @@ func _ready() -> void:
 		_olho_direito.light_energy = 0.0
 
 	super._ready()
+
+	# Dano por tentáculo = vida_maxima distribuída igualmente entre o total.
+	# ceil() garante que arredondamentos sempre cubram 100% da vida.
+	dano_por_tentaculo_morto = ceili(float(vida_maxima) / float(max(1, total_tentaculos)))
 
 	# Kraken NÃO conta como "inimigo restante" da wave. Ele é apenas um "hazard"
 	# que abre caminho via tentáculos — a wave finaliza quando os inimigos normais
@@ -160,19 +168,19 @@ func _physics_process(delta: float) -> void:
 	# senão o spawner ficaria preso esperando uma corrente infinita de tentáculos.
 	_timer_invocacao -= delta
 
+	var pode_invocar := _tentaculos_ativos.size() < max_tentaculos_vivos \
+			and _tentaculos_invocados < total_tentaculos
+
 	# Telegraf visual: acende os olhos quando falta <tempo_telegraf> para invocar
 	if _timer_invocacao <= tempo_telegraf \
 			and _timer_invocacao > 0.0 \
 			and not _telegrafando \
-			and _tentaculos_ativos.size() < max_tentaculos_vivos \
-			and not _wave_em_limpeza():
+			and pode_invocar:
 		_telegrafando = true
 		_pulso_telegraf()
 
-	if _timer_invocacao <= 0.0 and _tentaculos_ativos.size() < max_tentaculos_vivos:
+	if _timer_invocacao <= 0.0 and pode_invocar:
 		_telegrafando = false
-		if _wave_em_limpeza():
-			return
 		_invocar_tentaculo()
 		_timer_invocacao = intervalo_invocacao
 
@@ -214,6 +222,7 @@ func _invocar_tentaculo() -> void:
 	if "kraken_pai" in tentaculo:
 		tentaculo.kraken_pai = self
 	_tentaculos_ativos.append(tentaculo)
+	_tentaculos_invocados += 1
 
 # Devolve um Vector3 (posição) ou null se nenhum spot for viável.
 func _escolher_posicao_invocacao():

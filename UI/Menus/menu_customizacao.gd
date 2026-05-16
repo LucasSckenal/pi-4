@@ -120,14 +120,14 @@ func _gerar_botoes_armas():
 		var esta_desbloqueada = id in Global.armas_desbloqueadas
 
 		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color(0.18, 0.18, 0.21, 1)
+		estilo.bg_color = Color(0.15, 0.10, 0.04, 1)
 		estilo.set_corner_radius_all(8)
 
 		var estilo_hover = StyleBoxFlat.new()
-		estilo_hover.bg_color = Color(0.26, 0.26, 0.32, 1)
+		estilo_hover.bg_color = Color(0.24, 0.15, 0.05, 1)
 		estilo_hover.set_corner_radius_all(8)
 		estilo_hover.set_border_width_all(1)
-		estilo_hover.border_color = Color(0.50, 0.46, 0.72, 1)
+		estilo_hover.border_color = Color(0.85, 0.65, 0.20, 1)
 
 		if esta_desbloqueada:
 			var caminho_icone = PASTA_ICONES + id + ".png"
@@ -250,7 +250,7 @@ func _gerar_botoes_chapeus():
 			var estilo_c_hover := StyleBoxFlat.new()
 			estilo_c_hover.set_corner_radius_all(8)
 			estilo_c_hover.set_border_width_all(1)
-			estilo_c_hover.border_color = Color(0.50, 0.46, 0.72, 1)
+			estilo_c_hover.border_color = Color(0.85, 0.65, 0.20, 1)
 
 			if id == chapeu_equipado:
 				estilo_c.bg_color = Color(0.22, 0.20, 0.10, 1)
@@ -258,8 +258,8 @@ func _gerar_botoes_chapeus():
 				estilo_c.border_color = Color(1.0, 0.85, 0.25, 1)
 				estilo_c_hover.bg_color = Color(0.28, 0.26, 0.14, 1)
 			else:
-				estilo_c.bg_color = Color(0.18, 0.18, 0.21, 1)
-				estilo_c_hover.bg_color = Color(0.26, 0.26, 0.32, 1)
+				estilo_c.bg_color = Color(0.15, 0.10, 0.04, 1)
+				estilo_c_hover.bg_color = Color(0.24, 0.15, 0.05, 1)
 
 			btn.add_theme_stylebox_override("normal", estilo_c)
 			btn.add_theme_stylebox_override("hover", estilo_c_hover)

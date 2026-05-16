@@ -67,6 +67,14 @@ var game_over_instance: Control = null
 @export var cena_vitoria: PackedScene
 var vitoria_instance: CanvasLayer = null
 
+# ==========================================
+# BARRA DE VIDA DA BASE (HUD)
+# ==========================================
+var _painel_vida_base: Control = null
+var _barra_vida_base: ProgressBar = null
+var _label_vida_base: Label = null
+var _ultima_vida_base: int = -1
+
 func _ready():
 	add_to_group("Interface")
 	
@@ -170,6 +178,9 @@ func _ready():
 	# Menu de pausa (botão + instância)
 	_instanciar_menu_pausa()
 	_criar_botao_pausa()
+
+	# Barra de vida da base no HUD
+	_criar_barra_vida_base()
 
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
@@ -365,21 +376,20 @@ func _on_info_spawner(id_spawner, direcao, inimigos, posicao_mundo):
 
 	container_direcoes.add_child(container_dir)
 
-	# layout
+	# posição — calcula primeiro para inferir qual borda o indicador fica
 	var tamanho_real = tamanho_container
-	var box = null
-	
-	if direcao in ["Leste", "Oeste", "Nordeste", "Noroeste", "Sudeste", "Sudoeste"]:
-		tamanho_real = Vector2(tamanho_container.x, tamanho_container.y)
+	var pos_tela = _calcular_posicao_borda(posicao_mundo, tamanho_real)
+
+	# layout — borda lateral → VBox (ícones empilhados na vertical)
+	#           borda superior/inferior → HBox (ícones lado a lado)
+	var vp_size = get_viewport().get_visible_rect().size
+	var dist_lr = min(pos_tela.x, vp_size.x - pos_tela.x - tamanho_real.x)
+	var dist_tb = min(pos_tela.y, vp_size.y - pos_tela.y - tamanho_real.y)
+	var box: BoxContainer
+	if dist_lr <= dist_tb:
 		box = VBoxContainer.new()
 	else:
 		box = HBoxContainer.new()
-
-	# posição
-	var pos_tela = _calcular_posicao_borda(
-		posicao_mundo,
-		tamanho_real
-	)
 
 	container_dir.position = pos_tela
 	container_dir.size = tamanho_real
@@ -514,6 +524,8 @@ func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 		tween_fade.tween_property(ampulheta_noite, "modulate:a", 1.0, 0.0)
 
 func _process(_delta: float) -> void:
+	_atualizar_barra_vida_base()
+
 	if menu_upgrade.visible:
 		return
 
@@ -557,6 +569,109 @@ func _process(_delta: float) -> void:
 				if icon.has_method("atualizar_seta"):
 					icon.atualizar_seta(angulo)
 							
+# ==========================================
+# BARRA DE VIDA DA BASE
+# ==========================================
+func _criar_barra_vida_base() -> void:
+	var panel := PanelContainer.new()
+	panel.name = "PainelVidaBase"
+	# Posiciona logo abaixo do quadro de onda (MarginEsquerda acaba em y=176)
+	panel.position = Vector2(20.0, 182.0)
+	panel.custom_minimum_size = Vector2(200.0, 0.0)
+
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.10, 0.05, 0.04, 0.92)
+	st.set_border_width_all(2)
+	st.border_color = Color(0.80, 0.22, 0.18, 0.85)
+	st.set_corner_radius_all(10)
+	st.content_margin_left   = 8.0
+	st.content_margin_right  = 8.0
+	st.content_margin_top    = 6.0
+	st.content_margin_bottom = 6.0
+	panel.add_theme_stylebox_override("panel", st)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 4)
+	panel.add_child(vbox)
+
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 5)
+	vbox.add_child(hbox)
+
+	var icone := Label.new()
+	icone.text = "❤️"
+	icone.add_theme_font_size_override("font_size", 15)
+	icone.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox.add_child(icone)
+
+	var titulo := Label.new()
+	titulo.text = "Castelo"
+	titulo.add_theme_font_size_override("font_size", 13)
+	titulo.add_theme_color_override("font_color", Color(0.88, 0.76, 0.52))
+	titulo.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.8))
+	titulo.add_theme_constant_override("outline_size", 2)
+	titulo.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
+	titulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	hbox.add_child(titulo)
+
+	_label_vida_base = Label.new()
+	_label_vida_base.add_theme_font_size_override("font_size", 13)
+	_label_vida_base.add_theme_color_override("font_color", Color(1.0, 0.86, 0.86))
+	_label_vida_base.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.8))
+	_label_vida_base.add_theme_constant_override("outline_size", 2)
+	_label_vida_base.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox.add_child(_label_vida_base)
+
+	_barra_vida_base = ProgressBar.new()
+	_barra_vida_base.min_value = 0
+	_barra_vida_base.show_percentage = false
+	_barra_vida_base.custom_minimum_size = Vector2(0.0, 8.0)
+	_barra_vida_base.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(_barra_vida_base)
+
+	var fill_st := StyleBoxFlat.new()
+	fill_st.bg_color = Color(0.88, 0.18, 0.14)
+	fill_st.set_corner_radius_all(4)
+	_barra_vida_base.add_theme_stylebox_override("fill", fill_st)
+
+	var bg_st := StyleBoxFlat.new()
+	bg_st.bg_color = Color(0.14, 0.06, 0.05)
+	bg_st.set_corner_radius_all(4)
+	_barra_vida_base.add_theme_stylebox_override("background", bg_st)
+
+	_painel_vida_base = panel
+
+	var ip = get_node_or_null("InterfacePrincipal")
+	if ip:
+		ip.add_child(panel)
+	else:
+		add_child(panel)
+
+	_atualizar_barra_vida_base()
+
+func _atualizar_barra_vida_base() -> void:
+	if _barra_vida_base == null or _label_vida_base == null:
+		return
+	var maxima: int = max(1, GameManager.vida_base_maxima) as int
+	var atual: int  = GameManager.vida_base_atual as int
+	if atual == _ultima_vida_base and int(_barra_vida_base.max_value) == maxima:
+		return
+	_ultima_vida_base = atual
+	_barra_vida_base.max_value = maxima
+	_barra_vida_base.value     = atual
+	_label_vida_base.text      = "%d / %d" % [atual, maxima]
+	# Cor da barra baseada na porcentagem restante
+	var pct := float(atual) / float(maxima)
+	var fill_st := StyleBoxFlat.new()
+	fill_st.set_corner_radius_all(4)
+	if pct > 0.5:
+		fill_st.bg_color = Color(0.88, 0.18, 0.14)   # vermelho normal
+	elif pct > 0.25:
+		fill_st.bg_color = Color(0.92, 0.50, 0.08)   # laranja de alerta
+	else:
+		fill_st.bg_color = Color(1.0, 0.10, 0.08)    # vermelho crítico
+	_barra_vida_base.add_theme_stylebox_override("fill", fill_st)
+
 # ==========================================
 # EVENTOS DE GAME OVER
 # ==========================================

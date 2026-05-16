@@ -314,6 +314,26 @@ func carregar_fase(numero_fase: int):
 
 	get_tree().call_group("Interface", "atualizar_moedas")
 
+# Carrega a próxima fase com mudança de cena.
+# Chamado pela tela de vitória. Roda no singleton (AutoLoad) para sobreviver
+# ao change_scene_to_file que destrói a cena atual.
+func ir_para_proxima_fase() -> void:
+	get_tree().paused = false
+	var proxima := fase_atual + 1
+	if not caminhos_das_fases.has(proxima):
+		# Sem próxima fase — volta ao menu principal
+		get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
+		return
+	get_tree().change_scene_to_file(caminhos_das_fases[proxima])
+	await get_tree().tree_changed
+	await get_tree().process_frame
+	carregar_fase(proxima)
+	match proxima:
+		1: MusicaGlobal.tocar_tutorial()
+		3: MusicaGlobal.tocar_bruxa()
+		5: MusicaGlobal.tocar_covil()
+		_: MusicaGlobal.tocar_menu()
+
 func _set_nivel_base(valor):
 	nivel_base = valor
 	upgrade_base_aplicado.emit()
