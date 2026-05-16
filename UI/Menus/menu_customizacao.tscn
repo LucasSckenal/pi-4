@@ -43,36 +43,36 @@ outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnInativo"]
-bg_color = Color(0.15, 0.15, 0.18, 1)
+bg_color = Color(0.14, 0.09, 0.03, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.28, 0.28, 0.32, 1)
+border_color = Color(0.48, 0.36, 0.12, 0.8)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnAtivo"]
-bg_color = Color(0.16, 0.35, 0.6, 1)
+bg_color = Color(0.28, 0.18, 0.04, 1)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.35, 0.6, 0.95, 1)
+border_color = Color(0.93, 0.72, 0.28, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
-bg_color = Color(0.22, 0.22, 0.28, 1)
+bg_color = Color(0.22, 0.14, 0.04, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.45, 0.42, 0.65, 1)
+border_color = Color(0.75, 0.58, 0.20, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -112,9 +112,9 @@ corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Voltar"]
-bg_color = Color(0.22, 0.35, 0.55, 1)
+bg_color = Color(0.14, 0.09, 0.03, 0.7)
 border_width_bottom = 3
-border_color = Color(0.12, 0.2, 0.35, 1)
+border_color = Color(0.42, 0.32, 0.10, 0.6)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -317,7 +317,7 @@ columns = 3
 [node name="LabelNomeItem" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=1758953539]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.8, 0.82, 0.9, 1)
+theme_override_colors/font_color = Color(0.95, 0.84, 0.52, 1)
 theme_override_font_sizes/font_size = 20
 text = "— Nenhum —"
 horizontal_alignment = 1

@@ -9,9 +9,11 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export_category("Identificação do Inimigo")
 @export var tipo_inimigo: Categoria = Categoria.NORMAL
 @export var nome_inimigo: String = "Monstro Desconhecido"
+@export var subtitulo_inimigo: String = ""     ## Linha abaixo do nome na cutscene (ex: "O Destruidor das Planícies")
 @export var eh_aereo: bool = false
 @export var usar_video_custom := false
 @export var video_stream: VideoStream
+@export var audio_intro: AudioStream           ## Sting dramático tocado no momento do reveal
 @export_category("Comportamento Kamikaze (Quebra-Muro)")
 @export var eh_kamikaze: bool = false
 @export var raio_explosao: float = 3.0
@@ -647,7 +649,7 @@ func _tocar_cutscene():
 	var cutscene = preload("res://Cenas Locais/boss_intro.tscn").instantiate()
 	get_tree().current_scene.add_child(cutscene)
 
-	cutscene.reproduzir_stream(video_stream, nome_inimigo)
+	cutscene.reproduzir_stream(video_stream, nome_inimigo, subtitulo_inimigo, audio_intro)
 
 	await cutscene.cutscene_finished
 

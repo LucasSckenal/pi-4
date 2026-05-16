@@ -67,6 +67,14 @@ var game_over_instance: Control = null
 @export var cena_vitoria: PackedScene
 var vitoria_instance: CanvasLayer = null
 
+# ==========================================
+# CORAÇÕES DE VIDA DA BASE (HUD)
+# ==========================================
+var _painel_vida_base: Control = null
+var _corações: Array = []
+var _corações_atuais: int = -1
+var _pulso_tween: Tween = null
+
 func _ready():
 	add_to_group("Interface")
 	
@@ -170,6 +178,9 @@ func _ready():
 	# Menu de pausa (botão + instância)
 	_instanciar_menu_pausa()
 	_criar_botao_pausa()
+
+	# Barra de vida da base no HUD
+	_criar_barra_vida_base()
 
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
@@ -365,21 +376,20 @@ func _on_info_spawner(id_spawner, direcao, inimigos, posicao_mundo):
 
 	container_direcoes.add_child(container_dir)
 
-	# layout
+	# posição — calcula primeiro para inferir qual borda o indicador fica
 	var tamanho_real = tamanho_container
-	var box = null
-	
-	if direcao in ["Leste", "Oeste", "Nordeste", "Noroeste", "Sudeste", "Sudoeste"]:
-		tamanho_real = Vector2(tamanho_container.x, tamanho_container.y)
+	var pos_tela = _calcular_posicao_borda(posicao_mundo, tamanho_real)
+
+	# layout — borda lateral → VBox (ícones empilhados na vertical)
+	#           borda superior/inferior → HBox (ícones lado a lado)
+	var vp_size = get_viewport().get_visible_rect().size
+	var dist_lr = min(pos_tela.x, vp_size.x - pos_tela.x - tamanho_real.x)
+	var dist_tb = min(pos_tela.y, vp_size.y - pos_tela.y - tamanho_real.y)
+	var box: BoxContainer
+	if dist_lr <= dist_tb:
 		box = VBoxContainer.new()
 	else:
 		box = HBoxContainer.new()
-
-	# posição
-	var pos_tela = _calcular_posicao_borda(
-		posicao_mundo,
-		tamanho_real
-	)
 
 	container_dir.position = pos_tela
 	container_dir.size = tamanho_real
@@ -514,6 +524,9 @@ func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 		tween_fade.tween_property(ampulheta_noite, "modulate:a", 1.0, 0.0)
 
 func _process(_delta: float) -> void:
+	_atualizar_barra_vida_base()
+	_atualizar_posicao_coracoes()
+
 	if menu_upgrade.visible:
 		return
 
@@ -557,6 +570,136 @@ func _process(_delta: float) -> void:
 				if icon.has_method("atualizar_seta"):
 					icon.atualizar_seta(angulo)
 							
+# ==========================================
+# CORAÇÕES DE VIDA DA BASE
+# ==========================================
+func _criar_barra_vida_base() -> void:
+	var panel := PanelContainer.new()
+	panel.name = "PainelVidaBase"
+	# A posição é atualizada a cada frame por _atualizar_posicao_coracoes()
+	panel.custom_minimum_size = Vector2(160.0, 0.0)
+
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.10, 0.05, 0.04, 0.92)
+	st.set_border_width_all(2)
+	st.border_color = Color(0.75, 0.20, 0.18, 0.85)
+	st.set_corner_radius_all(10)
+	st.content_margin_left   = 8.0
+	st.content_margin_right  = 8.0
+	st.content_margin_top    = 6.0
+	st.content_margin_bottom = 6.0
+	panel.add_theme_stylebox_override("panel", st)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 2)
+	panel.add_child(vbox)
+
+	# Rótulo "Castelo" acima dos corações
+	var titulo := Label.new()
+	titulo.text = "Castelo"
+	titulo.add_theme_font_size_override("font_size", 15)
+	titulo.add_theme_color_override("font_color", Color(0.90, 0.76, 0.52))
+	titulo.add_theme_color_override("font_outline_color", Color(0.0, 0.0, 0.0, 0.8))
+	titulo.add_theme_constant_override("outline_size", 2)
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(titulo)
+
+	# Fileira de 5 corações
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 1)
+	hbox.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	vbox.add_child(hbox)
+
+	_corações = []
+	for i in range(5):
+		var lbl := Label.new()
+		lbl.text = "❤️"
+		lbl.add_theme_font_size_override("font_size", 28)
+		lbl.pivot_offset = Vector2(14.0, 16.0)
+		hbox.add_child(lbl)
+		_corações.append(lbl)
+
+	_painel_vida_base = panel
+
+	var ip := get_node_or_null("InterfacePrincipal")
+	if ip:
+		ip.add_child(panel)
+	else:
+		add_child(panel)
+
+	_atualizar_barra_vida_base()
+
+func _atualizar_barra_vida_base() -> void:
+	if _corações.is_empty():
+		return
+	var maxima: int = GameManager.vida_base_maxima as int
+	var atual: int  = GameManager.vida_base_atual as int
+	if maxima <= 0:
+		return  # Base ainda não inicializada
+	var cheios: int = ceili(5.0 * float(atual) / float(maxima))
+	cheios = clampi(cheios, 0, 5)
+	if cheios == _corações_atuais:
+		return
+	# Para pulso anterior
+	if _pulso_tween and _pulso_tween.is_valid():
+		_pulso_tween.kill()
+		_pulso_tween = null
+	# Atualiza cada coração com animação quando perde
+	for i in range(5):
+		var lbl: Label = _corações[i]
+		var era_cheio := i < _corações_atuais if _corações_atuais >= 0 else true
+		var esta_cheio := i < cheios
+		lbl.text = "❤️" if esta_cheio else "🖤"
+		if era_cheio and not esta_cheio:
+			# Animação de "quebra" no coração perdido
+			var tw := create_tween()
+			tw.tween_property(lbl, "scale", Vector2(1.6, 1.6), 0.07).set_trans(Tween.TRANS_BACK)
+			tw.tween_property(lbl, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BOUNCE)
+	_corações_atuais = cheios
+	# Pulso urgente quando sobra só 1 coração
+	if cheios == 1:
+		_pulso_tween = create_tween().set_loops()
+		var lbl: Label = _corações[0]
+		_pulso_tween.tween_property(lbl, "scale", Vector2(1.3, 1.3), 0.38).set_trans(Tween.TRANS_SINE)
+		_pulso_tween.tween_property(lbl, "scale", Vector2(1.0, 1.0), 0.38).set_trans(Tween.TRANS_SINE)
+
+# Projeta a posição 3D da base para a tela e reposiciona o painel de corações
+func _atualizar_posicao_coracoes() -> void:
+	if _painel_vida_base == null:
+		return
+	var cam := get_viewport().get_camera_3d()
+	if cam == null:
+		return
+	var bases := get_tree().get_nodes_in_group("Base")
+	if bases.is_empty():
+		return
+	var base_node := bases[0]
+	if not is_instance_valid(base_node):
+		return
+
+	# Ponto acima do nó base (offset em Y no mundo 3D)
+	var pos_mundo: Vector3 = base_node.global_position + Vector3(0, 4, 0)
+
+	if cam.is_position_behind(pos_mundo):
+		_painel_vida_base.modulate.a = 0.0
+		return
+	_painel_vida_base.modulate.a = 1.0
+
+	var pos_tela: Vector2 = cam.unproject_position(pos_mundo)
+	var panel_size: Vector2 = _painel_vida_base.size
+	if panel_size == Vector2.ZERO:
+		panel_size = Vector2(160, 80)  # estimativa antes do primeiro layout
+
+	# Centraliza horizontalmente, posiciona acima do ponto projetado
+	var nova_pos := pos_tela - Vector2(panel_size.x * 0.5, panel_size.y + 12.0)
+
+	# Garante que o painel não sai da tela
+	var vp := get_viewport().get_visible_rect().size
+	nova_pos.x = clampf(nova_pos.x, 4.0, vp.x - panel_size.x - 4.0)
+	nova_pos.y = clampf(nova_pos.y, 4.0, vp.y - panel_size.y - 4.0)
+
+	_painel_vida_base.position = nova_pos
+
 # ==========================================
 # EVENTOS DE GAME OVER
 # ==========================================

@@ -37,13 +37,13 @@ func configurar(cena: PackedScene, textura: Texture2D, nome: String, custo: int,
 			if is_instance_valid(sub_viewport):
 				sub_viewport.queue_free()
 		else:
-			# Renderiza a malha 3D da cena no SubViewport e utiliza seu output como textura
+			# Renderiza a malha 3D da cena no SubViewport e utiliza seu output como textura.
+			# IMPORTANTE: scripts são removidos ANTES de add_child para que _ready() não
+			# execute _trocar_modelo() e mostre o modelo upgradado em vez do modelo base.
 			if is_instance_valid(sub_viewport) and is_instance_valid(model_container):
 				var modelo_3d = cena.instantiate()
-				model_container.add_child(modelo_3d)
-				
 				_desativar_processamento_miniatura(modelo_3d)
-				
+				model_container.add_child(modelo_3d)
 				icone_visual.texture = sub_viewport.get_texture()
 
 ## Desabilita iterativamente a física e scripts da malha instanciada no SubViewport 

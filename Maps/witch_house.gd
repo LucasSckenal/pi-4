@@ -22,4 +22,5 @@ func _on_noite_iniciada(_onda_atual: int) -> void:
 		anim_player.play("transicao_para_noite")
 
 func _on_fase_vencida():
-	Global.processar_recompensa(conquista_fim_Bruxa)
+	if conquista_fim_Bruxa != null:
+		Global.processar_recompensa(conquista_fim_Bruxa)

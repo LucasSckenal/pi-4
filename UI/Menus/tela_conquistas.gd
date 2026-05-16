@@ -105,7 +105,7 @@ func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
 	bar.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 
 	var fill_st := StyleBoxFlat.new()
-	fill_st.bg_color = Color(0.85, 0.68, 0.15)
+	fill_st.bg_color = Color(0.85, 0.65, 0.12)
 	fill_st.corner_radius_top_left    = 5
 	fill_st.corner_radius_top_right   = 5
 	fill_st.corner_radius_bottom_left = 5
@@ -113,7 +113,7 @@ func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
 	bar.add_theme_stylebox_override("fill", fill_st)
 
 	var bg_st := StyleBoxFlat.new()
-	bg_st.bg_color = Color(0.18, 0.18, 0.22)
+	bg_st.bg_color = Color(0.15, 0.09, 0.03)
 	bg_st.corner_radius_top_left    = 5
 	bg_st.corner_radius_top_right   = 5
 	bg_st.corner_radius_bottom_left = 5
@@ -133,8 +133,8 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	card.custom_minimum_size   = Vector2(0, 148)
 
 	var st := StyleBoxFlat.new()
-	st.bg_color     = Color(0.12, 0.11, 0.08, 0.97) if liberada else Color(0.09, 0.09, 0.11, 0.95)
-	st.border_color = Color(0.82, 0.65, 0.12)        if liberada else Color(0.26, 0.26, 0.30)
+	st.bg_color     = Color(0.17, 0.10, 0.04, 0.97) if liberada else Color(0.10, 0.07, 0.03, 0.95)
+	st.border_color = Color(0.82, 0.63, 0.14)        if liberada else Color(0.42, 0.32, 0.10, 0.7)
 	st.set_border_width_all(2)
 	st.corner_radius_top_left     = 12
 	st.corner_radius_top_right    = 12
@@ -157,7 +157,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	hbox.add_child(ic_cont)
 
 	var ic_bg := ColorRect.new()
-	ic_bg.color = Color(0.06, 0.06, 0.09, 1.0)
+	ic_bg.color = Color(0.09, 0.06, 0.02, 1.0)
 	ic_bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ic_cont.add_child(ic_bg)
 
@@ -232,7 +232,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	desc_lbl.text = conquista.descricao if liberada else "Continue jogando para descobrir..."
 	desc_lbl.add_theme_font_size_override("font_size", 14)
 	desc_lbl.add_theme_color_override("font_color",
-		Color(0.72, 0.72, 0.78) if liberada else Color(0.30, 0.30, 0.34))
+		Color(0.78, 0.68, 0.48) if liberada else Color(0.36, 0.28, 0.16))
 	desc_lbl.autowrap_mode    = TextServer.AUTOWRAP_WORD_SMART
 	desc_lbl.max_lines_visible = 3
 	desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL

@@ -614,21 +614,21 @@ func _escala_por_tipo_build(t: int) -> Vector3:
 func _resolver_icone_construcao() -> void:
 	if icone != null: return
 	if tipo == TipoConstrucao.BASE:
-		match GameManager.fase_atual:
-			1: icone = preload("res://Assets/Construcoes/BaseCastelo2.png")
-			2: icone = preload("res://Assets/Construcoes/BaseDeserto.png")
-			3: icone = preload("res://Assets/Construcoes/BaseBruxa.png")
-			4: icone = preload("res://Assets/Construcoes/BasePirata.png")
-			5: icone = preload("res://Assets/Construcoes/BaseScifi2.png")
-			6: icone = preload("res://Assets/Construcoes/BaseCovil.png")
+		_atualizar_icone_base()
 		return
 	match scene_file_path:
+		"res://Builds/tower.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoTorre.png")
+		"res://Builds/mill.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoMoinho.png")
+		"res://Builds/caldeiron.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoBruxa.png")
 		"res://Builds/mina.tscn":
 			icone = preload("res://Assets/Construcoes/ConstrucaoMina.png")
 		"res://Builds/quartel.tscn":
 			icone = preload("res://Assets/Construcoes/ConstrucaoQuartel.png")
 		"res://Builds/house.tscn", "res://Builds/casebre.tscn":
-			icone = preload("res://Assets/Construcoes/ConstrucaoCasa2.png")
+			icone = preload("res://Assets/Construcoes/ConstrucaoCasa.png")
 		"res://Builds/casa_classe_media.tscn":
 			icone = preload("res://Assets/Construcoes/ConstrucaoCasa3.png")
 		"res://Builds/mercadinho_egipcio.tscn":
@@ -639,6 +639,18 @@ func _resolver_icone_construcao() -> void:
 			icone = preload("res://Assets/Construcoes/ConstrucaoScifi.png")
 		"res://Builds/torre_de_fogo.tscn":
 			icone = preload("res://Assets/Construcoes/ConstrucaoCovil.png")
+
+## Chamado por GameManager.carregar_fase() DEPOIS de fase_atual ser actualizado.
+## Corrige o bug onde a base mostrava o ícone da fase anterior.
+func _atualizar_icone_base() -> void:
+	if tipo != TipoConstrucao.BASE: return
+	match GameManager.fase_atual:
+		1: icone = preload("res://Assets/Construcoes/BaseCastelo2.png")
+		2: icone = preload("res://Assets/Construcoes/BaseDeserto.png")
+		3: icone = preload("res://Assets/Construcoes/BaseBruxa.png")
+		4: icone = preload("res://Assets/Construcoes/BasePirata.png")
+		5: icone = preload("res://Assets/Construcoes/BaseScifi2.png")
+		6: icone = preload("res://Assets/Construcoes/BaseCovil.png")
 
 func _icone_por_path_nome(nome: String) -> Texture2D:
 	match nome:

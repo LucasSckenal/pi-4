@@ -31,10 +31,8 @@ func mostrar_tela():
 	tw.tween_property(painel, "modulate:a", 1.0, 0.3)
 
 func _on_proxima_fase_pressed():
-	get_tree().paused = false
-	# Aqui você avança a fase. Exemplo:
-	GameManager.carregar_fase(GameManager.fase_atual + 1)
 	hide()
+	GameManager.ir_para_proxima_fase()
 
 func _on_menu_pressed():
 	get_tree().paused = false
