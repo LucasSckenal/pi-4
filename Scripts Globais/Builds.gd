@@ -527,7 +527,7 @@ func get_opcoes_proximo_upgrade() -> Array:
 			var opcao_entry = {
 				"index": 0,
 				"nome": nome_construcao if nome_construcao != "" else "Upgrade",
-				"icone": icone,
+				"icone": _icone_para_modelo_upgrade(modelo_correto),
 				"custo": custo,
 				"beneficio": _descrever_beneficio_simples(),
 				"descricoes": _gerar_descricoes_simples(),
@@ -652,10 +652,46 @@ func _atualizar_icone_base() -> void:
 		5: icone = preload("res://Assets/Construcoes/BaseScifi2.png")
 		6: icone = preload("res://Assets/Construcoes/BaseCovil.png")
 
+## Resolve o ícone 2D exibido no card de upgrade para o próximo nível.
+## Mapeamentos explícitos têm prioridade; .tscn genérico usa Builds.gd;
+## qualquer outra coisa cai no ícone base da própria construção.
+func _icone_para_modelo_upgrade(modelo: PackedScene) -> Texture2D:
+	if modelo == null:
+		return icone
+	# ── Mapeamento explícito por caminho (máxima prioridade) ──────────
+	match modelo.resource_path:
+		# Castelo (BASE) — níveis 1 e 2
+		"res://Medieval/buildings/blue/building_barracks_blue.gltf":
+			return preload("res://Assets/Construcoes/BaseCastelo2.png")
+		"res://Medieval/buildings/blue/building_castle_blue.gltf":
+			return preload("res://Assets/Construcoes/BaseCastelo3.png")
+		# Moinho — nível 1
+		"res://Medieval/buildings/blue/building_windmill_blue.gltf":
+			return preload("res://Assets/Construcoes/ConstrucaoMoinho2.png")
+		# Casa — níveis 1 e 2
+		"res://Builds/casa_classe_media.tscn":
+			return preload("res://Assets/Construcoes/ConstrucaoCasa2.png")
+		"res://Builds/casebre.tscn":
+			return preload("res://Assets/Construcoes/ConstrucaoCasa3.png")
+	# ── .tscn genérico com Builds.gd: instancia, resolve e descarta ───
+	if modelo.resource_path.ends_with(".tscn"):
+		var inst = modelo.instantiate()
+		var res: Texture2D = null
+		if inst.has_method("_resolver_icone_construcao"):
+			inst._resolver_icone_construcao()
+			res = inst.get("icone") if "icone" in inst else null
+		inst.free()
+		return res if res != null else icone
+	# ── Fallback: ícone base da construção atual ───────────────────────
+	return icone
+
 func _icone_por_path_nome(nome: String) -> Texture2D:
 	match nome:
-		"Morteiro": return preload("res://Assets/Construcoes/ConstrucaoTorre2A.png")
-		"Sniper":   return preload("res://Assets/Construcoes/ConstrucaoTorre2B.png")
+		"Morteiro":      return preload("res://Assets/Construcoes/ConstrucaoTorre2A.png")
+		"Sniper":        return preload("res://Assets/Construcoes/ConstrucaoTorre2B.png")
+		"Caldeirão":     return preload("res://Assets/Construcoes/ConstrucaoBruxa.png")
+		"Torre de Fogo": return preload("res://Assets/Construcoes/ConstrucaoCovil.png")
+		"Tesla":         return preload("res://Assets/Construcoes/ConstrucaoScifi.png")
 		_: return null
 
 func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:

@@ -325,6 +325,7 @@ func carregar_fase(numero_fase: int):
 		# por isso fase_atual ainda era o valor antigo quando _resolver_icone_construcao()
 		# foi chamado. Forçamos a re-resolução agora que fase_atual está correcto.
 		get_tree().call_group("Base", "_atualizar_icone_base")
+		get_tree().call_group("Interface", "aplicar_tema_hud")
 		# Conquista: chegou à fase final
 		if numero_fase == 6:
 			_tentar_conquista("res://Conquistas/chega_fase_final.tres")

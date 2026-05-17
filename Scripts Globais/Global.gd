@@ -5,6 +5,8 @@ const SAVE_PATH = "user://save.cfg"
 const _SAVE_PATH_ANTIGO = "user://save_game.cfg"
 
 # --- VARIÁVEIS DE ESTADO ---
+var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
+
 var personagem_jogado_atualmente : String = "avo_m"
 var personagem_escolhido_path: String = ""
 
