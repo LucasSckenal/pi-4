@@ -5,11 +5,14 @@ extends CanvasLayer
 
 const _ScriptPainelConselheiro = preload("res://UI/HUD/painel_conselheiro.gd")
 const _CenaMenuPausa = preload("res://UI/Menus/menu_pausa.tscn")
-const _TexBauFechado = preload("res://Assets/UI/BauFechado.png")
-const _TexBauAberto = preload("res://Assets/UI/BauAberto.png")
-const _TexBotaoMenu = preload("res://Assets/UI/BotaoMenu.png")
+
+# Texturas activas — trocadas por _kit_textura() em aplicar_tema_hud()
+var _tex_bau_fechado: Texture2D = preload("res://Assets/UI/BauFechado.png")
+var _tex_bau_aberto:  Texture2D = preload("res://Assets/UI/BauAberto.png")
+var _tex_botao_menu:  Texture2D = preload("res://Assets/UI/BotaoMenu.png")
 
 var _menu_pausa_inst = null
+var _btn_pausa: Button = null   # ref guardada para troca de ícone temático
 
 # ==========================================
 # REFERÊNCIAS DA INTERFACE PRINCIPAL
@@ -52,6 +55,7 @@ var label_renda_preview: Label = null
 @onready var pivot_ampulheta: Control = $InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta
 @onready var ampulheta_dia: TextureRect = $InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta/Dia
 @onready var ampulheta_noite: TextureRect = $InterfacePrincipal/MarginEsquerda/HBoxTempo/PivotAmpulheta/Noite
+@onready var fundo_ondas: TextureRect    = $InterfacePrincipal/MarginEsquerda/HBoxTempo/FundoOndas
 @onready var label_onda: Label = $InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos/LabelOnda
 @onready var label_turno: Label = $InterfacePrincipal/MarginEsquerda/HBoxTempo/VBoxTextos/LabelTurno
 
@@ -74,6 +78,30 @@ var _painel_vida_base: Control = null
 var _corações: Array = []
 var _corações_atuais: int = -1
 var _pulso_tween: Tween = null
+var _estilo_painel_base: StyleBoxFlat = null   # ref ao StyleBoxFlat do painel de vida
+var _titulo_base: Label = null                 # ref ao rótulo "Castelo" / nome temático
+
+# ==========================================
+# TEMAS POR FASE
+# ==========================================
+const _TEMAS: Dictionary = {
+	1: {"bg": Color(0.10,0.05,0.04,0.92), "borda": Color(0.75,0.52,0.12,0.90),
+		"titulo": Color(0.95,0.80,0.45), "acento": Color(0.95,0.80,0.45), "nome": "Castelo"},
+	2: {"bg": Color(0.16,0.09,0.03,0.92), "borda": Color(0.90,0.55,0.12,0.90),
+		"titulo": Color(1.00,0.78,0.30), "acento": Color(1.00,0.78,0.30), "nome": "Pirâmide"},
+	3: {"bg": Color(0.07,0.04,0.12,0.92), "borda": Color(0.62,0.18,0.82,0.90),
+		"titulo": Color(0.80,0.55,0.96), "acento": Color(0.80,0.55,0.96), "nome": "Covil da Bruxa"},
+	4: {"bg": Color(0.04,0.08,0.14,0.92), "borda": Color(0.18,0.52,0.75,0.90),
+		"titulo": Color(0.40,0.82,0.96), "acento": Color(0.40,0.82,0.96), "nome": "Galeão"},
+	5: {"bg": Color(0.03,0.05,0.14,0.92), "borda": Color(0.10,0.72,0.92,0.90),
+		"titulo": Color(0.30,0.90,1.00), "acento": Color(0.30,0.90,1.00), "nome": "Base Espacial"},
+	6: {"bg": Color(0.10,0.02,0.02,0.92), "borda": Color(0.88,0.18,0.10,0.90),
+		"titulo": Color(1.00,0.50,0.18), "acento": Color(1.00,0.50,0.18), "nome": "Fortaleza"},
+}
+const _TEMA_NEUTRO: Dictionary = {
+	"bg": Color(0.12,0.12,0.12,0.88), "borda": Color(0.45,0.45,0.45,0.80),
+	"titulo": Color(0.90,0.90,0.90), "acento": Color(0.90,0.90,0.90), "nome": "Base",
+}
 
 func _ready():
 	add_to_group("Interface")
@@ -181,6 +209,7 @@ func _ready():
 
 	# Barra de vida da base no HUD
 	_criar_barra_vida_base()
+	aplicar_tema_hud()
 
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
@@ -261,12 +290,12 @@ func atualizar_moedas():
 
 func animar_bau_abrindo():
 	if imagem_bau != null:
-		imagem_bau.texture = _TexBauAberto
+		imagem_bau.texture = _tex_bau_aberto
 		var tween := create_tween()
 		tween.tween_property(imagem_bau, "scale", Vector2(1.08, 1.08), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tween.tween_property(imagem_bau, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		await get_tree().create_timer(1.0).timeout
-		imagem_bau.texture = _TexBauFechado
+		imagem_bau.texture = _tex_bau_fechado
 
 # ==========================================
 # SISTEMA DE UPGRADE POR CARTAS
@@ -589,6 +618,7 @@ func _criar_barra_vida_base() -> void:
 	st.content_margin_top    = 6.0
 	st.content_margin_bottom = 6.0
 	panel.add_theme_stylebox_override("panel", st)
+	_estilo_painel_base = st
 
 	var vbox := VBoxContainer.new()
 	vbox.add_theme_constant_override("separation", 2)
@@ -603,6 +633,7 @@ func _criar_barra_vida_base() -> void:
 	titulo.add_theme_constant_override("outline_size", 2)
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox.add_child(titulo)
+	_titulo_base = titulo
 
 	# Fileira de 5 corações
 	var hbox := HBoxContainer.new()
@@ -701,6 +732,79 @@ func _atualizar_posicao_coracoes() -> void:
 	_painel_vida_base.position = nova_pos
 
 # ==========================================
+# TEMA VISUAL POR FASE
+# ==========================================
+## Chamado por GameManager.carregar_fase() (via call_group) e por configuracoes.gd.
+## Aplica a paleta temática da fase atual ou a paleta neutra se HUD temático estiver desligado.
+func aplicar_tema_hud() -> void:
+	var tema: Dictionary
+	if Global.hud_tematico_ativo:
+		tema = _TEMAS.get(GameManager.fase_atual, _TEMAS[1])
+	else:
+		tema = _TEMA_NEUTRO
+
+	# Painel de vida da base (fundo + borda + nome)
+	if _estilo_painel_base != null:
+		_estilo_painel_base.bg_color     = tema["bg"]
+		_estilo_painel_base.border_color = tema["borda"]
+	if _titulo_base != null:
+		_titulo_base.text = tema["nome"]
+		_titulo_base.add_theme_color_override("font_color", tema["titulo"])
+
+	# Labels de onda e turno (canto esquerdo)
+	if label_onda != null:
+		label_onda.add_theme_color_override("font_color", tema["acento"])
+	if label_turno != null:
+		label_turno.add_theme_color_override("font_color", tema["acento"])
+
+	# Label de moedas (canto direito)
+	if label_moedas != null:
+		label_moedas.add_theme_color_override("font_color", tema["acento"])
+
+	# ── Texturas temáticas dos botões ──────────────────────────────────────
+	_tex_bau_fechado = _kit_textura("BauFechado", "res://Assets/UI/BauFechado.png")
+	_tex_bau_aberto  = _kit_textura("BauAberto",  "res://Assets/UI/BauAberto.png")
+	_tex_botao_menu  = _kit_textura("BotaoMenu",  "res://Assets/UI/BotaoMenu.png")
+
+	if imagem_bau != null:
+		imagem_bau.texture = _tex_bau_fechado
+	if _btn_pausa != null:
+		_btn_pausa.icon = _tex_botao_menu
+
+	# Ampulheta e fundo de ondas
+	if ampulheta_dia != null:
+		var t := _kit_textura("AmpulhetaDia", "res://Icons/AmpulhetaDiaBorda.png")
+		if t:
+			ampulheta_dia.texture = t
+	if ampulheta_noite != null:
+		var t := _kit_textura("AmpulhetaNoite", "res://Icons/AmpulhetaNoiteBorda.png")
+		if t:
+			ampulheta_noite.texture = t
+	if fundo_ondas != null:
+		var t := _kit_textura("Ondas", "res://Assets/UI/Ondas.png")
+		if t:
+			fundo_ondas.texture = t
+
+	# Propaga o kit para os controles mobile
+	if is_instance_valid(hud_mobile_completo) and hud_mobile_completo.has_method("aplicar_kit_botoes"):
+		hud_mobile_completo.aplicar_kit_botoes(
+			_kit_textura("BotaoPlay",   "res://Assets/UI/BotaoPlay.png"),
+			_kit_textura("BotaoPause",  "res://Assets/UI/BotaoPause.png"),
+			_kit_textura("BotaoResume", "res://Assets/UI/BotaoResume.png")
+		)
+
+# Devolve a textura do kit da fase actual, ou carrega o caminho padrão como fallback.
+# Convenção de pasta: res://Assets/UI/Kits/Fase{N}/{chave}.png
+func _kit_textura(chave: String, caminho_padrao: String) -> Texture2D:
+	if Global.hud_tematico_ativo and GameManager.fase_atual > 1:
+		var caminho_kit := "res://Assets/UI/Kits/Fase%d/%s.png" % [GameManager.fase_atual, chave]
+		if ResourceLoader.exists(caminho_kit):
+			return load(caminho_kit)
+	if caminho_padrao.is_empty():
+		return null
+	return load(caminho_padrao)
+
+# ==========================================
 # EVENTOS DE GAME OVER
 # ==========================================
 func _on_game_over_hud():
@@ -766,7 +870,8 @@ func _criar_botao_pausa():
 	var btn := Button.new()
 	btn.custom_minimum_size = Vector2(56, 56)
 	btn.text = ""
-	btn.icon = _TexBotaoMenu
+	btn.icon = _tex_botao_menu
+	_btn_pausa = btn
 	btn.expand_icon = true
 	btn.mouse_filter = Control.MOUSE_FILTER_STOP
 	btn.anchor_left   = 1.0

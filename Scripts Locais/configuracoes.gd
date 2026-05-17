@@ -117,8 +117,9 @@ func _on_check_tela_cheia_toggled(toggled_on: bool) -> void:
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
-func _on_check_hud_toggled(_toggled_on: bool) -> void:
-	pass
+func _on_check_hud_toggled(toggled_on: bool) -> void:
+	Global.hud_tematico_ativo = toggled_on
+	get_tree().call_group("Interface", "aplicar_tema_hud")
 
 # ==========================================
 # SINAIS DO CURSOR (Tamanho)
@@ -235,7 +236,9 @@ func _carregar_configuracoes() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 		
 	if _check_hud:
-		_check_hud.button_pressed = cfg.get_value("video", "hud_customizado", true)
+		var hud_on: bool = cfg.get_value("video", "hud_customizado", true)
+		_check_hud.button_pressed = hud_on
+		Global.hud_tematico_ativo = hud_on
 		
 	temp_cursor_size = cfg.get_value("cursor", "tamanho", 1.5)
 	temp_cursor_color = cfg.get_value("cursor", "cor", Color.WHITE)

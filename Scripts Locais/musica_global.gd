@@ -4,7 +4,7 @@ var musica_menu = preload("res://Musicas/MenuMusicTeste.mp3")
 var musica_tutorial = preload("res://Musicas/Festival_In_The_High_Pines.mp3")  #Só mudar a música quando acharmos ela
 var musica_deserto = preload("res://Musicas/Oasis_at_Noon.mp3")
 var musica_covil = preload("res://Musicas/The_Serpent_s_Last_March.mp3")
-var musica_bruxa = preload("res://Musicas/Crooked_Path_to_the_Bayou.mp3")
+var musica_bruxa = preload("res://Musicas/The_Hallway_Scramble.mp3")
 var musica_aquatica = preload("res://Musicas/Salt_and_Nylon.mp3")
 var musica_espacial = preload("res://Musicas/Beneath_the_Southern_Constellation.mp3")
 
