@@ -162,13 +162,13 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	ic_cont.add_child(ic_bg)
 
 	if conquista.icone != null:
-		var tr := TextureRect.new()
-		tr.texture = conquista.icone
-		tr.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.modulate = Color(1, 1, 1) if liberada else Color(0.20, 0.20, 0.20)
-		ic_cont.add_child(tr)
+		var tr_icone := TextureRect.new()
+		tr_icone.texture = conquista.icone
+		tr_icone.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		tr_icone.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		tr_icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr_icone.modulate = Color(1, 1, 1) if liberada else Color(0.20, 0.20, 0.20)
+		ic_cont.add_child(tr_icone)
 	else:
 		var ph := Label.new()
 		ph.text = "🏅" if liberada else "❓"
