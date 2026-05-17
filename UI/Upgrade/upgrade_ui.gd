@@ -349,13 +349,13 @@ func _criar_icone_desbloqueio(item: Dictionary) -> Control:
 
 	var icone_2d = item.get("icone_2d")
 	if icone_2d is Texture2D:
-		var tr = TextureRect.new()
-		tr.texture = icone_2d
-		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.custom_minimum_size = Vector2(52, 52)
-		tr.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		inner.add_child(tr)
+		var tr_icone = TextureRect.new()
+		tr_icone.texture = icone_2d
+		tr_icone.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		tr_icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr_icone.custom_minimum_size = Vector2(52, 52)
+		tr_icone.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		inner.add_child(tr_icone)
 	else:
 		var elbl = Label.new()
 		elbl.text = item.get("emoji", "•")

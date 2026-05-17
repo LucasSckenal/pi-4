@@ -58,7 +58,6 @@ tonemap_mode = 2
 ssao_radius = 4.2
 ssao_intensity = 2.5
 ssao_detail = 5.0
-glow_enabled = true
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2py5t"]
 render_priority = 0
