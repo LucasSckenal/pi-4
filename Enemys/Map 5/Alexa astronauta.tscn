@@ -7,13 +7,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dwlx7"]
 render_priority = 0
 shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l63um"]
 resource_name = "Material.002"
@@ -28,20 +23,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kscr6"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ybfh"]
 resource_name = "Material.001"
-next_pass = SubResource("ShaderMaterial_kscr6")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.6388501, 0.2963377, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -52,20 +36,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_a35gv"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2xbp"]
 resource_name = "Material.004"
-next_pass = SubResource("ShaderMaterial_a35gv")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.9063318, 0.9063318, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -76,20 +49,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yl86m"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdug7"]
 resource_name = "Material.003"
-next_pass = SubResource("ShaderMaterial_yl86m")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.21332288, 0.21332288, 0.21332288, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -112,20 +74,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6lfla"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvcoi"]
 resource_name = "Grey"
-next_pass = SubResource("ShaderMaterial_6lfla")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.45332205, 0.45332205, 0.45332205, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -136,20 +87,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kapd6"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fclvj"]
 resource_name = "LightGrey"
-next_pass = SubResource("ShaderMaterial_kapd6")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.546657, 0.546657, 0.546657, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -267,20 +207,9 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t0s07"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qoy7y"]
 resource_name = "Main2"
-next_pass = SubResource("ShaderMaterial_t0s07")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.7799915, 0.7799915, 0.7799915, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -291,20 +220,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_8awcm"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djot2"]
 resource_name = "Edge"
-next_pass = SubResource("ShaderMaterial_8awcm")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.9063318, 0.9063318, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -315,20 +233,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ydm43"]
-render_priority = 0
-shader = ExtResource("3_areex")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tned"]
 resource_name = "Main"
-next_pass = SubResource("ShaderMaterial_ydm43")
+next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.6388501, 0.2963377, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -418,13 +325,13 @@ status_vida = "MEDIA"
 [node name="Root Scene" parent="." unique_id=610559252 instance=ExtResource("1_bpgao")]
 transform = Transform3D(3.030303, 0, 0, 0, 3.030303, 0, 0, 0, 3.030303, 0, 0, 0)
 
-[node name="Sun_001" parent="Root Scene/RootNode" parent_id_path=PackedInt32Array(610559252, 735226163) index="0" unique_id=1486669123]
+[node name="Sun_001" parent="Root Scene/RootNode" parent_id_path=PackedInt32Array(610559252, 1867047750) index="0" unique_id=499253700]
 visible = false
 
-[node name="Sun" parent="Root Scene/RootNode" parent_id_path=PackedInt32Array(610559252, 735226163) index="1" unique_id=206118119]
+[node name="Sun" parent="Root Scene/RootNode" parent_id_path=PackedInt32Array(610559252, 1867047750) index="1" unique_id=1122784242]
 visible = false
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(610559252, 314838228) index="0" unique_id=1295208436]
+[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(610559252, 1183362109) index="0" unique_id=764111823]
 bones/1/position = Vector3(-3.4377656e-06, 0.0037819864, 5.038619e-05)
 bones/1/rotation = Quaternion(-0.008150404, -2.9253881e-08, -1.6524131e-09, 0.99996686)
 bones/2/position = Vector3(0.003132395, 0.001466542, -2.6844882e-05)
@@ -435,22 +342,22 @@ bones/7/rotation = Quaternion(-0.47572154, -0.18132856, -0.100907885, 0.854767)
 bones/8/rotation = Quaternion(-0.364442, 0.06854789, 0.5957659, 0.7124228)
 bones/10/scale = Vector3(1, 1, 0.99999994)
 
-[node name="Hand_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=602143560]
+[node name="Hand_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=322976847]
 transform = Transform3D(-0.2517759, -0.2381279, 0.9380319, -0.4096954, -0.85189533, -0.32622698, 0.87678885, -0.46644354, 0.11692664, 0.005321842, -0.0022546367, 0.002880775)
 
-[node name="Hand_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=131122431]
+[node name="Hand_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=597826356]
 transform = Transform3D(-0.26278096, 0.27351332, -0.92527646, 0.2724527, -0.8989176, -0.3430989, -0.9255891, -0.3422537, 0.16169897, -0.005228186, -0.0023791534, 0.003209472)
 
-[node name="Eye" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=852162285]
+[node name="Eye" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=1688572055]
 transform = Transform3D(0.99997604, 0.0048247795, -0.0049604666, -0.0048240623, -0.027883828, -0.9995994, -0.0049611637, 0.99959946, -0.027859883, -2.2396307e-10, -0.0018021808, 0.0047099777)
 
-[node name="Gun" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=628997710]
+[node name="Gun" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=280201404]
 transform = Transform3D(1, -8.005929e-11, -2.842171e-14, -1.4210855e-14, -1.2107193e-07, -0.9999999, 8.006662e-11, 0.9999999, -1.2107193e-07, -1.8644641e-11, -2.1030533e-05, 0.00757456)
 
-[node name="Sphere_001" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=1842716189]
+[node name="Sphere_001" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=1662760324]
 mesh = SubResource("ArrayMesh_uk8h3")
 
-[node name="Cube_000" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=1904834751]
+[node name="Cube_000" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=1834169053]
 mesh = SubResource("ArrayMesh_n5ke8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1309219301]

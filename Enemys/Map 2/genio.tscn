@@ -8,13 +8,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_brcf4"]
 render_priority = 0
 shader = ExtResource("4_ai50t")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ldgj"]
 resource_name = "Material_1"
@@ -23,8 +18,7 @@ cull_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 albedo_texture = ExtResource("3_u262x")
-metallic = 1.0
-emission_enabled = true
+roughness = 0.67
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.4
 emission_operator = 1

@@ -8,10 +8,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nthjh"]
 render_priority = 0
 shader = ExtResource("3_cjg2v")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_efp3a"]
 resource_name = "Material_1"
@@ -21,7 +19,6 @@ diffuse_mode = 3
 specular_mode = 1
 albedo_texture = ExtResource("2_h3bqr")
 metallic_specular = 0.0
-roughness = 0.41008475
 emission = Color(1, 1, 1, 1)
 emission_operator = 1
 emission_texture = ExtResource("2_h3bqr")
@@ -66,7 +63,7 @@ anim_morrer = "Unsteady_Walk"
 
 [node name="Meshy_AI_Low_Poly_Frankenstein_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=1640881626 instance=ExtResource("1_85528")]
 
-[node name="Skeleton3D" parent="Meshy_AI_Low_Poly_Frankenstein_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(1640881626, 1299233017) index="0" unique_id=940188407]
+[node name="Skeleton3D" parent="Meshy_AI_Low_Poly_Frankenstein_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(1640881626, 1216578337) index="0" unique_id=1142465137]
 bones/0/position = Vector3(9.950862, 15.302471, 40.853745)
 bones/0/rotation = Quaternion(0.8971505, 0.13568218, -0.07763885, 0.41313854)
 bones/1/rotation = Quaternion(0.68640643, -0.037772167, -0.5350413, 0.49107078)
@@ -105,7 +102,7 @@ bones/21/rotation = Quaternion(0.16237727, 0.18197536, 0.004714834, 0.96979195)
 bones/22/rotation = Quaternion(-0.25683218, -6.514023e-09, 0.008417579, 0.9664194)
 bones/23/rotation = Quaternion(0.5318448, -7.0601665e-08, -0.01743106, 0.84666246)
 
-[node name="char1" parent="Meshy_AI_Low_Poly_Frankenstein_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=1766876668]
+[node name="char1" parent="Meshy_AI_Low_Poly_Frankenstein_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=912687200]
 mesh = SubResource("ArrayMesh_ti37x")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1140718669]
