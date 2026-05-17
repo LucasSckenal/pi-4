@@ -232,6 +232,7 @@ var _barra_3d_mat: ShaderMaterial
 
 var alvo_atual: Node3D = null
 var esta_destruida: bool = false
+var _luz_interna: OmniLight3D = null   # acende à noite
 
 # Indicador de upgrade disponível — anel + seta + pontos de luz, criados por código.
 # Dois modos: DESTAQUE (anel brilhante + seta ⬆ + pontos) e SUTIL (só anel apagado).
@@ -310,6 +311,12 @@ func _ready():
 			if Global.DEBUG_MODE:
 				print("Base principal estabelecida. Nível: ", nivel_atual)
 	
+	# Luz interna à noite (sem sombras — performance ok no mobile)
+	if GameManager.has_signal("noite_iniciada"):
+		GameManager.noite_iniciada.connect(_acender_luz_interna)
+	if GameManager.has_signal("dia_iniciado"):
+		GameManager.dia_iniciado.connect(_apagar_luz_interna)
+
 	# Área de clique (se existir)
 	if has_node("AreaClique"):
 		$AreaClique.input_event.connect(_on_area_clique)
@@ -1831,6 +1838,34 @@ func esconder_indicador():
 	if indicador_alcance:
 		indicador_alcance.visible = false
 		
+# ==========================================
+# ==========================================
+# LUZ INTERNA À NOITE
+# ==========================================
+func _acender_luz_interna(_onda: int = 0) -> void:
+	if is_instance_valid(_luz_interna) or esta_destruida:
+		return
+	_luz_interna = OmniLight3D.new()
+	_luz_interna.light_color    = Color(1.0, 0.85, 0.50)   # âmbar quente
+	_luz_interna.light_energy   = 0.0
+	_luz_interna.omni_range     = 5.5
+	_luz_interna.shadow_enabled = false                     # sem sombras = sem custo extra
+	add_child(_luz_interna)
+	_luz_interna.position = Vector3(0.0, 1.2, 0.0)
+	var tw := create_tween()
+	tw.tween_property(_luz_interna, "light_energy", 2.2, 0.8) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _apagar_luz_interna(_onda: int = 0) -> void:
+	if not is_instance_valid(_luz_interna):
+		return
+	var luz := _luz_interna
+	_luz_interna = null
+	var tw := create_tween()
+	tw.tween_property(luz, "light_energy", 0.0, 0.5) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tw.tween_callback(luz.queue_free)
+
 # ==========================================
 # SISTEMA DE VENDA
 # ==========================================

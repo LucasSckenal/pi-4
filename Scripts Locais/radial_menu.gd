@@ -159,6 +159,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not visible:
 		return
 
+	# ESC fecha o menu radial e deixa o pause abrir normalmente
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			if _slot_alvo and _slot_alvo.has_method("fechar_ui"):
+				_slot_alvo.call_deferred("fechar_ui")
+				get_viewport().set_input_as_handled()
+			return
+
 	# ==========================================
 	# TRAVA DO TUTORIAL (MENU)
 	# ==========================================

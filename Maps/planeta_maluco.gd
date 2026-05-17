@@ -8,6 +8,11 @@ var _atmosfera: MeshInstance3D
 var _estrelas_cadentes: GPUParticles3D
 var _timer_cadente: Timer
 
+var _luz_solar: DirectionalLight3D = null
+var _ambiente: WorldEnvironment = null
+var _luzes_plataforma: Array = []
+var _energia_solar_original: float = 1.0
+
 const ONDA_BOSS := 6
 
 # ─── Shader da superfície — estilo Terra ─────────────────────────────────────
@@ -120,6 +125,16 @@ func _ready():
 	# Aguarda mais um frame para a Camera3D estar registada no viewport
 	await get_tree().process_frame
 	_criar_planeta()
+	_luz_solar = get_node_or_null("LuzSolar")
+	_ambiente = get_node_or_null("AmbienteEspacial")
+	if is_instance_valid(_luz_solar):
+		_energia_solar_original = _luz_solar.light_energy
+	# Dobra o amount das estrelas — amount_ratio 0.5 mantém o visual de dia,
+	# à noite tweenamos para 1.0 dobrando as estrelas visivelmente.
+	if is_instance_valid(_estrelas_normais):
+		_estrelas_normais.amount = _estrelas_normais.amount * 2
+		_estrelas_normais.amount_ratio = 0.5
+	_criar_luzes_plataforma()
 
 # ─── Planeta ─────────────────────────────────────────────────────────────────
 func _criar_planeta() -> void:
@@ -234,6 +249,97 @@ func _disparar_estrelas_cadentes() -> void:
 		_timer_cadente.wait_time = randf_range(8.0, 22.0)
 		_timer_cadente.start()
 
+# ─── Luzes da plataforma ──────────────────────────────────────────────────────
+func _criar_luzes_plataforma() -> void:
+	# Três anéis de luzes rasas no chão + uma central — garantem boa
+	# visibilidade para público idoso em telas de celular.
+	# Cor branco-âmbar quente: excelente contraste sem cansar os olhos.
+	var cor := Color(1.0, 0.93, 0.72)
+
+	var aneis := [
+		{ "raio": 16.5, "num": 8,  "altura": 0.35 },  # anel externo (caminho dos inimigos)
+		{ "raio": 9.5,  "num": 7,  "altura": 0.35 },  # anel médio  (slots de construção)
+		{ "raio": 4.0,  "num": 5,  "altura": 0.35 },  # anel interno (perto da base)
+	]
+	for anel in aneis:
+		var num_anel: int = anel["num"]
+		for i in range(num_anel):
+			var ang: float = (TAU / num_anel) * i
+			var luz := OmniLight3D.new()
+			luz.light_color    = cor
+			luz.light_energy   = 0.0   # apagada durante o dia
+			luz.omni_range     = 11.0  # raio amplo cobre toda a área entre anéis
+			luz.shadow_enabled = false
+			add_child(luz)
+			luz.position = Vector3(
+				cos(ang) * anel["raio"],
+				anel["altura"],
+				sin(ang) * anel["raio"]
+			)
+			_luzes_plataforma.append(luz)
+
+	# Luz central — ilumina o centro da base
+	var central := OmniLight3D.new()
+	central.light_color    = cor
+	central.light_energy   = 0.0
+	central.omni_range     = 10.0
+	central.shadow_enabled = false
+	add_child(central)
+	central.position = Vector3(0.0, 1.5, 0.0)
+	_luzes_plataforma.append(central)
+
+func _animar_para_noite() -> void:
+	var dur := 3.0
+
+	# Sol fica em 25 % — escurece sem ficar ilegível no celular
+	if is_instance_valid(_luz_solar):
+		var tw = create_tween().set_parallel(true)
+		tw.tween_property(_luz_solar, "light_energy", _energia_solar_original * 0.25, dur) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		tw.tween_property(_luz_solar, "light_color", Color(0.70, 0.75, 1.0), dur * 0.7) \
+			.set_trans(Tween.TRANS_SINE)   # azul-luar suave
+
+	# Luzes do chão acendem em cascata
+	for i in _luzes_plataforma.size():
+		var luz: OmniLight3D = _luzes_plataforma[i]
+		if not is_instance_valid(luz): continue
+		var tw_l = create_tween()
+		tw_l.tween_interval(0.07 * i)          # cascata rápida
+		tw_l.tween_property(luz, "light_energy", 3.5, 0.5) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+	# Mais estrelas visíveis (tween suave via amount_ratio)
+	if is_instance_valid(_estrelas_normais) and _estrelas_normais.emitting:
+		var tw_s = create_tween()
+		tw_s.tween_interval(1.0)               # espera o sol apagar primeiro
+		tw_s.tween_property(_estrelas_normais, "amount_ratio", 1.0, 1.5) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+
+func _animar_para_dia() -> void:
+	var dur := 2.5
+
+	# Sol volta
+	if is_instance_valid(_luz_solar):
+		var tw = create_tween().set_parallel(true)
+		tw.tween_property(_luz_solar, "light_energy", _energia_solar_original, dur) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		tw.tween_property(_luz_solar, "light_color", Color(1.0, 1.0, 1.0), dur) \
+			.set_trans(Tween.TRANS_SINE)
+
+	# Luzes da plataforma apagam
+	for luz in _luzes_plataforma:
+		if not is_instance_valid(luz): continue
+		var tw_l = create_tween()
+		tw_l.tween_property(luz, "light_energy", 0.0, dur * 0.6) \
+			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+
+	# Estrelas voltam ao nível de dia
+	if is_instance_valid(_estrelas_normais):
+		var tw_s = create_tween()
+		tw_s.tween_property(_estrelas_normais, "amount_ratio", 0.5, 1.0) \
+			.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+
+
 # ─── Loop ─────────────────────────────────────────────────────────────────────
 func _process(delta: float) -> void:
 	if is_instance_valid(_planeta):
@@ -241,9 +347,10 @@ func _process(delta: float) -> void:
 
 # ─── Callbacks ────────────────────────────────────────────────────────────────
 func _on_dia_iniciado(_onda_atual: int) -> void:
-	pass
+	_animar_para_dia()
 
 func _on_noite_iniciada(_onda_atual: int) -> void:
+	_animar_para_noite()
 	if _onda_atual >= ONDA_BOSS:
 		if is_instance_valid(_estrelas_normais):
 			_estrelas_normais.emitting = false
