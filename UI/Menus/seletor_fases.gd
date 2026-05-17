@@ -26,6 +26,35 @@ func _ready() -> void:
 	# Conecta o sinal para redimensionar
 	get_tree().root.size_changed.connect(recalcular_linhas)
 	
+	for botao in botoes_fases:
+		if botao != null:
+			# Define o pivô no centro e compensa matematicamente a posição para que 
+			# a imagem não sofra um salto visual ao ter seu eixo alterado, 
+			# mantendo o layout intacto para as animações de escala.
+			var centro = botao.size / 2.0
+			botao.pivot_offset = centro
+			botao.position -= centro * (Vector2.ONE - botao.scale)
+			
+			botao.set_meta("escala_original", botao.scale)
+			
+			botao.mouse_entered.connect(func():
+				# Impede a animação em fases não liberadas
+				if botao.disabled: return
+				
+				var escala_base = botao.get_meta("escala_original")
+				var tween := create_tween()
+				tween.tween_property(botao, "scale", escala_base * 1.10, 0.1).set_trans(Tween.TRANS_SINE)
+			)
+			
+			botao.mouse_exited.connect(func():
+				# Impede a animação em fases não liberadas
+				if botao.disabled: return
+				
+				var escala_base = botao.get_meta("escala_original")
+				var tween := create_tween()
+				tween.tween_property(botao, "scale", escala_base, 0.1).set_trans(Tween.TRANS_SINE)
+			)
+	
 	# Desenha tudo pela primeira vez
 	recalcular_linhas()
 
@@ -57,14 +86,14 @@ func criar_linhas_tracejadas() -> void:
 		linha.add_point(p2)
 		
 		# Se a linha sumir, aumente esse width para 20 ou 30
-		linha.width = 150.0 
+		linha.width = 250.0 
 		linha.texture = textura_linha
 		linha.texture_mode = Line2D.LINE_TEXTURE_TILE
 		linha.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 		linha.default_color = Color(1, 1, 1, 1)
 		
 		# Z_INDEX alto faz a linha ficar na frente de tudo (para vermos onde ela está!)
-		linha.z_index = 0
+		linha.z_index = -1
 	
 		
 		# ADICIONAMOS DIRETO NA RAIZ DA CENA (mais seguro para teste)
