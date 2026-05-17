@@ -1144,48 +1144,93 @@ func _criar_circulo_caldeiron(raio: float = 4.5) -> void:
 
 	var raiz := Node3D.new()
 	raiz.name = "CirculoVeneno"
-	raiz.position = Vector3(0, 0.03, 0)  # ajustado para o chão via raycast abaixo
 
-	# ── Anéis concêntricos emissivos — [frac_raio, espessura, cor, emission, seg, tempo_rot, sentido]
-	var config_aneis = [
-		[1.00, 0.18, Color(0.20, 1.00, 0.25), 2.5, 64,  8.0,  1.0],
-		[0.76, 0.13, Color(0.25, 1.00, 0.20), 1.8, 56,  5.5, -1.0],
-		[0.55, 0.11, Color(0.15, 0.90, 0.30), 1.5, 48,  7.0,  1.0],
-		[0.36, 0.09, Color(0.30, 1.00, 0.20), 1.2, 40,  4.0, -1.0],
-		[0.18, 0.07, Color(0.20, 1.00, 0.30), 2.0, 32,  3.0,  1.0],
-	]
-	var anel_nodes: Array = []
-	for d in config_aneis:
-		var rf: float   = d[0]; var esp: float = d[1]
-		var cor: Color  = d[2]; var em: float  = d[3]
-		var segs: int   = d[4]; var trot: float = d[5]; var sent: float = d[6]
-		var mi := MeshInstance3D.new()
-		var tm := TorusMesh.new()
-		tm.outer_radius  = raio * rf
-		tm.inner_radius  = raio * rf - esp
-		tm.rings         = segs
-		tm.ring_segments = 6
-		mi.mesh  = tm
-		mi.scale = Vector3(1.0, 0.1, 1.0)
-		mi.material_override = _mat_circulo(cor, em)
-		raiz.add_child(mi)
-		mi.create_tween().set_loops()\
-			.tween_property(mi, "rotation:y", TAU * sent, trot)\
-			.set_trans(Tween.TRANS_LINEAR)
-		anel_nodes.append(mi)
+	# ── 1. Pool de veneno — PlaneMesh com shader animado ─────────────────
+	var pool_inst := MeshInstance3D.new()
+	var pool_mesh := PlaneMesh.new()
+	pool_mesh.size = Vector2(raio * 2.0, raio * 2.0)
+	pool_inst.mesh = pool_mesh
+	pool_inst.position = Vector3(0, 0.02, 0)
 
-	# Anel externo pulsa forte
-	var tw_p1 = anel_nodes[0].create_tween().set_loops()
-	tw_p1.tween_property(anel_nodes[0], "material_override:emission_energy_multiplier", 5.5, 1.0)\
-		.set_trans(Tween.TRANS_SINE)
-	tw_p1.tween_property(anel_nodes[0], "material_override:emission_energy_multiplier", 2.0, 1.0)\
-		.set_trans(Tween.TRANS_SINE)
-	# Anel centro pulsa em fase oposta
-	var tw_p2 = anel_nodes[4].create_tween().set_loops()
-	tw_p2.tween_property(anel_nodes[4], "material_override:emission_energy_multiplier", 0.8, 1.0)\
-		.set_trans(Tween.TRANS_SINE)
-	tw_p2.tween_property(anel_nodes[4], "material_override:emission_energy_multiplier", 3.5, 1.0)\
-		.set_trans(Tween.TRANS_SINE)
+	var mat_pool := ShaderMaterial.new()
+	mat_pool.shader = preload("res://Shaders/veneno_circulo.gdshader")
+	mat_pool.set_shader_parameter("velocidade",  1.6)
+	mat_pool.set_shader_parameter("num_aneis",   4.0)
+	mat_pool.set_shader_parameter("cor_interna", Color(0.02, 0.38, 0.05))
+	mat_pool.set_shader_parameter("cor_borda",   Color(0.22, 1.00, 0.28))
+	mat_pool.set_shader_parameter("intensidade", 1.4)
+	pool_inst.material_override = mat_pool
+	raiz.add_child(pool_inst)
+
+	# ── 2. Anel de borda emissivo (único, pulsante) ───────────────────────
+	var borda_inst := MeshInstance3D.new()
+	var borda_mesh := TorusMesh.new()
+	borda_mesh.outer_radius  = raio
+	borda_mesh.inner_radius  = raio - 0.14
+	borda_mesh.ring_segments = 6
+	borda_mesh.rings         = 72
+	borda_inst.mesh  = borda_mesh
+	borda_inst.scale = Vector3(1.0, 0.08, 1.0)
+	borda_inst.material_override = _mat_circulo(Color(0.20, 1.00, 0.28), 3.5)
+	raiz.add_child(borda_inst)
+
+	var tw_borda := borda_inst.create_tween().set_loops()
+	tw_borda.tween_property(borda_inst, "material_override:emission_energy_multiplier",
+		7.0, 1.3).set_trans(Tween.TRANS_SINE)
+	tw_borda.tween_property(borda_inst, "material_override:emission_energy_multiplier",
+		2.0, 1.3).set_trans(Tween.TRANS_SINE)
+
+	# ── 3. Bolhas borbulhando (partículas pequenas que sobem) ─────────────
+	var bolhas := CPUParticles3D.new()
+	raiz.add_child(bolhas)
+	bolhas.amount                = 40
+	bolhas.lifetime              = 2.2
+	bolhas.emitting              = true
+	bolhas.one_shot              = false
+	bolhas.explosiveness         = 0.0
+	bolhas.emission_shape        = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	bolhas.emission_sphere_radius = raio * 0.80
+	bolhas.direction             = Vector3(0.0, 1.0, 0.0)
+	bolhas.spread                = 10.0
+	bolhas.gravity               = Vector3(0.0, 0.4, 0.0)
+	bolhas.initial_velocity_min  = 0.25
+	bolhas.initial_velocity_max  = 0.90
+	bolhas.scale_amount_min      = 0.04
+	bolhas.scale_amount_max      = 0.13
+	bolhas.color                 = Color(0.25, 1.00, 0.20, 0.90)
+	bolhas.position              = Vector3(0.0, 0.05, 0.0)
+
+	# ── 4. Névoa tóxica (partículas maiores, mais lentas e translúcidas) ──
+	var nevoa := CPUParticles3D.new()
+	raiz.add_child(nevoa)
+	nevoa.amount                 = 20
+	nevoa.lifetime               = 4.0
+	nevoa.emitting               = true
+	nevoa.one_shot               = false
+	nevoa.explosiveness          = 0.0
+	nevoa.emission_shape         = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	nevoa.emission_sphere_radius  = raio * 0.65
+	nevoa.direction              = Vector3(0.0, 1.0, 0.0)
+	nevoa.spread                 = 35.0
+	nevoa.gravity                = Vector3(0.0, 0.15, 0.0)
+	nevoa.initial_velocity_min   = 0.10
+	nevoa.initial_velocity_max   = 0.40
+	nevoa.scale_amount_min       = 0.22
+	nevoa.scale_amount_max       = 0.48
+	nevoa.color                  = Color(0.10, 0.65, 0.15, 0.30)
+	nevoa.position               = Vector3(0.0, 0.10, 0.0)
+
+	# ── 5. Luz verde ambiente pulsante ────────────────────────────────────
+	var luz := OmniLight3D.new()
+	raiz.add_child(luz)
+	luz.position     = Vector3(0.0, 0.4, 0.0)
+	luz.light_color  = Color(0.15, 1.00, 0.25)
+	luz.light_energy = 1.2
+	luz.omni_range   = raio * 1.5
+
+	var tw_luz := luz.create_tween().set_loops()
+	tw_luz.tween_property(luz, "light_energy", 2.6, 2.0).set_trans(Tween.TRANS_SINE)
+	tw_luz.tween_property(luz, "light_energy", 0.7, 2.0).set_trans(Tween.TRANS_SINE)
 
 	# ── Area3D para detectar inimigos ────────────────────────────────────────
 	var area := Area3D.new()

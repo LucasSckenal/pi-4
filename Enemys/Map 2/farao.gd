@@ -23,12 +23,12 @@ var _tornado_tweens: Array = []                   ## Tweens de loop do VFX, para
 # INICIALIZAÇÃO
 # ==========================================
 func _ready() -> void:
-	# Resolve modelo_3d se não configurado no editor
+	# modelo_3d e animation_player já configurados no editor (node_paths no .tscn)
+	# Fallback para modelos sem configuração no editor
 	if modelo_3d == null:
 		modelo_3d = get_node_or_null(
 			"Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations"
 		)
-	# Resolve animation_player dentro do modelo (busca recursiva)
 	if animation_player == null and modelo_3d != null:
 		animation_player = modelo_3d.find_child("AnimationPlayer", true, false)
 

@@ -39,9 +39,10 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var quanto_espalhar: float = 0.8
 
 @export_category("Referências Visuais & Som")
-@export var modelo_3d: Node3D           
-@export var animation_player: AnimationPlayer 
-@export var som_dano_stream: AudioStream 
+@export var modelo_3d: Node3D
+@export var animation_player: AnimationPlayer
+@export var som_dano_stream: AudioStream
+@export var icone: Texture2D            ## Ícone 2D exibido na tela de "Novo Inimigo"
 
 @export_category("Nomes das Animações")
 @export var anim_andar: String = "walk"
@@ -157,12 +158,12 @@ func _ready():
 		Global.inimigos_descobertos.append(nome_inimigo)
 		Global.salvar_progresso() 
 		
-		if InputMap.has_action("passar_onda"): 
+		if InputMap.has_action("passar_onda"):
 			TelaAvisoInimigo.mostrar_novo_inimigo(
-				nome_inimigo, 
-				dica_tutorial, 
-				modelo_3d, 
-				status_velocidade, 
+				nome_inimigo,
+				dica_tutorial,
+				_obter_icone_aviso(),
+				status_velocidade,
 				status_vida
 			)
 
@@ -170,6 +171,53 @@ func _aplicar_balanceamento() -> void:
 	vida_maxima = int(vida_maxima * Balanceamento.get_float("inimigo_mult_vida",        1.0))
 	velocidade  = velocidade      * Balanceamento.get_float("inimigo_mult_velocidade",   1.0)
 	forca_dano  = int(forca_dano  * Balanceamento.get_float("inimigo_mult_dano",         1.0))
+
+# Devolve o ícone 2D a exibir na TelaAvisoInimigo.
+# Prioridade: @export icone (definido no editor) → tabela de fallback por nome.
+func _obter_icone_aviso() -> Texture2D:
+	if icone != null:
+		return icone
+	# Tabela de fallback — cobre todos os inimigos que não têm o export setado no editor
+	const _ICONES: Dictionary = {
+		# Mapa 1
+		"Orc":                       "res://Icons/OrcPreview.png",
+		"Abelha":                    "res://Icons/BeePreview.png",
+		"Cogumelão":                 "res://Icons/MushroomPreview.png",
+		"Golem de Musgo Ancestral":  "res://Icons/GolemBossPreview.png",
+		# Mapa 2
+		"Anubis":                    "res://Icons/AnubisPreview.png",
+		"Chacal":                    "res://Icons/ChacalPreview.png",
+		"Genio":                     "res://Icons/GenioPreview.png",
+		"Litch":                     "res://Icons/LichPreview.png",
+		"Faraó":                     "res://Icons/FaraoPreview.png",
+		# Mapa 3
+		"Bruxa":                     "res://Icons/BruxaPreview.png",
+		"Bilbo":                     "res://Icons/FrankPreview.png",
+		"Abóbora":                   "res://Icons/AboboraPreview.png",
+		"Cavaleiro":                 "res://Icons/CavaleiroPreview.png",
+		# Mapa 4
+		"Bombardeiro":               "res://Icons/BombardeiroPreview.png",
+		"Holandês Voador":           "res://Icons/HolandesPreview.png",
+		"Monstro Peixe":             "res://Icons/PeixePreview.png",
+		"Tubarão":                   "res://Icons/TubaraoPreview.png",
+		# Mapa 5
+		"Alexa astronauta":          "res://Icons/AlexaPreview.png",
+		"Linigena astronauta":       "res://Icons/AlienPreview.png",
+		"Sapao Astronauta":          "res://Icons/SapoPreview.png",
+		"Fernando o flamingo":       "res://Icons/FlamingoPreview.png",
+		"Cosmic Kraken":             "res://Icons/AlienPreview.png",
+		"Tutuba":                    "res://Icons/VermelinPreview.png",
+		# Mapa 6
+		"Dragao Inicial":            "res://Icons/DragaoBebePreview.png",
+		"Dragao Evoluido":           "res://Icons/DragaoJovemPreview.png",
+		"Dragao Final":              "res://Icons/DragaoAdultoPreview.png",
+		"Lava golem":                "res://Icons/FireGolemPreview.png",
+	}
+	if _ICONES.has(nome_inimigo):
+		var caminho: String = _ICONES[nome_inimigo]
+		if ResourceLoader.exists(caminho):
+			return load(caminho)
+	return null
 
 func _physics_process(delta):
 	if esta_morto: return

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cluya4y2jmkmb" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations_texture_0_1.png" id="3_wbft7"]
 [ext_resource type="Texture2D" uid="uid://bujvotcqjdnda" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png" id="4_akyxp"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_akyxp"]
+[ext_resource type="Texture2D" path="res://Icons/FaraoPreview.png" id="6_farao_icon"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywuqp"]
 render_priority = 0
@@ -62,6 +63,7 @@ script = ExtResource("1_oswje")
 anim_especial = "Skill_03"
 tipo_inimigo = 2
 nome_inimigo = "Faraó"
+icone = ExtResource("6_farao_icon")
 usar_video_custom = true
 video_stream = ExtResource("2_uht6h")
 vida_maxima = 5500
