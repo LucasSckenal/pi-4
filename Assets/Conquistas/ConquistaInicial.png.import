@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0yl11wmcl4aw"
-path="res://.godot/imported/Não Estamos Mais no Sofá, Querida....png-87ed8a4a2859dcb7443c3fc843617e81.ctex"
+uid="uid://bv6cmcuogm360"
+path="res://.godot/imported/ConquistaInicial.png-1e8a07e86ed668bc806ab0dd0bb822d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Conquistas/Não Estamos Mais no Sofá, Querida....png"
-dest_files=["res://.godot/imported/Não Estamos Mais no Sofá, Querida....png-87ed8a4a2859dcb7443c3fc843617e81.ctex"]
+source_file="res://Assets/Conquistas/ConquistaInicial.png"
+dest_files=["res://.godot/imported/ConquistaInicial.png-1e8a07e86ed668bc806ab0dd0bb822d4.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dewyhghb2xnfs"
-path="res://.godot/imported/Uma Oferta Irrecusável.png-f269fbed5997300523fe61b40e0142c3.ctex"
+uid="uid://w8pgm7olpdjy"
+path="res://.godot/imported/ConquistaOfertaIrrecusavel.png-5d7ecca9c956b223626dd14cf74401b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Conquistas/Uma Oferta Irrecusável.png"
-dest_files=["res://.godot/imported/Uma Oferta Irrecusável.png-f269fbed5997300523fe61b40e0142c3.ctex"]
+source_file="res://Assets/Conquistas/ConquistaOfertaIrrecusavel.png"
+dest_files=["res://.godot/imported/ConquistaOfertaIrrecusavel.png-5d7ecca9c956b223626dd14cf74401b2.ctex"]
 
 [params]
 
