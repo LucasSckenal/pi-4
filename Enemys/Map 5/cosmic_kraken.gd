@@ -60,6 +60,27 @@ var _intervalo_original: float = 0.0
 # Efeito de vazio no chão
 var _vazio_portal: GPUParticles3D = null
 
+# Silhueta sólida que bloqueia as estrelas atrás do boss
+var _corpo_sombrio: MeshInstance3D = null
+
+# Shader do corpo — quase preto, ondula devagar para parecer orgânico
+const SHADER_CORPO_SOMBRIO = """
+shader_type spatial;
+render_mode unshaded, cull_back;
+
+void vertex() {
+	// Respiração muito lenta — contorno pulsante como tecido vivo
+	float onda = sin(TIME * 0.35 + VERTEX.x * 0.28 + VERTEX.z * 0.28) * 0.10
+	           + sin(TIME * 0.22 + VERTEX.y * 0.40) * 0.06;
+	VERTEX += NORMAL * onda;
+}
+
+void fragment() {
+	// Preto puro — bloqueia completamente qualquer fundo visível
+	ALBEDO = vec3(0.0, 0.0, 0.0);
+}
+"""
+
 # ============================================================================
 # READY
 # ============================================================================
@@ -154,6 +175,7 @@ func _posicionar_sob_base() -> void:
 		if _olho_direito:
 			_olho_direito.position = Vector3(4.5, y_borda, 0.0)
 			_olho_direito.omni_range = 3.0
+	_criar_corpo_sombrio()
 	_criar_malha_olhos()
 	_criar_vazio_portal()
 
@@ -168,9 +190,11 @@ func _physics_process(delta: float) -> void:
 
 	velocity = Vector3.ZERO  # Trava completa
 
-	# Limpa lista de tentáculos mortos/inválidos
-	_tentaculos_ativos = _tentaculos_ativos.filter(func(t):
-		return is_instance_valid(t) and not t.get("esta_morto"))
+	# Limpa lista de tentáculos mortos/inválidos (loop reverso — sem alocação)
+	for i in range(_tentaculos_ativos.size() - 1, -1, -1):
+		var t = _tentaculos_ativos[i]
+		if not is_instance_valid(t) or t.get("esta_morto"):
+			_tentaculos_ativos.remove_at(i)
 
 	# Invoca novo tentáculo se houver espaço e o timer permitir.
 	# Para de invocar quando só restam tentáculos vivos (wave em fase de limpeza),
@@ -524,6 +548,37 @@ func _iniciar_pulso_olhos() -> void:
 			.set_trans(Tween.TRANS_SINE)
 
 # ============================================================================
+# CORPO SOMBRIO — mesh opaco que bloqueia estrelas revelando a massa do boss
+# ============================================================================
+func _criar_corpo_sombrio() -> void:
+	_corpo_sombrio = MeshInstance3D.new()
+	_corpo_sombrio.name = "CorpoSombrio"
+
+	var esfera := SphereMesh.new()
+	# Raio 20 cobre o chão da plataforma sem se estender até o campo de
+	# visão das estrelas laterais/céu (raio 30 bloqueava tudo).
+	esfera.radius          = 20.0
+	esfera.height          = 40.0
+	esfera.radial_segments = 64   # segmentos suficientes para o vertex shader suavizar
+	esfera.rings           = 32
+	_corpo_sombrio.mesh = esfera
+
+	var mat := ShaderMaterial.new()
+	mat.shader      = Shader.new()
+	mat.shader.code = SHADER_CORPO_SOMBRIO
+	_corpo_sombrio.material_override = mat
+	_corpo_sombrio.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+	add_child(_corpo_sombrio)
+
+	# Achatado para forma de disco. Centro em Y=-5.5 (local) para que o
+	# topo do ellipsoide (−5.5 + 20×0.25 = −0.5) fique ligeiramente
+	# ABAIXO dos olhos (Y=0.5), cobrindo o chão da plataforma sem
+	# bloquear as estrelas visíveis nas laterais/céu.
+	_corpo_sombrio.scale    = Vector3(1.0, 0.25, 1.0)
+	_corpo_sombrio.position = Vector3(0.0, -5.5, 0.0)
+
+# ============================================================================
 # PORTAL DO VAZIO — anel de partículas no chão mostrando o Kraken embaixo
 # ============================================================================
 func _criar_vazio_portal() -> void:
@@ -549,10 +604,10 @@ func _criar_vazio_portal() -> void:
 	pm.gravity     = Vector3(0, -0.4, 0)
 	pm.scale_min   = 0.05
 	pm.scale_max   = 0.14
-	# Começa roxo, fica transparente ao subir
+	# Começa preto opaco, fica transparente ao subir
 	var grad := Gradient.new()
-	grad.set_color(0, Color(0.6, 0.0, 1.0, 1.0))
-	grad.set_color(1, Color(0.2, 0.0, 0.5, 0.0))
+	grad.set_color(0, Color(0.0, 0.0, 0.0, 1.0))
+	grad.set_color(1, Color(0.0, 0.0, 0.0, 0.0))
 	var grad_tex := GradientTexture1D.new()
 	grad_tex.gradient = grad
 	pm.color_ramp = grad_tex
@@ -560,10 +615,8 @@ func _criar_vazio_portal() -> void:
 
 	var mat_v := StandardMaterial3D.new()
 	mat_v.shading_mode            = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat_v.albedo_color            = Color(0.7, 0.0, 1.0, 1.0)
-	mat_v.emission_enabled        = true
-	mat_v.emission                = Color(0.5, 0.0, 0.9)
-	mat_v.emission_energy_multiplier = 3.5
+	mat_v.albedo_color            = Color(0.0, 0.0, 0.0, 1.0)
+	mat_v.emission_enabled        = false
 	var esf_v := SphereMesh.new()
 	esf_v.material = mat_v
 	esf_v.radius   = 0.08
@@ -594,14 +647,13 @@ func _entrar_fase(fase: int) -> void:
 		1:  # 50 % — Irritado
 			intervalo_invocacao = _intervalo_original * 0.70
 			cor_olhos = Color(1.0, 0.45, 0.0, 1.0)   # laranja
-			# Aumenta emissão do portal
 			if is_instance_valid(_vazio_portal):
-				_vazio_portal.amount = 130
+				_vazio_portal.amount = 110
 		2:  # 25 % — Fúria total
 			intervalo_invocacao = _intervalo_original * 0.45
 			cor_olhos = Color(1.0, 0.05, 0.05, 1.0)  # vermelho sangue
 			if is_instance_valid(_vazio_portal):
-				_vazio_portal.amount = 200
+				_vazio_portal.amount = 150
 
 	# Aplica nova cor aos olhos
 	for olho in [_olho_esquerdo, _olho_direito]:
@@ -622,6 +674,8 @@ func _entrar_fase(fase: int) -> void:
 # SCREEN SHAKE — oscila h_offset / v_offset da câmera (não conflita com follow)
 # ============================================================================
 func _screen_shake(intensidade: float, duracao: float) -> void:
+	if not Global.shake_tela_ativo:
+		return
 	var cam := get_viewport().get_camera_3d()
 	if not is_instance_valid(cam):
 		return

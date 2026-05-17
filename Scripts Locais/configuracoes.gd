@@ -24,6 +24,7 @@ var temp_cursor_color: Color = Color.WHITE
 @onready var _check_mudo:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckMudo")
 @onready var _check_tela:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia")
 @onready var _check_hud:      CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckHUD")
+@onready var _check_shake:    CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela")
 
 # Referências de Cursor
 @onready var _preview_cursor: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/PreviewArea/PreviewCursor")
@@ -121,6 +122,9 @@ func _on_check_hud_toggled(toggled_on: bool) -> void:
 	Global.hud_tematico_ativo = toggled_on
 	get_tree().call_group("Interface", "aplicar_tema_hud")
 
+func _on_check_shake_tela_toggled(toggled_on: bool) -> void:
+	Global.shake_tela_ativo = toggled_on
+
 # ==========================================
 # SINAIS DO CURSOR (Tamanho)
 # ==========================================
@@ -206,6 +210,8 @@ func _salvar_configuracoes() -> void:
 	
 	if _check_hud:
 		cfg.set_value("video", "hud_customizado", _check_hud.button_pressed)
+
+	cfg.set_value("video", "shake_tela", Global.shake_tela_ativo)
 		
 	cfg.set_value("cursor", "tamanho", temp_cursor_size)
 	cfg.set_value("cursor", "cor", temp_cursor_color)
@@ -239,6 +245,11 @@ func _carregar_configuracoes() -> void:
 		var hud_on: bool = cfg.get_value("video", "hud_customizado", true)
 		_check_hud.button_pressed = hud_on
 		Global.hud_tematico_ativo = hud_on
+
+	var shake_on: bool = cfg.get_value("video", "shake_tela", true)
+	Global.shake_tela_ativo = shake_on
+	if _check_shake:
+		_check_shake.button_pressed = shake_on
 		
 	temp_cursor_size = cfg.get_value("cursor", "tamanho", 1.5)
 	temp_cursor_color = cfg.get_value("cursor", "cor", Color.WHITE)

@@ -542,26 +542,30 @@ func _criar_interface_do_boss():
 	
 	var margin = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE  # não bloqueia cliques no HUD abaixo
 	margin.add_theme_constant_override("margin_top", 50)
 	margin.add_theme_constant_override("margin_left", 350)
 	margin.add_theme_constant_override("margin_right", 350)
 	canvas_boss.add_child(margin)
-	
+
 	var vbox = VBoxContainer.new()
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vbox.add_theme_constant_override("separation", 2)
 	margin.add_child(vbox)
-	
+
 	var label_nome = Label.new()
+	label_nome.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label_nome.text = "☠️ " + nome_inimigo.to_upper() + " ☠️"
 	label_nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label_nome.add_theme_font_size_override("font_size", 24)
-	label_nome.add_theme_color_override("font_color", Color(1, 0.2, 0.2)) 
+	label_nome.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
 	label_nome.add_theme_color_override("font_outline_color", Color.BLACK)
 	label_nome.add_theme_constant_override("outline_size", 8)
 	vbox.add_child(label_nome)
 
 	var bar_container = Control.new()
-	bar_container.custom_minimum_size = Vector2(0, 30) 
+	bar_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar_container.custom_minimum_size = Vector2(0, 30)
 	vbox.add_child(bar_container)
 
 	var raio_curvatura = 15 
@@ -591,6 +595,7 @@ func _criar_interface_do_boss():
 
 	barra_fantasma = ProgressBar.new()
 	barra_fantasma.set_anchors_preset(Control.PRESET_FULL_RECT)
+	barra_fantasma.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	barra_fantasma.max_value = vida_maxima
 	barra_fantasma.value = vida_atual
 	barra_fantasma.show_percentage = false
@@ -600,6 +605,7 @@ func _criar_interface_do_boss():
 
 	barra_vida_boss = ProgressBar.new()
 	barra_vida_boss.set_anchors_preset(Control.PRESET_FULL_RECT)
+	barra_vida_boss.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	barra_vida_boss.max_value = vida_maxima
 	barra_vida_boss.value = vida_atual
 	barra_vida_boss.show_percentage = false

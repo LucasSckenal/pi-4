@@ -253,6 +253,8 @@ func _on_area_input_event(_camera, _event, _position, _normal, _shape_idx):
 		return
 	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT and _event.pressed:
 		if _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
+			# Consome o evento para que outras áreas sobrepostas não disparem também
+			get_viewport().set_input_as_handled()
 			_abrir_ui()
 
 func _on_texture_button_pressed():
