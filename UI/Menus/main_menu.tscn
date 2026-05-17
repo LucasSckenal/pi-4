@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://bqlmtbrfrc7ot" path="res://Assets/Menu/IconeLivro.png" id="5_lvola"]
 [ext_resource type="PackedScene" uid="uid://d3cdnd7wk3m3s" path="res://UI/Menus/configuracoes.tscn" id="5_wr2lu"]
 [ext_resource type="Texture2D" uid="uid://bix1h4n4y26bt" path="res://Assets/Menu/IconeTrofeu.png" id="7_wjhi1"]
-[ext_resource type="Texture2D" uid="uid://jmrjygm3aqhm" path="res://Assets/UI/BotaoVelocidadeTempo.png" id="8_41vpj"]
 [ext_resource type="Texture2D" uid="uid://mkrpqrdvqn3p" path="res://Assets/Menu/IconeOpcoes.png" id="8_k4aug"]
 [ext_resource type="Texture2D" uid="uid://cmdarc5vqv8qr" path="res://Assets/UI/BotaoMedio.png" id="8_wjhi1"]
 [ext_resource type="Texture2D" uid="uid://dtmaytkg0y8kf" path="res://Assets/Menu/IconeSair.png" id="9_g1p8d"]
@@ -125,12 +124,12 @@ expand_margin_right = 40.0
 expand_margin_bottom = 30.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nsbyk"]
-texture = ExtResource("8_41vpj")
-expand_margin_left = 85.0
+texture = ExtResource("8_wjhi1")
+expand_margin_left = 55.0
 expand_margin_top = 25.0
-expand_margin_right = 25.0
+expand_margin_right = 35.0
 expand_margin_bottom = 25.0
-modulate_color = Color(0.37413925, 0.37413928, 0.37413922, 1)
+modulate_color = Color(0.5251013, 0.5251013, 0.5251013, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4em55"]
 texture = ExtResource("8_wjhi1")
