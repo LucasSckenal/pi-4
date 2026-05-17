@@ -1,11 +1,13 @@
 [gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://dr1ag6uyajqda"]
 
 [ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_2nvfu"]
+[ext_resource type="Texture2D" uid="uid://b06qs2hbdpvf0" path="res://Assets/Conquistas/ConquistaChefeDerrotadoSemDanoBase.png" id="1_qkth6"]
 
 [resource]
 script = ExtResource("1_2nvfu")
 id = "derrota_boss_sem_dano_base"
 nome = "Você Não Vai Passar!"
 descricao = "Derrote um Boss sem que ele consiga encostar no seu Núcleo."
+icone = ExtResource("1_qkth6")
 libera_arma_id = "arma_espada_longa"
 metadata/_custom_type_script = "uid://ig1nqt01ys3c"
