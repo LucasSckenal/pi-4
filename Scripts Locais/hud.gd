@@ -751,17 +751,7 @@ func aplicar_tema_hud() -> void:
 		_titulo_base.text = tema["nome"]
 		_titulo_base.add_theme_color_override("font_color", tema["titulo"])
 
-	# Labels de onda e turno (canto esquerdo)
-	if label_onda != null:
-		label_onda.add_theme_color_override("font_color", tema["acento"])
-	if label_turno != null:
-		label_turno.add_theme_color_override("font_color", tema["acento"])
-
-	# Label de moedas (canto direito)
-	if label_moedas != null:
-		label_moedas.add_theme_color_override("font_color", tema["acento"])
-
-	# ── Texturas temáticas dos botões ──────────────────────────────────────
+	# ── Texturas temáticas (kit de fase) ───────────────────────────────────
 	_tex_bau_fechado = _kit_textura("BauFechado", "res://Assets/UI/BauFechado.png")
 	_tex_bau_aberto  = _kit_textura("BauAberto",  "res://Assets/UI/BauAberto.png")
 	_tex_botao_menu  = _kit_textura("BotaoMenu",  "res://Assets/UI/BotaoMenu.png")
@@ -771,7 +761,6 @@ func aplicar_tema_hud() -> void:
 	if _btn_pausa != null:
 		_btn_pausa.icon = _tex_botao_menu
 
-	# Ampulheta e fundo de ondas
 	if ampulheta_dia != null:
 		var t := _kit_textura("AmpulhetaDia", "res://Icons/AmpulhetaDiaBorda.png")
 		if t:

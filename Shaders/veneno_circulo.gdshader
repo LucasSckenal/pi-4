@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_never, blend_add;
+render_mode unshaded, cull_disabled, depth_draw_never, blend_mix;
 
 uniform float velocidade : hint_range(0.1, 5.0) = 1.5;
 uniform float num_aneis : hint_range(2.0, 12.0) = 5.0;
@@ -18,8 +18,7 @@ void fragment() {
 	float dist = length(uv);
 
 	if (dist > 1.0) {
-		ALPHA = 0.0;
-		return;
+		discard;
 	}
 
 	// Borda suave
@@ -54,7 +53,8 @@ void fragment() {
 	cor += cor_borda * runa * 0.45;
 	cor += vec3(0.35, 1.0, 0.1) * bubble * 0.9;
 
-	float alpha = mask * pulso * (0.14 + anel * 0.22 + borda * 0.45 + runa * 0.18 + bubble * 0.35);
+	float alpha = mask * pulso * (0.38 + anel * 0.28 + borda * 0.55 + runa * 0.22 + bubble * 0.42);
+	alpha = clamp(alpha, 0.0, 0.92);
 
 	ALBEDO = cor * intensidade;
 	ALPHA = alpha;
