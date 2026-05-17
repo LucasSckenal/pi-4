@@ -11,6 +11,7 @@ const DEBUG_MODE: bool = false
 
 # --- VARIÁVEIS DE ESTADO ---
 var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
+var shake_tela_ativo: bool = true     # controlado por configuracoes.gd / CheckShakeTela
 
 var personagem_jogado_atualmente : String = "avo_m"
 var personagem_escolhido_path: String = ""

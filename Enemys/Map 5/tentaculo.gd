@@ -96,11 +96,11 @@ func _physics_process(delta: float) -> void:
 	if esta_morto:
 		return
 
-	# Gravidade — só pra encostar no chão e travar
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	velocity.x = 0.0
-	velocity.z = 0.0
+	# Tentáculos são 100 % estáticos — spawnam exatamente no Y da construção.
+	# Gravidade REMOVIDA: nas plataformas flutuantes do Mapa 5 não há chão
+	# abaixo, então aplicar gravidade fazia o tentáculo cair no vazio e ocupar
+	# um slot de _tentaculos_ativos para sempre, bloqueando novas invocações.
+	velocity = Vector3.ZERO
 	move_and_slide()
 
 	# Renova o alvo se inválido / destruído

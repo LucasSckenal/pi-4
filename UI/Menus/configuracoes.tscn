@@ -466,6 +466,20 @@ theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
 text = "HUD Customizado Temático"
 
+[node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=312847561]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+button_pressed = true
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+text = "Tremor de Tela"
+
 [node name="CardAudio" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda" unique_id=1781028163]
 layout_mode = 2
 theme_override_styles/panel = SubResource("Card")
@@ -952,6 +966,7 @@ text = "Fechar"
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica" to="." method="_on_slider_musica_changed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz" to="." method="_on_slider_voz_changed"]

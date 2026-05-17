@@ -349,15 +349,20 @@ func _pode_interagir_tutorial() -> bool:
 	return true
 
 func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
-	if esta_destruida: return  
-	
+	if esta_destruida: return
+
 	var clicou_mouse = (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
 	var tocou_tela = (event is InputEventScreenTouch and event.pressed)
-	
+
 	if clicou_mouse or tocou_tela:
-		if _pode_interagir_tutorial(): 
+		if _pode_interagir_tutorial():
+			# Consome o evento para que construções MAIS DISTANTES que se sobreponham
+			# em projeção 2D não abram o seu painel em simultâneo. O Godot 4 dispara
+			# input_event das CollisionObjects em ordem câmera-mais-próxima-primeiro,
+			# então a que responde aqui é sempre a mais à frente.
+			get_viewport().set_input_as_handled()
 			construcao_selecionada.emit(self)
-			
+
 			# ACENDE O ANEL
 			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
 				indicador_alcance.visible = true

@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://cmvpoyu8c7a33" path="res://Cenas Locais/raio_eletrico.tscn" id="11_raio"]
 [ext_resource type="PackedScene" uid="uid://cbfqv1hx2i3y4" path="res://Cenas Locais/bala_de_canhao.tscn" id="12_bala"]
 [ext_resource type="PackedScene" path="res://Map3/Caldeirao.glb" id="13_cald"]
+[ext_resource type="Texture2D" uid="uid://rw362l207let" path="res://Assets/Construcoes/ConstrucaoScifi.png" id="14_scifi"]
 
 [sub_resource type="Resource" id="Resource_qny8x"]
 script = ExtResource("4_772tj")
@@ -67,6 +68,7 @@ fase_minima = 5
 fase_maxima = 5
 nivel_base_minimo = 1
 tipo_ataque = "chain_lightning"
+icone = ExtResource("14_scifi")
 custos = Array[int]([7])
 dano_por_nivel = Array[int]([15])
 velocidade_por_nivel = Array[float]([0.3])
