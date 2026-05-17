@@ -66,7 +66,8 @@ func carregar() -> void:
 				dados[chave] = valor_str  # String / desconhecido
 
 	arquivo.close()
-	print("[Balanceamento] %d valores carregados de %s" % [dados.size(), CAMINHO_CSV])
+	if Global.DEBUG_MODE:
+		print("[Balanceamento] %d valores carregados de %s" % [dados.size(), CAMINHO_CSV])
 
 
 # ==========================================
@@ -127,4 +128,5 @@ func _input(event: InputEvent) -> void:
 			# Avisa torres e construções para reaplicarem seus valores
 			get_tree().call_group("Torres", "atualizar_status")
 			get_tree().call_group("Construcao", "recarregar_balanceamento")
-			print("[Balanceamento] CSV recarregado — valores atualizados!")
+			if Global.DEBUG_MODE:
+				print("[Balanceamento] CSV recarregado — valores atualizados!")

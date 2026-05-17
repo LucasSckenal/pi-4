@@ -41,7 +41,8 @@ func _iniciar_noite(_n):
 		return
 
 	if onda_data == null:
-		print("ERRO: Onda ", onda_atual, " é null em ", name)
+		if Global.DEBUG_MODE:
+			print("ERRO: Onda ", onda_atual, " é null em ", name)
 		return
 
 	var hp_mult_base: float = _calcular_hp_multiplicador(GameManager.onda_atual)
@@ -52,7 +53,8 @@ func _iniciar_noite(_n):
 	var mult_horda: float = GameManager.multiplicador_horda if onda_atual < ondas.size() else 1.0
 	for config in onda_data.inimigos:
 		if config == null:
-			print("ERRO: Config de inimigo null na onda ", onda_atual)
+			if Global.DEBUG_MODE:
+				print("ERRO: Config de inimigo null na onda ", onda_atual)
 			continue
 		var qtd = int(ceil(config.quantidade * mult_horda))
 		for i in range(qtd):
@@ -60,7 +62,8 @@ func _iniciar_noite(_n):
 			fila_hp_mult.append(hp_mult_base)
 
 	inimigos_restantes = fila_inimigos.size()
-	print(name, " iniciando noite com ", inimigos_restantes, " inimigos (hp_mult=", hp_mult_base, ")")
+	if Global.DEBUG_MODE:
+		print(name, " iniciando noite com ", inimigos_restantes, " inimigos (hp_mult=", hp_mult_base, ")")
 
 	if inimigos_restantes == 0:
 		_finalizar_onda()
@@ -90,11 +93,13 @@ func _spawnar_proximo():
 	if fila_hp_mult.size() > 0:
 		hp_mult = fila_hp_mult.pop_front()
 	if cena == null:
-		print("ERRO: cena de inimigo null em ", name)
+		if Global.DEBUG_MODE:
+			print("ERRO: cena de inimigo null em ", name)
 		return
 
 	if not is_inside_tree():
-		print("Spawner ", name, " não está na árvore. Cancelando spawn.")
+		if Global.DEBUG_MODE:
+			print("Spawner ", name, " não está na árvore. Cancelando spawn.")
 		return
 
 	var inimigo = cena.instantiate()
@@ -104,7 +109,8 @@ func _spawnar_proximo():
 	get_tree().current_scene.add_child(inimigo)
 	inimigo.global_position = global_position
 	inimigos_restantes -= 1
-	print(name, " spawnou inimigo. Restam na fila: ", fila_inimigos.size())
+	if Global.DEBUG_MODE:
+		print(name, " spawnou inimigo. Restam na fila: ", fila_inimigos.size())
 
 func _esperar_limpeza():
 	while get_tree().get_nodes_in_group("inimigos").size() > 0 \
@@ -113,7 +119,8 @@ func _esperar_limpeza():
 	_finalizar_onda()
 
 func _finalizar_onda():
-	print(name, " finalizando onda. Próxima onda: ", onda_atual + 1)
+	if Global.DEBUG_MODE:
+		print(name, " finalizando onda. Próxima onda: ", onda_atual + 1)
 	onda_atual += 1
 	
 	# EM VEZ DE: GameManager.terminar_onda()
@@ -195,7 +202,8 @@ func _calcular_direcao() -> String:
 func restaurar_onda_do_save():
 	onda_atual = GameManager.onda_atual - 1
 	emitir_info()
-	print(name, " sincronizou a onda do save! Preparado para a onda: ", GameManager.onda_atual)
+	if Global.DEBUG_MODE:
+		print(name, " sincronizou a onda do save! Preparado para a onda: ", GameManager.onda_atual)
 
 
 # ==========================================

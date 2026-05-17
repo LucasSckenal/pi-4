@@ -63,9 +63,11 @@ func _ready():
 		if animation_player.has_animation("idle"):
 			animation_player.play("idle")
 		else:
-			print("Aviso: animação 'idle' não encontrada em ", name)
+			if Global.DEBUG_MODE:
+				print("Aviso: animação 'idle' não encontrada em ", name)
 	else:
-		print("Erro: AnimationPlayer não encontrado em ", name)
+		if Global.DEBUG_MODE:
+			print("Erro: AnimationPlayer não encontrado em ", name)
 	
 	# Timer de ataque
 	timer_ataque.wait_time = tempo_entre_ataques
@@ -298,13 +300,15 @@ func _on_hitbox_entered(body: Node):
 
 func receber_dano(quantidade: int):
 	vida_atual -= quantidade
-	print("%s recebeu %d de dano. Vida: %d/%d" % [name, quantidade, vida_atual, vida_maxima])
+	if Global.DEBUG_MODE:
+		print("%s recebeu %d de dano. Vida: %d/%d" % [name, quantidade, vida_atual, vida_maxima])
 	
 	if vida_atual <= 0:
 		morrer()
 
 func morrer():
-	print("%s morreu." % name)
+	if Global.DEBUG_MODE:
+		print("%s morreu." % name)
 	morreu.emit(self)
 	queue_free()
 

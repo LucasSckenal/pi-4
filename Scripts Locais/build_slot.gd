@@ -122,7 +122,8 @@ func _abrir_ui():
 	if ui_atual:
 		return
 	if not ui_construcao_prefab:
-		print("ERRO: ui_construcao_prefab não atribuída no slot!")
+		if Global.DEBUG_MODE:
+			print("ERRO: ui_construcao_prefab não atribuída no slot!")
 		return
 		
 	slot_clicado.emit()

@@ -1,7 +1,6 @@
 extends Node
 
-# Mude para true durante o desenvolvimento para ver logs detalhados
-const DEBUG_MODE = false
+# Para ativar logs de diagnóstico, use Global.DEBUG_MODE = true em Global.gd
 
 # ==========================================
 # SINAIS
@@ -389,6 +388,24 @@ func get_todas_construcoes_da_fase() -> Array:
 			})
 	return resultado
 
+## Devolve o nome de exibição de uma cena de construção.
+## Usa nome_construcao se definido (e diferente do default "Construção");
+## caso contrário, infere pelo caminho do ficheiro.
+## Usado pelo menu radial e pelo conselheiro para garantir nomes consistentes.
+func nome_para_cena(cena: PackedScene) -> String:
+	var inst = cena.instantiate()
+	var raw: String = str(inst.get("nome_construcao")) if "nome_construcao" in inst else ""
+	inst.free()
+	if raw != "" and raw != "Construção":
+		return raw
+	var p: String = cena.resource_path.to_lower()
+	if "tower" in p or "torre" in p or "morteiro" in p or "sniper" in p: return "Torre"
+	if "mina" in p: return "Mina"
+	if "house" in p or "casa" in p: return "Casa"
+	if "mill" in p or "moinho" in p: return "Moinho"
+	if "quartel" in p: return "Quartel"
+	return cena.resource_path.get_file().get_basename().capitalize()
+
 # ==========================================
 # CICLO DIA / NOITE E ECONOMIA
 # ==========================================
@@ -743,12 +760,10 @@ func salvar_jogo():
 	config.set_value("sessao", "bonus_espinho", bonus_espinho)
 	config.set_value("sessao", "bonus_dano_chefe", bonus_dano_chefe)
 
-	# Recolhe construções dos dois grupos (por compatibilidade)
+	# Recolhe todas as construções do grupo canônico "Construcao"
 	var lista_construcoes: Array = []
 	for construcao in get_tree().get_nodes_in_group("Construcao"):
 		if construcao.is_in_group("Base"): continue
-		lista_construcoes.append(_dados_construcao(construcao))
-	for construcao in get_tree().get_nodes_in_group("Construcoes"):
 		lista_construcoes.append(_dados_construcao(construcao))
 
 	config.set_value("construcoes", "lista", lista_construcoes)
@@ -843,7 +858,7 @@ func _restaurar_construcoes(lista_construcoes):
 	await get_tree().process_frame
 	var todos_os_slots = get_tree().get_nodes_in_group("BuildSlots")
 
-	if DEBUG_MODE:
+	if Global.DEBUG_MODE:
 		print("[GameManager] Restaurando %d construções em %d slots." % [lista_construcoes.size(), todos_os_slots.size()])
 
 	for dados_c in lista_construcoes:
@@ -886,7 +901,7 @@ func _restaurar_construcoes(lista_construcoes):
 				if not nova_construcao.tree_exited.is_connected(slot_dono.reativar_slot):
 					nova_construcao.tree_exited.connect(slot_dono.reativar_slot)
 		else:
-			if DEBUG_MODE:
+			if Global.DEBUG_MODE:
 				print("[GameManager] Slot não encontrado perto de %s. Adicionando ao mundo." % str(pos_salva))
 			get_tree().current_scene.add_child(nova_construcao)
 			nova_construcao.global_position = pos_salva

@@ -128,9 +128,11 @@ func _ready():
 		# Passa a cena do botão de opção para a UI
 		if upgrade_ui_instance.has_method("set_cena_opcao_button"):
 			upgrade_ui_instance.set_cena_opcao_button(cena_opcao_button)
-		print("UI de upgrade instanciada com sucesso.")
+		if Global.DEBUG_MODE:
+			print("UI de upgrade instanciada com sucesso.")
 	else:
-		print("ERRO: upgrade_ui_scene não atribuída na HUD!")
+		if Global.DEBUG_MODE:
+			print("ERRO: upgrade_ui_scene não atribuída na HUD!")
 	
 	# Configurações iniciais da interface
 	if label_wave != null:
@@ -161,7 +163,8 @@ func _ready():
 	if cena_enemy_icon == null:
 		cena_enemy_icon = preload("res://Enemys/enemy_icon.tscn")
 		if cena_enemy_icon == null:
-			print("ERRO: Não foi possível carregar enemy_icon.tscn")
+			if Global.DEBUG_MODE:
+				print("ERRO: Não foi possível carregar enemy_icon.tscn")
 	
 	# Conecta aos spawners (indicadores de onda)
 	_conectar_spawners()
@@ -185,13 +188,15 @@ func _ready():
 		game_over_instance = cena_game_over.instantiate()
 		add_child(game_over_instance)
 	else:
-		print("ERRO: cena_game_over não atribuída na HUD!")
+		if Global.DEBUG_MODE:
+			print("ERRO: cena_game_over não atribuída na HUD!")
 	
 	if cena_vitoria:
 		vitoria_instance = cena_vitoria.instantiate()
 		add_child(vitoria_instance)
 	else:
-		print("ERRO: cena_vitoria não atribuída na HUD!")
+		if Global.DEBUG_MODE:
+			print("ERRO: cena_vitoria não atribuída na HUD!")
 	
 	# Conecta o sinal de morte do GameManager à HUD
 	if GameManager.has_signal("game_over"):
@@ -227,17 +232,21 @@ func _conectar_construcoes():
 func _conectar_construcao(construcao: Node):
 	if not construcao.is_connected("construcao_selecionada", _on_construcao_selecionada):
 		construcao.connect("construcao_selecionada", _on_construcao_selecionada)
-		print("HUD conectada à construção: ", construcao.name)
+		if Global.DEBUG_MODE:
+			print("HUD conectada à construção: ", construcao.name)
 
 func _on_construcao_selecionada(construcao):
-	print("Construção selecionada: ", construcao.name)
-	
+	if Global.DEBUG_MODE:
+		print("Construção selecionada: ", construcao.name)
+
 	torre_atual = construcao
 	if upgrade_ui_instance:
-		print("Chamando upgrade_ui_instance.abrir()")
+		if Global.DEBUG_MODE:
+			print("Chamando upgrade_ui_instance.abrir()")
 		upgrade_ui_instance.abrir(construcao)
 	else:
-		print("ERRO: upgrade_ui_instance é null")
+		if Global.DEBUG_MODE:
+			print("ERRO: upgrade_ui_instance é null")
 
 func _on_upgrade_ui_fechado():
 	if torre_atual:
@@ -368,15 +377,18 @@ func _on_botao_reroll_pressed():
 # ==========================================
 func _conectar_spawners():
 	var spawners = get_tree().get_nodes_in_group("Spawner")
-	print("HUD: tentando conectar a ", spawners.size(), " spawners")
+	if Global.DEBUG_MODE:
+		print("HUD: tentando conectar a ", spawners.size(), " spawners")
 	for spawner in spawners:
 		if not spawner.is_connected("info_proxima_onda", _on_info_spawner):
 			spawner.connect("info_proxima_onda", _on_info_spawner)
-			print("HUD conectada ao spawner: ", spawner.name)
+			if Global.DEBUG_MODE:
+				print("HUD conectada ao spawner: ", spawner.name)
 			spawner.emitir_info()
 
 func _on_info_spawner(id_spawner, direcao, inimigos, posicao_mundo):
-	print("HUD recebeu: ", id_spawner)
+	if Global.DEBUG_MODE:
+		print("HUD recebeu: ", id_spawner)
 
 	# remove indicador antigo
 	if containers_por_spawner.has(id_spawner):
@@ -393,7 +405,8 @@ func _on_info_spawner(id_spawner, direcao, inimigos, posicao_mundo):
 
 	# segurança
 	if cena_enemy_icon == null:
-		print("ERRO: cena_enemy_icon é null")
+		if Global.DEBUG_MODE:
+			print("ERRO: cena_enemy_icon é null")
 		return
 
 	# cria container

@@ -63,6 +63,7 @@ rage_anim_andar = "Running"
 rage_duracao_preparacao = 1.2
 tipo_inimigo = 2
 nome_inimigo = "Dragao Final"
+subtitulo_inimigo = "Forma Final — A Devastação é Inevitável"
 usar_video_custom = true
 video_stream = ExtResource("2_tyhiq")
 vida_maxima = 3600

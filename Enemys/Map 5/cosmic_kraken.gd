@@ -53,6 +53,13 @@ var _tentaculos_invocados: int = 0
 var _timer_invocacao: float = 0.0
 var _telegrafando: bool = false
 
+# Fases de raiva (0 = normal · 1 = 50 % HP · 2 = 25 % HP)
+var _fase_atual: int = 0
+var _intervalo_original: float = 0.0
+
+# Efeito de vazio no chão
+var _vazio_portal: GPUParticles3D = null
+
 # ============================================================================
 # READY
 # ============================================================================
@@ -94,6 +101,7 @@ func _ready() -> void:
 
 	# Pequeno delay teatral antes da primeira invocação
 	_timer_invocacao = 1.5
+	_intervalo_original = intervalo_invocacao
 
 func _posicionar_sob_base() -> void:
 	var base = get_tree().get_first_node_in_group("Castelo")
@@ -147,6 +155,7 @@ func _posicionar_sob_base() -> void:
 			_olho_direito.position = Vector3(4.5, y_borda, 0.0)
 			_olho_direito.omni_range = 3.0
 	_criar_malha_olhos()
+	_criar_vazio_portal()
 
 # ============================================================================
 # FÍSICA — Sobrescreve o _physics_process do InimigoBase
@@ -183,6 +192,8 @@ func _physics_process(delta: float) -> void:
 		_telegrafando = false
 		_invocar_tentaculo()
 		_timer_invocacao = intervalo_invocacao
+
+	_verificar_fases()
 
 # Retorna true se não há mais inimigos "normais" vivos — só tentáculos (ou nada).
 # Usado para parar invocações no fim da wave e deixar o spawner finalizar.
@@ -223,6 +234,7 @@ func _invocar_tentaculo() -> void:
 		tentaculo.kraken_pai = self
 	_tentaculos_ativos.append(tentaculo)
 	_tentaculos_invocados += 1
+	_screen_shake(0.12, 0.28)
 
 # Devolve um Vector3 (posição) ou null se nenhum spot for viável.
 func _escolher_posicao_invocacao():
@@ -301,7 +313,51 @@ func atacar() -> void:
 	pass
 
 func _explodir() -> void:
-	pass
+	# Explosão cósmica de morte — flash branco + burst de partículas roxas
+	_screen_shake(0.35, 0.6)
+	# Flash nos olhos ao máximo antes de apagar
+	if _olho_esquerdo:
+		_olho_esquerdo.light_energy = intensidade_olhos * 10.0
+	if _olho_direito:
+		_olho_direito.light_energy = intensidade_olhos * 10.0
+	# Burst de partículas no ponto de cada olho
+	for olho in [_olho_esquerdo, _olho_direito]:
+		if not olho: continue
+		var burst := GPUParticles3D.new()
+		burst.one_shot     = true
+		burst.emitting     = true
+		burst.amount       = 40
+		burst.lifetime     = 1.2
+		burst.explosiveness = 0.95
+		burst.visibility_aabb = AABB(Vector3(-10,-10,-10), Vector3(20,20,20))
+		var pm := ParticleProcessMaterial.new()
+		pm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
+		pm.emission_sphere_radius = 0.2
+		pm.direction = Vector3(0, 1, 0)
+		pm.spread    = 180.0
+		pm.initial_velocity_min = 4.0
+		pm.initial_velocity_max = 9.0
+		pm.gravity = Vector3.ZERO
+		pm.scale_min = 0.06
+		pm.scale_max = 0.18
+		pm.color = Color(0.7, 0.0, 1.0, 1.0)
+		burst.process_material = burst.process_material  # placeholder
+		burst.process_material = pm
+		var mat_b := StandardMaterial3D.new()
+		mat_b.shading_mode            = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mat_b.albedo_color            = Color(0.8, 0.2, 1.0)
+		mat_b.emission_enabled        = true
+		mat_b.emission                = Color(0.7, 0.0, 1.0)
+		mat_b.emission_energy_multiplier = 5.0
+		var esf := SphereMesh.new()
+		esf.material = mat_b
+		esf.radius = 0.1
+		esf.height = 0.2
+		burst.draw_pass_1 = esf
+		get_parent().add_child(burst)
+		burst.global_position = olho.global_position
+		# Auto-destrói após as partículas acabarem
+		get_tree().create_timer(2.0).timeout.connect(func(): if is_instance_valid(burst): burst.queue_free())
 
 # Bloqueia dano direto vindo de torres — apenas tentáculos podem ferir.
 # Player toca dano via tentáculo → este chama notificar_tentaculo_morto().
@@ -377,21 +433,20 @@ func morrer() -> void:
 # Adiciona esferas emissivas aos nós dos olhos para torná-los visíveis como objetos.
 # Chamado em _posicionar_sob_base após reposicionar os olhos.
 func _criar_malha_olhos() -> void:
+	var shader_olho: Shader = load("res://Shaders/kraken_eye.gdshader")
 	for olho in [_olho_esquerdo, _olho_direito]:
 		if not olho or olho.get_node_or_null("Pupila") != null:
 			continue
 		var mesh_inst := MeshInstance3D.new()
 		mesh_inst.name = "Pupila"
-		var esfera := SphereMesh.new()
-		esfera.radius = 0.22
-		esfera.height = 0.44
-		mesh_inst.mesh = esfera
-		var mat := StandardMaterial3D.new()
-		mat.emission_enabled = true
-		mat.emission = cor_olhos
-		mat.emission_energy_multiplier = 4.0
-		mat.albedo_color = Color(cor_olhos.r, cor_olhos.g, cor_olhos.b, 1.0)
-		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		# QuadMesh billboard (2:1) — shader cuida da forma oval e da névoa
+		var quad := QuadMesh.new()
+		quad.size = Vector2(1.5, 0.75)
+		mesh_inst.mesh = quad
+		var mat := ShaderMaterial.new()
+		mat.shader = shader_olho
+		mat.set_shader_parameter("cor_olho", cor_olhos)
+		mat.set_shader_parameter("intensidade", 2.5)
 		mesh_inst.material_override = mat
 		olho.add_child(mesh_inst)
 
@@ -466,3 +521,119 @@ func _iniciar_pulso_olhos() -> void:
 			.set_trans(Tween.TRANS_SINE)
 		tw_r.tween_property(_olho_direito, "light_energy", energia_min, 1.4)\
 			.set_trans(Tween.TRANS_SINE)
+
+# ============================================================================
+# PORTAL DO VAZIO — anel de partículas no chão mostrando o Kraken embaixo
+# ============================================================================
+func _criar_vazio_portal() -> void:
+	_vazio_portal = GPUParticles3D.new()
+	_vazio_portal.name        = "VazioPortal"
+	_vazio_portal.amount      = 80
+	_vazio_portal.lifetime    = 2.5
+	_vazio_portal.emitting    = true
+	_vazio_portal.explosiveness = 0.0
+	_vazio_portal.randomness  = 0.4
+	_vazio_portal.visibility_aabb = AABB(Vector3(-12,-4,-12), Vector3(24,8,24))
+
+	var pm := ParticleProcessMaterial.new()
+	pm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_RING
+	pm.emission_ring_radius   = 3.8
+	pm.emission_ring_inner_radius = 2.8
+	pm.emission_ring_height   = 0.05
+	pm.emission_ring_axis     = Vector3(0, 1, 0)
+	pm.direction   = Vector3(0, 1, 0)
+	pm.spread      = 18.0
+	pm.initial_velocity_min = 0.5
+	pm.initial_velocity_max = 1.8
+	pm.gravity     = Vector3(0, -0.4, 0)
+	pm.scale_min   = 0.05
+	pm.scale_max   = 0.14
+	# Começa roxo, fica transparente ao subir
+	var grad := Gradient.new()
+	grad.set_color(0, Color(0.6, 0.0, 1.0, 1.0))
+	grad.set_color(1, Color(0.2, 0.0, 0.5, 0.0))
+	var grad_tex := GradientTexture1D.new()
+	grad_tex.gradient = grad
+	pm.color_ramp = grad_tex
+	_vazio_portal.process_material = pm
+
+	var mat_v := StandardMaterial3D.new()
+	mat_v.shading_mode            = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat_v.albedo_color            = Color(0.7, 0.0, 1.0, 1.0)
+	mat_v.emission_enabled        = true
+	mat_v.emission                = Color(0.5, 0.0, 0.9)
+	mat_v.emission_energy_multiplier = 3.5
+	var esf_v := SphereMesh.new()
+	esf_v.material = mat_v
+	esf_v.radius   = 0.08
+	esf_v.height   = 0.16
+	_vazio_portal.draw_pass_1 = esf_v
+
+	add_child(_vazio_portal)
+	# Posiciona na superfície da plataforma (y=abs(offset) acima do Kraken)
+	_vazio_portal.position = Vector3(0, abs(offset_y_sob_base) - 0.2, 0)
+
+# ============================================================================
+# FASES DE RAIVA
+# ============================================================================
+func _verificar_fases() -> void:
+	if esta_morto or vida_maxima <= 0:
+		return
+	var ratio := float(vida_atual) / float(vida_maxima)
+	if ratio <= 0.25 and _fase_atual < 2:
+		_entrar_fase(2)
+	elif ratio <= 0.50 and _fase_atual < 1:
+		_entrar_fase(1)
+
+func _entrar_fase(fase: int) -> void:
+	_fase_atual = fase
+	_screen_shake(0.25, 0.5)
+
+	match fase:
+		1:  # 50 % — Irritado
+			intervalo_invocacao = _intervalo_original * 0.70
+			cor_olhos = Color(1.0, 0.45, 0.0, 1.0)   # laranja
+			# Aumenta emissão do portal
+			if is_instance_valid(_vazio_portal):
+				_vazio_portal.amount = 130
+		2:  # 25 % — Fúria total
+			intervalo_invocacao = _intervalo_original * 0.45
+			cor_olhos = Color(1.0, 0.05, 0.05, 1.0)  # vermelho sangue
+			if is_instance_valid(_vazio_portal):
+				_vazio_portal.amount = 200
+
+	# Aplica nova cor aos olhos
+	for olho in [_olho_esquerdo, _olho_direito]:
+		if not olho: continue
+		olho.light_color = cor_olhos
+		var pupila = olho.get_node_or_null("Pupila")
+		if pupila and pupila.material_override is ShaderMaterial:
+			pupila.material_override.set_shader_parameter("cor_olho", cor_olhos)
+
+	# Flash dramático de transição
+	var tw = create_tween().set_parallel(true)
+	for olho in [_olho_esquerdo, _olho_direito]:
+		if not olho: continue
+		tw.tween_property(olho, "light_energy", intensidade_olhos * 8.0, 0.12)
+		tw.chain().tween_property(olho, "light_energy", intensidade_olhos * 1.5, 0.4)
+
+# ============================================================================
+# SCREEN SHAKE — oscila h_offset / v_offset da câmera (não conflita com follow)
+# ============================================================================
+func _screen_shake(intensidade: float, duracao: float) -> void:
+	var cam := get_viewport().get_camera_3d()
+	if not is_instance_valid(cam):
+		return
+	var tw = create_tween()
+	var passos: int = max(4, int(duracao / 0.05))
+	for i in range(passos):
+		var f := float(passos - i) / float(passos)
+		tw.tween_callback(func():
+			cam.h_offset = randf_range(-intensidade, intensidade) * f
+			cam.v_offset = randf_range(-intensidade * 0.5, intensidade * 0.5) * f
+		)
+		tw.tween_interval(duracao / passos)
+	tw.tween_callback(func():
+		cam.h_offset = 0.0
+		cam.v_offset = 0.0
+	)

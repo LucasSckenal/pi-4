@@ -50,23 +50,27 @@ func _pagar_recompensa():
 		if player_ref.has_method("atualizar_hud"):
 			player_ref.atualizar_hud()
 			
-		print("A construção gerou ", moedas_por_onda, " moedas!")
+		if Global.DEBUG_MODE:
+			print("A construção gerou ", moedas_por_onda, " moedas!")
 	else:
-		print("ERRO: Jogador não encontrado! Confirma se o grupo se chama mesmo 'Player'.")
+		if Global.DEBUG_MODE:
+			print("ERRO: Jogador não encontrado! Confirma se o grupo se chama mesmo 'Player'.")
 
 # =========================================================
 # FUNÇÃO PARA SOFRER DANO DOS INIMIGOS
 # =========================================================
 func receber_dano(quantidade: int):
 	vida_atual -= quantidade
-	print("A construção sofreu ", quantidade, " de dano! Vida: ", vida_atual)
-	
+	if Global.DEBUG_MODE:
+		print("A construção sofreu ", quantidade, " de dano! Vida: ", vida_atual)
+
 	if vida_atual <= 0:
 		destruir_construcao()
 
 func destruir_construcao():
-	print("A construção foi destruída!")
-	# O queue_free() apaga o objeto do jogo. 
+	if Global.DEBUG_MODE:
+		print("A construção foi destruída!")
+	# O queue_free() apaga o objeto do jogo.
 	queue_free()
 
 # =========================================================

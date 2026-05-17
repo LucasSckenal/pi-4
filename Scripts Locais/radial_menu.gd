@@ -14,6 +14,7 @@ var _slot_alvo: Node = null
 var _cor_divisoria = Color(0.3, 0.32, 0.35, 0.8) # Borda cinza suave
 
 func _ready() -> void:
+	add_to_group("RadialMenu")
 	hide()
 	info_label.text = ""
 	# Garante que o menu seja redesenhado se o raio mudar
@@ -79,7 +80,7 @@ func abrir_menu(slot: Node) -> void:
 		var temp_instancia = cena_torre.instantiate()
 		if temp_instancia.has_method("_resolver_icone_construcao"):
 			temp_instancia._resolver_icone_construcao()
-		var nome = temp_instancia.get("nome_construcao") if "nome_construcao" in temp_instancia else "Torre"
+		var nome = GameManager.nome_para_cena(cena_torre)
 		var icone = temp_instancia.get("icone") if "icone" in temp_instancia else null
 		var custo = temp_instancia.get("custo_moedas") if "custo_moedas" in temp_instancia else 0
 		temp_instancia.queue_free()
@@ -90,16 +91,13 @@ func abrir_menu(slot: Node) -> void:
 		if dados.bloqueado and novo_botao.has_method("bloquear"):
 			novo_botao.bloquear(dados.nivel_necessario)
 
-	var rec_nome: String = GameManager.recomendacao_conselheiro
-	if rec_nome != "":
-		for botao in _botoes_ativos:
-			var nome_b = botao.get("nome_torre")
-			if nome_b != null and str(nome_b) == rec_nome and botao.has_method("destacar_recomendado"):
-				botao.destacar_recomendado()
-				break
-
 	queue_redraw()
 	show()
+
+	# Deferred: garante que todos os botões estão totalmente inicializados
+	# e que qualquer evento de fecho do painel de ajuda já foi processado
+	# antes de aplicar o destaque da recomendação.
+	call_deferred("atualizar_destaque_recomendado")
 
 func fechar_menu() -> void:
 	hide()
@@ -134,29 +132,47 @@ func _limpar_botoes() -> void:
 		if is_instance_valid(botao):
 			botao.queue_free()
 	_botoes_ativos.clear()
+
+# ==========================================
+# DESTAQUE DE RECOMENDAÇÃO (chamado pelo PainelConselheiro)
+# ==========================================
+## Atualiza o destaque dos botões com base na recomendação atual do conselheiro.
+## Chamado quando o painel de ajuda é aberto enquanto o menu radial já está visível.
+func atualizar_destaque_recomendado() -> void:
+	var rec_nome: String = GameManager.recomendacao_conselheiro
+	for botao in _botoes_ativos:
+		if not is_instance_valid(botao):
+			continue
+		var nome_b = botao.get("nome_torre")
+		if rec_nome != "" and nome_b != null and str(nome_b) == rec_nome:
+			if botao.has_method("destacar_recomendado"):
+				botao.destacar_recomendado()
+		else:
+			if botao.has_method("remover_destaque"):
+				botao.remover_destaque()
 	
 # ==========================================
 # LÓGICA DE DETECÇÃO DE CLIQUE FORA (PC E MOBILE)
 # ==========================================
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	# Só tenta detectar cliques se o menu estiver aberto na tela
 	if not visible:
 		return
-		
+
 	# ==========================================
 	# TRAVA DO TUTORIAL (MENU)
 	# ==========================================
 	if GameManager.is_tutorial_ativo:
 		var tutorial = get_tree().get_first_node_in_group("TutorialManager")
 		if tutorial and tutorial.visible and tutorial.alvo_2d_atual != null:
-			# Se o tutorial está a mandar clicar num botão deste menu, 
+			# Se o tutorial está a mandar clicar num botão deste menu,
 			# IMPEDE o jogador de fechar o menu clicando fora!
-			return 
+			return
 	# ==========================================
-		
+
 	var clicou: bool = false
 	var pos_clique: Vector2 = Vector2.ZERO
-	
+
 	# Detecta clique esquerdo do mouse (PC)
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		clicou = true
@@ -165,16 +181,14 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenTouch and event.pressed:
 		clicou = true
 		pos_clique = event.position
-		
+
 	if clicou:
 		# Calcula a distância exata entre o clique e o centro do menu radial
 		var distancia = pos_clique.distance_to(global_position)
-		
+
 		# (raio_menu + 70.0) é exatamente o tamanho do círculo de fundo que desenhamos no _draw()
 		if distancia > (raio_menu + 70.0):
 			# Usa call_deferred por segurança para o Godot não deletar a UI no meio do clique
 			if _slot_alvo and _slot_alvo.has_method("fechar_ui"):
 				_slot_alvo.call_deferred("fechar_ui")
-				
-				# (Opcional) Impede que o clique vaze e faça o personagem andar ou atirar sem querer
 				get_viewport().set_input_as_handled()

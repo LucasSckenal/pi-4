@@ -4,6 +4,11 @@ extends Node
 const SAVE_PATH = "user://save.cfg"
 const _SAVE_PATH_ANTIGO = "user://save_game.cfg"
 
+# --- MODO DEBUG ---
+## Coloque true durante o desenvolvimento para ver os prints de diagnóstico.
+## Mantenha false em builds de produção.
+const DEBUG_MODE: bool = false
+
 # --- VARIÁVEIS DE ESTADO ---
 var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
 
@@ -163,13 +168,14 @@ func _input(event):
 			resetar_tudo()
 
 		if event.keycode == KEY_L:
-			print("\n--- STATUS DO SAVE ---")
-			print("Conquistas Completas: ", conquistas_desbloqueadas)
-			print("Armas Desbloqueadas: ", armas_desbloqueadas)
-			print("Chapéus Desbloqueados: ", chapeus_desbloqueados)
-			print("Equip Avô: ", equip_avo_m)
-			print("Equip Avó: ", equip_avo_f)
-			print("----------------------\n")
+			if Global.DEBUG_MODE:
+				print("\n--- STATUS DO SAVE ---")
+				print("Conquistas Completas: ", conquistas_desbloqueadas)
+				print("Armas Desbloqueadas: ", armas_desbloqueadas)
+				print("Chapéus Desbloqueados: ", chapeus_desbloqueados)
+				print("Equip Avô: ", equip_avo_m)
+				print("Equip Avó: ", equip_avo_f)
+				print("----------------------\n")
 
 
 func resetar_tudo():

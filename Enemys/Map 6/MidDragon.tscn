@@ -226,6 +226,7 @@ height = 1.5126953
 script = ExtResource("1_mli3n")
 tipo_inimigo = 2
 nome_inimigo = "Dragao Evoluido"
+subtitulo_inimigo = "Segunda Forma — Sua Fúria Aumenta"
 vida_maxima = 2100
 velocidade = 0.5
 forca_dano = 34

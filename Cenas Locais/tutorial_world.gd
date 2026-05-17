@@ -88,7 +88,8 @@ func iniciar_sequencia_tutorial():
 		if not GameManager.is_tutorial_ativo: break
 		if player and player.global_position.distance_to(ponto_defesa.global_position) < raio_chegada:
 			player_chegou = true
-			print("Jogador chegou ao ponto de defesa!")
+			if Global.DEBUG_MODE:
+				print("Jogador chegou ao ponto de defesa!")
 		await get_tree().create_timer(0.1).timeout
 		tempo_espera += 0.1
 	
@@ -144,19 +145,24 @@ func iniciar_sequencia_tutorial():
 	
 	# Upgrade na casa (linear)
 	# Upgrade na casa (linear)
-	print("⏳ Esperando jogador fazer o upgrade da casa...")
+	if Global.DEBUG_MODE:
+		print("⏳ Esperando jogador fazer o upgrade da casa...")
 	await passo_upgrade(casa_2, "Agora clique na casa. Ela tem apenas um upgrade linear.")
-	print("✅ Upgrade da casa concluído!")
-	
+	if Global.DEBUG_MODE:
+		print("✅ Upgrade da casa concluído!")
+
 	# Final do tutorial
 	GameManager.is_tutorial_ativo = false
-	print("✅ Tutorial Completo! Verificando se a variável da conquista tem algo...")
-	
+	if Global.DEBUG_MODE:
+		print("✅ Tutorial Completo! Verificando se a variável da conquista tem algo...")
+
 	if conquista_fim_tutorial != null:
-		print("📦 Emitindo conquista final para o Global!")
+		if Global.DEBUG_MODE:
+			print("📦 Emitindo conquista final para o Global!")
 		Global.processar_recompensa(conquista_fim_tutorial)
 	else:
-		print("❌ ERRO: O ficheiro .tres da conquista_fim_tutorial não está colocado no Inspector!")
+		if Global.DEBUG_MODE:
+			print("❌ ERRO: O ficheiro .tres da conquista_fim_tutorial não está colocado no Inspector!")
 	
 
 # ==========================================
@@ -213,12 +219,14 @@ func passo_upgrade(construcao: Node3D, texto: String):
 	var tentativas = 0
 	while not upgrade_feito and tentativas < 3:
 		tentativas += 1
-		print("Tentativa ", tentativas, " de upgrade para ", construcao.name)
-		
+		if Global.DEBUG_MODE:
+			print("Tentativa ", tentativas, " de upgrade para ", construcao.name)
+
 		# Foca na construção e aguarda o clique
 		await tutorial.focar_em_slot_3d(construcao, texto)
 		var nivel_antes = construcao.nivel_atual
-		print("Nível antes: ", nivel_antes)
+		if Global.DEBUG_MODE:
+			print("Nível antes: ", nivel_antes)
 		
 		# Aguarda a UI ficar visível (com timeout)
 		var tempo_ui = 0.0
@@ -228,20 +236,25 @@ func passo_upgrade(construcao: Node3D, texto: String):
 			tempo_ui += 0.1
 		
 		if not upgrade_ui.visible:
-			print("UI de upgrade não apareceu. Tentando novamente.")
+			if Global.DEBUG_MODE:
+				print("UI de upgrade não apareceu. Tentando novamente.")
 			continue
-		
+
 		# Aguarda o sinal de fechamento da UI (resposta imediata)
 		await upgrade_ui.fechado
-		print("Sinal fechado recebido")
-		
+		if Global.DEBUG_MODE:
+			print("Sinal fechado recebido")
+
 		# Verifica se o nível aumentou
-		print("Nível depois: ", construcao.nivel_atual)
+		if Global.DEBUG_MODE:
+			print("Nível depois: ", construcao.nivel_atual)
 		if construcao.nivel_atual > nivel_antes:
 			upgrade_feito = true
-			print("Upgrade realizado com sucesso!")
+			if Global.DEBUG_MODE:
+				print("Upgrade realizado com sucesso!")
 		else:
-			print("Upgrade não realizado. Tentativa ", tentativas, " de 3.")
+			if Global.DEBUG_MODE:
+				print("Upgrade não realizado. Tentativa ", tentativas, " de 3.")
 			if tentativas < 3:
 				await tutorial.mostrar_dialogo("Você precisa escolher um upgrade! Tente novamente.")
 	
@@ -250,7 +263,8 @@ func passo_upgrade(construcao: Node3D, texto: String):
 
 # Executa a transição de iluminação e ambiente para o ciclo do dia
 func _on_dia_iniciado(_onda_atual: int) -> void:
-	print("Dia iniciado!!!!")
+	if Global.DEBUG_MODE:
+		print("Dia iniciado!!!!")
 	if anim_player and anim_player.has_animation("transicao_para_dia"):
 		anim_player.play("transicao_para_dia")
 		
@@ -259,12 +273,14 @@ func _on_dia_iniciado(_onda_atual: int) -> void:
 
 # Executa a transição de iluminação e ambiente para o ciclo da noite
 func _on_noite_iniciada(_onda_atual: int) -> void:
-	print("Noite iniciada!!!!")
+	if Global.DEBUG_MODE:
+		print("Noite iniciada!!!!")
 	if anim_player and anim_player.has_animation("transicao_para_noite"):
 		anim_player.play("transicao_para_noite")
 
 func _on_fase_vencida():
-	print("🏆 O jogador venceu o tutorial! Entregando recompensa...")
+	if Global.DEBUG_MODE:
+		print("🏆 O jogador venceu o tutorial! Entregando recompensa...")
 	if conquista_fim_tutorial != null:
 		Global.processar_recompensa(conquista_fim_tutorial)
 	else:

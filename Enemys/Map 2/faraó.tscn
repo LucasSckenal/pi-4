@@ -63,6 +63,7 @@ script = ExtResource("1_oswje")
 anim_especial = "Skill_03"
 tipo_inimigo = 2
 nome_inimigo = "Faraó"
+subtitulo_inimigo = "O Imortal Senhor das Areias Eternas"
 icone = ExtResource("6_farao_icon")
 usar_video_custom = true
 video_stream = ExtResource("2_uht6h")

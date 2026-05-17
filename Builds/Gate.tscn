@@ -13,6 +13,7 @@ size = Vector3(0.9959564, 0.9970856, 0.6229019)
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_2loxh")
 nome_construcao = "Portal"
+vida_maxima = 600
 tipo = 5
 upgrade_custos = Array[int]([7, 10])
 upgrade_vida_por_nivel = Array[int]([500, 700])

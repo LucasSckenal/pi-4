@@ -282,6 +282,9 @@ func _abrir():
 	# Expõe o nome recomendado ao menu radial para destaque
 	GameManager.recomendacao_conselheiro = _rec_atual.nome_construcao
 
+	# Se o menu radial já está aberto, atualiza o destaque imediatamente
+	get_tree().call_group("RadialMenu", "atualizar_destaque_recomendado")
+
 	# Atualiza visual do botão e painel com a cor da prioridade
 	_aplicar_cor_prioridade(_rec_atual.prioridade)
 

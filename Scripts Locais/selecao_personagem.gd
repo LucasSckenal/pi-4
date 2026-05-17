@@ -86,7 +86,8 @@ func _on_btn_back_pressed() -> void:
 func _on_btn_select_pressed() -> void:
 	# Verifica se tem alguém no temporário (se você clicou em alguma miniatura)
 	if personagem_temporario == "":
-		print("Aviso: Você precisa clicar em um personagem primeiro!")
+		if Global.DEBUG_MODE:
+			print("Aviso: Você precisa clicar em um personagem primeiro!")
 		return 
 		
 	# AGORA SIM! O jogador confirmou. Passamos do temporário para o Global!

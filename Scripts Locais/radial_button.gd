@@ -96,6 +96,16 @@ func destacar_recomendado():
 	_tween_rec.tween_property(self, "modulate", Color(1.6, 1.4, 0.2, 1.0), 0.4)
 	_tween_rec.tween_property(self, "modulate", Color(1.1, 1.0, 0.6, 1.0), 0.4)
 
+func remover_destaque():
+	if not _eh_recomendado:
+		return
+	_eh_recomendado = false
+	if _tween_rec != null and is_instance_valid(_tween_rec):
+		_tween_rec.kill()
+		_tween_rec = null
+	var tw := create_tween()
+	tw.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2)
+
 func _ao_mouse_entrar() -> void:
 	if _bloqueado:
 		if is_instance_valid(menu_referencia) and menu_referencia.has_method("atualizar_info_bloqueado"):

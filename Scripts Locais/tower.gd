@@ -36,7 +36,8 @@ func _ready():
 	# Aplica balanceamento centralizado (CSV)
 	_aplicar_balanceamento()
 
-	print("Torre construída!")
+	if Global.DEBUG_MODE:
+		print("Torre construída!")
 
 	# Registra nos grupos para receber buffs e ser atacada
 	add_to_group("Construcao")
@@ -120,7 +121,8 @@ func receber_dano(quantidade: int):
 		destruir_construcao()
 
 func destruir_construcao():
-	print("Torre destruída!")
+	if Global.DEBUG_MODE:
+		print("Torre destruída!")
 	remove_from_group("Construcao")
 	remove_from_group("Torres")
 	queue_free()
@@ -134,7 +136,8 @@ func atualizar_status():
 		# Velocidade de ataque: tempo = base / (1 + bônus)
 		var novo_tempo = tempo_ataque_base / (1.0 + GameManager.bonus_velocidade_ataque)
 		timer_ataque.wait_time = max(0.1, novo_tempo)
-		print("Torre atualizada: novo intervalo de tiro = ", timer_ataque.wait_time)
+		if Global.DEBUG_MODE:
+			print("Torre atualizada: novo intervalo de tiro = ", timer_ataque.wait_time)
 
 # Lê os valores do CSV de balanceamento (Balanceamento.gd autoload)
 func _aplicar_balanceamento() -> void:
@@ -153,7 +156,8 @@ func curar_totalmente():
 	vida_atual = vida_maxima
 	# if health_bar: health_bar.value = vida_atual
 	# if health_bar_container: health_bar_container.visible = false
-	print("Torre curada para o novo dia!")
+	if Global.DEBUG_MODE:
+		print("Torre curada para o novo dia!")
 
 # ==========================================
 # SISTEMA DE TRANSPARÊNCIA (quando o player passa atrás)

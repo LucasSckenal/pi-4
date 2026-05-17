@@ -46,21 +46,24 @@ func _pagar_recompensa():
 	# Avisa a interface para atualizar o número na tela
 	get_tree().call_group("Interface", "atualizar_moedas")
 	
-	print("A construção gerou ", moedas_por_onda, " moedas! Total agora é: ", GameManager.moedas)
+	if Global.DEBUG_MODE:
+		print("A construção gerou ", moedas_por_onda, " moedas! Total agora é: ", GameManager.moedas)
 
 # =========================================================
 # FUNÇÃO PARA SOFRER DANO DOS INIMIGOS
 # =========================================================
 func receber_dano(quantidade: int):
 	vida_atual -= quantidade
-	print("A construção sofreu ", quantidade, " de dano! Vida: ", vida_atual)
-	
+	if Global.DEBUG_MODE:
+		print("A construção sofreu ", quantidade, " de dano! Vida: ", vida_atual)
+
 	if vida_atual <= 0:
 		destruir_construcao()
 
 func destruir_construcao():
-	print("A construção foi destruída!")
-	# O queue_free() apaga o objeto do jogo. 
+	if Global.DEBUG_MODE:
+		print("A construção foi destruída!")
+	# O queue_free() apaga o objeto do jogo.
 	queue_free()
 
 # =========================================================

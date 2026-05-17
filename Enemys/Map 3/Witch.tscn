@@ -60,6 +60,7 @@ transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_cqk84")
 tipo_inimigo = 2
 nome_inimigo = "Bruxa"
+subtitulo_inimigo = "A Grande Invocadora de Mortos-Vivos"
 usar_video_custom = true
 video_stream = ExtResource("2_swuyc")
 modelo_3d = NodePath(".")

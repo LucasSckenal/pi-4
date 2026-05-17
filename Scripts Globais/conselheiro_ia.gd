@@ -28,6 +28,8 @@ class Recomendacao:
 
 # Cache de custos para não recriar instâncias a cada análise
 var _cache_custos: Dictionary = {}
+# Cache de nomes reais para não recriar instâncias a cada análise
+var _cache_nomes: Dictionary = {}
 
 # ==========================================
 # ANÁLISE PRINCIPAL
@@ -311,13 +313,12 @@ func _tipo_cena(cena: PackedScene) -> int:
 	return -1
 
 func _nome(cena: PackedScene) -> String:
-	var t: int = _tipo_cena(cena)
-	if t == 0: return "Torre"
-	if t == 1: return "Mina"
-	if t == 2: return "Casa"
-	if t == 3: return "Moinho"
-	if t == 4: return "Quartel"
-	return cena.resource_path.get_file().get_basename().capitalize()
+	var path: String = cena.resource_path
+	if _cache_nomes.has(path):
+		return _cache_nomes[path]
+	var nome: String = GameManager.nome_para_cena(cena)
+	_cache_nomes[path] = nome
+	return nome
 
 func _get_ofensiva_acessivel(disponiveis: Array, moedas: int) -> PackedScene:
 	for cena in disponiveis:

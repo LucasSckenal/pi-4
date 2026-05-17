@@ -13,7 +13,8 @@ func _ready():
 
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
-	print("Dia iniciado!!!!")
+	if Global.DEBUG_MODE:
+		print("Dia iniciado!!!!")
 	
 
 func _on_noite_iniciada(_onda_atual: int) -> void:

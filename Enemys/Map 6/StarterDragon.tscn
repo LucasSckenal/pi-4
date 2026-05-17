@@ -226,6 +226,7 @@ height = 1.6181641
 script = ExtResource("1_e45u3")
 tipo_inimigo = 2
 nome_inimigo = "Dragao Inicial"
+subtitulo_inimigo = "Primeira Forma — O Dragão Desperta"
 vida_maxima = 1300
 velocidade = 0.45
 forca_dano = 24

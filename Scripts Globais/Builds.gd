@@ -307,7 +307,8 @@ func _ready():
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
-			print("Base principal estabelecida. Nível: ", nivel_atual)
+			if Global.DEBUG_MODE:
+				print("Base principal estabelecida. Nível: ", nivel_atual)
 	
 	# Área de clique (se existir)
 	if has_node("AreaClique"):
@@ -360,7 +361,8 @@ func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
 			# ACENDE O ANEL
 			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
 				indicador_alcance.visible = true
-				print("Anel foi ligado!")
+				if Global.DEBUG_MODE:
+					print("Anel foi ligado!")
 
 # ==========================================
 # BALANCEAMENTO CSV POR PREFIXO
@@ -863,6 +865,7 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			nivel_atual = 1
 			_atualizar_valores_pos_upgrades()
 			_trocar_modelo(nivel_atual)
+			_atualizar_barra_3d()   # restaura visibilidade após troca de modelo
 			if tipo == TipoConstrucao.BASE:
 				GameManager.nivel_base = nivel_atual
 				GameManager.upgrade_base_aplicado.emit()
@@ -871,7 +874,8 @@ func aplicar_upgrade(index: int = 0) -> bool:
 				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
 					_criar_circulo_caldeiron(alcance_atual * 0.85)
 				atualizar_status()
-			print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
+			if Global.DEBUG_MODE:
+				print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
 			return true
 		else:
 			return false
@@ -884,13 +888,15 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			nivel_atual += 1
 			_atualizar_valores_pos_upgrades()
 			_trocar_modelo(nivel_atual)
+			_atualizar_barra_3d()   # restaura visibilidade após troca de modelo
 			if tipo == TipoConstrucao.BASE:
 				GameManager.nivel_base = nivel_atual
 				GameManager.upgrade_base_aplicado.emit()
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
 				atualizar_status()
-			print("%s upgrade para nível %d" % [name, nivel_atual])
+			if Global.DEBUG_MODE:
+				print("%s upgrade para nível %d" % [name, nivel_atual])
 			return true
 	return false
 
@@ -934,12 +940,17 @@ func _trocar_modelo(nivel: int):
 func _esconder_malhas_originais(no: Node):
 	for filho in no.get_children():
 		if filho == modelo_anchor:
-			continue 
-		
-		# Protege o anel para ele não ser apagado!
+			continue
+
+		# Protege o anel de alcance
 		if indicador_alcance and filho == indicador_alcance:
-			continue 
-			
+			continue
+
+		# Protege a barra de vida 3D — sem isso, qualquer _trocar_modelo()
+		# a apaga e ela só volta no próximo receber_dano()
+		if is_instance_valid(_barra_3d_mesh) and filho == _barra_3d_mesh:
+			continue
+
 		if filho is MeshInstance3D:
 			filho.hide()
 		elif filho.get_child_count() > 0:
@@ -986,8 +997,17 @@ func _criar_barra_3d() -> void:
 	var e_base : bool  = (tipo == TipoConstrucao.BASE)
 	var bar_w  : float = 4.5 if e_base else 0.8
 	var bar_h  : float = 0.45 if e_base else 0.12
-	# Posição ajustada: alta na base, levemente abaixo nas torres
-	var bar_y  : float = 4.0 if e_base else -0.2 
+	# Posição ajustada acima de cada tipo de construção
+	var bar_y: float
+	match tipo:
+		TipoConstrucao.BASE:
+			bar_y = 4.0
+		TipoConstrucao.TORRE:
+			bar_y = 3.2
+		TipoConstrucao.QUARTEL, TipoConstrucao.CALDEIRON:
+			bar_y = 2.6
+		_: # CASA, MINA, MOINHO
+			bar_y = 2.0
 
 	_barra_3d_mesh = MeshInstance3D.new()
 	_barra_3d_mesh.name = "BarraVidaShader"
@@ -1052,7 +1072,8 @@ func _configurar_alcance():
 		if shape_unica is SphereShape3D or shape_unica is CylinderShape3D:
 			shape_unica.radius = alcance_efetivo
 
-		print("Alcance da torre ajustado para: ", alcance_efetivo)
+		if Global.DEBUG_MODE:
+			print("Alcance da torre ajustado para: ", alcance_efetivo)
 
 	# 3. FAZ O ANEL APARECER NO TAMANHO CERTO
 	if indicador_alcance:
@@ -1063,7 +1084,7 @@ func _configurar_alcance():
 # ==========================================
 func _on_area_ataque_body_entered(body):
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
-	if body.is_in_group("inimigos") or body.is_in_group("Inimigos"):
+	if body.is_in_group("inimigos"):
 		if not body in inimigos_no_alcance:
 			inimigos_no_alcance.append(body)
 
@@ -1111,7 +1132,7 @@ func _caldeiron_atacar_area_torre() -> void:
 
 # Chamado quando um corpo entra no círculo de veneno
 func _on_veneno_entrou(corpo: Node3D) -> void:
-	if not (corpo.is_in_group("inimigos") or corpo.is_in_group("Inimigos")):
+	if not corpo.is_in_group("inimigos"):
 		return
 	if corpo in _inimigos_no_veneno:
 		return
@@ -1527,8 +1548,6 @@ func _atacar_chain_lightning():
 
 	# Coleta todos os inimigos no mapa para busca de cadeia
 	var todos_inimigos: Array = get_tree().get_nodes_in_group("inimigos")
-	if todos_inimigos.is_empty():
-		todos_inimigos = get_tree().get_nodes_in_group("Inimigos")
 
 	var alvos_atingidos: Array = [alvo_atual]
 	var alvo_prev: Node3D = alvo_atual
@@ -1587,8 +1606,9 @@ func _pagar_recompensa():
 	
 	var moedas_geradas = moedas_por_onda_atual + bonus_onda
 	GameManager.moedas += moedas_geradas
-	
-	print("%s gerou %d moedas" % [name, moedas_geradas])
+
+	if Global.DEBUG_MODE:
+		print("%s gerou %d moedas" % [name, moedas_geradas])
 	get_tree().call_group("Interface", "atualizar_moedas")
 	if tipo == TipoConstrucao.MOINHO:
 		get_tree().call_group("Interface", "animar_bau_abrindo")
@@ -1695,7 +1715,8 @@ func receber_dano(quantidade: int):
 		destruir()
 
 func destruir():
-	print("%s destruída!" % name)
+	if Global.DEBUG_MODE:
+		print("%s destruída!" % name)
 	if tipo == TipoConstrucao.BASE:
 		GameManager.acionar_game_over()
 		return
@@ -1727,15 +1748,14 @@ func destruir():
 
 func _aplicar_espinho() -> void:
 	var inimigos = get_tree().get_nodes_in_group("inimigos")
-	if inimigos.is_empty():
-		inimigos = get_tree().get_nodes_in_group("Inimigos")
 	for inimigo in inimigos:
 		if is_instance_valid(inimigo) and global_position.distance_to(inimigo.global_position) <= 3.0:
 			if inimigo.has_method("receber_dano"):
 				inimigo.receber_dano(GameManager.bonus_espinho)
 
 func reviver():
-	print("%s reconstruída!" % name)
+	if Global.DEBUG_MODE:
+		print("%s reconstruída!" % name)
 	esta_destruida = false
 	visible = true
 	vida_atual = vida_maxima
@@ -1788,7 +1808,8 @@ func curar_totalmente():
 	if tipo == TipoConstrucao.BASE:
 		GameManager.vida_base_atual = vida_atual
 	_atualizar_barra_3d()
-	print("%s curada!" % name)
+	if Global.DEBUG_MODE:
+		print("%s curada!" % name)
 
 # ==========================================
 # TRANSPARÊNCIA
@@ -1811,7 +1832,8 @@ func esconder_indicador():
 func vender_construcao():
 	# SISTEMA DE PROTEÇÃO: Impede vender a base principal
 	if tipo == TipoConstrucao.BASE:
-		print("Operação cancelada: A Base não pode ser vendida!")
+		if Global.DEBUG_MODE:
+			print("Operação cancelada: A Base não pode ser vendida!")
 		return
 	
 	# Calcula o retorno (metade do custo)

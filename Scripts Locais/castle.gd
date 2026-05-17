@@ -19,12 +19,14 @@ func recarregar_balanceamento() -> void:
 
 func receber_dano(quantidade: int):
 	vida_atual -= quantidade
-	print("O Castelo sofreu dano! Vida: ", vida_atual)
+	if Global.DEBUG_MODE:
+		print("O Castelo sofreu dano! Vida: ", vida_atual)
 
 	if vida_atual <= 0:
 		destruir_castelo()
 
 func destruir_castelo():
-	print("GAME OVER! O Castelo caiu!")
+	if Global.DEBUG_MODE:
+		print("GAME OVER! O Castelo caiu!")
 	# Aqui você pode recarregar a fase:
 	get_tree().reload_current_scene()
