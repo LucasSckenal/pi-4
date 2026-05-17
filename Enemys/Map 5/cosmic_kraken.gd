@@ -76,8 +76,8 @@ void vertex() {
 }
 
 void fragment() {
-	// Quase preto com leve toque roxo — distingue do fundo puro
-	ALBEDO = vec3(0.014, 0.0, 0.028);
+	// Preto puro — bloqueia completamente qualquer fundo visível
+	ALBEDO = vec3(0.0, 0.0, 0.0);
 }
 """
 
@@ -555,9 +555,10 @@ func _criar_corpo_sombrio() -> void:
 	_corpo_sombrio.name = "CorpoSombrio"
 
 	var esfera := SphereMesh.new()
-	# Grande o suficiente para cobrir a área da plataforma circular
-	esfera.radius          = 13.0
-	esfera.height          = 26.0
+	# Raio 20 cobre o chão da plataforma sem se estender até o campo de
+	# visão das estrelas laterais/céu (raio 30 bloqueava tudo).
+	esfera.radius          = 20.0
+	esfera.height          = 40.0
 	esfera.radial_segments = 64   # segmentos suficientes para o vertex shader suavizar
 	esfera.rings           = 32
 	_corpo_sombrio.mesh = esfera
@@ -570,11 +571,12 @@ func _criar_corpo_sombrio() -> void:
 
 	add_child(_corpo_sombrio)
 
-	# Achatado para forma de disco. Centro em Y=-3.5 (local) para que o
-	# topo do ellipsoide (−3.5 + 13×0.25 = −0.25) fique ligeiramente
-	# ABAIXO dos olhos (Y=0.5), sem flutuar acima da plataforma.
+	# Achatado para forma de disco. Centro em Y=-5.5 (local) para que o
+	# topo do ellipsoide (−5.5 + 20×0.25 = −0.5) fique ligeiramente
+	# ABAIXO dos olhos (Y=0.5), cobrindo o chão da plataforma sem
+	# bloquear as estrelas visíveis nas laterais/céu.
 	_corpo_sombrio.scale    = Vector3(1.0, 0.25, 1.0)
-	_corpo_sombrio.position = Vector3(0.0, -3.5, 0.0)
+	_corpo_sombrio.position = Vector3(0.0, -5.5, 0.0)
 
 # ============================================================================
 # PORTAL DO VAZIO — anel de partículas no chão mostrando o Kraken embaixo
@@ -602,10 +604,10 @@ func _criar_vazio_portal() -> void:
 	pm.gravity     = Vector3(0, -0.4, 0)
 	pm.scale_min   = 0.05
 	pm.scale_max   = 0.14
-	# Começa roxo, fica transparente ao subir
+	# Começa preto opaco, fica transparente ao subir
 	var grad := Gradient.new()
-	grad.set_color(0, Color(0.6, 0.0, 1.0, 1.0))
-	grad.set_color(1, Color(0.2, 0.0, 0.5, 0.0))
+	grad.set_color(0, Color(0.0, 0.0, 0.0, 1.0))
+	grad.set_color(1, Color(0.0, 0.0, 0.0, 0.0))
 	var grad_tex := GradientTexture1D.new()
 	grad_tex.gradient = grad
 	pm.color_ramp = grad_tex
@@ -613,10 +615,8 @@ func _criar_vazio_portal() -> void:
 
 	var mat_v := StandardMaterial3D.new()
 	mat_v.shading_mode            = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat_v.albedo_color            = Color(0.7, 0.0, 1.0, 1.0)
-	mat_v.emission_enabled        = true
-	mat_v.emission                = Color(0.5, 0.0, 0.9)
-	mat_v.emission_energy_multiplier = 3.5
+	mat_v.albedo_color            = Color(0.0, 0.0, 0.0, 1.0)
+	mat_v.emission_enabled        = false
 	var esf_v := SphereMesh.new()
 	esf_v.material = mat_v
 	esf_v.radius   = 0.08
