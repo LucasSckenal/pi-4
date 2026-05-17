@@ -5,20 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://cxa4ay5ik2use" path="res://Map5/Astronaut_Atlas.png" id="2_xbg3i"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_aq6hx"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_kpy3k"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqgom"]
 render_priority = 0
 shader = ExtResource("3_aq6hx")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hl80s"]
 resource_name = "Atlas"
-next_pass = SubResource("ShaderMaterial_kpy3k")
+next_pass = SubResource("ShaderMaterial_cqgom")
 albedo_texture = ExtResource("2_xbg3i")
 metallic = 0.4
 metadata/extras = {
@@ -61,17 +56,6 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_gsk2a")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cqgom"]
-render_priority = 0
-shader = ExtResource("3_aq6hx")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kpy3k"]
 resource_name = "Atlas"
@@ -136,7 +120,7 @@ status_vida = "BAIXA"
 [node name="Root Scene" parent="." unique_id=744424339 instance=ExtResource("1_83rpo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17179549, 0, -0.10867405)
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(744424339, 1611506384) index="0" unique_id=13096075]
+[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(744424339, 224987266) index="0" unique_id=207525909]
 bones/1/position = Vector3(0.0035192135, 0.0009724978, 0.0013488276)
 bones/1/rotation = Quaternion(6.7235246e-06, 0.9960494, 0.08880154, 1.1556146e-05)
 bones/2/position = Vector3(2.1534226e-05, 0.004684867, -0.007840081)
@@ -170,58 +154,58 @@ bones/41/position = Vector3(-0.0034929828, 0.0009731119, 0.001425191)
 bones/41/rotation = Quaternion(-6.770228e-06, 0.99605215, 0.08877108, -1.10358915e-05)
 bones/42/position = Vector3(-0.0034586673, 0.014202555, 0.007303845)
 
-[node name="Foot_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=720662666]
+[node name="Foot_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=1709651749]
 transform = Transform3D(-1, 1.1425871e-05, 2.3745788e-05, 2.135003e-05, -0.17690107, 0.9842287, 1.5446321e-05, 0.9842286, 0.17690107, 0.0035060996, 0.0010055698, 0.0009483445)
 
-[node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=440388867]
+[node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=673212505]
 transform = Transform3D(0.99999976, -1.9162911e-08, -0.0005502072, 9.179526e-05, 0.9859898, 0.16680326, 0.0005424957, -0.16680324, 0.98598987, -6.3840266e-06, 0.02153784, 0.0020879132)
 
-[node name="Pinky3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=603294256]
+[node name="Pinky3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=531420477]
 transform = Transform3D(0.111234605, 0.9930517, -0.038410544, 0.9578968, -0.09684257, 0.27028626, 0.26468897, -0.06685859, -0.96201366, 0.02001366, 0.017109863, 0.00039942953)
 
-[node name="Middle3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=722605712]
+[node name="Middle3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=1181688504]
 transform = Transform3D(-0.15262747, 0.9722497, -0.17730117, 0.9324194, 0.20112635, 0.30023712, 0.32756585, -0.119494535, -0.937242, 0.020378735, 0.01885838, 0.0008206152)
 
-[node name="Index3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=1076336906]
+[node name="Index3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=1744186118]
 transform = Transform3D(-0.34840694, 0.9039027, -0.24813797, 0.8656603, 0.41181493, 0.2846757, 0.35950658, -0.11562011, -0.92595243, 0.019534897, 0.020487638, 0.0013516978)
 
-[node name="Thumb2_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=123799238]
+[node name="Thumb2_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=187407932]
 transform = Transform3D(-0.9132518, 0.3231084, -0.248138, 0.2500693, 0.9254323, 0.28467575, 0.3216162, 0.1979294, -0.92595255, 0.016549762, 0.020573951, 0.0024714102)
 
-[node name="Pinky3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="6" unique_id=91803232]
+[node name="Pinky3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="6" unique_id=267900842]
 transform = Transform3D(0.31499916, -0.91904384, -0.23692545, -0.3257312, -0.33915764, 0.88253665, -0.89144504, -0.20082441, -0.40619582, -0.01920371, 0.014610421, -0.0010663264)
 
-[node name="Middle1_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="7" unique_id=75781022]
+[node name="Middle1_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="7" unique_id=1426155117]
 transform = Transform3D(0.02062204, -0.99699026, 0.07472946, -0.35323888, 0.06265881, 0.9334323, -0.9353057, -0.04564657, -0.35088384, -0.016152788, 0.015219926, 0.0006191073)
 
-[node name="Pistol" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D/Middle1_R" index="0" unique_id=1654239887]
+[node name="Pistol" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D/Middle1_R" index="0" unique_id=560005380]
 mesh = SubResource("ArrayMesh_i2ksk")
 
-[node name="Middle3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="8" unique_id=1284583950]
+[node name="Middle3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="8" unique_id=934397977]
 transform = Transform3D(0.04733549, -0.99283105, -0.10975038, -0.35258433, -0.11940853, 0.9281301, -0.93458194, -0.005237134, -0.35570922, -0.019943547, 0.01519667, 0.0005075039)
 
-[node name="Index3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="9" unique_id=673462189]
+[node name="Index3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="9" unique_id=1149473163]
 transform = Transform3D(-0.16147904, -0.98619574, -0.03663055, -0.35547912, 0.023499489, 0.9343885, -0.92062956, 0.16390572, -0.3543669, -0.019493056, 0.016036352, 0.0021629736)
 
-[node name="Thumb2_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="10" unique_id=590510303]
+[node name="Thumb2_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="10" unique_id=1271294218]
 transform = Transform3D(-0.85421336, -0.51862985, -0.03663048, -0.21330881, 0.2853365, 0.9343886, -0.47414985, 0.8059814, -0.35436687, -0.016484454, 0.016256416, 0.0031984057)
 
-[node name="LowerLeg_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="11" unique_id=1083148025]
+[node name="LowerLeg_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="11" unique_id=497656952]
 transform = Transform3D(0.99993455, 0.0013015084, 0.009863978, -0.0010319904, -0.97253245, 0.2328738, 0.009896081, -0.23289518, -0.97238797, 0.0034983193, 0.0060673133, 0.0021611)
 
-[node name="LowerLeg_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="12" unique_id=360712638]
+[node name="LowerLeg_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="12" unique_id=2029534268]
 transform = Transform3D(0.99996936, -0.0012168911, -0.005300287, 4.09146e-05, -0.9729775, 0.23100965, -0.0054380363, -0.23102891, -0.9728683, -0.003497964, 0.006065485, 0.0021687415)
 
-[node name="PoleTarget_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="13" unique_id=272085296]
+[node name="PoleTarget_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="13" unique_id=1958725613]
 transform = Transform3D(1, -7.1054274e-14, 7.152558e-07, 7.1525574e-07, 3.5762787e-07, -1, -1.8474117e-13, 1, 3.5762787e-07, 0.0034717785, -0.012097572, 0.013834783)
 
-[node name="Foot_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="14" unique_id=903419911]
+[node name="Foot_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="14" unique_id=38378599]
 transform = Transform3D(-1, -1.1443341e-05, -2.365597e-05, -2.1259484e-05, -0.17684089, 0.9842395, -1.5446325e-05, 0.98423946, 0.17684089, -0.0035060968, 0.00092920323, 0.0009489586)
 
-[node name="PoleTarget_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="15" unique_id=716901441]
+[node name="PoleTarget_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="15" unique_id=1560851602]
 transform = Transform3D(1, -7.105428e-14, -7.1525596e-07, -7.152558e-07, 3.5762787e-07, -1, 3.2684963e-13, 1, 3.5762787e-07, -0.0034717785, -0.004949446, 0.014178402)
 
-[node name="FernandoTheFlamingo" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="16" unique_id=2027025107]
+[node name="FernandoTheFlamingo" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="16" unique_id=1833805717]
 mesh = SubResource("ArrayMesh_hl80s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=49703792]

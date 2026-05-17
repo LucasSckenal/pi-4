@@ -9,10 +9,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tyhiq"]
 render_priority = 0
 shader = ExtResource("3_2s3nm")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dk5s1"]
 resource_name = "Material_1"
@@ -81,7 +79,7 @@ status_vida = "EXTREMA"
 
 [node name="dragaozinho_malvado" parent="." unique_id=496095527 instance=ExtResource("1_fstbs")]
 
-[node name="Skeleton3D" parent="dragaozinho_malvado/Armature" parent_id_path=PackedInt32Array(496095527, 723336536) index="0" unique_id=93926500]
+[node name="Skeleton3D" parent="dragaozinho_malvado/Armature" parent_id_path=PackedInt32Array(496095527, 1554708098) index="0" unique_id=590506173]
 bones/0/position = Vector3(4.5901923, 42.153427, 39.26919)
 bones/0/rotation = Quaternion(0.07606628, 0.068441115, -0.29635087, 0.94958204)
 bones/1/position = Vector3(19.749743, 4.7286973, -1.5362253)
@@ -122,7 +120,7 @@ bones/22/rotation = Quaternion(-0.4277331, -0.0025305029, -0.004784233, 0.903888
 bones/23/position = Vector3(-0.014892198, 15.848387, 9.7702055)
 bones/23/rotation = Quaternion(0.2727246, -8.8551666e-08, 0.00041566923, 0.9620921)
 
-[node name="char1" parent="dragaozinho_malvado/Armature/Skeleton3D" index="0" unique_id=432010169]
+[node name="char1" parent="dragaozinho_malvado/Armature/Skeleton3D" index="0" unique_id=1358601182]
 mesh = SubResource("ArrayMesh_oyx1i")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=21983418]

@@ -201,6 +201,7 @@ func _physics_process(delta: float) -> void:
 	# senão o spawner ficaria preso esperando uma corrente infinita de tentáculos.
 	_timer_invocacao -= delta
 
+	@warning_ignore("shadowed_variable_base_class")
 	var pode_invocar := _tentaculos_ativos.size() < max_tentaculos_vivos \
 			and _tentaculos_invocados < total_tentaculos
 

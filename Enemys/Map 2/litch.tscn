@@ -9,13 +9,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bvf7f"]
 render_priority = 0
 shader = ExtResource("5_uwo1i")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pv8st"]
 resource_name = "Material_1"
@@ -24,7 +19,6 @@ cull_mode = 2
 diffuse_mode = 3
 specular_mode = 1
 albedo_texture = ExtResource("4_bsr5m")
-emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.3
 emission_operator = 1
@@ -76,7 +70,7 @@ anim_invocar = "Skill_01"
 
 [node name="Lich" parent="." unique_id=1015307407 instance=ExtResource("1_2drk3")]
 
-[node name="Skeleton3D" parent="Lich/Armature" parent_id_path=PackedInt32Array(1015307407, 1230139408) index="0" unique_id=276591757]
+[node name="Skeleton3D" parent="Lich/Armature" parent_id_path=PackedInt32Array(1015307407, 1128279497) index="0" unique_id=1206145141]
 bones/0/position = Vector3(1.4208226, 76.144165, 2.07008)
 bones/0/rotation = Quaternion(0.49404672, 0.43299812, 0.66144925, -0.36182222)
 bones/1/position = Vector3(-3.951417, 12.433101, -3.099351)
@@ -116,7 +110,7 @@ bones/22/position = Vector3(-0.28064436, 43.743088, -19.325577)
 bones/22/rotation = Quaternion(-0.20650627, -1.608477e-08, 0.0029988335, 0.97844076)
 bones/23/rotation = Quaternion(0.5080398, 1.0341334e-07, -0.007377396, 0.8613021)
 
-[node name="char1" parent="Lich/Armature/Skeleton3D" index="0" unique_id=1093385111]
+[node name="char1" parent="Lich/Armature/Skeleton3D" index="0" unique_id=1911590126]
 mesh = SubResource("ArrayMesh_i6f33")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1017619770]

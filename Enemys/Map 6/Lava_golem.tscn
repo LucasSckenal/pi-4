@@ -9,13 +9,8 @@ load_path = "res://.godot/imported/Meshy_AI_Large_brute_elemental_biped_Meshy_AI
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j43yi"]
 render_priority = 0
 shader = ExtResource("3_i4vnx")
-shader_parameter/scale = 4.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l11en"]
 resource_name = "Material_1"
