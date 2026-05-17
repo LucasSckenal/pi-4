@@ -1,6 +1,7 @@
 extends Node3D
 
-signal info_proxima_onda(id_spawner: String, direcao: String, inimigos: Array, posicao: Vector3)
+# Em caso de problema: modificado "id_spawner" para "_id_spawner"
+signal info_proxima_onda(_id_spawner: String, direcao: String, inimigos: Array, posicao: Vector3)
 
 @export var ondas: Array[WaveData] = []
 @export var label_wave: Label
@@ -141,7 +142,7 @@ func emitir_info():
 			"qtd": config.quantidade,
 			"descricao": config.descricao
 		})
-	var id_spawner = str(get_instance_id())
+	var _id_spawner = str(get_instance_id())
 	var pos_hud = global_position
 
 	if hud_point:

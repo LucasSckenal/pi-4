@@ -77,6 +77,7 @@ func _ricochetar(primeiro_alvo: Node3D) -> void:
 			break
 		atingidos.append(proximo)
 		if proximo.has_method("receber_dano"):
+			@warning_ignore("integer_division")
 			proximo.receber_dano(max(1, dano / 2))
 		_tentar_aplicar_gelo(proximo)
 		ultimo = proximo

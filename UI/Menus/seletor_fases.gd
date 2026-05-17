@@ -50,8 +50,6 @@ func criar_linhas_tracejadas() -> void:
 			
 		var linha = Line2D.new()
 		
-		# USAREMOS POSIÇÃO GLOBAL DE TELA
-		# Isso ignora se o pergaminho está esticado ou torto
 		var p1 = b1.global_position + (b1.size * b1.get_global_transform().get_scale() / 2.0)
 		var p2 = b2.global_position + (b2.size * b2.get_global_transform().get_scale() / 2.0)
 		
@@ -112,8 +110,7 @@ func atualizar_estrelas_do_botao(botao: Button, nivel_da_fase: int) -> void:
 					estrela_node.texture = estrela_vazia
 				
 # ==========================================
-# SEUS SINAIS ORIGINAIS 
-# (Certifique-se de que os nomes correspondem aos sinais dos botões no Godot)
+# SINAIS DE MOUSE
 # ==========================================			
 
 func _on_btn_voltar_pressed() -> void:
