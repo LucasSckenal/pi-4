@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://drtuhx0gasbm7" path="res://UI/Menus/seletor_fases.gd" id="1_nbx80"]
 [ext_resource type="PackedScene" uid="uid://fs8pjdhnlgs3" path="res://Assets/Meshy_AI_Blank_Scroll_0416004051_texture.glb" id="2_1miao"]
-[ext_resource type="Texture2D" uid="uid://bnesw0l35idgn" path="res://Icons/Map1Selcetor.png" id="3_ymrsv"]
+[ext_resource type="Texture2D" uid="uid://bxsedfu5ymu7m" path="res://Assets/MapSelection/Map1_Selector.png" id="3_kumk8"]
 [ext_resource type="Texture2D" uid="uid://c6mxapyysije2" path="res://Icons/LabelMap.png" id="4_bp4jj"]
-[ext_resource type="Texture2D" uid="uid://bxey4wkvmacm3" path="res://Icons/Map2Selector.png" id="4_ecws0"]
-[ext_resource type="Texture2D" uid="uid://b0qtkebf5b6p3" path="res://Icons/Map3Selector.png" id="5_bp4jj"]
 [ext_resource type="Texture2D" uid="uid://c0tt1lesa5c8w" path="res://Icons/star_outline_depth.png" id="5_mfnoj"]
-[ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
-[ext_resource type="Texture2D" uid="uid://y3aqhhbpej6t" path="res://Icons/Map4Selector.png" id="8_mfnoj"]
-[ext_resource type="Texture2D" uid="uid://dk5tfcfk0lbp0" path="res://Icons/Map5Selector.png" id="9_vhorf"]
+[ext_resource type="Texture2D" uid="uid://dwo4d11t77vtn" path="res://Assets/MapSelection/Map2_Selector.png" id="6_pfc0p"]
+[ext_resource type="Texture2D" uid="uid://bpxuym2b0csyr" path="res://Assets/MapSelection/Map3_Selector.png" id="7_ohijy"]
+[ext_resource type="Texture2D" uid="uid://h4g200gq5vsy" path="res://Assets/MapSelection/Map4_Selector.png" id="8_hw2nh"]
+[ext_resource type="Texture2D" uid="uid://dnestvljqgma1" path="res://Assets/MapSelection/Map5_Selector.png" id="9_0borg"]
+[ext_resource type="Texture2D" uid="uid://dhka5l1a1a2sm" path="res://Assets/MapSelection/Map6_Selector.png" id="10_arwf6"]
 [ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="11_kumk8"]
 [ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="11_nqyad"]
 
@@ -60,7 +60,7 @@ offset_right = 413.61856
 offset_bottom = 220.17801
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("3_ymrsv")
+icon = ExtResource("3_kumk8")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -115,7 +115,7 @@ offset_right = 413.6186
 offset_bottom = 220.17798
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("4_ecws0")
+icon = ExtResource("6_pfc0p")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -170,7 +170,7 @@ offset_right = 413.61853
 offset_bottom = 220.17804
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("5_bp4jj")
+icon = ExtResource("7_ohijy")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -224,7 +224,7 @@ offset_right = 413.61853
 offset_bottom = 220.17798
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("8_mfnoj")
+icon = ExtResource("8_hw2nh")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -277,7 +277,7 @@ offset_right = 413.6186
 offset_bottom = 220.17804
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("9_vhorf")
+icon = ExtResource("9_0borg")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -330,7 +330,7 @@ offset_right = 413.61853
 offset_bottom = 220.17801
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("6_mfnoj")
+icon = ExtResource("10_arwf6")
 flat = true
 metadata/_edit_use_anchors_ = true
 
