@@ -1884,21 +1884,20 @@ func esconder_indicador():
 		indicador_alcance.visible = false
 		
 # ==========================================
-# ==========================================
 # LUZ INTERNA À NOITE
 # ==========================================
 func _acender_luz_interna(_onda: int = 0) -> void:
 	if is_instance_valid(_luz_interna) or esta_destruida:
 		return
 	_luz_interna = OmniLight3D.new()
-	_luz_interna.light_color    = Color(1.0, 0.85, 0.50)   # âmbar quente
-	_luz_interna.light_energy   = 0.0
-	_luz_interna.omni_range     = 5.5
-	_luz_interna.shadow_enabled = false                     # sem sombras = sem custo extra
+	_luz_interna.light_color = Color(1.0, 0.55, 0.10) # âmbar quente
+	_luz_interna.light_energy = 0.0
+	_luz_interna.omni_range = 1
+	_luz_interna.shadow_enabled = false # sem sombras = sem custo extra
 	add_child(_luz_interna)
 	_luz_interna.position = Vector3(0.0, 1.2, 0.0)
 	var tw := create_tween()
-	tw.tween_property(_luz_interna, "light_energy", 2.2, 0.8) \
+	tw.tween_property(_luz_interna, "light_energy", 0.8, 0.8) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _apagar_luz_interna(_onda: int = 0) -> void:
@@ -1908,7 +1907,7 @@ func _apagar_luz_interna(_onda: int = 0) -> void:
 	_luz_interna = null
 	var tw := create_tween()
 	tw.tween_property(luz, "light_energy", 0.0, 0.5) \
-		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tw.tween_callback(luz.queue_free)
 
 # ==========================================

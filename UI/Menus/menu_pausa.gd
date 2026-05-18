@@ -50,6 +50,7 @@ func _on_sair_fase_pressed():
 	Engine.time_scale = 1.0        # reseta velocidade antes de sair
 	get_tree().paused = false
 	GameManager.limpar_estado_sessao()
+	MusicaGlobal.tocar_menu()
 	get_tree().change_scene_to_file("res://UI/Menus/seletor_fases.tscn")
 
 func _on_sair_jogo_pressed():

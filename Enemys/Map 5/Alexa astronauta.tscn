@@ -23,12 +23,29 @@ metadata/extras = {
 }
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l2vid"]
+render_priority = 1
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+grow = true
+grow_amount = 0.001
+stencil_mode = 3
+stencil_flags = 1
+stencil_compare = 5
+metadata/_stencil_owned = true
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ybfh"]
 resource_name = "Material.001"
-next_pass = SubResource("ShaderMaterial_dwlx7")
+next_pass = SubResource("StandardMaterial3D_l2vid")
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.9063318, 0.6388501, 0.2963377, 1)
 metallic = 0.4
 roughness = 0.27216554
+stencil_mode = 1
+stencil_flags = 2
+stencil_outline_thickness = 0.001
 metadata/extras = {
 "fromFBX": {
 "isTruePBR": false,
@@ -38,7 +55,6 @@ metadata/extras = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v2xbp"]
 resource_name = "Material.004"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.9063318, 0.9063318, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -51,7 +67,6 @@ metadata/extras = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jdug7"]
 resource_name = "Material.003"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.21332288, 0.21332288, 0.21332288, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -76,7 +91,6 @@ metadata/extras = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvcoi"]
 resource_name = "Grey"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.45332205, 0.45332205, 0.45332205, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -89,7 +103,6 @@ metadata/extras = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fclvj"]
 resource_name = "LightGrey"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.546657, 0.546657, 0.546657, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -209,7 +222,6 @@ blend_shape_mode = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qoy7y"]
 resource_name = "Main2"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.7799915, 0.7799915, 0.7799915, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -222,10 +234,10 @@ metadata/extras = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_djot2"]
 resource_name = "Edge"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.9063318, 0.9063318, 1)
 metallic = 0.4
 roughness = 0.27216554
+stencil_flags = 2
 metadata/extras = {
 "fromFBX": {
 "isTruePBR": false,
@@ -235,7 +247,6 @@ metadata/extras = {
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3tned"]
 resource_name = "Main"
-next_pass = SubResource("ShaderMaterial_dwlx7")
 albedo_color = Color(0.9063318, 0.6388501, 0.2963377, 1)
 metallic = 0.4
 roughness = 0.27216554
@@ -358,6 +369,7 @@ transform = Transform3D(1, -8.005929e-11, -2.842171e-14, -1.4210855e-14, -1.2107
 mesh = SubResource("ArrayMesh_uk8h3")
 
 [node name="Cube_000" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=1834169053]
+visible = false
 mesh = SubResource("ArrayMesh_n5ke8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1309219301]
