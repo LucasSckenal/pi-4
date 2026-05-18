@@ -55,10 +55,12 @@ nome = "Torre de Fogo"
 fase_minima = 6
 fase_maxima = 6
 nivel_base_minimo = 1
+tipo_ataque = "fire_laser"
 custos = Array[int]([7])
 dano_por_nivel = Array[int]([20])
 velocidade_por_nivel = Array[float]([0.4])
 modelos_por_nivel = Array[PackedScene]([ExtResource("9_fogo")])
+descricoes = Array[String](["Queima até 3 inimigos ao mesmo tempo", "Dano aumenta quanto mais tempo no alvo"])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
 [sub_resource type="Resource" id="Resource_tesla"]

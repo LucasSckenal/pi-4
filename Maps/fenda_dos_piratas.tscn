@@ -277,10 +277,8 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ms2d8"]
 render_priority = 0
 shader = ExtResource("13_ay0o5")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ixa2r"]
 resource_name = "colormap"

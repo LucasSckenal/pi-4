@@ -8,6 +8,7 @@ signal info_proxima_onda(_id_spawner: String, direcao: String, inimigos: Array, 
 @export var hud_point: Marker3D
 
 var onda_atual: int = 0
+var _luz_spawner: OmniLight3D = null
 var fila_inimigos: Array[PackedScene] = []
 var fila_hp_mult: Array[float] = []  # Multiplicador de HP pareado com fila_inimigos (modo infinito)
 var inimigos_restantes: int = 0
@@ -24,6 +25,8 @@ var cena_boss: PackedScene = null
 func _ready():
 	add_to_group("Spawner")
 	GameManager.noite_iniciada.connect(_iniciar_noite)
+	GameManager.noite_iniciada.connect(_acender_luz_spawner)
+	GameManager.dia_iniciado.connect(_apagar_luz_spawner)
 	timer.timeout.connect(_on_timer_timeout)
 	_construir_pool_procedural()
 	emitir_info()
@@ -198,6 +201,33 @@ func _calcular_direcao() -> String:
 
 	else:
 		return "Nordeste"
+
+# ==========================================
+# LUZ DA CASA À NOITE
+# ==========================================
+func _acender_luz_spawner(_onda: int = 0) -> void:
+	if is_instance_valid(_luz_spawner):
+		return
+	_luz_spawner = OmniLight3D.new()
+	_luz_spawner.light_color    = Color(1.0, 0.72, 0.30)  # laranja quente — janela iluminada
+	_luz_spawner.light_energy   = 0.0
+	_luz_spawner.omni_range     = 6.0
+	_luz_spawner.shadow_enabled = false
+	add_child(_luz_spawner)
+	_luz_spawner.position = Vector3(0.0, 1.5, 0.0)
+	var tw := create_tween()
+	tw.tween_property(_luz_spawner, "light_energy", 2.5, 1.0) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _apagar_luz_spawner(_onda: int = 0) -> void:
+	if not is_instance_valid(_luz_spawner):
+		return
+	var luz := _luz_spawner
+	_luz_spawner = null
+	var tw := create_tween()
+	tw.tween_property(luz, "light_energy", 0.0, 0.6) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tw.tween_callback(luz.queue_free)
 
 func restaurar_onda_do_save():
 	onda_atual = GameManager.onda_atual - 1

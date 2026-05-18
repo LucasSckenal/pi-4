@@ -105,6 +105,17 @@ var barra_fantasma: ProgressBar = null  # A barra que "persegue" a vida real
 var label_vida: Label = null
 
 # ==========================================
+# BARRA DE VIDA PERSONALIZADA DO BOSS
+# ==========================================
+@export_category("Interface do Boss")
+## Retrato exibido à esquerda da barra (rosto/ícone do boss)
+@export var retrato_boss: Texture2D = null
+## Imagem de moldura da barra (quadro de madeira, pedra, etc.)
+@export var textura_moldura_boss: Texture2D = null
+## Cor da barra de vida (verde para pirata, vermelho para golem, etc.)
+@export var cor_barra_boss: Color = Color(0.85, 0.05, 0.05)
+
+# ==========================================
 # DICAS PARA A TELA DE NOVO INIMIGO
 # ==========================================
 @export_category("Dicas do Inimigo (Tutorial)")
@@ -264,9 +275,71 @@ func _physics_process(delta):
 
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
 		alvo_atual = procurar_novo_alvo()
-		
+
+	# ── Inimigos aéreos — voam direto ao alvo, ignoram NavMesh ───────────────
+	if eh_aereo:
+		# Desce gradualmente até ~1.5u acima do chão usando raycast de física
+		var espaco_estado = get_world_3d().direct_space_state
+		var ray := PhysicsRayQueryParameters3D.create(
+			global_position, global_position + Vector3(0, -25, 0))
+		ray.exclude = [self]
+		var resultado = espaco_estado.intersect_ray(ray)
+		if resultado:
+			var chao_y: float = resultado["position"].y
+			var altura_alvo: float = chao_y + 1.5
+			if global_position.y > altura_alvo + 0.15:
+				velocity.y = -3.5   # desce
+			elif global_position.y < altura_alvo - 0.15:
+				velocity.y = 2.0    # sobe (caso spawne abaixo do chão)
+			else:
+				velocity.y = 0.0    # na altura certa
+		else:
+			velocity.y = 0.0        # sem chão detectado — mantém altitude
+
+		# Construções têm prioridade sobre Base/Castelo — sem limite de raio
+		# (aéreos voam até qualquer ponto do mapa)
+		var alvo_eh_base = alvo_atual == null \
+			or alvo_atual.is_in_group("Base") \
+			or alvo_atual.is_in_group("Castelo")
+		if alvo_eh_base:
+			var construcoes = get_tree().get_nodes_in_group("Construcao")
+			var melhor_c: Node = null
+			var menor_d := INF
+			for c in construcoes:
+				if not is_instance_valid(c): continue
+				if "esta_destruida" in c and c.esta_destruida: continue
+				if "vida_atual" in c and c.vida_atual <= 0: continue
+				var d = global_position.distance_to(c.global_position)
+				if d < menor_d:
+					menor_d = d
+					melhor_c = c
+			if melhor_c:
+				alvo_atual = melhor_c
+
+		if alvo_atual and not esta_morto:
+			var alvo_pos  = alvo_atual.global_position
+			var dist_xz   = Vector2(global_position.x - alvo_pos.x,
+									global_position.z - alvo_pos.z).length()
+			var dir_xz    = Vector3(alvo_pos.x - global_position.x, 0.0,
+									alvo_pos.z - global_position.z).normalized()
+			var vel_aplic = velocidade * max(0.1, _multiplicador_gelo)
+
+			if dist_xz > distancia_ataque:
+				velocity.x = dir_xz.x * vel_aplic
+				velocity.z = dir_xz.z * vel_aplic
+				var look_dir = Vector2(dir_xz.z, dir_xz.x)
+				rotation.y  = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
+				if animation_player and animation_player.has_animation(anim_andar):
+					animation_player.play(anim_andar)
+			else:
+				velocity.x = 0.0
+				velocity.z = 0.0
+				atacar()
+		move_and_slide()
+		return
+
 	var usando_avoidance = false
-	
+
 	if alvo_atual and nav_agent:
 		var alvo_pos = alvo_atual.global_position
 		var dist = global_position.distance_to(alvo_pos)
@@ -284,7 +357,17 @@ func _physics_process(delta):
 				var colisao = get_slide_collision(i)
 				if colisao:
 					var colisor = colisao.get_collider()
-					if colisor == alvo_atual or (colisor and colisor.is_in_group("Construcao") and alvo_atual.is_in_group("Construcao")):
+					if not is_instance_valid(colisor): continue
+					# Verifica se o colisor É o alvo ou um filho dele (StaticBody3D, etc.)
+					var pertence_ao_alvo = (colisor == alvo_atual)
+					if not pertence_ao_alvo and is_instance_valid(alvo_atual):
+						var no_pai = colisor.get_parent()
+						while is_instance_valid(no_pai) and no_pai != get_tree().root:
+							if no_pai == alvo_atual:
+								pertence_ao_alvo = true
+								break
+							no_pai = no_pai.get_parent()
+					if pertence_ao_alvo or (colisor.is_in_group("Construcao") and alvo_atual.is_in_group("Construcao")):
 						encostado_no_alvo = true
 						break
 
@@ -292,36 +375,47 @@ func _physics_process(delta):
 			if not nav_agent.is_navigation_finished():
 				var next_pos = nav_agent.get_next_path_position()
 				var dir = (next_pos - global_position).normalized()
-				
+
 				if is_on_floor() and is_on_wall():
 					var eh_barreira: bool = false
 					for i in get_slide_collision_count():
 						var colisao = get_slide_collision(i)
 						var colisor = colisao.get_collider()
-						
+
 						if colisor and (colisor.is_in_group("Barreiras") or colisor.is_in_group("Castelo") or colisor.is_in_group("inimigos") or colisor == alvo_atual):
 							eh_barreira = true
 							break
-					
+
 					if not eh_barreira:
 						velocity.y = jump_velocity
-				
+
 				var vel_aplicada = velocidade * max(0.1, _multiplicador_gelo)
-				
+
 				# Passa 0 no eixo Y para o Avoidance calcular com segurança no plano XZ
 				var vel_desejada = Vector3(dir.x * vel_aplicada, 0, dir.z * vel_aplicada)
 				nav_agent.set_velocity(vel_desejada)
 				usando_avoidance = true
-				
+
 				var look_dir = Vector2(dir.z, dir.x)
 				rotation.y = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
-				
-				if is_on_floor() and animation_player and animation_player.has_animation(anim_andar): 
+
+				if (is_on_floor() or eh_aereo) and animation_player and animation_player.has_animation(anim_andar):
+					animation_player.play(anim_andar)
+			else:
+				# NavMesh sem caminho válido (base bloqueada) — avança diretamente
+				var vel_aplicada = velocidade * max(0.1, _multiplicador_gelo)
+				var dir_direto = Vector3(alvo_pos.x - global_position.x, 0.0,
+					alvo_pos.z - global_position.z).normalized()
+				velocity.x = dir_direto.x * vel_aplicada
+				velocity.z = dir_direto.z * vel_aplicada
+				var look_dir = Vector2(dir_direto.z, dir_direto.x)
+				rotation.y = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
+				if is_on_floor() and animation_player and animation_player.has_animation(anim_andar):
 					animation_player.play(anim_andar)
 		else:
 			# Comunica ao sistema RVO que a entidade parou, evitando tremulações de rota
 			nav_agent.set_velocity(Vector3.ZERO)
-			usando_avoidance = true 
+			usando_avoidance = true
 			atacar()
 
 	if not usando_avoidance:
@@ -535,106 +629,195 @@ func morrer():
 # ==========================================
 # GERAÇÃO DA INTERFACE DO BOSS
 # ==========================================
-func _criar_interface_do_boss():
+func _criar_interface_do_boss() -> void:
 	canvas_boss = CanvasLayer.new()
-	canvas_boss.layer = 10 
+	canvas_boss.layer = 10
 	add_child(canvas_boss)
-	
-	var margin = MarginContainer.new()
+
+	# Margens externas — menos comprimidas quando há moldura de imagem
+	var margin := MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE  # não bloqueia cliques no HUD abaixo
-	margin.add_theme_constant_override("margin_top", 50)
-	margin.add_theme_constant_override("margin_left", 350)
-	margin.add_theme_constant_override("margin_right", 350)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_theme_constant_override("margin_top",  textura_moldura_boss != null ? 30 : 50)
+	margin.add_theme_constant_override("margin_left",  textura_moldura_boss != null ? 150 : 350)
+	margin.add_theme_constant_override("margin_right", textura_moldura_boss != null ? 150 : 350)
 	canvas_boss.add_child(margin)
 
-	var vbox = VBoxContainer.new()
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_theme_constant_override("separation", 2)
-	margin.add_child(vbox)
+	# ── Raiz: Control absoluto (permite overlay do retrato sobre moldura) ──
+	var root := Control.new()
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.custom_minimum_size = Vector2(0, textura_moldura_boss != null ? 88 : 70)
+	margin.add_child(root)
 
-	var label_nome = Label.new()
+	# ── Fundo: imagem de moldura ou painel procedural ──────────────────
+	if textura_moldura_boss:
+		var frame_img := TextureRect.new()
+		frame_img.texture = textura_moldura_boss
+		frame_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+		frame_img.stretch_mode = TextureRect.STRETCH_SCALE
+		frame_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(frame_img)
+	else:
+		var panel_bg := ColorRect.new()
+		panel_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+		panel_bg.color = Color(0.05, 0.05, 0.05, 0.85)
+		panel_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(panel_bg)
+		# Borda fina
+		var borda := ReferenceRect.new()
+		borda.set_anchors_preset(Control.PRESET_FULL_RECT)
+		borda.border_color = Color(0.38, 0.38, 0.38, 0.9)
+		borda.border_width = 2.0
+		borda.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(borda)
+
+	# ── Conteúdo (overlay sobre o fundo) ──────────────────────────────
+	# Quando há moldura: recua o conteúdo para não cobrir as bordas decorativas
+	# Quando há retrato: margem esquerda maior para deixar espaço ao retrato
+	var tem_retrato := retrato_boss != null
+	var margem_esq  := (retrato_boss  != null and textura_moldura_boss != null)
+	var content_margin := MarginContainer.new()
+	content_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
+	content_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	content_margin.add_theme_constant_override("margin_top",    textura_moldura_boss != null ? 10 : 8)
+	content_margin.add_theme_constant_override("margin_bottom", textura_moldura_boss != null ? 10 : 8)
+	content_margin.add_theme_constant_override("margin_left",   margem_esq            ? 94 : (textura_moldura_boss != null ? 20 : 12))
+	content_margin.add_theme_constant_override("margin_right",  textura_moldura_boss != null ? 22 : 12)
+	root.add_child(content_margin)
+
+	# ── Coluna: nome + barra ───────────────────────────────────────────
+	var vbox := VBoxContainer.new()
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.size_flags_vertical   = Control.SIZE_EXPAND_FILL
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	vbox.add_theme_constant_override("separation", 4)
+	content_margin.add_child(vbox)
+
+	var label_nome := Label.new()
 	label_nome.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label_nome.text = "☠️ " + nome_inimigo.to_upper() + " ☠️"
+	label_nome.text = nome_inimigo.to_upper()
 	label_nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label_nome.add_theme_font_size_override("font_size", 24)
-	label_nome.add_theme_color_override("font_color", Color(1, 0.2, 0.2))
+	label_nome.add_theme_font_size_override("font_size", textura_moldura_boss != null ? 20 : 24)
+	label_nome.add_theme_color_override("font_color", Color.WHITE)
 	label_nome.add_theme_color_override("font_outline_color", Color.BLACK)
-	label_nome.add_theme_constant_override("outline_size", 8)
+	label_nome.add_theme_constant_override("outline_size", 7)
 	vbox.add_child(label_nome)
 
-	var bar_container = Control.new()
+	var bar_container := Control.new()
 	bar_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar_container.custom_minimum_size = Vector2(0, 30)
+	bar_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	bar_container.size_flags_vertical   = Control.SIZE_EXPAND_FILL
+	bar_container.custom_minimum_size   = Vector2(0, 26)
 	vbox.add_child(bar_container)
 
-	var raio_curvatura = 15 
+	var raio := 12
 
-	var estilo_fundo = StyleBoxFlat.new()
-	estilo_fundo.bg_color = Color(0.05, 0.05, 0.05, 0.8)
-	estilo_fundo.set_corner_radius_all(raio_curvatura)
-	estilo_fundo.border_width_left = 2
-	estilo_fundo.border_width_right = 2
-	estilo_fundo.border_width_top = 2
-	estilo_fundo.border_width_bottom = 2
-	estilo_fundo.border_color = Color(0.3, 0.3, 0.3) 
-	estilo_fundo.expand_margin_left = 4
-	estilo_fundo.expand_margin_right = 4
-	estilo_fundo.expand_margin_top = 4
-	estilo_fundo.expand_margin_bottom = 4
+	var estilo_fundo := StyleBoxFlat.new()
+	estilo_fundo.bg_color = Color(0.04, 0.04, 0.04, 0.82)
+	estilo_fundo.set_corner_radius_all(raio)
 
-	var estilo_fantasma = StyleBoxFlat.new()
-	estilo_fantasma.bg_color = Color(1, 1, 1, 0.5)
-	estilo_fantasma.set_corner_radius_all(raio_curvatura)
+	var estilo_fantasma := StyleBoxFlat.new()
+	estilo_fantasma.bg_color = Color(1.0, 1.0, 1.0, 0.45)
+	estilo_fantasma.set_corner_radius_all(raio)
 
-	var estilo_vida = StyleBoxFlat.new()
-	estilo_vida.bg_color = Color(0.8, 0, 0)
-	estilo_vida.set_corner_radius_all(raio_curvatura)
-	estilo_vida.border_width_top = 3
-	estilo_vida.border_color = Color(1, 0.3, 0.3, 0.3) 
+	var cor_clara := cor_barra_boss.lightened(0.35)
+	var estilo_vida := StyleBoxFlat.new()
+	estilo_vida.bg_color = cor_barra_boss
+	estilo_vida.set_corner_radius_all(raio)
+	estilo_vida.border_width_top = 2
+	estilo_vida.border_color     = cor_clara
 
 	barra_fantasma = ProgressBar.new()
 	barra_fantasma.set_anchors_preset(Control.PRESET_FULL_RECT)
 	barra_fantasma.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	barra_fantasma.max_value = vida_maxima
-	barra_fantasma.value = vida_atual
+	barra_fantasma.value     = vida_atual
 	barra_fantasma.show_percentage = false
 	barra_fantasma.add_theme_stylebox_override("background", estilo_fundo)
-	barra_fantasma.add_theme_stylebox_override("fill", estilo_fantasma)
+	barra_fantasma.add_theme_stylebox_override("fill",       estilo_fantasma)
 	bar_container.add_child(barra_fantasma)
 
 	barra_vida_boss = ProgressBar.new()
 	barra_vida_boss.set_anchors_preset(Control.PRESET_FULL_RECT)
 	barra_vida_boss.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	barra_vida_boss.max_value = vida_maxima
-	barra_vida_boss.value = vida_atual
+	barra_vida_boss.value     = vida_atual
 	barra_vida_boss.show_percentage = false
 	barra_vida_boss.add_theme_stylebox_override("background", StyleBoxEmpty.new())
-	barra_vida_boss.add_theme_stylebox_override("fill", estilo_vida)
+	barra_vida_boss.add_theme_stylebox_override("fill",       estilo_vida)
 	bar_container.add_child(barra_vida_boss)
 
-	var divisores_container = HBoxContainer.new()
-	divisores_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	divisores_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar_container.add_child(divisores_container)
-	
-	for i in range(3):
-		var espaco = Control.new()
-		espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		divisores_container.add_child(espaco)
-		
-		var linha = ColorRect.new()
-		linha.color = Color(0, 0, 0, 0.4) 
-		linha.custom_minimum_size = Vector2(2, 0)
-		divisores_container.add_child(linha)
-	
-	var final_espaco = Control.new()
-	final_espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	divisores_container.add_child(final_espaco)
+	# Divisores semitransparentes
+	var div_container := HBoxContainer.new()
+	div_container.set_anchors_preset(Control.PRESET_FULL_RECT)
+	div_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bar_container.add_child(div_container)
+	for _i in range(3):
+		var sp := Control.new()
+		sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		div_container.add_child(sp)
+		var div := ColorRect.new()
+		div.color = Color(0.0, 0.0, 0.0, 0.35)
+		div.custom_minimum_size = Vector2(2, 0)
+		div_container.add_child(div)
+	var sp_final := Control.new()
+	sp_final.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	div_container.add_child(sp_final)
 
-	var tw_glow = create_tween().set_loops()
-	tw_glow.tween_property(bar_container, "modulate:v", 1.2, 1.0)
-	tw_glow.tween_property(bar_container, "modulate:v", 1.0, 1.0)
+	# ── Retrato do boss (por cima da moldura, lado esquerdo) ───────────
+	if tem_retrato:
+		# Círculo de fundo do retrato
+		var portrait_root := Control.new()
+		portrait_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		portrait_root.set_anchor(SIDE_LEFT,   0.0)
+		portrait_root.set_anchor(SIDE_RIGHT,  0.0)
+		portrait_root.set_anchor(SIDE_TOP,    0.5)
+		portrait_root.set_anchor(SIDE_BOTTOM, 0.5)
+		portrait_root.offset_left   = 6.0
+		portrait_root.offset_right  = 86.0   # largura = 80px
+		portrait_root.offset_top    = -40.0  # altura  = 80px, centrado vertical
+		portrait_root.offset_bottom = 40.0
+		root.add_child(portrait_root)
+
+		# Sombra do círculo
+		var sombra := ColorRect.new()
+		sombra.set_anchors_preset(Control.PRESET_FULL_RECT)
+		sombra.offset_left   =  3.0
+		sombra.offset_top    =  3.0
+		sombra.offset_right  =  3.0
+		sombra.offset_bottom =  3.0
+		sombra.color = Color(0.0, 0.0, 0.0, 0.45)
+		sombra.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		portrait_root.add_child(sombra)
+
+		# Fundo circular (StyleBoxFlat não arredonda ColorRect — usamos Panel)
+		var portrait_panel := Panel.new()
+		portrait_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		portrait_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var portrait_style := StyleBoxFlat.new()
+		portrait_style.bg_color = Color(0.06, 0.05, 0.04, 0.95)
+		portrait_style.set_corner_radius_all(40)
+		portrait_style.border_width_left   = 3
+		portrait_style.border_width_right  = 3
+		portrait_style.border_width_top    = 3
+		portrait_style.border_width_bottom = 3
+		portrait_style.border_color = cor_barra_boss.lightened(0.15)
+		portrait_panel.add_theme_stylebox_override("panel", portrait_style)
+		portrait_root.add_child(portrait_panel)
+
+		# Imagem do retrato
+		var portrait_img := TextureRect.new()
+		portrait_img.texture = retrato_boss
+		portrait_img.set_anchors_preset(Control.PRESET_FULL_RECT)
+		portrait_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		portrait_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		portrait_panel.add_child(portrait_img)
+
+	# Pulso de brilho na barra
+	var tw_glow := create_tween().set_loops()
+	tw_glow.tween_property(bar_container, "modulate:v", 1.3, 0.7).set_trans(Tween.TRANS_SINE)
+	tw_glow.tween_property(bar_container, "modulate:v", 1.0, 0.7).set_trans(Tween.TRANS_SINE)
 
 func _explodir():
 	if esta_explodindo: return

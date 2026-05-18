@@ -599,7 +599,11 @@ func _get_desbloqueios_base(proximo_nivel: int) -> Array:
 				if nome_path in _vistos: continue
 				_vistos.append(nome_path)
 				var modelo_path = path.modelos_por_nivel[0] if path.modelos_por_nivel.size() > 0 else null
-				var icone_path  = path.icone if "icone" in path else null
+				var icone_path: Texture2D = path.icone if ("icone" in path and path.icone != null) else null
+				if icone_path == null:
+					icone_path = _icone_por_path_nome(nome_path)
+				if icone_path == null and modelo_path != null:
+					icone_path = _icone_para_modelo_upgrade(modelo_path)
 				items.append({"emoji": "🗼", "nome": nome_path,
 					"icone_2d": icone_path, "modelo_3d": modelo_path, "escala_modelo": _escala_por_tipo_build(0)})
 
@@ -936,9 +940,11 @@ func _trocar_modelo(nivel: int):
 	# Aplica o modelo
 	if modelo_scene:
 		var modelo = modelo_scene.instantiate()
-		# Se o modelo tiver is_fantasma (ex: Torre de Fogo), ativa-a ANTES do add_child
-		# para que o script do modelo funcione só como visual, sem lógica própria
-		if "is_fantasma" in modelo:
+		# is_modo_upgrade: visual ativo (raios, rotação) mas sem dano nem grupos
+		# is_fantasma: tudo desligado (pré-visualização / outros modelos)
+		if "is_modo_upgrade" in modelo:
+			modelo.is_modo_upgrade = true
+		elif "is_fantasma" in modelo:
 			modelo.is_fantasma = true
 		modelo_anchor.add_child(modelo)
 		modelo.scale = escala_modelo
@@ -1518,6 +1524,10 @@ func atacar():
 		_atacar_chain_lightning()
 		return
 
+	if tipo_atq == "fire_laser":
+		_atacar_fire_laser()
+		return
+
 	if tipo_atq == "morteiro":
 		_atacar_morteiro()
 		return
@@ -1593,6 +1603,41 @@ func _spawnar_raio(origem: Vector3, destino: Vector3) -> void:
 	var raio = cena_raio_eletrico.instantiate()
 	get_tree().root.add_child(raio)
 	raio.configurar(origem, destino)
+
+# ==========================================
+# ATAQUE FIRE LASER — Queima contínua em múltiplos alvos
+# Acerta até torre_fogo_max_alvos inimigos mais próximos no alcance.
+# Dano por disparo = dano_atual (o ramp-up é simulado pela cadência — quanto mais
+# rápido o timer, mais DPS efetivo conforme upgrades de velocidade são aplicados).
+# ==========================================
+func _atacar_fire_laser() -> void:
+	var max_alvos_fogo: int = Balanceamento.get_int("torre_fogo_max_alvos", 3)
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+
+	# Coleta inimigos no alcance e ordena do mais próximo ao mais distante
+	var todos: Array = get_tree().get_nodes_in_group("inimigos")
+	var em_alcance: Array = []
+	for inimigo in todos:
+		if not is_instance_valid(inimigo): continue
+		if inimigo.get("esta_morto") == true: continue
+		# Distância XZ para detectar aéreos em altitudes diferentes
+		var dist_xz: float = Vector2(global_position.x - inimigo.global_position.x,
+			global_position.z - inimigo.global_position.z).length()
+		if dist_xz <= alcance_atual:
+			em_alcance.append(inimigo)
+	em_alcance.sort_custom(func(a: Node3D, b: Node3D) -> bool:
+		var da = Vector2(global_position.x - a.global_position.x, global_position.z - a.global_position.z).length()
+		var db = Vector2(global_position.x - b.global_position.x, global_position.z - b.global_position.z).length()
+		return da < db)
+
+	# Aplica dano nos primeiros max_alvos_fogo
+	var atingidos: int = 0
+	for inimigo in em_alcance:
+		if atingidos >= max_alvos_fogo:
+			break
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+		atingidos += 1
 
 # ==========================================
 # ATAQUE MORTEIRO — Projétil com explosão em área
