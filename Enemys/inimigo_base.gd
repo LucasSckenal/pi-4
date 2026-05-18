@@ -278,23 +278,15 @@ func _physics_process(delta):
 
 	# ── Inimigos aéreos — voam direto ao alvo, ignoram NavMesh ───────────────
 	if eh_aereo:
-		# Desce gradualmente até ~1.5u acima do chão usando raycast de física
-		var espaco_estado = get_world_3d().direct_space_state
-		var ray := PhysicsRayQueryParameters3D.create(
-			global_position, global_position + Vector3(0, -25, 0))
-		ray.exclude = [self]
-		var resultado = espaco_estado.intersect_ray(ray)
-		if resultado:
-			var chao_y: float = resultado["position"].y
-			var altura_alvo: float = chao_y + 1.5
-			if global_position.y > altura_alvo + 0.15:
-				velocity.y = -3.5   # desce
-			elif global_position.y < altura_alvo - 0.15:
-				velocity.y = 2.0    # sobe (caso spawne abaixo do chão)
-			else:
-				velocity.y = 0.0    # na altura certa
+		# Mantém a altitude do ponto de spawn (sem gravidade, sem raycast)
+		# O level designer controla a altura pelo Y do spawner
+		var diff: float = global_position.y - posicao_de_spawn.y
+		if diff > 0.1:
+			velocity.y = -clamp(diff * 5.0, 2.0, 18.0)  # desce para o spawn
+		elif diff < -0.1:
+			velocity.y =  clamp(-diff * 5.0, 2.0, 18.0) # sobe para o spawn
 		else:
-			velocity.y = 0.0        # sem chão detectado — mantém altitude
+			velocity.y = 0.0
 
 		# Construções têm prioridade sobre Base/Castelo — sem limite de raio
 		# (aéreos voam até qualquer ponto do mapa)
@@ -634,190 +626,92 @@ func _criar_interface_do_boss() -> void:
 	canvas_boss.layer = 10
 	add_child(canvas_boss)
 
-	# Margens externas — menos comprimidas quando há moldura de imagem
-	var margin := MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	margin.add_theme_constant_override("margin_top",  textura_moldura_boss != null ? 30 : 50)
-	margin.add_theme_constant_override("margin_left",  textura_moldura_boss != null ? 150 : 350)
-	margin.add_theme_constant_override("margin_right", textura_moldura_boss != null ? 150 : 350)
-	canvas_boss.add_child(margin)
-
-	# ── Raiz: Control absoluto (permite overlay do retrato sobre moldura) ──
-	var root := Control.new()
-	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	root.custom_minimum_size = Vector2(0, textura_moldura_boss != null ? 88 : 70)
-	margin.add_child(root)
-
-	# ── Fundo: imagem de moldura ou painel procedural ──────────────────
+	# ── Calcula o tamanho do container proporcional à textura ──────────
+	# O container tem o MESMO aspecto da imagem → STRETCH_SCALE não distorce
+	var tex_size := Vector2(900.0, 180.0)   # fallback caso não haja textura
 	if textura_moldura_boss:
-		var frame_img := TextureRect.new()
-		frame_img.texture = textura_moldura_boss
-		frame_img.set_anchors_preset(Control.PRESET_FULL_RECT)
-		frame_img.stretch_mode = TextureRect.STRETCH_SCALE
-		frame_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		root.add_child(frame_img)
-	else:
-		var panel_bg := ColorRect.new()
-		panel_bg.set_anchors_preset(Control.PRESET_FULL_RECT)
-		panel_bg.color = Color(0.05, 0.05, 0.05, 0.85)
-		panel_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		root.add_child(panel_bg)
-		# Borda fina
-		var borda := ReferenceRect.new()
-		borda.set_anchors_preset(Control.PRESET_FULL_RECT)
-		borda.border_color = Color(0.38, 0.38, 0.38, 0.9)
-		borda.border_width = 2.0
-		borda.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		root.add_child(borda)
+		tex_size = Vector2(textura_moldura_boss.get_width(), textura_moldura_boss.get_height())
 
-	# ── Conteúdo (overlay sobre o fundo) ──────────────────────────────
-	# Quando há moldura: recua o conteúdo para não cobrir as bordas decorativas
-	# Quando há retrato: margem esquerda maior para deixar espaço ao retrato
-	var tem_retrato := retrato_boss != null
-	var margem_esq  := (retrato_boss  != null and textura_moldura_boss != null)
-	var content_margin := MarginContainer.new()
-	content_margin.set_anchors_preset(Control.PRESET_FULL_RECT)
-	content_margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	content_margin.add_theme_constant_override("margin_top",    textura_moldura_boss != null ? 10 : 8)
-	content_margin.add_theme_constant_override("margin_bottom", textura_moldura_boss != null ? 10 : 8)
-	content_margin.add_theme_constant_override("margin_left",   margem_esq            ? 94 : (textura_moldura_boss != null ? 20 : 12))
-	content_margin.add_theme_constant_override("margin_right",  textura_moldura_boss != null ? 22 : 12)
-	root.add_child(content_margin)
+	var vp_size  := get_viewport().get_visible_rect().size if get_viewport() else Vector2(1280.0, 720.0)
+	var max_w: float = vp_size.x * 0.80                     # ocupa no máx. 80% da tela
+	var escala: float = min(max_w / tex_size.x, 1.0)       # nunca amplia além do tamanho real
+	var w: float = tex_size.x * escala
+	var h: float = tex_size.y * escala
+	var cx: float = vp_size.x * 0.5
 
-	# ── Coluna: nome + barra ───────────────────────────────────────────
-	var vbox := VBoxContainer.new()
-	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	vbox.size_flags_vertical   = Control.SIZE_EXPAND_FILL
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_theme_constant_override("separation", 4)
-	content_margin.add_child(vbox)
+	# Container raiz — posicionado no topo, centralizado horizontalmente
+	var root := Control.new()
+	root.mouse_filter  = Control.MOUSE_FILTER_IGNORE
+	root.set_anchor(SIDE_LEFT,   0.0)
+	root.set_anchor(SIDE_RIGHT,  0.0)
+	root.set_anchor(SIDE_TOP,    0.0)
+	root.set_anchor(SIDE_BOTTOM, 0.0)
+	root.offset_left   = cx - w * 0.5
+	root.offset_right  = cx + w * 0.5
+	root.offset_top    = 20.0
+	root.offset_bottom = 20.0 + h
+	canvas_boss.add_child(root)
 
-	var label_nome := Label.new()
-	label_nome.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	label_nome.text = nome_inimigo.to_upper()
-	label_nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label_nome.add_theme_font_size_override("font_size", textura_moldura_boss != null ? 20 : 24)
-	label_nome.add_theme_color_override("font_color", Color.WHITE)
-	label_nome.add_theme_color_override("font_outline_color", Color.BLACK)
-	label_nome.add_theme_constant_override("outline_size", 7)
-	vbox.add_child(label_nome)
+	# ── Moldura (a imagem já tem tudo: porta-retrato, nome, quadro) ────
+	if textura_moldura_boss:
+		var frame := TextureRect.new()
+		frame.texture      = textura_moldura_boss
+		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		frame.stretch_mode = TextureRect.STRETCH_SCALE   # container é do mesmo aspecto → sem distorção
+		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(frame)
 
-	var bar_container := Control.new()
-	bar_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	bar_container.size_flags_vertical   = Control.SIZE_EXPAND_FILL
-	bar_container.custom_minimum_size   = Vector2(0, 26)
-	vbox.add_child(bar_container)
+	# ── Âncoras da barra dentro da imagem ─────────────────────────────
+	# Ajuste fino: LEFT/RIGHT = limites horizontais da faixa verde,
+	# TOP/BOTTOM = limites verticais. Valores em fração [0..1] da imagem.
+	# (Altere se a barra não cobrir exatamente o canal verde da arte.)
+	const BAR_L := 0.22   # borda esquerda da barra na imagem
+	const BAR_R := 0.90   # borda direita
+	const BAR_T := 0.54   # borda superior
+	const BAR_B := 0.83   # borda inferior
 
-	var raio := 12
-
-	var estilo_fundo := StyleBoxFlat.new()
-	estilo_fundo.bg_color = Color(0.04, 0.04, 0.04, 0.82)
-	estilo_fundo.set_corner_radius_all(raio)
-
-	var estilo_fantasma := StyleBoxFlat.new()
-	estilo_fantasma.bg_color = Color(1.0, 1.0, 1.0, 0.45)
-	estilo_fantasma.set_corner_radius_all(raio)
-
-	var cor_clara := cor_barra_boss.lightened(0.35)
-	var estilo_vida := StyleBoxFlat.new()
-	estilo_vida.bg_color = cor_barra_boss
-	estilo_vida.set_corner_radius_all(raio)
-	estilo_vida.border_width_top = 2
-	estilo_vida.border_color     = cor_clara
+	# ── Barra fantasma (branca, lag ~0.4 s atrás da vida real) ────────
+	var sty_ghost := StyleBoxFlat.new()
+	sty_ghost.bg_color = Color(1.0, 1.0, 1.0, 0.40)
+	sty_ghost.set_corner_radius_all(6)
 
 	barra_fantasma = ProgressBar.new()
-	barra_fantasma.set_anchors_preset(Control.PRESET_FULL_RECT)
-	barra_fantasma.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	barra_fantasma.max_value = vida_maxima
-	barra_fantasma.value     = vida_atual
+	barra_fantasma.set_anchor(SIDE_LEFT,   BAR_L)
+	barra_fantasma.set_anchor(SIDE_RIGHT,  BAR_R)
+	barra_fantasma.set_anchor(SIDE_TOP,    BAR_T)
+	barra_fantasma.set_anchor(SIDE_BOTTOM, BAR_B)
+	barra_fantasma.mouse_filter    = Control.MOUSE_FILTER_IGNORE
+	barra_fantasma.max_value       = vida_maxima
+	barra_fantasma.value           = vida_atual
 	barra_fantasma.show_percentage = false
-	barra_fantasma.add_theme_stylebox_override("background", estilo_fundo)
-	barra_fantasma.add_theme_stylebox_override("fill",       estilo_fantasma)
-	bar_container.add_child(barra_fantasma)
+	barra_fantasma.add_theme_stylebox_override("background", StyleBoxEmpty.new())
+	barra_fantasma.add_theme_stylebox_override("fill",       sty_ghost)
+	root.add_child(barra_fantasma)
+
+	# ── Barra de vida real (cor definida pelo export cor_barra_boss) ───
+	var sty_fill := StyleBoxFlat.new()
+	sty_fill.bg_color        = cor_barra_boss
+	sty_fill.set_corner_radius_all(6)
+	sty_fill.border_width_top = 2
+	sty_fill.border_color     = cor_barra_boss.lightened(0.40)
 
 	barra_vida_boss = ProgressBar.new()
-	barra_vida_boss.set_anchors_preset(Control.PRESET_FULL_RECT)
-	barra_vida_boss.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	barra_vida_boss.max_value = vida_maxima
-	barra_vida_boss.value     = vida_atual
+	barra_vida_boss.set_anchor(SIDE_LEFT,   BAR_L)
+	barra_vida_boss.set_anchor(SIDE_RIGHT,  BAR_R)
+	barra_vida_boss.set_anchor(SIDE_TOP,    BAR_T)
+	barra_vida_boss.set_anchor(SIDE_BOTTOM, BAR_B)
+	barra_vida_boss.mouse_filter    = Control.MOUSE_FILTER_IGNORE
+	barra_vida_boss.max_value       = vida_maxima
+	barra_vida_boss.value           = vida_atual
 	barra_vida_boss.show_percentage = false
 	barra_vida_boss.add_theme_stylebox_override("background", StyleBoxEmpty.new())
-	barra_vida_boss.add_theme_stylebox_override("fill",       estilo_vida)
-	bar_container.add_child(barra_vida_boss)
+	barra_vida_boss.add_theme_stylebox_override("fill",       sty_fill)
+	root.add_child(barra_vida_boss)
 
-	# Divisores semitransparentes
-	var div_container := HBoxContainer.new()
-	div_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	div_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar_container.add_child(div_container)
-	for _i in range(3):
-		var sp := Control.new()
-		sp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		div_container.add_child(sp)
-		var div := ColorRect.new()
-		div.color = Color(0.0, 0.0, 0.0, 0.35)
-		div.custom_minimum_size = Vector2(2, 0)
-		div_container.add_child(div)
-	var sp_final := Control.new()
-	sp_final.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	div_container.add_child(sp_final)
-
-	# ── Retrato do boss (por cima da moldura, lado esquerdo) ───────────
-	if tem_retrato:
-		# Círculo de fundo do retrato
-		var portrait_root := Control.new()
-		portrait_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		portrait_root.set_anchor(SIDE_LEFT,   0.0)
-		portrait_root.set_anchor(SIDE_RIGHT,  0.0)
-		portrait_root.set_anchor(SIDE_TOP,    0.5)
-		portrait_root.set_anchor(SIDE_BOTTOM, 0.5)
-		portrait_root.offset_left   = 6.0
-		portrait_root.offset_right  = 86.0   # largura = 80px
-		portrait_root.offset_top    = -40.0  # altura  = 80px, centrado vertical
-		portrait_root.offset_bottom = 40.0
-		root.add_child(portrait_root)
-
-		# Sombra do círculo
-		var sombra := ColorRect.new()
-		sombra.set_anchors_preset(Control.PRESET_FULL_RECT)
-		sombra.offset_left   =  3.0
-		sombra.offset_top    =  3.0
-		sombra.offset_right  =  3.0
-		sombra.offset_bottom =  3.0
-		sombra.color = Color(0.0, 0.0, 0.0, 0.45)
-		sombra.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		portrait_root.add_child(sombra)
-
-		# Fundo circular (StyleBoxFlat não arredonda ColorRect — usamos Panel)
-		var portrait_panel := Panel.new()
-		portrait_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
-		portrait_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var portrait_style := StyleBoxFlat.new()
-		portrait_style.bg_color = Color(0.06, 0.05, 0.04, 0.95)
-		portrait_style.set_corner_radius_all(40)
-		portrait_style.border_width_left   = 3
-		portrait_style.border_width_right  = 3
-		portrait_style.border_width_top    = 3
-		portrait_style.border_width_bottom = 3
-		portrait_style.border_color = cor_barra_boss.lightened(0.15)
-		portrait_panel.add_theme_stylebox_override("panel", portrait_style)
-		portrait_root.add_child(portrait_panel)
-
-		# Imagem do retrato
-		var portrait_img := TextureRect.new()
-		portrait_img.texture = retrato_boss
-		portrait_img.set_anchors_preset(Control.PRESET_FULL_RECT)
-		portrait_img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		portrait_img.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		portrait_panel.add_child(portrait_img)
-
-	# Pulso de brilho na barra
+	# Pulso de brilho suave na barra
 	var tw_glow := create_tween().set_loops()
-	tw_glow.tween_property(bar_container, "modulate:v", 1.3, 0.7).set_trans(Tween.TRANS_SINE)
-	tw_glow.tween_property(bar_container, "modulate:v", 1.0, 0.7).set_trans(Tween.TRANS_SINE)
+	tw_glow.tween_property(barra_vida_boss, "modulate:v", 1.30, 0.7).set_trans(Tween.TRANS_SINE)
+	tw_glow.tween_property(barra_vida_boss, "modulate:v", 1.00, 0.7).set_trans(Tween.TRANS_SINE)
 
 func _explodir():
 	if esta_explodindo: return

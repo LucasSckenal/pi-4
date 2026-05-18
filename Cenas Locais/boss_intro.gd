@@ -13,6 +13,7 @@ var _ja_finalizou := false
 var _pode_pular   := false
 var _glow_tween:  Tween = null
 var _hint_tween:  Tween = null
+var _time_scale_salvo: float = 1.0
 
 # ── Nó de vídeo (existe no .tscn) ─────────────────
 @onready var _video: VideoStreamPlayer = $VideoStreamPlayer
@@ -64,6 +65,11 @@ func reproduzir_stream(
 		_fundo_solido.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		add_child(_fundo_solido)
 		move_child(_fundo_solido, 0)
+
+	# Garante que a cutscene sempre roda em velocidade normal,
+	# independente do time_scale que o jogador configurou.
+	_time_scale_salvo = Engine.time_scale
+	Engine.time_scale = 1.0
 
 	get_tree().paused = true
 
@@ -306,6 +312,7 @@ func _finalizar() -> void:
 		tw.tween_property(_video, "modulate:a", 0.0, 0.50).set_trans(Tween.TRANS_SINE)
 	await tw.finished
 
-	get_tree().paused = false
+	Engine.time_scale  = _time_scale_salvo
+	get_tree().paused  = false
 	cutscene_finished.emit()
 	queue_free()
