@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://r4ncq2mu3q2n"
 path.s3tc="res://.godot/imported/Meshy_AI_Temple_of_the_Sun_Eye_0417162312_texture_1.jpg-e421da6723e1ba629ba4cc8febcd9af2.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Temple_of_the_Sun_Eye_0417162312_texture_1.jpg-e421da6723e1ba629ba4cc8febcd9af2.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map2/Meshy_AI_Temple_of_the_Sun_Eye_0417162312_texture_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Temple_of_the_Sun_Eye_0417162312_texture_1.jpg-e421da6723e1ba629ba4cc8febcd9af2.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Temple_of_the_Sun_Eye_0417162312_texture_1.jpg-e421da6723e1ba629ba4cc8febcd9af2.s3tc.ctex", "res://.godot/imported/Meshy_AI_Temple_of_the_Sun_Eye_0417162312_texture_1.jpg-e421da6723e1ba629ba4cc8febcd9af2.etc2.ctex"]
 
 [params]
 

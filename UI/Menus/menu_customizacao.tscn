@@ -72,7 +72,7 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.75, 0.58, 0.20, 1)
+border_color = Color(0.75, 0.58, 0.2, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -114,7 +114,7 @@ corner_radius_bottom_left = 18
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Voltar"]
 bg_color = Color(0.14, 0.09, 0.03, 0.7)
 border_width_bottom = 3
-border_color = Color(0.42, 0.32, 0.10, 0.6)
+border_color = Color(0.42, 0.32, 0.1, 0.6)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8

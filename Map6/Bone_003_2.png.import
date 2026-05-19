@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c0qkytcde5x1"
 path.s3tc="res://.godot/imported/Bone_003_2.png-6e7ac07fa9d1480c9e9d8d7054522c7f.s3tc.ctex"
+path.etc2="res://.godot/imported/Bone_003_2.png-6e7ac07fa9d1480c9e9d8d7054522c7f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Bone_003_2.png"
-dest_files=["res://.godot/imported/Bone_003_2.png-6e7ac07fa9d1480c9e9d8d7054522c7f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Bone_003_2.png-6e7ac07fa9d1480c9e9d8d7054522c7f.s3tc.ctex", "res://.godot/imported/Bone_003_2.png-6e7ac07fa9d1480c9e9d8d7054522c7f.etc2.ctex"]
 
 [params]
 

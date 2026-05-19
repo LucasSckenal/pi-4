@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://de04gmom5gw4c"
 path.s3tc="res://.godot/imported/Graduation cap_CHAHIN_GRADUATION_CAP_TEXTURE.jpg-ee451ad325160746ce0357d4c6d024f7.s3tc.ctex"
+path.etc2="res://.godot/imported/Graduation cap_CHAHIN_GRADUATION_CAP_TEXTURE.jpg-ee451ad325160746ce0357d4c6d024f7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Assets/Hats/Graduation cap_CHAHIN_GRADUATION_CAP_TEXTURE.jpg"
-dest_files=["res://.godot/imported/Graduation cap_CHAHIN_GRADUATION_CAP_TEXTURE.jpg-ee451ad325160746ce0357d4c6d024f7.s3tc.ctex"]
+dest_files=["res://.godot/imported/Graduation cap_CHAHIN_GRADUATION_CAP_TEXTURE.jpg-ee451ad325160746ce0357d4c6d024f7.s3tc.ctex", "res://.godot/imported/Graduation cap_CHAHIN_GRADUATION_CAP_TEXTURE.jpg-ee451ad325160746ce0357d4c6d024f7.etc2.ctex"]
 
 [params]
 

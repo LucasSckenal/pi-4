@@ -19,8 +19,10 @@ func _carregar_conquistas_da_pasta(caminho_pasta: String):
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		if file_name.ends_with(".tres") or file_name.ends_with(".res"):
-			var res = load(caminho_pasta + "/" + file_name)
+		# Remove o sufixo .remap gerado pela engine durante a exportação de recursos
+		var arquivo_limpo = file_name.trim_suffix(".remap")
+		if arquivo_limpo.ends_with(".tres") or arquivo_limpo.ends_with(".res"):
+			var res = load(caminho_pasta + "/" + arquivo_limpo)
 			if res is ConquistaData:
 				banco_conquistas.append(res)
 		file_name = dir.get_next()

@@ -32,7 +32,8 @@ func _ready():
 
 	# Configura visibilidade inicial baseada na plataforma
 	if canvas_mobile:
-		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
+		# Verifica também o recurso 'pc' para garantir a exibição em exportações para desktop
+		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor") or OS.has_feature("pc")
 		canvas_mobile.layer = 1
 	
 	# Conecta sinais do GameManager
@@ -106,7 +107,8 @@ func _atualizar_visibilidade_por_tempo():
 	
 	if dia:
 		if base_mesh: base_mesh.show()
-		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
+		# Verifica também o recurso 'pc' para garantir a exibição em exportações para desktop
+		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor") or OS.has_feature("pc")
 	else:
 		_esconder_todos_elementos()
 

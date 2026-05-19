@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://d4ikvf7a8xir7"
 path.s3tc="res://.godot/imported/Golem_boss_texture_0.png-838223860a67848b1851b8ccd6317c82.s3tc.ctex"
+path.etc2="res://.godot/imported/Golem_boss_texture_0.png-838223860a67848b1851b8ccd6317c82.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map/Golem_boss_texture_0.png"
-dest_files=["res://.godot/imported/Golem_boss_texture_0.png-838223860a67848b1851b8ccd6317c82.s3tc.ctex"]
+dest_files=["res://.godot/imported/Golem_boss_texture_0.png-838223860a67848b1851b8ccd6317c82.s3tc.ctex", "res://.godot/imported/Golem_boss_texture_0.png-838223860a67848b1851b8ccd6317c82.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bl4bvrlu4upem"
 path.s3tc="res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.s3tc.ctex"
+path.etc2="res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Noise/Voronoi Noise.png"
-dest_files=["res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.s3tc.ctex"]
+dest_files=["res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.s3tc.ctex", "res://.godot/imported/Voronoi Noise.png-39afc62babbb8a01573a558090736ca3.etc2.ctex"]
 
 [params]
 

@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cc47b570b77vr"
 path.s3tc="res://.godot/imported/torre_de_tesla_2.jpg-9a87a7b0a7f2a1042d6ce00196f74b0b.s3tc.ctex"
+path.etc2="res://.godot/imported/torre_de_tesla_2.jpg-9a87a7b0a7f2a1042d6ce00196f74b0b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Builds/torre_de_tesla_2.jpg"
-dest_files=["res://.godot/imported/torre_de_tesla_2.jpg-9a87a7b0a7f2a1042d6ce00196f74b0b.s3tc.ctex"]
+dest_files=["res://.godot/imported/torre_de_tesla_2.jpg-9a87a7b0a7f2a1042d6ce00196f74b0b.s3tc.ctex", "res://.godot/imported/torre_de_tesla_2.jpg-9a87a7b0a7f2a1042d6ce00196f74b0b.etc2.ctex"]
 
 [params]
 

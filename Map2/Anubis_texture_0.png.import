@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dv0626lbaf3cf"
 path.s3tc="res://.godot/imported/Anubis_texture_0.png-462f40cd1936a06d3651f7fffca0c16a.s3tc.ctex"
+path.etc2="res://.godot/imported/Anubis_texture_0.png-462f40cd1936a06d3651f7fffca0c16a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map2/Anubis_texture_0.png"
-dest_files=["res://.godot/imported/Anubis_texture_0.png-462f40cd1936a06d3651f7fffca0c16a.s3tc.ctex"]
+dest_files=["res://.godot/imported/Anubis_texture_0.png-462f40cd1936a06d3651f7fffca0c16a.s3tc.ctex", "res://.godot/imported/Anubis_texture_0.png-462f40cd1936a06d3651f7fffca0c16a.etc2.ctex"]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxg7vgo5d0v0w"
 path.s3tc="res://.godot/imported/HalfMoon.png-b0032f3bf3aa911f53494f699f3c69aa.s3tc.ctex"
+path.etc2="res://.godot/imported/HalfMoon.png-b0032f3bf3aa911f53494f699f3c69aa.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Icons/HalfMoon.png"
-dest_files=["res://.godot/imported/HalfMoon.png-b0032f3bf3aa911f53494f699f3c69aa.s3tc.ctex"]
+dest_files=["res://.godot/imported/HalfMoon.png-b0032f3bf3aa911f53494f699f3c69aa.s3tc.ctex", "res://.godot/imported/HalfMoon.png-b0032f3bf3aa911f53494f699f3c69aa.etc2.ctex"]
 
 [params]
 

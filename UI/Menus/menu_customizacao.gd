@@ -131,7 +131,7 @@ func _gerar_botoes_armas():
 
 		if esta_desbloqueada:
 			var caminho_icone = PASTA_ICONES + id + ".png"
-			if FileAccess.file_exists(caminho_icone):
+			if ResourceLoader.exists(caminho_icone):
 				btn.icon = load(caminho_icone)
 			btn.text = _obter_nome_formatado(id)
 			btn.add_theme_font_size_override("font_size", 13)

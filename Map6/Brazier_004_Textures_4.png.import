@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ysbhpnqs74q7"
 path.s3tc="res://.godot/imported/Brazier_004_Textures_4.png-941228648730626f5fe871d730b08651.s3tc.ctex"
+path.etc2="res://.godot/imported/Brazier_004_Textures_4.png-941228648730626f5fe871d730b08651.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Brazier_004_Textures_4.png"
-dest_files=["res://.godot/imported/Brazier_004_Textures_4.png-941228648730626f5fe871d730b08651.s3tc.ctex"]
+dest_files=["res://.godot/imported/Brazier_004_Textures_4.png-941228648730626f5fe871d730b08651.s3tc.ctex", "res://.godot/imported/Brazier_004_Textures_4.png-941228648730626f5fe871d730b08651.etc2.ctex"]
 
 [params]
 

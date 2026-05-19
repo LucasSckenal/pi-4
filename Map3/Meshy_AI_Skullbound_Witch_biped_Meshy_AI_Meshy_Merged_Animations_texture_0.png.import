@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://kgi8nauyrwbh"
 path.s3tc="res://.godot/imported/Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-0fbc7f73cfb13d2a13ce2d51fc222f6f.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-0fbc7f73cfb13d2a13ce2d51fc222f6f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map3/Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png"
-dest_files=["res://.godot/imported/Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-0fbc7f73cfb13d2a13ce2d51fc222f6f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-0fbc7f73cfb13d2a13ce2d51fc222f6f.s3tc.ctex", "res://.godot/imported/Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-0fbc7f73cfb13d2a13ce2d51fc222f6f.etc2.ctex"]
 
 [params]
 

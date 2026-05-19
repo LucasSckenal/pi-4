@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ds55p1dgi8xyx"
 path.s3tc="res://.godot/imported/Enemy Large_Atlas.png-84908de744032128e5e3d4645043c58f.s3tc.ctex"
+path.etc2="res://.godot/imported/Enemy Large_Atlas.png-84908de744032128e5e3d4645043c58f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Enemys/Map 5/Enemy Large_Atlas.png"
-dest_files=["res://.godot/imported/Enemy Large_Atlas.png-84908de744032128e5e3d4645043c58f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Enemy Large_Atlas.png-84908de744032128e5e3d4645043c58f.s3tc.ctex", "res://.godot/imported/Enemy Large_Atlas.png-84908de744032128e5e3d4645043c58f.etc2.ctex"]
 
 [params]
 

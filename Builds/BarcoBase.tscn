@@ -8,10 +8,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t33gt"]
 render_priority = 0
 shader = ExtResource("4_qxkvl")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lycok"]
 resource_name = "colormap"
@@ -63,17 +61,16 @@ size = Vector3(9.072805, 9.395386, 12.293125)
 
 [node name="ship-wreck2" unique_id=848616913 groups=["Base", "Castelo"] instance=ExtResource("1_qvxli")]
 script = ExtResource("2_laode")
-nome_construcao = "Barco"
 tipo = 5
 vida_maxima = 600
-tem_barra_vida = true
 upgrade_custos = Array[int]([5, 7])
 upgrade_vida_por_nivel = Array[int]([500, 750])
+nome_construcao = "Barco"
 
-[node name="ship-wreck" parent="." index="0" unique_id=1853645423]
+[node name="ship-wreck" parent="." index="0" unique_id=2076038655]
 mesh = SubResource("ArrayMesh_w5vry")
 
-[node name="CollisionShape3D" parent="ship-wreck/StaticBody3D" parent_id_path=PackedInt32Array(612592499) index="0" unique_id=749272916]
+[node name="CollisionShape3D" parent="ship-wreck/StaticBody3D" parent_id_path=PackedInt32Array(1123412842) index="0" unique_id=213017337]
 disabled = true
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." index="1" unique_id=185922796]

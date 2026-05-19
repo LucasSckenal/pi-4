@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b7ecv2epr4ywh"
 path.s3tc="res://.godot/imported/GoldPileBig_001_Coin_color.png-4dc122fa026a098ce6d8fdc0de92acea.s3tc.ctex"
+path.etc2="res://.godot/imported/GoldPileBig_001_Coin_color.png-4dc122fa026a098ce6d8fdc0de92acea.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/GoldPileBig_001_Coin_color.png"
-dest_files=["res://.godot/imported/GoldPileBig_001_Coin_color.png-4dc122fa026a098ce6d8fdc0de92acea.s3tc.ctex"]
+dest_files=["res://.godot/imported/GoldPileBig_001_Coin_color.png-4dc122fa026a098ce6d8fdc0de92acea.s3tc.ctex", "res://.godot/imported/GoldPileBig_001_Coin_color.png-4dc122fa026a098ce6d8fdc0de92acea.etc2.ctex"]
 
 [params]
 
