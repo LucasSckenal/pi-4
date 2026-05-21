@@ -35,10 +35,8 @@ height = 0.7217407
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7cpla"]
 render_priority = 0
 shader = ExtResource("4_20860")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mksni"]
 resource_name = "colormap"
@@ -70,10 +68,8 @@ blend_shape_mode = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wu4v6"]
 render_priority = 0
 shader = ExtResource("4_20860")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5wvm6"]
 resource_name = "colormap"
@@ -383,10 +379,8 @@ shadow_mesh = SubResource("ArrayMesh_wvobg")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s4yu8"]
 render_priority = 0
 shader = ExtResource("4_20860")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 1.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqdff"]
 resource_name = "weapons"
@@ -636,10 +630,8 @@ shadow_mesh = SubResource("ArrayMesh_bybr8")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4yhib"]
 render_priority = 0
 shader = ExtResource("4_20860")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tuiwt"]
 resource_name = "mat17"
@@ -811,10 +803,8 @@ shadow_mesh = SubResource("ArrayMesh_5p1ls")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1ca8a"]
 render_priority = 0
 shader = ExtResource("4_20860")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vge0f"]
 resource_name = "Material_1"
@@ -1381,6 +1371,7 @@ shadow_mesh = SubResource("ArrayMesh_5enk3")
 radius = 0.3104535
 
 [node name="Player" type="CharacterBody3D" unique_id=1040113878 groups=["Player"]]
+input_ray_pickable = false
 script = ExtResource("1_onrkg")
 dano_ataque = 20
 
@@ -1791,6 +1782,7 @@ transform = Transform3D(-0.041129887, -0.00505067, 0.43804428, 0.43801084, 0.006
 mesh = SubResource("ArrayMesh_fspfk")
 
 [node name="AreaAtaque" type="Area3D" parent="." unique_id=682289708]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" unique_id=604714878]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1117619, 0.19322991)

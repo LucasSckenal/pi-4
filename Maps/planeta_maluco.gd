@@ -281,9 +281,9 @@ func _criar_luzes_plataforma() -> void:
 	# Luz central — ilumina o centro da base
 	var central := OmniLight3D.new()
 	central.light_color    = cor
-	central.light_energy   = 0.0
+	central.light_energy   = 1.0
 	central.omni_range     = 10.0
-	central.shadow_enabled = false
+	central.shadow_enabled = true
 	add_child(central)
 	central.position = Vector3(0.0, 1.5, 0.0)
 	_luzes_plataforma.append(central)
@@ -305,7 +305,7 @@ func _animar_para_noite() -> void:
 		if not is_instance_valid(luz): continue
 		var tw_l = create_tween()
 		tw_l.tween_interval(0.07 * i)          # cascata rápida
-		tw_l.tween_property(luz, "light_energy", 3.5, 0.5) \
+		tw_l.tween_property(luz, "light_energy", 1.5, 0.5) \
 			.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 	# Mais estrelas visíveis (tween suave via amount_ratio)

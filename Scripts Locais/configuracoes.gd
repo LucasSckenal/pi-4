@@ -6,29 +6,30 @@ const SETTINGS_PATH = "user://settings.cfg"
 
 var master_bus: int = -1
 
-# Variáveis temporárias para o preview do cursor não afetar o jogo imediatamente
+# Variáveis temporárias para o preview não afetar o jogo imediatamente (salvas apenas no salvar)
 var temp_cursor_size: float = 1.5
 var temp_cursor_color: Color = Color.WHITE
+var temp_qualidade_3d: int = 2 # 0 = Baixa, 1 = Média, 2 = Alta
 
 # Referências de Áudio
-@onready var _slider_master:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster")
-@onready var _lbl_master:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/LabelPctMaster")
+@onready var _slider_master:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster")
+@onready var _lbl_master:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/LabelPctMaster")
 
-@onready var _slider_musica:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica")
-@onready var _lbl_musica:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/LabelPctMusica")
+@onready var _slider_musica:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica")
+@onready var _lbl_musica:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/LabelPctMusica")
 
-@onready var _slider_voz:     HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz")
-@onready var _lbl_voz:        Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/LabelPctVoz")
+@onready var _slider_voz:     HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz")
+@onready var _lbl_voz:        Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/LabelPctVoz")
 
 # Referências de Vídeo
-@onready var _check_mudo:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckMudo")
-@onready var _check_tela:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia")
-@onready var _check_hud:      CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckHUD")
-@onready var _check_shake:    CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela")
+@onready var _check_mudo:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckMudo")
+@onready var _check_tela:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia")
+@onready var _check_hud:      CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD")
+@onready var _check_shake:    CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela")
 
 # Referências de Cursor
-@onready var _preview_cursor: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/PreviewArea/PreviewCursor")
-@onready var _card_cursor:    Control     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita")
+@onready var _preview_cursor: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/PreviewArea/PreviewCursor")
+@onready var _card_cursor:    Control     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor")
 
 # Referência do Painel da Equipe
 @onready var _painel_equipe:  ColorRect   = get_node_or_null("FundoEquipe")
@@ -88,10 +89,33 @@ func _atualizar_preview_cursor() -> void:
 		_preview_cursor.modulate = temp_cursor_color
 		_preview_cursor.custom_minimum_size = Vector2(48 * temp_cursor_size, 48 * temp_cursor_size)
 
-
 # ==========================================
 # SINAIS DOS CONTROLES DE ÁUDIO E VÍDEO
 # ==========================================
+
+func _aplicar_qualidade_3d(nivel: int) -> void:
+	temp_qualidade_3d = nivel
+	var root_viewport = get_tree().root
+	match nivel:
+		0:
+			root_viewport.scaling_3d_scale = 0.5
+			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+		1:
+			root_viewport.scaling_3d_scale = 0.75
+			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+		2:
+			root_viewport.scaling_3d_scale = 1.0
+			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+
+func _on_btn_qualidade_baixa_pressed() -> void:
+	_aplicar_qualidade_3d(0)
+
+func _on_btn_qualidade_media_pressed() -> void:
+	_aplicar_qualidade_3d(1)
+
+func _on_btn_qualidade_alta_pressed() -> void:
+	_aplicar_qualidade_3d(2)
+
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(master_bus, linear_to_db(value))
 	_atualizar_pct(_lbl_master, value)
@@ -212,6 +236,7 @@ func _salvar_configuracoes() -> void:
 		cfg.set_value("video", "hud_customizado", _check_hud.button_pressed)
 
 	cfg.set_value("video", "shake_tela", Global.shake_tela_ativo)
+	cfg.set_value("video", "qualidade_3d", temp_qualidade_3d)
 		
 	cfg.set_value("cursor", "tamanho", temp_cursor_size)
 	cfg.set_value("cursor", "cor", temp_cursor_color)
@@ -250,6 +275,9 @@ func _carregar_configuracoes() -> void:
 	Global.shake_tela_ativo = shake_on
 	if _check_shake:
 		_check_shake.button_pressed = shake_on
+		
+	var qualidade_3d: int = cfg.get_value("video", "qualidade_3d", 2)
+	_aplicar_qualidade_3d(qualidade_3d)
 		
 	temp_cursor_size = cfg.get_value("cursor", "tamanho", 1.5)
 	temp_cursor_color = cfg.get_value("cursor", "cor", Color.WHITE)

@@ -282,7 +282,6 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_nsbyk")
 theme_override_styles/hover = SubResource("StyleBoxTexture_4em55")
 text = "Continuar"
 icon = ExtResource("5_lvola")
-expand_icon = true
 
 [node name="Titulo" type="Sprite2D" parent="CanvasLayer" unique_id=1118383611]
 position = Vector2(425.00003, 136)

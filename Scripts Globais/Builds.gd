@@ -318,8 +318,15 @@ func _ready():
 	# Luz interna à noite (sem sombras — performance ok no mobile)
 	if GameManager.has_signal("noite_iniciada"):
 		GameManager.noite_iniciada.connect(_acender_luz_interna)
+		GameManager.noite_iniciada.connect(_remover_borda_interagivel)
+		
 	if GameManager.has_signal("dia_iniciado"):
 		GameManager.dia_iniciado.connect(_apagar_luz_interna)
+		GameManager.dia_iniciado.connect(_criar_borda_interagivel)
+	
+	# Aplica a borda interativa no momento do spawn, caso seja de dia
+	if not GameManager.is_night:
+		_criar_borda_interagivel()
 
 	# Área de clique (se existir)
 	if has_node("AreaClique"):
@@ -940,8 +947,6 @@ func _trocar_modelo(nivel: int):
 	# Aplica o modelo
 	if modelo_scene:
 		var modelo = modelo_scene.instantiate()
-		# is_modo_upgrade: visual ativo (raios, rotação) mas sem dano nem grupos
-		# is_fantasma: tudo desligado (pré-visualização / outros modelos)
 		if "is_modo_upgrade" in modelo:
 			modelo.is_modo_upgrade = true
 		elif "is_fantasma" in modelo:
@@ -951,6 +956,10 @@ func _trocar_modelo(nivel: int):
 		
 		# Esconde as malhas da torre base para evitar sobreposição
 		_esconder_malhas_originais(self)
+		
+		# Aplica a borda de interatividade no novo modelo instanciado, caso esteja de dia
+		if not GameManager.is_night and not is_fantasma:
+			_atualizar_segundo_next_pass(modelo, true)
 	else:
 		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
 
@@ -1918,6 +1927,55 @@ func _apagar_luz_interna(_onda: int = 0) -> void:
 	tw.tween_property(luz, "light_energy", 0.0, 0.5) \
 	.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	tw.tween_callback(luz.queue_free)
+
+# ==========================================
+# BORDA INTERAGIVEL COM CONTEXTO
+# ==========================================
+func _criar_borda_interagivel(_onda: int = 0) -> void:
+	if esta_destruida: return
+	_atualizar_segundo_next_pass(self, true)
+
+func _remover_borda_interagivel(_onda: int = 0) -> void:
+	_atualizar_segundo_next_pass(self, false)
+
+# Percorre os nós recursivamente para injetar ou remover o segundo Next Pass de interatividade
+func _atualizar_segundo_next_pass(no: Node, ativo: bool) -> void:
+	if no is MeshInstance3D:
+		var material = no.get_active_material(0)
+		if material:
+			var mat_override = no.get_surface_override_material(0)
+			if mat_override == null:
+				mat_override = material.duplicate(true)
+				no.set_surface_override_material(0, mat_override)
+				
+			var primeiro_pass = mat_override.next_pass
+			
+			if primeiro_pass == null:
+				primeiro_pass = ShaderMaterial.new()
+				primeiro_pass.shader = preload("res://Shaders/outline.gdshader")
+				primeiro_pass.set_shader_parameter("weight", 0.01)
+				primeiro_pass.set_shader_parameter("color", Color.BLACK)
+				mat_override.next_pass = primeiro_pass
+			else:
+				if not primeiro_pass.is_local_to_scene and primeiro_pass.resource_path != "":
+					primeiro_pass = primeiro_pass.duplicate(true)
+					mat_override.next_pass = primeiro_pass
+			
+			if ativo:
+				if primeiro_pass.next_pass == null:
+					var material_borda = ShaderMaterial.new()
+					material_borda.shader = preload("res://Shaders/outline.gdshader")
+					material_borda.set_shader_parameter("weight", 0.025)
+					material_borda.set_shader_parameter("color", Color.WHITE)
+					
+					primeiro_pass.next_pass = material_borda
+			else:
+				primeiro_pass.next_pass = null
+
+	for filho in no.get_children():
+		if filho == _indicador_upgrade or filho == indicador_alcance or filho.name == "CirculoVeneno" or filho.name == "BarraVidaShader":
+			continue
+		_atualizar_segundo_next_pass(filho, ativo)
 
 # ==========================================
 # SISTEMA DE VENDA
