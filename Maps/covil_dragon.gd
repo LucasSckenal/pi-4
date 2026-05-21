@@ -11,7 +11,7 @@ var _tweens_lava: Array = []
 var _energia_solar_original: float   = 2.0
 var _energia_caldera_original: float = 1.0
 var _ambient_energy_original: float  = 2.5
-var _ambient_color_original: Color   = Color(0.407, 0.0, 0.285, 1.0)
+var _ambient_color_original: Color   = Color(1.0, 1.0, 1.0, 1.0)
 var _brightness_original: float      = 0.8
 var _contrast_original: float        = 1.2
 

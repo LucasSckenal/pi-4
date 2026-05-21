@@ -33,9 +33,7 @@ func _criar_luzes_cais() -> void:
 	var cor := Color(1.0, 0.70, 0.25)
 
 	var aneis := [
-		{ "raio": 14.0, "num": 8,  "altura": 1.5 },  # anel externo (caminho inimigos)
-		{ "raio": 8.0,  "num": 6,  "altura": 1.5 },  # anel médio  (construções)
-		{ "raio": 3.5,  "num": 4,  "altura": 1.5 },  # anel interno (base)
+		{ "raio": 14.0, "num": 8,  "altura": 2 },  # anel externo (caminho inimigos)
 	]
 	for anel in aneis:
 		var num_anel: int = anel["num"]

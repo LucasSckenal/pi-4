@@ -43,9 +43,8 @@ sky_material = SubResource("ProceduralSkyMaterial_vo4i4")
 background_mode = 2
 background_color = Color(0.6229867, 0.12847847, 0.3146791, 1)
 sky = SubResource("Sky_hmeeu")
-ambient_light_source = 2
-ambient_light_color = Color(0.4069436, 5.8719515e-06, 0.2845374, 1)
-ambient_light_energy = 2.5
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 1
 adjustment_enabled = true
 adjustment_brightness = 0.8
@@ -215,7 +214,7 @@ transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, -1.0726824, 38.31988
 transform = Transform3D(0.47576454, 0, 0, 0, -4.371139e-08, -0.56842613, 0, 1, -2.4846695e-08, 0, -0.22699904, -0.6509666)
 mesh = SubResource("PlaneMesh_hmeeu")
 
-[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=1295461056]
+[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=862360045]
 mesh = SubResource("ArrayMesh_6dhr1")
 
 [node name="Floor" type="GridMap" parent="NavigationRegion3D" unique_id=2061120942]
@@ -250,14 +249,6 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 4, 0)
 
-[node name="Decoration" type="GridMap" parent="." unique_id=1977994045]
-transform = Transform3D(0.14592156, 0, 0, 0, 0.11, 0, 0, 0, 0.11, 0, 0, 0)
-mesh_library = ExtResource("2_jiea4")
-data = {
-"cells": PackedInt32Array(262138, 65529, 655410, 196601, 65529, 655410, 196599, 65532, 655410, 262135, 65532, 655410, 196598, 65533, 655410, 196598, 65531, 655410, 327671, 65532, 655410, 393208, 65531, 655410, -524294, 65429, 11, -589763, 65441, 11, -589742, 65442, 11, -589695, 65460, 12, -589665, 65476, 12, -589623, 65503, 12, -589601, 23, 10, -589612, 80, 10, -589642, 131, 10, -589713, 192, 10, -589801, 213, 10, -524358, 173, 10, -524388, 65438, 12, -524445, 65491, 12, -524433, 16, 12, -524418, 75, 12, -524402, 125, 12, 1245026, 66, 1441803, 1245015, 7, 655371, 851802, 65504, 655371, 851828, 95, 655371, 851821, 65462, 655371, 851872, 65425, 655371, 786447, 65407, 655370, 786539, 65429, 655370, 1507366, 65405, 655370, 1572804, 65380, 655370, 1572737, 65410, 655370, 1507553, 65465, 1048586, 1507482, 65439, 1048588, 1507617, 65510, 1048588, 1507622, 60, 1048588, 1507595, 117, 1048588, 1245380, 186, 1048588, -51, 9, 655401, -50, 5, 655401, -51, 2, 655401, -51, 13, 655401, -55, 16, 655401, -65, 8, 1048617, 196560, 65532, 45, 196557, 65531, 45, 196554, 65532, 45, 196551, 65531, 47, 196545, 65533, 47, 196541, 2, 46, 196544, 65527, 46, 786369, 65527, 46, 196571, 65530, 46, 327635, 65532, 786478, 393171, 65527, 1048621, 393172, 65527, 1048621, 393176, 65525, 1048621, 393181, 65524, 1048622, 393175, 65531, 1048623, 131073, 8, 9, 196605, 11, 9, 196601, 8, 1441801, 131101, 65509, 655405, 131105, 65509, 45, 131109, 65509, 46, 131114, 65510, 45, 131120, 65511, 45, 131117, 65510, 45, 327725, 65509, 45, 327731, 65508, 45, 327736, 65507, 46, 327725, 65510, 46, 327744, 65506, 46, 589885, 65503, 46, 589878, 65503, 46, 458820, 65513, 45, 458820, 65520, 45, 458819, 65524, 45, 458816, 65530, 45, 458809, 65531, 46, 458814, 65531, 46, 393268, 65529, 45, -131025, 65527, 45, -65492, 65525, 46, -262107, 65524, 46, -393179, 65531, 46, -393177, 65528, 46, -131039, 65524, 40, -131041, 65515, 1441832, 327681, 65530, 57)
-}
-metadata/_editor_floor_ = Vector3(0, 0, 0)
-
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1369275162 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.86733145, 0.49773103, 0, -0.49773103, 0.86733145, -1.5238237, 5.715177, 9.79834)
 attributes = SubResource("CameraAttributesPractical_1q4q1")
@@ -274,9 +265,10 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="Lava" type="Node3D" parent="." unique_id=418194485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8352566, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Lava" unique_id=351631574]
-transform = Transform3D(2.744082, 0, 0, 0, 0.9974762, 0, 0, 0, 1.9682739, 0.0029073954, -0.33921278, -0.008241653)
+transform = Transform3D(2.744082, 0, 0, 0, 0.9974762, 0, 0, 0, 1.9682739, 0.0029073954, -2.88028, -0.008241653)
 mesh = SubResource("PlaneMesh_s3dhy")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Lava" unique_id=389521544]
