@@ -216,7 +216,7 @@ func _acender_luz_spawner(_onda: int = 0) -> void:
 	add_child(_luz_spawner)
 	_luz_spawner.position = Vector3(0.0, 1.5, 0.0)
 	var tw := create_tween()
-	tw.tween_property(_luz_spawner, "light_energy", 2.5, 1.0) \
+	tw.tween_property(_luz_spawner, "light_energy", 0.5, 1.0) \
 		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
 func _apagar_luz_spawner(_onda: int = 0) -> void:
