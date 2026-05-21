@@ -2,6 +2,8 @@ extends Control
 
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
+var _overlay_escuro: ColorRect = null
+
 # Referências para a interface (Atualizadas para a nova hierarquia sem MarginContainer)
 @onready var btn_jogar          = $CanvasLayer/BtnJogar
 @onready var menu_icones        = $CanvasLayer/HBoxContainer
@@ -12,6 +14,7 @@ extends Control
 
 func _ready():
 	MusicaGlobal.tocar_menu()
+	_criar_overlay_escuro()
 
 	if btn_continuar:
 		var existe_save = GameManager.tem_jogo_salvo()
@@ -168,5 +171,25 @@ func _varrer_malhas_e_aplicar(no_atual: Node, material_shader: ShaderMaterial):
 	for filho in no_atual.get_children():
 		_varrer_malhas_e_aplicar(filho, material_shader)
 
+func _criar_overlay_escuro() -> void:
+	var canvas_layer: Node = get_node_or_null("CanvasLayer")
+	if not canvas_layer:
+		return
+	_overlay_escuro = ColorRect.new()
+	_overlay_escuro.name = "OverlayEscuro"
+	_overlay_escuro.color = Color(0.0, 0.0, 0.0, 0.0)
+	_overlay_escuro.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_overlay_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_overlay_escuro.z_index = -10  # Atrás de todos os botões
+	canvas_layer.add_child(_overlay_escuro)
+	# Fade in suave ao abrir o menu
+	var tw := _overlay_escuro.create_tween()
+	tw.tween_property(_overlay_escuro, "color:a", 0.30, 0.8).set_trans(Tween.TRANS_QUAD)
+
 func _on_btn_personagem_invisivel_pressed() -> void:
+	# Escurece antes de trocar de cena para uma transição mais suave
+	if is_instance_valid(_overlay_escuro):
+		var tw := _overlay_escuro.create_tween()
+		tw.tween_property(_overlay_escuro, "color:a", 0.90, 0.3).set_trans(Tween.TRANS_QUAD)
+		await tw.finished
 	get_tree().change_scene_to_file("res://UI/Menus/menu_customizacao.tscn")

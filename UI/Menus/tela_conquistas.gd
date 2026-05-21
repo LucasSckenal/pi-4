@@ -53,9 +53,9 @@ func _construir_ui():
 
 	_criar_barra_progresso(wrapper, num_ok, total)
 
-	# Grid 2 colunas
+	# Grid: 1 coluna no mobile, 2 no desktop
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 1 if OS.has_feature("mobile") else 2
 	grid.add_theme_constant_override("h_separation", 14)
 	grid.add_theme_constant_override("v_separation", 14)
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL

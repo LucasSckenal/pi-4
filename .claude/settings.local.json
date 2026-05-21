@@ -26,7 +26,11 @@
       "Bash(grep -i \"\\\\.gd$\")",
       "Bash(where python *)",
       "Bash(where python3 *)",
-      "Bash(py --version)"
+      "Bash(py --version)",
+      "Skill(anthropic-skills:xlsx)",
+      "Skill(anthropic-skills:xlsx:*)",
+      "Read(//c/Users/robny/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/104ca62e-b4ce-47a9-93ea-405731c42acc/d8ddbe6e-f217-42ba-8013-ad923325226f/skills/xlsx/**)",
+      "Bash(extract-text \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\Otimizacoes_Pi4.xlsx\")"
     ]
   }
 }

@@ -128,6 +128,8 @@ func configurar_dialogo(texto_completo: String):
 
 # Função limpa apenas para contar história (sem focar no Castelo)
 func mostrar_dialogo(texto: String):
+	if not GameManager.is_tutorial_ativo:
+		return
 	var camera = get_viewport().get_camera_3d()
 	if camera and camera.has_method("reset_zoom_tutorial"):
 		camera.reset_zoom_tutorial()
@@ -153,33 +155,40 @@ func mostrar_dialogo(texto: String):
 
 # As tuas funções originais de foco inalteradas (apenas usam o fundo_escuro)
 func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
+	if not GameManager.is_tutorial_ativo: return
 	if slot_alvo == null: return
 	visible = true
 	fundo_escuro.visible = true
 	configurar_dialogo(texto)
 	alvo_3d_atual = slot_alvo
 	alvo_2d_atual = null
-	
+
+	# Usa polling com verificação de is_tutorial_ativo para o botão pular funcionar
+	var concluido := false
+	var _cb := func(): concluido = true
+
 	if slot_alvo.has_signal("slot_clicado"):
-		await slot_alvo.slot_clicado
+		slot_alvo.slot_clicado.connect(_cb, CONNECT_ONE_SHOT)
 	elif slot_alvo.has_signal("construcao_selecionada"):
-		await slot_alvo.construcao_selecionada
+		slot_alvo.construcao_selecionada.connect(_cb, CONNECT_ONE_SHOT)
 	else:
-		# === SOLUÇÃO DO BUG AQUI ===
-		# Em vez de esperar 3 segundos e pular sozinho, o tutorial vai 
-		# entrar em loop até que a Janela de Upgrade fique visível na tela!
 		var hud = get_tree().get_first_node_in_group("HUD")
 		if hud and hud.upgrade_ui_instance:
 			while not hud.upgrade_ui_instance.visible:
 				if not GameManager.is_tutorial_ativo: break
 				await get_tree().create_timer(0.1).timeout
 		else:
-			# Fallback de segurança apenas se a HUD tiver algum erro grave
-			await get_tree().create_timer(3.0).timeout 
-			
+			await get_tree().create_timer(3.0).timeout
+		concluido = true
+
+	while not concluido:
+		if not GameManager.is_tutorial_ativo: break
+		await get_tree().create_timer(0.1).timeout
+
 	esconder()
 
 func focar_em_ui_2d(botao_alvo: Control, texto: String):
+	if not GameManager.is_tutorial_ativo: return
 	if botao_alvo == null: return
 	visible = true
 	fundo_escuro.visible = true

@@ -18,6 +18,8 @@ var spawning: bool = false
 var pool_normais: Array[PackedScene] = []
 # Boss: primeira cena encontrada nas ondas que seja do tipo BOSS/MINI_BOSS
 var cena_boss: PackedScene = null
+# Conjunto de paths de cenas boss/mini-boss (evita multiplicador_horda duplicar chefes)
+var _cenas_boss: Dictionary = {}
 
 @onready var timer = $TimerSpawn
 @onready var base = get_tree().get_first_node_in_group("Base")
@@ -59,7 +61,9 @@ func _iniciar_noite(_n):
 			if Global.DEBUG_MODE:
 				print("ERRO: Config de inimigo null na onda ", onda_atual)
 			continue
-		var qtd = int(ceil(config.quantidade * mult_horda))
+		# Bosses e mini-bosses nunca recebem mult_horda (evita ceil duplicar chefes)
+		var mult: float = 1.0 if (config.cena != null and _cenas_boss.has(config.cena.resource_path)) else mult_horda
+		var qtd = int(ceil(config.quantidade * mult))
 		for i in range(qtd):
 			fila_inimigos.append(config.cena)
 			fila_hp_mult.append(hp_mult_base)
@@ -116,10 +120,15 @@ func _spawnar_proximo():
 		print(name, " spawnou inimigo. Restam na fila: ", fila_inimigos.size())
 
 func _esperar_limpeza():
-	while get_tree().get_nodes_in_group("inimigos").size() > 0 \
-			or get_tree().get_nodes_in_group("Chefe").size() > 0:
-		await get_tree().create_timer(1.0).timeout
+	# Aguarda o sinal inimigo_morreu em vez de polling a cada 1 s
+	# get_nodes_in_group só é chamado quando um inimigo de facto morre
+	while not _todos_inimigos_mortos():
+		await GameManager.inimigo_morreu
 	_finalizar_onda()
+
+func _todos_inimigos_mortos() -> bool:
+	return get_tree().get_nodes_in_group("inimigos").is_empty() \
+		and get_tree().get_nodes_in_group("Chefe").is_empty()
 
 func _finalizar_onda():
 	if Global.DEBUG_MODE:
@@ -242,6 +251,7 @@ func restaurar_onda_do_save():
 func _construir_pool_procedural() -> void:
 	pool_normais.clear()
 	cena_boss = null
+	_cenas_boss.clear()
 	var vistos: Dictionary = {}
 
 	for onda in ondas:
@@ -261,6 +271,7 @@ func _construir_pool_procedural() -> void:
 			instancia.free()
 
 			if eh_boss:
+				_cenas_boss[chave] = true  # marca para não receber mult_horda
 				if cena_boss == null:
 					cena_boss = config.cena
 			else:

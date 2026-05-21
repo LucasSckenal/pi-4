@@ -263,9 +263,12 @@ func _invocar_tentaculo() -> void:
 
 # Devolve um Vector3 (posição) ou null se nenhum spot for viável.
 func _escolher_posicao_invocacao():
+	# Faz UMA query de grupo e reutiliza — evita 2× get_nodes_in_group por invocação
+	var todas_construcoes: Array = get_tree().get_nodes_in_group("Construcao")
+
 	# 1. Procura construções vivas sem tentáculo nearby
 	var candidatas: Array = []
-	for c in get_tree().get_nodes_in_group("Construcao"):
+	for c in todas_construcoes:
 		if not is_instance_valid(c):
 			continue
 		# Ignora a base (Castelo / Base) — tentáculo só vai de torres/casas/etc
@@ -294,9 +297,15 @@ func _escolher_posicao_invocacao():
 		pos.y = alvo.global_position.y  # mesma altura da construção
 		return pos
 
-	# 2. FALLBACK: nenhuma construção viva — spawn em volta da base
-	var base = get_tree().get_first_node_in_group("Castelo")
-	if not base:
+	# 2. FALLBACK: nenhuma construção viva — reutiliza a query já feita para encontrar a base
+	var base: Node = null
+	for c in todas_construcoes:
+		if is_instance_valid(c) and (c.is_in_group("Castelo") or c.is_in_group("Base")):
+			base = c
+			break
+	if not is_instance_valid(base):
+		base = get_tree().get_first_node_in_group("Castelo")
+	if not is_instance_valid(base):
 		base = get_tree().get_first_node_in_group("Base")
 	if not is_instance_valid(base):
 		return null

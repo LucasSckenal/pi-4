@@ -245,10 +245,9 @@ func _input(event):
 	# Clique fora para cancelar a seleção no mobile (primeiro toque)
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
 		if event.pressed and estado_toque_mobile == 1 and is_instance_valid(bolha_btn):
-			get_tree().create_timer(0.05).timeout.connect(func():
-				if is_instance_valid(bolha_btn) and not bolha_btn.get_global_rect().has_point(event.position):
-					cancelar_selecao()
-			)
+			# Verifica imediatamente (sem create_timer) — o layout já está calculado
+			if not bolha_btn.get_global_rect().has_point(event.position):
+				cancelar_selecao()
 
 func _on_area_input_event(_camera, _event, _position, _normal, _shape_idx):
 	if not pode_construir or is_built or not slot_disponivel or ui_atual:

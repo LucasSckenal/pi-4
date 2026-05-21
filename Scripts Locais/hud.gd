@@ -79,6 +79,8 @@ var _corações: Array = []
 var _corações_atuais: int = -1
 var _pulso_tween: Tween = null
 var _estilo_painel_base: StyleBoxFlat = null   # ref ao StyleBoxFlat do painel de vida
+var _base_node_cache: Node = null              # cache do nó Base (evita get_nodes_in_group por frame)
+var _timer_spawner_hud: float = 0.0            # throttle dos indicadores de spawner (20fps basta)
 var _titulo_base: Label = null                 # ref ao rótulo "Castelo" / nome temático
 
 # ==========================================
@@ -168,7 +170,6 @@ func _ready():
 	
 	# Conecta aos spawners (indicadores de onda)
 	_conectar_spawners()
-	get_tree().create_timer(1.0).timeout.connect(_conectar_spawners)
 	
 	# Conecta às construções (upgrade individual)
 	_conectar_construcoes()
@@ -303,8 +304,9 @@ func animar_bau_abrindo():
 		var tween := create_tween()
 		tween.tween_property(imagem_bau, "scale", Vector2(1.08, 1.08), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tween.tween_property(imagem_bau, "scale", Vector2.ONE, 0.16).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		await get_tree().create_timer(1.0).timeout
-		imagem_bau.texture = _tex_bau_fechado
+		# Não bloqueia o caller com await — troca a textura pelo callback do tween
+		tween.tween_interval(1.0)
+		tween.tween_callback(func(): if is_instance_valid(imagem_bau): imagem_bau.texture = _tex_bau_fechado)
 
 # ==========================================
 # SISTEMA DE UPGRADE POR CARTAS
@@ -565,12 +567,18 @@ func _animar_transicao_ampulheta(indo_para_dia: bool) -> void:
 		tween_fade.tween_property(ampulheta_dia, "modulate:a", 0.0, 0.0)
 		tween_fade.tween_property(ampulheta_noite, "modulate:a", 1.0, 0.0)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	_atualizar_barra_vida_base()
 	_atualizar_posicao_coracoes()
 
 	if menu_upgrade.visible:
 		return
+
+	# Throttle: indicadores de spawner atualizam a 20 fps (imperceptível para UI de seta)
+	_timer_spawner_hud -= delta
+	if _timer_spawner_hud > 0.0:
+		return
+	_timer_spawner_hud = 0.05
 
 	var centro = get_viewport().get_visible_rect().size / 2.0
 
@@ -714,10 +722,13 @@ func _atualizar_posicao_coracoes() -> void:
 	var cam := get_viewport().get_camera_3d()
 	if cam == null:
 		return
-	var bases := get_tree().get_nodes_in_group("Base")
-	if bases.is_empty():
-		return
-	var base_node := bases[0]
+	# Usa cache — get_nodes_in_group é O(N) e não deve rodar todo frame
+	if not is_instance_valid(_base_node_cache):
+		var bases := get_tree().get_nodes_in_group("Base")
+		if bases.is_empty():
+			return
+		_base_node_cache = bases[0]
+	var base_node := _base_node_cache
 	if not is_instance_valid(base_node):
 		return
 

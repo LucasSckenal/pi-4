@@ -14,6 +14,7 @@ signal upgrade_base_aplicado
 signal renda_recolhida(total_ganho) # Para a UI mostrar "+X Moedas" de manhã
 signal game_over
 signal vitoria
+signal inimigo_morreu  ## Emitido por InimigoBase.morrer() — substitui polling de grupo
 
 # ==========================================
 # ESTADO GLOBAL DO JOGO
@@ -255,7 +256,7 @@ func carregar_jogo_salvo_manual() -> bool:
 			recarregando_save = true
 			carregar_fase(fase_atual)
 
-			await get_tree().create_timer(0.1).timeout
+			await get_tree().process_frame  # Barreira de cena — sem timer cria menos objects
 
 			if dados_construcoes_pendentes.size() > 0:
 				await _restaurar_construcoes(dados_construcoes_pendentes)
@@ -341,8 +342,11 @@ func ir_para_proxima_fase() -> void:
 	var proxima := fase_atual + 1
 	if not caminhos_das_fases.has(proxima):
 		# Sem próxima fase — volta ao menu principal
+		limpar_estado_sessao()
 		get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
 		return
+	# Limpa perks, upgrades e nivel_base ANTES de carregar a nova fase
+	limpar_estado_sessao()
 	get_tree().change_scene_to_file(caminhos_das_fases[proxima])
 	await get_tree().tree_changed
 	await get_tree().process_frame
@@ -493,12 +497,11 @@ func get_renda_preview() -> int:
 	if modo_infinito:
 		total += Balanceamento.get_int("modo_infinito_bonus_renda", 3)
 	var bonus_onda = max(1, 6 - onda_atual)
-	for construcao in get_tree().get_nodes_in_group("Construcao"):
+	# Usa grupo "Economia" (apenas construções de renda) em vez de iterar tudo
+	for construcao in get_tree().get_nodes_in_group("Economia"):
 		if not is_instance_valid(construcao): continue
-		if construcao.is_in_group("Base"): continue
 		if construcao.get("is_fantasma"): continue
 		if construcao.get("esta_destruida"): continue
-		if not onda_terminada.is_connected(Callable(construcao, "_pagar_recompensa")): continue
 		if "moedas_por_onda_atual" in construcao:
 			total += construcao.moedas_por_onda_atual + bonus_onda
 		elif "moedas_por_onda" in construcao:

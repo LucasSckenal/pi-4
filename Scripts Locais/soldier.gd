@@ -39,6 +39,11 @@ func _ready():
 	# Aplica balanceamento centralizado (CSV) antes de inicializar a vida
 	_aplicar_balanceamento()
 	vida_atual = vida_maxima
+
+	# Soldado não bloqueia fisicamente o jogador nem os inimigos.
+	# collision_layer = 0  → nenhum outro corpo "bate" nele
+	# collision_mask inalterada → soldado ainda detecta chão/paredes para mover_and_slide
+	collision_layer = 0
 	
 	# --- ADICIONE ESTE BLOCO ---
 	if area_atk.has_node("CollisionShape3D"):

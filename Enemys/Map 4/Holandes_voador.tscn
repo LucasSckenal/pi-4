@@ -54,7 +54,6 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_yqujj")
 tipo_inimigo = 2
 nome_inimigo = "Holandês Voador"
-eh_aereo = true
 usar_video_custom = true
 video_stream = ExtResource("2_eysib")
 vida_maxima = 1800
@@ -75,7 +74,7 @@ status_vida = "MUITO ALTA"
 
 [node name="holandes_voador" parent="." unique_id=753109967 instance=ExtResource("1_cavi6")]
 
-[node name="Skeleton3D" parent="holandes_voador/Armature" parent_id_path=PackedInt32Array(753109967, 777580516) index="0" unique_id=2021992036]
+[node name="Skeleton3D" parent="holandes_voador/Armature" parent_id_path=PackedInt32Array(753109967, 767460638) index="0" unique_id=1067689161]
 bones/0/position = Vector3(1.3513567, 87.87049, 7.117119)
 bones/0/rotation = Quaternion(0.5377473, 0.5101702, 0.63548195, -0.2161409)
 bones/0/scale = Vector3(1.0000001, 1, 1.0000001)
@@ -120,7 +119,7 @@ bones/21/rotation = Quaternion(0.13432366, 0.037462115, -0.022009429, 0.9899846)
 bones/22/rotation = Quaternion(-0.19407284, 0.00071065495, 0.0034657232, 0.98098075)
 bones/23/rotation = Quaternion(0.5700693, -5.0960885e-08, -0.0077467826, 0.8215602)
 
-[node name="char1" parent="holandes_voador/Armature/Skeleton3D" index="0" unique_id=808581029]
+[node name="char1" parent="holandes_voador/Armature/Skeleton3D" index="0" unique_id=1384566601]
 mesh = SubResource("ArrayMesh_ftemn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2037152380]

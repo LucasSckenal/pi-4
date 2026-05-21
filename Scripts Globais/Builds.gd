@@ -61,11 +61,15 @@ float sdStar(in vec2 p, in float r) {
 }
 
 void vertex() {
-	// Billboard cilíndrico para a barra sempre encarar a câmera no eixo Y
+	// Billboard cilíndrico: só gira em torno do Y do mundo — não inclina com a câmera
+	// Isso impede que a barra suba ou suma quando o jogador se aproxima
+	vec3 world_up  = vec3(0.0, 1.0, 0.0);
+	vec3 cam_right = normalize(INV_VIEW_MATRIX[0].xyz);
+	vec3 cam_fwd   = normalize(cross(cam_right, world_up));
 	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
-		vec4(normalize(INV_VIEW_MATRIX[0].xyz), 0.0),
-		vec4(normalize(INV_VIEW_MATRIX[1].xyz), 0.0),
-		vec4(normalize(INV_VIEW_MATRIX[2].xyz), 0.0),
+		vec4(cam_right, 0.0),
+		vec4(world_up,  0.0),
+		vec4(cam_fwd,   0.0),
 		MODEL_MATRIX[3]
 	);
 }
@@ -329,10 +333,6 @@ func _ready():
 		$AreaTransparencia.body_entered.connect(_on_area_transparencia_body_entered)
 		$AreaTransparencia.body_exited.connect(_on_area_transparencia_body_exited)
 	
-	# Notifica a interface sobre a existência desta construção após a inicialização dos grupos
-	for interface_node in get_tree().get_nodes_in_group("Interface"):
-		if interface_node.has_method("_conectar_construcao"):
-			interface_node._conectar_construcao(self)
 	# Notifica a interface sobre a existência desta construção após a inicialização dos grupos
 	for interface_node in get_tree().get_nodes_in_group("Interface"):
 		if interface_node.has_method("_conectar_construcao"):
@@ -978,6 +978,7 @@ func _esconder_malhas_originais(no: Node):
 # DEMAIS FUNÇÕES (MANTIDAS IGUAIS)
 # ==========================================
 func _modo_fantasma():
+	set_process(false)  # Fantasma não precisa de _process — evita custo por frame
 	for child in get_children():
 		_desativar_fantasma(child)
 	if timer_ataque:
@@ -1130,20 +1131,28 @@ func _process(delta):
 		return
 
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
-	inimigos_no_alcance = inimigos_no_alcance.filter(func(inimigo): return is_instance_valid(inimigo))
+	# Purga inimigos inválidos sem alocar array novo (evita filter() GC por frame)
+	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
+		if not is_instance_valid(inimigos_no_alcance[i]):
+			inimigos_no_alcance.remove_at(i)
 	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
 
 func _caldeiron_atacar_area() -> void:
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
-	_inimigos_no_veneno = _inimigos_no_veneno.filter(
-		func(e): return is_instance_valid(e) and not e.get("esta_morto", false))
+	# Purga em-lugar (sem filter() → sem alocação por tick)
+	for i in range(_inimigos_no_veneno.size() - 1, -1, -1):
+		var e = _inimigos_no_veneno[i]
+		if not is_instance_valid(e) or e.get("esta_morto", false):
+			_inimigos_no_veneno.remove_at(i)
 	for inimigo in _inimigos_no_veneno:
 		if inimigo.has_method("receber_dano"):
 			inimigo.receber_dano(dano_base)
 
 func _caldeiron_atacar_area_torre() -> void:
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
-	inimigos_no_alcance = inimigos_no_alcance.filter(func(e): return is_instance_valid(e))
+	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
+		if not is_instance_valid(inimigos_no_alcance[i]):
+			inimigos_no_alcance.remove_at(i)
 	for inimigo in inimigos_no_alcance:
 		if inimigo.has_method("receber_dano"):
 			inimigo.receber_dano(dano_base)

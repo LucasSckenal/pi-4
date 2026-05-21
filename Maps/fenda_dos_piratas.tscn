@@ -414,7 +414,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.286411, -1.2499998, 8.5910
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_nw1gr")])
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1139841382 node_paths=PackedStringArray("player")]
-transform = Transform3D(1, 0, 0, 0, 0.83867055, 0.54463905, 0, -0.54463905, 0.83867055, -1, 7, 22)
+transform = Transform3D(1, 0, 0, 0, 0.83867055, 0.54463905, 0, -0.54463905, 0.83867055, -1, 7, 34.514336)
 script = ExtResource("10_n8yof")
 player = NodePath("../Player")
 

@@ -188,22 +188,22 @@ func atualizar_opcoes():
 		return
 
 	# Ajusta largura do painel e label de instrução conforme o nº de opções
+	# A altura é determinada pelo conteúdo (y = 0) para não ocupar toda a tela
 	var n_opcoes = opcoes.size()
-	var altura_painel := get_viewport_rect().size.y - 20.0
 
 	if n_opcoes == 1:
-		painel_principal.custom_minimum_size = Vector2(340, altura_painel)
+		painel_principal.custom_minimum_size = Vector2(340, 0)
 		instrucao_label.hide()
 		spacer_b.show()
 		spacer_c.hide()
 	elif n_opcoes == 2:
-		painel_principal.custom_minimum_size = Vector2(560, altura_painel)
+		painel_principal.custom_minimum_size = Vector2(560, 0)
 		instrucao_label.text = "Escolha um caminho:"
 		instrucao_label.show()
 		spacer_b.show()
 		spacer_c.show()
 	else:
-		painel_principal.custom_minimum_size = Vector2(720, altura_painel)
+		painel_principal.custom_minimum_size = Vector2(720, 0)
 		instrucao_label.text = "Escolha uma melhoria:"
 		instrucao_label.show()
 		spacer_b.show()

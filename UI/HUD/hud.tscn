@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dg3s442t7ls8l" path="res://Icons/AmpulhetaNoiteBorda.png" id="9_0fpak"]
 [ext_resource type="Texture2D" uid="uid://ct2cevmt2tork" path="res://Assets/UI/BauFechado.png" id="10_bau_fechado"]
 [ext_resource type="Texture2D" uid="uid://cr4w3wgek56kr" path="res://Assets/UI/Ondas.png" id="11_ondas"]
+[ext_resource type="Script" uid="uid://0sy4cthxcih8" path="res://UI/HUD/fps.gd" id="12_4h73s"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_Transparente"]
 
@@ -306,6 +307,12 @@ theme_override_font_sizes/font_size = 30
 text = "DIA"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label" type="Label" parent="InterfacePrincipal" unique_id=611544005]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("12_4h73s")
 
 [node name="ContainerDirecoes" type="Control" parent="." unique_id=1423487210]
 z_index = -1

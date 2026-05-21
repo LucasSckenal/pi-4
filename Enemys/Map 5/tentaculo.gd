@@ -28,6 +28,8 @@ var kraken_pai: Node = null
 var _tempo_sem_alvo: float = 0.0
 # Contador de tempo com alvo mas fora do alcance de ataque
 var _tempo_fora_alcance: float = 0.0
+# Throttle: busca de novo alvo limitada a cada 0.2 s (evita get_nodes_in_group todo frame)
+var _timer_alvo_tentaculo: float = 0.0
 # AnimationPlayer encontrado no modelo (pode ser null se o GLB não tiver animações)
 var _anim_player: AnimationPlayer = null
 # Bloqueio de ataque durante a animação de surgimento (modelo ainda invisível)
@@ -109,7 +111,11 @@ func _physics_process(delta: float) -> void:
 		or ("vida_atual" in alvo_atual and alvo_atual.vida_atual <= 0)
 
 	if alvo_invalido:
-		alvo_atual = procurar_novo_alvo()
+		# Throttle: evita get_nodes_in_group todo frame quando sem alvo
+		_timer_alvo_tentaculo -= delta
+		if _timer_alvo_tentaculo <= 0.0:
+			alvo_atual = procurar_novo_alvo()
+			_timer_alvo_tentaculo = 0.2
 		if alvo_atual == null:
 			_tempo_sem_alvo += delta
 			if _tempo_sem_alvo >= timeout_sem_alvo:

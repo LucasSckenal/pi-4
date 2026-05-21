@@ -8,6 +8,7 @@ const _SAVE_PATH_ANTIGO = "user://save_game.cfg"
 ## Coloque true durante o desenvolvimento para ver os prints de diagnóstico.
 ## Mantenha false em builds de produção.
 const DEBUG_MODE: bool = false
+var _save_count: int = 0  # Contador para throttle do backup (1 backup a cada 5 saves)
 
 # --- VARIÁVEIS DE ESTADO ---
 var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
@@ -125,7 +126,10 @@ func salvar_progresso():
 	if err != OK:
 		push_error("[Global] Falha ao guardar progresso: %d" % err)
 	else:
-		config.save(SAVE_PATH.replace(".cfg", "_backup.cfg"))
+		# Backup a cada 5 saves para não fazer I/O duplo em cada save trivial
+		_save_count += 1
+		if _save_count % 5 == 0:
+			config.save(SAVE_PATH.replace(".cfg", "_backup.cfg"))
 		progresso_salvo.emit()
 
 

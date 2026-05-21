@@ -85,12 +85,58 @@ var tempo_bloqueado: float = 0.0
 var _contador_quedas: int = 0
 var _timer_re_check: float = 0.0
 const RE_CHECK_INTERVALO: float = 0.3
+# Tabela de fallback de ícones — nível de classe evita alocação por chamada
+const _ICONES: Dictionary = {
+	# Mapa 1
+	"Orc":                       "res://Icons/OrcPreview.png",
+	"Abelha":                    "res://Icons/BeePreview.png",
+	"Cogumelão":                 "res://Icons/MushroomPreview.png",
+	"Golem de Musgo Ancestral":  "res://Icons/GolemBossPreview.png",
+	# Mapa 2
+	"Anubis":                    "res://Icons/AnubisPreview.png",
+	"Chacal":                    "res://Icons/ChacalPreview.png",
+	"Genio":                     "res://Icons/GenioPreview.png",
+	"Litch":                     "res://Icons/LichPreview.png",
+	"Faraó":                     "res://Icons/FaraoPreview.png",
+	# Mapa 3
+	"Bruxa":                     "res://Icons/BruxaPreview.png",
+	"Bilbo":                     "res://Icons/FrankPreview.png",
+	"Abóbora":                   "res://Icons/AboboraPreview.png",
+	"Cavaleiro":                 "res://Icons/CavaleiroPreview.png",
+	# Mapa 4
+	"Bombardeiro":               "res://Icons/BombardeiroPreview.png",
+	"Holandês Voador":           "res://Icons/HolandesPreview.png",
+	"Monstro Peixe":             "res://Icons/PeixePreview.png",
+	"Tubarão":                   "res://Icons/TubaraoPreview.png",
+	# Mapa 5
+	"Alexa astronauta":          "res://Icons/AlexaPreview.png",
+	"Linigena astronauta":       "res://Icons/AlienPreview.png",
+	"Sapao Astronauta":          "res://Icons/SapoPreview.png",
+	"Fernando o flamingo":       "res://Icons/FlamingoPreview.png",
+	"Cosmic Kraken":             "res://Icons/AlienPreview.png",
+	"Tutuba":                    "res://Icons/VermelinPreview.png",
+	# Mapa 6
+	"Dragao Inicial":            "res://Icons/DragaoBebePreview.png",
+	"Dragao Evoluido":           "res://Icons/DragaoJovemPreview.png",
+	"Dragao Final":              "res://Icons/DragaoAdultoPreview.png",
+	"Lava golem":                "res://Icons/FireGolemPreview.png",
+}
 var _multiplicador_gelo: float = 1.0
 var _gelo_timer: float = 0.0
 var _gelo_ativo: bool = false
 var _fogo_ativo: bool = false
 var _veneno_ativo: bool = false
 var _fogo_ticks_restantes: int = 0
+
+# ── Otimizações de runtime ─────────────────────────────────────────────
+var _fogo_dano_tick: int = 0          # dano por tick de queimadura (sem timers)
+var _fogo_timer_acum: float = 0.0     # acumulador de tempo entre ticks
+var _mat_flash: StandardMaterial3D = null  # material de hit-flash pré-criado
+var _meshes_modelo: Array = []         # cache de MeshInstance3D do modelo
+var _flash_tween: Tween = null         # tween do flash (para poder matar o anterior)
+var _cache_construcoes_aereo: Array = []   # cache da lista de construções (aéreos)
+var _timer_cache_construcoes: float = 0.0  # throttle do cache de construções
+var _mat_dither: ShaderMaterial = null     # material de dithering pré-criado (transparência)
 
 @export_category("Limites do Mapa")
 @export var limite_queda_y: float = -20.0
@@ -149,7 +195,7 @@ func _ready():
 		# Avoidance RVO — impede que os inimigos se empilhem uns nos outros
 		nav_agent.avoidance_enabled        = true
 		nav_agent.radius                   = 0.1
-		nav_agent.neighbor_distance        = 0.2
+		nav_agent.neighbor_distance        = 1.5  # Era 0.2 — muito apertado, causava empilhamento
 		nav_agent.time_horizon_agents      = 0.3
 		nav_agent.time_horizon_obstacles   = 0.0
 		nav_agent.max_speed                = 10.0
@@ -157,8 +203,24 @@ func _ready():
 		nav_agent.velocity_computed.connect(_on_navigation_agent_3d_velocity_computed)
 
 	_configurar_sensor_transparencia()
-		
-	if tipo_inimigo == Categoria.BOSS:
+
+	# ── Pré-cria caches de runtime ──────────────────────────────────────────
+	# Material de hit-flash reutilizado em cada receber_dano (sem new() por hit)
+	_mat_flash = StandardMaterial3D.new()
+	_mat_flash.transparency             = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_mat_flash.emission_enabled         = true
+	_mat_flash.emission                 = Color.WHITE
+	_mat_flash.emission_energy_multiplier = 2.0
+	_mat_flash.albedo_color             = Color(1, 1, 1, 0)
+	# Lista de meshes do modelo (evita find_children() em receber_dano e _atualizar_tints)
+	if modelo_3d:
+		_meshes_modelo = modelo_3d.find_children("*", "MeshInstance3D")
+
+	# posicao_de_spawn: o spawner seta global_position APÓS _ready(), então usamos
+	# call_deferred para capturar o valor correto no próximo frame
+	(func(): posicao_de_spawn = global_position).call_deferred()
+
+	if tipo_inimigo == Categoria.BOSS and not Global.inimigos_descobertos.has(nome_inimigo):
 		await _tocar_cutscene()
 		
 	elif tipo_inimigo == Categoria.MINI_BOSS:
@@ -189,41 +251,6 @@ func _obter_icone_aviso() -> Texture2D:
 	if icone != null:
 		return icone
 	# Tabela de fallback — cobre todos os inimigos que não têm o export setado no editor
-	const _ICONES: Dictionary = {
-		# Mapa 1
-		"Orc":                       "res://Icons/OrcPreview.png",
-		"Abelha":                    "res://Icons/BeePreview.png",
-		"Cogumelão":                 "res://Icons/MushroomPreview.png",
-		"Golem de Musgo Ancestral":  "res://Icons/GolemBossPreview.png",
-		# Mapa 2
-		"Anubis":                    "res://Icons/AnubisPreview.png",
-		"Chacal":                    "res://Icons/ChacalPreview.png",
-		"Genio":                     "res://Icons/GenioPreview.png",
-		"Litch":                     "res://Icons/LichPreview.png",
-		"Faraó":                     "res://Icons/FaraoPreview.png",
-		# Mapa 3
-		"Bruxa":                     "res://Icons/BruxaPreview.png",
-		"Bilbo":                     "res://Icons/FrankPreview.png",
-		"Abóbora":                   "res://Icons/AboboraPreview.png",
-		"Cavaleiro":                 "res://Icons/CavaleiroPreview.png",
-		# Mapa 4
-		"Bombardeiro":               "res://Icons/BombardeiroPreview.png",
-		"Holandês Voador":           "res://Icons/HolandesPreview.png",
-		"Monstro Peixe":             "res://Icons/PeixePreview.png",
-		"Tubarão":                   "res://Icons/TubaraoPreview.png",
-		# Mapa 5
-		"Alexa astronauta":          "res://Icons/AlexaPreview.png",
-		"Linigena astronauta":       "res://Icons/AlienPreview.png",
-		"Sapao Astronauta":          "res://Icons/SapoPreview.png",
-		"Fernando o flamingo":       "res://Icons/FlamingoPreview.png",
-		"Cosmic Kraken":             "res://Icons/AlienPreview.png",
-		"Tutuba":                    "res://Icons/VermelinPreview.png",
-		# Mapa 6
-		"Dragao Inicial":            "res://Icons/DragaoBebePreview.png",
-		"Dragao Evoluido":           "res://Icons/DragaoJovemPreview.png",
-		"Dragao Final":              "res://Icons/DragaoAdultoPreview.png",
-		"Lava golem":                "res://Icons/FireGolemPreview.png",
-	}
 	if _ICONES.has(nome_inimigo):
 		var caminho: String = _ICONES[nome_inimigo]
 		if ResourceLoader.exists(caminho):
@@ -238,6 +265,17 @@ func _physics_process(delta):
 			_multiplicador_gelo = 1.0
 			_gelo_ativo = false
 			_atualizar_tints()
+
+	# Queimadura via acumulador (sem create_timer por tick)
+	if _fogo_ativo and _fogo_ticks_restantes > 0:
+		_fogo_timer_acum += delta
+		if _fogo_timer_acum >= 1.0:
+			_fogo_timer_acum -= 1.0
+			receber_dano(_fogo_dano_tick, "fogo")
+			_fogo_ticks_restantes -= 1
+			if _fogo_ticks_restantes <= 0:
+				_fogo_ativo = false
+				_atualizar_tints()
 
 	if global_position.y < limite_queda_y:
 		_contador_quedas += 1
@@ -261,8 +299,11 @@ func _physics_process(delta):
 		
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
 	   (alvo_atual.get("esta_destruida") == true):
-		alvo_atual = procurar_novo_alvo()
-		_timer_re_check = 0.0
+		# Throttle: evita 40 get_nodes_in_group simultâneos quando um alvo morre
+		_timer_re_check -= delta
+		if _timer_re_check <= 0.0:
+			alvo_atual = procurar_novo_alvo()
+			_timer_re_check = RE_CHECK_INTERVALO
 	elif alvo_atual.is_in_group("Castelo") or alvo_atual.is_in_group("Base"):
 		_timer_re_check -= delta
 		if _timer_re_check <= 0.0:
@@ -272,9 +313,6 @@ func _physics_process(delta):
 			   not candidato.is_in_group("Castelo") and \
 			   not candidato.is_in_group("Base"):
 				alvo_atual = candidato
-
-	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
-		alvo_atual = procurar_novo_alvo()
 
 	# ── Inimigos aéreos — voam direto ao alvo, ignoram NavMesh ───────────────
 	if eh_aereo:
@@ -290,14 +328,19 @@ func _physics_process(delta):
 
 		# Construções têm prioridade sobre Base/Castelo — sem limite de raio
 		# (aéreos voam até qualquer ponto do mapa)
+		# Actualiza o cache de construções a cada 0.5 s (evita get_nodes_in_group todo frame)
+		_timer_cache_construcoes -= delta
+		if _timer_cache_construcoes <= 0.0:
+			_timer_cache_construcoes = 1.5  # Era 0.5 — aumentado para reduzir queries com muitos aéreos
+			_cache_construcoes_aereo = get_tree().get_nodes_in_group("Construcao")
+
 		var alvo_eh_base = alvo_atual == null \
 			or alvo_atual.is_in_group("Base") \
 			or alvo_atual.is_in_group("Castelo")
 		if alvo_eh_base:
-			var construcoes = get_tree().get_nodes_in_group("Construcao")
 			var melhor_c: Node = null
 			var menor_d := INF
-			for c in construcoes:
+			for c in _cache_construcoes_aereo:
 				if not is_instance_valid(c): continue
 				if "esta_destruida" in c and c.esta_destruida: continue
 				if "vida_atual" in c and c.vida_atual <= 0: continue
@@ -500,33 +543,23 @@ func receber_dano(qtd, origem = "torre"):
 		som_hit.finished.connect(som_hit.queue_free)
 	
 	if modelo_3d:
+		# Bump de escala no impacto
 		var tw = create_tween()
 		tw.set_parallel(true)
 		tw.tween_property(modelo_3d, "scale", escala_original * 1.2, 0.1)
 		tw.chain().tween_property(modelo_3d, "scale", escala_original, 0.1)
-	
-	if vida_atual <= 0: morrer()
-	
-	if modelo_3d:
-		var tw = create_tween()
-		tw.set_parallel(true)
-		tw.tween_property(modelo_3d, "scale", escala_original * 1.2, 0.1)
-		tw.chain().tween_property(modelo_3d, "scale", escala_original, 0.1)
-		
-		for child in modelo_3d.find_children("*", "MeshInstance3D"):
-			var overlay = StandardMaterial3D.new()
-			overlay.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-			overlay.albedo_color = Color(1, 1, 1, 0)
-			overlay.emission_enabled = true
-			overlay.emission = Color.WHITE
-			overlay.emission_energy_multiplier = 2.0
-			child.material_overlay = overlay
-			
-			var tw_color = create_tween()
-			tw_color.tween_property(overlay, "albedo_color:a", 0.6, 0.05)
-			tw_color.tween_property(overlay, "albedo_color:a", 0.0, 0.15)
-			tw_color.tween_callback(func(): if is_instance_valid(self): _atualizar_tints())
-	
+		# Flash de hit com material pré-criado (sem find_children nem StandardMaterial3D.new() por hit)
+		if _mat_flash:
+			if _flash_tween and _flash_tween.is_valid():
+				_flash_tween.kill()
+			_mat_flash.albedo_color = Color(1, 1, 1, 0.6)
+			for child in _meshes_modelo:
+				if is_instance_valid(child):
+					child.material_overlay = _mat_flash
+			_flash_tween = create_tween()
+			_flash_tween.tween_property(_mat_flash, "albedo_color:a", 0.0, 0.15)
+			_flash_tween.tween_callback(func(): if is_instance_valid(self): _atualizar_tints())
+
 	if vida_atual <= 0: morrer()
 	
 func invocar_minions():
@@ -587,6 +620,7 @@ func morrer():
 	if nav_agent:
 		nav_agent.set_velocity(Vector3.ZERO)
 	remove_from_group("inimigos")
+	GameManager.inimigo_morreu.emit()  # Notifica spawners (substitui polling de grupo)
 
 	if GameManager.modo_infinito:
 		var drop: int = 1
@@ -836,19 +870,13 @@ func aplicar_gelo() -> void:
 		_atualizar_tints()
 
 func iniciar_queimadura(dano_tick: int) -> void:
+	# Reinicia o acumulador — o _physics_process aplica os ticks sem create_timer
+	_fogo_dano_tick       = dano_tick
 	_fogo_ticks_restantes = 3
+	_fogo_timer_acum      = 0.0
 	if not _fogo_ativo:
 		_fogo_ativo = true
 		_atualizar_tints()
-	for i in range(3):
-		get_tree().create_timer(float(i + 1) * 1.0).timeout.connect(func():
-			if not is_instance_valid(self) or esta_morto: return
-			receber_dano(dano_tick)
-			_fogo_ticks_restantes -= 1
-			if _fogo_ticks_restantes <= 0:
-				_fogo_ativo = false
-				_atualizar_tints()
-		)
 
 func iniciar_veneno() -> void:
 	if not _veneno_ativo:
@@ -875,27 +903,27 @@ func _atualizar_tints() -> void:
 			mat.albedo_color = Color(0.25, 0.65, 1.0, 0.35)
 		else:
 			mat.albedo_color = Color(0.2, 0.9, 0.2, 0.40)
-	for mesh in raiz.find_children("*", "MeshInstance3D", true, false):
-		if mesh is MeshInstance3D:
+	# Usa cache de meshes do _ready() — sem find_children() por mudança de status
+	for mesh in _meshes_modelo:
+		if is_instance_valid(mesh):
 			mesh.material_overlay = mat
 
 # ==========================================
 func _set_transparencia(no: Node, valor: float):
 	if no is MeshInstance3D:
 		if valor > 0.0:
-			var mat_dither = ShaderMaterial.new()
-			mat_dither.shader = preload("res://Shaders/dithering_effect.gdshader")
-			
-			var mat_original = no.get_active_material(0)
-			if mat_original and "albedo_texture" in mat_original:
-				var tex = mat_original.albedo_texture
-				mat_dither.set_shader_parameter("albedo_texture", tex)
-			
-			mat_dither.set_shader_parameter("alpha_threshold", valor)
-			no.material_override = mat_dither
+			# Cria o ShaderMaterial uma vez, reutiliza nas chamadas seguintes
+			if _mat_dither == null:
+				_mat_dither = ShaderMaterial.new()
+				_mat_dither.shader = preload("res://Shaders/dithering_effect.gdshader")
+				var mat_original = no.get_active_material(0)
+				if mat_original and "albedo_texture" in mat_original:
+					_mat_dither.set_shader_parameter("albedo_texture", mat_original.albedo_texture)
+			_mat_dither.set_shader_parameter("alpha_threshold", valor)
+			no.material_override = _mat_dither
 		else:
 			no.material_override = null
-				
+
 	for filho in no.get_children():
 		_set_transparencia(filho, valor)
 

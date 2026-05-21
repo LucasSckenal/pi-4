@@ -45,6 +45,8 @@ var lasers: Array = []
 var _dano_buffer: Dictionary = {}
 # Tempo contínuo focado em cada inimigo — controla o ramp-up (instance_id -> float)
 var _tempo_no_alvo: Dictionary = {}
+# Throttle: actualiza alvos a cada 0.15 s em vez de todo frame
+var _timer_alvo: float = 0.0
 
 # ==========================================
 # INICIALIZAÇÃO
@@ -100,8 +102,11 @@ func _process(delta: float) -> void:
 			if is_instance_valid(torre_pai) and "alcance_atual" in torre_pai:
 				alcance = torre_pai.alcance_atual
 
-	# 1. Atualiza a lista de alvos em alcance
-	_atualizar_alvos()
+	# 1. Atualiza a lista de alvos em alcance (throttle: 0.15 s — evita get_nodes_in_group todo frame)
+	_timer_alvo -= delta
+	if _timer_alvo <= 0.0:
+		_timer_alvo = 0.15
+		_atualizar_alvos()
 
 	# 2. Gira a torre na direção do alvo principal
 	if alvos_atuais.size() > 0 and is_instance_valid(alvos_atuais[0]) and torre_completa:

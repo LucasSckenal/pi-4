@@ -121,6 +121,8 @@ func get_string(chave: String, padrao: String = "") -> String:
 # sem precisar reiniciar.
 # ==========================================
 func _input(event: InputEvent) -> void:
+	if not OS.is_debug_build():  # Hot-reload só em debug — não polui builds de produção
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_F5:
 			carregar()
