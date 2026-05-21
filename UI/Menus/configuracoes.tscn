@@ -401,33 +401,33 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 24
 
-[node name="Esquerda" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=560897253]
-custom_minimum_size = Vector2(320, 0)
+[node name="ColunaVideo" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=560897253]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 20
 
-[node name="CardVideo" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda" unique_id=1779848577]
+[node name="CardVideo" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo" unique_id=1779848577]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("Card")
 
-[node name="MarginVideo" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo" unique_id=728005174]
+[node name="MarginVideo" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo" unique_id=728005174]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxVideo" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo" unique_id=175230866]
+[node name="VBoxVideo" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo" unique_id=175230866]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="LabelVideo" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=1721820391]
+[node name="LabelVideo" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=1721820391]
 layout_mode = 2
 text = "VÍDEO"
 label_settings = SubResource("Texto")
 
-[node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=2029256183]
+[node name="CheckTelaCheia" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=2029256183]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -440,7 +440,7 @@ theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
 text = "Tela Cheia"
 
-[node name="CheckMudo" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=231025745]
+[node name="CheckMudo" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=231025745]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -453,7 +453,7 @@ theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
 text = "Silenciar Jogo"
 
-[node name="CheckHUD" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=758748905]
+[node name="CheckHUD" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=758748905]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -464,9 +464,9 @@ theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
 theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
-text = "HUD Customizado Temático"
+text = "HUD Customizado"
 
-[node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo" unique_id=312847561]
+[node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=312847561]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 button_pressed = true
@@ -480,36 +480,78 @@ theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
 text = "Tremor de Tela"
 
-[node name="CardAudio" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda" unique_id=1781028163]
+[node name="LabelQualidade" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=451928374]
 layout_mode = 2
+text = "Qualidade 3D"
+label_settings = SubResource("Texto")
+
+[node name="HBoxQualidade" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=451928375]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="BtnQualidadeBaixa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=451928376]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
+theme_override_styles/hover = SubResource("BotaoHover")
+text = "Baixa"
+
+[node name="BtnQualidadeMedia" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=451928377]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
+theme_override_styles/hover = SubResource("BotaoHover")
+text = "Média"
+
+[node name="BtnQualidadeAlta" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=451928378]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
+theme_override_styles/hover = SubResource("BotaoHover")
+text = "Alta"
+
+[node name="ColunaAudio" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=1781028162]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 20
+
+[node name="CardAudio" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio" unique_id=1781028163]
+layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("Card")
 
-[node name="MarginAudio" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio" unique_id=1960079308]
+[node name="MarginAudio" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio" unique_id=1960079308]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxAudio" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio" unique_id=1057357857]
+[node name="VBoxAudio" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio" unique_id=1057357857]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="LabelAudio" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=1094221308]
+[node name="LabelAudio" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=1094221308]
 layout_mode = 2
 text = "ÁUDIO"
 label_settings = SubResource("Texto")
 
-[node name="LabelMaster" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=1613640201]
+[node name="LabelMaster" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=1613640201]
 layout_mode = 2
 text = "Volume Geral"
 label_settings = SubResource("Texto")
 
-[node name="HBoxMaster" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=793861580]
+[node name="HBoxMaster" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=793861580]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="SliderMaster" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster" unique_id=691526318]
+[node name="SliderMaster" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster" unique_id=691526318]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -521,23 +563,23 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="LabelPctMaster" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster" unique_id=1029280259]
+[node name="LabelPctMaster" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster" unique_id=1029280259]
 custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 text = "100%"
 label_settings = SubResource("ValorPorcentagem")
 horizontal_alignment = 2
 
-[node name="LabelMusica" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=2118007105]
+[node name="LabelMusica" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=2118007105]
 layout_mode = 2
 text = "Volume da Música"
 label_settings = SubResource("Texto")
 
-[node name="HBoxMusica" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=1359008262]
+[node name="HBoxMusica" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=1359008262]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="SliderMusica" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica" unique_id=709940078]
+[node name="SliderMusica" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica" unique_id=709940078]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -549,23 +591,23 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="LabelPctMusica" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica" unique_id=867193054]
+[node name="LabelPctMusica" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica" unique_id=867193054]
 custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 text = "100%"
 label_settings = SubResource("ValorPorcentagem")
 horizontal_alignment = 2
 
-[node name="LabelVoz" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=826029544]
+[node name="LabelVoz" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=826029544]
 layout_mode = 2
 text = "Volume da Voz"
 label_settings = SubResource("Texto")
 
-[node name="HBoxVoz" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio" unique_id=86493928]
+[node name="HBoxVoz" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=86493928]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="SliderVoz" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz" unique_id=2080570088]
+[node name="SliderVoz" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz" unique_id=2080570088]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -577,58 +619,59 @@ max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="LabelPctVoz" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz" unique_id=1364407951]
+[node name="LabelPctVoz" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz" unique_id=1364407951]
 custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 text = "100%"
 label_settings = SubResource("ValorPorcentagem")
 horizontal_alignment = 2
 
-[node name="Direita" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=834620862]
-custom_minimum_size = Vector2(250, 0)
+[node name="ColunaCursor" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=834620862]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 18
 
-[node name="CardCursor" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita" unique_id=374672860]
+[node name="CardCursor" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor" unique_id=374672860]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_styles/panel = SubResource("Card")
 
-[node name="MarginCursor" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor" unique_id=399237742]
+[node name="MarginCursor" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor" unique_id=399237742]
 layout_mode = 2
 theme_override_constants/margin_left = 18
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 16
 
-[node name="VBoxCursor" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor" unique_id=1604529998]
+[node name="VBoxCursor" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor" unique_id=1604529998]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="LabelCursor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor" unique_id=233112666]
+[node name="LabelCursor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=233112666]
 layout_mode = 2
 text = "CURSOR"
 label_settings = SubResource("Texto")
 
-[node name="PreviewArea" type="CenterContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor" unique_id=369816053]
+[node name="PreviewArea" type="CenterContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=369816053]
 custom_minimum_size = Vector2(0, 170)
 layout_mode = 2
 
-[node name="PreviewCursor" type="TextureRect" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/PreviewArea" unique_id=910473302]
+[node name="PreviewCursor" type="TextureRect" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/PreviewArea" unique_id=910473302]
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 texture = ExtResource("2_cursor")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TextoTamanho" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor" unique_id=989581775]
+[node name="TextoTamanho" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=989581775]
 layout_mode = 2
 text = "Tamanho do Cursor"
 label_settings = SubResource("Texto")
 
-[node name="HBoxTamanho" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor" unique_id=1355665164]
+[node name="HBoxTamanho" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=1355665164]
 layout_mode = 2
 
-[node name="BtnPequeno" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=397218502]
+[node name="BtnPequeno" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=397218502]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
@@ -636,7 +679,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
 text = "Pequeno"
 
-[node name="BtnMedio" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=2006163299]
+[node name="BtnMedio" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=2006163299]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
@@ -644,7 +687,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
 text = "Medio"
 
-[node name="BtnGrande" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=1654076982]
+[node name="BtnGrande" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=1654076982]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
@@ -652,20 +695,20 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
 text = "Grande"
 
-[node name="TextoCor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor" unique_id=164284013]
+[node name="TextoCor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=164284013]
 layout_mode = 2
 text = "Cor do Cursor"
 label_settings = SubResource("Texto")
 
-[node name="VBoxCores" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor" unique_id=2052953349]
+[node name="VBoxCores" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=2052953349]
 layout_mode = 2
 theme_override_constants/separation = 21
 
-[node name="HBoxCores" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores" unique_id=10325016]
+[node name="HBoxCores" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores" unique_id=10325016]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="BtnBranco" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1057477151]
+[node name="BtnBranco" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1057477151]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -673,7 +716,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_v3dhh")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_m0lqh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3onyl")
 
-[node name="BtnCiano" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=776854515]
+[node name="BtnCiano" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=776854515]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -681,7 +724,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_1acin")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pa8gg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_uqgq3")
 
-[node name="BtnVermelho" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1175908982]
+[node name="BtnVermelho" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1175908982]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -689,11 +732,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_i7sfl")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_r1puj")
 theme_override_styles/hover = SubResource("StyleBoxFlat_4q6f4")
 
-[node name="HBoxCores2" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores" unique_id=61489822]
+[node name="HBoxCores2" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores" unique_id=61489822]
 layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="BtnRosa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1158616299]
+[node name="BtnRosa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1158616299]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -701,7 +744,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_kew2u")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_7q47h")
 theme_override_styles/hover = SubResource("StyleBoxFlat_5d7kw")
 
-[node name="BtnGold" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1356528822]
+[node name="BtnGold" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1356528822]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -709,7 +752,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_5aece")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_8bgb5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w7881")
 
-[node name="BtnRoxo" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=131356615]
+[node name="BtnRoxo" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=131356615]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -963,22 +1006,25 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
 text = "Fechar"
 
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
-[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster" to="." method="_on_h_slider_value_changed"]
-[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica" to="." method="_on_slider_musica_changed"]
-[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Esquerda/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz" to="." method="_on_slider_voz_changed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnPequeno" to="." method="_on_btn_pequeno_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnMedio" to="." method="_on_btn_medio_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnGrande" to="." method="_on_btn_grande_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnBranco" to="." method="_on_btn_branco_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnCiano" to="." method="_on_btn_ciano_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnVermelho" to="." method="_on_btn_vermelho_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnRosa" to="." method="_on_btn_rosa_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnGold" to="." method="_on_btn_gold_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/Direita/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnRoxo" to="." method="_on_btn_roxo_pressed"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/BtnQualidadeBaixa" to="." method="_on_btn_qualidade_baixa_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/BtnQualidadeMedia" to="." method="_on_btn_qualidade_media_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/BtnQualidadeAlta" to="." method="_on_btn_qualidade_alta_pressed"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster" to="." method="_on_h_slider_value_changed"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica" to="." method="_on_slider_musica_changed"]
+[connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz" to="." method="_on_slider_voz_changed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnPequeno" to="." method="_on_btn_pequeno_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnMedio" to="." method="_on_btn_medio_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnGrande" to="." method="_on_btn_grande_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnBranco" to="." method="_on_btn_branco_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnCiano" to="." method="_on_btn_ciano_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnVermelho" to="." method="_on_btn_vermelho_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnRosa" to="." method="_on_btn_rosa_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnGold" to="." method="_on_btn_gold_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnRoxo" to="." method="_on_btn_roxo_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Rodape/BtnVoltar" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Rodape/BtnEquipe" to="." method="_on_btn_equipe_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Rodape/BtnSalvar" to="." method="_on_btn_salvar_pressed"]

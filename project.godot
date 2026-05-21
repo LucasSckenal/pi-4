@@ -30,9 +30,11 @@ CursorManager="*uid://brm0aa2i116s4"
 
 [display]
 
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/window_width_override=1280
 window/size/window_height_override=720
+window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="uid://bc3kbt4jk3cy8"
 
 [file_customization]

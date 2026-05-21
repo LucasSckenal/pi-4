@@ -406,7 +406,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9270208, -0.11176777, 21.65
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_ruefr"), SubResource("Resource_rf658"), SubResource("Resource_n8yof"), SubResource("Resource_ay0o5"), SubResource("Resource_ixa2r"), SubResource("Resource_obiuy")])
 
 [node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 instance=ExtResource("7_tigay")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.348438, -0.4743364, 9.137367)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.004326, 0.028158903, 9.678971)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResource("Resource_vv0he"), SubResource("Resource_oddva"), SubResource("Resource_47k5u"), SubResource("Resource_cw4hp"), SubResource("Resource_o6hc4")])
 
 [node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 instance=ExtResource("7_tigay")]
@@ -421,7 +421,7 @@ player = NodePath("../Player")
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
 transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
 
-[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
+[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=85292747]
 mesh = SubResource("ArrayMesh_colh8")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]

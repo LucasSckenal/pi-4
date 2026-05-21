@@ -54,7 +54,6 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_yqujj")
 tipo_inimigo = 2
 nome_inimigo = "Holandês Voador"
-eh_aereo = true
 usar_video_custom = true
 video_stream = ExtResource("2_eysib")
 vida_maxima = 1800

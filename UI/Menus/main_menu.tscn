@@ -210,7 +210,6 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_g1p8d")
 theme_override_styles/hover = SubResource("StyleBoxTexture_mn8lt")
 icon = ExtResource("7_wjhi1")
 icon_alignment = 1
-expand_icon = true
 
 [node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=1038868166]
 custom_minimum_size = Vector2(60, 60)
@@ -229,7 +228,6 @@ text = "   "
 icon = ExtResource("8_k4aug")
 alignment = 0
 icon_alignment = 1
-expand_icon = true
 
 [node name="BtnSair" type="Button" parent="CanvasLayer" unique_id=1721980212]
 custom_minimum_size = Vector2(60, 60)
@@ -257,7 +255,6 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_mn8lt")
 icon = ExtResource("9_g1p8d")
 alignment = 0
 icon_alignment = 1
-expand_icon = true
 metadata/_edit_use_anchors_ = true
 
 [node name="BtnContinuar" type="Button" parent="CanvasLayer" unique_id=1419933665]
@@ -285,7 +282,6 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_nsbyk")
 theme_override_styles/hover = SubResource("StyleBoxTexture_4em55")
 text = "Continuar"
 icon = ExtResource("5_lvola")
-expand_icon = true
 
 [node name="Titulo" type="Sprite2D" parent="CanvasLayer" unique_id=1118383611]
 position = Vector2(425.00003, 136)

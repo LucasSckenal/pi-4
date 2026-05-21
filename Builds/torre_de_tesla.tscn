@@ -12,10 +12,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_50qre"]
 render_priority = 0
 shader = ExtResource("3_ms3iq")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xcqba"]
 resource_name = "material_0"

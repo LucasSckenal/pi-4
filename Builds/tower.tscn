@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ino2raplk5re" path="res://Builds/torre_de_tesla.tscn" id="10_tesla"]
 [ext_resource type="PackedScene" uid="uid://cmvpoyu8c7a33" path="res://Cenas Locais/raio_eletrico.tscn" id="11_raio"]
 [ext_resource type="PackedScene" uid="uid://cbfqv1hx2i3y4" path="res://Cenas Locais/bala_de_canhao.tscn" id="12_bala"]
-[ext_resource type="PackedScene" path="res://Map3/Caldeirao.glb" id="13_cald"]
+[ext_resource type="PackedScene" uid="uid://c8m5dnt2liguh" path="res://Map3/Caldeirao.glb" id="13_cald"]
 [ext_resource type="Texture2D" uid="uid://rw362l207let" path="res://Assets/Construcoes/ConstrucaoScifi.png" id="14_scifi"]
 
 [sub_resource type="Resource" id="Resource_qny8x"]
@@ -66,11 +66,11 @@ metadata/_custom_type_script = "uid://cj7setbrccrxh"
 [sub_resource type="Resource" id="Resource_tesla"]
 script = ExtResource("4_772tj")
 nome = "Tesla"
+icone = ExtResource("14_scifi")
 fase_minima = 5
 fase_maxima = 5
 nivel_base_minimo = 1
 tipo_ataque = "chain_lightning"
-icone = ExtResource("14_scifi")
 custos = Array[int]([7])
 dano_por_nivel = Array[int]([15])
 velocidade_por_nivel = Array[float]([0.3])
@@ -81,10 +81,8 @@ metadata/_custom_type_script = "uid://cj7setbrccrxh"
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("8_ix80u")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h7m0m"]
 resource_name = "colormap"

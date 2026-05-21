@@ -10,13 +10,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m5xot"]
 render_priority = 0
 shader = ExtResource("6_pin27")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yamjs"]
 resource_name = "colormap"
@@ -64,14 +59,14 @@ radius = 0.6071644
 
 [node name="building-castle2" unique_id=1806970837 groups=["Base", "Castelo"] instance=ExtResource("1_xtwgx")]
 script = ExtResource("2_07545")
-nome_construcao = "Castelo"
 tipo = 5
 vida_maxima = 600
 upgrade_custos = Array[int]([5, 7])
 upgrade_vida_por_nivel = Array[int]([500, 750])
 modelos_por_nivel = Array[PackedScene]([ExtResource("3_lgj1g"), ExtResource("4_3oq81")])
+nome_construcao = "Castelo"
 
-[node name="building-castle" parent="." index="0" unique_id=768355470]
+[node name="building-castle" parent="." index="0" unique_id=579859222]
 mesh = SubResource("ArrayMesh_d1utd")
 
 [node name="AreaClique" type="Area3D" parent="." index="1" unique_id=440299272]
