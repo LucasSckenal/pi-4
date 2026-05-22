@@ -40,11 +40,10 @@ func _explodir(alvo_direto: Node3D) -> void:
 
 	var pos_explosao := global_position
 	var processados: Array = [alvo_direto]
-	for grupo in ["inimigos", "Inimigos"]:
-		for inimigo in get_tree().get_nodes_in_group(grupo):
-			if not is_instance_valid(inimigo): continue
-			if inimigo in processados: continue
-			processados.append(inimigo)
+	for inimigo in get_tree().get_nodes_in_group("inimigos"):
+		if not is_instance_valid(inimigo): continue
+		if inimigo in processados: continue
+		processados.append(inimigo)
 			if pos_explosao.distance_to(inimigo.global_position) > raio_explosao:
 				continue
 			var dano_splash: int = dano

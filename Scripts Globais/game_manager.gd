@@ -392,23 +392,50 @@ func get_todas_construcoes_da_fase() -> Array:
 			})
 	return resultado
 
+## Cache de nomes por resource_path — evita instantiate+free repetido
+var _cache_nomes_cenas: Dictionary = {}
+
 ## Devolve o nome de exibição de uma cena de construção.
 ## Usa nome_construcao se definido (e diferente do default "Construção");
 ## caso contrário, infere pelo caminho do ficheiro.
 ## Usado pelo menu radial e pelo conselheiro para garantir nomes consistentes.
 func nome_para_cena(cena: PackedScene) -> String:
+	var path: String = cena.resource_path
+	if _cache_nomes_cenas.has(path):
+		return _cache_nomes_cenas[path]
 	var inst = cena.instantiate()
 	var raw: String = str(inst.get("nome_construcao")) if "nome_construcao" in inst else ""
 	inst.free()
+	var resultado: String
 	if raw != "" and raw != "Construção":
-		return raw
-	var p: String = cena.resource_path.to_lower()
+		resultado = raw
+	else:
+		resultado = _nome_por_path(path)
+	_cache_nomes_cenas[path] = resultado
+	return resultado
+
+## Infere o tipo inteiro (0-5) de uma cena pelo caminho do recurso.
+## Centraliza a lógica que antes estava duplicada em ConselheiroIA e aqui.
+## Retorna -1 se não reconhecido.
+func tipo_por_cena(cena: PackedScene) -> int:
+	return _tipo_por_path(cena.resource_path.to_lower())
+
+func _tipo_por_path(p: String) -> int:
+	if "tower" in p or "torre" in p or "morteiro" in p or "sniper" in p: return 0
+	if "mina" in p: return 1
+	if "house" in p or "casa" in p: return 2
+	if "mill" in p or "moinho" in p: return 3
+	if "quartel" in p: return 4
+	return -1
+
+func _nome_por_path(path: String) -> String:
+	var p := path.to_lower()
 	if "tower" in p or "torre" in p or "morteiro" in p or "sniper" in p: return "Torre"
 	if "mina" in p: return "Mina"
 	if "house" in p or "casa" in p: return "Casa"
 	if "mill" in p or "moinho" in p: return "Moinho"
 	if "quartel" in p: return "Quartel"
-	return cena.resource_path.get_file().get_basename().capitalize()
+	return path.get_file().get_basename().capitalize()
 
 # ==========================================
 # CICLO DIA / NOITE E ECONOMIA
@@ -435,8 +462,7 @@ func iniciar_noite():
 	# Salva ANTES da noite começar — garante que todas as construções
 	# do jogador estão no arquivo. Assim ao carregar/reiniciar a noite
 	# elas são restauradas corretamente, mesmo que sejam destruídas.
-	if not modo_infinito:
-		salvar_jogo()
+	salvar_jogo()
 
 	noite_iniciada.emit(onda_atual)
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
@@ -762,6 +788,11 @@ func salvar_jogo():
 	config.set_value("sessao", "dano_inflamavel", dano_inflamavel)
 	config.set_value("sessao", "bonus_espinho", bonus_espinho)
 	config.set_value("sessao", "bonus_dano_chefe", bonus_dano_chefe)
+	config.set_value("sessao", "modo_infinito", modo_infinito)
+
+	# Salva os upgrades já escolhidos pelos caminhos de recurso para restaurar o baralho filtrado
+	var paths_upgrades: Array = upgrades_escolhidos.map(func(u): return u.resource_path)
+	config.set_value("sessao", "upgrades_escolhidos_paths", paths_upgrades)
 
 	# Recolhe todas as construções do grupo canônico "Construcao"
 	var lista_construcoes: Array = []
@@ -816,6 +847,16 @@ func carregar_jogo() -> bool:
 	dano_inflamavel               = config.get_value("sessao", "dano_inflamavel", 0)
 	bonus_espinho                 = config.get_value("sessao", "bonus_espinho", 0)
 	bonus_dano_chefe              = config.get_value("sessao", "bonus_dano_chefe", 0)
+	modo_infinito                 = config.get_value("sessao", "modo_infinito", false)
+
+	# Restaura upgrades já escolhidos para que o baralho filtrado continue correto
+	var paths_ups: Array = config.get_value("sessao", "upgrades_escolhidos_paths", [])
+	upgrades_escolhidos.clear()
+	for path in paths_ups:
+		for u in baralho_upgrades:
+			if u.resource_path == path:
+				upgrades_escolhidos.append(u)
+				break
 
 	dados_construcoes_pendentes = config.get_value("construcoes", "lista", [])
 
@@ -850,6 +891,7 @@ func _migrar_save_json() -> bool:
 	dano_inflamavel               = dados_save.get("dano_inflamavel", 0)
 	bonus_espinho                 = dados_save.get("bonus_espinho", 0)
 	bonus_dano_chefe              = dados_save.get("bonus_dano_chefe", 0)
+	modo_infinito                 = dados_save.get("modo_infinito", false)
 	dados_construcoes_pendentes   = dados_save.get("construcoes", [])
 
 	get_tree().call_group("Interface", "atualizar_moedas")

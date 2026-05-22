@@ -81,6 +81,11 @@ func _ready():
 	get_tree().root.call_deferred("add_child", canvas_topo)
 	call_deferred("reparent", canvas_topo)
 
+	# Painel adapta ao conteúdo — não força largura fixa
+	painel_principal.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	painel_principal.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
+	painel_principal.custom_minimum_size   = Vector2(0, 0)
+
 	botao_fechar.pressed.connect(fechar)
 	botao_fechar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	botao_fechar.custom_minimum_size = Vector2(0, 58)
@@ -124,9 +129,9 @@ func abrir(construcao: Node):
 		botao_vender.hide()
 	else:
 		botao_vender.show()
-		var valor = 0
-		if "custo_moedas" in construcao_atual:
-			valor = int(float(construcao_atual.custo_moedas) / 2.0)
+		# Usa get_valor_venda() que inclui construção + upgrades pagos
+		var valor: int = construcao_atual.get_valor_venda() if construcao_atual.has_method("get_valor_venda") \
+			else int(float(construcao_atual.get("custo_moedas", 0)) / 2.0)
 		botao_vender.text = "VENDER (+" + str(valor) + ")"
 
 	atualizar_status_atuais()
@@ -248,7 +253,7 @@ func atualizar_opcoes():
 
 	if opcoes.size() == 0:
 		instrucao_label.hide()
-		painel_principal.custom_minimum_size.x = 460
+		painel_principal.custom_minimum_size = Vector2(320, 0)
 		var label_max = Label.new()
 		label_max.text = "NÍVEL MÁXIMO ALCANÇADO"
 		label_max.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -259,23 +264,20 @@ func atualizar_opcoes():
 		opcoes_container.add_child(label_max)
 		return
 
-	# Ajusta largura do painel e label de instrução conforme o nº de opções
-	# A altura é determinada pelo conteúdo (y = 0) para não ocupar toda a tela
+	# Painel se adapta ao conteúdo — o tamanho é determinado pelos cards filhos
 	var n_opcoes = opcoes.size()
+	painel_principal.custom_minimum_size = Vector2(0, 0)
 
 	if n_opcoes == 1:
-		painel_principal.custom_minimum_size = Vector2(460, 0)
 		instrucao_label.hide()
 		spacer_b.show()
 		spacer_c.hide()
 	elif n_opcoes == 2:
-		painel_principal.custom_minimum_size = Vector2(700, 0)
 		instrucao_label.text = "Escolha um caminho:"
 		instrucao_label.show()
 		spacer_b.show()
 		spacer_c.show()
 	else:
-		painel_principal.custom_minimum_size = Vector2(880, 0)
 		instrucao_label.text = "Escolha uma melhoria:"
 		instrucao_label.show()
 		spacer_b.show()
@@ -292,9 +294,9 @@ func atualizar_opcoes():
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(280, 295)
-			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			btn.size_flags_vertical   = Control.SIZE_EXPAND_FILL
+			btn.custom_minimum_size = Vector2(280, 370)
+			btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			btn.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 			opcoes_container.add_child(btn)
 
 			if btn.has_method("configurar"):

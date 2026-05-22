@@ -162,29 +162,28 @@ func fechar_ui():
 func construir(cena: PackedScene) -> bool:
 	if is_built:
 		return false
-	
-	var temp_instancia = cena.instantiate()
-	var custo_final = GameManager.obter_custo_com_desconto(temp_instancia.custo_moedas)
-	temp_instancia.queue_free()
-	
-	if GameManager.gastar_moedas(custo_final):
-		parar_destaque()
-		var nova_const = cena.instantiate()
-		add_child(nova_const)
-		nova_const.global_position = global_position
-		nova_const.is_fantasma = false  # Se suas construções usarem essa variável
-		is_built = true
-		
-		# Esconde os elementos do slot em vez de apagar (para poder reaproveitar depois)
-		if base_mesh: base_mesh.hide()
-		if canvas_mobile: canvas_mobile.hide() 
-		
-		# NOVO: Se a construção for vendida/destruída, reativa o slot!
-		nova_const.tree_exited.connect(reativar_slot)
-		
-		fechar_ui()
-		return true
-	return false
+
+	# Instancia uma única vez — reutiliza para construir ou descarta se sem moedas
+	var nova_const = cena.instantiate()
+	var custo_final = GameManager.obter_custo_com_desconto(nova_const.custo_moedas)
+
+	if not GameManager.gastar_moedas(custo_final):
+		nova_const.free()
+		return false
+
+	parar_destaque()
+	add_child(nova_const)
+	nova_const.global_position = global_position
+	nova_const.is_fantasma = false
+	is_built = true
+
+	if base_mesh: base_mesh.hide()
+	if canvas_mobile: canvas_mobile.hide()
+
+	nova_const.tree_exited.connect(reativar_slot)
+
+	fechar_ui()
+	return true
 
 # ==========================================
 # NOVO: REATIVAÇÃO DO SLOT APÓS VENDA

@@ -1995,21 +1995,27 @@ func _atualizar_segundo_next_pass(no: Node, ativo: bool) -> void:
 # ==========================================
 # SISTEMA DE VENDA
 # ==========================================
+
+## Retorna o valor de venda: metade do total investido (construção + upgrades pagos).
+func get_valor_venda() -> int:
+	var total: int = custo_moedas
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		for i in range(mini(nivel_atual, path.custos.size())):
+			total += path.custos[i]
+	elif not tem_paths:
+		for i in range(mini(nivel_atual, upgrade_custos.size())):
+			total += upgrade_custos[i]
+	return total / 2
+
 func vender_construcao():
 	# SISTEMA DE PROTEÇÃO: Impede vender a base principal
 	if tipo == TipoConstrucao.BASE:
 		if Global.DEBUG_MODE:
 			print("Operação cancelada: A Base não pode ser vendida!")
 		return
-	
-	# Calcula o retorno (metade do custo)
-	@warning_ignore("integer_division")
-	var valor_de_venda: int = custo_moedas / 2
-	
-	# Entrega o dinheiro usando a função nova (que já atualiza a HUD)
-	GameManager.adicionar_moedas(valor_de_venda)
-	
-	# Remove a construção
+
+	GameManager.adicionar_moedas(get_valor_venda())
 	queue_free()
 
 # ==========================================
