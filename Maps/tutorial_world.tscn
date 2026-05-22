@@ -646,10 +646,6 @@ conquista_fim_tutorial = ExtResource("2_gtwgk")
 offset_top = -220.0
 
 [node name="BotaoPular" parent="TutorialManager" index="3" unique_id=2055384221]
-offset_left = -160.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 40.0
 grow_horizontal = 0
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_l2f7a")]
