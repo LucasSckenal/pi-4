@@ -4,6 +4,7 @@ const ICON_TROFEU   = preload("res://Assets/Icons/Trofeu.png")
 const ICON_MEDALHA  = preload("res://Assets/Icons/Medalha.png")
 const ICON_ESPADA   = preload("res://Assets/Icons/Espada.png")
 const ICON_CADEADO  = preload("res://Assets/Icons/Cadeado.png")
+const ICON_CHAPEU   = preload("res://Assets/Icons/Chapeu.png")
 
 var banco_conquistas: Array[ConquistaData] = []
 
@@ -275,10 +276,11 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 			rrow.add_child(rlbl)
 
 			if tem_chapeu:
-				var b := Label.new()
-				b.text = "Chapéu"
-				b.add_theme_font_size_override("font_size", 13)
-				b.add_theme_color_override("font_color", Color(0.85, 0.72, 0.30))
+				var b := TextureRect.new()
+				b.texture = ICON_CHAPEU
+				b.custom_minimum_size = Vector2(16, 16)
+				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				rrow.add_child(b)
 			if tem_arma:

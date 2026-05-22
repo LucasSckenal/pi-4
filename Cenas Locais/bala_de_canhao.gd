@@ -44,16 +44,16 @@ func _explodir(alvo_direto: Node3D) -> void:
 		if not is_instance_valid(inimigo): continue
 		if inimigo in processados: continue
 		processados.append(inimigo)
-			if pos_explosao.distance_to(inimigo.global_position) > raio_explosao:
-				continue
-			var dano_splash: int = dano
-			if GameManager.bonus_dano_chefe > 0 and inimigo.is_in_group("Chefe"):
-				dano_splash += GameManager.bonus_dano_chefe
-			if inimigo.has_method("receber_dano"):
-				inimigo.receber_dano(dano_splash)
-			_tentar_aplicar_gelo(inimigo)
-			if GameManager.dano_inflamavel > 0:
-				_aplicar_queimadura(inimigo)
+		if pos_explosao.distance_to(inimigo.global_position) > raio_explosao:
+			continue
+		var dano_splash: int = dano
+		if GameManager.bonus_dano_chefe > 0 and inimigo.is_in_group("Chefe"):
+			dano_splash += GameManager.bonus_dano_chefe
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_splash)
+		_tentar_aplicar_gelo(inimigo)
+		if GameManager.dano_inflamavel > 0:
+			_aplicar_queimadura(inimigo)
 
 	queue_free()
 

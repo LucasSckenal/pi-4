@@ -190,9 +190,15 @@ func bloquear(motivo: String) -> void:
 	var style_base = get_theme_stylebox("normal").duplicate()
 	add_theme_stylebox_override("disabled", style_base)
 
-	var overlay = ColorRect.new()
+	var overlay = Panel.new()
 	overlay.name = "LockOverlay"
-	overlay.color = Color(0, 0, 0, 0.68)
+	var overlay_st := StyleBoxFlat.new()
+	overlay_st.bg_color = Color(0, 0, 0, 0.68)
+	overlay_st.corner_radius_top_left     = 12
+	overlay_st.corner_radius_top_right    = 12
+	overlay_st.corner_radius_bottom_left  = 12
+	overlay_st.corner_radius_bottom_right = 12
+	overlay.add_theme_stylebox_override("panel", overlay_st)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)

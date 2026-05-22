@@ -131,7 +131,7 @@ func abrir(construcao: Node):
 		botao_vender.show()
 		# Usa get_valor_venda() que inclui construção + upgrades pagos
 		var valor: int = construcao_atual.get_valor_venda() if construcao_atual.has_method("get_valor_venda") \
-			else int(float(construcao_atual.get("custo_moedas", 0)) / 2.0)
+			else (int(float(construcao_atual.get("custo_moedas")) / 2.0) if "custo_moedas" in construcao_atual else 0)
 		botao_vender.text = "VENDER (+" + str(valor) + ")"
 
 	atualizar_status_atuais()

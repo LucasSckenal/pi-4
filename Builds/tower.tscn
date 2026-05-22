@@ -46,7 +46,7 @@ dano_por_nivel = Array[int]([25])
 velocidade_por_nivel = Array[float]([-1.5])
 alcance_por_nivel = Array[float]([0.0])
 modelos_por_nivel = Array[PackedScene]([ExtResource("13_cald")])
-descricoes = Array[String](["☠️ Área de veneno", "⚡ Dano contínuo", "🧪 Envenena inimigos"])
+descricoes = Array[String](["Área de veneno", "Dano contínuo", "Envenena inimigos"])
 metadata/_custom_type_script = "uid://cj7setbrccrxh"
 
 [sub_resource type="Resource" id="Resource_tdfogo"]

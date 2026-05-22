@@ -160,7 +160,7 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_Transparente")
 [node name="LabelMoedas" type="Label" parent="InterfacePrincipal/MarginDireita/VBoxDireita/FundoMoedas" unique_id=1015318735]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "💰 0"
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 

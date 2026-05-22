@@ -148,6 +148,24 @@ func _ready():
 	if container_cartas != null:
 		container_cartas.mouse_filter = Control.MOUSE_FILTER_PASS
 	
+	# Substitui o emoji 💰 pelo ícone PNG real dentro do FundoMoedas
+	if label_moedas != null:
+		var fundo := label_moedas.get_parent()
+		fundo.remove_child(label_moedas)
+		var hbox_moedas := HBoxContainer.new()
+		hbox_moedas.add_theme_constant_override("separation", 6)
+		hbox_moedas.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		hbox_moedas.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
+		var ic_moedas := TextureRect.new()
+		ic_moedas.texture = _ICON_MOEDAS
+		ic_moedas.custom_minimum_size = Vector2(22, 22)
+		ic_moedas.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		ic_moedas.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ic_moedas.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hbox_moedas.add_child(ic_moedas)
+		hbox_moedas.add_child(label_moedas)
+		fundo.add_child(hbox_moedas)
+
 	atualizar_moedas()
 	_criar_label_renda_preview()
 	if label_onda:
