@@ -5,6 +5,8 @@ extends CanvasLayer
 
 const _ScriptPainelConselheiro = preload("res://UI/HUD/painel_conselheiro.gd")
 const _CenaMenuPausa = preload("res://UI/Menus/menu_pausa.tscn")
+const _ICON_CORACAO = preload("res://Assets/Icons/Coracao.png")
+const _ICON_MOEDAS  = preload("res://Assets/Icons/Moedas.png")
 
 # Texturas activas — trocadas por _kit_textura() em aplicar_tema_hud()
 var _tex_bau_fechado: Texture2D = preload("res://Assets/UI/BauFechado.png")
@@ -295,7 +297,7 @@ func _atualizar_renda_preview() -> void:
 
 func atualizar_moedas():
 	if label_moedas != null:
-		label_moedas.text = "🪙 " + str(GameManager.moedas)
+		label_moedas.text = str(GameManager.moedas)
 	_atualizar_renda_preview()
 
 func animar_bau_abrindo():
@@ -664,12 +666,14 @@ func _criar_barra_vida_base() -> void:
 
 	_corações = []
 	for i in range(5):
-		var lbl := Label.new()
-		lbl.text = "❤️"
-		lbl.add_theme_font_size_override("font_size", 28)
-		lbl.pivot_offset = Vector2(14.0, 16.0)
-		hbox.add_child(lbl)
-		_corações.append(lbl)
+		var tr := TextureRect.new()
+		tr.texture = _ICON_CORACAO
+		tr.custom_minimum_size = Vector2(28, 28)
+		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.pivot_offset = Vector2(14.0, 14.0)
+		hbox.add_child(tr)
+		_corações.append(tr)
 
 	_painel_vida_base = panel
 
@@ -698,22 +702,22 @@ func _atualizar_barra_vida_base() -> void:
 		_pulso_tween = null
 	# Atualiza cada coração com animação quando perde
 	for i in range(5):
-		var lbl: Label = _corações[i]
+		var tr: TextureRect = _corações[i]
 		var era_cheio := i < _corações_atuais if _corações_atuais >= 0 else true
 		var esta_cheio := i < cheios
-		lbl.text = "❤️" if esta_cheio else "🖤"
+		tr.modulate = Color(1.0, 0.22, 0.22, 1.0) if esta_cheio else Color(0.18, 0.18, 0.18, 0.6)
 		if era_cheio and not esta_cheio:
 			# Animação de "quebra" no coração perdido
 			var tw := create_tween()
-			tw.tween_property(lbl, "scale", Vector2(1.6, 1.6), 0.07).set_trans(Tween.TRANS_BACK)
-			tw.tween_property(lbl, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BOUNCE)
+			tw.tween_property(tr, "scale", Vector2(1.6, 1.6), 0.07).set_trans(Tween.TRANS_BACK)
+			tw.tween_property(tr, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BOUNCE)
 	_corações_atuais = cheios
 	# Pulso urgente quando sobra só 1 coração
 	if cheios == 1:
 		_pulso_tween = create_tween().set_loops()
-		var lbl: Label = _corações[0]
-		_pulso_tween.tween_property(lbl, "scale", Vector2(1.3, 1.3), 0.38).set_trans(Tween.TRANS_SINE)
-		_pulso_tween.tween_property(lbl, "scale", Vector2(1.0, 1.0), 0.38).set_trans(Tween.TRANS_SINE)
+		var tr: TextureRect = _corações[0]
+		_pulso_tween.tween_property(tr, "scale", Vector2(1.3, 1.3), 0.38).set_trans(Tween.TRANS_SINE)
+		_pulso_tween.tween_property(tr, "scale", Vector2(1.0, 1.0), 0.38).set_trans(Tween.TRANS_SINE)
 
 # Projeta a posição 3D da base para a tela e reposiciona o painel de corações
 func _atualizar_posicao_coracoes() -> void:
@@ -830,20 +834,37 @@ func _on_game_over_hud():
 func _mostrar_moedas_flutuante(total: int) -> void:
 	if label_moedas == null:
 		return
+	# HBox: [ícone Moedas] [+X]
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 5)
+	hbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var ic := TextureRect.new()
+	ic.texture = _ICON_MOEDAS
+	ic.custom_minimum_size = Vector2(24, 24)
+	ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hbox.add_child(ic)
+
 	var lbl := Label.new()
-	lbl.text = "+%d 🪙" % total
+	lbl.text = "+%d" % total
 	lbl.add_theme_font_size_override("font_size", 22)
 	lbl.add_theme_color_override("font_color", Color(1.0, 0.88, 0.20))
 	lbl.add_theme_color_override("font_outline_color", Color.BLACK)
 	lbl.add_theme_constant_override("outline_size", 4)
+	lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hbox.add_child(lbl)
+
 	var base_pos: Vector2 = label_moedas.get_global_rect().get_center()
-	lbl.position = base_pos + Vector2(-30, 0)
-	add_child(lbl)
+	hbox.position = base_pos + Vector2(-36, -12)
+	add_child(hbox)
 	var tw := create_tween()
-	tw.tween_property(lbl, "position:y", lbl.position.y - 70, 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tw.parallel().tween_property(lbl, "modulate:a", 0.0, 1.0).set_delay(0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	tw.tween_callback(lbl.queue_free)
+	tw.tween_property(hbox, "position:y", hbox.position.y - 70, 1.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.parallel().tween_property(hbox, "modulate:a", 0.0, 1.0).set_delay(0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tw.tween_callback(hbox.queue_free)
 
 # ==========================================
 # CONFIRMAÇÃO VISUAL DE SAVE

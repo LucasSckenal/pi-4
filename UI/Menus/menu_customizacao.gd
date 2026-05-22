@@ -48,7 +48,7 @@ func _ready():
 func atualizar_info_estrelas():
 	var total = Global.obter_total_estrelas()
 	if label_estrelas:
-		label_estrelas.text = "⭐ %d/18" % total
+		label_estrelas.text = "%d/18 estrelas" % total
 
 # --- LÓGICA 3D (Spawning e Rotação) ---
 

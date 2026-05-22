@@ -19,8 +19,8 @@ func _ready():
 func mostrar_novo_inimigo(nome: String, dica: String, icone: Texture2D, vel_desc: String, hp_desc: String):
 	nome_inimigo_label.text = nome.to_upper()
 	dica_texto.text         = dica
-	vel_info.text           = "⚡ Vel: " + vel_desc
-	vida_info.text          = "❤️ HP: "  + hp_desc
+	vel_info.text           = "Vel: " + vel_desc
+	vida_info.text          = "HP: "  + hp_desc
 
 	icone_rect.texture = icone   # null é aceite — TextureRect simplesmente fica em branco
 

@@ -52,8 +52,12 @@ func abrir(numero_fase: int) -> void:
 	aviso_bloqueado.visible = not tem_3_estrelas
 	if tem_3_estrelas:
 		btn_infinito.text = "∞  MODO INFINITO"
+		btn_infinito.icon = null
 	else:
-		btn_infinito.text = "🔒  MODO INFINITO"
+		btn_infinito.text = "  MODO INFINITO"
+		btn_infinito.icon = load("res://Assets/Icons/Cadeado.png")
+		btn_infinito.add_theme_constant_override("icon_max_width", 38)
+		btn_infinito.expand_icon = false
 
 	_animar_entrada()
 

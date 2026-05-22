@@ -2,6 +2,19 @@ extends Control
 
 signal fechado
 
+const ICON_CORACAO = preload("res://Assets/Icons/Coracao.png")
+const ICON_ESPADA  = preload("res://Assets/Icons/Espada.png")
+const ICON_VELOZ   = preload("res://Assets/Icons/Veloz.png")
+const ICON_ALVO    = preload("res://Assets/Icons/Alvo.png")
+const ICON_MOEDAS  = preload("res://Assets/Icons/Moedas.png")
+const ICON_ESCUDO  = preload("res://Assets/Icons/Escudo.png")
+const ICON_CRANIO  = preload("res://Assets/Icons/Cranio.png")
+const ICON_ESTRELA = preload("res://Assets/Icons/Estrela.png")
+const ICON_LENTO   = preload("res://Assets/Icons/Lento.png")
+const ICON_VELOZ2  = preload("res://Assets/Icons/Veloz.png")
+const ICON_CHAVE   = preload("res://Assets/Icons/ChaveInglesa.png")
+const ICON_BRILHO  = preload("res://Assets/Icons/Brilho.png")
+
 @export var cena_opcao_button: PackedScene
 
 # ==========================================
@@ -26,10 +39,41 @@ signal fechado
 var construcao_atual: Node = null
 var _sec_desbloqueios: Control = null
 
+func _sb(bg: Color, borda: Color, esp: int, raio: int) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	if esp > 0:
+		st.border_color = borda
+		st.set_border_width_all(esp)
+	st.corner_radius_top_left     = raio
+	st.corner_radius_top_right    = raio
+	st.corner_radius_bottom_left  = raio
+	st.corner_radius_bottom_right = raio
+	return st
+
 func _ready():
 	hide()
 	fundo_escuro.modulate.a = 0
 	painel_principal.scale = Vector2.ZERO
+
+	# ── Visual do projeto: fundo escuro + borda dourada ─────────────────
+	var st_painel := _sb(Color(0.10, 0.07, 0.04, 0.98), Color(0.55, 0.42, 0.18), 2, 14)
+	st_painel.content_margin_left   = 20
+	st_painel.content_margin_right  = 20
+	st_painel.content_margin_top    = 16
+	st_painel.content_margin_bottom = 16
+	painel_principal.add_theme_stylebox_override("panel", st_painel)
+
+	# Título dourado
+	titulo_header.add_theme_color_override("font_color", Color(1.0, 0.85, 0.40))
+	titulo_header.add_theme_color_override("font_outline_color", Color.BLACK)
+	titulo_header.add_theme_constant_override("outline_size", 3)
+	titulo_header.add_theme_font_size_override("font_size", 26)
+	titulo_header.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+	# Label instrução
+	instrucao_label.add_theme_color_override("font_color", Color(0.75, 0.68, 0.50))
+	instrucao_label.add_theme_font_size_override("font_size", 17)
 
 	# Encapsula em CanvasLayer de nível máximo para sobreposição absoluta.
 	var canvas_topo = CanvasLayer.new()
@@ -39,10 +83,20 @@ func _ready():
 
 	botao_fechar.pressed.connect(fechar)
 	botao_fechar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	botao_fechar.custom_minimum_size = Vector2(0, 58)
+	botao_fechar.add_theme_font_size_override("font_size", 20)
+	botao_fechar.add_theme_stylebox_override("normal",  _sb(Color(0.62, 0.10, 0.10), Color(0,0,0,0), 0, 8))
+	botao_fechar.add_theme_stylebox_override("hover",   _sb(Color(0.80, 0.14, 0.14), Color(0,0,0,0), 0, 8))
+	botao_fechar.add_theme_stylebox_override("pressed", _sb(Color(0.45, 0.07, 0.07), Color(0,0,0,0), 0, 8))
 
 	if botao_vender:
 		botao_vender.pressed.connect(_on_botao_vender_pressed)
 		botao_vender.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		botao_vender.custom_minimum_size = Vector2(0, 58)
+		botao_vender.add_theme_font_size_override("font_size", 20)
+		botao_vender.add_theme_stylebox_override("normal",  _sb(Color(0.12, 0.52, 0.18), Color(0,0,0,0), 0, 8))
+		botao_vender.add_theme_stylebox_override("hover",   _sb(Color(0.16, 0.68, 0.24), Color(0,0,0,0), 0, 8))
+		botao_vender.add_theme_stylebox_override("pressed", _sb(Color(0.08, 0.38, 0.12), Color(0,0,0,0), 0, 8))
 
 func set_cena_opcao_button(cena: PackedScene):
 	if cena != null:
@@ -73,7 +127,7 @@ func abrir(construcao: Node):
 		var valor = 0
 		if "custo_moedas" in construcao_atual:
 			valor = int(float(construcao_atual.custo_moedas) / 2.0)
-		botao_vender.text = "💰 VENDER (+" + str(valor) + ")"
+		botao_vender.text = "VENDER (+" + str(valor) + ")"
 
 	atualizar_status_atuais()
 	atualizar_opcoes()
@@ -112,30 +166,30 @@ func atualizar_status_atuais():
 
 	var tipo_check = construcao_atual.get("tipo") if "tipo" in construcao_atual else -1
 	if "vida_maxima" in construcao_atual and tipo_check != 5:
-		atributos.append({"icone": "❤️", "nome": "Vida"})
+		atributos.append({"icone": ICON_CORACAO, "nome": "Vida"})
 
 	if "tipo" in construcao_atual:
 		var tipo = construcao_atual.tipo
 		if tipo == 0:
-			atributos.append({"icone": "⚔️", "nome": "Dano"})
-			atributos.append({"icone": "⚡", "nome": "Velocidade"})
-			atributos.append({"icone": "🎯", "nome": "Alcance"})
+			atributos.append({"icone": ICON_ESPADA,  "nome": "Dano"})
+			atributos.append({"icone": ICON_VELOZ,   "nome": "Velocidade"})
+			atributos.append({"icone": ICON_ALVO,    "nome": "Alcance"})
 		elif tipo == 1 or tipo == 2 or tipo == 3:
-			atributos.append({"icone": "💰", "nome": "Ouro/Onda"})
+			atributos.append({"icone": ICON_MOEDAS,  "nome": "Ouro/Onda"})
 		elif tipo == 4:
-			atributos.append({"icone": "🛡️", "nome": "Soldados"})
+			atributos.append({"icone": ICON_ESCUDO,  "nome": "Soldados"})
 		elif tipo == 5:
 			pass
 		elif tipo == 6:
-			atributos.append({"icone": "☠️", "nome": "Veneno"})
+			atributos.append({"icone": ICON_CRANIO,  "nome": "Veneno"})
 
 	for attr in atributos:
-		var pill = _criar_pill(attr["icone"] + "  " + attr["nome"])
+		var pill = _criar_pill(attr["icone"], attr["nome"])
 		status_container.add_child(pill)
 
 	status_container.visible = atributos.size() > 0
 
-func _criar_pill(texto: String) -> PanelContainer:
+func _criar_pill(icone: Texture2D, texto: String) -> PanelContainer:
 	var pill = PanelContainer.new()
 	var style = StyleBoxFlat.new()
 	style.bg_color    = Color(0.17, 0.19, 0.27, 1)
@@ -148,17 +202,33 @@ func _criar_pill(texto: String) -> PanelContainer:
 	style.corner_radius_top_right    = 6
 	style.corner_radius_bottom_right = 6
 	style.corner_radius_bottom_left  = 6
-	style.content_margin_left   = 10
-	style.content_margin_right  = 10
-	style.content_margin_top    = 4
-	style.content_margin_bottom = 4
+	style.content_margin_left   = 14
+	style.content_margin_right  = 14
+	style.content_margin_top    = 8
+	style.content_margin_bottom = 8
 	pill.add_theme_stylebox_override("panel", style)
+
+	var hbox = HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 8)
+	pill.add_child(hbox)
+
+	if icone != null:
+		var tr = TextureRect.new()
+		tr.texture = icone
+		tr.custom_minimum_size = Vector2(22, 22)
+		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hbox.add_child(tr)
 
 	var lbl = Label.new()
 	lbl.text = texto
-	lbl.add_theme_font_size_override("font_size", 16)
-	lbl.add_theme_color_override("font_color", Color(0.72, 0.76, 0.90, 1))
-	pill.add_child(lbl)
+	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_color_override("font_color", Color(0.82, 0.86, 1.0, 1))
+	lbl.add_theme_color_override("font_outline_color", Color.BLACK)
+	lbl.add_theme_constant_override("outline_size", 2)
+	lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox.add_child(lbl)
 	return pill
 
 func atualizar_opcoes():
@@ -178,12 +248,14 @@ func atualizar_opcoes():
 
 	if opcoes.size() == 0:
 		instrucao_label.hide()
-		painel_principal.custom_minimum_size.x = 360
+		painel_principal.custom_minimum_size.x = 460
 		var label_max = Label.new()
-		label_max.text = "🌟 NÍVEL MÁXIMO ALCANÇADO 🌟"
+		label_max.text = "NÍVEL MÁXIMO ALCANÇADO"
 		label_max.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label_max.add_theme_color_override("font_color", Color(0.78, 0.52, 0.08, 1))
-		label_max.add_theme_font_size_override("font_size", 24)
+		label_max.add_theme_color_override("font_color", Color(1.0, 0.82, 0.20, 1))
+		label_max.add_theme_color_override("font_outline_color", Color.BLACK)
+		label_max.add_theme_constant_override("outline_size", 3)
+		label_max.add_theme_font_size_override("font_size", 28)
 		opcoes_container.add_child(label_max)
 		return
 
@@ -192,18 +264,18 @@ func atualizar_opcoes():
 	var n_opcoes = opcoes.size()
 
 	if n_opcoes == 1:
-		painel_principal.custom_minimum_size = Vector2(340, 0)
+		painel_principal.custom_minimum_size = Vector2(460, 0)
 		instrucao_label.hide()
 		spacer_b.show()
 		spacer_c.hide()
 	elif n_opcoes == 2:
-		painel_principal.custom_minimum_size = Vector2(560, 0)
+		painel_principal.custom_minimum_size = Vector2(700, 0)
 		instrucao_label.text = "Escolha um caminho:"
 		instrucao_label.show()
 		spacer_b.show()
 		spacer_c.show()
 	else:
-		painel_principal.custom_minimum_size = Vector2(720, 0)
+		painel_principal.custom_minimum_size = Vector2(880, 0)
 		instrucao_label.text = "Escolha uma melhoria:"
 		instrucao_label.show()
 		spacer_b.show()
@@ -220,7 +292,7 @@ func atualizar_opcoes():
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(230, 245)
+			btn.custom_minimum_size = Vector2(280, 295)
 			btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			btn.size_flags_vertical   = Control.SIZE_EXPAND_FILL
 			opcoes_container.add_child(btn)

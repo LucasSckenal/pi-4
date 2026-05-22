@@ -57,6 +57,10 @@ func configurar(opcao: Dictionary):
 
 	set_meta("caminho_index", opcao.get("index", 0))
 
+	# Limita a altura do viewport 3D para caber no card
+	if is_instance_valid(container_viewport):
+		container_viewport.custom_minimum_size = Vector2(0, 155)
+
 	# Ícone 2D tem prioridade — mais legível e consistente visualmente.
 	# Modelo 3D apenas como fallback quando não há ícone configurado.
 	var img_2d = opcao.get("icone")
@@ -97,14 +101,51 @@ func _aplicar_cor_card(cor: Color) -> void:
 		sep.add_theme_color_override("separator_color", Color(cor.r, cor.g, cor.b, 0.45))
 
 func _popular_bullets(descricoes: Array) -> void:
-	var bullet_nodes = bullets_vbox.get_children()
-	for i in range(bullet_nodes.size()):
-		if i < descricoes.size() and descricoes[i] != "":
-			bullet_nodes[i].text = descricoes[i]
-			bullet_nodes[i].show()
-		else:
-			bullet_nodes[i].text = ""
-			bullet_nodes[i].hide()
+	# Limpa bullets anteriores e recria com ícone + texto
+	for child in bullets_vbox.get_children():
+		child.queue_free()
+
+	for desc in descricoes:
+		if desc == "":
+			continue
+		var hbox := HBoxContainer.new()
+		hbox.add_theme_constant_override("separation", 7)
+		bullets_vbox.add_child(hbox)
+
+		var ic := TextureRect.new()
+		ic.texture = _icone_para_descricao(desc)
+		ic.custom_minimum_size = Vector2(18, 18)
+		ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hbox.add_child(ic)
+
+		var lbl := Label.new()
+		lbl.text = desc
+		lbl.add_theme_font_size_override("font_size", 16)
+		lbl.add_theme_color_override("font_color", Color(0.80, 0.84, 0.96))
+		lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hbox.add_child(lbl)
+
+func _icone_para_descricao(desc: String) -> Texture2D:
+	var d := desc.to_lower()
+	if "dano" in d or "potência" in d or "cadeia" in d:
+		return load("res://Assets/Icons/Espada.png")
+	if "resistência" in d or "vida" in d:
+		return load("res://Assets/Icons/Coracao.png")
+	if "alcance" in d:
+		return load("res://Assets/Icons/Alvo.png")
+	if "ouro" in d:
+		return load("res://Assets/Icons/Moedas.png")
+	if "soldados" in d:
+		return load("res://Assets/Icons/Escudo.png")
+	if "devagar" in d or "cadência" in d:
+		return load("res://Assets/Icons/Lento.png")
+	if "rápido" in d:
+		return load("res://Assets/Icons/Veloz.png")
+	if "eficiência" in d:
+		return load("res://Assets/Icons/ChaveInglesa.png")
+	return load("res://Assets/Icons/Estrela.png")
 
 func _carregar_modelo_3d(cena_modelo: PackedScene, escala: Vector3):
 	container_viewport.show()
@@ -130,7 +171,7 @@ func _mostrar_icone_2d(textura: Texture2D):
 		icone_rect.name = "FallbackIcone2D"
 		icone_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icone_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icone_rect.custom_minimum_size = Vector2(210, 210)
+		icone_rect.custom_minimum_size = Vector2(160, 160)
 		icone_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		vbox.add_child(icone_rect)
 		vbox.move_child(icone_rect, 1)
@@ -157,7 +198,7 @@ func bloquear(motivo: String) -> void:
 	add_child(overlay)
 
 	var cadeado = TextureRect.new()
-	cadeado.texture = load("res://Icons/cadeado.png")
+	cadeado.texture = load("res://Assets/Icons/Cadeado.png")
 	cadeado.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	cadeado.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	cadeado.custom_minimum_size = Vector2(56, 56)

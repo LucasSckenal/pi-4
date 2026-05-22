@@ -1,7 +1,8 @@
 extends Control
 class_name PainelConselheiro
 
-const TEX_AJUDA = preload("res://Assets/UI/Ajuda.png")
+const TEX_AJUDA    = preload("res://Assets/UI/Ajuda.png")
+const ICON_BRILHO  = preload("res://Assets/Icons/Brilho.png")
 
 # ==========================================
 # CORES POR PRIORIDADE
@@ -176,8 +177,17 @@ func _criar_ui():
 	header.add_theme_constant_override("separation", 8)
 	vbox.add_child(header)
 
+	var brilho_ic := TextureRect.new()
+	brilho_ic.texture = ICON_BRILHO
+	brilho_ic.custom_minimum_size = Vector2(22, 22)
+	brilho_ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	brilho_ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	brilho_ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	brilho_ic.modulate = Color(1.0, 0.85, 0.2)
+	header.add_child(brilho_ic)
+
 	var label_nome := Label.new()
-	label_nome.text = "💡 Berta"
+	label_nome.text = "Berta"
 	label_nome.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2))
 	label_nome.add_theme_font_size_override("font_size", 22)
 	label_nome.size_flags_horizontal = Control.SIZE_EXPAND_FILL

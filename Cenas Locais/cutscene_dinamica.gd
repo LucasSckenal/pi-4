@@ -65,7 +65,7 @@ func _construir_ui() -> void:
 
 	# Botão PULAR — canto superior direito
 	var btn := Button.new()
-	btn.text = "PULAR  ⏭"
+	btn.text = "PULAR  >"
 	btn.custom_minimum_size = Vector2(130, 44)
 	btn.anchor_left   = 1.0
 	btn.anchor_right  = 1.0

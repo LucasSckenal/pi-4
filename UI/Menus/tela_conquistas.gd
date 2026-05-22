@@ -1,5 +1,10 @@
 extends Control
 
+const ICON_TROFEU   = preload("res://Assets/Icons/Trofeu.png")
+const ICON_MEDALHA  = preload("res://Assets/Icons/Medalha.png")
+const ICON_ESPADA   = preload("res://Assets/Icons/Espada.png")
+const ICON_CADEADO  = preload("res://Assets/Icons/Cadeado.png")
+
 var banco_conquistas: Array[ConquistaData] = []
 
 @onready var scroll        := $ScrollContainer
@@ -43,7 +48,7 @@ func _construir_ui():
 
 	# Atualiza o título com o contador
 	if label_titulo:
-		label_titulo.text = "🏆  Conquistas  —  %d / %d" % [num_ok, total]
+		label_titulo.text = "Conquistas  —  %d / %d" % [num_ok, total]
 
 	# Wrapper principal
 	var wrapper := VBoxContainer.new()
@@ -172,14 +177,22 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 		tr_icone.modulate = Color(1, 1, 1) if liberada else Color(0.20, 0.20, 0.20)
 		ic_cont.add_child(tr_icone)
 	else:
-		var ph := Label.new()
-		ph.text = "🏅" if liberada else "❓"
+		var ph := TextureRect.new()
+		ph.texture = ICON_MEDALHA if liberada else null
 		ph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		ph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		ph.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		ph.add_theme_font_size_override("font_size", 42)
+		ph.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		ph.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		ph.modulate = Color(1, 1, 1) if liberada else Color(0.35, 0.35, 0.35)
 		ic_cont.add_child(ph)
+		if not liberada:
+			var ph_lbl := Label.new()
+			ph_lbl.text = "?"
+			ph_lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			ph_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			ph_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+			ph_lbl.add_theme_font_size_override("font_size", 42)
+			ph_lbl.modulate = Color(0.35, 0.35, 0.35)
+			ic_cont.add_child(ph_lbl)
 
 	# Overlay de cadeado (bloqueada) ou check (liberada)
 	if not liberada:
@@ -187,13 +200,14 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 		ov.color = Color(0, 0, 0, 0.52)
 		ov.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		ic_cont.add_child(ov)
-		var lock_lbl := Label.new()
-		lock_lbl.text = "🔒"
-		lock_lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		lock_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		lock_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		lock_lbl.add_theme_font_size_override("font_size", 30)
-		ic_cont.add_child(lock_lbl)
+		var lock_ic := TextureRect.new()
+		lock_ic.texture = ICON_CADEADO
+		lock_ic.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		lock_ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		lock_ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lock_ic.modulate = Color(0.8, 0.7, 0.5, 0.9)
+		lock_ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ic_cont.add_child(lock_ic)
 	else:
 		var check := Label.new()
 		check.text = "✓"
@@ -262,14 +276,17 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 
 			if tem_chapeu:
 				var b := Label.new()
-				b.text = "🎩"
-				b.add_theme_font_size_override("font_size", 17)
+				b.text = "Chapéu"
+				b.add_theme_font_size_override("font_size", 13)
+				b.add_theme_color_override("font_color", Color(0.85, 0.72, 0.30))
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				rrow.add_child(b)
 			if tem_arma:
-				var b := Label.new()
-				b.text = "⚔"
-				b.add_theme_font_size_override("font_size", 17)
+				var b := TextureRect.new()
+				b.texture = ICON_ESPADA
+				b.custom_minimum_size = Vector2(16, 16)
+				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				rrow.add_child(b)
 

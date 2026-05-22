@@ -1,6 +1,19 @@
 extends Node3D
 
 # ==========================================
+# ÍCONES DE TIPO (substitutos dos emojis)
+# ==========================================
+const _ICON_TORRE     = preload("res://Assets/Icons/Torre.png")
+const _ICON_PICARETA  = preload("res://Assets/Icons/Picareta.png")
+const _ICON_CASA      = preload("res://Assets/Icons/Casa.png")
+const _ICON_TRIGO     = preload("res://Assets/Icons/Trigo.png")
+const _ICON_ESCUDO    = preload("res://Assets/Icons/Escudo.png")
+const _ICON_CASTELO   = preload("res://Assets/Icons/Castelo.png")
+const _ICON_CRANIO    = preload("res://Assets/Icons/Cranio.png")
+const _ICON_GUINDASTE = preload("res://Assets/Icons/Guindaste.png")
+const _ICON_CADEADO   = preload("res://Assets/Icons/Cadeado.png")
+
+# ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
 # ==========================================
 enum TipoConstrucao {
@@ -571,8 +584,8 @@ func _get_desbloqueios_base(proximo_nivel: int) -> Array:
 			if slot.get("nivel_necessario") == proximo_nivel:
 				slots_novos += 1
 		if slots_novos > 0:
-			items.append({"emoji": "🔓", "nome": "+%d lotes" % slots_novos,
-				"icone_2d": null, "modelo_3d": null, "escala_modelo": Vector3.ONE})
+			items.append({"emoji": "", "nome": "+%d lotes" % slots_novos,
+				"icone_2d": _ICON_CADEADO, "modelo_3d": null, "escala_modelo": Vector3.ONE})
 
 	# Novas construções disponíveis no próximo nível
 	var construcoes_nivel: Array = GameManager.construcoes_permitidas_na_fase.get(proximo_nivel, [])
@@ -586,8 +599,9 @@ func _get_desbloqueios_base(proximo_nivel: int) -> Array:
 		var t: int   = inst.get("tipo")  if "tipo"  in inst else -1
 		var icone_2d = inst.get("icone") if "icone" in inst else null
 		inst.free()
-		items.append({"emoji": _emoji_tipo_build(t), "nome": nome,
-			"icone_2d": icone_2d, "modelo_3d": cena, "escala_modelo": _escala_por_tipo_build(t)})
+		items.append({"emoji": "", "nome": nome,
+			"icone_2d": icone_2d if icone_2d != null else _icone_tipo_build(t),
+			"modelo_3d": cena, "escala_modelo": _escala_por_tipo_build(t)})
 
 	# Torres especiais que requerem exatamente este nível de base
 	if is_inside_tree():
@@ -611,21 +625,22 @@ func _get_desbloqueios_base(proximo_nivel: int) -> Array:
 					icone_path = _icone_por_path_nome(nome_path)
 				if icone_path == null and modelo_path != null:
 					icone_path = _icone_para_modelo_upgrade(modelo_path)
-				items.append({"emoji": "🗼", "nome": nome_path,
-					"icone_2d": icone_path, "modelo_3d": modelo_path, "escala_modelo": _escala_por_tipo_build(0)})
+				items.append({"emoji": "", "nome": nome_path,
+					"icone_2d": icone_path if icone_path != null else _ICON_TORRE,
+					"modelo_3d": modelo_path, "escala_modelo": _escala_por_tipo_build(0)})
 
 	return items
 
-func _emoji_tipo_build(t: int) -> String:
+func _icone_tipo_build(t: int) -> Texture2D:
 	match t:
-		0: return "🗼"
-		1: return "⛏️"
-		2: return "🏠"
-		3: return "🌾"
-		4: return "🛡️"
-		5: return "🏰"
-		6: return "☠️"
-		_: return "🏗️"
+		0: return _ICON_TORRE
+		1: return _ICON_PICARETA
+		2: return _ICON_CASA
+		3: return _ICON_TRIGO
+		4: return _ICON_ESCUDO
+		5: return _ICON_CASTELO
+		6: return _ICON_CRANIO
+		_: return _ICON_GUINDASTE
 
 func _escala_por_tipo_build(t: int) -> Vector3:
 	match t:
@@ -794,27 +809,27 @@ func _gerar_descricoes(path: UpgradePathData, nivel: int) -> Array:
 	var desc: Array = []
 
 	if nivel < path.dano_por_nivel.size() and path.dano_por_nivel[nivel] > 0:
-		desc.append("⚔️ Mais dano")
+		desc.append("Mais dano")
 	if nivel < path.vida_por_nivel.size() and path.vida_por_nivel[nivel] > 0:
-		desc.append("❤️ Mais resistência")
+		desc.append("Mais resistência")
 	if nivel < path.alcance_por_nivel.size() and path.alcance_por_nivel[nivel] > 0:
-		desc.append("🎯 Maior alcance")
+		desc.append("Maior alcance")
 	if nivel < path.moedas_por_nivel.size() and path.moedas_por_nivel[nivel] > 0:
-		desc.append("💰 Mais ouro")
+		desc.append("Mais ouro")
 	if nivel < path.aliados_por_nivel.size() and path.aliados_por_nivel[nivel] > 0:
-		desc.append("🛡️ Mais soldados")
+		desc.append("Mais soldados")
 	if "tipo_ataque" in path and path.tipo_ataque == "chain_lightning":
-		desc.append("⚡ Dano em cadeia")
+		desc.append("Dano em cadeia")
 	if nivel < path.velocidade_por_nivel.size():
 		var vel: float = path.velocidade_por_nivel[nivel]
 		if vel > 0.8:
-			desc.append("🐢 Cadência reduzida")
+			desc.append("Cadência reduzida")
 		elif vel > 0.0:
-			desc.append("⏱️ Mais devagar")
+			desc.append("Mais devagar")
 		elif vel < 0.0:
-			desc.append("⚡ Mais rápido")
+			desc.append("Mais rápido")
 
-	var fallbacks = ["✨ Melhora geral", "🔧 Potência extra", "⬆️ Eficiência"]
+	var fallbacks = ["Melhora geral", "Potência extra", "Eficiência"]
 	var fi = 0
 	while desc.size() < 3:
 		desc.append(fallbacks[fi % fallbacks.size()])
@@ -828,21 +843,21 @@ func _gerar_descricoes_simples() -> Array:
 	var desc: Array = []
 
 	if nivel < upgrade_dano_por_nivel.size() and upgrade_dano_por_nivel[nivel] != 0:
-		desc.append("⚔️ Mais dano")
+		desc.append("Mais dano")
 	if nivel < upgrade_vida_por_nivel.size() and upgrade_vida_por_nivel[nivel] != 0:
-		desc.append("❤️ Mais resistência")
+		desc.append("Mais resistência")
 	if nivel < upgrade_alcance_por_nivel.size() and upgrade_alcance_por_nivel[nivel] != 0:
-		desc.append("🎯 Maior alcance")
+		desc.append("Maior alcance")
 	if nivel < upgrade_moedas_por_nivel.size() and upgrade_moedas_por_nivel[nivel] != 0:
-		desc.append("💰 Mais ouro")
+		desc.append("Mais ouro")
 	if nivel < upgrade_aliados_por_nivel.size() and upgrade_aliados_por_nivel[nivel] != 0:
-		desc.append("🛡️ Mais soldados")
+		desc.append("Mais soldados")
 	if nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] > 0:
-		desc.append("⏱️ Mais devagar")
+		desc.append("Mais devagar")
 	elif nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] < 0:
-		desc.append("⚡ Mais rápido")
+		desc.append("Mais rápido")
 
-	var fallbacks = ["✨ Melhora geral", "🔧 Potência extra", "⬆️ Eficiência"]
+	var fallbacks = ["Melhora geral", "Potência extra", "Eficiência"]
 	var fi = 0
 	while desc.size() < 3:
 		desc.append(fallbacks[fi % fallbacks.size()])

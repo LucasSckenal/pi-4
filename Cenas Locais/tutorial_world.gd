@@ -146,23 +146,23 @@ func iniciar_sequencia_tutorial():
 	# Upgrade na casa (linear)
 	# Upgrade na casa (linear)
 	if Global.DEBUG_MODE:
-		print("⏳ Esperando jogador fazer o upgrade da casa...")
+		print("Esperando jogador fazer o upgrade da casa...")
 	await passo_upgrade(casa_2, "Agora clique na casa. Ela tem apenas um upgrade linear.")
 	if Global.DEBUG_MODE:
-		print("✅ Upgrade da casa concluído!")
+		print("Upgrade da casa concluído!")
 
 	# Final do tutorial
 	GameManager.is_tutorial_ativo = false
 	if Global.DEBUG_MODE:
-		print("✅ Tutorial Completo! Verificando se a variável da conquista tem algo...")
+		print("Tutorial Completo! Verificando se a variável da conquista tem algo...")
 
 	if conquista_fim_tutorial != null:
 		if Global.DEBUG_MODE:
-			print("📦 Emitindo conquista final para o Global!")
+			print("Emitindo conquista final para o Global!")
 		Global.processar_recompensa(conquista_fim_tutorial)
 	else:
 		if Global.DEBUG_MODE:
-			print("❌ ERRO: O ficheiro .tres da conquista_fim_tutorial não está colocado no Inspector!")
+			print("ERRO: O ficheiro .tres da conquista_fim_tutorial não está colocado no Inspector!")
 	
 
 # ==========================================
@@ -280,8 +280,8 @@ func _on_noite_iniciada(_onda_atual: int) -> void:
 
 func _on_fase_vencida():
 	if Global.DEBUG_MODE:
-		print("🏆 O jogador venceu o tutorial! Entregando recompensa...")
+		print("O jogador venceu o tutorial! Entregando recompensa...")
 	if conquista_fim_tutorial != null:
 		Global.processar_recompensa(conquista_fim_tutorial)
 	else:
-		push_error("❌ ERRO: conquista_fim_tutorial vazia no Inspector!")
+		push_error("ERRO: conquista_fim_tutorial vazia no Inspector!")

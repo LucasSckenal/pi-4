@@ -4,6 +4,13 @@ extends Control
 @export var raio_menu: float = 200.0
 @export var prefab_botao: PackedScene
 
+# Ícones pré-carregados (substituem todos os emojis)
+const ICON_MOEDAS   = preload("res://Assets/Icons/Moedas.png")
+const ICON_ESPADA   = preload("res://Assets/Icons/Espada.png")
+const ICON_ESCUDO   = preload("res://Assets/Icons/Escudo.png")
+const ICON_CHAVE    = preload("res://Assets/Icons/ChaveInglesa.png")
+const ICON_CADEADO  = preload("res://Assets/Icons/Cadeado.png")
+
 var _botoes_ativos: Array[Node] = []
 var _slot_alvo: Node = null
 
@@ -17,10 +24,11 @@ var _tweens_destaque: Dictionary = {}
 var _painel: PanelContainer = null
 var _preview_icone: TextureRect = null
 var _preview_nome: Label = null
-var _preview_tipo: Label = null
+var _preview_tipo_icone: TextureRect = null  # ícone dinâmico do tipo (espada/escudo/moedas)
+var _preview_tipo: Label = null               # texto do tipo
 var _preview_desc: Label = null
 var _preview_upgrade: Label = null
-var _preview_custo: Label = null
+var _preview_custo: Label = null              # só o número/texto; ícone Moedas fica ao lado
 var _btn_confirmar: Button = null
 var _grid: GridContainer = null
 
@@ -75,7 +83,7 @@ func _construir_ui() -> void:
 
 	var titulo := Label.new()
 	titulo.text = "Escolha uma construção"
-	titulo.add_theme_font_size_override("font_size", 24)
+	titulo.add_theme_font_size_override("font_size", 28)
 	titulo.add_theme_color_override("font_color", Color(1.0, 0.85, 0.45))
 	titulo.add_theme_color_override("font_outline_color", Color.BLACK)
 	titulo.add_theme_constant_override("outline_size", 3)
@@ -89,7 +97,7 @@ func _construir_ui() -> void:
 	btn_x.add_theme_color_override("font_color", Color(0.80, 0.70, 0.60))
 	btn_x.custom_minimum_size = Vector2(48, 48)
 	btn_x.focus_mode = Control.FOCUS_NONE
-	btn_x.add_theme_stylebox_override("normal",  _sb(Color(0,0,0,0),          Color(0,0,0,0), 0, 6))
+	btn_x.add_theme_stylebox_override("normal",  _sb(Color(0,0,0,0),             Color(0,0,0,0), 0, 6))
 	btn_x.add_theme_stylebox_override("hover",   _sb(Color(0.45,0.10,0.10,0.75), Color(0,0,0,0), 0, 6))
 	btn_x.add_theme_stylebox_override("pressed", _sb(Color(0.65,0.10,0.10,0.95), Color(0,0,0,0), 0, 6))
 	btn_x.pressed.connect(func():
@@ -107,7 +115,7 @@ func _construir_ui() -> void:
 	# ── Corpo ──────────────────────────────────────────────────────────
 	var corpo := HBoxContainer.new()
 	corpo.add_theme_constant_override("separation", 0)
-	corpo.custom_minimum_size = Vector2(0 if OS.has_feature("mobile") else 740, 460)
+	corpo.custom_minimum_size = Vector2(0 if OS.has_feature("mobile") else 920, 540)
 	raiz.add_child(corpo)
 
 	# ── ESQUERDA: grade de construções ─────────────────────────────────
@@ -140,7 +148,7 @@ func _construir_ui() -> void:
 
 	# ── DIREITA: preview da construção selecionada ─────────────────────
 	var dir := PanelContainer.new()
-	dir.custom_minimum_size = Vector2(252, 0)
+	dir.custom_minimum_size = Vector2(300, 0)
 	var st_dir := StyleBoxFlat.new()
 	st_dir.bg_color = Color(0.08, 0.05, 0.03, 1.0)
 	st_dir.content_margin_left   = 18
@@ -159,7 +167,7 @@ func _construir_ui() -> void:
 
 	# Ícone 168×168
 	var ic_cont := Control.new()
-	ic_cont.custom_minimum_size = Vector2(168, 168)
+	ic_cont.custom_minimum_size = Vector2(196, 196)
 	ic_cont.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	vbox.add_child(ic_cont)
 
@@ -178,7 +186,7 @@ func _construir_ui() -> void:
 	# Nome
 	_preview_nome = Label.new()
 	_preview_nome.text = "—"
-	_preview_nome.add_theme_font_size_override("font_size", 21)
+	_preview_nome.add_theme_font_size_override("font_size", 24)
 	_preview_nome.add_theme_color_override("font_color", Color(1.0, 0.85, 0.45))
 	_preview_nome.add_theme_color_override("font_outline_color", Color.BLACK)
 	_preview_nome.add_theme_constant_override("outline_size", 3)
@@ -186,18 +194,30 @@ func _construir_ui() -> void:
 	_preview_nome.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	vbox.add_child(_preview_nome)
 
-	# Badge de tipo (⚔️ Ofensiva / 🛡️ Defensiva / 💰 Economia)
+	# Badge de tipo: [ícone] + [texto]
+	var hbox_tipo := HBoxContainer.new()
+	hbox_tipo.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox_tipo.add_theme_constant_override("separation", 6)
+	vbox.add_child(hbox_tipo)
+
+	_preview_tipo_icone = TextureRect.new()
+	_preview_tipo_icone.custom_minimum_size = Vector2(22, 22)
+	_preview_tipo_icone.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	_preview_tipo_icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_preview_tipo_icone.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox_tipo.add_child(_preview_tipo_icone)
+
 	_preview_tipo = Label.new()
 	_preview_tipo.text = ""
-	_preview_tipo.add_theme_font_size_override("font_size", 15)
+	_preview_tipo.add_theme_font_size_override("font_size", 17)
 	_preview_tipo.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
-	_preview_tipo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(_preview_tipo)
+	_preview_tipo.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox_tipo.add_child(_preview_tipo)
 
 	# O que faz
 	_preview_desc = Label.new()
 	_preview_desc.text = "← Escolha uma\nconstrução"
-	_preview_desc.add_theme_font_size_override("font_size", 16)
+	_preview_desc.add_theme_font_size_override("font_size", 18)
 	_preview_desc.add_theme_color_override("font_color", Color(0.78, 0.68, 0.50))
 	_preview_desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_preview_desc.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -210,23 +230,48 @@ func _construir_ui() -> void:
 	sep_m.add_theme_stylebox_override("panel", _sb(Color(0.30, 0.22, 0.08, 0.5), Color(0,0,0,0), 0, 0))
 	vbox.add_child(sep_m)
 
-	# Melhorias disponíveis
+	# Melhorias: [ícone chave] + [texto]
+	var hbox_upg := HBoxContainer.new()
+	hbox_upg.add_theme_constant_override("separation", 6)
+	vbox.add_child(hbox_upg)
+
+	var upg_icon := TextureRect.new()
+	upg_icon.texture = ICON_CHAVE
+	upg_icon.custom_minimum_size = Vector2(22, 22)
+	upg_icon.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	upg_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	upg_icon.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	upg_icon.modulate = Color(0.60, 0.78, 0.48)
+	hbox_upg.add_child(upg_icon)
+
 	_preview_upgrade = Label.new()
 	_preview_upgrade.text = ""
-	_preview_upgrade.add_theme_font_size_override("font_size", 15)
+	_preview_upgrade.add_theme_font_size_override("font_size", 17)
 	_preview_upgrade.add_theme_color_override("font_color", Color(0.60, 0.78, 0.48))
 	_preview_upgrade.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_preview_upgrade.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_preview_upgrade.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	vbox.add_child(_preview_upgrade)
+	hbox_upg.add_child(_preview_upgrade)
 
-	# Custo
+	# Custo: [ícone moedas] + [texto]
+	var hbox_custo := HBoxContainer.new()
+	hbox_custo.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox_custo.add_theme_constant_override("separation", 7)
+	vbox.add_child(hbox_custo)
+
+	var custo_icon := TextureRect.new()
+	custo_icon.texture = ICON_MOEDAS
+	custo_icon.custom_minimum_size = Vector2(26, 26)
+	custo_icon.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	custo_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	custo_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox_custo.add_child(custo_icon)
+
 	_preview_custo = Label.new()
 	_preview_custo.text = ""
-	_preview_custo.add_theme_font_size_override("font_size", 19)
+	_preview_custo.add_theme_font_size_override("font_size", 22)
 	_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.82, 0.20))
-	_preview_custo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(_preview_custo)
+	_preview_custo.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox_custo.add_child(_preview_custo)
 
 	# Espaço flexível
 	var spacer := Control.new()
@@ -236,9 +281,9 @@ func _construir_ui() -> void:
 	# Botão Construir
 	_btn_confirmar = Button.new()
 	_btn_confirmar.text = "CONSTRUIR"
-	_btn_confirmar.add_theme_font_size_override("font_size", 21)
+	_btn_confirmar.add_theme_font_size_override("font_size", 24)
 	_btn_confirmar.add_theme_color_override("font_color", Color(0.08, 0.05, 0.02))
-	_btn_confirmar.custom_minimum_size = Vector2(0, 64)
+	_btn_confirmar.custom_minimum_size = Vector2(0, 72)
 	_btn_confirmar.focus_mode = Control.FOCUS_NONE
 	_btn_confirmar.disabled = true
 	_btn_confirmar.add_theme_stylebox_override("normal",   _sb(Color(0.68, 0.52, 0.08),      Color(0,0,0,0), 0, 8))
@@ -292,14 +337,14 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	if temp.has_method("_resolver_icone_construcao"):
 		temp._resolver_icone_construcao()
 	var nome: String      = GameManager.nome_para_cena(cena_torre)
-	var icone: Texture2D  = temp.get("icone")         if "icone"         in temp else null
+	var icone: Texture2D  = temp.get("icone")            if "icone"         in temp else null
 	var custo: int        = int(temp.get("custo_moedas")) if "custo_moedas" in temp else 0
-	var descricao: String = str(temp.get("descricao")) if "descricao"     in temp else ""
+	var descricao: String = str(temp.get("descricao"))   if "descricao"     in temp else ""
 	temp.queue_free()
 
 	var custo_final: int = GameManager.obter_custo_com_desconto(custo)
 
-	# Cor de acordo com o tipo da construção
+	# Cor do tipo
 	var cor := _tipo_cor(nome)
 	var bg_n  := Color(0.15, 0.11, 0.07, 0.95).lerp(cor, 0.07)
 	var bg_h  := Color(0.22, 0.17, 0.10, 0.95).lerp(cor, 0.12)
@@ -311,23 +356,24 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	var btn := Button.new()
 	btn.toggle_mode = true
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(145, 135)
+	btn.custom_minimum_size = Vector2(168, 158)
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_stylebox_override("normal",  _sb(bg_n, brd_n, 2, 10))
 	btn.add_theme_stylebox_override("hover",   _sb(bg_h, brd_h, 2, 10))
 	btn.add_theme_stylebox_override("pressed", _sb(bg_p, brd_p, 3, 10))
 
+	# Conteúdo: ícone + nome + [moedas icon + custo]
 	var inner := VBoxContainer.new()
 	inner.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	inner.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.alignment = BoxContainer.ALIGNMENT_CENTER
-	inner.add_theme_constant_override("separation", 3)
+	inner.add_theme_constant_override("separation", 4)
 	btn.add_child(inner)
 
 	var ic := TextureRect.new()
 	ic.texture = icone
-	ic.custom_minimum_size = Vector2(72, 72)
+	ic.custom_minimum_size = Vector2(84, 84)
 	ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -336,20 +382,36 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	var nome_lbl := Label.new()
 	nome_lbl.text = nome
-	nome_lbl.add_theme_font_size_override("font_size", 16)
+	nome_lbl.add_theme_font_size_override("font_size", 18)
 	nome_lbl.add_theme_color_override("font_color", Color(0.90, 0.82, 0.65))
 	nome_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	nome_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	nome_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inner.add_child(nome_lbl)
 
+	# Custo: [ícone Moedas] + [número]
+	var hcusto := HBoxContainer.new()
+	hcusto.alignment = BoxContainer.ALIGNMENT_CENTER
+	hcusto.add_theme_constant_override("separation", 4)
+	hcusto.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	inner.add_child(hcusto)
+
+	var ic_moeda := TextureRect.new()
+	ic_moeda.texture = ICON_MOEDAS
+	ic_moeda.custom_minimum_size = Vector2(19, 19)
+	ic_moeda.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	ic_moeda.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	ic_moeda.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	ic_moeda.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hcusto.add_child(ic_moeda)
+
 	var custo_lbl := Label.new()
-	custo_lbl.text = "💰 %d" % custo_final
-	custo_lbl.add_theme_font_size_override("font_size", 14)
+	custo_lbl.text = str(custo_final)
+	custo_lbl.add_theme_font_size_override("font_size", 16)
 	custo_lbl.add_theme_color_override("font_color", Color(1.0, 0.80, 0.18))
-	custo_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	custo_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	custo_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	inner.add_child(custo_lbl)
+	hcusto.add_child(custo_lbl)
 
 	btn.set_meta("nome_torre",  nome)
 	btn.set_meta("cena_torre",  cena_torre)
@@ -361,18 +423,33 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	if bloqueado:
 		btn.disabled = true
 		btn.modulate = Color(0.45, 0.45, 0.45, 0.9)
-		# Usa Panel com border-radius igual ao botão (não corta os cantos arredondados)
+		# Overlay com border-radius igual ao botão
 		var ov := Panel.new()
-		ov.add_theme_stylebox_override("panel", _sb(Color(0, 0, 0, 0.55), Color(0,0,0,0), 0, 10))
+		ov.add_theme_stylebox_override("panel", _sb(Color(0, 0, 0, 0.58), Color(0,0,0,0), 0, 10))
 		ov.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		ov.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		btn.add_child(ov)
+		# Ícone de cadeado centralizado
+		var lock_ic := TextureRect.new()
+		lock_ic.texture = ICON_CADEADO
+		lock_ic.custom_minimum_size = Vector2(36, 36)
+		lock_ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		lock_ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lock_ic.anchor_left   = 0.5; lock_ic.anchor_right  = 0.5
+		lock_ic.anchor_top    = 0.5; lock_ic.anchor_bottom = 0.5
+		lock_ic.offset_left   = -18; lock_ic.offset_right  = 18
+		lock_ic.offset_top    = -26; lock_ic.offset_bottom = 10
+		lock_ic.modulate = Color(0.85, 0.75, 0.55, 1.0)
+		lock_ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		btn.add_child(lock_ic)
+		# Nível necessário abaixo do ícone
 		var lock_lbl := Label.new()
-		lock_lbl.text = "🔒\nNv.%d" % nivel_necessario
+		lock_lbl.text = "Nv. %d" % nivel_necessario
 		lock_lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		lock_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		lock_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		lock_lbl.add_theme_font_size_override("font_size", 22)
+		lock_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_BOTTOM
+		lock_lbl.add_theme_font_size_override("font_size", 15)
+		lock_lbl.add_theme_color_override("font_color", Color(0.85, 0.75, 0.55))
 		lock_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		btn.add_child(lock_lbl)
 
@@ -384,8 +461,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 # INTERAÇÃO
 # ==========================================
 func _ao_clicar_botao(btn: Button) -> void:
-	if not is_instance_valid(btn):
-		return
+	if not is_instance_valid(btn): return
 	if GameManager.is_tutorial_ativo:
 		_solicitar_construcao(btn.get_meta("cena_torre") as PackedScene, int(btn.get_meta("custo_torre")))
 		return
@@ -411,8 +487,7 @@ func _selecionar_botao(btn: Button) -> void:
 	_btn_confirmar.disabled = false
 
 func _ao_confirmar() -> void:
-	if _cena_selecionada == null:
-		return
+	if _cena_selecionada == null: return
 	_solicitar_construcao(_cena_selecionada, _custo_selecionado)
 
 # ==========================================
@@ -423,6 +498,7 @@ func _preview_vazio() -> void:
 	_preview_icone.modulate = Color(0.25, 0.25, 0.25, 0.4)
 	_preview_nome.text = "—"
 	_preview_nome.add_theme_color_override("font_color", Color(1.0, 0.85, 0.45))
+	_preview_tipo_icone.texture = null
 	_preview_tipo.text = ""
 	_preview_desc.text = "← Escolha uma\nconstrução"
 	_preview_upgrade.text = ""
@@ -433,36 +509,22 @@ func _atualizar_preview(icone: Texture2D, nome: String, custo: int, descricao: S
 	_preview_icone.texture = icone
 	_preview_icone.modulate = Color(1,1,1,1) if icone != null else Color(0.3,0.3,0.3,0.5)
 
-	# Cor e badge baseados no tipo da construção
 	var cor := _tipo_cor(nome)
 	_preview_nome.text = nome
 	_preview_nome.add_theme_color_override("font_color", Color(1,1,1,1).lerp(cor, 0.35))
-	_preview_tipo.text = _tipo_label(nome)
+
+	# Badge de tipo com ícone real
+	_preview_tipo_icone.texture = _tipo_icon(nome)
+	_preview_tipo_icone.modulate = cor
+	_preview_tipo.text = _tipo_nome(nome)
 	_preview_tipo.add_theme_color_override("font_color", cor)
 
 	_preview_desc.text = descricao if descricao != "" else _descricao_fallback(nome)
 	_preview_upgrade.text = _upgrade_fallback(nome)
+
 	var custo_final := GameManager.obter_custo_com_desconto(custo)
-	_preview_custo.text = "💰  %d moedas" % custo_final
+	_preview_custo.text = "%d moedas" % custo_final
 	_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.82, 0.20))
-
-func _descricao_fallback(nome: String) -> String:
-	var n := nome.to_lower()
-	if "arqueiro" in n or "torre" in n: return "Protege a área atirando flechas nos inimigos."
-	if "muro" in n or "parede" in n:   return "Bloqueia e atrasa os inimigos no caminho."
-	if "quartel" in n:                  return "Treina soldados que patrulham e combatem."
-	if "caldeirão" in n or "caldeirao" in n: return "Arremessa projéteis que causam dano em área."
-	if "fazenda" in n or "mina" in n:  return "Gera ouro extra automaticamente a cada onda."
-	return "Construção defensiva que ajuda na defesa."
-
-func _upgrade_fallback(nome: String) -> String:
-	var n := nome.to_lower()
-	if "arqueiro" in n or "torre" in n: return "🔧 Melhoria: atira mais rápido e mais longe."
-	if "muro" in n or "parede" in n:   return "🔧 Melhoria: aguenta mais antes de quebrar."
-	if "quartel" in n:                  return "🔧 Melhoria: soldados mais fortes e em maior número."
-	if "caldeirão" in n or "caldeirao" in n: return "🔧 Melhoria: explosões maiores e mais dano."
-	if "fazenda" in n or "mina" in n:  return "🔧 Melhoria: produz ainda mais ouro por onda."
-	return "🔧 Pode ser melhorada após ser construída."
 
 # ==========================================
 # CONSTRUÇÃO
@@ -472,21 +534,20 @@ func _solicitar_construcao(cena_torre: PackedScene, _custo: int) -> void:
 		if _slot_alvo.construir(cena_torre):
 			fechar_menu()
 		else:
-			_preview_custo.text = "❌  Moedas insuficientes!"
+			_preview_custo.text = "Moedas insuficientes!"
 			_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.30, 0.30))
 			var tw := create_tween()
 			tw.tween_interval(1.8)
 			tw.tween_callback(func():
 				if is_instance_valid(_preview_custo) and _cena_selecionada != null:
-					_preview_custo.text = "💰  %d moedas" % GameManager.obter_custo_com_desconto(_custo_selecionado)
+					_preview_custo.text = "%d moedas" % GameManager.obter_custo_com_desconto(_custo_selecionado)
 					_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.82, 0.20))
 			)
 
 func _limpar_botoes() -> void:
 	_tweens_destaque.clear()
 	for botao in _botoes_ativos:
-		if is_instance_valid(botao):
-			botao.queue_free()
+		if is_instance_valid(botao): botao.queue_free()
 	_botoes_ativos.clear()
 
 # ==========================================
@@ -514,31 +575,64 @@ func _parar_destaque(btn: Button) -> void:
 		_tweens_destaque.erase(btn)
 	btn.create_tween().tween_property(btn, "modulate", Color(1,1,1,1), 0.2)
 
-# Legacy (no-op para compatibilidade com radial_button.gd)
+# Legacy no-op
 func atualizar_informacoes(_nome: String, _custo: int) -> void: pass
 func atualizar_info_bloqueado(_nome: String, _nivel: int) -> void: pass
 func limpar_informacoes() -> void: pass
 
 # ==========================================
-# TIPO DE CONSTRUÇÃO → COR E LABEL
+# TIPO DE CONSTRUÇÃO
 # ==========================================
+func _eh_economia(n: String) -> bool:
+	return "fazenda" in n or "mina" in n or "mercado" in n or "ouro" in n \
+		or "celeiro" in n or "casa" in n or "moinho" in n or "aldeia" in n or "vila" in n
+
+func _eh_defensivo(n: String) -> bool:
+	return "muro" in n or "parede" in n or "barricada" in n \
+		or "quartel" in n or "escudo" in n
+
 func _tipo_cor(nome: String) -> Color:
 	var n := nome.to_lower()
-	if "fazenda" in n or "mina" in n or "mercado" in n or "ouro" in n or "celeiro" in n \
-			or "casa" in n or "moinho" in n or "aldeia" in n or "vila" in n:
-		return Color(0.92, 0.72, 0.08)  # Dourado — Economia
-	if "muro" in n or "parede" in n or "barricada" in n or "quartel" in n or "escudo" in n:
-		return Color(0.24, 0.52, 0.92)  # Azul — Defensivo
-	return Color(0.90, 0.26, 0.16)      # Vermelho — Ofensivo (torres, caldeirão…)
+	if _eh_economia(n):  return Color(0.92, 0.72, 0.08)  # dourado
+	if _eh_defensivo(n): return Color(0.24, 0.52, 0.92)  # azul
+	return Color(0.90, 0.26, 0.16)                        # vermelho
 
-func _tipo_label(nome: String) -> String:
+func _tipo_icon(nome: String) -> Texture2D:
 	var n := nome.to_lower()
-	if "fazenda" in n or "mina" in n or "mercado" in n or "ouro" in n or "celeiro" in n \
-			or "casa" in n or "moinho" in n or "aldeia" in n or "vila" in n:
-		return "💰  Economia"
-	if "muro" in n or "parede" in n or "barricada" in n or "quartel" in n or "escudo" in n:
-		return "🛡️  Defensiva"
-	return "⚔️  Ofensiva"
+	if _eh_economia(n):  return ICON_MOEDAS
+	if _eh_defensivo(n): return ICON_ESCUDO
+	return ICON_ESPADA
+
+func _tipo_nome(nome: String) -> String:
+	var n := nome.to_lower()
+	if _eh_economia(n):  return "Economia"
+	if _eh_defensivo(n): return "Defensiva"
+	return "Ofensiva"
+
+# ==========================================
+# TEXTOS DE DESCRIÇÃO E MELHORIA
+# ==========================================
+func _descricao_fallback(nome: String) -> String:
+	var n := nome.to_lower()
+	if "arqueiro" in n or "torre" in n: return "Protege a área atirando flechas nos inimigos."
+	if "muro" in n or "parede" in n:   return "Bloqueia e atrasa os inimigos no caminho."
+	if "quartel" in n:                  return "Treina soldados que patrulham e combatem."
+	if "caldeirão" in n or "caldeirao" in n: return "Arremessa projéteis que causam dano em área."
+	if "fazenda" in n or "mina" in n:  return "Gera ouro extra automaticamente a cada onda."
+	if "casa" in n:                     return "Gera ouro passivo para a sua aldeia."
+	if "moinho" in n:                   return "Processa recursos e gera renda extra."
+	return "Construção defensiva que ajuda na defesa."
+
+func _upgrade_fallback(nome: String) -> String:
+	var n := nome.to_lower()
+	if "arqueiro" in n or "torre" in n: return "Melhoria: atira mais rápido e mais longe."
+	if "muro" in n or "parede" in n:   return "Melhoria: aguenta mais antes de quebrar."
+	if "quartel" in n:                  return "Melhoria: soldados mais fortes e em maior número."
+	if "caldeirão" in n or "caldeirao" in n: return "Melhoria: explosões maiores e mais dano."
+	if "fazenda" in n or "mina" in n:  return "Melhoria: produz ainda mais ouro por onda."
+	if "casa" in n:                     return "Melhoria: aumenta a renda gerada por onda."
+	if "moinho" in n:                   return "Melhoria: processa mais recursos por onda."
+	return "Pode ser melhorada após ser construída."
 
 # ==========================================
 # HELPER STYLEBOX
