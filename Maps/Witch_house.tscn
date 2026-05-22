@@ -186,7 +186,7 @@ metadata/_editor_floor_ = Vector3(0, 7, 0)
 [node name="cooking-spoon2" parent="." unique_id=1554119870 instance=ExtResource("28_fme3q")]
 transform = Transform3D(0.06861784, 1.1897309e-09, 4.20444, -1.1549499, 4.043236, 0.01884916, -4.042698, -1.1551039, 0.06597817, -0.042731524, 3.292271, 3.6421657)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="cooking-spoon2/cooking-spoon" parent_id_path=PackedInt32Array(1554119870, 383145015) index="0" unique_id=113149046]
+[node name="StaticBody3D" type="StaticBody3D" parent="cooking-spoon2/cooking-spoon" parent_id_path=PackedInt32Array(1554119870, 1548104318) index="0" unique_id=113149046]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="cooking-spoon2/cooking-spoon/StaticBody3D" unique_id=810608846]
 shape = SubResource("ConcavePolygonShape3D_fme3q")
@@ -201,7 +201,7 @@ transform = Transform3D(-0.03248294, -0.020356838, 1.4995099, -0.4726678, 1.4235
 [node name="Ponte" parent="NavigationRegion3D" unique_id=1696412422 instance=ExtResource("8_kb83g")]
 transform = Transform3D(1.4958947, 0, 5.9531984, 0, 6, 0, -11.906397, 0, 0.74794734, -6.3064537, 3.1026323, 1.8326743)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte/Wood_02" parent_id_path=PackedInt32Array(1696412422, 10757852) index="0" unique_id=1894193907]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte/Wood_02" parent_id_path=PackedInt32Array(1696412422, 2122865087) index="0" unique_id=1894193907]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ponte/Wood_02/StaticBody3D" unique_id=1713488031]
 shape = SubResource("ConcavePolygonShape3D_o1qpm")
@@ -264,7 +264,7 @@ metadata/_editor_floor_ = Vector3(0, 14, 0)
 [node name="Ponte2" parent="NavigationRegion3D" unique_id=773015503 instance=ExtResource("8_kb83g")]
 transform = Transform3D(-5.9916115, 0, -0.15857649, 0, 2.9999998, 0, 0.31715298, 0, -2.9958057, 1.0520896, 3.1026323, -1.839874)
 
-[node name="Wood_02" parent="NavigationRegion3D/Ponte2" index="0" unique_id=10757852]
+[node name="Wood_02" parent="NavigationRegion3D/Ponte2" index="0" unique_id=2122865087]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte2/Wood_02" index="0" unique_id=1750531879]
@@ -275,7 +275,7 @@ shape = SubResource("ConcavePolygonShape3D_o1qpm")
 [node name="Ponte3" parent="NavigationRegion3D" unique_id=364777469 instance=ExtResource("8_kb83g")]
 transform = Transform3D(1.4958947, 0, 5.9531984, 0, 6, 0, -11.906397, 0, 0.74794734, 8.189717, 3.1026323, 3.415284)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte3/Wood_02" parent_id_path=PackedInt32Array(364777469, 10757852) index="0" unique_id=666414433]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte3/Wood_02" parent_id_path=PackedInt32Array(364777469, 2122865087) index="0" unique_id=666414433]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ponte3/Wood_02/StaticBody3D" unique_id=794789131]
 shape = SubResource("ConcavePolygonShape3D_o1qpm")
@@ -284,10 +284,10 @@ shape = SubResource("ConcavePolygonShape3D_o1qpm")
 transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, -0.014922321, 0.5421457, 6.1150837)
 script = ExtResource("10_o1qpm")
 tipo = 5
-upgrade_custos = Array[int]([7, 0])
+upgrade_custos = Array[int]([7, 10])
 upgrade_vida_por_nivel = Array[int]([0, 0])
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Caldeirao/Pot_01/StaticBody3D" parent_id_path=PackedInt32Array(1678453625, 1322111500) index="1" unique_id=633463311]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Caldeirao/Pot_01/StaticBody3D" parent_id_path=PackedInt32Array(1678453625, 1492219545) index="1" unique_id=633463311]
 transform = Transform3D(0.99999857, 0, 0, 0, 0.99999857, 0, 0, 0, 0.99999857, 0.0016174307, 0, 0.053856075)
 shape = SubResource("BoxShape3D_c0x8s")
 
@@ -328,7 +328,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0070925, 0.69, 3.105)
 [node name="Ground_01" parent="Decor" unique_id=1934833831 instance=ExtResource("1_gyldj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.22440866, 0.0016743243, 1.977972)
 
-[node name="CollisionShape3D" parent="Decor/Ground_01/Ground_01/StaticBody3D" parent_id_path=PackedInt32Array(1934833831, 1667595936) index="0" unique_id=1676378115]
+[node name="CollisionShape3D" parent="Decor/Ground_01/Ground_01/StaticBody3D" parent_id_path=PackedInt32Array(1934833831, 601089569) index="0" unique_id=628427447]
 disabled = true
 
 [node name="Bottle_05" parent="Decor" unique_id=1060815643 instance=ExtResource("5_lgdko")]
