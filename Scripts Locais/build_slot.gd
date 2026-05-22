@@ -138,9 +138,8 @@ func _abrir_ui():
 	else:
 		get_tree().current_scene.add_child(ui_atual)
 	
-	# Calcula o centro exato da tela para posicionar o menu estático
-	var tamanho_tela = get_viewport().get_visible_rect().size
-	ui_atual.position = tamanho_tela / 2.0
+	# O radial_menu usa PRESET_FULL_RECT internamente, posição deve ser zero
+	ui_atual.position = Vector2.ZERO
 	
 	ui_atual.abrir_menu(self)
 	
