@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://crkdtbcv6c4s3"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://cbfsht122wcm7"
+path="res://.godot/imported/IconeReiniciar.png-a53acd9982028d27ca9a17beff748c7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Menu/IconeReiniciar.png"
+dest_files=["res://.godot/imported/IconeReiniciar.png-a53acd9982028d27ca9a17beff748c7d.ctex"]
 
 [params]
 
