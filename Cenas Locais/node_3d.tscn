@@ -62,10 +62,8 @@ ssao_detail = 5.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2py5t"]
 render_priority = 0
 shader = ExtResource("6_pesax")
-shader_parameter/scale = 4.0
-shader_parameter/outline_spread = 1.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2x4os"]
 resource_name = "colormap"
@@ -114,10 +112,8 @@ data = PackedVector3Array(-0.12822501, 0.775, 0.32793304, -0.12822501, 0.798, 0.
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o1118"]
 render_priority = 0
 shader = ExtResource("6_pesax")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ur5j"]
 resource_name = "colormap"
@@ -167,10 +163,8 @@ data = PackedVector3Array(1.2768808e-13, 0, 0.57735026, 0.5, 0, 0.28867513, 0.5,
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wqrir"]
 render_priority = 0
 shader = ExtResource("6_pesax")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pesax"]
 resource_name = "colormap"

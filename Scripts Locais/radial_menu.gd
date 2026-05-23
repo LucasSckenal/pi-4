@@ -97,6 +97,7 @@ func _construir_ui() -> void:
 	btn_x.add_theme_color_override("font_color", Color(0.80, 0.70, 0.60))
 	btn_x.custom_minimum_size = Vector2(48, 48)
 	btn_x.focus_mode = Control.FOCUS_NONE
+	btn_x.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn_x.add_theme_stylebox_override("normal",  _sb(Color(0,0,0,0),             Color(0,0,0,0), 0, 6))
 	btn_x.add_theme_stylebox_override("hover",   _sb(Color(0.45,0.10,0.10,0.75), Color(0,0,0,0), 0, 6))
 	btn_x.add_theme_stylebox_override("pressed", _sb(Color(0.65,0.10,0.10,0.95), Color(0,0,0,0), 0, 6))
@@ -285,6 +286,7 @@ func _construir_ui() -> void:
 	_btn_confirmar.add_theme_color_override("font_color", Color(0.08, 0.05, 0.02))
 	_btn_confirmar.custom_minimum_size = Vector2(0, 72)
 	_btn_confirmar.focus_mode = Control.FOCUS_NONE
+	_btn_confirmar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_btn_confirmar.disabled = true
 	_btn_confirmar.add_theme_stylebox_override("normal",   _sb(Color(0.68, 0.52, 0.08),      Color(0,0,0,0), 0, 8))
 	_btn_confirmar.add_theme_stylebox_override("hover",    _sb(Color(0.88, 0.68, 0.12),      Color(0,0,0,0), 0, 8))
@@ -353,10 +355,12 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	var brd_h := Color(cor.r, cor.g, cor.b, 0.85)
 	var brd_p := Color(cor.r, cor.g, cor.b, 1.00)
 
+	# Botão de seleção da construção
 	var btn := Button.new()
 	btn.toggle_mode = true
 	btn.text = ""
 	btn.custom_minimum_size = Vector2(168, 158)
+	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_stylebox_override("normal",  _sb(bg_n, brd_n, 2, 10))
@@ -423,6 +427,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	if bloqueado:
 		btn.disabled = true
 		btn.modulate = Color(0.45, 0.45, 0.45, 0.9)
+		btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
 		# Overlay com border-radius igual ao botão
 		var ov := Panel.new()
 		ov.add_theme_stylebox_override("panel", _sb(Color(0, 0, 0, 0.58), Color(0,0,0,0), 0, 10))

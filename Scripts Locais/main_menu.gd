@@ -3,6 +3,7 @@ extends Control
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
 var _overlay_escuro: ColorRect = null
+var _tween_escala: Tween = null
 
 # Referências para a interface (Atualizadas para a nova hierarquia sem MarginContainer)
 @onready var btn_jogar          = $CanvasLayer/BtnJogar
@@ -30,6 +31,11 @@ func _ready():
 
 	get_viewport().size_changed.connect(_atualizar_largura_botoes)
 	_atualizar_largura_botoes()
+	
+	var btn_personagem = get_node_or_null("CanvasLayer/BtnPersonagemInvisivel")
+	if btn_personagem:
+		btn_personagem.mouse_entered.connect(_on_personagem_mouse_entered)
+		btn_personagem.mouse_exited.connect(_on_personagem_mouse_exited)
 
 func _atualizar_largura_botoes() -> void:
 	var largura_tela: float = get_viewport_rect().size.x
@@ -150,31 +156,30 @@ func _voltar_para_menu():
 func _voltar_para_menu_do_seletor():
 	if btn_jogar: btn_jogar.show()
 
-const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
-
 func _aplicar_outline_automatico(no_raiz: Node):
-	var mat_outline = ShaderMaterial.new()
-	if OUTLINE_SHADER:
-		mat_outline.shader = OUTLINE_SHADER
-		mat_outline.set_shader_parameter("scale", 2.0)
-		mat_outline.set_shader_parameter("outline_spread", 5.0)
-		mat_outline.set_shader_parameter("_Color", Color(0, 0, 0, 1))
-		mat_outline.set_shader_parameter("_DepthNormalThreshold", 0.1)
-		mat_outline.set_shader_parameter("_DepthNormalThresholdScale", 3.0)
-		mat_outline.set_shader_parameter("_DepthThreshold", 1.5)
-		mat_outline.set_shader_parameter("_NormalThreshold", 2.0)
-		_varrer_malhas_e_aplicar(no_raiz, mat_outline)
+	# Garante que a outline existente inicie com os valores padrões (Preto)
+	_atualizar_nextpass_outline(no_raiz, 0.01, Color(0, 0, 0, 1))
 
-func _varrer_malhas_e_aplicar(no_atual: Node, material_shader: ShaderMaterial):
+# Documentação: Altera os parâmetros do shader que já existe no next_pass das malhas
+func _atualizar_nextpass_outline(no_atual: Node, novo_weight: float, nova_color: Color) -> void:
 	if no_atual is MeshInstance3D:
-		no_atual.material_overlay = material_shader
+		var mesh = no_atual.mesh
+		if mesh:
+			for i in range(mesh.get_surface_count()):
+				var mat = no_atual.get_active_material(i)
+				if mat and mat.next_pass and mat.next_pass is ShaderMaterial:
+					var shader_mat = mat.next_pass as ShaderMaterial
+					shader_mat.set_shader_parameter("Weight", novo_weight)
+					shader_mat.set_shader_parameter("Color", nova_color)
+					
 	for filho in no_atual.get_children():
-		_varrer_malhas_e_aplicar(filho, material_shader)
+		_atualizar_nextpass_outline(filho, novo_weight, nova_color)
 
 func _criar_overlay_escuro() -> void:
 	var canvas_layer: Node = get_node_or_null("CanvasLayer")
 	if not canvas_layer:
 		return
+	
 	_overlay_escuro = ColorRect.new()
 	_overlay_escuro.name = "OverlayEscuro"
 	_overlay_escuro.color = Color(0.0, 0.0, 0.0, 0.0)
@@ -193,3 +198,27 @@ func _on_btn_personagem_invisivel_pressed() -> void:
 		tw.tween_property(_overlay_escuro, "color:a", 0.90, 0.3).set_trans(Tween.TRANS_QUAD)
 		await tw.finished
 	get_tree().change_scene_to_file("res://UI/Menus/menu_customizacao.tscn")
+
+# Documentação: Executa os efeitos visuais ao passar o mouse sobre o personagem
+func _on_personagem_mouse_entered() -> void:
+	var personagem = ponto_lobby.get_child(0) if ponto_lobby.get_child_count() > 0 else null
+	if not personagem: return
+
+	_atualizar_nextpass_outline(personagem, 0.016, Color(1, 1, 1, 1))
+	
+	if _tween_escala and _tween_escala.is_valid():
+		_tween_escala.kill()
+	_tween_escala = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_tween_escala.tween_property(ponto_lobby, "scale", Vector3(1.08, 1.08, 1.08), 0.15)
+
+# Documentação: Restaura os valores originais quando o mouse deixa o personagem
+func _on_personagem_mouse_exited() -> void:
+	var personagem = ponto_lobby.get_child(0) if ponto_lobby.get_child_count() > 0 else null
+	if not personagem: return
+
+	_atualizar_nextpass_outline(personagem, 0.01, Color(0, 0, 0, 1))
+	
+	if _tween_escala and _tween_escala.is_valid():
+		_tween_escala.kill()
+	_tween_escala = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_tween_escala.tween_property(ponto_lobby, "scale", Vector3(1.0, 1.0, 1.0), 0.15)
