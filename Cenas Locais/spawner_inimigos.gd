@@ -123,7 +123,12 @@ func _esperar_limpeza():
 	# Aguarda o sinal inimigo_morreu em vez de polling a cada 1 s
 	# get_nodes_in_group só é chamado quando um inimigo de facto morre
 	while not _todos_inimigos_mortos():
+		if not is_inside_tree():
+			return  # Nó removido da árvore — aborta silenciosamente
 		await GameManager.inimigo_morreu
+		# Segurança: se o dia já começou (cena mudou / inimigo preso), sai do loop
+		if not GameManager.is_night:
+			break
 	_finalizar_onda()
 
 func _todos_inimigos_mortos() -> bool:

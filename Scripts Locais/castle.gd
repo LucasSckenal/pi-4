@@ -28,5 +28,5 @@ func receber_dano(quantidade: int):
 func destruir_castelo():
 	if Global.DEBUG_MODE:
 		print("GAME OVER! O Castelo caiu!")
-	# Aqui você pode recarregar a fase:
-	get_tree().reload_current_scene()
+	# call_deferred garante que o reload não ocorre no meio de tweens/signals activos
+	get_tree().call_deferred("reload_current_scene")

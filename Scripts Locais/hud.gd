@@ -465,6 +465,7 @@ func _on_info_spawner(id_spawner, direcao, inimigos, posicao_mundo):
 	box.add_theme_constant_override("separation", 5)
 
 	container_dir.add_child(box)
+	container_dir.set_meta("box", box)  # cache — evita iterar filhos a cada tick
 
 	# ícones
 	for info in inimigos:
@@ -627,13 +628,8 @@ func _process(delta: float) -> void:
 
 		var angulo = dir_vetor.angle()
 
-		# pega VBox OU HBox
-		var box = null
-
-		for child in container.get_children():
-			if child is VBoxContainer or child is HBoxContainer:
-				box = child
-				break
+		# recupera a caixa do cache em vez de iterar filhos a cada tick
+		var box = container.get_meta("box", null)
 
 		if box:
 			for icon in box.get_children():

@@ -27,6 +27,10 @@ var slot_disponivel: bool = false   # Controlado pelo nível da base
 var ui_atual: Control = null        # Referência à UI instanciada
 var _tween_destaque: Tween = null   # Animação de destaque do conselheiro
 
+# Throttle: evita chamar unproject_position todo frame (caro em mobile)
+var _timer_cam: float = 0.0
+var _pos2d_cache: Vector2 = Vector2.ZERO
+
 func _ready():
 	add_to_group("BuildSlots")
 
@@ -215,8 +219,12 @@ func _process(delta):
 	if canvas_mobile and canvas_mobile.visible and is_instance_valid(bolha_btn):
 		var camera = get_viewport().get_camera_3d()
 		if camera and not camera.is_position_behind(global_position):
-			var pos_2d = camera.unproject_position(global_position)
-			bolha_btn.position = pos_2d - (bolha_btn.size / 2)
+			# Throttle: unproject_position a 20 fps — caro em mobile, imperceptível na UI
+			_timer_cam -= delta
+			if _timer_cam <= 0.0:
+				_timer_cam = 0.05
+				_pos2d_cache = camera.unproject_position(global_position)
+			bolha_btn.position = _pos2d_cache - (bolha_btn.size / 2)
 			
 			# Transição suave de escala e cor baseada no hover do mouse
 			var hover = bolha_btn.is_hovered()

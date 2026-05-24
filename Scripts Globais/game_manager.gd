@@ -292,11 +292,13 @@ func _process(delta):
 		moedas += 10000
 		get_tree().call_group("Interface", "atualizar_moedas")
 
-	# Atualiza o destaque de upgrade a cada 1 s (somente durante o dia)
+	# Atualiza o destaque de upgrade — fallback a cada 3 s durante o dia.
+	# O update imediato é disparado por gastar_moedas() e aplicar_upgrade(),
+	# portanto o timer serve apenas como garantia de sincronização residual.
 	if not is_night:
 		_timer_destaque_upgrade -= delta
 		if _timer_destaque_upgrade <= 0.0:
-			_timer_destaque_upgrade = 1.0
+			_timer_destaque_upgrade = 3.0
 			_atualizar_destaque_upgrade()
 
 # ==========================================
@@ -610,6 +612,10 @@ func aplicar_upgrade(dados):
 
 	upgrade_aplicado.emit()
 	get_tree().call_group("Torres", "atualizar_status")
+	# Upgrade aplicado — construções podem ter ficado mais baratas; atualiza destaque
+	if not is_night:
+		_atualizar_destaque_upgrade()
+		_timer_destaque_upgrade = 3.0
 
 func _processar_efeito(tipo_efeito, valor):
 	match tipo_efeito:
@@ -670,6 +676,11 @@ func gastar_moedas(valor_custo: int) -> bool:
 		moedas -= valor_custo
 		get_tree().call_group("Interface", "atualizar_moedas")
 		get_tree().call_group("Interface", "animar_bau_abrindo")
+		# Moedas mudaram — recalcula destaque imediatamente (construções antes inacessíveis
+		# podem ter ficado acessíveis ou vice-versa) e reseta o timer de fallback
+		if not is_night:
+			_atualizar_destaque_upgrade()
+			_timer_destaque_upgrade = 3.0
 		return true
 	return false
 
