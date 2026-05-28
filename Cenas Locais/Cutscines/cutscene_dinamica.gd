@@ -266,35 +266,20 @@ func _criar_quadro(idx: int) -> PanelContainer:
 	painel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	var st := StyleBoxFlat.new()
-	st.bg_color = COR_PAINEL_BG
-	st.set_border_width_all(3)
-	st.border_color = COR_BORDA
-	st.set_corner_radius_all(10)
-	st.content_margin_left = 14.0
-	st.content_margin_right = 14.0
-	st.content_margin_top = 12.0
-	st.content_margin_bottom = 12.0
-	st.shadow_color = Color(0, 0, 0, 0.55)
-	st.shadow_size = 8
+	st.bg_color = Color(0, 0, 0, 0)
+	st.set_border_width_all(0)
+	st.set_corner_radius_all(0)
+	st.content_margin_left = 0.0
+	st.content_margin_right = 0.0
+	st.content_margin_top = 0.0
+	st.content_margin_bottom = 0.0
+	st.shadow_size = 0
 	painel.add_theme_stylebox_override("panel", st)
 
 	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 8)
+	vbox.add_theme_constant_override("separation", 6)
 	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	painel.add_child(vbox)
-
-	var header := HBoxContainer.new()
-	header.add_theme_constant_override("separation", 8)
-	header.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_child(header)
-
-	var num_lbl := Label.new()
-	num_lbl.text = str(idx + 1)
-	num_lbl.add_theme_font_size_override("font_size", 22)
-	num_lbl.add_theme_color_override("font_color", COR_TITULO)
-	num_lbl.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
-	num_lbl.add_theme_constant_override("outline_size", 3)
-	header.add_child(num_lbl)
 
 	if idx < titulos.size() and titulos[idx] != "":
 		var tit := Label.new()
@@ -305,15 +290,7 @@ func _criar_quadro(idx: int) -> PanelContainer:
 		tit.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.7))
 		tit.add_theme_constant_override("outline_size", 2)
 		tit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		header.add_child(tit)
-
-	var sep := HSeparator.new()
-	var sep_st := StyleBoxFlat.new()
-	sep_st.bg_color = COR_BORDA
-	sep_st.content_margin_top = 1.0
-	sep_st.content_margin_bottom = 1.0
-	sep.add_theme_stylebox_override("separator", sep_st)
-	vbox.add_child(sep)
+		vbox.add_child(tit)
 
 	if idx < imagens.size() and imagens[idx] != null:
 		var img := TextureRect.new()

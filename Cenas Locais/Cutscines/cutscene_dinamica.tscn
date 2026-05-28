@@ -7,10 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://p6s3gbo8h4wv" path="res://Assets/Cutscenes/Teste/Teste_parte4.png" id="5_mr0sq"]
 [ext_resource type="Texture2D" uid="uid://ct084bis7tbon" path="res://Assets/Cutscenes/Teste/Teste_parte5.png" id="6_fiu0q"]
 [ext_resource type="Texture2D" uid="uid://d3kcmmt087vrr" path="res://Assets/Cutscenes/Teste/Teste_parte6.png" id="7_71rkv"]
-[ext_resource type="Texture2D" uid="uid://cqgtoewmvkg61" path="res://Assets/Cutscenes/Teste/Teste_parte7.png" id="8_1ixde"]
 
 [node name="CutsceneAnimada" type="CanvasLayer" unique_id=1720865964]
 script = ExtResource("1_k0nrk")
-imagens = Array[Texture2D]([ExtResource("2_h13be"), ExtResource("3_jcuj5"), ExtResource("4_fl5hp"), ExtResource("5_mr0sq"), ExtResource("6_fiu0q"), ExtResource("7_71rkv"), ExtResource("8_1ixde")])
+imagens = Array[Texture2D]([ExtResource("2_h13be"), ExtResource("3_jcuj5"), ExtResource("4_fl5hp"), ExtResource("5_mr0sq"), ExtResource("6_fiu0q"), ExtResource("7_71rkv")])
 caminho_proxima_fase = "res://Maps/tutorial_world.tscn"
 numero_fase = 1
