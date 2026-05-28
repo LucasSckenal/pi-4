@@ -1,36 +1,35 @@
 <div align="center">
 
-<img src="./docs/banner.png" alt="Onde Estão os Netos? Banner" width="100%"/>
+<img src="./Assets/Menu/Titulo.png" alt="Onde Estão os Netos?" width="620"/>
 
 # Onde Estão os Netos?
 
-**Tower Defense · Ação · Estratégia**
+**Tower Defense 3D com ação, estratégia e acessibilidade**
 
-_Avós heroicos atravessam mundos fantásticos para resgatar seus netos_
+Um jogo desenvolvido em Godot no qual Afonso e Berta atravessam mundos fantásticos para resgatar seus netos, combinando construção de defesas, ondas de inimigos, progressão roguelike e uma interface pensada para jogadores idosos.
 
 <br/>
 
-[![Godot 4.6](https://img.shields.io/badge/Godot-4.6-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
-[![GDScript](https://img.shields.io/badge/GDScript-informational?style=for-the-badge&logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/)
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](.)
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](.)
-[![Versão](https://img.shields.io/badge/versão-1.0-success?style=for-the-badge)](.)
+[![Godot](https://img.shields.io/badge/Godot-4.6-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org/)
+[![GDScript](https://img.shields.io/badge/GDScript-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/)
+[![Plataformas](https://img.shields.io/badge/Windows%20%7C%20Android-2F3437?style=for-the-badge)](.)
+[![Versão](https://img.shields.io/badge/vers%C3%A3o-2.3-2EA043?style=for-the-badge)](.)
 
 </div>
 
 ---
 
-## Índice
+## Sumário
 
-1. [Sobre o Projeto](#sobre-o-projeto)
-2. [Screenshots](#screenshots)
-3. [Funcionalidades](#funcionalidades)
-4. [Mundos do Jogo](#mundos-do-jogo)
-5. [Arquitetura & Sistemas](#arquitetura--sistemas)
-6. [Estrutura de Pastas](#estrutura-de-pastas)
-7. [Instalação](#instalação)
-8. [Como Jogar](#como-jogar)
-9. [Equipe](#equipe)
+- [Sobre o jogo](#sobre-o-jogo)
+- [Galeria](#galeria)
+- [Principais recursos](#principais-recursos)
+- [Mundos](#mundos)
+- [Arquitetura](#arquitetura)
+- [Como executar](#como-executar)
+- [Como jogar](#como-jogar)
+- [Equipe](#equipe)
+- [Licença](#licença)
 
 ---
 
