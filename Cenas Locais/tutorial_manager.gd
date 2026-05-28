@@ -14,6 +14,8 @@ signal tutorial_pulado # Emitido quando o jogador decide pular o tutorial
 @onready var anim_avo = $"CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2/AnimationPlayer"
 @onready var anim_afonso = $"CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/AnimationPlayer"
 
+@onready var btn = $BotaoPular
+
 var alvo_3d_atual: Node3D = null
 var alvo_2d_atual: Control = null
 var material_fundo: ShaderMaterial
@@ -251,3 +253,27 @@ func _on_botao_pular_pressed():
 	
 	if fundo_escuro:
 		fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+# Hover → escala 1.05
+func _on_btn_hover_entrou() -> void:
+	_animar_escala_btn(btn, 1.05)
+
+# Mouse sai → volta ao normal 1.0
+func _on_btn_hover_saiu() -> void:
+	_animar_escala_btn(btn, 1.0)
+
+# Pressionado → escala 0.95
+func _on_btn_pressionado() -> void:
+	_animar_escala_btn(btn, 0.95)
+
+# Solto → volta ao hover (1.05) se o mouse ainda estiver sobre o botão, senão ao normal
+func _on_btn_solto() -> void:
+	var escala_alvo := 1.05 if btn.is_hovered() else 1.0
+	_animar_escala_btn(btn, escala_alvo)
+
+# Aplica a animação de escala com tween suave, usando o pivot no centro do botão
+func _animar_escala_btn(btn: Button, escala: float) -> void:
+	# Atualiza o pivot para o centro atual (tamanho pode mudar com o viewport)
+	btn.pivot_offset = btn.size / 2.0
+	var tw := btn.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btn, "scale", Vector2(escala, escala), 0.12)

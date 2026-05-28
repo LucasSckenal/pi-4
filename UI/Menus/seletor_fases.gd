@@ -9,6 +9,8 @@ const MODAL_MODO_FASE = preload("res://UI/Modals/modal_modo_fase.tscn")
 @onready var pergaminho = $Meshy_AI_Blank_Scroll_0416004051_texture
 var progresso_atual = 6
 
+@onready var btnVoltar = $BtnVoltar
+
 # Nomes corrigidos exatamente iguais à sua foto!
 @onready var botoes_fases = [
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map1,
@@ -201,3 +203,30 @@ func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 		6: MusicaGlobal.tocar_covil()
 
 	get_tree().change_scene_to_file(GameManager.obter_cena_entrada_fase(numero_fase))
+
+
+
+# Deus me salve esse botão tem de scale (-0.10, 0.077)
+# Hover → escala 1.05
+func _on_btn_hover_entrou() -> void:
+	_animar_escala_btn(btnVoltar, 1.05)
+
+# Mouse sai → volta ao normal 1.0
+func _on_btn_hover_saiu() -> void:
+	_animar_escala_btn(btnVoltar, 1.0)
+
+# Pressionado → escala 0.95
+func _on_btn_pressionado() -> void:
+	_animar_escala_btn(btnVoltar, 0.95)
+
+# Solto → volta ao hover (1.05) se o mouse ainda estiver sobre o botão, senão ao normal
+func _on_btn_solto() -> void:
+	var escala_alvo := 1.05 if btnVoltar.is_hovered() else 1.0
+	_animar_escala_btn(btnVoltar, escala_alvo)
+
+# Aplica a animação de escala com tween suave, usando o pivot no centro do botão
+func _animar_escala_btn(btnEscolhido: Button, escala: float) -> void:
+	# Atualiza o pivot para o centro atual (tamanho pode mudar com o viewport)
+	btnEscolhido.pivot_offset = btnEscolhido.size / 2.0
+	var tw := btnEscolhido.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btnEscolhido, "scale", Vector2(escala, escala), 0.12)
