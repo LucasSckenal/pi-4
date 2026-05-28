@@ -16,8 +16,17 @@
 exposure_multiplier = 0.55
 auto_exposure_speed = 64.0
 dof_blur_far_enabled = true
-dof_blur_far_distance = 1.18
+dof_blur_far_distance = 1.0
 dof_blur_amount = 0.21
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lvola"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.69411767)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lvola"]
+material = SubResource("StandardMaterial3D_lvola")
+flip_faces = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bege"]
 content_margin_left = 16.0
@@ -118,25 +127,25 @@ expand_margin_bottom = 30.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k4aug"]
 texture = ExtResource("8_wjhi1")
-expand_margin_left = 60.0
-expand_margin_top = 30.0
-expand_margin_right = 40.0
-expand_margin_bottom = 30.0
+texture_margin_left = 65.0
+texture_margin_top = 30.0
+texture_margin_right = 65.0
+texture_margin_bottom = 30.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nsbyk"]
 texture = ExtResource("8_wjhi1")
-expand_margin_left = 55.0
-expand_margin_top = 25.0
-expand_margin_right = 35.0
-expand_margin_bottom = 25.0
+texture_margin_left = 65.0
+texture_margin_top = 30.0
+texture_margin_right = 65.0
+texture_margin_bottom = 30.0
 modulate_color = Color(0.5251013, 0.5251013, 0.5251013, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4em55"]
 texture = ExtResource("8_wjhi1")
-expand_margin_left = 65.0
-expand_margin_top = 35.0
-expand_margin_right = 45.0
-expand_margin_bottom = 35.0
+texture_margin_left = 65.0
+texture_margin_top = 35.0
+texture_margin_right = 65.0
+texture_margin_bottom = 35.0
 
 [node name="MainMenu" type="Control" unique_id=144538788]
 layout_mode = 3
@@ -156,8 +165,12 @@ attributes = SubResource("CameraAttributesPractical_aaagv")
 far = 50.0
 script = ExtResource("4_jix8l")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CenarioFundo/Camera3D" unique_id=1639996451]
+transform = Transform3D(0.5754268, 0, 8.940697e-08, 0, 0.28320575, 0, -5.9604645e-08, 0, 0.64252675, 0.1328485, 0, -0.15778518)
+mesh = SubResource("BoxMesh_lvola")
+
 [node name="PontoLobby" type="Node3D" parent="CenarioFundo/Camera3D" unique_id=1154266312]
-transform = Transform3D(0.9538901, 0, -0.30015647, 0, 1, 0, 0.30015647, 0, 0.9538901, 0.24225909, -0.15739584, -0.39922857)
+transform = Transform3D(0.9538901, 0, -0.30015647, 0, 1, 0, 0.30015647, 0, 0.9538901, 0.242, -0.14, -0.399)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1765247065]
 
@@ -170,6 +183,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.56
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
@@ -290,6 +304,7 @@ texture = ExtResource("11_lvola")
 centered = false
 
 [node name="BtnPersonagemInvisivel" type="Button" parent="CanvasLayer" unique_id=1560747246]
+z_index = 10
 layout_direction = 4
 anchors_preset = -1
 anchor_left = 0.758

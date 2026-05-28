@@ -2,7 +2,6 @@ extends Control
 
 @onready var ponto_lobby = $CenarioFundo/Camera3D/PontoLobby
 
-var _overlay_escuro: ColorRect = null
 var _tween_escala: Tween = null
 
 # Referências para a interface (Atualizadas para a nova hierarquia sem MarginContainer)
@@ -15,7 +14,6 @@ var _tween_escala: Tween = null
 
 func _ready():
 	MusicaGlobal.tocar_menu()
-	_criar_overlay_escuro()
 
 	if btn_continuar:
 		var existe_save = GameManager.tem_jogo_salvo()
@@ -28,6 +26,7 @@ func _ready():
 
 	_instanciar_player_no_menu()
 	_animar_entrada_botoes()
+	_conectar_sinais_escala_botoes()
 
 	get_viewport().size_changed.connect(_atualizar_largura_botoes)
 	_atualizar_largura_botoes()
@@ -52,6 +51,9 @@ func _atualizar_largura_botoes() -> void:
 		# Define largura fixa para os botões principais de navegação
 		if eh_principal:
 			btn.custom_minimum_size.x = largura_btn
+		
+		# garante que o pivot seja sempre o centro para a escala funcionar corretamente
+		btn.pivot_offset = btn.size / 2.0
 
 	if is_instance_valid(titulo_img):
 		var fator: float = largura_btn / 280.0
@@ -71,6 +73,38 @@ func _obter_todos_os_botoes() -> Array:
 	if btn_sair: lista.append(btn_sair)
 	
 	return lista.filter(func(node): return node is Button)
+
+# Conecta hover/press de cada botão para animação de escala via tween
+func _conectar_sinais_escala_botoes() -> void:
+	for btn in _obter_todos_os_botoes():
+		btn.mouse_entered.connect(_on_btn_hover_entrou.bind(btn))
+		btn.mouse_exited.connect(_on_btn_hover_saiu.bind(btn))
+		btn.button_down.connect(_on_btn_pressionado.bind(btn))
+		btn.button_up.connect(_on_btn_solto.bind(btn))
+
+# Hover → escala 1.05
+func _on_btn_hover_entrou(btn: Button) -> void:
+	_animar_escala_btn(btn, 1.05)
+
+# Mouse sai → volta ao normal 1.0
+func _on_btn_hover_saiu(btn: Button) -> void:
+	_animar_escala_btn(btn, 1.0)
+
+# Pressionado → escala 0.95
+func _on_btn_pressionado(btn: Button) -> void:
+	_animar_escala_btn(btn, 0.95)
+
+# Solto → volta ao hover (1.05) se o mouse ainda estiver sobre o botão, senão ao normal
+func _on_btn_solto(btn: Button) -> void:
+	var escala_alvo := 1.05 if btn.is_hovered() else 1.0
+	_animar_escala_btn(btn, escala_alvo)
+
+# Aplica a animação de escala com tween suave, usando o pivot no centro do botão
+func _animar_escala_btn(btn: Button, escala: float) -> void:
+	# Atualiza o pivot para o centro atual (tamanho pode mudar com o viewport)
+	btn.pivot_offset = btn.size / 2.0
+	var tw := btn.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btn, "scale", Vector2(escala, escala), 0.12)
 
 func _instanciar_player_no_menu():
 	var cena_p = load("res://Cenas Locais/player.tscn")
@@ -160,7 +194,7 @@ func _aplicar_outline_automatico(no_raiz: Node):
 	# Garante que a outline existente inicie com os valores padrões (Preto)
 	_atualizar_nextpass_outline(no_raiz, 0.01, Color(0, 0, 0, 1))
 
-# Documentação: Altera os parâmetros do shader que já existe no next_pass das malhas
+# Altera os parâmetros do shader que já existe no next_pass das malhas
 func _atualizar_nextpass_outline(no_atual: Node, novo_weight: float, nova_color: Color) -> void:
 	if no_atual is MeshInstance3D:
 		var mesh = no_atual.mesh
@@ -179,31 +213,10 @@ func _atualizar_nextpass_outline(no_atual: Node, novo_weight: float, nova_color:
 	for filho in no_atual.get_children():
 		_atualizar_nextpass_outline(filho, novo_weight, nova_color)
 
-func _criar_overlay_escuro() -> void:
-	var canvas_layer: Node = get_node_or_null("CanvasLayer")
-	if not canvas_layer:
-		return
-	
-	_overlay_escuro = ColorRect.new()
-	_overlay_escuro.name = "OverlayEscuro"
-	_overlay_escuro.color = Color(0.0, 0.0, 0.0, 0.0)
-	_overlay_escuro.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_overlay_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_overlay_escuro.z_index = -10  # Atrás de todos os botões
-	canvas_layer.add_child(_overlay_escuro)
-	# Fade in suave ao abrir o menu
-	var tw := _overlay_escuro.create_tween()
-	tw.tween_property(_overlay_escuro, "color:a", 0.30, 0.8).set_trans(Tween.TRANS_QUAD)
-
 func _on_btn_personagem_invisivel_pressed() -> void:
-	# Escurece antes de trocar de cena para uma transição mais suave
-	if is_instance_valid(_overlay_escuro):
-		var tw := _overlay_escuro.create_tween()
-		tw.tween_property(_overlay_escuro, "color:a", 0.90, 0.3).set_trans(Tween.TRANS_QUAD)
-		await tw.finished
 	get_tree().change_scene_to_file("res://UI/Menus/menu_customizacao.tscn")
 
-# Documentação: Executa os efeitos visuais ao passar o mouse sobre o personagem
+# Executa os efeitos visuais ao passar o mouse sobre o personagem
 func _on_personagem_mouse_entered() -> void:
 	var personagem = ponto_lobby.get_child(0) if ponto_lobby.get_child_count() > 0 else null
 	if not personagem: return
@@ -215,7 +228,7 @@ func _on_personagem_mouse_entered() -> void:
 	_tween_escala = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	_tween_escala.tween_property(ponto_lobby, "scale", Vector3(1.08, 1.08, 1.08), 0.15)
 
-# Documentação: Restaura os valores originais quando o mouse deixa o personagem
+# Restaura os valores originais quando o mouse deixa o personagem
 func _on_personagem_mouse_exited() -> void:
 	var personagem = ponto_lobby.get_child(0) if ponto_lobby.get_child_count() > 0 else null
 	if not personagem: return
