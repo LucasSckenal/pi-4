@@ -168,9 +168,13 @@ func _atualizar_nextpass_outline(no_atual: Node, novo_weight: float, nova_color:
 			for i in range(mesh.get_surface_count()):
 				var mat = no_atual.get_active_material(i)
 				if mat and mat.next_pass and mat.next_pass is ShaderMaterial:
+					if not mat.next_pass.resource_local_to_scene:
+						mat.next_pass = mat.next_pass.duplicate()
+						
 					var shader_mat = mat.next_pass as ShaderMaterial
-					shader_mat.set_shader_parameter("Weight", novo_weight)
-					shader_mat.set_shader_parameter("Color", nova_color)
+					# Documentação: Strings corrigidas para letras minúsculas respeitando o Outline.gdshader
+					shader_mat.set_shader_parameter("weight", novo_weight)
+					shader_mat.set_shader_parameter("color", nova_color)
 					
 	for filho in no_atual.get_children():
 		_atualizar_nextpass_outline(filho, novo_weight, nova_color)

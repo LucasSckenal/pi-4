@@ -598,45 +598,45 @@ func _configurar_shader_outline(modelo_alvo: Node):
 	
 	materiais_outline.clear()
 	
-	# Cria uma única instância do material de outline de forma totalmente automatizada via código
+	# Documentação: Cria a instância do material usando os parâmetros atualizados do Outline.gdshader
 	var mat_outline = ShaderMaterial.new()
 	if OUTLINE_SHADER:
 		mat_outline.shader = OUTLINE_SHADER
-		mat_outline.set_shader_parameter("scale", 1.0)
-		mat_outline.set_shader_parameter("outline_spread", 5.0)
-		mat_outline.set_shader_parameter("_Color", Color(0, 0, 0, 1))
-		mat_outline.set_shader_parameter("_DepthNormalThreshold", 0.1)
-		mat_outline.set_shader_parameter("_DepthNormalThresholdScale", 3.0)
-		mat_outline.set_shader_parameter("_DepthThreshold", 1.5)
-		mat_outline.set_shader_parameter("_NormalThreshold", 2.0)
+		mat_outline.set_shader_parameter("weight", 0.01)
+		mat_outline.set_shader_parameter("color", Color(0, 0, 0, 1))
 		
 		materiais_outline.append(mat_outline)
 		_percorrer_e_ajustar_materiais(modelo_alvo, mat_outline)
 	
-	# Configura a escala inicial baseada na posição atual da câmera
+	# Documentação: Configura a espessura inicial baseada na posição atual da câmera
 	var camera = get_viewport().get_camera_3d()
 	if camera:
 		var parametro_zoom = camera.fov if camera.projection == Camera3D.PROJECTION_PERSPECTIVE else camera.size
 		_atualizar_escala_outline(parametro_zoom)
 
 func _atualizar_escala_outline(valor_zoom: float):
-	# Mapeia o zoom para a escala do outline dependendo do tipo da câmera
-	var nova_escala = 1.0
+	# Documentação: Mapeia o zoom da câmera para a propriedade weight do shader atual
+	var novo_weight = 0.01
 	var camera = get_viewport().get_camera_3d()
 	if camera:
 		if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
-			nova_escala = remap(valor_zoom, 20.0, 90.0, 1.0, 4.5)
+			novo_weight = remap(valor_zoom, 20.0, 90.0, 0.01, 0.04)
 		else:
-			nova_escala = remap(valor_zoom, 5.0, 30.0, 1.0, 4.5)
+			novo_weight = remap(valor_zoom, 5.0, 30.0, 0.01, 0.04)
 			
 	for mat in materiais_outline:
 		if is_instance_valid(mat):
-			mat.set_shader_parameter("scale", nova_escala)
+			mat.set_shader_parameter("weight", novo_weight)
 
 func _percorrer_e_ajustar_materiais(no_atual: Node, mat_outline: ShaderMaterial = null):
-	# Aplica o overlay do shader em todas as partes do personagem que são malhas visíveis
+	# Documentação: Aplica o shader no next_pass dos materiais ativos de todas as malhas visíveis
 	if no_atual is MeshInstance3D and mat_outline != null:
-		no_atual.material_overlay = mat_outline
+		var mesh = no_atual.mesh
+		if mesh:
+			for i in range(mesh.get_surface_count()):
+				var mat_ativo = no_atual.get_active_material(i)
+				if mat_ativo:
+					mat_ativo.next_pass = mat_outline
 			
 	for filho in no_atual.get_children():
 		_percorrer_e_ajustar_materiais(filho, mat_outline)

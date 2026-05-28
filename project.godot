@@ -14,6 +14,7 @@ config/name="Onde Estão os Netos?"
 config/version="2.3"
 run/main_scene="uid://c6q536yvnfjtf"
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/show_image=false
 config/icon="uid://b6bv31frms1ig"
 
 [autoload]
@@ -107,6 +108,7 @@ passar_onda={
 
 [input_devices]
 
+pointing/android/enable_pan_and_scale_gestures=true
 pointing/emulate_touch_from_mouse=true
 
 [physics]

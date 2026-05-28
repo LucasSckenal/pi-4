@@ -39,7 +39,9 @@ func _ready() -> void:
 			
 			botao.mouse_entered.connect(func():
 				# Impede a animação em fases não liberadas
-				if botao.disabled: return
+				if botao.disabled: 
+					botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
+					return
 				
 				var escala_base = botao.get_meta("escala_original")
 				var tween := create_tween()
@@ -111,9 +113,11 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 			botao.disabled = false 
 			# Chamamos a atualização das estrelas aqui:
 			atualizar_estrelas_do_botao(botoes_fases[i], nivel_da_fase)
+			botao.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		else:
 			botao.modulate = Color(0.01, 0.01, 0.01, 1) 
 			botao.disabled = true
+			botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
 
 	for i in range(linhas_criadas.size()):
 		var nivel_destino = i + 2 

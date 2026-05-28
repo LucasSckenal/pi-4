@@ -1,23 +1,41 @@
 [gd_scene format=3 uid="uid://15yqfa5lpupn"]
 
 [ext_resource type="Script" uid="uid://ch0vwt5rivuxd" path="res://UI/Menus/menu_customizacao.gd" id="1_q3jha"]
+[ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="2_lme8q"]
+[ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_esppb"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vestiario"]
-sky_top_color = Color(0.2, 0.2, 0.2, 1)
-sky_horizon_color = Color(0.1, 0.1, 0.1, 1)
-ground_bottom_color = Color(0, 0, 0, 1)
-ground_horizon_color = Color(0.1, 0.1, 0.1, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gtwgk"]
+sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
+sky_horizon_color = Color(0.23483449, 0.00023430049, 0.69736916, 1)
+ground_bottom_color = Color(0, 0.31666684, 1, 1)
+ground_horizon_color = Color(0.060327195, 0.7809794, 0.9999998, 1)
+ground_curve = 0.12996066
 
-[sub_resource type="Sky" id="Sky_vestiario"]
-sky_material = SubResource("ProceduralSkyMaterial_vestiario")
+[sub_resource type="Sky" id="Sky_wjb0r"]
+sky_material = SubResource("ProceduralSkyMaterial_gtwgk")
 
-[sub_resource type="Environment" id="Environment_vestiario"]
+[sub_resource type="Environment" id="Environment_1adak"]
 background_mode = 2
-sky = SubResource("Sky_vestiario")
-ambient_light_source = 3
-reflected_light_source = 2
-tonemap_mode = 2
-glow_enabled = true
+sky = SubResource("Sky_wjb0r")
+sky_rotation = Vector3(-2.8989918, 3.1415927, 0)
+tonemap_mode = 1
+adjustment_enabled = true
+adjustment_contrast = 1.25
+adjustment_saturation = 0.55
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esppb"]
+transparency = 1
+albedo_color = Color(0.025905011, 0.33, 0.009899991, 0.99215686)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_38geg"]
+material = SubResource("StandardMaterial3D_esppb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lme8q"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.54901963)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_esppb"]
+material = SubResource("StandardMaterial3D_lme8q")
 
 [sub_resource type="StyleBoxFlat" id="BG"]
 bg_color = Color(0.11, 0.07, 0.03, 0.96)
@@ -123,13 +141,87 @@ corner_radius_bottom_left = 8
 [node name="Vestiario" type="Node3D" unique_id=1826749913]
 script = ExtResource("1_q3jha")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=714097115]
-environment = SubResource("Environment_vestiario")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=448087855]
+environment = SubResource("Environment_1adak")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=64441171]
-transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 3, 4)
-light_energy = 1.2
+[node name="SpotLight3D" type="SpotLight3D" parent="WorldEnvironment" unique_id=665478675]
+transform = Transform3D(0.9162859, 0.21859276, -0.33561507, -7.607661e-08, 0.837938, 0.5457655, 0.400525, -0.5000772, 0.7677907, -0.10953665, 2.4294016, 1.9776692)
+light_color = Color(0.96, 0.92160004, 0.57600003, 1)
+light_energy = 2.5
 shadow_enabled = true
+shadow_blur = 1.655
+spot_range = 15.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=2108863068]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 1, 0.6509804, 1)
+light_energy = 0.5
+shadow_enabled = true
+shadow_normal_bias = 10.0
+shadow_blur = 1.45
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1246818618]
+transform = Transform3D(-0.8255242, -0.34731215, 0.44484156, 0.5094098, -0.119284175, 0.8522165, -0.24292256, 0.93013203, 0.27539617, 2.7901466, 1.5113938, -1.9234719)
+light_color = Color(0.9709104, 0.70377654, 0.35137385, 1)
+light_specular = 4.0
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=157892215]
+transform = Transform3D(1.7906005, 0, 0, 0, -4.3711385e-08, -0.34742263, 0, 0.99999994, -1.5186325e-08, 1.17665, 0, -2.3442955)
+visible = false
+mesh = SubResource("PlaneMesh_38geg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=437801620]
+transform = Transform3D(1.7906005, 0, 0, 0, -4.3711385e-08, -0.13941522, 0, 0.99999994, -6.094033e-09, 1.17665, 0, -2.0194595)
+mesh = SubResource("PlaneMesh_esppb")
+
+[node name="GridMap3" type="GridMap" parent="." unique_id=1373830348]
+mesh_library = ExtResource("2_lme8q")
+cell_size = Vector3(0.33, 0.1, 0.33)
+cell_scale = 0.2
+data = {
+"cells": PackedInt32Array(-65536, 65534, 655487, -65533, 65533, 1048703, -65535, 65531, 127, -65532, 65531, 1441919, -65531, 65534, 655487, -65529, 65532, 1048703, -2, 65534, 127, -1, 65530, 112, -65534, 65530, 113, -65532, 65530, 1441905)
+}
+metadata/_editor_floor_ = Vector3(0, -1, 0)
+
+[node name="GridMap2" type="GridMap" parent="." unique_id=726419176]
+transform = Transform3D(0.24999999, 0, -0.43301272, 0, 0.5, 0, 0.43301272, 0, 0.24999999, 0.51723456, -0.15632176, -0.035668477)
+visible = false
+mesh_library = ExtResource("3_esppb")
+cell_size = Vector3(0.5, 0.33, 0.5)
+cell_scale = 3.0
+data = {
+"cells": PackedInt32Array(65534, 65528, 1048727, -524306, 65528, 32, -524299, 65519, 1441824)
+}
+metadata/_editor_floor_ = Vector3(0, -4, 0)
+
+[node name="GridMap4" type="GridMap" parent="." unique_id=1527625414]
+transform = Transform3D(0.24999999, 0, -0.43301272, 0, 0.5, 0, 0.43301272, 0, 0.24999999, 0.51723456, -0.15632176, -0.035668477)
+mesh_library = ExtResource("3_esppb")
+cell_size = Vector3(0.5, 0.33, 0.5)
+cell_scale = 3.0
+data = {
+"cells": PackedInt32Array(65534, 65528, 1048727, -524304, 65530, 1048590)
+}
+metadata/_editor_floor_ = Vector3(0, -9, 0)
+
+[node name="GridMap5" type="GridMap" parent="." unique_id=1399135147]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.517, 0.549, -0.036)
+mesh_library = ExtResource("3_esppb")
+cell_size = Vector3(0.5, 0.33, 0.5)
+cell_scale = 3.0
+data = {
+"cells": PackedInt32Array(-524293, 65519, 30, -589820, 65519, 30, -589813, 65519, 30)
+}
+metadata/_editor_floor_ = Vector3(0, -9, 0)
+
+[node name="GridMap" type="GridMap" parent="." unique_id=35768089]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.51723456, -0.15632176, -0.035668477)
+mesh_library = ExtResource("2_lme8q")
+cell_size = Vector3(0.5, 0.33, 0.5)
+data = {
+"cells": PackedInt32Array(-196606, 65534, 33, -131073, 65534, 33, -131073, 65531, 33, -196606, 65531, 33, -196603, 65531, 33, -196603, 65534, 33, -131076, 65534, 33, -131076, 65531, 33, -131076, 65528, 33, -131073, 65528, 33, -196606, 65528, 33, -196603, 65528, 33, 65531, 65529, 143, 65532, 65528, 143, 65533, 65527, 143, 65534, 65528, 143, 65535, 65527, 143, 0, 65528, 143, 1, 65527, 143, 2, 65528, 143, 3, 65527, 143, 4, 65528, 143, 5, 65527, 143, 6, 65528, 143, -196600, 65534, 33, -196600, 65531, 33, -196600, 65528, 33, 7, 65527, 143, 8, 65528, 143, 9, 65529, 143, 9, 65527, 143, 65531, 65527, 143, 65532, 65526, 1048719, 65534, 65526, 1048719, 0, 65526, 1048719, 2, 65526, 1048719, 4, 65526, 1048719, 6, 65526, 1048719, 8, 65526, 1048719, 10, 65528, 1048719, 11, 65527, 1048719, 10, 65526, 1048719, 65530, 65528, 1048719, 65530, 65526, 1048719, 1, 65535, 1048714)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="DirectionalLight3D_Fill" type="DirectionalLight3D" parent="." unique_id=240768798]
 transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 3, 0)
@@ -137,11 +229,11 @@ light_color = Color(0.6, 0.7, 1, 1)
 light_energy = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=582221384]
-transform = Transform3D(1, 0, 0, 0, 0.9848078, 0.17364796, 0, -0.17364796, 0.9848078, 0.89411867, 0.14941406, 0.32174468)
-fov = 60.0
+transform = Transform3D(1, 0, 0, 0, 0.9848078, 0.17364796, 0, -0.17364796, 0.9848078, 0.7972802, 0.19176304, 0.45865524)
+fov = 37.849285
 
 [node name="PontoPersonagem" type="Node3D" parent="." unique_id=633315300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.88582075, 0, -0.09056732)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1227658516]
 
