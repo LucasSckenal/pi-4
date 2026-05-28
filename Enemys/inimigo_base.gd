@@ -889,7 +889,7 @@ func parar_veneno() -> void:
 		_atualizar_tints()
 
 func _atualizar_tints() -> void:
-	var raiz: Node = modelo_3d if modelo_3d else self
+	var _raiz: Node = modelo_3d if modelo_3d else self
 	var mat: StandardMaterial3D = null
 	if _gelo_ativo or _fogo_ativo or _veneno_ativo:
 		mat = StandardMaterial3D.new()

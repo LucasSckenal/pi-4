@@ -218,13 +218,13 @@ func _criar_pill(icone: Texture2D, texto: String) -> PanelContainer:
 	pill.add_child(hbox)
 
 	if icone != null:
-		var tr = TextureRect.new()
-		tr.texture = icone
-		tr.custom_minimum_size = Vector2(22, 22)
-		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		hbox.add_child(tr)
+		var texrect = TextureRect.new()
+		texrect.texture = icone
+		texrect.custom_minimum_size = Vector2(22, 22)
+		texrect.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		texrect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		texrect.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		hbox.add_child(texrect)
 
 	var lbl = Label.new()
 	lbl.text = texto

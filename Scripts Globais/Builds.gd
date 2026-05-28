@@ -2006,7 +2006,7 @@ func get_valor_venda() -> int:
 	elif not tem_paths:
 		for i in range(mini(nivel_atual, upgrade_custos.size())):
 			total += upgrade_custos[i]
-	return total / 2
+	return round(total) / 2
 
 func vender_construcao():
 	# SISTEMA DE PROTEÇÃO: Impede vender a base principal

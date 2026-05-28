@@ -134,6 +134,7 @@ func _gerar_botoes_armas():
 			if ResourceLoader.exists(caminho_icone):
 				btn.icon = load(caminho_icone)
 			btn.text = _obter_nome_formatado(id)
+			btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 			btn.add_theme_font_size_override("font_size", 13)
 			btn.add_theme_color_override("font_color", Color(0.88, 0.88, 0.92, 1))
 			btn.pressed.connect(func(): _on_arma_selecionada(id))
@@ -145,6 +146,7 @@ func _gerar_botoes_armas():
 		else:
 			btn.modulate = Color(0.25, 0.25, 0.25, 0.9)
 			btn.disabled = true
+			btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
 			var cadeado = load("res://Icons/cadeado.png")
 			if cadeado: btn.icon = cadeado
 
@@ -219,6 +221,7 @@ func _gerar_botoes_chapeus():
 			btn.disabled = true
 			btn.modulate = Color(0.6, 0.6, 0.6, 1)
 			btn.text = texto_bloqueio
+			btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
 			btn.add_theme_color_override("font_disabled_color", Color(1.0, 0.90, 0.20, 1))
 			btn.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 			btn.add_theme_constant_override("outline_size", 4)
@@ -244,6 +247,7 @@ func _gerar_botoes_chapeus():
 			btn.add_theme_color_override("font_color", Color(0.88, 0.88, 0.92, 1))
 			btn.add_theme_font_size_override("font_size", 13)
 			btn.add_theme_constant_override("outline_size", 0)
+			btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 			var estilo_c := StyleBoxFlat.new()
 			estilo_c.set_corner_radius_all(8)

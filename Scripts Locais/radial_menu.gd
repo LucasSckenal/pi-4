@@ -420,7 +420,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	btn.set_meta("nome_torre",  nome)
 	btn.set_meta("cena_torre",  cena_torre)
 	btn.set_meta("custo_torre", custo)
-	btn.set_meta("icone_torre", icone if icone != null else "")
+	btn.set_meta("icone_torre", icone if icone else null) # Modificado pois tinha warning, antes era: icone if icone != null else "")
 	btn.set_meta("descricao",   descricao)
 	btn.set_meta("nivel_necessario", nivel_necessario)
 

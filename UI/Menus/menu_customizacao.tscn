@@ -23,19 +23,21 @@ adjustment_enabled = true
 adjustment_contrast = 1.25
 adjustment_saturation = 0.55
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_esppb"]
-transparency = 1
-albedo_color = Color(0.025905011, 0.33, 0.009899991, 0.99215686)
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_38geg"]
-material = SubResource("StandardMaterial3D_esppb")
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lme8q"]
 transparency = 1
 albedo_color = Color(0, 0, 0, 0.54901963)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_esppb"]
 material = SubResource("StandardMaterial3D_lme8q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lvola"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.69411767)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lme8q"]
+material = SubResource("StandardMaterial3D_lvola")
+flip_faces = true
 
 [sub_resource type="StyleBoxFlat" id="BG"]
 bg_color = Color(0.11, 0.07, 0.03, 0.96)
@@ -165,11 +167,6 @@ transform = Transform3D(-0.8255242, -0.34731215, 0.44484156, 0.5094098, -0.11928
 light_color = Color(0.9709104, 0.70377654, 0.35137385, 1)
 light_specular = 4.0
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=157892215]
-transform = Transform3D(1.7906005, 0, 0, 0, -4.3711385e-08, -0.34742263, 0, 0.99999994, -1.5186325e-08, 1.17665, 0, -2.3442955)
-visible = false
-mesh = SubResource("PlaneMesh_38geg")
-
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=437801620]
 transform = Transform3D(1.7906005, 0, 0, 0, -4.3711385e-08, -0.13941522, 0, 0.99999994, -6.094033e-09, 1.17665, 0, -2.0194595)
 mesh = SubResource("PlaneMesh_esppb")
@@ -182,17 +179,6 @@ data = {
 "cells": PackedInt32Array(-65536, 65534, 655487, -65533, 65533, 1048703, -65535, 65531, 127, -65532, 65531, 1441919, -65531, 65534, 655487, -65529, 65532, 1048703, -2, 65534, 127, -1, 65530, 112, -65534, 65530, 113, -65532, 65530, 1441905)
 }
 metadata/_editor_floor_ = Vector3(0, -1, 0)
-
-[node name="GridMap2" type="GridMap" parent="." unique_id=726419176]
-transform = Transform3D(0.24999999, 0, -0.43301272, 0, 0.5, 0, 0.43301272, 0, 0.24999999, 0.51723456, -0.15632176, -0.035668477)
-visible = false
-mesh_library = ExtResource("3_esppb")
-cell_size = Vector3(0.5, 0.33, 0.5)
-cell_scale = 3.0
-data = {
-"cells": PackedInt32Array(65534, 65528, 1048727, -524306, 65528, 32, -524299, 65519, 1441824)
-}
-metadata/_editor_floor_ = Vector3(0, -4, 0)
 
 [node name="GridMap4" type="GridMap" parent="." unique_id=1527625414]
 transform = Transform3D(0.24999999, 0, -0.43301272, 0, 0.5, 0, 0.43301272, 0, 0.24999999, 0.51723456, -0.15632176, -0.035668477)
@@ -231,6 +217,10 @@ light_energy = 0.5
 [node name="Camera3D" type="Camera3D" parent="." unique_id=582221384]
 transform = Transform3D(1, 0, 0, 0, 0.9848078, 0.17364796, 0, -0.17364796, 0.9848078, 0.7972802, 0.19176304, 0.45865524)
 fov = 37.849285
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=919596536]
+transform = Transform3D(1, 0, 0, 0, 0.98480755, -0.17364816, 0, 0.17364816, 0.98480755, 0, 0.36220855, -0.3867147)
+mesh = SubResource("BoxMesh_lme8q")
 
 [node name="PontoPersonagem" type="Node3D" parent="." unique_id=633315300]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.88582075, 0, -0.09056732)
@@ -435,15 +425,15 @@ anchor_left = 0.67300004
 anchor_top = 0.91700006
 anchor_right = 0.67300004
 anchor_bottom = 0.91700006
-offset_left = -135.29602
+offset_left = -305.79602
 offset_top = -13.240051
-offset_right = 144.70398
-offset_bottom = 22.759949
+offset_right = 217.20398
+offset_bottom = 53.75995
 grow_horizontal = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 20
 theme_override_font_sizes/font_size = 48
-text = "Arraste para girar"
+text = "<- Arraste para girar ->"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoM" to="." method="_on_btn_avo_m_pressed"]

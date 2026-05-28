@@ -14,6 +14,8 @@ signal upgrade_base_aplicado
 signal renda_recolhida(total_ganho) # Para a UI mostrar "+X Moedas" de manhã
 signal game_over
 signal vitoria
+
+@warning_ignore("unused_signal")
 signal inimigo_morreu  ## Emitido por InimigoBase.morrer() — substitui polling de grupo
 
 # ==========================================

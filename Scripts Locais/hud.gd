@@ -680,14 +680,14 @@ func _criar_barra_vida_base() -> void:
 
 	_corações = []
 	for i in range(5):
-		var tr := TextureRect.new()
-		tr.texture = _ICON_CORACAO
-		tr.custom_minimum_size = Vector2(28, 28)
-		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.pivot_offset = Vector2(14.0, 14.0)
-		hbox.add_child(tr)
-		_corações.append(tr)
+		var texrect := TextureRect.new()
+		texrect.texture = _ICON_CORACAO
+		texrect.custom_minimum_size = Vector2(28, 28)
+		texrect.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		texrect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		texrect.pivot_offset = Vector2(14.0, 14.0)
+		hbox.add_child(texrect)
+		_corações.append(texrect)
 
 	_painel_vida_base = panel
 
@@ -716,22 +716,22 @@ func _atualizar_barra_vida_base() -> void:
 		_pulso_tween = null
 	# Atualiza cada coração com animação quando perde
 	for i in range(5):
-		var tr: TextureRect = _corações[i]
+		var texrect: TextureRect = _corações[i]
 		var era_cheio := i < _corações_atuais if _corações_atuais >= 0 else true
 		var esta_cheio := i < cheios
-		tr.modulate = Color(1.0, 0.22, 0.22, 1.0) if esta_cheio else Color(0.18, 0.18, 0.18, 0.6)
+		texrect.modulate = Color(1.0, 0.22, 0.22, 1.0) if esta_cheio else Color(0.18, 0.18, 0.18, 0.6)
 		if era_cheio and not esta_cheio:
 			# Animação de "quebra" no coração perdido
 			var tw := create_tween()
-			tw.tween_property(tr, "scale", Vector2(1.6, 1.6), 0.07).set_trans(Tween.TRANS_BACK)
-			tw.tween_property(tr, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BOUNCE)
+			tw.tween_property(texrect, "scale", Vector2(1.6, 1.6), 0.07).set_trans(Tween.TRANS_BACK)
+			tw.tween_property(texrect, "scale", Vector2(1.0, 1.0), 0.20).set_trans(Tween.TRANS_BOUNCE)
 	_corações_atuais = cheios
 	# Pulso urgente quando sobra só 1 coração
 	if cheios == 1:
 		_pulso_tween = create_tween().set_loops()
-		var tr: TextureRect = _corações[0]
-		_pulso_tween.tween_property(tr, "scale", Vector2(1.3, 1.3), 0.38).set_trans(Tween.TRANS_SINE)
-		_pulso_tween.tween_property(tr, "scale", Vector2(1.0, 1.0), 0.38).set_trans(Tween.TRANS_SINE)
+		var texrect: TextureRect = _corações[0]
+		_pulso_tween.tween_property(texrect, "scale", Vector2(1.3, 1.3), 0.38).set_trans(Tween.TRANS_SINE)
+		_pulso_tween.tween_property(texrect, "scale", Vector2(1.0, 1.0), 0.38).set_trans(Tween.TRANS_SINE)
 
 # Projeta a posição 3D da base para a tela e reposiciona o painel de corações
 func _atualizar_posicao_coracoes() -> void:
