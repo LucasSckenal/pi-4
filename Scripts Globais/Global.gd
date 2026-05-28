@@ -29,6 +29,7 @@ func is_personagem_liberado(_indice: int) -> bool:
 # --- PROGRESSO DO MAPA ---
 var fases_liberadas: int = 1
 var estrelas_por_fase: Dictionary = {}
+var cutscenes_vistas: Array = []
 
 # Progresso do Jogador
 var conquistas_desbloqueadas: Array = []
@@ -110,6 +111,7 @@ func salvar_progresso():
 
 	config.set_value("progresso", "fases_liberadas", fases_liberadas)
 	config.set_value("progresso", "estrelas_por_fase", estrelas_por_fase)
+	config.set_value("progresso", "cutscenes_vistas", cutscenes_vistas)
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
 	config.set_value("progresso", "total_ondas_completadas", total_ondas_completadas)
@@ -150,6 +152,7 @@ func carregar_progresso():
 						config.get_value("mapa", "fases_liberadas", 1))
 	estrelas_por_fase = config.get_value("progresso", "estrelas_por_fase",
 						config.get_value("mapa", "estrelas_por_fase", {}))
+	cutscenes_vistas = config.get_value("progresso", "cutscenes_vistas", [])
 
 	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
 	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
@@ -186,6 +189,7 @@ func _input(event):
 func resetar_tudo():
 	fases_liberadas = 1
 	estrelas_por_fase = {}
+	cutscenes_vistas = []
 
 	conquistas_desbloqueadas = []
 	armas_desbloqueadas = ["arma_katana"]
@@ -205,6 +209,16 @@ func obter_total_estrelas() -> int:
 	for qtd in estrelas_por_fase.values():
 		total += qtd
 	return total
+
+func cutscene_ja_vista(numero_fase: int) -> bool:
+	return str(numero_fase) in cutscenes_vistas
+
+func registrar_cutscene_vista(numero_fase: int) -> void:
+	var chave := str(numero_fase)
+	if chave in cutscenes_vistas:
+		return
+	cutscenes_vistas.append(chave)
+	salvar_progresso()
 
 func verificar_desbloqueios_por_estrelas():
 	var total = obter_total_estrelas()

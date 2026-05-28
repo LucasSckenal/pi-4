@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c2k6dly4x63ah"]
+
+[ext_resource type="Script" uid="uid://ckw26womkvsi2" path="res://Cenas Locais/Cutscines/cutscene_dinamica.gd" id="1_arxm3"]
+[ext_resource type="Texture2D" uid="uid://bkok8ijxhn8rj" path="res://Assets/Cutscenes/Teste/Teste_parte1.png" id="2_i6vqr"]
+[ext_resource type="Texture2D" uid="uid://ckfuhiovdghlo" path="res://Assets/Cutscenes/Teste/Teste_parte2.png" id="3_o4ohi"]
+[ext_resource type="Texture2D" uid="uid://c0vt4hsuhqng2" path="res://Assets/Cutscenes/Teste/Teste_parte3.png" id="4_c7687"]
+[ext_resource type="Texture2D" uid="uid://p6s3gbo8h4wv" path="res://Assets/Cutscenes/Teste/Teste_parte4.png" id="5_il5a8"]
+[ext_resource type="Texture2D" uid="uid://ct084bis7tbon" path="res://Assets/Cutscenes/Teste/Teste_parte5.png" id="6_183p0"]
+[ext_resource type="Texture2D" uid="uid://d3kcmmt087vrr" path="res://Assets/Cutscenes/Teste/Teste_parte6.png" id="7_ifh7x"]
+[ext_resource type="Texture2D" uid="uid://cqgtoewmvkg61" path="res://Assets/Cutscenes/Teste/Teste_parte7.png" id="8_4knom"]
+
+[node name="CutsceneAnimada" type="CanvasLayer" unique_id=1720865964]
+script = ExtResource("1_arxm3")
+imagens = Array[Texture2D]([ExtResource("2_i6vqr"), ExtResource("3_o4ohi"), ExtResource("4_c7687"), ExtResource("5_il5a8"), ExtResource("6_183p0"), ExtResource("7_ifh7x"), ExtResource("8_4knom")])

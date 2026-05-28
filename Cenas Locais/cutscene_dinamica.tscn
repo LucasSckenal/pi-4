@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://bnpysum456ai5"]
-
-[ext_resource type="Script" uid="uid://ckw26womkvsi2" path="res://Cenas Locais/cutscene_dinamica.gd" id="1_k0nrk"]
-
-[node name="CutsceneAnimada" type="CanvasLayer"]
-script = ExtResource("1_k0nrk")

@@ -184,6 +184,15 @@ var caminhos_das_fases = {
 	6: "res://Maps/Covil_Dragon.tscn"
 }
 
+var caminhos_das_cutscenes = {
+	1: "res://Cenas Locais/Cutscines/cutscene_dinamica.tscn",
+	2: "res://Cenas Locais/Cutscines/cutscene_animada_2.tscn",
+	3: "res://Cenas Locais/Cutscines/cutscene_animada_3.tscn",
+	4: "res://Cenas Locais/Cutscines/cutscene_animada_4.tscn",
+	5: "res://Cenas Locais/Cutscines/cutscene_animada_5.tscn",
+	6: "res://Cenas Locais/Cutscines/cutscene_animada_6.tscn"
+}
+
 # ==========================================
 # AUTO-LOAD (INICIA JUNTO COM O JOGO)
 # ==========================================
@@ -349,15 +358,23 @@ func ir_para_proxima_fase() -> void:
 		return
 	# Limpa perks, upgrades e nivel_base ANTES de carregar a nova fase
 	limpar_estado_sessao()
-	get_tree().change_scene_to_file(caminhos_das_fases[proxima])
+	get_tree().change_scene_to_file(obter_cena_entrada_fase(proxima))
 	await get_tree().tree_changed
 	await get_tree().process_frame
-	carregar_fase(proxima)
+	if get_tree().current_scene != null and get_tree().current_scene.scene_file_path == caminhos_das_fases[proxima]:
+		carregar_fase(proxima)
 	match proxima:
 		1: MusicaGlobal.tocar_tutorial()
 		3: MusicaGlobal.tocar_bruxa()
 		5: MusicaGlobal.tocar_covil()
 		_: MusicaGlobal.tocar_menu()
+
+func obter_cena_entrada_fase(numero_fase: int) -> String:
+	var caminho_fase: String = caminhos_das_fases.get(numero_fase, "")
+	var caminho_cutscene: String = caminhos_das_cutscenes.get(numero_fase, "")
+	if caminho_cutscene != "" and not Global.cutscene_ja_vista(numero_fase):
+		return caminho_cutscene
+	return caminho_fase
 
 func _set_nivel_base(valor):
 	nivel_base = valor

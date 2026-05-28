@@ -7,6 +7,12 @@ signal slot_clicado
 # ==========================================
 @export var nivel_necessario: int = 1           # Nível mínimo da base para este slot ficar disponível
 @export var ui_construcao_prefab: PackedScene   # Cena da UI (radial ou grade) que será instanciada
+@export var manter_tamanho_visual_fixo: bool = true
+@export var escala_visual_minima: float = 0.55
+@export var escala_visual_maxima: float = 2.8
+@export var bolha_tamanho_base: float = 96.0
+@export var bolha_escala_zoom_minima: float = 1.0
+@export var bolha_escala_zoom_maxima: float = 1.8
 
 # ==========================================
 # REFERÊNCIAS (ajuste os nomes conforme sua cena)
@@ -30,6 +36,11 @@ var _tween_destaque: Tween = null   # Animação de destaque do conselheiro
 # Throttle: evita chamar unproject_position todo frame (caro em mobile)
 var _timer_cam: float = 0.0
 var _pos2d_cache: Vector2 = Vector2.ZERO
+var _base_mesh_scale_original: Vector3 = Vector3.ONE
+var _distancia_camera_referencia: float = 0.0
+var _fov_camera_referencia: float = 0.0
+var _size_camera_referencia: float = 0.0
+var _bolha_hover_scale: float = 1.0
 
 func _ready():
 	add_to_group("BuildSlots")
@@ -58,7 +69,10 @@ func _ready():
 	# Define o pivô no centro e o cursor do mouse
 	if bolha_btn:
 		bolha_btn.mouse_default_cursor_shape = Control.CURSOR_CROSS
-		bolha_btn.pivot_offset = bolha_btn.size / 2.0
+		_configurar_tamanho_bolha()
+
+	if base_mesh:
+		_base_mesh_scale_original = base_mesh.scale
 
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
@@ -212,6 +226,8 @@ func reativar_slot():
 # INTERAÇÕES (PC E MOBILE)
 # ==========================================
 func _process(delta):
+	_atualizar_tamanho_visual_fixo()
+
 	if is_built or not pode_construir or not slot_disponivel or ui_atual:
 		return
 	
@@ -224,11 +240,14 @@ func _process(delta):
 			if _timer_cam <= 0.0:
 				_timer_cam = 0.05
 				_pos2d_cache = camera.unproject_position(global_position)
+			_configurar_tamanho_bolha()
 			bolha_btn.position = _pos2d_cache - (bolha_btn.size / 2)
 			
 			# Transição suave de escala e cor baseada no hover do mouse
 			var hover = bolha_btn.is_hovered()
-			var escala_alvo = Vector2(1.15, 1.15) if hover else Vector2(1.0, 1.0)
+			_bolha_hover_scale = 1.15 if hover else 1.0
+			var escala_zoom := _obter_escala_bolha_por_zoom(camera)
+			var escala_alvo = Vector2.ONE * escala_zoom * _bolha_hover_scale
 			bolha_btn.scale = bolha_btn.scale.lerp(escala_alvo, 15.0 * delta)
 			
 			var cor_alvo = Color(1.2, 1.2, 1.2) if hover else Color(1.0, 1.0, 1.0)
@@ -243,6 +262,58 @@ func _process(delta):
 	if pode_construir and player_ref_teclado != null and Input.is_action_just_pressed("interact"):
 		if _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
 			_abrir_ui()
+
+func _atualizar_tamanho_visual_fixo() -> void:
+	if not manter_tamanho_visual_fixo or not is_instance_valid(base_mesh) or not base_mesh.visible:
+		return
+
+	var camera := get_viewport().get_camera_3d()
+	if camera == null:
+		return
+
+	if _distancia_camera_referencia <= 0.0:
+		_distancia_camera_referencia = camera.global_position.distance_to(global_position)
+		_fov_camera_referencia = camera.fov
+		_size_camera_referencia = camera.size
+		return
+
+	var fator := 1.0
+	if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+		var distancia_atual := maxf(0.01, camera.global_position.distance_to(global_position))
+		var tangente_ref := tan(deg_to_rad(_fov_camera_referencia) * 0.5)
+		var tangente_atual := tan(deg_to_rad(camera.fov) * 0.5)
+		fator = (distancia_atual * tangente_atual) / maxf(0.01, _distancia_camera_referencia * tangente_ref)
+	else:
+		fator = camera.size / maxf(0.01, _size_camera_referencia)
+
+	fator = clampf(fator, escala_visual_minima, escala_visual_maxima)
+	base_mesh.scale = _base_mesh_scale_original * fator
+
+func _configurar_tamanho_bolha() -> void:
+	if not is_instance_valid(bolha_btn):
+		return
+	var tamanho := Vector2.ONE * bolha_tamanho_base
+	if bolha_btn.size != tamanho:
+		bolha_btn.custom_minimum_size = tamanho
+		bolha_btn.size = tamanho
+		bolha_btn.pivot_offset = tamanho * 0.5
+
+func _obter_escala_bolha_por_zoom(camera: Camera3D) -> float:
+	if camera == null:
+		return 1.0
+	if _distancia_camera_referencia <= 0.0:
+		return 1.0
+
+	var fator := 1.0
+	if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+		var distancia_atual := maxf(0.01, camera.global_position.distance_to(global_position))
+		var tangente_ref := tan(deg_to_rad(_fov_camera_referencia) * 0.5)
+		var tangente_atual := tan(deg_to_rad(camera.fov) * 0.5)
+		var escala_mundo := (_distancia_camera_referencia * tangente_ref) / maxf(0.01, distancia_atual * tangente_atual)
+		fator = sqrt(maxf(1.0, escala_mundo))
+	else:
+		fator = _size_camera_referencia / maxf(0.01, camera.size)
+	return clampf(fator, bolha_escala_zoom_minima, bolha_escala_zoom_maxima)
 
 func _input(event):
 	if not pode_construir or not slot_disponivel or ui_atual:
@@ -280,7 +351,7 @@ func cancelar_selecao():
 	estado_toque_mobile = 0
 	if bolha_btn:
 		bolha_btn.modulate.a = 1.0
-		bolha_btn.scale = Vector2(1.0, 1.0)
+		bolha_btn.scale = Vector2.ONE * _obter_escala_bolha_por_zoom(get_viewport().get_camera_3d())
 		bolha_btn.show()
 
 # ==========================================
