@@ -196,4 +196,4 @@ func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 		5: MusicaGlobal.tocar_scifi()
 		6: MusicaGlobal.tocar_covil()
 
-	get_tree().change_scene_to_file(GameManager.caminhos_das_fases[numero_fase])
+	get_tree().change_scene_to_file(GameManager.obter_cena_entrada_fase(numero_fase))
