@@ -279,8 +279,11 @@ func carregar_jogo_salvo_manual() -> bool:
 
 			match fase_atual:
 				1: MusicaGlobal.tocar_tutorial()
+				2: MusicaGlobal.tocar_deserto()
 				3: MusicaGlobal.tocar_bruxa()
-				5: MusicaGlobal.tocar_covil()
+				4: MusicaGlobal.tocar_aquatico()
+				5: MusicaGlobal.tocar_scifi()
+				6: MusicaGlobal.tocar_covil()
 				_: MusicaGlobal.tocar_menu()
 
 			recarregando_save = false
@@ -367,8 +370,11 @@ func ir_para_proxima_fase() -> void:
 		carregar_fase(proxima)
 	match proxima:
 		1: MusicaGlobal.tocar_tutorial()
+		2: MusicaGlobal.tocar_deserto()
 		3: MusicaGlobal.tocar_bruxa()
-		5: MusicaGlobal.tocar_covil()
+		4: MusicaGlobal.tocar_aquatico()
+		5: MusicaGlobal.tocar_scifi()
+		6: MusicaGlobal.tocar_covil()
 		_: MusicaGlobal.tocar_menu()
 
 func obter_cena_entrada_fase(numero_fase: int) -> String:

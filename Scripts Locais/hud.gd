@@ -3,6 +3,8 @@ extends CanvasLayer
 #OBS.: NÃO MOVER PARA CIMA DO TUTORIALMANAGER, QUEBRA NA HORA A LÓGICA DE MOVIMENTAÇÃO DO PERSONAGEM
 # E EU NÂO TENHO A MENOR IDEIA DO POR QUÊ
 
+#OBS2.: COLOCA ELE O MAIS EM BAIXO POSSÍVEL INCLUSIVE, TIPO... SUPER EM BAIXO, BAIXÃO TÁ LIGADO?
+
 const _ScriptPainelConselheiro = preload("res://UI/HUD/painel_conselheiro.gd")
 const _CenaMenuPausa = preload("res://UI/Menus/menu_pausa.tscn")
 const _ICON_CORACAO = preload("res://Assets/Icons/Coracao.png")

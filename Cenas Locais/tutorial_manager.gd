@@ -48,6 +48,10 @@ func _ready():
 # === SISTEMA GENSHIN: PULAR/ACELERAR TEXTO ===
 func _input(event):
 	if visible and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		# Impede o avanço do texto caso o clique seja especificamente sobre o botão de pular tutorial
+		if btn and btn.is_visible_in_tree() and btn.is_hovered():
+			return
+			
 		if caixa_texto.visible_ratio < 1.0:
 			if tween_texto and tween_texto.is_valid():
 				tween_texto.kill()
@@ -166,8 +170,8 @@ func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 	alvo_2d_atual = null
 
 	# Usa polling com verificação de is_tutorial_ativo para o botão pular funcionar
-	var concluido := false
-	var _cb := func(): concluido = true
+	var estado = {"concluido": false}
+	var _cb := func(): estado.concluido = true
 
 	if slot_alvo.has_signal("slot_clicado"):
 		slot_alvo.slot_clicado.connect(_cb, CONNECT_ONE_SHOT)
@@ -181,9 +185,9 @@ func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 				await get_tree().create_timer(0.1).timeout
 		else:
 			await get_tree().create_timer(3.0).timeout
-		concluido = true
+		estado.concluido = true
 
-	while not concluido:
+	while not estado.concluido:
 		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.1).timeout
 
@@ -210,7 +214,7 @@ func focar_em_ui_2d(botao_alvo: Control, texto: String):
 		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.1).timeout
 	
-	desbloquear_botoes(botao_alvo)	
+	desbloquear_botoes(botao_alvo)    
 	
 	if is_instance_valid(botao_alvo) and botao_alvo.has_signal("pressed") and botao_alvo.pressed.is_connected(ao_clicar):
 		botao_alvo.pressed.disconnect(ao_clicar)
@@ -272,8 +276,8 @@ func _on_btn_solto() -> void:
 	_animar_escala_btn(btn, escala_alvo)
 
 # Aplica a animação de escala com tween suave, usando o pivot no centro do botão
-func _animar_escala_btn(btn: Button, escala: float) -> void:
+func _animar_escala_btn(btnChosen: Button, escala: float) -> void:
 	# Atualiza o pivot para o centro atual (tamanho pode mudar com o viewport)
-	btn.pivot_offset = btn.size / 2.0
-	var tw := btn.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	tw.tween_property(btn, "scale", Vector2(escala, escala), 0.12)
+	btnChosen.pivot_offset = btn.size / 2.0
+	var tw := btnChosen.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btnChosen, "scale", Vector2(escala, escala), 0.12)

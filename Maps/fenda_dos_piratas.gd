@@ -11,12 +11,13 @@ var _ambient_energy_original: float = 1.0
 
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_aquatico()
+	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.carregar_fase(4)
-	MusicaGlobal.tocar_aquatico()
-	add_child(BolhasFundo.instantiate())
+	#add_child(BolhasFundo.instantiate())
 	GameManager.vitoria.connect(_on_fase_vencida)
 
 	_luz_solar = get_node_or_null("DirectionalLight3D")

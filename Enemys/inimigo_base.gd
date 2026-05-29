@@ -220,8 +220,11 @@ func _ready():
 	# call_deferred para capturar o valor correto no próximo frame
 	(func(): posicao_de_spawn = global_position).call_deferred()
 
-	if tipo_inimigo == Categoria.BOSS and not Global.inimigos_descobertos.has(nome_inimigo):
-		await _tocar_cutscene()
+	if tipo_inimigo == Categoria.BOSS:
+		if not Global.inimigos_descobertos.has(nome_inimigo):
+			await _tocar_cutscene()
+		else:
+			_criar_interface_do_boss()
 		
 	elif tipo_inimigo == Categoria.MINI_BOSS:
 		if modelo_3d:

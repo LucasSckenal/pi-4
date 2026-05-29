@@ -17,12 +17,13 @@ var _contrast_original: float        = 1.2
 
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_covil()
+	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.total_spawners = 3
 	GameManager.carregar_fase(6)
-	MusicaGlobal.tocar_covil()
 	GameManager.vitoria.connect(_on_fase_vencida)
 
 	_luz_solar   = get_node_or_null("DirectionalLight3D")

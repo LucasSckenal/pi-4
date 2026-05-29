@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Map 4/Bombardeiro.tscn" id="13_ruefr"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
+[ext_resource type="Shader" uid="uid://c6gnycjboy16t" path="res://Shaders/UnderTheSea.gdshader" id="24_14jxx"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
 [ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
 [ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
@@ -320,6 +321,20 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fp0b7")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xvse5"]
+render_priority = 0
+shader = ExtResource("24_14jxx")
+shader_parameter/quantidade = 40
+shader_parameter/velocidade = 0.08
+shader_parameter/tamanho_min = 0.00200000009499
+shader_parameter/tamanho_max = 0.02100000099749
+shader_parameter/opacidade = 0.45
+shader_parameter/sinuoso = 0.035
+shader_parameter/mesh_aspect = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_14jxx"]
+material = SubResource("ShaderMaterial_xvse5")
+
 [node name="FendaDosPiratas" type="Node3D" unique_id=653532525]
 script = ExtResource("99_fendascript")
 conquista_fim_Fenda = ExtResource("2_0hg87")
@@ -401,17 +416,29 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="Spawners" type="Node3D" parent="NavigationRegion3D" unique_id=851536762]
 
-[node name="A" parent="NavigationRegion3D/Spawners" unique_id=423161848 instance=ExtResource("7_tigay")]
+[node name="A" parent="NavigationRegion3D/Spawners" unique_id=423161848 node_paths=PackedStringArray("hud_point") instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9270208, -0.11176777, 21.654905)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_ruefr"), SubResource("Resource_rf658"), SubResource("Resource_n8yof"), SubResource("Resource_ay0o5"), SubResource("Resource_ixa2r"), SubResource("Resource_obiuy")])
+hud_point = NodePath("../Spawner A")
 
-[node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 instance=ExtResource("7_tigay")]
+[node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 node_paths=PackedStringArray("hud_point") instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.004326, 0.028158903, 9.678971)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResource("Resource_vv0he"), SubResource("Resource_oddva"), SubResource("Resource_47k5u"), SubResource("Resource_cw4hp"), SubResource("Resource_o6hc4")])
+hud_point = NodePath("../Spawner B")
 
-[node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 instance=ExtResource("7_tigay")]
+[node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 node_paths=PackedStringArray("hud_point") instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.286411, -1.2499998, 8.591048)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_nw1gr")])
+hud_point = NodePath("../Spawner C")
+
+[node name="Spawner A" type="Marker3D" parent="NavigationRegion3D/Spawners" unique_id=1014129345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27688575, -0.7187684, 18.01207)
+
+[node name="Spawner B" type="Marker3D" parent="NavigationRegion3D/Spawners" unique_id=1020288246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.183558, 0.40693635, 9.569478)
+
+[node name="Spawner C" type="Marker3D" parent="NavigationRegion3D/Spawners" unique_id=1649891913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721361, -0.7187684, 9.523366)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1139841382 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.83867055, 0.54463905, 0, -0.54463905, 0.83867055, -1, 7, 22)
@@ -503,6 +530,10 @@ nivel_necessario = 2
 transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.9197119, -0.38529962, 0.9814201, 7.450581e-09, 0.19187117, 1.0822587, -1.3202078, -1.8165274)
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("4_1rk64")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=2048985593]
+transform = Transform3D(195.46477, 0, 0, 0, 3.650612, -126.88052, 0, 4.4028096, 105.203636, 1.9878407, -60.062828, -120.60943)
+mesh = SubResource("PlaneMesh_14jxx")
 
 [editable path="ship-ghost2"]
 [editable path="ship-wreck3"]

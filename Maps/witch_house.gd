@@ -11,11 +11,12 @@ var _ambient_energy_dia: float = 1.0
 
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_bruxa()
+	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.carregar_fase(3)
-	MusicaGlobal.tocar_bruxa()
 	GameManager.vitoria.connect(_on_fase_vencida)
 
 	# ── Tocha ─────────────────────────────────────────────────────────────────

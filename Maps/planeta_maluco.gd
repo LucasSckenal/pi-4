@@ -112,12 +112,13 @@ void fragment() {
 # ─────────────────────────────────────────────────────────────────────────────
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_scifi()
+	
 	GameManager.total_spawners = 4
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.carregar_fase(5)
-	MusicaGlobal.tocar_scifi()
 	GameManager.vitoria.connect(_on_fase_vencida)
 
 	_estrelas_normais = get_node_or_null("Estrelas")

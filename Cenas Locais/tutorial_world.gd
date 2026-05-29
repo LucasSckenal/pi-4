@@ -24,13 +24,14 @@ var quartel: Node3D = null
 
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_tutorial()
 	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	GameManager.vitoria.connect(_on_fase_vencida)
 	await get_tree().process_frame
 	GameManager.carregar_fase(1)
-	MusicaGlobal.tocar_tutorial()
+	
 	
 	if GameManager.is_tutorial_ativo:
 		iniciar_sequencia_tutorial()

@@ -5,12 +5,12 @@ extends Node3D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_deserto()
 	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.carregar_fase(2)
-	MusicaGlobal.tocar_deserto()
 	GameManager.vitoria.connect(_on_fase_vencida)
 
 
