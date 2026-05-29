@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://c1y37e1p5n5er"]
 
 [ext_resource type="Script" uid="uid://droioh0h3ivkm" path="res://Cenas Locais/tutorial_manager.gd" id="1_8kacx"]
-[ext_resource type="Texture2D" uid="uid://cfwqaluwadvca" path="res://Icons/seta.png" id="2_qy4gi"]
 [ext_resource type="Shader" uid="uid://c07c3ymo8xv0w" path="res://Cenas Locais/tutorial_manager.gdshader" id="2_wsspp"]
 [ext_resource type="PackedScene" uid="uid://clww287nh4jrb" path="res://Personagens/character-female-c.glb" id="3_iojbm"]
 [ext_resource type="PackedScene" uid="uid://b1w5410q2pt6w" path="res://Personagens/character-male-b.glb" id="4_wsspp"]
+[ext_resource type="Texture2D" uid="uid://dvui7s4ciymmg" path="res://Icons/seta_outline.png" id="5_ivfh5"]
 [ext_resource type="Texture2D" uid="uid://cmdarc5vqv8qr" path="res://Assets/UI/BotaoMedio.png" id="6_ivfh5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ivfh5"]
@@ -141,10 +141,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4763685, 0.4496616)
 
 [node name="Seta" type="TextureRect" parent="." unique_id=1808561704]
 top_level = true
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("2_qy4gi")
+offset_right = 90.0
+offset_bottom = 70.0
+texture = ExtResource("5_ivfh5")
 expand_mode = 1
+stretch_mode = 5
 
 [node name="BotaoPular" type="Button" parent="." unique_id=2055384221]
 z_index = 1000
