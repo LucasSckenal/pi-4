@@ -10,11 +10,12 @@ config_version=5
 
 [application]
 
-config/name="PI-4"
-config/version="1.0"
+config/name="Onde Estão os Netos?"
+config/version="2.3"
 run/main_scene="uid://c6q536yvnfjtf"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="uid://dpvk2oj1ksekl"
+boot_splash/show_image=false
+config/icon="uid://b6bv31frms1ig"
 
 [autoload]
 
@@ -30,11 +31,12 @@ CursorManager="*uid://brm0aa2i116s4"
 
 [display]
 
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/window_width_override=1280
 window/size/window_height_override=720
+window/stretch/mode="canvas_items"
 mouse_cursor/custom_image="uid://bc3kbt4jk3cy8"
-mouse_cursor/tooltip_position_offset=Vector2(0, 0)
 
 [file_customization]
 
@@ -106,6 +108,7 @@ passar_onda={
 
 [input_devices]
 
+pointing/android/enable_pan_and_scale_gestures=true
 pointing/emulate_touch_from_mouse=true
 
 [physics]
@@ -116,3 +119,4 @@ pointing/emulate_touch_from_mouse=true
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

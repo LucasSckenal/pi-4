@@ -5,20 +5,15 @@
 [ext_resource type="Texture2D" uid="uid://diekplos0ie3g" path="res://Map5/Mech_Atlas.png" id="2_52jo7"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_40hib"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_k7wxe"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p7baf"]
 render_priority = 0
 shader = ExtResource("3_40hib")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qiuc6"]
 resource_name = "Atlas"
-next_pass = SubResource("ShaderMaterial_k7wxe")
+next_pass = SubResource("ShaderMaterial_p7baf")
 diffuse_mode = 3
 specular_mode = 1
 vertex_color_use_as_albedo = true
@@ -26,6 +21,7 @@ albedo_color = Color(0, 0.8862745, 0, 1)
 albedo_texture = ExtResource("2_52jo7")
 metallic = 0.55
 metallic_specular = 0.55
+stencil_flags = 2
 metadata/extras = {
 "fromFBX": {
 "isTruePBR": false,
@@ -83,7 +79,7 @@ status_vida = "MUITO ALTA"
 [node name="Root Scene" parent="." unique_id=1428745751 instance=ExtResource("1_n77yn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09796953, 1.1920929e-07, -0.60544777)
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/RobotArmature" parent_id_path=PackedInt32Array(1428745751, 1710561503) index="0" unique_id=561251817]
+[node name="Skeleton3D" parent="Root Scene/RootNode/RobotArmature" parent_id_path=PackedInt32Array(1428745751, 1260621742) index="0" unique_id=882143143]
 bones/0/position = Vector3(1.4551915e-11, -0.009173771, 0.017387215)
 bones/0/rotation = Quaternion(0.58298606, 9.313226e-10, -1.4915713e-09, 0.81248224)
 bones/2/rotation = Quaternion(0.33500507, 1.1232093e-07, 3.993571e-08, 0.9422164)
@@ -94,22 +90,22 @@ bones/6/rotation = Quaternion(9.356781e-05, 0.59986573, 0.8001006, -8.096906e-05
 bones/7/rotation = Quaternion(0.9070542, 0.0016030271, -0.0019647535, 0.42100635)
 bones/8/rotation = Quaternion(-9.356772e-05, 0.59986573, 0.80010074, 8.096899e-05)
 
-[node name="Head" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="0" unique_id=2103218982]
+[node name="Head" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="0" unique_id=559021181]
 transform = Transform3D(0.99999994, 2.4267024e-09, 5.7184634e-06, 4.842259e-07, -0.99644446, -0.0842548, 5.6979266e-06, 0.08425489, -0.99644434, 6.114935e-11, -0.002749607, 0.02711358)
 
-[node name="LowerLeg_L" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="1" unique_id=223820047]
+[node name="LowerLeg_L" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="1" unique_id=608681533]
 transform = Transform3D(-0.9999999, 0.00036913875, -0.0003914109, 0.00053552754, 0.6129705, -0.79010504, -5.173507e-05, -0.790105, -0.6129706, 0.011961765, -0.009678476, 0.012560235)
 
-[node name="LowerLeg_R" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="2" unique_id=614138273]
+[node name="LowerLeg_R" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="2" unique_id=1903799595]
 transform = Transform3D(-0.99998647, -0.0036464813, 0.0037061195, -0.0051634167, 0.61296105, -0.7900952, 0.00060936145, -0.79010355, -0.61297166, -0.011913618, -0.009678334, 0.012560223)
 
-[node name="PoleTarget_L" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="3" unique_id=1217745491]
+[node name="PoleTarget_L" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="3" unique_id=1587676704]
 transform = Transform3D(0.99999994, 4.7118616e-09, 9.927658e-10, 9.927665e-10, -1.4901161e-07, -1, -4.711861e-09, 1, -1.1920929e-07, 0.011967463, -0.058877878, 0.020984363)
 
-[node name="PoleTarget_R" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="4" unique_id=1224868746]
+[node name="PoleTarget_R" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="4" unique_id=416162486]
 transform = Transform3D(0.99999994, 4.7118616e-09, 9.927658e-10, 9.927665e-10, -1.4901161e-07, -1, -4.711861e-09, 1, -1.1920929e-07, -0.011686939, -0.058877885, 0.020984363)
 
-[node name="FinnTheFrog" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="7" unique_id=1213132593]
+[node name="FinnTheFrog" parent="Root Scene/RootNode/RobotArmature/Skeleton3D" index="7" unique_id=351157871]
 mesh = SubResource("ArrayMesh_w0dgf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1352700371]

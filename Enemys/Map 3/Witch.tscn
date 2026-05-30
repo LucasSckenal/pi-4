@@ -10,10 +10,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_swuyc"]
 render_priority = 0
 shader = ExtResource("3_cqk84")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_itfn5"]
 resource_name = "Material_1"
@@ -60,6 +58,7 @@ transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_cqk84")
 tipo_inimigo = 2
 nome_inimigo = "Bruxa"
+subtitulo_inimigo = "A Grande Invocadora de Mortos-Vivos"
 usar_video_custom = true
 video_stream = ExtResource("2_swuyc")
 modelo_3d = NodePath(".")
@@ -75,7 +74,7 @@ anim_invocar = "Walking"
 [node name="Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=770823233 instance=ExtResource("2_r3ly0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02342622, 0.1625373, 0.1691641)
 
-[node name="Skeleton3D" parent="Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(770823233, 1534257199) index="0" unique_id=1633722282]
+[node name="Skeleton3D" parent="Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(770823233, 237530424) index="0" unique_id=273229836]
 bones/0/position = Vector3(3.675579, 43.672718, 17.836626)
 bones/0/rotation = Quaternion(0.14346944, 0.26458052, 0.79908025, 0.5204656)
 bones/1/rotation = Quaternion(-0.8633908, 0.48547125, -0.040773228, 0.13119306)
@@ -112,7 +111,7 @@ bones/21/rotation = Quaternion(0.33108488, 0.03644289, -0.054514866, 0.9413198)
 bones/22/rotation = Quaternion(-0.12348214, 6.2721265e-06, 0.002709056, 0.9923431)
 bones/23/rotation = Quaternion(0.22680236, -6.343247e-06, -0.0050774086, 0.97392756)
 
-[node name="char1" parent="Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=1080875250]
+[node name="char1" parent="Meshy_AI_Skullbound_Witch_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=1217029447]
 mesh = SubResource("ArrayMesh_3otgr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=821648269]

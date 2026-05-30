@@ -1,11 +1,14 @@
 extends Node3D
 
-signal info_proxima_onda(direcao: String, inimigos: Array, posicao: Vector3)
+# Em caso de problema: modificado "id_spawner" para "_id_spawner"
+signal info_proxima_onda(_id_spawner: String, direcao: String, inimigos: Array, posicao: Vector3)
 
 @export var ondas: Array[WaveData] = []
 @export var label_wave: Label
+@export var hud_point: Marker3D
 
 var onda_atual: int = 0
+var _luz_spawner: OmniLight3D = null
 var fila_inimigos: Array[PackedScene] = []
 var fila_hp_mult: Array[float] = []  # Multiplicador de HP pareado com fila_inimigos (modo infinito)
 var inimigos_restantes: int = 0
@@ -15,6 +18,8 @@ var spawning: bool = false
 var pool_normais: Array[PackedScene] = []
 # Boss: primeira cena encontrada nas ondas que seja do tipo BOSS/MINI_BOSS
 var cena_boss: PackedScene = null
+# Conjunto de paths de cenas boss/mini-boss (evita multiplicador_horda duplicar chefes)
+var _cenas_boss: Dictionary = {}
 
 @onready var timer = $TimerSpawn
 @onready var base = get_tree().get_first_node_in_group("Base")
@@ -22,6 +27,8 @@ var cena_boss: PackedScene = null
 func _ready():
 	add_to_group("Spawner")
 	GameManager.noite_iniciada.connect(_iniciar_noite)
+	GameManager.noite_iniciada.connect(_acender_luz_spawner)
+	GameManager.dia_iniciado.connect(_apagar_luz_spawner)
 	timer.timeout.connect(_on_timer_timeout)
 	_construir_pool_procedural()
 	emitir_info()
@@ -39,7 +46,8 @@ func _iniciar_noite(_n):
 		return
 
 	if onda_data == null:
-		print("ERRO: Onda ", onda_atual, " é null em ", name)
+		if Global.DEBUG_MODE:
+			print("ERRO: Onda ", onda_atual, " é null em ", name)
 		return
 
 	var hp_mult_base: float = _calcular_hp_multiplicador(GameManager.onda_atual)
@@ -50,15 +58,19 @@ func _iniciar_noite(_n):
 	var mult_horda: float = GameManager.multiplicador_horda if onda_atual < ondas.size() else 1.0
 	for config in onda_data.inimigos:
 		if config == null:
-			print("ERRO: Config de inimigo null na onda ", onda_atual)
+			if Global.DEBUG_MODE:
+				print("ERRO: Config de inimigo null na onda ", onda_atual)
 			continue
-		var qtd = int(ceil(config.quantidade * mult_horda))
+		# Bosses e mini-bosses nunca recebem mult_horda (evita ceil duplicar chefes)
+		var mult: float = 1.0 if (config.cena != null and _cenas_boss.has(config.cena.resource_path)) else mult_horda
+		var qtd = int(ceil(config.quantidade * mult))
 		for i in range(qtd):
 			fila_inimigos.append(config.cena)
 			fila_hp_mult.append(hp_mult_base)
 
 	inimigos_restantes = fila_inimigos.size()
-	print(name, " iniciando noite com ", inimigos_restantes, " inimigos (hp_mult=", hp_mult_base, ")")
+	if Global.DEBUG_MODE:
+		print(name, " iniciando noite com ", inimigos_restantes, " inimigos (hp_mult=", hp_mult_base, ")")
 
 	if inimigos_restantes == 0:
 		_finalizar_onda()
@@ -88,11 +100,13 @@ func _spawnar_proximo():
 	if fila_hp_mult.size() > 0:
 		hp_mult = fila_hp_mult.pop_front()
 	if cena == null:
-		print("ERRO: cena de inimigo null em ", name)
+		if Global.DEBUG_MODE:
+			print("ERRO: cena de inimigo null em ", name)
 		return
 
 	if not is_inside_tree():
-		print("Spawner ", name, " não está na árvore. Cancelando spawn.")
+		if Global.DEBUG_MODE:
+			print("Spawner ", name, " não está na árvore. Cancelando spawn.")
 		return
 
 	var inimigo = cena.instantiate()
@@ -102,15 +116,28 @@ func _spawnar_proximo():
 	get_tree().current_scene.add_child(inimigo)
 	inimigo.global_position = global_position
 	inimigos_restantes -= 1
-	print(name, " spawnou inimigo. Restam na fila: ", fila_inimigos.size())
+	if Global.DEBUG_MODE:
+		print(name, " spawnou inimigo. Restam na fila: ", fila_inimigos.size())
 
 func _esperar_limpeza():
-	while get_tree().get_nodes_in_group("inimigos").size() > 0:
-		await get_tree().create_timer(1.0).timeout
+	# Aguarda o sinal inimigo_morreu em vez de polling a cada 1 s
+	# get_nodes_in_group só é chamado quando um inimigo de facto morre
+	while not _todos_inimigos_mortos():
+		if not is_inside_tree():
+			return  # Nó removido da árvore — aborta silenciosamente
+		await GameManager.inimigo_morreu
+		# Segurança: se o dia já começou (cena mudou / inimigo preso), sai do loop
+		if not GameManager.is_night:
+			break
 	_finalizar_onda()
 
+func _todos_inimigos_mortos() -> bool:
+	return get_tree().get_nodes_in_group("inimigos").is_empty() \
+		and get_tree().get_nodes_in_group("Chefe").is_empty()
+
 func _finalizar_onda():
-	print(name, " finalizando onda. Próxima onda: ", onda_atual + 1)
+	if Global.DEBUG_MODE:
+		print(name, " finalizando onda. Próxima onda: ", onda_atual + 1)
 	onda_atual += 1
 	
 	# EM VEZ DE: GameManager.terminar_onda()
@@ -136,29 +163,91 @@ func emitir_info():
 		info.append({
 			"icone": config.icone,
 			"cor": config.cor,
-			"qtd": config.quantidade
+			"qtd": config.quantidade,
+			"descricao": config.descricao
 		})
+	var _id_spawner = str(get_instance_id())
+	var pos_hud = global_position
+
+	if hud_point:
+		pos_hud = hud_point.global_position
 	var dir = _calcular_direcao()
-	info_proxima_onda.emit(dir, info, global_position)
+	info_proxima_onda.emit(
+						str(get_instance_id()),
+						dir,
+						info,
+						pos_hud
+					)
 
 func _calcular_direcao() -> String:
 	if not base:
 		return "?"
+
 	var diff = global_position - base.global_position
-	var ang = atan2(diff.x, diff.z)
-	if abs(ang) < 0.785:
-		return "Norte"
-	elif ang >= 0.785 and ang < 2.356:
+
+	var ang = atan2(diff.z, diff.x)
+	var deg = rad_to_deg(ang)
+
+	if deg < 0:
+		deg += 360
+
+	# 8 direções
+	if deg >= 337.5 or deg < 22.5:
 		return "Leste"
-	elif ang <= -0.785 and ang > -2.356:
-		return "Oeste"
-	else:
+
+	elif deg >= 22.5 and deg < 67.5:
+		return "Sudeste"
+
+	elif deg >= 67.5 and deg < 112.5:
 		return "Sul"
+
+	elif deg >= 112.5 and deg < 157.5:
+		return "Sudoeste"
+
+	elif deg >= 157.5 and deg < 202.5:
+		return "Oeste"
+
+	elif deg >= 202.5 and deg < 247.5:
+		return "Noroeste"
+
+	elif deg >= 247.5 and deg < 292.5:
+		return "Norte"
+
+	else:
+		return "Nordeste"
+
+# ==========================================
+# LUZ DA CASA À NOITE
+# ==========================================
+func _acender_luz_spawner(_onda: int = 0) -> void:
+	if is_instance_valid(_luz_spawner):
+		return
+	_luz_spawner = OmniLight3D.new()
+	_luz_spawner.light_color    = Color(1.0, 0.72, 0.30)  # laranja quente — janela iluminada
+	_luz_spawner.light_energy   = 0.0
+	_luz_spawner.omni_range     = 6.0
+	_luz_spawner.shadow_enabled = false
+	add_child(_luz_spawner)
+	_luz_spawner.position = Vector3(0.0, 1.5, 0.0)
+	var tw := create_tween()
+	tw.tween_property(_luz_spawner, "light_energy", 0.5, 1.0) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _apagar_luz_spawner(_onda: int = 0) -> void:
+	if not is_instance_valid(_luz_spawner):
+		return
+	var luz := _luz_spawner
+	_luz_spawner = null
+	var tw := create_tween()
+	tw.tween_property(luz, "light_energy", 0.0, 0.6) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tw.tween_callback(luz.queue_free)
 
 func restaurar_onda_do_save():
 	onda_atual = GameManager.onda_atual - 1
 	emitir_info()
-	print(name, " sincronizou a onda do save! Preparado para a onda: ", GameManager.onda_atual)
+	if Global.DEBUG_MODE:
+		print(name, " sincronizou a onda do save! Preparado para a onda: ", GameManager.onda_atual)
 
 
 # ==========================================
@@ -167,6 +256,7 @@ func restaurar_onda_do_save():
 func _construir_pool_procedural() -> void:
 	pool_normais.clear()
 	cena_boss = null
+	_cenas_boss.clear()
 	var vistos: Dictionary = {}
 
 	for onda in ondas:
@@ -186,6 +276,7 @@ func _construir_pool_procedural() -> void:
 			instancia.free()
 
 			if eh_boss:
+				_cenas_boss[chave] = true  # marca para não receber mult_horda
 				if cena_boss == null:
 					cena_boss = config.cena
 			else:

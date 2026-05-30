@@ -11,6 +11,7 @@ size = Vector3(1.4, 1.5, 1.8)
 
 [node name="Cripta" type="Node3D" unique_id=3010302010 groups=["Base", "Castelo"]]
 script = ExtResource("2_crypt")
+nome_construcao = "Cripta"
 tipo = 5
 vida_maxima = 600
 upgrade_custos = Array[int]([5, 7])

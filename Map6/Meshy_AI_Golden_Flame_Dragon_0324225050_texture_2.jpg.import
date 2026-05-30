@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dexul8m18373"
 path.s3tc="res://.godot/imported/Meshy_AI_Golden_Flame_Dragon_0324225050_texture_2.jpg-4e2885ae8a62843e9b44f47bfb10c82e.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Golden_Flame_Dragon_0324225050_texture_2.jpg-4e2885ae8a62843e9b44f47bfb10c82e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Meshy_AI_Golden_Flame_Dragon_0324225050_texture_2.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Golden_Flame_Dragon_0324225050_texture_2.jpg-4e2885ae8a62843e9b44f47bfb10c82e.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Golden_Flame_Dragon_0324225050_texture_2.jpg-4e2885ae8a62843e9b44f47bfb10c82e.s3tc.ctex", "res://.godot/imported/Meshy_AI_Golden_Flame_Dragon_0324225050_texture_2.jpg-4e2885ae8a62843e9b44f47bfb10c82e.etc2.ctex"]
 
 [params]
 

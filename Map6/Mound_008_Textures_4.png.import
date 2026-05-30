@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2yglx1trre64"
 path.s3tc="res://.godot/imported/Mound_008_Textures_4.png-6ea9cc79aa8655c492d3cc0f31f83655.s3tc.ctex"
+path.etc2="res://.godot/imported/Mound_008_Textures_4.png-6ea9cc79aa8655c492d3cc0f31f83655.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Mound_008_Textures_4.png"
-dest_files=["res://.godot/imported/Mound_008_Textures_4.png-6ea9cc79aa8655c492d3cc0f31f83655.s3tc.ctex"]
+dest_files=["res://.godot/imported/Mound_008_Textures_4.png-6ea9cc79aa8655c492d3cc0f31f83655.s3tc.ctex", "res://.godot/imported/Mound_008_Textures_4.png-6ea9cc79aa8655c492d3cc0f31f83655.etc2.ctex"]
 
 [params]
 

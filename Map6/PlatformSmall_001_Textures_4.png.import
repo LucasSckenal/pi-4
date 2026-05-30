@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bax8mb32fdgi"
 path.s3tc="res://.godot/imported/PlatformSmall_001_Textures_4.png-52830a783133cb390c55a38c4bf7f52c.s3tc.ctex"
+path.etc2="res://.godot/imported/PlatformSmall_001_Textures_4.png-52830a783133cb390c55a38c4bf7f52c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/PlatformSmall_001_Textures_4.png"
-dest_files=["res://.godot/imported/PlatformSmall_001_Textures_4.png-52830a783133cb390c55a38c4bf7f52c.s3tc.ctex"]
+dest_files=["res://.godot/imported/PlatformSmall_001_Textures_4.png-52830a783133cb390c55a38c4bf7f52c.s3tc.ctex", "res://.godot/imported/PlatformSmall_001_Textures_4.png-52830a783133cb390c55a38c4bf7f52c.etc2.ctex"]
 
 [params]
 

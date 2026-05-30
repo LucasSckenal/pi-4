@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwe5h2bgffos7"
 path.s3tc="res://.godot/imported/Meshy_AI_Rope_Tied_Barrel_0419234218_texture_1.jpg-06212efcf418c29d7cd28d7f38ba613c.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Rope_Tied_Barrel_0419234218_texture_1.jpg-06212efcf418c29d7cd28d7f38ba613c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map4/Meshy_AI_Rope_Tied_Barrel_0419234218_texture_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Rope_Tied_Barrel_0419234218_texture_1.jpg-06212efcf418c29d7cd28d7f38ba613c.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Rope_Tied_Barrel_0419234218_texture_1.jpg-06212efcf418c29d7cd28d7f38ba613c.s3tc.ctex", "res://.godot/imported/Meshy_AI_Rope_Tied_Barrel_0419234218_texture_1.jpg-06212efcf418c29d7cd28d7f38ba613c.etc2.ctex"]
 
 [params]
 

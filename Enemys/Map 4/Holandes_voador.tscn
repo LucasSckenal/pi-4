@@ -9,10 +9,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8i7xd"]
 render_priority = 0
 shader = ExtResource("4_eysib")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_witua"]
 resource_name = "Material_1"
@@ -56,7 +54,6 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_yqujj")
 tipo_inimigo = 2
 nome_inimigo = "Holandês Voador"
-eh_aereo = true
 usar_video_custom = true
 video_stream = ExtResource("2_eysib")
 vida_maxima = 1800

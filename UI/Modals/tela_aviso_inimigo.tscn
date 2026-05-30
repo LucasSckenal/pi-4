@@ -16,8 +16,6 @@ corner_radius_bottom_left = 12
 shadow_color = Color(0, 0, 0, 0.5)
 shadow_size = 15
 
-[sub_resource type="World3D" id="World3D_rmby8"]
-
 [node name="TelaAvisoInimigo" type="CanvasLayer" unique_id=674670310]
 process_mode = 3
 layer = 100
@@ -75,25 +73,13 @@ theme_override_font_sizes/font_size = 20
 text = "🔥 INIMIGO 🔥"
 horizontal_alignment = 1
 
-[node name="Estudo3D" type="SubViewportContainer" parent="CartaoCentral/Margin/VBox" unique_id=1991747479]
-custom_minimum_size = Vector2(250, 250)
+[node name="IconeInimigo" type="TextureRect" parent="CartaoCentral/Margin/VBox" unique_id=1991747479]
+custom_minimum_size = Vector2(160, 160)
 layout_mode = 2
 size_flags_horizontal = 4
-stretch = true
-
-[node name="Viewport" type="SubViewport" parent="CartaoCentral/Margin/VBox/Estudo3D" unique_id=1469101829]
-own_world_3d = true
-world_3d = SubResource("World3D_rmby8")
-transparent_bg = true
-handle_input_locally = false
-size = Vector2i(250, 250)
-render_target_update_mode = 4
-
-[node name="CameraParaOModelo" type="Camera3D" parent="CartaoCentral/Margin/VBox/Estudo3D/Viewport" unique_id=1083704812]
-transform = Transform3D(1, 0, 0, 0, 0.9659259, 0.25881898, 0, -0.25881898, 0.9659259, 0.0042276382, 0.2097907, 0.28439927)
-
-[node name="LuzDeDestaque" type="DirectionalLight3D" parent="CartaoCentral/Margin/VBox/Estudo3D/Viewport" unique_id=1723383677]
-transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 3, 0)
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Separador1" type="HSeparator" parent="CartaoCentral/Margin/VBox" unique_id=599670091]
 layout_mode = 2

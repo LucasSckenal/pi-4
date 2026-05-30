@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://do6bm15t6mtki"
 path.s3tc="res://.godot/imported/Meshy_AI_Blank_Scroll_0416004051_texture_1.jpg-48823270f352035b89242fb3ffac545c.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Blank_Scroll_0416004051_texture_1.jpg-48823270f352035b89242fb3ffac545c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Assets/Meshy_AI_Blank_Scroll_0416004051_texture_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Blank_Scroll_0416004051_texture_1.jpg-48823270f352035b89242fb3ffac545c.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Blank_Scroll_0416004051_texture_1.jpg-48823270f352035b89242fb3ffac545c.s3tc.ctex", "res://.godot/imported/Meshy_AI_Blank_Scroll_0416004051_texture_1.jpg-48823270f352035b89242fb3ffac545c.etc2.ctex"]
 
 [params]
 

@@ -149,10 +149,8 @@ shadow_mesh = SubResource("ArrayMesh_5k2gu")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qpw32"]
 render_priority = 0
 shader = ExtResource("10_ylt60")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5a8yk"]
 resource_name = "None"
@@ -739,8 +737,6 @@ mesh = SubResource("ArrayMesh_sqfto")
 transform = Transform3D(0.75588775, 0, 0.65470123, 0, 1.0000002, 0, -0.65470123, 0, 0.75588775, -0.41300005, 0, 0.07683695)
 mesh = SubResource("ArrayMesh_0s2pb")
 
-[node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("4_qpw32")]
-
 [node name="Builds" type="Node3D" parent="." unique_id=2126967921]
 transform = Transform3D(43.636208, 0, 89.977104, 0, 100, 0, -89.977104, 0, 43.636208, 8.109369, -0.9268074, -14.509198)
 
@@ -854,20 +850,32 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 1, 0)
 
-[node name="Spawns" type="Node3D" parent="." unique_id=240478397]
+[node name="Spawners" type="Node3D" parent="." unique_id=240478397]
 transform = Transform3D(-97.207565, 0, 23.46671, 0, 100.000015, 0, -23.46671, 0, -97.207565, 113.23369, -15.882205, 321.89197)
 
-[node name="Spawner A" parent="Spawns" unique_id=423161848 instance=ExtResource("8_dk0kk")]
+[node name="A" parent="Spawners" unique_id=423161848 node_paths=PackedStringArray("hud_point") instance=ExtResource("8_dk0kk")]
 transform = Transform3D(0.9782704, 0, 0.20733172, 0, 0.99999964, 0, -0.20733172, 0, 0.9782704, 1.8222699, 0.17400353, 2.7453864)
 ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_1adak"), SubResource("Resource_hj1xp"), SubResource("Resource_gwkev"), SubResource("Resource_qmdqv"), SubResource("Resource_it188"), SubResource("Resource_qphxd")])
+hud_point = NodePath("../Spawner A")
 
-[node name="Spawner B" parent="Spawns" unique_id=34138668 instance=ExtResource("8_dk0kk")]
+[node name="B" parent="Spawners" unique_id=34138668 node_paths=PackedStringArray("hud_point") instance=ExtResource("8_dk0kk")]
 transform = Transform3D(0.451827, 0, 0.8921051, 0, 0.9999996, 0, -0.8921051, 0, 0.451827, 1.9104922, 0.16818234, 2.7571769)
 ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_gxr63"), SubResource("Resource_vbs5l"), SubResource("Resource_6ak85"), SubResource("Resource_csu6n"), SubResource("Resource_20gje"), SubResource("Resource_d3pib")])
+hud_point = NodePath("../Spawner B")
 
-[node name="Spawner C" parent="Spawns" unique_id=878883450 instance=ExtResource("8_dk0kk")]
+[node name="C" parent="Spawners" unique_id=878883450 node_paths=PackedStringArray("hud_point") instance=ExtResource("8_dk0kk")]
 transform = Transform3D(0.6841775, 0, 0.72931504, 0, 0.9999997, 0, -0.72931504, 0, 0.6841775, 1.7545505, 0.16787104, 2.798553)
 ondas = Array[ExtResource("9_06eca")]([SubResource("Resource_a3xla"), SubResource("Resource_m1uej"), SubResource("Resource_dx84t"), SubResource("Resource_7aht3"), SubResource("Resource_6oh1h"), SubResource("Resource_pi6cv")])
+hud_point = NodePath("../Spawner C")
+
+[node name="Spawner A" type="Marker3D" parent="Spawners" unique_id=1175025458]
+transform = Transform3D(0.97814745, 0, 0.20791173, 0, 0.99999976, 0, -0.20791173, 0, 0.97814745, 1.8310754, 0.17144196, 2.7818635)
+
+[node name="Spawner B" type="Marker3D" parent="Spawners" unique_id=1474746544]
+transform = Transform3D(0.9781469, 0, 0.2079118, 0, 0.9999996, 0, -0.2079118, 0, 0.9781469, 1.8998747, 0.16793269, 2.7800655)
+
+[node name="Spawner C" type="Marker3D" parent="Spawners" unique_id=1008241396]
+transform = Transform3D(0.97814673, 0, 0.20791182, 0, 0.9999996, 0, -0.20791182, 0, 0.97814673, 1.7694914, 0.16787104, 2.8082154)
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("20_2h005")]
 transform = Transform3D(2.9999335, 0.018277364, -0.008100863, -0.018275728, 2.9999444, 0.00063045596, 0.008104553, -0.00058109226, 2.999989, 0.1185745, 1.1493058, -1.6705356)
@@ -889,6 +897,8 @@ emission_energy = 2.0
 root_node = NodePath("../WorldEnvironment")
 libraries/ = SubResource("AnimationLibrary_ylt60")
 speed_scale = 1.5
+
+[node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("4_qpw32")]
 
 [editable path="Piramide"]
 [editable path="Piramide/Pyramid"]

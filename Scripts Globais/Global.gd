@@ -4,7 +4,16 @@ extends Node
 const SAVE_PATH = "user://save.cfg"
 const _SAVE_PATH_ANTIGO = "user://save_game.cfg"
 
+# --- MODO DEBUG ---
+## Coloque true durante o desenvolvimento para ver os prints de diagnóstico.
+## Mantenha false em builds de produção.
+const DEBUG_MODE: bool = false
+var _save_count: int = 0  # Contador para throttle do backup (1 backup a cada 5 saves)
+
 # --- VARIÁVEIS DE ESTADO ---
+var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
+var shake_tela_ativo: bool = true     # controlado por configuracoes.gd / CheckShakeTela
+
 var personagem_jogado_atualmente : String = "avo_m"
 var personagem_escolhido_path: String = ""
 
@@ -20,6 +29,7 @@ func is_personagem_liberado(_indice: int) -> bool:
 # --- PROGRESSO DO MAPA ---
 var fases_liberadas: int = 1
 var estrelas_por_fase: Dictionary = {}
+var cutscenes_vistas: Array = []
 
 # Progresso do Jogador
 var conquistas_desbloqueadas: Array = []
@@ -36,6 +46,7 @@ var armadura_kakashi_desbloqueada: bool = false
 var usando_set_kakashi: bool = false
 
 var inimigos_descobertos: Array = []
+var total_ondas_completadas: int = 0
 
 # O que cada um tem equipado neste momento
 var equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
@@ -100,8 +111,10 @@ func salvar_progresso():
 
 	config.set_value("progresso", "fases_liberadas", fases_liberadas)
 	config.set_value("progresso", "estrelas_por_fase", estrelas_por_fase)
+	config.set_value("progresso", "cutscenes_vistas", cutscenes_vistas)
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
+	config.set_value("progresso", "total_ondas_completadas", total_ondas_completadas)
 	config.set_value("inventario", "armas_ganhas", armas_desbloqueadas)
 	config.set_value("inventario", "chapeus_ganhos", chapeus_desbloqueados)
 	config.set_value("equipamentos", "avo_m", equip_avo_m)
@@ -115,7 +128,10 @@ func salvar_progresso():
 	if err != OK:
 		push_error("[Global] Falha ao guardar progresso: %d" % err)
 	else:
-		config.save(SAVE_PATH.replace(".cfg", "_backup.cfg"))
+		# Backup a cada 5 saves para não fazer I/O duplo em cada save trivial
+		_save_count += 1
+		if _save_count % 5 == 0:
+			config.save(SAVE_PATH.replace(".cfg", "_backup.cfg"))
 		progresso_salvo.emit()
 
 
@@ -136,9 +152,11 @@ func carregar_progresso():
 						config.get_value("mapa", "fases_liberadas", 1))
 	estrelas_por_fase = config.get_value("progresso", "estrelas_por_fase",
 						config.get_value("mapa", "estrelas_por_fase", {}))
+	cutscenes_vistas = config.get_value("progresso", "cutscenes_vistas", [])
 
-	inimigos_descobertos      = config.get_value("progresso", "inimigos", [])
-	conquistas_desbloqueadas  = config.get_value("progresso", "conquistas", [])
+	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
+	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
+	total_ondas_completadas      = config.get_value("progresso", "total_ondas_completadas", 0)
 	armas_desbloqueadas       = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
 	chapeus_desbloqueados     = config.get_value("inventario", "chapeus_ganhos", ["Nenhum"])
 	equip_avo_m               = config.get_value("equipamentos", "avo_m", {"arma": "arma_katana", "chapeu": "Nenhum"})
@@ -158,18 +176,20 @@ func _input(event):
 			resetar_tudo()
 
 		if event.keycode == KEY_L:
-			print("\n--- STATUS DO SAVE ---")
-			print("Conquistas Completas: ", conquistas_desbloqueadas)
-			print("Armas Desbloqueadas: ", armas_desbloqueadas)
-			print("Chapéus Desbloqueados: ", chapeus_desbloqueados)
-			print("Equip Avô: ", equip_avo_m)
-			print("Equip Avó: ", equip_avo_f)
-			print("----------------------\n")
+			if Global.DEBUG_MODE:
+				print("\n--- STATUS DO SAVE ---")
+				print("Conquistas Completas: ", conquistas_desbloqueadas)
+				print("Armas Desbloqueadas: ", armas_desbloqueadas)
+				print("Chapéus Desbloqueados: ", chapeus_desbloqueados)
+				print("Equip Avô: ", equip_avo_m)
+				print("Equip Avó: ", equip_avo_f)
+				print("----------------------\n")
 
 
 func resetar_tudo():
 	fases_liberadas = 1
 	estrelas_por_fase = {}
+	cutscenes_vistas = []
 
 	conquistas_desbloqueadas = []
 	armas_desbloqueadas = ["arma_katana"]
@@ -190,17 +210,39 @@ func obter_total_estrelas() -> int:
 		total += qtd
 	return total
 
+func cutscene_ja_vista(numero_fase: int) -> bool:
+	return str(numero_fase) in cutscenes_vistas
+
+func registrar_cutscene_vista(numero_fase: int) -> void:
+	var chave := str(numero_fase)
+	if chave in cutscenes_vistas:
+		return
+	cutscenes_vistas.append(chave)
+	salvar_progresso()
+
 func verificar_desbloqueios_por_estrelas():
 	var total = obter_total_estrelas()
+	var houve_novo := false
 
-	if total >= 3:
+	if total >= 3 and not armadura_hollow_knight_desbloqueada:
 		armadura_hollow_knight_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("HollowKnight Head", ["HollowKnight Head"], null)
 
-	if total >= 8:
+	if total >= 8 and not armadura_kakashi_desbloqueada:
 		armadura_kakashi_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Kakashi", ["Set Kakashi"], null)
 
-	if total >= 13:
+	if total >= 13 and not armadura_bloodborne_desbloqueada:
 		armadura_bloodborne_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Bloodborne", ["Set Bloodborne"], null)
 
-	if total >= 18:
+	if total >= 18 and not armadura_darksouls_desbloqueada:
 		armadura_darksouls_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Dark Souls", ["Set Dark Souls"], null)
+
+	if houve_novo:
+		_atualizar_interface_customizacao()

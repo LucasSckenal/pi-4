@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cqo8ub2jo78ur"
 path.s3tc="res://.godot/imported/Vase_002_Textures_4.png-479417edb80692b2ffa42d79e2dfce1c.s3tc.ctex"
+path.etc2="res://.godot/imported/Vase_002_Textures_4.png-479417edb80692b2ffa42d79e2dfce1c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Vase_002_Textures_4.png"
-dest_files=["res://.godot/imported/Vase_002_Textures_4.png-479417edb80692b2ffa42d79e2dfce1c.s3tc.ctex"]
+dest_files=["res://.godot/imported/Vase_002_Textures_4.png-479417edb80692b2ffa42d79e2dfce1c.s3tc.ctex", "res://.godot/imported/Vase_002_Textures_4.png-479417edb80692b2ffa42d79e2dfce1c.etc2.ctex"]
 
 [params]
 

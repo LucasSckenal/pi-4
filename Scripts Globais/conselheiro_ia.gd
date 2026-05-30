@@ -28,6 +28,7 @@ class Recomendacao:
 
 # Cache de custos para não recriar instâncias a cada análise
 var _cache_custos: Dictionary = {}
+# Nomes delegados ao GameManager (que já tem cache próprio)
 
 # ==========================================
 # ANÁLISE PRINCIPAL
@@ -297,27 +298,10 @@ func _get_custo_cache(cena: PackedScene) -> int:
 	return custo
 
 func _tipo_cena(cena: PackedScene) -> int:
-	var p: String = cena.resource_path.to_lower()
-	if "tower" in p or "torre" in p or "morteiro" in p or "sniper" in p:
-		return 0
-	if "mina" in p:
-		return 1
-	if "house" in p or "casa" in p:
-		return 2
-	if "mill" in p or "moinho" in p:
-		return 3
-	if "quartel" in p:
-		return 4
-	return -1
+	return GameManager.tipo_por_cena(cena)
 
 func _nome(cena: PackedScene) -> String:
-	var t: int = _tipo_cena(cena)
-	if t == 0: return "Torre"
-	if t == 1: return "Mina"
-	if t == 2: return "Casa"
-	if t == 3: return "Moinho"
-	if t == 4: return "Quartel"
-	return cena.resource_path.get_file().get_basename().capitalize()
+	return GameManager.nome_para_cena(cena)  # GameManager já tem cache interno
 
 func _get_ofensiva_acessivel(disponiveis: Array, moedas: int) -> PackedScene:
 	for cena in disponiveis:

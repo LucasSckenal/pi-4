@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bvdbhl3ba2nhy"
 path.s3tc="res://.godot/imported/ColumnBigBroken_002_Textures_4.png-1af97e7f51483e451dbc3b6f19278873.s3tc.ctex"
+path.etc2="res://.godot/imported/ColumnBigBroken_002_Textures_4.png-1af97e7f51483e451dbc3b6f19278873.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/ColumnBigBroken_002_Textures_4.png"
-dest_files=["res://.godot/imported/ColumnBigBroken_002_Textures_4.png-1af97e7f51483e451dbc3b6f19278873.s3tc.ctex"]
+dest_files=["res://.godot/imported/ColumnBigBroken_002_Textures_4.png-1af97e7f51483e451dbc3b6f19278873.s3tc.ctex", "res://.godot/imported/ColumnBigBroken_002_Textures_4.png-1af97e7f51483e451dbc3b6f19278873.etc2.ctex"]
 
 [params]
 

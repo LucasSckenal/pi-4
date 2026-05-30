@@ -10,9 +10,9 @@ extends MarginContainer
 @onready var btn_rapido: Button = $AreaInterativa/GrupoVelocidades/BtnRapido
 @onready var grupo_velocidades: Control = $AreaInterativa/GrupoVelocidades
 
-const TEX_PLAY = preload("res://Assets/UI/BotaoPlay.png")
-const TEX_PAUSE = preload("res://Assets/UI/BotaoPause.png")
-const TEX_RESUME = preload("res://Assets/UI/BotaoResume.png")
+var TEX_PLAY:   Texture2D = preload("res://Assets/UI/BotaoPlay.png")
+var TEX_PAUSE:  Texture2D = preload("res://Assets/UI/BotaoPause.png")
+var TEX_RESUME: Texture2D = preload("res://Assets/UI/BotaoResume.png")
 
 var nivel_zoom_atual := 1
 const MAX_NIVEIS_ZOOM := 4
@@ -38,6 +38,15 @@ func _ready() -> void:
 	btn_lupa_mais.pressed.connect(_zoom_aproximar)
 	btn_lupa_menos.pressed.connect(_zoom_afastar)
 	btn_menu_gigante.pressed.connect(_on_menu_pressionado)
+
+	_configurar_animacao_hover(btn_lupa_mais)
+	_configurar_animacao_hover(btn_lupa_menos)
+	_configurar_animacao_hover(btn_menu_gigante)
+
+	for btn in [btn_lento, btn_normal, btn_rapido]:
+		btn.add_theme_color_override("font_hover_color", Color.BLACK)
+		btn.add_theme_color_override("font_hover_pressed_color", Color.BLACK)
+		_configurar_animacao_hover(btn)
 
 	btn_lento.pressed.connect(func(): _alterar_velocidade(0.5, btn_lento))
 	btn_normal.pressed.connect(func(): _alterar_velocidade(1.0, btn_normal))
@@ -121,6 +130,19 @@ func _definir_icone_menu(textura: Texture2D) -> void:
 		btn_menu_gigante.icon = textura
 		btn_menu_gigante.text = ""
 
+## Chamado por hud.gd/aplicar_tema_hud() com as texturas já resolvidas do kit de fase.
+func aplicar_kit_botoes(tex_play: Texture2D, tex_pause: Texture2D, tex_resume: Texture2D) -> void:
+	TEX_PLAY   = tex_play   if tex_play   else TEX_PLAY
+	TEX_PAUSE  = tex_pause  if tex_pause  else TEX_PAUSE
+	TEX_RESUME = tex_resume if tex_resume else TEX_RESUME
+	# Actualiza o ícone visível conforme o estado actual
+	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
+		_definir_icone_menu(TEX_PLAY)
+	elif jogo_pausado:
+		_definir_icone_menu(TEX_RESUME)
+	else:
+		_definir_icone_menu(TEX_PAUSE)
+
 func _alterar_velocidade(multiplicador: float, botao_clicado: Button) -> void:
 	ultima_velocidade = multiplicador
 
@@ -145,3 +167,19 @@ func verificar_estado_dia_noite() -> void:
 
 		if is_instance_valid(grupo_velocidades):
 			grupo_velocidades.hide()
+
+func _configurar_animacao_hover(botao: Button) -> void:
+	if botao.custom_minimum_size != Vector2.ZERO:
+		botao.pivot_offset = botao.custom_minimum_size / 2.0
+	else:
+		botao.pivot_offset = botao.size / 2.0
+	
+	botao.mouse_entered.connect(func():
+		var tween := create_tween()
+		tween.tween_property(botao, "scale", Vector2(1.1, 1.1), 0.1).set_trans(Tween.TRANS_SINE)
+	)
+	
+	botao.mouse_exited.connect(func():
+		var tween := create_tween()
+		tween.tween_property(botao, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
+	)

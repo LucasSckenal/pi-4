@@ -42,7 +42,8 @@ func _pagar_recompensa():
 	
 	# Adiciona o dinheiro no GameManager direto
 	GameManager.moedas += moedas_por_onda
-	print("Construção gerou ", moedas_por_onda, " moedas!")
+	if Global.DEBUG_MODE:
+		print("Construção gerou ", moedas_por_onda, " moedas!")
 	
 	# Grita pelo rádio para a HUD atualizar e o baú abrir
 	get_tree().call_group("Interface", "atualizar_moedas")
@@ -72,7 +73,8 @@ func receber_dano(quantidade: int):
 		destruir_construcao()
 
 func destruir_construcao():
-	print("A construção foi destruída!")
+	if Global.DEBUG_MODE:
+		print("A construção foi destruída!")
 	# Desconecta o sinal para evitar erros de memória
 	if GameManager.onda_terminada.is_connected(_pagar_recompensa):
 		GameManager.onda_terminada.disconnect(_pagar_recompensa)

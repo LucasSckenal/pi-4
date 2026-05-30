@@ -24,6 +24,7 @@ var inimigos_no_alcance = []
 var alvo_atual: Node3D = null
 var vida_atual: int
 var is_fantasma: bool = false  # Usado pelo slot de construção
+var _base_node: Node3D = null   # Cacheado no _ready para evitar get_first_node todo frame
 
 func _ready():
 	# Se for fantasma (holograma), desliga tudo
@@ -36,7 +37,8 @@ func _ready():
 	# Aplica balanceamento centralizado (CSV)
 	_aplicar_balanceamento()
 
-	print("Torre construída!")
+	if Global.DEBUG_MODE:
+		print("Torre construída!")
 
 	# Registra nos grupos para receber buffs e ser atacada
 	add_to_group("Construcao")
@@ -51,7 +53,10 @@ func _ready():
 	
 	# Aplica os buffs atuais (velocidade de ataque)
 	atualizar_status()
-	
+
+	# Cacheia a base para o sistema de prioridade de alvo (evita busca todo frame)
+	_base_node = get_tree().get_first_node_in_group("Base") as Node3D
+
 	# Inicia o timer de ataque (essencial!)
 	timer_ataque.start()
 
@@ -61,21 +66,36 @@ func _ready():
 
 func _on_area_ataque_body_entered(body):
 	if is_fantasma: return
-	if body.is_in_group("inimigos") or body.is_in_group("Inimigos"):
-		if not body in inimigos_no_alcance:
-			inimigos_no_alcance.append(body)
+	if body.is_in_group("inimigos") and not body in inimigos_no_alcance:
+		inimigos_no_alcance.append(body)
+		# Remove automaticamente quando o inimigo morrer — sem filter todo frame
+		body.tree_exiting.connect(inimigos_no_alcance.erase.bind(body), CONNECT_ONE_SHOT)
 
 func _on_area_ataque_body_exited(body):
-	if body in inimigos_no_alcance:
-		inimigos_no_alcance.erase(body)
+	inimigos_no_alcance.erase(body)
 
 func _process(_delta):
 	if is_fantasma: return
-	# Remove inimigos mortos da lista
-	inimigos_no_alcance = inimigos_no_alcance.filter(func(inimigo): return is_instance_valid(inimigo))
-	
-	# Define o primeiro da lista como alvo
-	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
+	# Mira no inimigo mais próximo da base (o que mais ameaça o castelo)
+	alvo_atual = _get_alvo_prioritario()
+
+# Retorna o inimigo no alcance que está mais perto da base.
+# Se a base não estiver disponível, cai para o primeiro da lista.
+func _get_alvo_prioritario() -> Node3D:
+	if inimigos_no_alcance.is_empty():
+		return null
+	if not is_instance_valid(_base_node):
+		_base_node = get_tree().get_first_node_in_group("Base") as Node3D
+	if _base_node == null:
+		return inimigos_no_alcance.front()
+	var melhor: Node3D = inimigos_no_alcance[0]
+	var menor_dist_sq: float = melhor.global_position.distance_squared_to(_base_node.global_position)
+	for inimigo in inimigos_no_alcance:
+		var d: float = inimigo.global_position.distance_squared_to(_base_node.global_position)
+		if d < menor_dist_sq:
+			menor_dist_sq = d
+			melhor = inimigo
+	return melhor
 
 func _on_timer_ataque_timeout():
 	if is_fantasma: return
@@ -120,7 +140,8 @@ func receber_dano(quantidade: int):
 		destruir_construcao()
 
 func destruir_construcao():
-	print("Torre destruída!")
+	if Global.DEBUG_MODE:
+		print("Torre destruída!")
 	remove_from_group("Construcao")
 	remove_from_group("Torres")
 	queue_free()
@@ -134,7 +155,8 @@ func atualizar_status():
 		# Velocidade de ataque: tempo = base / (1 + bônus)
 		var novo_tempo = tempo_ataque_base / (1.0 + GameManager.bonus_velocidade_ataque)
 		timer_ataque.wait_time = max(0.1, novo_tempo)
-		print("Torre atualizada: novo intervalo de tiro = ", timer_ataque.wait_time)
+		if Global.DEBUG_MODE:
+			print("Torre atualizada: novo intervalo de tiro = ", timer_ataque.wait_time)
 
 # Lê os valores do CSV de balanceamento (Balanceamento.gd autoload)
 func _aplicar_balanceamento() -> void:
@@ -153,7 +175,8 @@ func curar_totalmente():
 	vida_atual = vida_maxima
 	# if health_bar: health_bar.value = vida_atual
 	# if health_bar_container: health_bar_container.visible = false
-	print("Torre curada para o novo dia!")
+	if Global.DEBUG_MODE:
+		print("Torre curada para o novo dia!")
 
 # ==========================================
 # SISTEMA DE TRANSPARÊNCIA (quando o player passa atrás)

@@ -30,6 +30,7 @@ var posicao_inicial: Vector3
 var tween_clique: Tween
 var rotation_tween: Tween = null
 var materiais_outline: Array[ShaderMaterial] = [] # Cache dos materiais para otimizar o zoom
+var _slash_shader: Shader = null  # Shader do corte compilado uma vez no _ready()
 
 func _ready():
 	add_to_group("Player")
@@ -51,6 +52,41 @@ func _ready():
 		nav_agent.path_desired_distance = 0.5
 		nav_agent.target_desired_distance = 0.01
 	
+	# Pré-compila o shader do corte (evita Shader.new() + recompile por ataque)
+	_slash_shader = Shader.new()
+	_slash_shader.code = """
+        shader_type spatial;
+        render_mode unshaded, cull_disabled;
+
+        uniform sampler2D tex_albedo;
+        uniform float inner_radius : hint_range(0.0, 1.0) = 0.2;
+        uniform float outer_radius : hint_range(0.0, 1.0) = 0.5;
+        uniform float lead_angle : hint_range(0.0, 2.0) = 0.0;
+        uniform float tail_angle : hint_range(0.0, 2.0) = 0.5;
+        uniform vec4 slash_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
+        // Define a espessura minima das pontas do rastro
+        uniform float tips_thickness : hint_range(0.0, 1.0) = 0.0;
+
+        void fragment() {
+            vec2 pos = UV - 0.5;
+            float dist = length(pos);
+            float angle = (atan(pos.y, pos.x) + PI) / TAU;
+
+            float angle_mask = step(angle, lead_angle);
+            float inner_mask = step(inner_radius, dist);
+
+            float alpha_fade = smoothstep(lead_angle - tail_angle, lead_angle, angle);
+
+            float thickness_curve = sin(alpha_fade * PI);
+
+            float current_outer_radius = mix(inner_radius + tips_thickness, outer_radius, thickness_curve);
+            float outer_mask = step(dist, current_outer_radius);
+
+            ALBEDO = slash_color.rgb;
+            ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
+        }
+	"""
+
 	# Configura o personagem salvo (e anexa a espada)
 	# O shader agora é aplicado automaticamente ao final desta função
 	_configurar_modelo_escolhido()
@@ -66,68 +102,37 @@ func _unhandled_input(event):
 	
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			# Bloqueia clique de andar durante o dia (fase de construção)
-			if not GameManager.is_night and not GameManager.modo_dev:
-				return
-				
-			var camera = get_viewport().get_camera_3d()
-			if camera:
-				var ray_origin = camera.project_ray_origin(event.position)
-				var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
-				
-				# MÁSCARA DE COLISÃO: Definida para 1 (Chão), ignorando torres (Layer 3)
-				var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target, 1) 
-				var result = get_world_3d().direct_space_state.intersect_ray(query)
-				if result:
-					nav_agent.target_position = result.position
-	
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			var camera = get_viewport().get_camera_3d()
-			if camera:
-				var ray_origin = camera.project_ray_origin(event.position)
-				var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
-				var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target)
-				var result = get_world_3d().direct_space_state.intersect_ray(query)
-				if result:
-					nav_agent.target_position = result.position
-					
-					# Feedback visual do clique no destino com animação de pulso
-					if linha_caminho:
-						# Mostrando após primeiro clique
-						linha_caminho.show()
-						
-						#GERENCIA A ROTAÇÃO CONTÍNUA E LEVE
-						if rotation_tween:
-							rotation_tween.kill() # Mata a rotação anterior antes de começar a nova
-						
-						# Cria um novo Tween infinito
-						rotation_tween = create_tween().set_loops() 
-						
-						# Anima a rotação Y (para girar no chão) de 0 até 360 graus
-						# A duração de 5.0 segundos define a velocidade; aumente para girar mais devagar.
-						# O método set_trans(Tween.TRANS_LINEAR) garante que a velocidade seja constante.
-						rotation_tween.tween_property(linha_caminho, "rotation:y", deg_to_rad(360.0), 5.0).from(0.0).set_trans(Tween.TRANS_LINEAR)
-						
-						
-						# Interrompe a animação anterior caso haja múltiplos cliques em sequência
-						if tween_clique and tween_clique.is_valid():
-							tween_clique.kill()
-							
-						linha_caminho.global_position = result.position
-						linha_caminho.scale = Vector3.ZERO
-						
-						tween_clique = create_tween()
-						tween_clique.set_parallel(true)
-						tween_clique.tween_property(linha_caminho, "scale", Vector3(1, 1, 1), 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-						
-						# Suaviza a transparência assumindo que o nó seja um Sprite3D ou Decal
-						if "modulate" in linha_caminho:
-							linha_caminho.modulate.a = 1.0
-							tween_clique.tween_property(linha_caminho, "modulate:a", 0.0, 0.5).set_delay(0.2)
-						elif "albedo_mix" in linha_caminho:
-							linha_caminho.albedo_mix = 1.0
-							tween_clique.tween_property(linha_caminho, "albedo_mix", 0.0, 0.5).set_delay(0.2)
+			# Bloqueia movimento durante o dia — sem bloquear o zoom (que está abaixo)
+			if GameManager.is_night or GameManager.modo_dev:
+				var camera = get_viewport().get_camera_3d()
+				if camera:
+					var ray_origin = camera.project_ray_origin(event.position)
+					var ray_target = ray_origin + camera.project_ray_normal(event.position) * 1000.0
+					# MÁSCARA DE COLISÃO: 1 (Chão), ignorando torres (Layer 3)
+					var query = PhysicsRayQueryParameters3D.create(ray_origin, ray_target, 1)
+					var result = get_world_3d().direct_space_state.intersect_ray(query)
+					if result:
+						nav_agent.target_position = result.position
+						# Feedback visual do clique no destino com animação de pulso
+						if linha_caminho:
+							linha_caminho.show()
+							if rotation_tween:
+								rotation_tween.kill()
+							rotation_tween = create_tween().set_loops()
+							rotation_tween.tween_property(linha_caminho, "rotation:y", deg_to_rad(360.0), 5.0).from(0.0).set_trans(Tween.TRANS_LINEAR)
+							if tween_clique and tween_clique.is_valid():
+								tween_clique.kill()
+							linha_caminho.global_position = result.position
+							linha_caminho.scale = Vector3.ZERO
+							tween_clique = create_tween()
+							tween_clique.set_parallel(true)
+							tween_clique.tween_property(linha_caminho, "scale", Vector3(1, 1, 1), 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+							if "modulate" in linha_caminho:
+								linha_caminho.modulate.a = 1.0
+								tween_clique.tween_property(linha_caminho, "modulate:a", 0.0, 0.5).set_delay(0.2)
+							elif "albedo_mix" in linha_caminho:
+								linha_caminho.albedo_mix = 1.0
+								tween_clique.tween_property(linha_caminho, "albedo_mix", 0.0, 0.5).set_delay(0.2)
 		
 		# Sistema de Zoom da Câmera e ajuste dinâmico do Outline
 		# Bloqueia Zoom durante diálogos do tutorial
@@ -307,42 +312,8 @@ func _criar_efeito_visual_corte():
 	malha.size = Vector2(1.0, 1.0) # Aumentado para acomodar o rastro circular
 	efeito.mesh = malha
 	
-	# Shader adaptada para Spatial (3D) baseada na lógica fornecida
-	var shader = Shader.new()
-	shader.code = """
-        shader_type spatial;
-        render_mode unshaded, cull_disabled;
-
-        uniform sampler2D tex_albedo;
-        uniform float inner_radius : hint_range(0.0, 1.0) = 0.2;
-        uniform float outer_radius : hint_range(0.0, 1.0) = 0.5;
-        uniform float lead_angle : hint_range(0.0, 2.0) = 0.0;
-        uniform float tail_angle : hint_range(0.0, 2.0) = 0.5;
-        uniform vec4 slash_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
-        // Define a espessura minima das pontas do rastro
-        uniform float tips_thickness : hint_range(0.0, 1.0) = 0.0;
-
-        void fragment() {
-            vec2 pos = UV - 0.5;
-            float dist = length(pos);
-            float angle = (atan(pos.y, pos.x) + PI) / TAU; 
-            
-            float angle_mask = step(angle, lead_angle);
-            float inner_mask = step(inner_radius, dist);
-            
-            float alpha_fade = smoothstep(lead_angle - tail_angle, lead_angle, angle);
-            
-            // Calcula a curva de espessura (0 nas pontas, 1 no centro do rastro)
-            float thickness_curve = sin(alpha_fade * PI);
-            
-            // Interpola o raio externo entre o limite das pontas e o raio maximo do corte
-            float current_outer_radius = mix(inner_radius + tips_thickness, outer_radius, thickness_curve);
-            float outer_mask = step(dist, current_outer_radius);
-            
-            ALBEDO = slash_color.rgb;
-            ALPHA = slash_color.a * inner_mask * outer_mask * angle_mask * alpha_fade;
-        }
-	"""
+	# Reutiliza o shader pré-compilado no _ready() — sem recompile por ataque
+	var shader: Shader = _slash_shader
 	
 	var material = ShaderMaterial.new()
 	material.shader = shader
@@ -627,45 +598,45 @@ func _configurar_shader_outline(modelo_alvo: Node):
 	
 	materiais_outline.clear()
 	
-	# Cria uma única instância do material de outline de forma totalmente automatizada via código
+	# Documentação: Cria a instância do material usando os parâmetros atualizados do Outline.gdshader
 	var mat_outline = ShaderMaterial.new()
 	if OUTLINE_SHADER:
 		mat_outline.shader = OUTLINE_SHADER
-		mat_outline.set_shader_parameter("scale", 1.0)
-		mat_outline.set_shader_parameter("outline_spread", 5.0)
-		mat_outline.set_shader_parameter("_Color", Color(0, 0, 0, 1))
-		mat_outline.set_shader_parameter("_DepthNormalThreshold", 0.1)
-		mat_outline.set_shader_parameter("_DepthNormalThresholdScale", 3.0)
-		mat_outline.set_shader_parameter("_DepthThreshold", 1.5)
-		mat_outline.set_shader_parameter("_NormalThreshold", 2.0)
+		mat_outline.set_shader_parameter("weight", 0.01)
+		mat_outline.set_shader_parameter("color", Color(0, 0, 0, 1))
 		
 		materiais_outline.append(mat_outline)
 		_percorrer_e_ajustar_materiais(modelo_alvo, mat_outline)
 	
-	# Configura a escala inicial baseada na posição atual da câmera
+	# Documentação: Configura a espessura inicial baseada na posição atual da câmera
 	var camera = get_viewport().get_camera_3d()
 	if camera:
 		var parametro_zoom = camera.fov if camera.projection == Camera3D.PROJECTION_PERSPECTIVE else camera.size
 		_atualizar_escala_outline(parametro_zoom)
 
 func _atualizar_escala_outline(valor_zoom: float):
-	# Mapeia o zoom para a escala do outline dependendo do tipo da câmera
-	var nova_escala = 1.0
+	# Documentação: Mapeia o zoom da câmera para a propriedade weight do shader atual
+	var novo_weight = 0.01
 	var camera = get_viewport().get_camera_3d()
 	if camera:
 		if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
-			nova_escala = remap(valor_zoom, 20.0, 90.0, 1.0, 4.5)
+			novo_weight = remap(valor_zoom, 20.0, 90.0, 0.01, 0.04)
 		else:
-			nova_escala = remap(valor_zoom, 5.0, 30.0, 1.0, 4.5)
+			novo_weight = remap(valor_zoom, 5.0, 30.0, 0.01, 0.04)
 			
 	for mat in materiais_outline:
 		if is_instance_valid(mat):
-			mat.set_shader_parameter("scale", nova_escala)
+			mat.set_shader_parameter("weight", novo_weight)
 
 func _percorrer_e_ajustar_materiais(no_atual: Node, mat_outline: ShaderMaterial = null):
-	# Aplica o overlay do shader em todas as partes do personagem que são malhas visíveis
+	# Documentação: Aplica o shader no next_pass dos materiais ativos de todas as malhas visíveis
 	if no_atual is MeshInstance3D and mat_outline != null:
-		no_atual.material_overlay = mat_outline
+		var mesh = no_atual.mesh
+		if mesh:
+			for i in range(mesh.get_surface_count()):
+				var mat_ativo = no_atual.get_active_material(i)
+				if mat_ativo:
+					mat_ativo.next_pass = mat_outline
 			
 	for filho in no_atual.get_children():
 		_percorrer_e_ajustar_materiais(filho, mat_outline)

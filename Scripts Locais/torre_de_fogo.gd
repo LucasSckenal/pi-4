@@ -36,6 +36,8 @@ var caminho_atual: int = -1
 # ESTADO INTERNO
 # ==========================================
 var is_fantasma: bool = false
+var is_modo_upgrade: bool = false  # visual-only: raios ativos, dano gerenciado pelo Builds.gd pai
+var esta_destruida: bool = false   # compatibilidade com sistema de targeting dos inimigos
 var vida_atual: int = 0
 var alvos_atuais: Array = []
 var lasers: Array = []
@@ -43,6 +45,8 @@ var lasers: Array = []
 var _dano_buffer: Dictionary = {}
 # Tempo contínuo focado em cada inimigo — controla o ramp-up (instance_id -> float)
 var _tempo_no_alvo: Dictionary = {}
+# Throttle: actualiza alvos a cada 0.15 s em vez de todo frame
+var _timer_alvo: float = 0.0
 
 # ==========================================
 # INICIALIZAÇÃO
@@ -52,6 +56,17 @@ func _ready() -> void:
 		# Modo fantasma (pré-visualização de construção): desliga tudo
 		if laser_base:
 			laser_base.hide()
+		return
+
+	# Modo upgrade: só visual — sem grupos, sem HP próprio, sem dano
+	if is_modo_upgrade:
+		lasers.append(laser_base)
+		for _i in range(1, max_alvos):
+			var clone := laser_base.duplicate() as MeshInstance3D
+			add_child(clone)
+			lasers.append(clone)
+		for laser in lasers:
+			laser.hide()
 		return
 
 	# Aplica balanceamento centralizado (CSV)
@@ -79,15 +94,26 @@ func _process(delta: float) -> void:
 	if is_fantasma:
 		return
 
-	# 1. Atualiza a lista de alvos em alcance
-	_atualizar_alvos()
+	# Em modo upgrade, sincroniza o alcance com a torre pai (Builds.gd)
+	if is_modo_upgrade:
+		var ancora = get_parent()
+		if is_instance_valid(ancora):
+			var torre_pai = ancora.get_parent()
+			if is_instance_valid(torre_pai) and "alcance_atual" in torre_pai:
+				alcance = torre_pai.alcance_atual
+
+	# 1. Atualiza a lista de alvos em alcance (throttle: 0.15 s — evita get_nodes_in_group todo frame)
+	_timer_alvo -= delta
+	if _timer_alvo <= 0.0:
+		_timer_alvo = 0.15
+		_atualizar_alvos()
 
 	# 2. Gira a torre na direção do alvo principal
 	if alvos_atuais.size() > 0 and is_instance_valid(alvos_atuais[0]) and torre_completa:
 		var dir_h: Vector3 = alvos_atuais[0].global_position - global_position
 		dir_h.y = 0.0
 		if dir_h.length_squared() > 0.01:
-			torre_completa.look_at(global_position + dir_h, Vector3.UP)
+			torre_completa.rotation.y = atan2(dir_h.x, dir_h.z)
 
 	# 3. Ponto de origem dos raios (centro da EsferaFogo)
 	var origem: Vector3
@@ -96,7 +122,7 @@ func _process(delta: float) -> void:
 	else:
 		origem = global_position + Vector3(0, 1.4, 0)
 
-	# 4. Para cada slot de raio: aplica dano e atualiza visual
+	# 4. Para cada slot de raio: aplica dano (só standalone) e atualiza visual
 	for i in range(max_alvos):
 		if i < alvos_atuais.size():
 			var alvo: Node3D = alvos_atuais[i]
@@ -105,8 +131,9 @@ func _process(delta: float) -> void:
 					lasers[i].hide()
 				continue
 
-			# Dano contínuo acumulado
-			_aplicar_dano_continuo(alvo, delta)
+			# Dano contínuo apenas no modo standalone — em upgrade o Builds.gd gerencia
+			if not is_modo_upgrade:
+				_aplicar_dano_continuo(alvo, delta)
 
 			# Visual do raio — mira no meio do corpo do inimigo
 			if i < lasers.size():
@@ -133,13 +160,17 @@ func _atualizar_alvos() -> void:
 			continue
 		if inimigo.get("esta_morto") == true:
 			continue
-		if global_position.distance_to(inimigo.global_position) <= alcance:
+		# Usa distância XZ para detectar aéreos em altitudes diferentes
+		var dist_xz: float = Vector2(global_position.x - inimigo.global_position.x,
+			global_position.z - inimigo.global_position.z).length()
+		if dist_xz <= alcance:
 			em_alcance.append(inimigo)
 
-	# Ordena do mais próximo para o mais distante como prioridade
+	# Ordena do mais próximo para o mais distante (distância XZ)
 	em_alcance.sort_custom(func(a: Node3D, b: Node3D) -> bool:
-		return global_position.distance_to(a.global_position) \
-			 < global_position.distance_to(b.global_position)
+		var da = Vector2(global_position.x - a.global_position.x, global_position.z - a.global_position.z).length()
+		var db = Vector2(global_position.x - b.global_position.x, global_position.z - b.global_position.z).length()
+		return da < db
 	)
 
 	# Seleciona os primeiros max_alvos
@@ -224,8 +255,8 @@ func _orientar_laser(laser: MeshInstance3D, de: Vector3, para: Vector3) -> void:
 # ==========================================
 # TORRE RECEBENDO DANO DOS INIMIGOS
 # ==========================================
-func receber_dano(quantidade: int) -> void:
-	if is_fantasma:
+func receber_dano(quantidade: int, _origem: String = "torre") -> void:
+	if is_fantasma or esta_destruida:
 		return
 
 	vida_atual -= quantidade
@@ -240,6 +271,10 @@ func receber_dano(quantidade: int) -> void:
 		destruir_construcao()
 
 func destruir_construcao() -> void:
+	if esta_destruida:
+		return
+	esta_destruida = true
+
 	# Remove lasers clonados (o laser_base faz parte da cena e é destruído com a árvore)
 	for laser in lasers:
 		if is_instance_valid(laser) and laser != laser_base:

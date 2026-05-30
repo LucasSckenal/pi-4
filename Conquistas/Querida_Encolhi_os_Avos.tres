@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://b3quspf3qyyi"]
 
-[ext_resource type="Texture2D" uid="uid://b3rfgvp7diov" path="res://Icons/OrcPreview.png" id="1_gullm"]
+[ext_resource type="Texture2D" uid="uid://b0ewtg002emmn" path="res://Assets/Conquistas/ConquistaMapa3.png" id="1_gullm"]
 [ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_jl81m"]
 
 [resource]

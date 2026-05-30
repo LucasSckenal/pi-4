@@ -1,19 +1,18 @@
 [gd_scene format=4 uid="uid://dnmgh03i2ix21"]
 
 [ext_resource type="PackedScene" uid="uid://duu7n3v1uixxc" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="1_0ki3c"]
-[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_oswje"]
+[ext_resource type="Script" uid="uid://b10p5n60o5vy" path="res://Enemys/Map 2/farao.gd" id="1_oswje"]
 [ext_resource type="VideoStream" uid="uid://cl477o02su4p3" path="res://Assets/Videos/Boss2.ogv" id="2_uht6h"]
 [ext_resource type="Texture2D" uid="uid://cluya4y2jmkmb" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations_texture_0_1.png" id="3_wbft7"]
 [ext_resource type="Texture2D" uid="uid://bujvotcqjdnda" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png" id="4_akyxp"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_akyxp"]
+[ext_resource type="Texture2D" uid="uid://2rwl2gra0u8x" path="res://Icons/FaraoPreview.png" id="6_farao_icon"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ywuqp"]
 render_priority = 0
 shader = ExtResource("5_akyxp")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ywuqp"]
 resource_name = "Material_1"
@@ -21,7 +20,6 @@ next_pass = SubResource("ShaderMaterial_ywuqp")
 diffuse_mode = 3
 specular_mode = 1
 albedo_texture = ExtResource("3_wbft7")
-emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.2
 emission_operator = 1
@@ -56,11 +54,13 @@ height = 1.6856546
 radius = 1.0325928
 height = 2.0651855
 
-[node name="Faraó" type="CharacterBody3D" unique_id=1483349175]
+[node name="Faraó" type="CharacterBody3D" unique_id=1483349175 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_oswje")
+anim_especial = "Skill_03"
 tipo_inimigo = 2
 nome_inimigo = "Faraó"
+subtitulo_inimigo = "O Imortal Senhor das Areias Eternas"
 usar_video_custom = true
 video_stream = ExtResource("2_uht6h")
 vida_maxima = 5500
@@ -71,10 +71,51 @@ raio_visao_construcao = 4.0
 raio_visao_aliados = 3.0
 dist_tornar_random = 3.5
 quanto_espalhar = 1.5
+modelo_3d = NodePath(".")
+animation_player = NodePath("Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations/AnimationPlayer")
+icone = ExtResource("6_farao_icon")
+anim_andar = "Walking"
+anim_atacar = "Triple_Combo_Attack"
+anim_morrer = "Dead"
 
 [node name="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=383528023 instance=ExtResource("1_0ki3c")]
 
-[node name="char1" parent="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" parent_id_path=PackedInt32Array(383528023, 2107088771) index="0" unique_id=308236732]
+[node name="Skeleton3D" parent="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(383528023, 87991289) index="0" unique_id=254524566]
+bones/0/position = Vector3(2.9937105, 29.093584, 5.1547446)
+bones/0/rotation = Quaternion(0.060200006, 0.37883806, -0.3075142, 0.8708001)
+bones/1/rotation = Quaternion(0.71404165, 0.3861088, -0.14789024, 0.56497175)
+bones/2/rotation = Quaternion(0.4840162, 0.5162938, 0.25921336, 0.6572499)
+bones/3/position = Vector3(-2.2540216e-06, 11.748692, -1.0662602e-06)
+bones/3/rotation = Quaternion(-0.3026853, -0.21379434, -0.20398575, 0.9061255)
+bones/4/rotation = Quaternion(-0.34185413, -0.13658321, -0.036038585, 0.9290759)
+bones/5/rotation = Quaternion(0.42427835, -0.3573426, 0.78620195, -0.2723611)
+bones/6/rotation = Quaternion(0.11570921, -0.5402041, -0.53083843, 0.642652)
+bones/7/rotation = Quaternion(-0.347679, 0.04588962, -0.061436865, 0.9344726)
+bones/8/rotation = Quaternion(-0.36721554, 0.055814017, -0.010379184, 0.9284018)
+bones/9/rotation = Quaternion(0.050189696, -0.35827243, 0.22514185, 0.9046729)
+bones/10/position = Vector3(-6.8292366e-07, 9.349738, -1.3410777e-06)
+bones/10/rotation = Quaternion(0.0069947797, -0.017926402, -0.0061541046, 0.9997959)
+bones/11/rotation = Quaternion(-0.38575062, -0.041208804, 0.03078808, 0.92116797)
+bones/12/rotation = Quaternion(0.67556566, 0.6688943, -0.2772001, 0.1391105)
+bones/13/rotation = Quaternion(0.2151482, 0.2709113, 0.1660018, 0.92345095)
+bones/14/position = Vector3(-9.2581877e-07, 36.122807, 5.303471e-06)
+bones/14/rotation = Quaternion(0.21282025, 0.15123291, -0.03944035, 0.96451056)
+bones/15/position = Vector3(4.7164167e-06, 15.278053, -1.5096703e-06)
+bones/15/rotation = Quaternion(0.08034707, -0.17782757, -0.4044474, 0.8935009)
+bones/16/rotation = Quaternion(0.9832236, -0.10999848, -0.002655431, 0.14548115)
+bones/17/position = Vector3(-5.929205e-07, 71.7381, 5.1934524e-07)
+bones/17/rotation = Quaternion(0.17147116, 0.2080495, -0.25248528, 0.9292816)
+bones/18/position = Vector3(-6.416605e-06, 13.743736, -3.5893047e-06)
+bones/18/rotation = Quaternion(0.5017918, 0.15548828, 0.5841428, 0.61871284)
+bones/19/position = Vector3(1.8341339e-06, 65.79581, 3.338942e-06)
+bones/19/rotation = Quaternion(0.17774175, -0.04001337, 0.3614202, 0.9144301)
+bones/20/rotation = Quaternion(0.92513055, 0.0021497684, 0.0067112357, 0.37958395)
+bones/21/position = Vector3(1.2824307e-07, 71.78839, 4.9153186e-06)
+bones/21/rotation = Quaternion(0.3559472, 0.07670505, -0.07870901, 0.92802095)
+bones/22/rotation = Quaternion(-0.04456656, -0.029233497, -0.02371486, 0.998297)
+bones/23/rotation = Quaternion(0.8913292, 0.0118912505, -1.4731269e-08, -0.45320076)
+
+[node name="char1" parent="Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=1993716904]
 mesh = SubResource("ArrayMesh_ir0ho")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=62345733]

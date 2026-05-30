@@ -5,12 +5,12 @@ extends Node3D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = false
+	MusicaGlobal.tocar_deserto()
 	
 	GameManager.dia_iniciado.connect(_on_dia_iniciado)
 	GameManager.noite_iniciada.connect(_on_noite_iniciada)
 	await get_tree().process_frame
 	GameManager.carregar_fase(2)
-	MusicaGlobal.tocar_deserto()
 	GameManager.vitoria.connect(_on_fase_vencida)
 
 
@@ -20,16 +20,19 @@ func _process(_delta: float) -> void:
 	pass
 
 func _on_dia_iniciado(_onda_atual: int) -> void:
-	print("Dia iniciado!!!!")
+	if Global.DEBUG_MODE:
+		print("Dia iniciado!!!!")
 	if anim_player and anim_player.has_animation("transicao_para_dia"):
 		anim_player.play("transicao_para_dia")
 		
 
 # Executa a transição de iluminação e ambiente para o ciclo da noite
 func _on_noite_iniciada(_onda_atual: int) -> void:
-	print("Noite iniciada!!!!")
+	if Global.DEBUG_MODE:
+		print("Noite iniciada!!!!")
 	if anim_player and anim_player.has_animation("transicao_para_noite"):
 		anim_player.play("transicao_para_noite")
 		
 func _on_fase_vencida():
-	Global.processar_recompensa(conquista_fim_Deserto)
+	if conquista_fim_Deserto != null:
+		Global.processar_recompensa(conquista_fim_Deserto)

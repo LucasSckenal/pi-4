@@ -14,6 +14,8 @@ signal tutorial_pulado # Emitido quando o jogador decide pular o tutorial
 @onready var anim_avo = $"CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2/AnimationPlayer"
 @onready var anim_afonso = $"CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2/AnimationPlayer"
 
+@onready var btn = $BotaoPular
+
 var alvo_3d_atual: Node3D = null
 var alvo_2d_atual: Control = null
 var material_fundo: ShaderMaterial
@@ -46,6 +48,10 @@ func _ready():
 # === SISTEMA GENSHIN: PULAR/ACELERAR TEXTO ===
 func _input(event):
 	if visible and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		# Impede o avanço do texto caso o clique seja especificamente sobre o botão de pular tutorial
+		if btn and btn.is_visible_in_tree() and btn.is_hovered():
+			return
+			
 		if caixa_texto.visible_ratio < 1.0:
 			if tween_texto and tween_texto.is_valid():
 				tween_texto.kill()
@@ -128,6 +134,8 @@ func configurar_dialogo(texto_completo: String):
 
 # Função limpa apenas para contar história (sem focar no Castelo)
 func mostrar_dialogo(texto: String):
+	if not GameManager.is_tutorial_ativo:
+		return
 	var camera = get_viewport().get_camera_3d()
 	if camera and camera.has_method("reset_zoom_tutorial"):
 		camera.reset_zoom_tutorial()
@@ -153,33 +161,40 @@ func mostrar_dialogo(texto: String):
 
 # As tuas funções originais de foco inalteradas (apenas usam o fundo_escuro)
 func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
+	if not GameManager.is_tutorial_ativo: return
 	if slot_alvo == null: return
 	visible = true
 	fundo_escuro.visible = true
 	configurar_dialogo(texto)
 	alvo_3d_atual = slot_alvo
 	alvo_2d_atual = null
-	
+
+	# Usa polling com verificação de is_tutorial_ativo para o botão pular funcionar
+	var estado = {"concluido": false}
+	var _cb := func(): estado.concluido = true
+
 	if slot_alvo.has_signal("slot_clicado"):
-		await slot_alvo.slot_clicado
+		slot_alvo.slot_clicado.connect(_cb, CONNECT_ONE_SHOT)
 	elif slot_alvo.has_signal("construcao_selecionada"):
-		await slot_alvo.construcao_selecionada
+		slot_alvo.construcao_selecionada.connect(_cb, CONNECT_ONE_SHOT)
 	else:
-		# === SOLUÇÃO DO BUG AQUI ===
-		# Em vez de esperar 3 segundos e pular sozinho, o tutorial vai 
-		# entrar em loop até que a Janela de Upgrade fique visível na tela!
 		var hud = get_tree().get_first_node_in_group("HUD")
 		if hud and hud.upgrade_ui_instance:
 			while not hud.upgrade_ui_instance.visible:
 				if not GameManager.is_tutorial_ativo: break
 				await get_tree().create_timer(0.1).timeout
 		else:
-			# Fallback de segurança apenas se a HUD tiver algum erro grave
-			await get_tree().create_timer(3.0).timeout 
-			
+			await get_tree().create_timer(3.0).timeout
+		estado.concluido = true
+
+	while not estado.concluido:
+		if not GameManager.is_tutorial_ativo: break
+		await get_tree().create_timer(0.1).timeout
+
 	esconder()
 
 func focar_em_ui_2d(botao_alvo: Control, texto: String):
+	if not GameManager.is_tutorial_ativo: return
 	if botao_alvo == null: return
 	visible = true
 	fundo_escuro.visible = true
@@ -199,7 +214,7 @@ func focar_em_ui_2d(botao_alvo: Control, texto: String):
 		if not GameManager.is_tutorial_ativo: break
 		await get_tree().create_timer(0.1).timeout
 	
-	desbloquear_botoes(botao_alvo)	
+	desbloquear_botoes(botao_alvo)    
 	
 	if is_instance_valid(botao_alvo) and botao_alvo.has_signal("pressed") and botao_alvo.pressed.is_connected(ao_clicar):
 		botao_alvo.pressed.disconnect(ao_clicar)
@@ -242,3 +257,27 @@ func _on_botao_pular_pressed():
 	
 	if fundo_escuro:
 		fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+# Hover → escala 1.05
+func _on_btn_hover_entrou() -> void:
+	_animar_escala_btn(btn, 1.05)
+
+# Mouse sai → volta ao normal 1.0
+func _on_btn_hover_saiu() -> void:
+	_animar_escala_btn(btn, 1.0)
+
+# Pressionado → escala 0.95
+func _on_btn_pressionado() -> void:
+	_animar_escala_btn(btn, 0.95)
+
+# Solto → volta ao hover (1.05) se o mouse ainda estiver sobre o botão, senão ao normal
+func _on_btn_solto() -> void:
+	var escala_alvo := 1.05 if btn.is_hovered() else 1.0
+	_animar_escala_btn(btn, escala_alvo)
+
+# Aplica a animação de escala com tween suave, usando o pivot no centro do botão
+func _animar_escala_btn(btnChosen: Button, escala: float) -> void:
+	# Atualiza o pivot para o centro atual (tamanho pode mudar com o viewport)
+	btnChosen.pivot_offset = btn.size / 2.0
+	var tw := btnChosen.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btnChosen, "scale", Vector2(escala, escala), 0.12)

@@ -16,6 +16,7 @@ script = ExtResource("1_script")
 cena_tentaculo = ExtResource("2_tentaculo")
 tipo_inimigo = 2
 nome_inimigo = "Cosmic Kraken"
+subtitulo_inimigo = "Horror Cósmico das Profundezas do Espaço"
 usar_video_custom = true
 video_stream = ExtResource("3_av6ah")
 vida_maxima = 1000

@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cldtvssu6x6mm"
 path.s3tc="res://.godot/imported/Stone_003_Textures_4.png-701c36a5c562d2c71fc2cdb9e078fdac.s3tc.ctex"
+path.etc2="res://.godot/imported/Stone_003_Textures_4.png-701c36a5c562d2c71fc2cdb9e078fdac.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Stone_003_Textures_4.png"
-dest_files=["res://.godot/imported/Stone_003_Textures_4.png-701c36a5c562d2c71fc2cdb9e078fdac.s3tc.ctex"]
+dest_files=["res://.godot/imported/Stone_003_Textures_4.png-701c36a5c562d2c71fc2cdb9e078fdac.s3tc.ctex", "res://.godot/imported/Stone_003_Textures_4.png-701c36a5c562d2c71fc2cdb9e078fdac.etc2.ctex"]
 
 [params]
 

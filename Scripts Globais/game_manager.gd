@@ -1,7 +1,6 @@
 extends Node
 
-# Mude para true durante o desenvolvimento para ver logs detalhados
-const DEBUG_MODE = false
+# Para ativar logs de diagnóstico, use Global.DEBUG_MODE = true em Global.gd
 
 # ==========================================
 # SINAIS
@@ -15,6 +14,9 @@ signal upgrade_base_aplicado
 signal renda_recolhida(total_ganho) # Para a UI mostrar "+X Moedas" de manhã
 signal game_over
 signal vitoria
+
+@warning_ignore("unused_signal")
+signal inimigo_morreu  ## Emitido por InimigoBase.morrer() — substitui polling de grupo
 
 # ==========================================
 # ESTADO GLOBAL DO JOGO
@@ -90,7 +92,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/caldeiron.tscn")]
+			2: []
 		}
 	},
 	4: {
@@ -123,7 +125,7 @@ var banco_de_fases: Dictionary = {
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
 			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/torre_de_fogo.tscn")]
+			2: []
 		}
 	}
 }
@@ -167,6 +169,14 @@ var reroll_usado: bool = false
 var custo_reroll: int = 2
 var upgrades_escolhidos: Array = []
 
+# ==========================================
+# RASTREAMENTO DE CONQUISTAS
+# ==========================================
+var _conquistas_cache: Dictionary = {}
+var _moedas_ao_inicio_dia: int = 0
+var _dias_sem_gastar: int = 0
+var _vida_base_ao_iniciar_noite: int = 0
+
 var caminhos_das_fases = {
 	1: "res://Maps/tutorial_world.tscn",
 	2: "res://Maps/Crimson_Desert.tscn",
@@ -174,6 +184,15 @@ var caminhos_das_fases = {
 	4: "res://Maps/fenda_dos_piratas.tscn",
 	5: "res://Maps/planeta_maluco.tscn",
 	6: "res://Maps/Covil_Dragon.tscn"
+}
+
+var caminhos_das_cutscenes = {
+	1: "res://Cenas Locais/Cutscines/cutscene_dinamica.tscn",
+	2: "res://Cenas Locais/Cutscines/cutscene_animada_2.tscn",
+	3: "res://Cenas Locais/Cutscines/cutscene_animada_3.tscn",
+	4: "res://Cenas Locais/Cutscines/cutscene_animada_4.tscn",
+	5: "res://Cenas Locais/Cutscines/cutscene_animada_5.tscn",
+	6: "res://Cenas Locais/Cutscines/cutscene_animada_6.tscn"
 }
 
 # ==========================================
@@ -248,7 +267,7 @@ func carregar_jogo_salvo_manual() -> bool:
 			recarregando_save = true
 			carregar_fase(fase_atual)
 
-			await get_tree().create_timer(0.1).timeout
+			await get_tree().process_frame  # Barreira de cena — sem timer cria menos objects
 
 			if dados_construcoes_pendentes.size() > 0:
 				await _restaurar_construcoes(dados_construcoes_pendentes)
@@ -260,8 +279,11 @@ func carregar_jogo_salvo_manual() -> bool:
 
 			match fase_atual:
 				1: MusicaGlobal.tocar_tutorial()
+				2: MusicaGlobal.tocar_deserto()
 				3: MusicaGlobal.tocar_bruxa()
-				5: MusicaGlobal.tocar_covil()
+				4: MusicaGlobal.tocar_aquatico()
+				5: MusicaGlobal.tocar_scifi()
+				6: MusicaGlobal.tocar_covil()
 				_: MusicaGlobal.tocar_menu()
 
 			recarregando_save = false
@@ -284,11 +306,13 @@ func _process(delta):
 		moedas += 10000
 		get_tree().call_group("Interface", "atualizar_moedas")
 
-	# Atualiza o destaque de upgrade a cada 1 s (somente durante o dia)
+	# Atualiza o destaque de upgrade — fallback a cada 3 s durante o dia.
+	# O update imediato é disparado por gastar_moedas() e aplicar_upgrade(),
+	# portanto o timer serve apenas como garantia de sincronização residual.
 	if not is_night:
 		_timer_destaque_upgrade -= delta
 		if _timer_destaque_upgrade <= 0.0:
-			_timer_destaque_upgrade = 1.0
+			_timer_destaque_upgrade = 3.0
 			_atualizar_destaque_upgrade()
 
 # ==========================================
@@ -309,14 +333,72 @@ func carregar_fase(numero_fase: int):
 		onda_atual = 1
 		# Descarta qualquer construção pendente de uma sessão anterior
 		dados_construcoes_pendentes.clear()
+		# Reset dos contadores de conquista por sessão
+		_dias_sem_gastar = 0
+		_moedas_ao_inicio_dia = moedas
+		_vida_base_ao_iniciar_noite = 0
+		# Corrige o ícone da base: _ready() das construções corre antes deste ponto,
+		# por isso fase_atual ainda era o valor antigo quando _resolver_icone_construcao()
+		# foi chamado. Forçamos a re-resolução agora que fase_atual está correcto.
+		get_tree().call_group("Base", "_atualizar_icone_base")
+		get_tree().call_group("Interface", "aplicar_tema_hud")
+		# Conquista: chegou à fase final
+		if numero_fase == 6:
+			_tentar_conquista("res://Conquistas/chega_fase_final.tres")
 		iniciar_dia(true)
 	# Se for save, os dados já foram carregados — não sobrescrevemos
 
 	get_tree().call_group("Interface", "atualizar_moedas")
 
+# Carrega a próxima fase com mudança de cena.
+# Chamado pela tela de vitória. Roda no singleton (AutoLoad) para sobreviver
+# ao change_scene_to_file que destrói a cena atual.
+func ir_para_proxima_fase() -> void:
+	get_tree().paused = false
+	var proxima := fase_atual + 1
+	if not caminhos_das_fases.has(proxima):
+		# Sem próxima fase — volta ao menu principal
+		limpar_estado_sessao()
+		get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
+		return
+	# Limpa perks, upgrades e nivel_base ANTES de carregar a nova fase
+	limpar_estado_sessao()
+	get_tree().change_scene_to_file(obter_cena_entrada_fase(proxima))
+	await get_tree().tree_changed
+	await get_tree().process_frame
+	if get_tree().current_scene != null and get_tree().current_scene.scene_file_path == caminhos_das_fases[proxima]:
+		carregar_fase(proxima)
+	match proxima:
+		1: MusicaGlobal.tocar_tutorial()
+		2: MusicaGlobal.tocar_deserto()
+		3: MusicaGlobal.tocar_bruxa()
+		4: MusicaGlobal.tocar_aquatico()
+		5: MusicaGlobal.tocar_scifi()
+		6: MusicaGlobal.tocar_covil()
+		_: MusicaGlobal.tocar_menu()
+
+func obter_cena_entrada_fase(numero_fase: int) -> String:
+	var caminho_fase: String = caminhos_das_fases.get(numero_fase, "")
+	var caminho_cutscene: String = caminhos_das_cutscenes.get(numero_fase, "")
+	if caminho_cutscene != "" and not Global.cutscene_ja_vista(numero_fase):
+		return caminho_cutscene
+	return caminho_fase
+
 func _set_nivel_base(valor):
 	nivel_base = valor
 	upgrade_base_aplicado.emit()
+
+# Tenta desbloquear uma conquista pelo caminho do .tres.
+# Carrega lazy (uma vez) e ignora silenciosamente se já desbloqueada.
+func _tentar_conquista(caminho: String) -> void:
+	var id := caminho.get_file().get_basename()
+	if id in Global.conquistas_desbloqueadas:
+		return
+	if not _conquistas_cache.has(caminho):
+		_conquistas_cache[caminho] = load(caminho)
+	var c = _conquistas_cache.get(caminho)
+	if c:
+		Global.processar_recompensa(c)
 
 func get_construcoes_disponiveis() -> Array:
 	var disponiveis = []
@@ -324,6 +406,63 @@ func get_construcoes_disponiveis() -> Array:
 		if nivel <= nivel_base:
 			disponiveis += construcoes_permitidas_na_fase[nivel]
 	return disponiveis
+
+func get_todas_construcoes_da_fase() -> Array:
+	var resultado = []
+	for nivel in construcoes_permitidas_na_fase:
+		for cena in construcoes_permitidas_na_fase[nivel]:
+			if cena == null: continue
+			resultado.append({
+				"cena": cena,
+				"nivel_necessario": nivel,
+				"bloqueado": nivel > nivel_base
+			})
+	return resultado
+
+## Cache de nomes por resource_path — evita instantiate+free repetido
+var _cache_nomes_cenas: Dictionary = {}
+
+## Devolve o nome de exibição de uma cena de construção.
+## Usa nome_construcao se definido (e diferente do default "Construção");
+## caso contrário, infere pelo caminho do ficheiro.
+## Usado pelo menu radial e pelo conselheiro para garantir nomes consistentes.
+func nome_para_cena(cena: PackedScene) -> String:
+	var path: String = cena.resource_path
+	if _cache_nomes_cenas.has(path):
+		return _cache_nomes_cenas[path]
+	var inst = cena.instantiate()
+	var raw: String = str(inst.get("nome_construcao")) if "nome_construcao" in inst else ""
+	inst.free()
+	var resultado: String
+	if raw != "" and raw != "Construção":
+		resultado = raw
+	else:
+		resultado = _nome_por_path(path)
+	_cache_nomes_cenas[path] = resultado
+	return resultado
+
+## Infere o tipo inteiro (0-5) de uma cena pelo caminho do recurso.
+## Centraliza a lógica que antes estava duplicada em ConselheiroIA e aqui.
+## Retorna -1 se não reconhecido.
+func tipo_por_cena(cena: PackedScene) -> int:
+	return _tipo_por_path(cena.resource_path.to_lower())
+
+func _tipo_por_path(p: String) -> int:
+	if "tower" in p or "torre" in p or "morteiro" in p or "sniper" in p: return 0
+	if "mina" in p: return 1
+	if "house" in p or "casa" in p: return 2
+	if "mill" in p or "moinho" in p: return 3
+	if "quartel" in p: return 4
+	return -1
+
+func _nome_por_path(path: String) -> String:
+	var p := path.to_lower()
+	if "tower" in p or "torre" in p or "morteiro" in p or "sniper" in p: return "Torre"
+	if "mina" in p: return "Mina"
+	if "house" in p or "casa" in p: return "Casa"
+	if "mill" in p or "moinho" in p: return "Moinho"
+	if "quartel" in p: return "Quartel"
+	return path.get_file().get_basename().capitalize()
 
 # ==========================================
 # CICLO DIA / NOITE E ECONOMIA
@@ -335,6 +474,7 @@ func iniciar_dia(primeiro_dia: bool = false):
 
 	if not primeiro_dia:
 		calcular_e_recolher_renda()
+	_moedas_ao_inicio_dia = moedas   # snapshot APÓS a renda para detectar gasto
 
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Torres", "curar_totalmente")
@@ -344,18 +484,19 @@ func iniciar_noite():
 	spawners_concluidos = 0
 	is_night = true
 	construcao_destaque_upgrade = null   # Limpa o destaque ao entrar na noite
+	_vida_base_ao_iniciar_noite = vida_base_atual
 
 	# Salva ANTES da noite começar — garante que todas as construções
 	# do jogador estão no arquivo. Assim ao carregar/reiniciar a noite
 	# elas são restauradas corretamente, mesmo que sejam destruídas.
-	if not modo_infinito:
-		salvar_jogo()
+	salvar_jogo()
 
 	noite_iniciada.emit(onda_atual)
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Interface", "mostrar_wave_na_tela", "ONDA " + str(onda_atual))
 
 func registrar_spawner_concluido():
+
 	spawners_concluidos += 1
 	if spawners_concluidos >= total_spawners:
 		terminar_onda()
@@ -380,6 +521,23 @@ func terminar_onda():
 	is_night = false
 	onda_terminada.emit()
 
+	# ── Conquistas por onda ──────────────────────────────────────────
+	# Sobreviveu a primeira onda
+	if onda_atual == 1:
+		_tentar_conquista("res://Conquistas/inicio_aventura.tres")
+	# Dias consecutivos sem gastar moedas
+	if moedas >= _moedas_ao_inicio_dia:
+		_dias_sem_gastar += 1
+		if _dias_sem_gastar >= 3:
+			_tentar_conquista("res://Conquistas/guarda_dinheiro_ondas.tres")
+	else:
+		_dias_sem_gastar = 0
+	# Total acumulado de ondas (persiste entre sessões)
+	Global.total_ondas_completadas += 1
+	if Global.total_ondas_completadas >= 20:
+		_tentar_conquista("res://Conquistas/pagamento_20_ondas.tres")
+	# ────────────────────────────────────────────────────────────────
+
 	if onda_atual % 2 != 0:
 		sortear_cartas()
 
@@ -392,12 +550,11 @@ func get_renda_preview() -> int:
 	if modo_infinito:
 		total += Balanceamento.get_int("modo_infinito_bonus_renda", 3)
 	var bonus_onda = max(1, 6 - onda_atual)
-	for construcao in get_tree().get_nodes_in_group("Construcao"):
+	# Usa grupo "Economia" (apenas construções de renda) em vez de iterar tudo
+	for construcao in get_tree().get_nodes_in_group("Economia"):
 		if not is_instance_valid(construcao): continue
-		if construcao.is_in_group("Base"): continue
 		if construcao.get("is_fantasma"): continue
 		if construcao.get("esta_destruida"): continue
-		if not onda_terminada.is_connected(Callable(construcao, "_pagar_recompensa")): continue
 		if "moedas_por_onda_atual" in construcao:
 			total += construcao.moedas_por_onda_atual + bonus_onda
 		elif "moedas_por_onda" in construcao:
@@ -418,6 +575,9 @@ func calcular_e_recolher_renda():
 	moedas += total_renda
 	renda_recolhida.emit(total_renda)
 	get_tree().call_group("Interface", "atualizar_moedas")
+	# Conquista: acumular 1000 moedas ao mesmo tempo
+	if moedas >= 1000:
+		_tentar_conquista("res://Conquistas/acumula_1000_moedas.tres")
 
 # ==========================================
 # SISTEMA DE UPGRADES E CARTAS
@@ -477,6 +637,10 @@ func aplicar_upgrade(dados):
 
 	upgrade_aplicado.emit()
 	get_tree().call_group("Torres", "atualizar_status")
+	# Upgrade aplicado — construções podem ter ficado mais baratas; atualiza destaque
+	if not is_night:
+		_atualizar_destaque_upgrade()
+		_timer_destaque_upgrade = 3.0
 
 func _processar_efeito(tipo_efeito, valor):
 	match tipo_efeito:
@@ -537,6 +701,11 @@ func gastar_moedas(valor_custo: int) -> bool:
 		moedas -= valor_custo
 		get_tree().call_group("Interface", "atualizar_moedas")
 		get_tree().call_group("Interface", "animar_bau_abrindo")
+		# Moedas mudaram — recalcula destaque imediatamente (construções antes inacessíveis
+		# podem ter ficado acessíveis ou vice-versa) e reseta o timer de fallback
+		if not is_night:
+			_atualizar_destaque_upgrade()
+			_timer_destaque_upgrade = 3.0
 		return true
 	return false
 
@@ -569,6 +738,18 @@ func acionar_vitoria():
 		Global.estrelas_por_fase[str(fase_atual)] = estrelas_ganhas
 
 	Global.salvar_progresso()
+
+	# ── Conquistas por vitória ───────────────────────────────────────
+	# Fase concluída sem nenhum dano na base
+	if vida_base_atual == vida_base_maxima and vida_base_maxima > 0:
+		_tentar_conquista("res://Conquistas/defesa_perfeita.tres")
+	# Última onda (boss) concluída sem dano na base
+	if _vida_base_ao_iniciar_noite == vida_base_atual and vida_base_maxima > 0:
+		_tentar_conquista("res://Conquistas/derrota_boss_sem_dano_base.tres")
+	# Concluiu o tutorial (fase 1)
+	if fase_atual == 1:
+		_tentar_conquista("res://Conquistas/primeiros_passos.tres")
+	# ────────────────────────────────────────────────────────────────
 
 	vitoria.emit()
 	get_tree().paused = true
@@ -643,13 +824,16 @@ func salvar_jogo():
 	config.set_value("sessao", "dano_inflamavel", dano_inflamavel)
 	config.set_value("sessao", "bonus_espinho", bonus_espinho)
 	config.set_value("sessao", "bonus_dano_chefe", bonus_dano_chefe)
+	config.set_value("sessao", "modo_infinito", modo_infinito)
 
-	# Recolhe construções dos dois grupos (por compatibilidade)
+	# Salva os upgrades já escolhidos pelos caminhos de recurso para restaurar o baralho filtrado
+	var paths_upgrades: Array = upgrades_escolhidos.map(func(u): return u.resource_path)
+	config.set_value("sessao", "upgrades_escolhidos_paths", paths_upgrades)
+
+	# Recolhe todas as construções do grupo canônico "Construcao"
 	var lista_construcoes: Array = []
 	for construcao in get_tree().get_nodes_in_group("Construcao"):
 		if construcao.is_in_group("Base"): continue
-		lista_construcoes.append(_dados_construcao(construcao))
-	for construcao in get_tree().get_nodes_in_group("Construcoes"):
 		lista_construcoes.append(_dados_construcao(construcao))
 
 	config.set_value("construcoes", "lista", lista_construcoes)
@@ -699,6 +883,16 @@ func carregar_jogo() -> bool:
 	dano_inflamavel               = config.get_value("sessao", "dano_inflamavel", 0)
 	bonus_espinho                 = config.get_value("sessao", "bonus_espinho", 0)
 	bonus_dano_chefe              = config.get_value("sessao", "bonus_dano_chefe", 0)
+	modo_infinito                 = config.get_value("sessao", "modo_infinito", false)
+
+	# Restaura upgrades já escolhidos para que o baralho filtrado continue correto
+	var paths_ups: Array = config.get_value("sessao", "upgrades_escolhidos_paths", [])
+	upgrades_escolhidos.clear()
+	for path in paths_ups:
+		for u in baralho_upgrades:
+			if u.resource_path == path:
+				upgrades_escolhidos.append(u)
+				break
 
 	dados_construcoes_pendentes = config.get_value("construcoes", "lista", [])
 
@@ -733,6 +927,7 @@ func _migrar_save_json() -> bool:
 	dano_inflamavel               = dados_save.get("dano_inflamavel", 0)
 	bonus_espinho                 = dados_save.get("bonus_espinho", 0)
 	bonus_dano_chefe              = dados_save.get("bonus_dano_chefe", 0)
+	modo_infinito                 = dados_save.get("modo_infinito", false)
 	dados_construcoes_pendentes   = dados_save.get("construcoes", [])
 
 	get_tree().call_group("Interface", "atualizar_moedas")
@@ -744,7 +939,7 @@ func _restaurar_construcoes(lista_construcoes):
 	await get_tree().process_frame
 	var todos_os_slots = get_tree().get_nodes_in_group("BuildSlots")
 
-	if DEBUG_MODE:
+	if Global.DEBUG_MODE:
 		print("[GameManager] Restaurando %d construções em %d slots." % [lista_construcoes.size(), todos_os_slots.size()])
 
 	for dados_c in lista_construcoes:
@@ -787,7 +982,7 @@ func _restaurar_construcoes(lista_construcoes):
 				if not nova_construcao.tree_exited.is_connected(slot_dono.reativar_slot):
 					nova_construcao.tree_exited.connect(slot_dono.reativar_slot)
 		else:
-			if DEBUG_MODE:
+			if Global.DEBUG_MODE:
 				print("[GameManager] Slot não encontrado perto de %s. Adicionando ao mundo." % str(pos_salva))
 			get_tree().current_scene.add_child(nova_construcao)
 			nova_construcao.global_position = pos_salva
@@ -876,6 +1071,16 @@ func _atualizar_destaque_upgrade() -> void:
 		construcao_destaque_upgrade = null
 		return
 	var construcoes = get_tree().get_nodes_in_group("Construcao")
+
+	# Conquista: primeira construção colocada (verifica a cada segundo durante o dia)
+	for c in construcoes:
+		if not is_instance_valid(c): continue
+		if c.is_in_group("Base"): continue
+		if c.get("is_fantasma"): continue
+		if c.get("tipo") == 5: continue  # ignora a própria base
+		_tentar_conquista("res://Conquistas/primeira_compra.tres")
+		break
+
 	var melhor: Node  = null
 	var melhor_custo: int = moedas + 1
 	for c in construcoes:

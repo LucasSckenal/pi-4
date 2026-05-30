@@ -43,9 +43,8 @@ sky_material = SubResource("ProceduralSkyMaterial_vo4i4")
 background_mode = 2
 background_color = Color(0.6229867, 0.12847847, 0.3146791, 1)
 sky = SubResource("Sky_hmeeu")
-ambient_light_source = 2
-ambient_light_color = Color(0.4069436, 5.8719515e-06, 0.2845374, 1)
-ambient_light_energy = 2.5
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 1
 adjustment_enabled = true
 adjustment_brightness = 0.8
@@ -71,10 +70,8 @@ material = SubResource("StandardMaterial3D_vo4i4")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tna4u"]
 render_priority = 0
 shader = ExtResource("9_sn0hn")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8wjj5"]
 resource_name = "material_0"
@@ -217,7 +214,7 @@ transform = Transform3D(12.5, 0, 0, 0, 12.5, 0, 0, 0, 12.5, -1.0726824, 38.31988
 transform = Transform3D(0.47576454, 0, 0, 0, -4.371139e-08, -0.56842613, 0, 1, -2.4846695e-08, 0, -0.22699904, -0.6509666)
 mesh = SubResource("PlaneMesh_hmeeu")
 
-[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=1295461056]
+[node name="Mesh" parent="NavigationRegion3D/Jaula/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture" parent_id_path=PackedInt32Array(235904172, 2008967334) index="1" unique_id=862360045]
 mesh = SubResource("ArrayMesh_6dhr1")
 
 [node name="Floor" type="GridMap" parent="NavigationRegion3D" unique_id=2061120942]
@@ -276,9 +273,10 @@ data = {
 metadata/_editor_floor_ = Vector3(0, 2, 0)
 
 [node name="Lava" type="Node3D" parent="." unique_id=418194485]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8352566, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Lava" unique_id=351631574]
-transform = Transform3D(2.744082, 0, 0, 0, 0.9974762, 0, 0, 0, 1.9682739, 0.0029073954, -0.33921278, -0.008241653)
+transform = Transform3D(2.744082, 0, 0, 0, 0.9974762, 0, 0, 0, 1.9682739, 0.0029073954, -2.88028, -0.008241653)
 mesh = SubResource("PlaneMesh_s3dhy")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="Lava" unique_id=389521544]

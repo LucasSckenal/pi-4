@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://blfmrgwo1mg4f"
 path.s3tc="res://.godot/imported/MushroomPreview.png-483f99dd1d7850fed5e17e36ad6f863e.s3tc.ctex"
+path.etc2="res://.godot/imported/MushroomPreview.png-483f99dd1d7850fed5e17e36ad6f863e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Icons/MushroomPreview.png"
-dest_files=["res://.godot/imported/MushroomPreview.png-483f99dd1d7850fed5e17e36ad6f863e.s3tc.ctex"]
+dest_files=["res://.godot/imported/MushroomPreview.png-483f99dd1d7850fed5e17e36ad6f863e.s3tc.ctex", "res://.godot/imported/MushroomPreview.png-483f99dd1d7850fed5e17e36ad6f863e.etc2.ctex"]
 
 [params]
 

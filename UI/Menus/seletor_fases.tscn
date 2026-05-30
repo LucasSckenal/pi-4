@@ -2,62 +2,42 @@
 
 [ext_resource type="Script" uid="uid://drtuhx0gasbm7" path="res://UI/Menus/seletor_fases.gd" id="1_nbx80"]
 [ext_resource type="PackedScene" uid="uid://fs8pjdhnlgs3" path="res://Assets/Meshy_AI_Blank_Scroll_0416004051_texture.glb" id="2_1miao"]
-[ext_resource type="Texture2D" uid="uid://bnesw0l35idgn" path="res://Icons/Map1Selcetor.png" id="3_ymrsv"]
+[ext_resource type="Texture2D" uid="uid://bxsedfu5ymu7m" path="res://Assets/MapSelection/Map1_Selector.png" id="3_kumk8"]
 [ext_resource type="Texture2D" uid="uid://c6mxapyysije2" path="res://Icons/LabelMap.png" id="4_bp4jj"]
-[ext_resource type="Texture2D" uid="uid://bxey4wkvmacm3" path="res://Icons/Map2Selector.png" id="4_ecws0"]
-[ext_resource type="Texture2D" uid="uid://b0qtkebf5b6p3" path="res://Icons/Map3Selector.png" id="5_bp4jj"]
 [ext_resource type="Texture2D" uid="uid://c0tt1lesa5c8w" path="res://Icons/star_outline_depth.png" id="5_mfnoj"]
-[ext_resource type="Texture2D" uid="uid://dcn73hpn7yjkr" path="res://Icons/Map6Selector.png" id="6_mfnoj"]
-[ext_resource type="Texture2D" uid="uid://y3aqhhbpej6t" path="res://Icons/Map4Selector.png" id="8_mfnoj"]
-[ext_resource type="Texture2D" uid="uid://dk5tfcfk0lbp0" path="res://Icons/Map5Selector.png" id="9_vhorf"]
-[ext_resource type="Texture2D" uid="uid://dmbgewkjamr2h" path="res://Icons/arrow.png" id="11_nqyad"]
+[ext_resource type="Texture2D" uid="uid://dwo4d11t77vtn" path="res://Assets/MapSelection/Map2_Selector.png" id="6_pfc0p"]
+[ext_resource type="Texture2D" uid="uid://bpxuym2b0csyr" path="res://Assets/MapSelection/Map3_Selector.png" id="7_ohijy"]
+[ext_resource type="Texture2D" uid="uid://h4g200gq5vsy" path="res://Assets/MapSelection/Map4_Selector.png" id="8_hw2nh"]
+[ext_resource type="Texture2D" uid="uid://dnestvljqgma1" path="res://Assets/MapSelection/Map5_Selector.png" id="9_0borg"]
+[ext_resource type="Texture2D" uid="uid://dhka5l1a1a2sm" path="res://Assets/MapSelection/Map6_Selector.png" id="10_arwf6"]
+[ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="11_kumk8"]
+[ext_resource type="Texture2D" uid="uid://dkbi7ljk0t7si" path="res://Icons/arrow_reverse.png" id="12_kumk8"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_mfnoj"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_vhorf"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7ooa"]
-bg_color = Color(0, 0, 0, 0.7137255)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_blend = true
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-corner_detail = 20
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pfc0p"]
+texture = ExtResource("11_kumk8")
+expand_margin_left = 30.0
+expand_margin_top = 30.0
+expand_margin_right = 35.0
+expand_margin_bottom = 30.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjkm8"]
-bg_color = Color(0, 0, 0, 0.83137256)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_blend = true
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-corner_detail = 20
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kumk8"]
+texture = ExtResource("11_kumk8")
+expand_margin_left = 30.0
+expand_margin_top = 30.0
+expand_margin_right = 35.0
+expand_margin_bottom = 30.0
+modulate_color = Color(0.47007585, 0.47007585, 0.47007596, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kumk8"]
-bg_color = Color(0.45840502, 0.45840508, 0.45840502, 0.7137255)
-border_width_left = 16
-border_width_top = 16
-border_width_right = 16
-border_width_bottom = 16
-border_blend = true
-corner_radius_top_left = 120
-corner_radius_top_right = 120
-corner_radius_bottom_right = 120
-corner_radius_bottom_left = 120
-corner_detail = 20
-expand_margin_left = 6.0
-expand_margin_top = 6.0
-expand_margin_right = 6.0
-expand_margin_bottom = 6.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ohijy"]
+texture = ExtResource("11_kumk8")
+expand_margin_left = 30.0
+expand_margin_top = 30.0
+expand_margin_right = 35.0
+expand_margin_bottom = 30.0
 
 [node name="SeletorFases" type="Control" unique_id=860466080]
 layout_mode = 3
@@ -82,7 +62,7 @@ offset_right = 413.61856
 offset_bottom = 220.17801
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("3_ymrsv")
+icon = ExtResource("3_kumk8")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -137,7 +117,7 @@ offset_right = 413.6186
 offset_bottom = 220.17798
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("4_ecws0")
+icon = ExtResource("6_pfc0p")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -192,7 +172,7 @@ offset_right = 413.61853
 offset_bottom = 220.17804
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("5_bp4jj")
+icon = ExtResource("7_ohijy")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -246,7 +226,7 @@ offset_right = 413.61853
 offset_bottom = 220.17798
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("8_mfnoj")
+icon = ExtResource("8_hw2nh")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -299,7 +279,7 @@ offset_right = 413.6186
 offset_bottom = 220.17804
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("9_vhorf")
+icon = ExtResource("9_0borg")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -352,7 +332,7 @@ offset_right = 413.61853
 offset_bottom = 220.17801
 scale = Vector2(0.33287326, 0.47072595)
 mouse_default_cursor_shape = 2
-icon = ExtResource("6_mfnoj")
+icon = ExtResource("10_arwf6")
 flat = true
 metadata/_edit_use_anchors_ = true
 
@@ -403,18 +383,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.84632933)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7083192)
 
 [node name="BtnVoltar" type="Button" parent="." unique_id=885441256]
-layout_mode = 0
-offset_left = 122.87519
-offset_top = 18.0
-offset_right = 1116.2626
-offset_bottom = 824.7874
-scale = Vector2(-0.101478375, 0.07679579)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.052
+anchor_top = 0.082
+anchor_right = 0.052
+anchor_bottom = 0.082
+offset_left = -37.840004
+offset_top = -37.560005
+offset_right = 37.159996
+offset_bottom = 37.439995
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxFlat_i7ooa")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_sjkm8")
-theme_override_styles/hover = SubResource("StyleBoxFlat_kumk8")
-icon = ExtResource("11_nqyad")
+theme_override_styles/normal = SubResource("StyleBoxTexture_pfc0p")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_kumk8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ohijy")
+icon = ExtResource("12_kumk8")
 icon_alignment = 1
+expand_icon = true
 
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" to="." method="_on_map_1_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" to="." method="_on_map_2_pressed"]
@@ -422,4 +407,10 @@ icon_alignment = 1
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map4" to="." method="_on_map_4_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map5" to="." method="_on_map_5_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map6" to="." method="_on_map_6_pressed"]
+[connection signal="button_down" from="BtnVoltar" to="." method="_on_btn_pressionado"]
+[connection signal="button_up" from="BtnVoltar" to="." method="_on_btn_solto"]
+[connection signal="mouse_entered" from="BtnVoltar" to="." method="_on_btn_hover_entrou"]
+[connection signal="mouse_exited" from="BtnVoltar" to="." method="_on_btn_hover_saiu"]
 [connection signal="pressed" from="BtnVoltar" to="." method="_on_btn_voltar_pressed"]
+
+[editable path="Meshy_AI_Blank_Scroll_0416004051_texture"]

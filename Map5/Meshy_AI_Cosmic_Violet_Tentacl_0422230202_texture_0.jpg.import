@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://74ug8k775dwp"
 path.s3tc="res://.godot/imported/Meshy_AI_Cosmic_Violet_Tentacl_0422230202_texture_0.jpg-6b1ac8736e19c80f0629e89b4e1eb2c0.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Cosmic_Violet_Tentacl_0422230202_texture_0.jpg-6b1ac8736e19c80f0629e89b4e1eb2c0.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map5/Meshy_AI_Cosmic_Violet_Tentacl_0422230202_texture_0.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Cosmic_Violet_Tentacl_0422230202_texture_0.jpg-6b1ac8736e19c80f0629e89b4e1eb2c0.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Cosmic_Violet_Tentacl_0422230202_texture_0.jpg-6b1ac8736e19c80f0629e89b4e1eb2c0.s3tc.ctex", "res://.godot/imported/Meshy_AI_Cosmic_Violet_Tentacl_0422230202_texture_0.jpg-6b1ac8736e19c80f0629e89b4e1eb2c0.etc2.ctex"]
 
 [params]
 

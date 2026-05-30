@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://ca0ro4laai4rm"
 path.s3tc="res://.godot/imported/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_1.jpg-b1ea768c540d3097c1b4440832869e11.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_1.jpg-b1ea768c540d3097c1b4440832869e11.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_1.jpg"
-dest_files=["res://.godot/imported/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_1.jpg-b1ea768c540d3097c1b4440832869e11.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_1.jpg-b1ea768c540d3097c1b4440832869e11.s3tc.ctex", "res://.godot/imported/Meshy_AI_Crystal_Cage_Above_La_0415132804_texture_1.jpg-b1ea768c540d3097c1b4440832869e11.etc2.ctex"]
 
 [params]
 

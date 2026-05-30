@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://grbh02ql53e6"
 path.s3tc="res://.godot/imported/Meshy_AI_Crimson_Eyed_Warlock_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-9132e28171f1270190e47dcc4e748263.s3tc.ctex"
+path.etc2="res://.godot/imported/Meshy_AI_Crimson_Eyed_Warlock_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-9132e28171f1270190e47dcc4e748263.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map3/Meshy_AI_Crimson_Eyed_Warlock_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png"
-dest_files=["res://.godot/imported/Meshy_AI_Crimson_Eyed_Warlock_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-9132e28171f1270190e47dcc4e748263.s3tc.ctex"]
+dest_files=["res://.godot/imported/Meshy_AI_Crimson_Eyed_Warlock_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-9132e28171f1270190e47dcc4e748263.s3tc.ctex", "res://.godot/imported/Meshy_AI_Crimson_Eyed_Warlock_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-9132e28171f1270190e47dcc4e748263.etc2.ctex"]
 
 [params]
 

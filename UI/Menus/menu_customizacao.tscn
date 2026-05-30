@@ -1,38 +1,60 @@
 [gd_scene format=3 uid="uid://15yqfa5lpupn"]
 
 [ext_resource type="Script" uid="uid://ch0vwt5rivuxd" path="res://UI/Menus/menu_customizacao.gd" id="1_q3jha"]
+[ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="2_lme8q"]
+[ext_resource type="MeshLibrary" uid="uid://3ruft0aacd0s" path="res://Gridmap/PlatformerKit.meshlib" id="3_esppb"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vestiario"]
-sky_top_color = Color(0.2, 0.2, 0.2, 1)
-sky_horizon_color = Color(0.1, 0.1, 0.1, 1)
-ground_bottom_color = Color(0, 0, 0, 1)
-ground_horizon_color = Color(0.1, 0.1, 0.1, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gtwgk"]
+sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
+sky_horizon_color = Color(0.23483449, 0.00023430049, 0.69736916, 1)
+ground_bottom_color = Color(0, 0.31666684, 1, 1)
+ground_horizon_color = Color(0.060327195, 0.7809794, 0.9999998, 1)
+ground_curve = 0.12996066
 
-[sub_resource type="Sky" id="Sky_vestiario"]
-sky_material = SubResource("ProceduralSkyMaterial_vestiario")
+[sub_resource type="Sky" id="Sky_wjb0r"]
+sky_material = SubResource("ProceduralSkyMaterial_gtwgk")
 
-[sub_resource type="Environment" id="Environment_vestiario"]
+[sub_resource type="Environment" id="Environment_1adak"]
 background_mode = 2
-sky = SubResource("Sky_vestiario")
-ambient_light_source = 3
-reflected_light_source = 2
-tonemap_mode = 2
-glow_enabled = true
+sky = SubResource("Sky_wjb0r")
+sky_rotation = Vector3(-2.8989918, 3.1415927, 0)
+tonemap_mode = 1
+adjustment_enabled = true
+adjustment_contrast = 1.25
+adjustment_saturation = 0.55
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Painel"]
-bg_color = Color(0.09, 0.09, 0.11, 0.97)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.28, 0.24, 0.38, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lme8q"]
+transparency = 1
+albedo_color = Color(0, 0, 0, 0.54901963)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_esppb"]
+material = SubResource("StandardMaterial3D_lme8q")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lvola"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0.69411767)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lme8q"]
+material = SubResource("StandardMaterial3D_lvola")
+flip_faces = true
+
+[sub_resource type="StyleBoxFlat" id="BG"]
+bg_color = Color(0.11, 0.07, 0.03, 0.96)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.93, 0.72, 0.28, 1)
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+expand_margin_left = 13.0
+expand_margin_top = 15.0
+expand_margin_right = 14.0
 shadow_color = Color(0, 0, 0, 0.55)
-shadow_size = 24
-shadow_offset = Vector2(0, 8)
+shadow_size = 18
 
 [sub_resource type="LabelSettings" id="LabelSettings_Titulo"]
 font_size = 28
@@ -40,61 +62,79 @@ font_color = Color(0.95, 0.95, 0.95, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnAtivo"]
-bg_color = Color(0.16, 0.35, 0.60, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.35, 0.60, 0.95, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnInativo"]
+bg_color = Color(0.14, 0.09, 0.03, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.48, 0.36, 0.12, 0.8)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnInativo"]
-bg_color = Color(0.15, 0.15, 0.18, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.28, 0.28, 0.32, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnAtivo"]
+bg_color = Color(0.28, 0.18, 0.04, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.93, 0.72, 0.28, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_BtnHover"]
-bg_color = Color(0.22, 0.22, 0.28, 1)
+bg_color = Color(0.22, 0.14, 0.04, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.45, 0.42, 0.65, 1)
+border_color = Color(0.75, 0.58, 0.2, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fduv2"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.6878053, 0.5119215, 0.154755, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vp1wt"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.47034264, 0.34774897, 0.090756916, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoHover"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_Voltar"]
-bg_color = Color(0.22, 0.35, 0.55, 1)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
+bg_color = Color(0.14, 0.09, 0.03, 0.7)
 border_width_bottom = 3
-border_color = Color(0.12, 0.20, 0.35, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_VoltarHover"]
-bg_color = Color(0.15, 0.24, 0.40, 1)
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 3
-border_color = Color(0.08, 0.14, 0.25, 1)
+border_color = Color(0.42, 0.32, 0.1, 0.6)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
@@ -103,13 +143,71 @@ corner_radius_bottom_left = 8
 [node name="Vestiario" type="Node3D" unique_id=1826749913]
 script = ExtResource("1_q3jha")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=714097115]
-environment = SubResource("Environment_vestiario")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=448087855]
+environment = SubResource("Environment_1adak")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=64441171]
-transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 3, 4)
-light_energy = 1.2
+[node name="SpotLight3D" type="SpotLight3D" parent="WorldEnvironment" unique_id=665478675]
+transform = Transform3D(0.9162859, 0.21859276, -0.33561507, -7.607661e-08, 0.837938, 0.5457655, 0.400525, -0.5000772, 0.7677907, -0.10953665, 2.4294016, 1.9776692)
+light_color = Color(0.96, 0.92160004, 0.57600003, 1)
+light_energy = 2.5
 shadow_enabled = true
+shadow_blur = 1.655
+spot_range = 15.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=2108863068]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+light_color = Color(1, 1, 0.6509804, 1)
+light_energy = 0.5
+shadow_enabled = true
+shadow_normal_bias = 10.0
+shadow_blur = 1.45
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=1246818618]
+transform = Transform3D(-0.8255242, -0.34731215, 0.44484156, 0.5094098, -0.119284175, 0.8522165, -0.24292256, 0.93013203, 0.27539617, 2.7901466, 1.5113938, -1.9234719)
+light_color = Color(0.9709104, 0.70377654, 0.35137385, 1)
+light_specular = 4.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=437801620]
+transform = Transform3D(1.7906005, 0, 0, 0, -4.3711385e-08, -0.13941522, 0, 0.99999994, -6.094033e-09, 1.17665, 0, -2.0194595)
+mesh = SubResource("PlaneMesh_esppb")
+
+[node name="GridMap3" type="GridMap" parent="." unique_id=1373830348]
+mesh_library = ExtResource("2_lme8q")
+cell_size = Vector3(0.33, 0.1, 0.33)
+cell_scale = 0.2
+data = {
+"cells": PackedInt32Array(-65536, 65534, 655487, -65533, 65533, 1048703, -65535, 65531, 127, -65532, 65531, 1441919, -65531, 65534, 655487, -65529, 65532, 1048703, -2, 65534, 127, -1, 65530, 112, -65534, 65530, 113, -65532, 65530, 1441905)
+}
+metadata/_editor_floor_ = Vector3(0, -1, 0)
+
+[node name="GridMap4" type="GridMap" parent="." unique_id=1527625414]
+transform = Transform3D(0.24999999, 0, -0.43301272, 0, 0.5, 0, 0.43301272, 0, 0.24999999, 0.51723456, -0.15632176, -0.035668477)
+mesh_library = ExtResource("3_esppb")
+cell_size = Vector3(0.5, 0.33, 0.5)
+cell_scale = 3.0
+data = {
+"cells": PackedInt32Array(65534, 65528, 1048727, -524304, 65530, 1048590)
+}
+metadata/_editor_floor_ = Vector3(0, -9, 0)
+
+[node name="GridMap5" type="GridMap" parent="." unique_id=1399135147]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.517, 0.549, -0.036)
+mesh_library = ExtResource("3_esppb")
+cell_size = Vector3(0.5, 0.33, 0.5)
+cell_scale = 3.0
+data = {
+"cells": PackedInt32Array(-524293, 65519, 30, -589820, 65519, 30, -589813, 65519, 30)
+}
+metadata/_editor_floor_ = Vector3(0, -9, 0)
+
+[node name="GridMap" type="GridMap" parent="." unique_id=35768089]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.51723456, -0.15632176, -0.035668477)
+mesh_library = ExtResource("2_lme8q")
+cell_size = Vector3(0.5, 0.33, 0.5)
+data = {
+"cells": PackedInt32Array(-196606, 65534, 33, -131073, 65534, 33, -131073, 65531, 33, -196606, 65531, 33, -196603, 65531, 33, -196603, 65534, 33, -131076, 65534, 33, -131076, 65531, 33, -131076, 65528, 33, -131073, 65528, 33, -196606, 65528, 33, -196603, 65528, 33, 65531, 65529, 143, 65532, 65528, 143, 65533, 65527, 143, 65534, 65528, 143, 65535, 65527, 143, 0, 65528, 143, 1, 65527, 143, 2, 65528, 143, 3, 65527, 143, 4, 65528, 143, 5, 65527, 143, 6, 65528, 143, -196600, 65534, 33, -196600, 65531, 33, -196600, 65528, 33, 7, 65527, 143, 8, 65528, 143, 9, 65529, 143, 9, 65527, 143, 65531, 65527, 143, 65532, 65526, 1048719, 65534, 65526, 1048719, 0, 65526, 1048719, 2, 65526, 1048719, 4, 65526, 1048719, 6, 65526, 1048719, 8, 65526, 1048719, 10, 65528, 1048719, 11, 65527, 1048719, 10, 65526, 1048719, 65530, 65528, 1048719, 65530, 65526, 1048719, 1, 65535, 1048714)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="DirectionalLight3D_Fill" type="DirectionalLight3D" parent="." unique_id=240768798]
 transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 0, 3, 0)
@@ -117,11 +215,15 @@ light_color = Color(0.6, 0.7, 1, 1)
 light_energy = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=582221384]
-transform = Transform3D(1, 0, 0, 0, 0.9848078, 0.17364796, 0, -0.17364796, 0.9848078, 0.89411867, 0.14941406, 0.32174468)
-fov = 60.0
+transform = Transform3D(1, 0, 0, 0, 0.9848078, 0.17364796, 0, -0.17364796, 0.9848078, 0.7972802, 0.19176304, 0.45865524)
+fov = 37.849285
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera3D" unique_id=919596536]
+transform = Transform3D(1, 0, 0, 0, 0.98480755, -0.17364816, 0, 0.17364816, 0.98480755, 0, 0.36220855, -0.3867147)
+mesh = SubResource("BoxMesh_lme8q")
 
 [node name="PontoPersonagem" type="Node3D" parent="." unique_id=633315300]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.88582075, 0, -0.09056732)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1227658516]
 
@@ -143,7 +245,7 @@ offset_top = 20.0
 offset_right = 560.0
 offset_bottom = -20.0
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_Painel")
+theme_override_styles/panel = SubResource("BG")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Tela/QuadroPrincipal" unique_id=1355991765]
 layout_mode = 1
@@ -172,8 +274,8 @@ label_settings = SubResource("LabelSettings_Titulo")
 
 [node name="LabelEstrelas" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/HBoxTitulo" unique_id=200000002]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.25, 1)
 theme_override_font_sizes/font_size = 18
-theme_override_colors/font_color = Color(1.0, 0.85, 0.25, 1)
 text = "⭐ 0/18"
 vertical_alignment = 1
 
@@ -193,8 +295,8 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
 theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
 text = "Avô (M)"
@@ -208,8 +310,8 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 20
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
 theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
 text = "Avó (F)"
@@ -227,12 +329,12 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnAtivo")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
 theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
-text = "🎩 Chapéus"
 disabled = true
+text = "🎩 Chapéus"
 
 [node name="BtnTabArmas" type="Button" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar" unique_id=200000006]
 custom_minimum_size = Vector2(0, 52)
@@ -243,8 +345,8 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 18
 theme_override_styles/normal = SubResource("StyleBoxFlat_BtnInativo")
-theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_BtnAtivo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_BtnHover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_BtnAtivo")
 theme_override_styles/focus = SubResource("StyleBoxFlat_BtnInativo")
 text = "⚔️ Armas"
@@ -272,10 +374,10 @@ theme_override_constants/v_separation = 10
 columns = 3
 
 [node name="SecaoArmas" type="ScrollContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=561473281]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
-visible = false
 
 [node name="Margin" type="MarginContainer" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox/SecaoArmas" unique_id=631405466]
 layout_mode = 2
@@ -297,8 +399,8 @@ columns = 3
 [node name="LabelNomeItem" type="Label" parent="UI/Tela/QuadroPrincipal/MarginContainer/VBox" unique_id=1758953539]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.84, 0.52, 1)
 theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.80, 0.82, 0.90, 1)
 text = "— Nenhum —"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -309,9 +411,9 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 22
-theme_override_styles/normal = SubResource("StyleBoxFlat_Voltar")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_VoltarHover")
-theme_override_styles/hover = SubResource("StyleBoxFlat_VoltarHover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_fduv2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_vp1wt")
+theme_override_styles/hover = SubResource("BotaoHover")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_Voltar")
 theme_override_styles/focus = SubResource("StyleBoxFlat_Voltar")
 text = "◀  VOLTAR / SALVAR"
@@ -319,22 +421,23 @@ text = "◀  VOLTAR / SALVAR"
 [node name="DicaGirar" type="Label" parent="UI/Tela" unique_id=1301690239]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.93
-anchor_right = 0.5
-anchor_bottom = 0.93
-offset_left = -140.0
-offset_top = -18.0
-offset_right = 140.0
-offset_bottom = 18.0
+anchor_left = 0.67300004
+anchor_top = 0.91700006
+anchor_right = 0.67300004
+anchor_bottom = 0.91700006
+offset_left = -305.79602
+offset_top = -13.240051
+offset_right = 217.20398
+offset_bottom = 53.75995
 grow_horizontal = 2
-text = "Arraste para girar"
-theme_override_font_sizes/font_size = 13
-theme_override_colors/font_color = Color(0.55, 0.55, 0.60, 0.80)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 20
+theme_override_font_sizes/font_size = 48
+text = "<- Arraste para girar ->"
 horizontal_alignment = 1
 
-[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotaoVoltar" to="." method="_on_btn_voltar_pressed"]
 [connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoM" to="." method="_on_btn_avo_m_pressed"]
 [connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotoesGenero/BtnAvoF" to="." method="_on_btn_avo_f_pressed"]
 [connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar/BtnTabChapeus" to="." method="_on_btn_tab_chapeus_pressed"]
 [connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/TabBar/BtnTabArmas" to="." method="_on_btn_tab_armas_pressed"]
+[connection signal="pressed" from="UI/Tela/QuadroPrincipal/MarginContainer/VBox/BotaoVoltar" to="." method="_on_btn_voltar_pressed"]

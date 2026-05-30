@@ -9,9 +9,11 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export_category("Identificação do Inimigo")
 @export var tipo_inimigo: Categoria = Categoria.NORMAL
 @export var nome_inimigo: String = "Monstro Desconhecido"
+@export var subtitulo_inimigo: String = ""     ## Linha abaixo do nome na cutscene (ex: "O Destruidor das Planícies")
 @export var eh_aereo: bool = false
 @export var usar_video_custom := false
 @export var video_stream: VideoStream
+@export var audio_intro: AudioStream           ## Sting dramático tocado no momento do reveal
 @export_category("Comportamento Kamikaze (Quebra-Muro)")
 @export var eh_kamikaze: bool = false
 @export var raio_explosao: float = 3.0
@@ -37,9 +39,10 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var quanto_espalhar: float = 0.8
 
 @export_category("Referências Visuais & Som")
-@export var modelo_3d: Node3D           
-@export var animation_player: AnimationPlayer 
-@export var som_dano_stream: AudioStream 
+@export var modelo_3d: Node3D
+@export var animation_player: AnimationPlayer
+@export var som_dano_stream: AudioStream
+@export var icone: Texture2D            ## Ícone 2D exibido na tela de "Novo Inimigo"
 
 @export_category("Nomes das Animações")
 @export var anim_andar: String = "walk"
@@ -82,11 +85,58 @@ var tempo_bloqueado: float = 0.0
 var _contador_quedas: int = 0
 var _timer_re_check: float = 0.0
 const RE_CHECK_INTERVALO: float = 0.3
+# Tabela de fallback de ícones — nível de classe evita alocação por chamada
+const _ICONES: Dictionary = {
+	# Mapa 1
+	"Orc":                       "res://Icons/OrcPreview.png",
+	"Abelha":                    "res://Icons/BeePreview.png",
+	"Cogumelão":                 "res://Icons/MushroomPreview.png",
+	"Golem de Musgo Ancestral":  "res://Icons/GolemBossPreview.png",
+	# Mapa 2
+	"Anubis":                    "res://Icons/AnubisPreview.png",
+	"Chacal":                    "res://Icons/ChacalPreview.png",
+	"Genio":                     "res://Icons/GenioPreview.png",
+	"Litch":                     "res://Icons/LichPreview.png",
+	"Faraó":                     "res://Icons/FaraoPreview.png",
+	# Mapa 3
+	"Bruxa":                     "res://Icons/BruxaPreview.png",
+	"Bilbo":                     "res://Icons/FrankPreview.png",
+	"Abóbora":                   "res://Icons/AboboraPreview.png",
+	"Cavaleiro":                 "res://Icons/CavaleiroPreview.png",
+	# Mapa 4
+	"Bombardeiro":               "res://Icons/BombardeiroPreview.png",
+	"Holandês Voador":           "res://Icons/HolandesPreview.png",
+	"Monstro Peixe":             "res://Icons/PeixePreview.png",
+	"Tubarão":                   "res://Icons/TubaraoPreview.png",
+	# Mapa 5
+	"Alexa astronauta":          "res://Icons/AlexaPreview.png",
+	"Linigena astronauta":       "res://Icons/AlienPreview.png",
+	"Sapao Astronauta":          "res://Icons/SapoPreview.png",
+	"Fernando o flamingo":       "res://Icons/FlamingoPreview.png",
+	"Cosmic Kraken":             "res://Icons/AlienPreview.png",
+	"Tutuba":                    "res://Icons/VermelinPreview.png",
+	# Mapa 6
+	"Dragao Inicial":            "res://Icons/DragaoBebePreview.png",
+	"Dragao Evoluido":           "res://Icons/DragaoJovemPreview.png",
+	"Dragao Final":              "res://Icons/DragaoAdultoPreview.png",
+	"Lava golem":                "res://Icons/FireGolemPreview.png",
+}
 var _multiplicador_gelo: float = 1.0
 var _gelo_timer: float = 0.0
 var _gelo_ativo: bool = false
 var _fogo_ativo: bool = false
+var _veneno_ativo: bool = false
 var _fogo_ticks_restantes: int = 0
+
+# ── Otimizações de runtime ─────────────────────────────────────────────
+var _fogo_dano_tick: int = 0          # dano por tick de queimadura (sem timers)
+var _fogo_timer_acum: float = 0.0     # acumulador de tempo entre ticks
+var _mat_flash: StandardMaterial3D = null  # material de hit-flash pré-criado
+var _meshes_modelo: Array = []         # cache de MeshInstance3D do modelo
+var _flash_tween: Tween = null         # tween do flash (para poder matar o anterior)
+var _cache_construcoes_aereo: Array = []   # cache da lista de construções (aéreos)
+var _timer_cache_construcoes: float = 0.0  # throttle do cache de construções
+var _mat_dither: ShaderMaterial = null     # material de dithering pré-criado (transparência)
 
 @export_category("Limites do Mapa")
 @export var limite_queda_y: float = -20.0
@@ -99,6 +149,17 @@ var canvas_boss: CanvasLayer = null
 var barra_vida_boss: ProgressBar = null
 var barra_fantasma: ProgressBar = null  # A barra que "persegue" a vida real
 var label_vida: Label = null
+
+# ==========================================
+# BARRA DE VIDA PERSONALIZADA DO BOSS
+# ==========================================
+@export_category("Interface do Boss")
+## Retrato exibido à esquerda da barra (rosto/ícone do boss)
+@export var retrato_boss: Texture2D = null
+## Imagem de moldura da barra (quadro de madeira, pedra, etc.)
+@export var textura_moldura_boss: Texture2D = null
+## Cor da barra de vida (verde para pirata, vermelho para golem, etc.)
+@export var cor_barra_boss: Color = Color(0.85, 0.05, 0.05)
 
 # ==========================================
 # DICAS PARA A TELA DE NOVO INIMIGO
@@ -134,7 +195,7 @@ func _ready():
 		# Avoidance RVO — impede que os inimigos se empilhem uns nos outros
 		nav_agent.avoidance_enabled        = true
 		nav_agent.radius                   = 0.1
-		nav_agent.neighbor_distance        = 0.2
+		nav_agent.neighbor_distance        = 1.5  # Era 0.2 — muito apertado, causava empilhamento
 		nav_agent.time_horizon_agents      = 0.3
 		nav_agent.time_horizon_obstacles   = 0.0
 		nav_agent.max_speed                = 10.0
@@ -142,9 +203,28 @@ func _ready():
 		nav_agent.velocity_computed.connect(_on_navigation_agent_3d_velocity_computed)
 
 	_configurar_sensor_transparencia()
-		
+
+	# ── Pré-cria caches de runtime ──────────────────────────────────────────
+	# Material de hit-flash reutilizado em cada receber_dano (sem new() por hit)
+	_mat_flash = StandardMaterial3D.new()
+	_mat_flash.transparency             = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_mat_flash.emission_enabled         = true
+	_mat_flash.emission                 = Color.WHITE
+	_mat_flash.emission_energy_multiplier = 2.0
+	_mat_flash.albedo_color             = Color(1, 1, 1, 0)
+	# Lista de meshes do modelo (evita find_children() em receber_dano e _atualizar_tints)
+	if modelo_3d:
+		_meshes_modelo = modelo_3d.find_children("*", "MeshInstance3D")
+
+	# posicao_de_spawn: o spawner seta global_position APÓS _ready(), então usamos
+	# call_deferred para capturar o valor correto no próximo frame
+	(func(): posicao_de_spawn = global_position).call_deferred()
+
 	if tipo_inimigo == Categoria.BOSS:
-		await _tocar_cutscene()
+		if not Global.inimigos_descobertos.has(nome_inimigo):
+			await _tocar_cutscene()
+		else:
+			_criar_interface_do_boss()
 		
 	elif tipo_inimigo == Categoria.MINI_BOSS:
 		if modelo_3d:
@@ -154,12 +234,12 @@ func _ready():
 		Global.inimigos_descobertos.append(nome_inimigo)
 		Global.salvar_progresso() 
 		
-		if InputMap.has_action("passar_onda"): 
+		if InputMap.has_action("passar_onda"):
 			TelaAvisoInimigo.mostrar_novo_inimigo(
-				nome_inimigo, 
-				dica_tutorial, 
-				modelo_3d, 
-				status_velocidade, 
+				nome_inimigo,
+				dica_tutorial,
+				_obter_icone_aviso(),
+				status_velocidade,
 				status_vida
 			)
 
@@ -167,6 +247,18 @@ func _aplicar_balanceamento() -> void:
 	vida_maxima = int(vida_maxima * Balanceamento.get_float("inimigo_mult_vida",        1.0))
 	velocidade  = velocidade      * Balanceamento.get_float("inimigo_mult_velocidade",   1.0)
 	forca_dano  = int(forca_dano  * Balanceamento.get_float("inimigo_mult_dano",         1.0))
+
+# Devolve o ícone 2D a exibir na TelaAvisoInimigo.
+# Prioridade: @export icone (definido no editor) → tabela de fallback por nome.
+func _obter_icone_aviso() -> Texture2D:
+	if icone != null:
+		return icone
+	# Tabela de fallback — cobre todos os inimigos que não têm o export setado no editor
+	if _ICONES.has(nome_inimigo):
+		var caminho: String = _ICONES[nome_inimigo]
+		if ResourceLoader.exists(caminho):
+			return load(caminho)
+	return null
 
 func _physics_process(delta):
 	if esta_morto: return
@@ -176,6 +268,17 @@ func _physics_process(delta):
 			_multiplicador_gelo = 1.0
 			_gelo_ativo = false
 			_atualizar_tints()
+
+	# Queimadura via acumulador (sem create_timer por tick)
+	if _fogo_ativo and _fogo_ticks_restantes > 0:
+		_fogo_timer_acum += delta
+		if _fogo_timer_acum >= 1.0:
+			_fogo_timer_acum -= 1.0
+			receber_dano(_fogo_dano_tick, "fogo")
+			_fogo_ticks_restantes -= 1
+			if _fogo_ticks_restantes <= 0:
+				_fogo_ativo = false
+				_atualizar_tints()
 
 	if global_position.y < limite_queda_y:
 		_contador_quedas += 1
@@ -199,8 +302,11 @@ func _physics_process(delta):
 		
 	if alvo_atual == null or not is_instance_valid(alvo_atual) or \
 	   (alvo_atual.get("esta_destruida") == true):
-		alvo_atual = procurar_novo_alvo()
-		_timer_re_check = 0.0
+		# Throttle: evita 40 get_nodes_in_group simultâneos quando um alvo morre
+		_timer_re_check -= delta
+		if _timer_re_check <= 0.0:
+			alvo_atual = procurar_novo_alvo()
+			_timer_re_check = RE_CHECK_INTERVALO
 	elif alvo_atual.is_in_group("Castelo") or alvo_atual.is_in_group("Base"):
 		_timer_re_check -= delta
 		if _timer_re_check <= 0.0:
@@ -211,11 +317,67 @@ func _physics_process(delta):
 			   not candidato.is_in_group("Base"):
 				alvo_atual = candidato
 
-	if alvo_atual == null or not is_instance_valid(alvo_atual) or esta_morto:
-		alvo_atual = procurar_novo_alvo()
-		
+	# ── Inimigos aéreos — voam direto ao alvo, ignoram NavMesh ───────────────
+	if eh_aereo:
+		# Mantém a altitude do ponto de spawn (sem gravidade, sem raycast)
+		# O level designer controla a altura pelo Y do spawner
+		var diff: float = global_position.y - posicao_de_spawn.y
+		if diff > 0.1:
+			velocity.y = -clamp(diff * 5.0, 2.0, 18.0)  # desce para o spawn
+		elif diff < -0.1:
+			velocity.y =  clamp(-diff * 5.0, 2.0, 18.0) # sobe para o spawn
+		else:
+			velocity.y = 0.0
+
+		# Construções têm prioridade sobre Base/Castelo — sem limite de raio
+		# (aéreos voam até qualquer ponto do mapa)
+		# Actualiza o cache de construções a cada 0.5 s (evita get_nodes_in_group todo frame)
+		_timer_cache_construcoes -= delta
+		if _timer_cache_construcoes <= 0.0:
+			_timer_cache_construcoes = 1.5  # Era 0.5 — aumentado para reduzir queries com muitos aéreos
+			_cache_construcoes_aereo = get_tree().get_nodes_in_group("Construcao")
+
+		var alvo_eh_base = alvo_atual == null \
+			or alvo_atual.is_in_group("Base") \
+			or alvo_atual.is_in_group("Castelo")
+		if alvo_eh_base:
+			var melhor_c: Node = null
+			var menor_d := INF
+			for c in _cache_construcoes_aereo:
+				if not is_instance_valid(c): continue
+				if "esta_destruida" in c and c.esta_destruida: continue
+				if "vida_atual" in c and c.vida_atual <= 0: continue
+				var d = global_position.distance_to(c.global_position)
+				if d < menor_d:
+					menor_d = d
+					melhor_c = c
+			if melhor_c:
+				alvo_atual = melhor_c
+
+		if alvo_atual and not esta_morto:
+			var alvo_pos  = alvo_atual.global_position
+			var dist_xz   = Vector2(global_position.x - alvo_pos.x,
+									global_position.z - alvo_pos.z).length()
+			var dir_xz    = Vector3(alvo_pos.x - global_position.x, 0.0,
+									alvo_pos.z - global_position.z).normalized()
+			var vel_aplic = velocidade * max(0.1, _multiplicador_gelo)
+
+			if dist_xz > distancia_ataque:
+				velocity.x = dir_xz.x * vel_aplic
+				velocity.z = dir_xz.z * vel_aplic
+				var look_dir = Vector2(dir_xz.z, dir_xz.x)
+				rotation.y  = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
+				if animation_player and animation_player.has_animation(anim_andar):
+					animation_player.play(anim_andar)
+			else:
+				velocity.x = 0.0
+				velocity.z = 0.0
+				atacar()
+		move_and_slide()
+		return
+
 	var usando_avoidance = false
-	
+
 	if alvo_atual and nav_agent:
 		var alvo_pos = alvo_atual.global_position
 		var dist = global_position.distance_to(alvo_pos)
@@ -233,7 +395,17 @@ func _physics_process(delta):
 				var colisao = get_slide_collision(i)
 				if colisao:
 					var colisor = colisao.get_collider()
-					if colisor == alvo_atual or (colisor and colisor.is_in_group("Construcao") and alvo_atual.is_in_group("Construcao")):
+					if not is_instance_valid(colisor): continue
+					# Verifica se o colisor É o alvo ou um filho dele (StaticBody3D, etc.)
+					var pertence_ao_alvo = (colisor == alvo_atual)
+					if not pertence_ao_alvo and is_instance_valid(alvo_atual):
+						var no_pai = colisor.get_parent()
+						while is_instance_valid(no_pai) and no_pai != get_tree().root:
+							if no_pai == alvo_atual:
+								pertence_ao_alvo = true
+								break
+							no_pai = no_pai.get_parent()
+					if pertence_ao_alvo or (colisor.is_in_group("Construcao") and alvo_atual.is_in_group("Construcao")):
 						encostado_no_alvo = true
 						break
 
@@ -241,36 +413,47 @@ func _physics_process(delta):
 			if not nav_agent.is_navigation_finished():
 				var next_pos = nav_agent.get_next_path_position()
 				var dir = (next_pos - global_position).normalized()
-				
+
 				if is_on_floor() and is_on_wall():
 					var eh_barreira: bool = false
 					for i in get_slide_collision_count():
 						var colisao = get_slide_collision(i)
 						var colisor = colisao.get_collider()
-						
+
 						if colisor and (colisor.is_in_group("Barreiras") or colisor.is_in_group("Castelo") or colisor.is_in_group("inimigos") or colisor == alvo_atual):
 							eh_barreira = true
 							break
-					
+
 					if not eh_barreira:
 						velocity.y = jump_velocity
-				
+
 				var vel_aplicada = velocidade * max(0.1, _multiplicador_gelo)
-				
+
 				# Passa 0 no eixo Y para o Avoidance calcular com segurança no plano XZ
 				var vel_desejada = Vector3(dir.x * vel_aplicada, 0, dir.z * vel_aplicada)
 				nav_agent.set_velocity(vel_desejada)
 				usando_avoidance = true
-				
+
 				var look_dir = Vector2(dir.z, dir.x)
 				rotation.y = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
-				
-				if is_on_floor() and animation_player and animation_player.has_animation(anim_andar): 
+
+				if (is_on_floor() or eh_aereo) and animation_player and animation_player.has_animation(anim_andar):
+					animation_player.play(anim_andar)
+			else:
+				# NavMesh sem caminho válido (base bloqueada) — avança diretamente
+				var vel_aplicada = velocidade * max(0.1, _multiplicador_gelo)
+				var dir_direto = Vector3(alvo_pos.x - global_position.x, 0.0,
+					alvo_pos.z - global_position.z).normalized()
+				velocity.x = dir_direto.x * vel_aplicada
+				velocity.z = dir_direto.z * vel_aplicada
+				var look_dir = Vector2(dir_direto.z, dir_direto.x)
+				rotation.y = lerp_angle(rotation.y, look_dir.angle(), 10 * delta)
+				if is_on_floor() and animation_player and animation_player.has_animation(anim_andar):
 					animation_player.play(anim_andar)
 		else:
 			# Comunica ao sistema RVO que a entidade parou, evitando tremulações de rota
 			nav_agent.set_velocity(Vector3.ZERO)
-			usando_avoidance = true 
+			usando_avoidance = true
 			atacar()
 
 	if not usando_avoidance:
@@ -363,33 +546,23 @@ func receber_dano(qtd, origem = "torre"):
 		som_hit.finished.connect(som_hit.queue_free)
 	
 	if modelo_3d:
+		# Bump de escala no impacto
 		var tw = create_tween()
 		tw.set_parallel(true)
 		tw.tween_property(modelo_3d, "scale", escala_original * 1.2, 0.1)
 		tw.chain().tween_property(modelo_3d, "scale", escala_original, 0.1)
-	
-	if vida_atual <= 0: morrer()
-	
-	if modelo_3d:
-		var tw = create_tween()
-		tw.set_parallel(true)
-		tw.tween_property(modelo_3d, "scale", escala_original * 1.2, 0.1)
-		tw.chain().tween_property(modelo_3d, "scale", escala_original, 0.1)
-		
-		for child in modelo_3d.find_children("*", "MeshInstance3D"):
-			var overlay = StandardMaterial3D.new()
-			overlay.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-			overlay.albedo_color = Color(1, 1, 1, 0)
-			overlay.emission_enabled = true
-			overlay.emission = Color.WHITE
-			overlay.emission_energy_multiplier = 2.0
-			child.material_overlay = overlay
-			
-			var tw_color = create_tween()
-			tw_color.tween_property(overlay, "albedo_color:a", 0.6, 0.05)
-			tw_color.tween_property(overlay, "albedo_color:a", 0.0, 0.15)
-			tw_color.tween_callback(func(): if is_instance_valid(self): _atualizar_tints())
-	
+		# Flash de hit com material pré-criado (sem find_children nem StandardMaterial3D.new() por hit)
+		if _mat_flash:
+			if _flash_tween and _flash_tween.is_valid():
+				_flash_tween.kill()
+			_mat_flash.albedo_color = Color(1, 1, 1, 0.6)
+			for child in _meshes_modelo:
+				if is_instance_valid(child):
+					child.material_overlay = _mat_flash
+			_flash_tween = create_tween()
+			_flash_tween.tween_property(_mat_flash, "albedo_color:a", 0.0, 0.15)
+			_flash_tween.tween_callback(func(): if is_instance_valid(self): _atualizar_tints())
+
 	if vida_atual <= 0: morrer()
 	
 func invocar_minions():
@@ -450,6 +623,7 @@ func morrer():
 	if nav_agent:
 		nav_agent.set_velocity(Vector3.ZERO)
 	remove_from_group("inimigos")
+	GameManager.inimigo_morreu.emit()  # Notifica spawners (substitui polling de grupo)
 
 	if GameManager.modo_infinito:
 		var drop: int = 1
@@ -484,100 +658,97 @@ func morrer():
 # ==========================================
 # GERAÇÃO DA INTERFACE DO BOSS
 # ==========================================
-func _criar_interface_do_boss():
+func _criar_interface_do_boss() -> void:
 	canvas_boss = CanvasLayer.new()
-	canvas_boss.layer = 10 
+	canvas_boss.layer = 10
 	add_child(canvas_boss)
-	
-	var margin = MarginContainer.new()
-	margin.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	margin.add_theme_constant_override("margin_top", 50)
-	margin.add_theme_constant_override("margin_left", 350)
-	margin.add_theme_constant_override("margin_right", 350)
-	canvas_boss.add_child(margin)
-	
-	var vbox = VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 2)
-	margin.add_child(vbox)
-	
-	var label_nome = Label.new()
-	label_nome.text = "☠️ " + nome_inimigo.to_upper() + " ☠️"
-	label_nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label_nome.add_theme_font_size_override("font_size", 24)
-	label_nome.add_theme_color_override("font_color", Color(1, 0.2, 0.2)) 
-	label_nome.add_theme_color_override("font_outline_color", Color.BLACK)
-	label_nome.add_theme_constant_override("outline_size", 8)
-	vbox.add_child(label_nome)
 
-	var bar_container = Control.new()
-	bar_container.custom_minimum_size = Vector2(0, 30) 
-	vbox.add_child(bar_container)
+	# ── Calcula o tamanho do container proporcional à textura ──────────
+	# O container tem o MESMO aspecto da imagem → STRETCH_SCALE não distorce
+	var tex_size := Vector2(900.0, 180.0)   # fallback caso não haja textura
+	if textura_moldura_boss:
+		tex_size = Vector2(textura_moldura_boss.get_width(), textura_moldura_boss.get_height())
 
-	var raio_curvatura = 15 
+	var vp_size  := get_viewport().get_visible_rect().size if get_viewport() else Vector2(1280.0, 720.0)
+	var max_w: float = vp_size.x * 0.80                     # ocupa no máx. 80% da tela
+	var escala: float = min(max_w / tex_size.x, 1.0)       # nunca amplia além do tamanho real
+	var w: float = tex_size.x * escala
+	var h: float = tex_size.y * escala
+	var cx: float = vp_size.x * 0.5
 
-	var estilo_fundo = StyleBoxFlat.new()
-	estilo_fundo.bg_color = Color(0.05, 0.05, 0.05, 0.8)
-	estilo_fundo.set_corner_radius_all(raio_curvatura)
-	estilo_fundo.border_width_left = 2
-	estilo_fundo.border_width_right = 2
-	estilo_fundo.border_width_top = 2
-	estilo_fundo.border_width_bottom = 2
-	estilo_fundo.border_color = Color(0.3, 0.3, 0.3) 
-	estilo_fundo.expand_margin_left = 4
-	estilo_fundo.expand_margin_right = 4
-	estilo_fundo.expand_margin_top = 4
-	estilo_fundo.expand_margin_bottom = 4
+	# Container raiz — posicionado no topo, centralizado horizontalmente
+	var root := Control.new()
+	root.mouse_filter  = Control.MOUSE_FILTER_IGNORE
+	root.set_anchor(SIDE_LEFT,   0.0)
+	root.set_anchor(SIDE_RIGHT,  0.0)
+	root.set_anchor(SIDE_TOP,    0.0)
+	root.set_anchor(SIDE_BOTTOM, 0.0)
+	root.offset_left   = cx - w * 0.5
+	root.offset_right  = cx + w * 0.5
+	root.offset_top    = 20.0
+	root.offset_bottom = 20.0 + h
+	canvas_boss.add_child(root)
 
-	var estilo_fantasma = StyleBoxFlat.new()
-	estilo_fantasma.bg_color = Color(1, 1, 1, 0.5)
-	estilo_fantasma.set_corner_radius_all(raio_curvatura)
+	# ── Moldura (a imagem já tem tudo: porta-retrato, nome, quadro) ────
+	if textura_moldura_boss:
+		var frame := TextureRect.new()
+		frame.texture      = textura_moldura_boss
+		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		frame.stretch_mode = TextureRect.STRETCH_SCALE   # container é do mesmo aspecto → sem distorção
+		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(frame)
 
-	var estilo_vida = StyleBoxFlat.new()
-	estilo_vida.bg_color = Color(0.8, 0, 0)
-	estilo_vida.set_corner_radius_all(raio_curvatura)
-	estilo_vida.border_width_top = 3
-	estilo_vida.border_color = Color(1, 0.3, 0.3, 0.3) 
+	# ── Âncoras da barra dentro da imagem ─────────────────────────────
+	# Ajuste fino: LEFT/RIGHT = limites horizontais da faixa verde,
+	# TOP/BOTTOM = limites verticais. Valores em fração [0..1] da imagem.
+	# (Altere se a barra não cobrir exatamente o canal verde da arte.)
+	const BAR_L := 0.22   # borda esquerda da barra na imagem
+	const BAR_R := 0.90   # borda direita
+	const BAR_T := 0.54   # borda superior
+	const BAR_B := 0.83   # borda inferior
+
+	# ── Barra fantasma (branca, lag ~0.4 s atrás da vida real) ────────
+	var sty_ghost := StyleBoxFlat.new()
+	sty_ghost.bg_color = Color(1.0, 1.0, 1.0, 0.40)
+	sty_ghost.set_corner_radius_all(6)
 
 	barra_fantasma = ProgressBar.new()
-	barra_fantasma.set_anchors_preset(Control.PRESET_FULL_RECT)
-	barra_fantasma.max_value = vida_maxima
-	barra_fantasma.value = vida_atual
+	barra_fantasma.set_anchor(SIDE_LEFT,   BAR_L)
+	barra_fantasma.set_anchor(SIDE_RIGHT,  BAR_R)
+	barra_fantasma.set_anchor(SIDE_TOP,    BAR_T)
+	barra_fantasma.set_anchor(SIDE_BOTTOM, BAR_B)
+	barra_fantasma.mouse_filter    = Control.MOUSE_FILTER_IGNORE
+	barra_fantasma.max_value       = vida_maxima
+	barra_fantasma.value           = vida_atual
 	barra_fantasma.show_percentage = false
-	barra_fantasma.add_theme_stylebox_override("background", estilo_fundo)
-	barra_fantasma.add_theme_stylebox_override("fill", estilo_fantasma)
-	bar_container.add_child(barra_fantasma)
+	barra_fantasma.add_theme_stylebox_override("background", StyleBoxEmpty.new())
+	barra_fantasma.add_theme_stylebox_override("fill",       sty_ghost)
+	root.add_child(barra_fantasma)
+
+	# ── Barra de vida real (cor definida pelo export cor_barra_boss) ───
+	var sty_fill := StyleBoxFlat.new()
+	sty_fill.bg_color        = cor_barra_boss
+	sty_fill.set_corner_radius_all(6)
+	sty_fill.border_width_top = 2
+	sty_fill.border_color     = cor_barra_boss.lightened(0.40)
 
 	barra_vida_boss = ProgressBar.new()
-	barra_vida_boss.set_anchors_preset(Control.PRESET_FULL_RECT)
-	barra_vida_boss.max_value = vida_maxima
-	barra_vida_boss.value = vida_atual
+	barra_vida_boss.set_anchor(SIDE_LEFT,   BAR_L)
+	barra_vida_boss.set_anchor(SIDE_RIGHT,  BAR_R)
+	barra_vida_boss.set_anchor(SIDE_TOP,    BAR_T)
+	barra_vida_boss.set_anchor(SIDE_BOTTOM, BAR_B)
+	barra_vida_boss.mouse_filter    = Control.MOUSE_FILTER_IGNORE
+	barra_vida_boss.max_value       = vida_maxima
+	barra_vida_boss.value           = vida_atual
 	barra_vida_boss.show_percentage = false
 	barra_vida_boss.add_theme_stylebox_override("background", StyleBoxEmpty.new())
-	barra_vida_boss.add_theme_stylebox_override("fill", estilo_vida)
-	bar_container.add_child(barra_vida_boss)
+	barra_vida_boss.add_theme_stylebox_override("fill",       sty_fill)
+	root.add_child(barra_vida_boss)
 
-	var divisores_container = HBoxContainer.new()
-	divisores_container.set_anchors_preset(Control.PRESET_FULL_RECT)
-	divisores_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	bar_container.add_child(divisores_container)
-	
-	for i in range(3):
-		var espaco = Control.new()
-		espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		divisores_container.add_child(espaco)
-		
-		var linha = ColorRect.new()
-		linha.color = Color(0, 0, 0, 0.4) 
-		linha.custom_minimum_size = Vector2(2, 0)
-		divisores_container.add_child(linha)
-	
-	var final_espaco = Control.new()
-	final_espaco.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	divisores_container.add_child(final_espaco)
-
-	var tw_glow = create_tween().set_loops()
-	tw_glow.tween_property(bar_container, "modulate:v", 1.2, 1.0)
-	tw_glow.tween_property(bar_container, "modulate:v", 1.0, 1.0)
+	# Pulso de brilho suave na barra
+	var tw_glow := create_tween().set_loops()
+	tw_glow.tween_property(barra_vida_boss, "modulate:v", 1.30, 0.7).set_trans(Tween.TRANS_SINE)
+	tw_glow.tween_property(barra_vida_boss, "modulate:v", 1.00, 0.7).set_trans(Tween.TRANS_SINE)
 
 func _explodir():
 	if esta_explodindo: return
@@ -646,7 +817,7 @@ func _tocar_cutscene():
 	var cutscene = preload("res://Cenas Locais/boss_intro.tscn").instantiate()
 	get_tree().current_scene.add_child(cutscene)
 
-	cutscene.reproduzir_stream(video_stream, nome_inimigo)
+	cutscene.reproduzir_stream(video_stream, nome_inimigo, subtitulo_inimigo, audio_intro)
 
 	await cutscene.cutscene_finished
 
@@ -702,24 +873,28 @@ func aplicar_gelo() -> void:
 		_atualizar_tints()
 
 func iniciar_queimadura(dano_tick: int) -> void:
+	# Reinicia o acumulador — o _physics_process aplica os ticks sem create_timer
+	_fogo_dano_tick       = dano_tick
 	_fogo_ticks_restantes = 3
+	_fogo_timer_acum      = 0.0
 	if not _fogo_ativo:
 		_fogo_ativo = true
 		_atualizar_tints()
-	for i in range(3):
-		get_tree().create_timer(float(i + 1) * 1.0).timeout.connect(func():
-			if not is_instance_valid(self) or esta_morto: return
-			receber_dano(dano_tick)
-			_fogo_ticks_restantes -= 1
-			if _fogo_ticks_restantes <= 0:
-				_fogo_ativo = false
-				_atualizar_tints()
-		)
+
+func iniciar_veneno() -> void:
+	if not _veneno_ativo:
+		_veneno_ativo = true
+		_atualizar_tints()
+
+func parar_veneno() -> void:
+	if _veneno_ativo:
+		_veneno_ativo = false
+		_atualizar_tints()
 
 func _atualizar_tints() -> void:
-	var raiz: Node = modelo_3d if modelo_3d else self
+	var _raiz: Node = modelo_3d if modelo_3d else self
 	var mat: StandardMaterial3D = null
-	if _gelo_ativo or _fogo_ativo:
+	if _gelo_ativo or _fogo_ativo or _veneno_ativo:
 		mat = StandardMaterial3D.new()
 		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
@@ -727,29 +902,31 @@ func _atualizar_tints() -> void:
 			mat.albedo_color = Color(0.7, 0.3, 1.0, 0.40)
 		elif _fogo_ativo:
 			mat.albedo_color = Color(1.0, 0.35, 0.05, 0.40)
-		else:
+		elif _gelo_ativo:
 			mat.albedo_color = Color(0.25, 0.65, 1.0, 0.35)
-	for mesh in raiz.find_children("*", "MeshInstance3D", true, false):
-		if mesh is MeshInstance3D:
+		else:
+			mat.albedo_color = Color(0.2, 0.9, 0.2, 0.40)
+	# Usa cache de meshes do _ready() — sem find_children() por mudança de status
+	for mesh in _meshes_modelo:
+		if is_instance_valid(mesh):
 			mesh.material_overlay = mat
 
 # ==========================================
 func _set_transparencia(no: Node, valor: float):
 	if no is MeshInstance3D:
 		if valor > 0.0:
-			var mat_dither = ShaderMaterial.new()
-			mat_dither.shader = preload("res://Shaders/dithering_effect.gdshader")
-			
-			var mat_original = no.get_active_material(0)
-			if mat_original and "albedo_texture" in mat_original:
-				var tex = mat_original.albedo_texture
-				mat_dither.set_shader_parameter("albedo_texture", tex)
-			
-			mat_dither.set_shader_parameter("alpha_threshold", valor)
-			no.material_override = mat_dither
+			# Cria o ShaderMaterial uma vez, reutiliza nas chamadas seguintes
+			if _mat_dither == null:
+				_mat_dither = ShaderMaterial.new()
+				_mat_dither.shader = preload("res://Shaders/dithering_effect.gdshader")
+				var mat_original = no.get_active_material(0)
+				if mat_original and "albedo_texture" in mat_original:
+					_mat_dither.set_shader_parameter("albedo_texture", mat_original.albedo_texture)
+			_mat_dither.set_shader_parameter("alpha_threshold", valor)
+			no.material_override = _mat_dither
 		else:
 			no.material_override = null
-				
+
 	for filho in no.get_children():
 		_set_transparencia(filho, valor)
 

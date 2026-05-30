@@ -1,19 +1,14 @@
 [gd_scene format=4 uid="uid://v7g5uxby4hkm"]
 
 [ext_resource type="PackedScene" uid="uid://shgjn222oijp" path="res://Map6/Dragon Evolved.glb" id="1_as75k"]
-[ext_resource type="Script" path="res://Enemys/Map 6/dragon_rage.gd" id="1_mli3n"]
+[ext_resource type="Script" uid="uid://bv7ism2n2qiu7" path="res://Enemys/Map 6/dragon_rage.gd" id="1_mli3n"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_iid7r"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mli3n"]
 render_priority = 0
 shader = ExtResource("2_iid7r")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b8whw"]
 resource_name = "Dragon_Main"
@@ -33,13 +28,8 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2w7dl"]
 render_priority = 0
 shader = ExtResource("2_iid7r")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hkt1b"]
 resource_name = "Dragon_Secondary"
@@ -59,13 +49,8 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_x1ddv"]
 render_priority = 0
 shader = ExtResource("2_iid7r")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50pg8"]
 resource_name = "Dragon_Horn"
@@ -85,13 +70,8 @@ metadata/extras = {
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_b8whw"]
 render_priority = 0
 shader = ExtResource("2_iid7r")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.001
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gmajw"]
 resource_name = "Eye_White"
@@ -108,20 +88,9 @@ metadata/extras = {
 }
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_iid7r"]
-render_priority = 0
-shader = ExtResource("2_iid7r")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6fgdk"]
 resource_name = "Eye_Black"
-next_pass = SubResource("ShaderMaterial_iid7r")
+next_pass = SubResource("ShaderMaterial_2w7dl")
 diffuse_mode = 3
 specular_mode = 1
 albedo_color = Color(0.103962235, 0.106004104, 0.116602026, 1)
@@ -224,10 +193,15 @@ height = 1.5126953
 
 [node name="MidDragon" type="CharacterBody3D" unique_id=617332867 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_mli3n")
+rage_velocidade_mult = 1.65
+rage_dano_mult = 1.25
+rage_animacao = "CharacterArmature|Headbutt"
+rage_anim_andar = "CharacterArmature|Flying_Idle"
+rage_duracao_preparacao = 0.9
 tipo_inimigo = 2
 nome_inimigo = "Dragao Evoluido"
+subtitulo_inimigo = "Segunda Forma — Sua Fúria Aumenta"
 vida_maxima = 2100
-velocidade = 0.5
 forca_dano = 34
 distancia_ataque = 2.2
 tempo_recarga_ataque = 1.45
@@ -236,11 +210,6 @@ animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Flying_Idle"
 anim_atacar = "CharacterArmature|Headbutt"
 anim_morrer = "CharacterArmature|Death"
-rage_velocidade_mult = 1.65
-rage_dano_mult = 1.25
-rage_animacao = "CharacterArmature|Headbutt"
-rage_anim_andar = "CharacterArmature|Flying_Idle"
-rage_duracao_preparacao = 0.9
 dica_tutorial = "Segundo estagio do dragao. Mais vida, mais dano e rage mais agressivo."
 status_velocidade = "ALTA"
 status_vida = "MUITO ALTA"
@@ -248,7 +217,7 @@ status_vida = "MUITO ALTA"
 [node name="Root Scene" parent="." unique_id=1342031970 instance=ExtResource("1_as75k")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(1342031970, 1202875013) index="0" unique_id=691785996]
+[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(1342031970, 584451574) index="0" unique_id=159347987]
 bones/1/position = Vector3(3.1972486e-05, 0.013973277, -0.0024659582)
 bones/1/rotation = Quaternion(0.14349474, -0.00038738005, 0.0028582274, 0.9896469)
 bones/2/rotation = Quaternion(0.079939716, -0.0002567447, -0.0028727197, 0.9967956)
@@ -272,43 +241,43 @@ bones/43/rotation = Quaternion(0.08928362, -0.07216821, 0.21468914, 0.9699118)
 bones/44/rotation = Quaternion(0.35179892, 0.5209347, -0.57179344, 0.5271783)
 bones/45/rotation = Quaternion(-0.051516198, 0.7403548, -0.6647463, -0.08563533)
 
-[node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=65063466]
+[node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=247497592]
 transform = Transform3D(0.9999997, 1.2376063e-08, -0.0005504981, 0.00021230872, -0.92264646, 0.385646, -0.00050790905, -0.38564613, -0.92264616, -6.383764e-06, -0.00072172587, 0.022193488)
 
-[node name="Middle3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=1606396209]
+[node name="Middle3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=915997288]
 transform = Transform3D(-0.74375504, -0.12944727, 0.65579826, -0.061992854, -0.9634844, -0.26048857, 0.6655711, -0.23439427, 0.7085715, 0.012319415, -0.011059316, 0.008640482)
 
-[node name="Pinky3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=561507650]
+[node name="Pinky3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=107911418]
 transform = Transform3D(-0.71683556, 0.15299845, 0.6802479, -0.38551882, -0.899899, -0.20385304, 0.5809651, -0.40837756, 0.7040641, 0.013895158, -0.009060448, 0.0073833214)
 
-[node name="Index3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=385673551]
+[node name="Index3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=347183848]
 transform = Transform3D(-0.7128039, -0.21707414, 0.6669246, 0.1699021, -0.9760183, -0.13608971, 0.6804724, 0.01630669, 0.7325915, 0.0106839845, -0.010295082, 0.010699849)
 
-[node name="Thumb3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=122108328]
+[node name="Thumb3_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=2119441208]
 transform = Transform3D(-0.43757188, -0.60310996, 0.6669245, 0.7242626, -0.6759604, -0.1360896, 0.5328917, 0.4234797, 0.73259145, 0.0089176865, -0.0063018654, 0.012382428)
 
-[node name="Wing4_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=1907618697]
+[node name="Wing4_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="5" unique_id=1797493508]
 transform = Transform3D(0.47771445, 0.83729196, -0.26595283, -0.87638116, 0.47527882, -0.0778818, 0.06119197, 0.27028129, 0.9608345, 0.016462624, 0.010676799, 0.024317518)
 
-[node name="Middle3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="6" unique_id=621995463]
+[node name="Middle3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="6" unique_id=271054852]
 transform = Transform3D(-0.7437545, 0.12944722, -0.65579885, 0.061993126, -0.963484, -0.26048842, -0.6655716, -0.23439434, 0.70857114, -0.012319419, -0.011059314, 0.008640477)
 
-[node name="Pinky3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="7" unique_id=750442290]
+[node name="Pinky3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="7" unique_id=107605414]
 transform = Transform3D(-0.7168358, -0.15299828, -0.6802483, 0.38551915, -0.89989936, -0.20385313, -0.58096594, -0.4083778, 0.7040635, -0.013895155, -0.00906045, 0.0073833107)
 
-[node name="Index3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="8" unique_id=1351234000]
+[node name="Index3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="8" unique_id=486848705]
 transform = Transform3D(-0.7128041, 0.21707407, -0.66692543, -0.16990183, -0.976019, -0.13608971, -0.6804733, 0.016306609, 0.7325912, -0.010683985, -0.010295086, 0.010699842)
 
-[node name="Thumb3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="9" unique_id=953502445]
+[node name="Thumb3_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="9" unique_id=370924902]
 transform = Transform3D(-0.43757212, 0.60311, -0.666925, -0.72426265, -0.67596114, -0.1360897, -0.53289235, 0.42347997, 0.7325911, -0.008917687, -0.0063018687, 0.012382425)
 
-[node name="Wing4_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="10" unique_id=1603240613]
+[node name="Wing4_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="10" unique_id=353755927]
 transform = Transform3D(0.4777143, -0.83729213, 0.26595336, 0.8763812, 0.47527888, -0.07788184, -0.06119229, 0.27028182, 0.96083444, -0.016462622, 0.0106768, 0.024317525)
 
-[node name="Body4" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="11" unique_id=388669355]
+[node name="Body4" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="11" unique_id=1916669782]
 transform = Transform3D(0.10064882, -0.4463833, -0.8891637, 0.98017144, 0.19780095, 0.011650476, 0.17067942, -0.8727065, 0.45744216, 0.001760929, 0.0038320287, 0.0059712357)
 
-[node name="Dragon" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="12" unique_id=2015423440]
+[node name="Dragon" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="12" unique_id=627240285]
 mesh = SubResource("ArrayMesh_x1ddv")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2129669209]

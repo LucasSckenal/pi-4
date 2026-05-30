@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bro82fv0tdfp8"
 path.s3tc="res://.godot/imported/Hollow_knight_texture_0.png-eed656612388c6bab9258bb9952436d5.s3tc.ctex"
+path.etc2="res://.godot/imported/Hollow_knight_texture_0.png-eed656612388c6bab9258bb9952436d5.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Personagens/Hollow_knight_texture_0.png"
-dest_files=["res://.godot/imported/Hollow_knight_texture_0.png-eed656612388c6bab9258bb9952436d5.s3tc.ctex"]
+dest_files=["res://.godot/imported/Hollow_knight_texture_0.png-eed656612388c6bab9258bb9952436d5.s3tc.ctex", "res://.godot/imported/Hollow_knight_texture_0.png-eed656612388c6bab9258bb9952436d5.etc2.ctex"]
 
 [params]
 

@@ -48,7 +48,7 @@ func _ready():
 func atualizar_info_estrelas():
 	var total = Global.obter_total_estrelas()
 	if label_estrelas:
-		label_estrelas.text = "⭐ %d/18" % total
+		label_estrelas.text = "%d/18 estrelas" % total
 
 # --- LÓGICA 3D (Spawning e Rotação) ---
 
@@ -120,20 +120,21 @@ func _gerar_botoes_armas():
 		var esta_desbloqueada = id in Global.armas_desbloqueadas
 
 		var estilo = StyleBoxFlat.new()
-		estilo.bg_color = Color(0.18, 0.18, 0.21, 1)
+		estilo.bg_color = Color(0.15, 0.10, 0.04, 1)
 		estilo.set_corner_radius_all(8)
 
 		var estilo_hover = StyleBoxFlat.new()
-		estilo_hover.bg_color = Color(0.26, 0.26, 0.32, 1)
+		estilo_hover.bg_color = Color(0.24, 0.15, 0.05, 1)
 		estilo_hover.set_corner_radius_all(8)
 		estilo_hover.set_border_width_all(1)
-		estilo_hover.border_color = Color(0.50, 0.46, 0.72, 1)
+		estilo_hover.border_color = Color(0.85, 0.65, 0.20, 1)
 
 		if esta_desbloqueada:
 			var caminho_icone = PASTA_ICONES + id + ".png"
-			if FileAccess.file_exists(caminho_icone):
+			if ResourceLoader.exists(caminho_icone):
 				btn.icon = load(caminho_icone)
 			btn.text = _obter_nome_formatado(id)
+			btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 			btn.add_theme_font_size_override("font_size", 13)
 			btn.add_theme_color_override("font_color", Color(0.88, 0.88, 0.92, 1))
 			btn.pressed.connect(func(): _on_arma_selecionada(id))
@@ -145,6 +146,7 @@ func _gerar_botoes_armas():
 		else:
 			btn.modulate = Color(0.25, 0.25, 0.25, 0.9)
 			btn.disabled = true
+			btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
 			var cadeado = load("res://Icons/cadeado.png")
 			if cadeado: btn.icon = cadeado
 
@@ -199,8 +201,10 @@ func _gerar_botoes_chapeus():
 			texto_bloqueio = "8★"
 		
 		# --- REGRA 2: CHAPÉUS NORMAIS (POR CONQUISTA / LISTA) ---
-		# Se não for um dos especiais acima e não for o "Nenhum"
-		elif id != "Nenhum" and not (id in Global.chapeus_desbloqueados):
+		# Exclui sets especiais (controlados por flags próprias, não por chapeus_desbloqueados)
+		elif id != "Nenhum" \
+				and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
+				and not (id in Global.chapeus_desbloqueados):
 			bloqueado = true
 
 		# --- CRIAÇÃO VISUAL DO BOTÃO ---
@@ -217,6 +221,7 @@ func _gerar_botoes_chapeus():
 			btn.disabled = true
 			btn.modulate = Color(0.6, 0.6, 0.6, 1)
 			btn.text = texto_bloqueio
+			btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
 			btn.add_theme_color_override("font_disabled_color", Color(1.0, 0.90, 0.20, 1))
 			btn.add_theme_color_override("font_outline_color", Color(0, 0, 0, 1))
 			btn.add_theme_constant_override("outline_size", 4)
@@ -242,13 +247,14 @@ func _gerar_botoes_chapeus():
 			btn.add_theme_color_override("font_color", Color(0.88, 0.88, 0.92, 1))
 			btn.add_theme_font_size_override("font_size", 13)
 			btn.add_theme_constant_override("outline_size", 0)
+			btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 			var estilo_c := StyleBoxFlat.new()
 			estilo_c.set_corner_radius_all(8)
 			var estilo_c_hover := StyleBoxFlat.new()
 			estilo_c_hover.set_corner_radius_all(8)
 			estilo_c_hover.set_border_width_all(1)
-			estilo_c_hover.border_color = Color(0.50, 0.46, 0.72, 1)
+			estilo_c_hover.border_color = Color(0.85, 0.65, 0.20, 1)
 
 			if id == chapeu_equipado:
 				estilo_c.bg_color = Color(0.22, 0.20, 0.10, 1)
@@ -256,8 +262,8 @@ func _gerar_botoes_chapeus():
 				estilo_c.border_color = Color(1.0, 0.85, 0.25, 1)
 				estilo_c_hover.bg_color = Color(0.28, 0.26, 0.14, 1)
 			else:
-				estilo_c.bg_color = Color(0.18, 0.18, 0.21, 1)
-				estilo_c_hover.bg_color = Color(0.26, 0.26, 0.32, 1)
+				estilo_c.bg_color = Color(0.15, 0.10, 0.04, 1)
+				estilo_c_hover.bg_color = Color(0.24, 0.15, 0.05, 1)
 
 			btn.add_theme_stylebox_override("normal", estilo_c)
 			btn.add_theme_stylebox_override("hover", estilo_c_hover)

@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bhnjqlfecp2b7"
 path.s3tc="res://.godot/imported/Tentaculo_2.jpg-33c2b19a4d2002a876d81ec876a11ef4.s3tc.ctex"
+path.etc2="res://.godot/imported/Tentaculo_2.jpg-33c2b19a4d2002a876d81ec876a11ef4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map5/Tentaculo_2.jpg"
-dest_files=["res://.godot/imported/Tentaculo_2.jpg-33c2b19a4d2002a876d81ec876a11ef4.s3tc.ctex"]
+dest_files=["res://.godot/imported/Tentaculo_2.jpg-33c2b19a4d2002a876d81ec876a11ef4.s3tc.ctex", "res://.godot/imported/Tentaculo_2.jpg-33c2b19a4d2002a876d81ec876a11ef4.etc2.ctex"]
 
 [params]
 

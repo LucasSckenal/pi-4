@@ -1,14 +1,14 @@
 # ai_memory.gd
 extends Node
 
-# 📊 dados de aprendizado
+# dados de aprendizado
 var tower_usage: Dictionary = {}
 var tower_performance: Dictionary = {}
 var slot_success: Dictionary = {}
 var combo_success: Dictionary = {}
 
 # -------------------------------
-# 📌 REGISTRAR CONSTRUÇÃO
+# REGISTRAR CONSTRUÇÃO
 # -------------------------------
 func register_build(tower_name: String, slot_position: Vector3):
 
@@ -18,14 +18,14 @@ func register_build(tower_name: String, slot_position: Vector3):
 	slot_success[slot_id] = slot_success.get(slot_id, 0) + 1
 
 # -------------------------------
-# 📌 REGISTRAR DANO
+# REGISTRAR DANO
 # -------------------------------
 func register_damage(tower_name: String, damage: float):
 
 	tower_performance[tower_name] = tower_performance.get(tower_name, 0.0) + damage
 
 # -------------------------------
-# 📌 REGISTRAR COMBO
+# REGISTRAR COMBO
 # -------------------------------
 func register_combo(tower_name: String, nearby_builds: Array):
 
@@ -39,13 +39,13 @@ func register_combo(tower_name: String, nearby_builds: Array):
 		combo_success[key] = combo_success.get(key, 0) + 1
 
 # -------------------------------
-# 📌 GERAR ID DO SLOT
+# GERAR ID DO SLOT
 # -------------------------------
 func _get_slot_id(pos: Vector3) -> String:
 	return str(round(pos.x)) + "_" + str(round(pos.z))
 
 # -------------------------------
-# 💾 SALVAR
+# SALVAR
 # -------------------------------
 func save_data():
 
@@ -59,7 +59,7 @@ func save_data():
 	})
 
 # -------------------------------
-# 📂 CARREGAR
+# CARREGAR
 # -------------------------------
 func load_data():
 
@@ -75,7 +75,7 @@ func load_data():
 	combo_success = data.get("combo", {})
 
 # -------------------------------
-# 🔄 RESET (debug)
+# RESET (debug)
 # -------------------------------
 func reset():
 	tower_usage.clear()

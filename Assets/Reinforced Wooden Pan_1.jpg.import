@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cl7ufwlcm4f6o"
 path.s3tc="res://.godot/imported/Reinforced Wooden Pan_1.jpg-42dafad22d52d2825066c91a81ef5ed7.s3tc.ctex"
+path.etc2="res://.godot/imported/Reinforced Wooden Pan_1.jpg-42dafad22d52d2825066c91a81ef5ed7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Assets/Reinforced Wooden Pan_1.jpg"
-dest_files=["res://.godot/imported/Reinforced Wooden Pan_1.jpg-42dafad22d52d2825066c91a81ef5ed7.s3tc.ctex"]
+dest_files=["res://.godot/imported/Reinforced Wooden Pan_1.jpg-42dafad22d52d2825066c91a81ef5ed7.s3tc.ctex", "res://.godot/imported/Reinforced Wooden Pan_1.jpg-42dafad22d52d2825066c91a81ef5ed7.etc2.ctex"]
 
 [params]
 

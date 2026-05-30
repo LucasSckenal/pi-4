@@ -1,5 +1,11 @@
 extends Control
 
+const ICON_TROFEU   = preload("res://Assets/Icons/Trofeu.png")
+const ICON_MEDALHA  = preload("res://Assets/Icons/Medalha.png")
+const ICON_ESPADA   = preload("res://Assets/Icons/Espada.png")
+const ICON_CADEADO  = preload("res://Assets/Icons/Cadeado.png")
+const ICON_CHAPEU   = preload("res://Assets/Icons/Chapeu.png")
+
 var banco_conquistas: Array[ConquistaData] = []
 
 @onready var scroll        := $ScrollContainer
@@ -19,8 +25,10 @@ func _carregar_conquistas_da_pasta(caminho_pasta: String):
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
 	while file_name != "":
-		if file_name.ends_with(".tres") or file_name.ends_with(".res"):
-			var res = load(caminho_pasta + "/" + file_name)
+		# Remove o sufixo .remap gerado pela engine durante a exportação de recursos
+		var arquivo_limpo = file_name.trim_suffix(".remap")
+		if arquivo_limpo.ends_with(".tres") or arquivo_limpo.ends_with(".res"):
+			var res = load(caminho_pasta + "/" + arquivo_limpo)
 			if res is ConquistaData:
 				banco_conquistas.append(res)
 		file_name = dir.get_next()
@@ -41,7 +49,7 @@ func _construir_ui():
 
 	# Atualiza o título com o contador
 	if label_titulo:
-		label_titulo.text = "🏆  Conquistas  —  %d / %d" % [num_ok, total]
+		label_titulo.text = "Conquistas  —  %d / %d" % [num_ok, total]
 
 	# Wrapper principal
 	var wrapper := VBoxContainer.new()
@@ -51,9 +59,9 @@ func _construir_ui():
 
 	_criar_barra_progresso(wrapper, num_ok, total)
 
-	# Grid 2 colunas
+	# Grid: 1 coluna no mobile, 2 no desktop
 	var grid := GridContainer.new()
-	grid.columns = 2
+	grid.columns = 1 if OS.has_feature("mobile") else 2
 	grid.add_theme_constant_override("h_separation", 14)
 	grid.add_theme_constant_override("v_separation", 14)
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -105,7 +113,7 @@ func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
 	bar.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 
 	var fill_st := StyleBoxFlat.new()
-	fill_st.bg_color = Color(0.85, 0.68, 0.15)
+	fill_st.bg_color = Color(0.85, 0.65, 0.12)
 	fill_st.corner_radius_top_left    = 5
 	fill_st.corner_radius_top_right   = 5
 	fill_st.corner_radius_bottom_left = 5
@@ -113,7 +121,7 @@ func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
 	bar.add_theme_stylebox_override("fill", fill_st)
 
 	var bg_st := StyleBoxFlat.new()
-	bg_st.bg_color = Color(0.18, 0.18, 0.22)
+	bg_st.bg_color = Color(0.15, 0.09, 0.03)
 	bg_st.corner_radius_top_left    = 5
 	bg_st.corner_radius_top_right   = 5
 	bg_st.corner_radius_bottom_left = 5
@@ -133,8 +141,8 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	card.custom_minimum_size   = Vector2(0, 148)
 
 	var st := StyleBoxFlat.new()
-	st.bg_color     = Color(0.12, 0.11, 0.08, 0.97) if liberada else Color(0.09, 0.09, 0.11, 0.95)
-	st.border_color = Color(0.82, 0.65, 0.12)        if liberada else Color(0.26, 0.26, 0.30)
+	st.bg_color     = Color(0.17, 0.10, 0.04, 0.97) if liberada else Color(0.10, 0.07, 0.03, 0.95)
+	st.border_color = Color(0.82, 0.63, 0.14)        if liberada else Color(0.42, 0.32, 0.10, 0.7)
 	st.set_border_width_all(2)
 	st.corner_radius_top_left     = 12
 	st.corner_radius_top_right    = 12
@@ -157,27 +165,35 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	hbox.add_child(ic_cont)
 
 	var ic_bg := ColorRect.new()
-	ic_bg.color = Color(0.06, 0.06, 0.09, 1.0)
+	ic_bg.color = Color(0.09, 0.06, 0.02, 1.0)
 	ic_bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	ic_cont.add_child(ic_bg)
 
 	if conquista.icone != null:
-		var tr := TextureRect.new()
-		tr.texture = conquista.icone
-		tr.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		tr.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.modulate = Color(1, 1, 1) if liberada else Color(0.20, 0.20, 0.20)
-		ic_cont.add_child(tr)
+		var tr_icone := TextureRect.new()
+		tr_icone.texture = conquista.icone
+		tr_icone.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		tr_icone.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		tr_icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr_icone.modulate = Color(1, 1, 1) if liberada else Color(0.20, 0.20, 0.20)
+		ic_cont.add_child(tr_icone)
 	else:
-		var ph := Label.new()
-		ph.text = "🏅" if liberada else "❓"
+		var ph := TextureRect.new()
+		ph.texture = ICON_MEDALHA if liberada else null
 		ph.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		ph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		ph.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		ph.add_theme_font_size_override("font_size", 42)
+		ph.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		ph.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		ph.modulate = Color(1, 1, 1) if liberada else Color(0.35, 0.35, 0.35)
 		ic_cont.add_child(ph)
+		if not liberada:
+			var ph_lbl := Label.new()
+			ph_lbl.text = "?"
+			ph_lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			ph_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			ph_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
+			ph_lbl.add_theme_font_size_override("font_size", 42)
+			ph_lbl.modulate = Color(0.35, 0.35, 0.35)
+			ic_cont.add_child(ph_lbl)
 
 	# Overlay de cadeado (bloqueada) ou check (liberada)
 	if not liberada:
@@ -185,13 +201,14 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 		ov.color = Color(0, 0, 0, 0.52)
 		ov.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		ic_cont.add_child(ov)
-		var lock_lbl := Label.new()
-		lock_lbl.text = "🔒"
-		lock_lbl.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		lock_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		lock_lbl.vertical_alignment   = VERTICAL_ALIGNMENT_CENTER
-		lock_lbl.add_theme_font_size_override("font_size", 30)
-		ic_cont.add_child(lock_lbl)
+		var lock_ic := TextureRect.new()
+		lock_ic.texture = ICON_CADEADO
+		lock_ic.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		lock_ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+		lock_ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		lock_ic.modulate = Color(0.8, 0.7, 0.5, 0.9)
+		lock_ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ic_cont.add_child(lock_ic)
 	else:
 		var check := Label.new()
 		check.text = "✓"
@@ -232,7 +249,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	desc_lbl.text = conquista.descricao if liberada else "Continue jogando para descobrir..."
 	desc_lbl.add_theme_font_size_override("font_size", 14)
 	desc_lbl.add_theme_color_override("font_color",
-		Color(0.72, 0.72, 0.78) if liberada else Color(0.30, 0.30, 0.34))
+		Color(0.78, 0.68, 0.48) if liberada else Color(0.36, 0.28, 0.16))
 	desc_lbl.autowrap_mode    = TextServer.AUTOWRAP_WORD_SMART
 	desc_lbl.max_lines_visible = 3
 	desc_lbl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -259,15 +276,19 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 			rrow.add_child(rlbl)
 
 			if tem_chapeu:
-				var b := Label.new()
-				b.text = "🎩"
-				b.add_theme_font_size_override("font_size", 17)
+				var b := TextureRect.new()
+				b.texture = ICON_CHAPEU
+				b.custom_minimum_size = Vector2(16, 16)
+				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				rrow.add_child(b)
 			if tem_arma:
-				var b := Label.new()
-				b.text = "⚔"
-				b.add_theme_font_size_override("font_size", 17)
+				var b := TextureRect.new()
+				b.texture = ICON_ESPADA
+				b.custom_minimum_size = Vector2(16, 16)
+				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				rrow.add_child(b)
 

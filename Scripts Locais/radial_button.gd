@@ -37,13 +37,13 @@ func configurar(cena: PackedScene, textura: Texture2D, nome: String, custo: int,
 			if is_instance_valid(sub_viewport):
 				sub_viewport.queue_free()
 		else:
-			# Renderiza a malha 3D da cena no SubViewport e utiliza seu output como textura
+			# Renderiza a malha 3D da cena no SubViewport e utiliza seu output como textura.
+			# IMPORTANTE: scripts são removidos ANTES de add_child para que _ready() não
+			# execute _trocar_modelo() e mostre o modelo upgradado em vez do modelo base.
 			if is_instance_valid(sub_viewport) and is_instance_valid(model_container):
 				var modelo_3d = cena.instantiate()
-				model_container.add_child(modelo_3d)
-				
 				_desativar_processamento_miniatura(modelo_3d)
-				
+				model_container.add_child(modelo_3d)
 				icone_visual.texture = sub_viewport.get_texture()
 
 ## Desabilita iterativamente a física e scripts da malha instanciada no SubViewport 
@@ -64,6 +64,29 @@ func _desativar_processamento_miniatura(no: Node) -> void:
 
 var _tween_rec: Tween = null
 var _eh_recomendado: bool = false
+var _bloqueado: bool = false
+var _nivel_necessario: int = 0
+
+func bloquear(nivel_necessario: int) -> void:
+	_bloqueado = true
+	_nivel_necessario = nivel_necessario
+	disabled = true
+	mouse_default_cursor_shape = Control.CURSOR_ARROW
+	modulate = Color(0.45, 0.45, 0.45, 0.9)
+
+	var overlay = ColorRect.new()
+	overlay.color = Color(0, 0, 0, 0.55)
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(overlay)
+
+	var cadeado = TextureRect.new()
+	cadeado.texture = load("res://Icons/cadeado.png")
+	cadeado.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cadeado.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	cadeado.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	cadeado.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(cadeado)
 
 func destacar_recomendado():
 	_eh_recomendado = true
@@ -73,7 +96,21 @@ func destacar_recomendado():
 	_tween_rec.tween_property(self, "modulate", Color(1.6, 1.4, 0.2, 1.0), 0.4)
 	_tween_rec.tween_property(self, "modulate", Color(1.1, 1.0, 0.6, 1.0), 0.4)
 
+func remover_destaque():
+	if not _eh_recomendado:
+		return
+	_eh_recomendado = false
+	if _tween_rec != null and is_instance_valid(_tween_rec):
+		_tween_rec.kill()
+		_tween_rec = null
+	var tw := create_tween()
+	tw.tween_property(self, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.2)
+
 func _ao_mouse_entrar() -> void:
+	if _bloqueado:
+		if is_instance_valid(menu_referencia) and menu_referencia.has_method("atualizar_info_bloqueado"):
+			menu_referencia.atualizar_info_bloqueado(nome_torre, _nivel_necessario)
+		return
 	if is_instance_valid(menu_referencia):
 		menu_referencia.atualizar_informacoes(nome_torre, custo_torre)
 	if _tween_rec != null and is_instance_valid(_tween_rec):
@@ -83,6 +120,8 @@ func _ao_mouse_entrar() -> void:
 func _ao_mouse_sair() -> void:
 	if is_instance_valid(menu_referencia):
 		menu_referencia.limpar_informacoes()
+	if _bloqueado:
+		return
 	if _eh_recomendado:
 		destacar_recomendado()
 	else:

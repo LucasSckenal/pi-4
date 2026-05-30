@@ -1,6 +1,19 @@
 extends Node3D
 
 # ==========================================
+# ÍCONES DE TIPO (substitutos dos emojis)
+# ==========================================
+const _ICON_TORRE     = preload("res://Assets/Icons/Torre.png")
+const _ICON_PICARETA  = preload("res://Assets/Icons/Picareta.png")
+const _ICON_CASA      = preload("res://Assets/Icons/Casa.png")
+const _ICON_TRIGO     = preload("res://Assets/Icons/Trigo.png")
+const _ICON_ESCUDO    = preload("res://Assets/Icons/Escudo.png")
+const _ICON_CASTELO   = preload("res://Assets/Icons/Castelo.png")
+const _ICON_CRANIO    = preload("res://Assets/Icons/Cranio.png")
+const _ICON_GUINDASTE = preload("res://Assets/Icons/Guindaste.png")
+const _ICON_CADEADO   = preload("res://Assets/Icons/Cadeado.png")
+
+# ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
 # ==========================================
 enum TipoConstrucao {
@@ -61,11 +74,15 @@ float sdStar(in vec2 p, in float r) {
 }
 
 void vertex() {
-	// Billboard cilíndrico para a barra sempre encarar a câmera no eixo Y
+	// Billboard cilíndrico: só gira em torno do Y do mundo — não inclina com a câmera
+	// Isso impede que a barra suba ou suma quando o jogador se aproxima
+	vec3 world_up  = vec3(0.0, 1.0, 0.0);
+	vec3 cam_right = normalize(INV_VIEW_MATRIX[0].xyz);
+	vec3 cam_fwd   = normalize(cross(cam_right, world_up));
 	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(
-		vec4(normalize(INV_VIEW_MATRIX[0].xyz), 0.0),
-		vec4(normalize(INV_VIEW_MATRIX[1].xyz), 0.0),
-		vec4(normalize(INV_VIEW_MATRIX[2].xyz), 0.0),
+		vec4(cam_right, 0.0),
+		vec4(world_up,  0.0),
+		vec4(cam_fwd,   0.0),
 		MODEL_MATRIX[3]
 	);
 }
@@ -197,6 +214,10 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 @onready var timer_ataque = get_node_or_null("TimerAtaque") if tipo == TipoConstrucao.TORRE else null
 @onready var modelo_anchor = get_node_or_null("ModeloAnchor")  # Nó vazio para conter o modelo 3D
 
+# Hover
+var _tween_hover: Tween
+var _escalas_base_malhas: Dictionary = {}
+
 # ==========================================
 # INFORMAÇÕES DE INTERFACE
 # ==========================================
@@ -217,7 +238,8 @@ var caminho_atual: int = -1  # -1 = nenhum caminho escolhido
 # ==========================================
 var y_inicial: float
 var is_fantasma: bool = false
-var _caldeiron_timer: float = 0.0   # Acumulador para o ataque do Caldeirão
+var _caldeiron_timer: float = 0.0
+var _inimigos_no_veneno: Array = []  # Inimigos dentro do círculo de veneno
 var vida_atual: int
 var inimigos_no_alcance = []
 
@@ -227,6 +249,7 @@ var _barra_3d_mat: ShaderMaterial
 
 var alvo_atual: Node3D = null
 var esta_destruida: bool = false
+var _luz_interna: OmniLight3D = null   # acende à noite
 
 # Indicador de upgrade disponível — anel + seta + pontos de luz, criados por código.
 # Dois modos: DESTAQUE (anel brilhante + seta ⬆ + pontos) e SUTIL (só anel apagado).
@@ -247,9 +270,10 @@ var alcance_atual: float
 signal construcao_selecionada(construcao: Node)
 
 func _ready():
-	
+
 	y_inicial = position.y
-	
+	_resolver_icone_construcao()
+
 	if is_fantasma:
 		_modo_fantasma()
 		return
@@ -285,6 +309,10 @@ func _ready():
 			atualizar_status()
 			if timer_ataque:
 				timer_ataque.start()
+			if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+				var _p = upgrade_paths[caminho_atual]
+				if "tipo_ataque" in _p and _p.tipo_ataque == "caldeiron_area":
+					_criar_circulo_caldeiron(alcance_atual * 0.85)
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			add_to_group("Construcao")
 			GameManager.onda_terminada.connect(_pagar_recompensa)
@@ -293,11 +321,26 @@ func _ready():
 			GameManager.noite_iniciada.connect(_spawn_aliados)
 		TipoConstrucao.CALDEIRON:
 			add_to_group("Construcao")
+			_criar_circulo_caldeiron(Balanceamento.get_float("caldeiron_alcance", 5.0))
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
-			print("Base principal estabelecida. Nível: ", nivel_atual)
+			if Global.DEBUG_MODE:
+				print("Base principal estabelecida. Nível: ", nivel_atual)
 	
+	# Luz interna à noite (sem sombras — performance ok no mobile)
+	if GameManager.has_signal("noite_iniciada"):
+		GameManager.noite_iniciada.connect(_acender_luz_interna)
+		GameManager.noite_iniciada.connect(_remover_borda_interagivel)
+		
+	if GameManager.has_signal("dia_iniciado"):
+		GameManager.dia_iniciado.connect(_apagar_luz_interna)
+		GameManager.dia_iniciado.connect(_criar_borda_interagivel)
+	
+	# Aplica a borda interativa no momento do spawn, caso seja de dia
+	if not GameManager.is_night:
+		_criar_borda_interagivel()
+
 	# Área de clique (se existir)
 	if has_node("AreaClique"):
 		$AreaClique.input_event.connect(_on_area_clique)
@@ -314,7 +357,9 @@ func _ready():
 	for interface_node in get_tree().get_nodes_in_group("Interface"):
 		if interface_node.has_method("_conectar_construcao"):
 			interface_node._conectar_construcao(self)
-
+			
+	_registrar_escalas_base(self)
+	
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
 # ==========================================
@@ -331,19 +376,25 @@ func _pode_interagir_tutorial() -> bool:
 	return true
 
 func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
-	if esta_destruida: return  
-	
+	if esta_destruida: return
+
 	var clicou_mouse = (event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed)
 	var tocou_tela = (event is InputEventScreenTouch and event.pressed)
-	
+
 	if clicou_mouse or tocou_tela:
-		if _pode_interagir_tutorial(): 
+		if _pode_interagir_tutorial():
+			# Consome o evento para que construções MAIS DISTANTES que se sobreponham
+			# em projeção 2D não abram o seu painel em simultâneo. O Godot 4 dispara
+			# input_event das CollisionObjects em ordem câmera-mais-próxima-primeiro,
+			# então a que responde aqui é sempre a mais à frente.
+			get_viewport().set_input_as_handled()
 			construcao_selecionada.emit(self)
-			
+
 			# ACENDE O ANEL
 			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
 				indicador_alcance.visible = true
-				print("Anel foi ligado!")
+				if Global.DEBUG_MODE:
+					print("Anel foi ligado!")
 
 # ==========================================
 # BALANCEAMENTO CSV POR PREFIXO
@@ -423,11 +474,11 @@ func get_opcoes_proximo_upgrade() -> Array:
 	var escala_perfeita_ui = _calcular_escala_ideal_para_ui()
 
 	if tem_paths and caminho_atual == -1:
-		# Primeira escolha: todos os caminhos disponíveis nesta fase
+		# Primeira escolha: todos os caminhos da fase atual (bloqueados ou não)
 		for i in range(upgrade_paths.size()):
 			var path = upgrade_paths[i]
 			if path and path.custos.size() > 0:
-				# Filtro de fase: oculta paths fora da janela de fases permitida
+				# Filtro de fase: oculta paths de outros mapas
 				var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
 				var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
 				if fase_min > 0 and GameManager.fase_atual < fase_min:
@@ -435,27 +486,33 @@ func get_opcoes_proximo_upgrade() -> Array:
 				if fase_max > 0 and GameManager.fase_atual > fase_max:
 					continue
 
+				# Verifica se está bloqueado por nivel_base_minimo
+				var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+				var bloqueado: bool = nivel_min > 0 and GameManager.nivel_base < nivel_min
+
 				var nome_path = path.nome
 				if nome_path == null or nome_path == "":
 					nome_path = "Caminho " + str(i + 1)
 
 				var escala_deste_path = _calcular_escala_ideal_para_ui(path)
 
-				# Pega o modelo do NÍVEL 0 deste caminho específico
 				var modelo_correto = null
 				if path.modelos_por_nivel.size() > 0:
 					modelo_correto = path.modelos_por_nivel[0]
 
+				var icone_path = path.icone if path.icone != null else _icone_por_path_nome(nome_path)
 				opcoes.append({
 					"index": i,
 					"nome": nome_path,
-					"icone": path.icone,
+					"icone": icone_path,
 					"custo": path.custos[0],
 					"beneficio": _descrever_beneficio(path, 0),
 					"descricoes": _gerar_descricoes(path, 0),
 					"cor": _get_cor_path(i, path),
 					"modelo_3d": modelo_correto,
-					"escala_modelo": escala_deste_path
+					"escala_modelo": escala_deste_path,
+					"bloqueado": bloqueado,
+					"motivo_bloqueio": "Base nível %d necessário" % nivel_min if bloqueado else ""
 				})
 	elif tem_paths and caminho_atual >= 0:
 		# Já tem caminho: próximo nível desse caminho
@@ -468,15 +525,18 @@ func get_opcoes_proximo_upgrade() -> Array:
 			
 			var escala_deste_path = _calcular_escala_ideal_para_ui(path)
 			
-			# Pega o modelo do PRÓXIMO NÍVEL exato!
+			# Pega o modelo do PRÓXIMO NÍVEL exato! Fallback: último disponível
 			var modelo_correto = null
 			if prox_nivel < path.modelos_por_nivel.size():
 				modelo_correto = path.modelos_por_nivel[prox_nivel]
+			if modelo_correto == null and path.modelos_por_nivel.size() > 0:
+				modelo_correto = path.modelos_por_nivel[path.modelos_por_nivel.size() - 1]
 
+			var icone_path2 = path.icone if path.icone != null else _icone_por_path_nome(nome_path)
 			opcoes.append({
 				"index": caminho_atual,
 				"nome": nome_path,
-				"icone": path.icone,
+				"icone": icone_path2,
 				"custo": path.custos[prox_nivel],
 				"beneficio": _descrever_beneficio(path, prox_nivel),
 				"descricoes": _gerar_descricoes(path, prox_nivel),
@@ -488,24 +548,191 @@ func get_opcoes_proximo_upgrade() -> Array:
 		# Sem paths: opção única (upgrade linear)
 		var custo = get_custo_proximo_upgrade()
 		if custo != -1:
-			
-			# Pega o modelo do PRÓXIMO NÍVEL na lista geral
+
+			# Pega o modelo do PRÓXIMO NÍVEL na lista geral. Fallback: último disponível ou cena atual
 			var modelo_correto = null
 			if nivel_atual < modelos_por_nivel.size():
 				modelo_correto = modelos_por_nivel[nivel_atual]
-				
-			opcoes.append({
+			if modelo_correto == null and modelos_por_nivel.size() > 0:
+				modelo_correto = modelos_por_nivel[modelos_por_nivel.size() - 1]
+			if modelo_correto == null and scene_file_path != "":
+				modelo_correto = ResourceLoader.load(scene_file_path)
+
+			var opcao_entry = {
 				"index": 0,
-				"nome": "Upgrade",
-				"icone": icone,
+				"nome": nome_construcao if nome_construcao != "" else "Upgrade",
+				"icone": _icone_para_modelo_upgrade(modelo_correto),
 				"custo": custo,
 				"beneficio": _descrever_beneficio_simples(),
 				"descricoes": _gerar_descricoes_simples(),
 				"cor": _get_cor_path(0, null),
 				"modelo_3d": modelo_correto,
 				"escala_modelo": escala_perfeita_ui
-			})
+			}
+			if tipo == TipoConstrucao.BASE:
+				opcao_entry["desbloqueios"] = _get_desbloqueios_base(nivel_atual + 1)
+			opcoes.append(opcao_entry)
 	return opcoes
+
+func _get_desbloqueios_base(proximo_nivel: int) -> Array:
+	var items: Array = []
+
+	# Novos lotes de construção
+	if is_inside_tree():
+		var slots_novos = 0
+		for slot in get_tree().get_nodes_in_group("BuildSlots"):
+			if slot.get("nivel_necessario") == proximo_nivel:
+				slots_novos += 1
+		if slots_novos > 0:
+			items.append({"emoji": "", "nome": "+%d lotes" % slots_novos,
+				"icone_2d": _ICON_CADEADO, "modelo_3d": null, "escala_modelo": Vector3.ONE})
+
+	# Novas construções disponíveis no próximo nível
+	var construcoes_nivel: Array = GameManager.construcoes_permitidas_na_fase.get(proximo_nivel, [])
+	for cena in construcoes_nivel:
+		if cena == null: continue
+		var inst = cena.instantiate()
+		if inst.has_method("_resolver_icone_construcao"):
+			inst._resolver_icone_construcao()
+		var nome: String = inst.get("nome_construcao") if "nome_construcao" in inst else ""
+		if nome == "" or nome == "Construção": nome = cena.resource_path.get_file().get_basename().capitalize()
+		var t: int   = inst.get("tipo")  if "tipo"  in inst else -1
+		var icone_2d = inst.get("icone") if "icone" in inst else null
+		inst.free()
+		items.append({"emoji": "", "nome": nome,
+			"icone_2d": icone_2d if icone_2d != null else _icone_tipo_build(t),
+			"modelo_3d": cena, "escala_modelo": _escala_por_tipo_build(t)})
+
+	# Torres especiais que requerem exatamente este nível de base
+	if is_inside_tree():
+		var _vistos: Array = []
+		for tower in get_tree().get_nodes_in_group("Torres"):
+			if not is_instance_valid(tower): continue
+			if not tower.get("tem_paths"): continue
+			for path in tower.upgrade_paths:
+				var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+				if nivel_min != proximo_nivel: continue
+				var fase_min: int = path.get("fase_minima") if "fase_minima" in path else 0
+				var fase_max: int = path.get("fase_maxima") if "fase_maxima" in path else 0
+				if fase_min > 0 and GameManager.fase_atual < fase_min: continue
+				if fase_max > 0 and GameManager.fase_atual > fase_max: continue
+				var nome_path: String = path.nome if path.nome and path.nome != "" else "Torre Especial"
+				if nome_path in _vistos: continue
+				_vistos.append(nome_path)
+				var modelo_path = path.modelos_por_nivel[0] if path.modelos_por_nivel.size() > 0 else null
+				var icone_path: Texture2D = path.icone if ("icone" in path and path.icone != null) else null
+				if icone_path == null:
+					icone_path = _icone_por_path_nome(nome_path)
+				if icone_path == null and modelo_path != null:
+					icone_path = _icone_para_modelo_upgrade(modelo_path)
+				items.append({"emoji": "", "nome": nome_path,
+					"icone_2d": icone_path if icone_path != null else _ICON_TORRE,
+					"modelo_3d": modelo_path, "escala_modelo": _escala_por_tipo_build(0)})
+
+	return items
+
+func _icone_tipo_build(t: int) -> Texture2D:
+	match t:
+		0: return _ICON_TORRE
+		1: return _ICON_PICARETA
+		2: return _ICON_CASA
+		3: return _ICON_TRIGO
+		4: return _ICON_ESCUDO
+		5: return _ICON_CASTELO
+		6: return _ICON_CRANIO
+		_: return _ICON_GUINDASTE
+
+func _escala_por_tipo_build(t: int) -> Vector3:
+	match t:
+		0: return Vector3(0.5, 0.5, 0.5)
+		1: return Vector3(1.2, 1.2, 1.2)
+		2: return Vector3(1.2, 1.2, 1.2)
+		3: return Vector3(0.8, 0.8, 0.8)
+		4: return Vector3(0.5, 0.5, 0.5)
+		_: return Vector3(0.8, 0.8, 0.8)
+
+func _resolver_icone_construcao() -> void:
+	if icone != null: return
+	if tipo == TipoConstrucao.BASE:
+		_atualizar_icone_base()
+		return
+	match scene_file_path:
+		"res://Builds/tower.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoTorre.png")
+		"res://Builds/mill.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoMoinho.png")
+		"res://Builds/caldeiron.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoBruxa.png")
+		"res://Builds/mina.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoMina.png")
+		"res://Builds/quartel.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoQuartel.png")
+		"res://Builds/house.tscn", "res://Builds/casebre.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoCasa.png")
+		"res://Builds/casa_classe_media.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoCasa3.png")
+		"res://Builds/mercadinho_egipcio.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoDeserto.png")
+		"res://Builds/taverna_dos_piratas.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoPirata.png")
+		"res://Builds/torre_de_tesla.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoScifi.png")
+		"res://Builds/torre_de_fogo.tscn":
+			icone = preload("res://Assets/Construcoes/ConstrucaoCovil.png")
+
+## Chamado por GameManager.carregar_fase() DEPOIS de fase_atual ser actualizado.
+## Corrige o bug onde a base mostrava o ícone da fase anterior.
+func _atualizar_icone_base() -> void:
+	if tipo != TipoConstrucao.BASE: return
+	match GameManager.fase_atual:
+		1: icone = preload("res://Assets/Construcoes/BaseCastelo2.png")
+		2: icone = preload("res://Assets/Construcoes/BaseDeserto.png")
+		3: icone = preload("res://Assets/Construcoes/BaseBruxa.png")
+		4: icone = preload("res://Assets/Construcoes/BasePirata.png")
+		5: icone = preload("res://Assets/Construcoes/BaseScifi2.png")
+		6: icone = preload("res://Assets/Construcoes/BaseCovil.png")
+
+## Resolve o ícone 2D exibido no card de upgrade para o próximo nível.
+## Mapeamentos explícitos têm prioridade; .tscn genérico usa Builds.gd;
+## qualquer outra coisa cai no ícone base da própria construção.
+func _icone_para_modelo_upgrade(modelo: PackedScene) -> Texture2D:
+	if modelo == null:
+		return icone
+	# ── Mapeamento explícito por caminho (máxima prioridade) ──────────
+	match modelo.resource_path:
+		# Castelo (BASE) — níveis 1 e 2
+		"res://Medieval/buildings/blue/building_barracks_blue.gltf":
+			return preload("res://Assets/Construcoes/BaseCastelo2.png")
+		"res://Medieval/buildings/blue/building_castle_blue.gltf":
+			return preload("res://Assets/Construcoes/BaseCastelo3.png")
+		# Moinho — nível 1
+		"res://Medieval/buildings/blue/building_windmill_blue.gltf":
+			return preload("res://Assets/Construcoes/ConstrucaoMoinho2.png")
+		# Casa — níveis 1 e 2
+		"res://Builds/casa_classe_media.tscn":
+			return preload("res://Assets/Construcoes/ConstrucaoCasa2.png")
+		"res://Builds/casebre.tscn":
+			return preload("res://Assets/Construcoes/ConstrucaoCasa3.png")
+	# ── .tscn genérico com Builds.gd: instancia, resolve e descarta ───
+	if modelo.resource_path.ends_with(".tscn"):
+		var inst = modelo.instantiate()
+		var res: Texture2D = null
+		if inst.has_method("_resolver_icone_construcao"):
+			inst._resolver_icone_construcao()
+			res = inst.get("icone") if "icone" in inst else null
+		inst.free()
+		return res if res != null else icone
+	# ── Fallback: ícone base da construção atual ───────────────────────
+	return icone
+
+func _icone_por_path_nome(nome: String) -> Texture2D:
+	match nome:
+		"Morteiro":      return preload("res://Assets/Construcoes/ConstrucaoTorre2A.png")
+		"Sniper":        return preload("res://Assets/Construcoes/ConstrucaoTorre2B.png")
+		"Caldeirão":     return preload("res://Assets/Construcoes/ConstrucaoBruxa.png")
+		"Torre de Fogo": return preload("res://Assets/Construcoes/ConstrucaoCovil.png")
+		"Tesla":         return preload("res://Assets/Construcoes/ConstrucaoScifi.png")
+		_: return null
 
 func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 	# 1. Tenta pegar a escala específica definida no PathData (se existir no futuro)
@@ -531,8 +758,8 @@ func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 			return escala_padrao_media
 		4: # QUARTEL
 			return escala_padrao_grande
-		5: # BASE
-			return escala_padrao_grande
+		5: # BASE — modelos gltf grandes precisam de escala bem menor
+			return escala_modelo * 0.5
 		_:
 			return Vector3(1, 1, 1) # Fallback seguro
 
@@ -582,27 +809,27 @@ func _gerar_descricoes(path: UpgradePathData, nivel: int) -> Array:
 	var desc: Array = []
 
 	if nivel < path.dano_por_nivel.size() and path.dano_por_nivel[nivel] > 0:
-		desc.append("⚔️ Mais dano")
+		desc.append("Mais dano")
 	if nivel < path.vida_por_nivel.size() and path.vida_por_nivel[nivel] > 0:
-		desc.append("❤️ Mais resistência")
+		desc.append("Mais resistência")
 	if nivel < path.alcance_por_nivel.size() and path.alcance_por_nivel[nivel] > 0:
-		desc.append("🎯 Maior alcance")
+		desc.append("Maior alcance")
 	if nivel < path.moedas_por_nivel.size() and path.moedas_por_nivel[nivel] > 0:
-		desc.append("💰 Mais ouro")
+		desc.append("Mais ouro")
 	if nivel < path.aliados_por_nivel.size() and path.aliados_por_nivel[nivel] > 0:
-		desc.append("🛡️ Mais soldados")
+		desc.append("Mais soldados")
 	if "tipo_ataque" in path and path.tipo_ataque == "chain_lightning":
-		desc.append("⚡ Dano em cadeia")
+		desc.append("Dano em cadeia")
 	if nivel < path.velocidade_por_nivel.size():
 		var vel: float = path.velocidade_por_nivel[nivel]
 		if vel > 0.8:
-			desc.append("🐢 Cadência reduzida")
+			desc.append("Cadência reduzida")
 		elif vel > 0.0:
-			desc.append("⏱️ Mais devagar")
+			desc.append("Mais devagar")
 		elif vel < 0.0:
-			desc.append("⚡ Mais rápido")
+			desc.append("Mais rápido")
 
-	var fallbacks = ["✨ Melhora geral", "🔧 Potência extra", "⬆️ Eficiência"]
+	var fallbacks = ["Melhora geral", "Potência extra", "Eficiência"]
 	var fi = 0
 	while desc.size() < 3:
 		desc.append(fallbacks[fi % fallbacks.size()])
@@ -616,21 +843,21 @@ func _gerar_descricoes_simples() -> Array:
 	var desc: Array = []
 
 	if nivel < upgrade_dano_por_nivel.size() and upgrade_dano_por_nivel[nivel] != 0:
-		desc.append("⚔️ Mais dano")
+		desc.append("Mais dano")
 	if nivel < upgrade_vida_por_nivel.size() and upgrade_vida_por_nivel[nivel] != 0:
-		desc.append("❤️ Mais resistência")
+		desc.append("Mais resistência")
 	if nivel < upgrade_alcance_por_nivel.size() and upgrade_alcance_por_nivel[nivel] != 0:
-		desc.append("🎯 Maior alcance")
+		desc.append("Maior alcance")
 	if nivel < upgrade_moedas_por_nivel.size() and upgrade_moedas_por_nivel[nivel] != 0:
-		desc.append("💰 Mais ouro")
+		desc.append("Mais ouro")
 	if nivel < upgrade_aliados_por_nivel.size() and upgrade_aliados_por_nivel[nivel] != 0:
-		desc.append("🛡️ Mais soldados")
+		desc.append("Mais soldados")
 	if nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] > 0:
-		desc.append("⏱️ Mais devagar")
+		desc.append("Mais devagar")
 	elif nivel < upgrade_velocidade_por_nivel.size() and upgrade_velocidade_por_nivel[nivel] < 0:
-		desc.append("⚡ Mais rápido")
+		desc.append("Mais rápido")
 
-	var fallbacks = ["✨ Melhora geral", "🔧 Potência extra", "⬆️ Eficiência"]
+	var fallbacks = ["Melhora geral", "Potência extra", "Eficiência"]
 	var fi = 0
 	while desc.size() < 3:
 		desc.append(fallbacks[fi % fallbacks.size()])
@@ -652,6 +879,17 @@ func _get_cor_path(index: int, path) -> Color:
 	]
 	return CORES[index % CORES.size()]
 
+# Registra as escalas iniciais das malhas nativas da cena para a animação de hover
+func _registrar_escalas_base(no: Node):
+	if no is MeshInstance3D:
+		if no != indicador_alcance and no != _anel_upgrade and no.name != "BarraVidaShader" and no.name != "CirculoVeneno":
+			_escalas_base_malhas[no] = no.scale
+			
+	for filho in no.get_children():
+		if filho == modelo_anchor or filho.name == "IndicadorUpgrade" or filho.name == "RespawnViewport":
+			continue
+		_registrar_escalas_base(filho)
+
 func aplicar_upgrade(index: int = 0) -> bool:
 	# index é o índice do caminho escolhido (usado apenas se tem_paths e caminho_atual == -1)
 	if tem_paths and caminho_atual == -1:
@@ -665,13 +903,17 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			nivel_atual = 1
 			_atualizar_valores_pos_upgrades()
 			_trocar_modelo(nivel_atual)
+			_atualizar_barra_3d()   # restaura visibilidade após troca de modelo
 			if tipo == TipoConstrucao.BASE:
 				GameManager.nivel_base = nivel_atual
 				GameManager.upgrade_base_aplicado.emit()
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
+				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
+					_criar_circulo_caldeiron(alcance_atual * 0.85)
 				atualizar_status()
-			print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
+			if Global.DEBUG_MODE:
+				print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
 			return true
 		else:
 			return false
@@ -684,13 +926,15 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			nivel_atual += 1
 			_atualizar_valores_pos_upgrades()
 			_trocar_modelo(nivel_atual)
+			_atualizar_barra_3d()   # restaura visibilidade após troca de modelo
 			if tipo == TipoConstrucao.BASE:
 				GameManager.nivel_base = nivel_atual
 				GameManager.upgrade_base_aplicado.emit()
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
 				atualizar_status()
-			print("%s upgrade para nível %d" % [name, nivel_atual])
+			if Global.DEBUG_MODE:
+				print("%s upgrade para nível %d" % [name, nivel_atual])
 			return true
 	return false
 
@@ -718,15 +962,19 @@ func _trocar_modelo(nivel: int):
 	# Aplica o modelo
 	if modelo_scene:
 		var modelo = modelo_scene.instantiate()
-		# Se o modelo tiver is_fantasma (ex: Torre de Fogo), ativa-a ANTES do add_child
-		# para que o script do modelo funcione só como visual, sem lógica própria
-		if "is_fantasma" in modelo:
+		if "is_modo_upgrade" in modelo:
+			modelo.is_modo_upgrade = true
+		elif "is_fantasma" in modelo:
 			modelo.is_fantasma = true
 		modelo_anchor.add_child(modelo)
 		modelo.scale = escala_modelo
 		
 		# Esconde as malhas da torre base para evitar sobreposição
 		_esconder_malhas_originais(self)
+		
+		# Aplica a borda de interatividade no novo modelo instanciado, caso esteja de dia
+		if not GameManager.is_night and not is_fantasma:
+			_atualizar_segundo_next_pass(modelo, true)
 	else:
 		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
 
@@ -734,12 +982,17 @@ func _trocar_modelo(nivel: int):
 func _esconder_malhas_originais(no: Node):
 	for filho in no.get_children():
 		if filho == modelo_anchor:
-			continue 
-		
-		# Protege o anel para ele não ser apagado!
+			continue
+
+		# Protege o anel de alcance
 		if indicador_alcance and filho == indicador_alcance:
-			continue 
-			
+			continue
+
+		# Protege a barra de vida 3D — sem isso, qualquer _trocar_modelo()
+		# a apaga e ela só volta no próximo receber_dano()
+		if is_instance_valid(_barra_3d_mesh) and filho == _barra_3d_mesh:
+			continue
+
 		if filho is MeshInstance3D:
 			filho.hide()
 		elif filho.get_child_count() > 0:
@@ -749,6 +1002,7 @@ func _esconder_malhas_originais(no: Node):
 # DEMAIS FUNÇÕES (MANTIDAS IGUAIS)
 # ==========================================
 func _modo_fantasma():
+	set_process(false)  # Fantasma não precisa de _process — evita custo por frame
 	for child in get_children():
 		_desativar_fantasma(child)
 	if timer_ataque:
@@ -786,8 +1040,17 @@ func _criar_barra_3d() -> void:
 	var e_base : bool  = (tipo == TipoConstrucao.BASE)
 	var bar_w  : float = 4.5 if e_base else 0.8
 	var bar_h  : float = 0.45 if e_base else 0.12
-	# Posição ajustada: alta na base, levemente abaixo nas torres
-	var bar_y  : float = 4.0 if e_base else -0.2 
+	# Posição ajustada acima de cada tipo de construção
+	var bar_y: float
+	match tipo:
+		TipoConstrucao.BASE:
+			bar_y = 4.0
+		TipoConstrucao.TORRE:
+			bar_y = 3.2
+		TipoConstrucao.QUARTEL, TipoConstrucao.CALDEIRON:
+			bar_y = 2.6
+		_: # CASA, MINA, MOINHO
+			bar_y = 2.0
 
 	_barra_3d_mesh = MeshInstance3D.new()
 	_barra_3d_mesh.name = "BarraVidaShader"
@@ -852,7 +1115,8 @@ func _configurar_alcance():
 		if shape_unica is SphereShape3D or shape_unica is CylinderShape3D:
 			shape_unica.radius = alcance_efetivo
 
-		print("Alcance da torre ajustado para: ", alcance_efetivo)
+		if Global.DEBUG_MODE:
+			print("Alcance da torre ajustado para: ", alcance_efetivo)
 
 	# 3. FAZ O ANEL APARECER NO TAMANHO CERTO
 	if indicador_alcance:
@@ -863,7 +1127,7 @@ func _configurar_alcance():
 # ==========================================
 func _on_area_ataque_body_entered(body):
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
-	if body.is_in_group("inimigos") or body.is_in_group("Inimigos"):
+	if body.is_in_group("inimigos"):
 		if not body in inimigos_no_alcance:
 			inimigos_no_alcance.append(body)
 
@@ -891,20 +1155,186 @@ func _process(delta):
 		return
 
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
-	inimigos_no_alcance = inimigos_no_alcance.filter(func(inimigo): return is_instance_valid(inimigo))
+	# Purga inimigos inválidos sem alocar array novo (evita filter() GC por frame)
+	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
+		if not is_instance_valid(inimigos_no_alcance[i]):
+			inimigos_no_alcance.remove_at(i)
 	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
 
 func _caldeiron_atacar_area() -> void:
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
-	var raio: float = Balanceamento.get_float("caldeiron_alcance", 5.0)
-	var inimigos: Array = get_tree().get_nodes_in_group("inimigos")
-	if inimigos.is_empty():
-		inimigos = get_tree().get_nodes_in_group("Inimigos")
-	for inimigo in inimigos:
-		if not is_instance_valid(inimigo): continue
-		if global_position.distance_to(inimigo.global_position) <= raio:
-			if inimigo.has_method("receber_dano"):
-				inimigo.receber_dano(dano_base)
+	# Purga em-lugar (sem filter() → sem alocação por tick)
+	for i in range(_inimigos_no_veneno.size() - 1, -1, -1):
+		var e = _inimigos_no_veneno[i]
+		if not is_instance_valid(e) or e.get("esta_morto", false):
+			_inimigos_no_veneno.remove_at(i)
+	for inimigo in _inimigos_no_veneno:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+
+func _caldeiron_atacar_area_torre() -> void:
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
+		if not is_instance_valid(inimigos_no_alcance[i]):
+			inimigos_no_alcance.remove_at(i)
+	for inimigo in inimigos_no_alcance:
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+
+# Chamado quando um corpo entra no círculo de veneno
+func _on_veneno_entrou(corpo: Node3D) -> void:
+	if not corpo.is_in_group("inimigos"):
+		return
+	if corpo in _inimigos_no_veneno:
+		return
+	_inimigos_no_veneno.append(corpo)
+	if corpo.has_method("iniciar_veneno"):
+		corpo.iniciar_veneno()
+
+func _on_veneno_saiu(corpo: Node3D) -> void:
+	_inimigos_no_veneno.erase(corpo)
+	if is_instance_valid(corpo) and corpo.has_method("parar_veneno"):
+		corpo.parar_veneno()
+
+func _mat_circulo(cor: Color, emission_energy: float = 0.0, fill: bool = false) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED
+	m.render_priority = -2
+	m.albedo_color = cor
+	if fill:
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	if emission_energy > 0.0:
+		m.emission_enabled = true
+		m.emission = Color(cor.r, cor.g, cor.b)
+		m.emission_energy_multiplier = emission_energy
+	return m
+
+func _criar_circulo_caldeiron(raio: float = 4.5) -> void:
+	if get_node_or_null("CirculoVeneno") != null:
+		return
+
+	var raiz := Node3D.new()
+	raiz.name = "CirculoVeneno"
+
+	# ── 1. Pool de veneno — PlaneMesh com shader animado ─────────────────
+	var pool_inst := MeshInstance3D.new()
+	var pool_mesh := PlaneMesh.new()
+	pool_mesh.size = Vector2(raio * 2.0, raio * 2.0)
+	pool_inst.mesh = pool_mesh
+	pool_inst.position = Vector3(0, 0.02, 0)
+
+	var mat_pool := ShaderMaterial.new()
+	mat_pool.shader = preload("res://Shaders/veneno_circulo.gdshader")
+	mat_pool.set_shader_parameter("velocidade",  1.6)
+	mat_pool.set_shader_parameter("num_aneis",   4.0)
+	mat_pool.set_shader_parameter("cor_interna", Color(0.02, 0.38, 0.05))
+	mat_pool.set_shader_parameter("cor_borda",   Color(0.22, 1.00, 0.28))
+	mat_pool.set_shader_parameter("intensidade", 1.4)
+	pool_inst.material_override = mat_pool
+	raiz.add_child(pool_inst)
+
+	# ── 2. Anel de borda emissivo (único, pulsante) ───────────────────────
+	var borda_inst := MeshInstance3D.new()
+	var borda_mesh := TorusMesh.new()
+	borda_mesh.outer_radius  = raio
+	borda_mesh.inner_radius  = raio - 0.14
+	borda_mesh.ring_segments = 6
+	borda_mesh.rings         = 72
+	borda_inst.mesh  = borda_mesh
+	borda_inst.scale = Vector3(1.0, 0.08, 1.0)
+	borda_inst.material_override = _mat_circulo(Color(0.20, 1.00, 0.28), 3.5)
+	raiz.add_child(borda_inst)
+
+	var tw_borda := borda_inst.create_tween().set_loops()
+	tw_borda.tween_property(borda_inst, "material_override:emission_energy_multiplier",
+		7.0, 1.3).set_trans(Tween.TRANS_SINE)
+	tw_borda.tween_property(borda_inst, "material_override:emission_energy_multiplier",
+		2.0, 1.3).set_trans(Tween.TRANS_SINE)
+
+	# ── 3. Bolhas borbulhando (partículas pequenas que sobem) ─────────────
+	var bolhas := CPUParticles3D.new()
+	raiz.add_child(bolhas)
+	bolhas.amount                = 40
+	bolhas.lifetime              = 2.2
+	bolhas.emitting              = true
+	bolhas.one_shot              = false
+	bolhas.explosiveness         = 0.0
+	bolhas.emission_shape        = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	bolhas.emission_sphere_radius = raio * 0.80
+	bolhas.direction             = Vector3(0.0, 1.0, 0.0)
+	bolhas.spread                = 10.0
+	bolhas.gravity               = Vector3(0.0, 0.4, 0.0)
+	bolhas.initial_velocity_min  = 0.25
+	bolhas.initial_velocity_max  = 0.90
+	bolhas.scale_amount_min      = 0.04
+	bolhas.scale_amount_max      = 0.13
+	bolhas.color                 = Color(0.25, 1.00, 0.20, 0.90)
+	bolhas.position              = Vector3(0.0, 0.05, 0.0)
+
+	# ── 4. Névoa tóxica (partículas maiores, mais lentas e translúcidas) ──
+	var nevoa := CPUParticles3D.new()
+	raiz.add_child(nevoa)
+	nevoa.amount                 = 20
+	nevoa.lifetime               = 4.0
+	nevoa.emitting               = true
+	nevoa.one_shot               = false
+	nevoa.explosiveness          = 0.0
+	nevoa.emission_shape         = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	nevoa.emission_sphere_radius  = raio * 0.65
+	nevoa.direction              = Vector3(0.0, 1.0, 0.0)
+	nevoa.spread                 = 35.0
+	nevoa.gravity                = Vector3(0.0, 0.15, 0.0)
+	nevoa.initial_velocity_min   = 0.10
+	nevoa.initial_velocity_max   = 0.40
+	nevoa.scale_amount_min       = 0.22
+	nevoa.scale_amount_max       = 0.48
+	nevoa.color                  = Color(0.10, 0.65, 0.15, 0.30)
+	nevoa.position               = Vector3(0.0, 0.10, 0.0)
+
+	# ── 5. Luz verde ambiente pulsante ────────────────────────────────────
+	var luz := OmniLight3D.new()
+	raiz.add_child(luz)
+	luz.position     = Vector3(0.0, 0.4, 0.0)
+	luz.light_color  = Color(0.15, 1.00, 0.25)
+	luz.light_energy = 1.2
+	luz.omni_range   = raio * 1.5
+
+	var tw_luz := luz.create_tween().set_loops()
+	tw_luz.tween_property(luz, "light_energy", 2.6, 2.0).set_trans(Tween.TRANS_SINE)
+	tw_luz.tween_property(luz, "light_energy", 0.7, 2.0).set_trans(Tween.TRANS_SINE)
+
+	# ── Area3D para detectar inimigos ────────────────────────────────────────
+	var area := Area3D.new()
+	area.name = "AreaVeneno"
+	area.collision_layer = 0
+	area.collision_mask  = 0xFFFFFFFF
+	var col := CollisionShape3D.new()
+	var esfera := SphereShape3D.new()
+	esfera.radius = raio
+	col.shape = esfera
+	area.add_child(col)
+	area.body_entered.connect(_on_veneno_entrou)
+	area.body_exited.connect(_on_veneno_saiu)
+	raiz.add_child(area)
+
+	add_child(raiz)
+	_fixar_circulo_no_chao.call_deferred(raiz)
+
+func _fixar_circulo_no_chao(raiz: Node3D) -> void:
+	if not is_inside_tree(): return
+	var space := get_world_3d().direct_space_state
+	var query := PhysicsRayQueryParameters3D.create(
+		global_position + Vector3(0, 3.0, 0),
+		global_position + Vector3(0, -8.0, 0)
+	)
+	var exclusoes: Array[RID] = []
+	for corpo in find_children("*", "CollisionObject3D"):
+		exclusoes.append(corpo.get_rid())
+	query.exclude = exclusoes
+	var resultado := space.intersect_ray(query)
+	if resultado:
+		raiz.global_position.y = resultado["position"].y + 0.03
 
 # ──────────────────────────────────────────────────────────────────────────────
 # INDICADOR DE UPGRADE DISPONÍVEL
@@ -1097,6 +1527,9 @@ func _pode_fazer_upgrade() -> bool:
 				continue
 			if fase_max > 0 and GameManager.fase_atual > fase_max:
 				continue
+			var nivel_min: int = path.get("nivel_base_minimo") if "nivel_base_minimo" in path else 0
+			if nivel_min > 0 and GameManager.nivel_base < nivel_min:
+				continue
 			if GameManager.moedas >= path.custos[0]:
 				return true
 		return false
@@ -1124,8 +1557,16 @@ func atacar():
 		_atacar_chain_lightning()
 		return
 
+	if tipo_atq == "fire_laser":
+		_atacar_fire_laser()
+		return
+
 	if tipo_atq == "morteiro":
 		_atacar_morteiro()
+		return
+
+	if tipo_atq == "caldeiron_area":
+		_caldeiron_atacar_area_torre()
 		return
 
 	# Ataque normal com flecha
@@ -1162,8 +1603,6 @@ func _atacar_chain_lightning():
 
 	# Coleta todos os inimigos no mapa para busca de cadeia
 	var todos_inimigos: Array = get_tree().get_nodes_in_group("inimigos")
-	if todos_inimigos.is_empty():
-		todos_inimigos = get_tree().get_nodes_in_group("Inimigos")
 
 	var alvos_atingidos: Array = [alvo_atual]
 	var alvo_prev: Node3D = alvo_atual
@@ -1199,6 +1638,41 @@ func _spawnar_raio(origem: Vector3, destino: Vector3) -> void:
 	raio.configurar(origem, destino)
 
 # ==========================================
+# ATAQUE FIRE LASER — Queima contínua em múltiplos alvos
+# Acerta até torre_fogo_max_alvos inimigos mais próximos no alcance.
+# Dano por disparo = dano_atual (o ramp-up é simulado pela cadência — quanto mais
+# rápido o timer, mais DPS efetivo conforme upgrades de velocidade são aplicados).
+# ==========================================
+func _atacar_fire_laser() -> void:
+	var max_alvos_fogo: int = Balanceamento.get_int("torre_fogo_max_alvos", 3)
+	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+
+	# Coleta inimigos no alcance e ordena do mais próximo ao mais distante
+	var todos: Array = get_tree().get_nodes_in_group("inimigos")
+	var em_alcance: Array = []
+	for inimigo in todos:
+		if not is_instance_valid(inimigo): continue
+		if inimigo.get("esta_morto") == true: continue
+		# Distância XZ para detectar aéreos em altitudes diferentes
+		var dist_xz: float = Vector2(global_position.x - inimigo.global_position.x,
+			global_position.z - inimigo.global_position.z).length()
+		if dist_xz <= alcance_atual:
+			em_alcance.append(inimigo)
+	em_alcance.sort_custom(func(a: Node3D, b: Node3D) -> bool:
+		var da = Vector2(global_position.x - a.global_position.x, global_position.z - a.global_position.z).length()
+		var db = Vector2(global_position.x - b.global_position.x, global_position.z - b.global_position.z).length()
+		return da < db)
+
+	# Aplica dano nos primeiros max_alvos_fogo
+	var atingidos: int = 0
+	for inimigo in em_alcance:
+		if atingidos >= max_alvos_fogo:
+			break
+		if inimigo.has_method("receber_dano"):
+			inimigo.receber_dano(dano_base)
+		atingidos += 1
+
+# ==========================================
 # ATAQUE MORTEIRO — Projétil com explosão em área
 # ==========================================
 func _atacar_morteiro() -> void:
@@ -1222,8 +1696,9 @@ func _pagar_recompensa():
 	
 	var moedas_geradas = moedas_por_onda_atual + bonus_onda
 	GameManager.moedas += moedas_geradas
-	
-	print("%s gerou %d moedas" % [name, moedas_geradas])
+
+	if Global.DEBUG_MODE:
+		print("%s gerou %d moedas" % [name, moedas_geradas])
 	get_tree().call_group("Interface", "atualizar_moedas")
 	if tipo == TipoConstrucao.MOINHO:
 		get_tree().call_group("Interface", "animar_bau_abrindo")
@@ -1330,7 +1805,8 @@ func receber_dano(quantidade: int):
 		destruir()
 
 func destruir():
-	print("%s destruída!" % name)
+	if Global.DEBUG_MODE:
+		print("%s destruída!" % name)
 	if tipo == TipoConstrucao.BASE:
 		GameManager.acionar_game_over()
 		return
@@ -1362,15 +1838,14 @@ func destruir():
 
 func _aplicar_espinho() -> void:
 	var inimigos = get_tree().get_nodes_in_group("inimigos")
-	if inimigos.is_empty():
-		inimigos = get_tree().get_nodes_in_group("Inimigos")
 	for inimigo in inimigos:
 		if is_instance_valid(inimigo) and global_position.distance_to(inimigo.global_position) <= 3.0:
 			if inimigo.has_method("receber_dano"):
 				inimigo.receber_dano(GameManager.bonus_espinho)
 
 func reviver():
-	print("%s reconstruída!" % name)
+	if Global.DEBUG_MODE:
+		print("%s reconstruída!" % name)
 	esta_destruida = false
 	visible = true
 	vida_atual = vida_maxima
@@ -1423,7 +1898,8 @@ func curar_totalmente():
 	if tipo == TipoConstrucao.BASE:
 		GameManager.vida_base_atual = vida_atual
 	_atualizar_barra_3d()
-	print("%s curada!" % name)
+	if Global.DEBUG_MODE:
+		print("%s curada!" % name)
 
 # ==========================================
 # TRANSPARÊNCIA
@@ -1441,22 +1917,105 @@ func esconder_indicador():
 		indicador_alcance.visible = false
 		
 # ==========================================
+# LUZ INTERNA À NOITE
+# ==========================================
+func _acender_luz_interna(_onda: int = 0) -> void:
+	if is_instance_valid(_luz_interna) or esta_destruida:
+		return
+	_luz_interna = OmniLight3D.new()
+	_luz_interna.light_color = Color(1.0, 0.55, 0.10) # âmbar quente
+	_luz_interna.light_energy = 0.0
+	_luz_interna.omni_range = 1
+	_luz_interna.shadow_enabled = false # sem sombras = sem custo extra
+	add_child(_luz_interna)
+	_luz_interna.position = Vector3(0.0, 1.2, 0.0)
+	var tw := create_tween()
+	tw.tween_property(_luz_interna, "light_energy", 0.8, 0.8) \
+		.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+func _apagar_luz_interna(_onda: int = 0) -> void:
+	if not is_instance_valid(_luz_interna):
+		return
+	var luz := _luz_interna
+	_luz_interna = null
+	var tw := create_tween()
+	tw.tween_property(luz, "light_energy", 0.0, 0.5) \
+	.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tw.tween_callback(luz.queue_free)
+
+# ==========================================
+# BORDA INTERAGIVEL COM CONTEXTO
+# ==========================================
+func _criar_borda_interagivel(_onda: int = 0) -> void:
+	if esta_destruida: return
+	_atualizar_segundo_next_pass(self, true)
+
+func _remover_borda_interagivel(_onda: int = 0) -> void:
+	_atualizar_segundo_next_pass(self, false)
+
+# Percorre os nós recursivamente para injetar ou remover o segundo Next Pass de interatividade
+func _atualizar_segundo_next_pass(no: Node, ativo: bool) -> void:
+	if no is MeshInstance3D:
+		var material = no.get_active_material(0)
+		if material:
+			var mat_override = no.get_surface_override_material(0)
+			if mat_override == null:
+				mat_override = material.duplicate(true)
+				no.set_surface_override_material(0, mat_override)
+				
+			var primeiro_pass = mat_override.next_pass
+			
+			if primeiro_pass == null:
+				primeiro_pass = ShaderMaterial.new()
+				primeiro_pass.shader = preload("res://Shaders/outline.gdshader")
+				primeiro_pass.set_shader_parameter("weight", 0.01)
+				primeiro_pass.set_shader_parameter("color", Color.BLACK)
+				mat_override.next_pass = primeiro_pass
+			else:
+				if not primeiro_pass.is_local_to_scene and primeiro_pass.resource_path != "":
+					primeiro_pass = primeiro_pass.duplicate(true)
+					mat_override.next_pass = primeiro_pass
+			
+			if ativo:
+				if primeiro_pass.next_pass == null:
+					var material_borda = ShaderMaterial.new()
+					material_borda.shader = preload("res://Shaders/outline.gdshader")
+					material_borda.set_shader_parameter("weight", 0.025)
+					material_borda.set_shader_parameter("color", Color.WHITE)
+					
+					primeiro_pass.next_pass = material_borda
+			else:
+				primeiro_pass.next_pass = null
+
+	for filho in no.get_children():
+		if filho == _indicador_upgrade or filho == indicador_alcance or filho.name == "CirculoVeneno" or filho.name == "BarraVidaShader":
+			continue
+		_atualizar_segundo_next_pass(filho, ativo)
+
+# ==========================================
 # SISTEMA DE VENDA
 # ==========================================
+
+## Retorna o valor de venda: metade do total investido (construção + upgrades pagos).
+func get_valor_venda() -> int:
+	var total: int = custo_moedas
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		for i in range(mini(nivel_atual, path.custos.size())):
+			total += path.custos[i]
+	elif not tem_paths:
+		for i in range(mini(nivel_atual, upgrade_custos.size())):
+			total += upgrade_custos[i]
+	return round(total) / 2
+
 func vender_construcao():
 	# SISTEMA DE PROTEÇÃO: Impede vender a base principal
 	if tipo == TipoConstrucao.BASE:
-		print("Operação cancelada: A Base não pode ser vendida!")
+		if Global.DEBUG_MODE:
+			print("Operação cancelada: A Base não pode ser vendida!")
 		return
-	
-	# Calcula o retorno (metade do custo)
-	@warning_ignore("integer_division")
-	var valor_de_venda: int = custo_moedas / 2
-	
-	# Entrega o dinheiro usando a função nova (que já atualiza a HUD)
-	GameManager.adicionar_moedas(valor_de_venda)
-	
-	# Remove a construção
+
+	GameManager.adicionar_moedas(get_valor_venda())
 	queue_free()
 
 # ==========================================
@@ -1464,17 +2023,41 @@ func vender_construcao():
 # ==========================================
 func _on_area_clique_mouse_entered():
 	if esta_destruida or is_fantasma or GameManager.is_night: return
-	_aplicar_outline_malhas(self, espessura_outline_hover)
 	Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+
+	if _tween_hover and _tween_hover.is_running():
+		_tween_hover.kill()
+		
+	_tween_hover = create_tween().set_parallel(true)
+	
+	# Anima as malhas originais (usadas no nível 0)
+	for malha in _escalas_base_malhas.keys():
+		if is_instance_valid(malha) and malha.visible:
+			_tween_hover.tween_property(malha, "scale", _escalas_base_malhas[malha] * 1.08, 0.15).set_trans(Tween.TRANS_SINE)
+			
+	# Anima o container de upgrades (usado no nível 1 em diante)
+	if is_instance_valid(modelo_anchor):
+		_tween_hover.tween_property(modelo_anchor, "scale", Vector3(1.08, 1.08, 1.08), 0.15).set_trans(Tween.TRANS_SINE)
 
 func _on_area_clique_mouse_exited():
 	if esta_destruida or is_fantasma:
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		return
 		
-	_aplicar_outline_malhas(self, espessura_outline_normal)
+	Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	
-	# Restaura a borda verde imediatamente se esta construção ainda for o destaque e não for noite
+	if _tween_hover and _tween_hover.is_running():
+		_tween_hover.kill()
+		
+	_tween_hover = create_tween().set_parallel(true)
+	
+	for malha in _escalas_base_malhas.keys():
+		if is_instance_valid(malha):
+			_tween_hover.tween_property(malha, "scale", _escalas_base_malhas[malha], 0.15).set_trans(Tween.TRANS_SINE)
+			
+	if is_instance_valid(modelo_anchor):
+		_tween_hover.tween_property(modelo_anchor, "scale", Vector3.ONE, 0.15).set_trans(Tween.TRANS_SINE)
+	
 	if GameManager.construcao_destaque_upgrade == self \
 	   and is_instance_valid(_indicador_upgrade) and _indicador_upgrade.visible \
 	   and not GameManager.is_night:
@@ -1521,4 +2104,7 @@ func _set_transparencia(no: Node, valor: float):
 			no.material_override = null
 				
 	for filho in no.get_children():
+		if filho == _indicador_upgrade: continue
+		if filho == indicador_alcance: continue
+		if filho.name == "CirculoVeneno": continue
 		_set_transparencia(filho, valor)

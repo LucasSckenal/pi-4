@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cggl5rbk17qof"
 path.s3tc="res://.godot/imported/Gemini Noise.png-a700dd3107c51db1995a6cec223f4cb4.s3tc.ctex"
+path.etc2="res://.godot/imported/Gemini Noise.png-a700dd3107c51db1995a6cec223f4cb4.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Assets/Noise/Gemini Noise.png"
-dest_files=["res://.godot/imported/Gemini Noise.png-a700dd3107c51db1995a6cec223f4cb4.s3tc.ctex"]
+dest_files=["res://.godot/imported/Gemini Noise.png-a700dd3107c51db1995a6cec223f4cb4.s3tc.ctex", "res://.godot/imported/Gemini Noise.png-a700dd3107c51db1995a6cec223f4cb4.etc2.ctex"]
 
 [params]
 

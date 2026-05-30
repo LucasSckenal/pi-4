@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7j41ih64kj2l"
 path.s3tc="res://.godot/imported/ChestBig_001_Textures_4.png-05b3f88a2e60997625a1f3db6f4abc55.s3tc.ctex"
+path.etc2="res://.godot/imported/ChestBig_001_Textures_4.png-05b3f88a2e60997625a1f3db6f4abc55.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/ChestBig_001_Textures_4.png"
-dest_files=["res://.godot/imported/ChestBig_001_Textures_4.png-05b3f88a2e60997625a1f3db6f4abc55.s3tc.ctex"]
+dest_files=["res://.godot/imported/ChestBig_001_Textures_4.png-05b3f88a2e60997625a1f3db6f4abc55.s3tc.ctex", "res://.godot/imported/ChestBig_001_Textures_4.png-05b3f88a2e60997625a1f3db6f4abc55.etc2.ctex"]
 
 [params]
 

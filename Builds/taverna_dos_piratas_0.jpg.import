@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://lq2gs0sunc07"
 path.s3tc="res://.godot/imported/taverna_dos_piratas_0.jpg-41de706a0b7dc62c3bf482eb32646679.s3tc.ctex"
+path.etc2="res://.godot/imported/taverna_dos_piratas_0.jpg-41de706a0b7dc62c3bf482eb32646679.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Builds/taverna_dos_piratas_0.jpg"
-dest_files=["res://.godot/imported/taverna_dos_piratas_0.jpg-41de706a0b7dc62c3bf482eb32646679.s3tc.ctex"]
+dest_files=["res://.godot/imported/taverna_dos_piratas_0.jpg-41de706a0b7dc62c3bf482eb32646679.s3tc.ctex", "res://.godot/imported/taverna_dos_piratas_0.jpg-41de706a0b7dc62c3bf482eb32646679.etc2.ctex"]
 
 [params]
 

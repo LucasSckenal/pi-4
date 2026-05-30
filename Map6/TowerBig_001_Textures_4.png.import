@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c5gdy4yt875gq"
 path.s3tc="res://.godot/imported/TowerBig_001_Textures_4.png-1a37d9f874a67074d567cb1331be939c.s3tc.ctex"
+path.etc2="res://.godot/imported/TowerBig_001_Textures_4.png-1a37d9f874a67074d567cb1331be939c.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Map6/TowerBig_001_Textures_4.png"
-dest_files=["res://.godot/imported/TowerBig_001_Textures_4.png-1a37d9f874a67074d567cb1331be939c.s3tc.ctex"]
+dest_files=["res://.godot/imported/TowerBig_001_Textures_4.png-1a37d9f874a67074d567cb1331be939c.s3tc.ctex", "res://.godot/imported/TowerBig_001_Textures_4.png-1a37d9f874a67074d567cb1331be939c.etc2.ctex"]
 
 [params]
 

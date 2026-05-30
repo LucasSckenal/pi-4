@@ -11,6 +11,7 @@ size = Vector3(1.1325684, 5.276367, 1.2167969)
 
 [node name="Jaula" type="Node3D" unique_id=235904172 groups=["Base", "Castelo"]]
 script = ExtResource("1_5wh7i")
+nome_construcao = "Jaula"
 tipo = 5
 vida_maxima = 600
 upgrade_custos = Array[int]([5, 7])

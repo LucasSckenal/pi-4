@@ -9,6 +9,8 @@ const MODAL_MODO_FASE = preload("res://UI/Modals/modal_modo_fase.tscn")
 @onready var pergaminho = $Meshy_AI_Blank_Scroll_0416004051_texture
 var progresso_atual = 6
 
+@onready var btnVoltar = $BtnVoltar
+
 # Nomes corrigidos exatamente iguais à sua foto!
 @onready var botoes_fases = [
 	$Meshy_AI_Blank_Scroll_0416004051_texture/Map1,
@@ -25,6 +27,37 @@ var linhas_criadas = []
 func _ready() -> void:
 	# Conecta o sinal para redimensionar
 	get_tree().root.size_changed.connect(recalcular_linhas)
+	
+	for botao in botoes_fases:
+		if botao != null:
+			# Define o pivô no centro e compensa matematicamente a posição para que 
+			# a imagem não sofra um salto visual ao ter seu eixo alterado, 
+			# mantendo o layout intacto para as animações de escala.
+			var centro = botao.size / 2.0
+			botao.pivot_offset = centro
+			botao.position -= centro * (Vector2.ONE - botao.scale)
+			
+			botao.set_meta("escala_original", botao.scale)
+			
+			botao.mouse_entered.connect(func():
+				# Impede a animação em fases não liberadas
+				if botao.disabled: 
+					botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
+					return
+				
+				var escala_base = botao.get_meta("escala_original")
+				var tween := create_tween()
+				tween.tween_property(botao, "scale", escala_base * 1.10, 0.1).set_trans(Tween.TRANS_SINE)
+			)
+			
+			botao.mouse_exited.connect(func():
+				# Impede a animação em fases não liberadas
+				if botao.disabled: return
+				
+				var escala_base = botao.get_meta("escala_original")
+				var tween := create_tween()
+				tween.tween_property(botao, "scale", escala_base, 0.1).set_trans(Tween.TRANS_SINE)
+			)
 	
 	# Desenha tudo pela primeira vez
 	recalcular_linhas()
@@ -50,8 +83,6 @@ func criar_linhas_tracejadas() -> void:
 			
 		var linha = Line2D.new()
 		
-		# USAREMOS POSIÇÃO GLOBAL DE TELA
-		# Isso ignora se o pergaminho está esticado ou torto
 		var p1 = b1.global_position + (b1.size * b1.get_global_transform().get_scale() / 2.0)
 		var p2 = b2.global_position + (b2.size * b2.get_global_transform().get_scale() / 2.0)
 		
@@ -59,14 +90,14 @@ func criar_linhas_tracejadas() -> void:
 		linha.add_point(p2)
 		
 		# Se a linha sumir, aumente esse width para 20 ou 30
-		linha.width = 150.0 
+		linha.width = 250.0 
 		linha.texture = textura_linha
 		linha.texture_mode = Line2D.LINE_TEXTURE_TILE
 		linha.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 		linha.default_color = Color(1, 1, 1, 1)
 		
 		# Z_INDEX alto faz a linha ficar na frente de tudo (para vermos onde ela está!)
-		linha.z_index = 0
+		linha.z_index = -1
 	
 		
 		# ADICIONAMOS DIRETO NA RAIZ DA CENA (mais seguro para teste)
@@ -84,9 +115,11 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 			botao.disabled = false 
 			# Chamamos a atualização das estrelas aqui:
 			atualizar_estrelas_do_botao(botoes_fases[i], nivel_da_fase)
+			botao.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		else:
 			botao.modulate = Color(0.01, 0.01, 0.01, 1) 
 			botao.disabled = true
+			botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
 
 	for i in range(linhas_criadas.size()):
 		var nivel_destino = i + 2 
@@ -112,8 +145,7 @@ func atualizar_estrelas_do_botao(botao: Button, nivel_da_fase: int) -> void:
 					estrela_node.texture = estrela_vazia
 				
 # ==========================================
-# SEUS SINAIS ORIGINAIS 
-# (Certifique-se de que os nomes correspondem aos sinais dos botões no Godot)
+# SINAIS DE MOUSE
 # ==========================================			
 
 func _on_btn_voltar_pressed() -> void:
@@ -170,4 +202,31 @@ func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 		5: MusicaGlobal.tocar_scifi()
 		6: MusicaGlobal.tocar_covil()
 
-	get_tree().change_scene_to_file(GameManager.caminhos_das_fases[numero_fase])
+	get_tree().change_scene_to_file(GameManager.obter_cena_entrada_fase(numero_fase))
+
+
+
+# Deus me salve esse botão tem de scale (-0.10, 0.077)
+# Hover → escala 1.05
+func _on_btn_hover_entrou() -> void:
+	_animar_escala_btn(btnVoltar, 1.05)
+
+# Mouse sai → volta ao normal 1.0
+func _on_btn_hover_saiu() -> void:
+	_animar_escala_btn(btnVoltar, 1.0)
+
+# Pressionado → escala 0.95
+func _on_btn_pressionado() -> void:
+	_animar_escala_btn(btnVoltar, 0.95)
+
+# Solto → volta ao hover (1.05) se o mouse ainda estiver sobre o botão, senão ao normal
+func _on_btn_solto() -> void:
+	var escala_alvo := 1.05 if btnVoltar.is_hovered() else 1.0
+	_animar_escala_btn(btnVoltar, escala_alvo)
+
+# Aplica a animação de escala com tween suave, usando o pivot no centro do botão
+func _animar_escala_btn(btnEscolhido: Button, escala: float) -> void:
+	# Atualiza o pivot para o centro atual (tamanho pode mudar com o viewport)
+	btnEscolhido.pivot_offset = btnEscolhido.size / 2.0
+	var tw := btnEscolhido.create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tw.tween_property(btnEscolhido, "scale", Vector2(escala, escala), 0.12)

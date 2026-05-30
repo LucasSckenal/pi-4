@@ -7,6 +7,12 @@ signal slot_clicado
 # ==========================================
 @export var nivel_necessario: int = 1           # Nível mínimo da base para este slot ficar disponível
 @export var ui_construcao_prefab: PackedScene   # Cena da UI (radial ou grade) que será instanciada
+@export var manter_tamanho_visual_fixo: bool = true
+@export var escala_visual_minima: float = 0.55
+@export var escala_visual_maxima: float = 2.8
+@export var bolha_tamanho_base: float = 96.0
+@export var bolha_escala_zoom_minima: float = 1.0
+@export var bolha_escala_zoom_maxima: float = 1.8
 
 # ==========================================
 # REFERÊNCIAS (ajuste os nomes conforme sua cena)
@@ -27,12 +33,22 @@ var slot_disponivel: bool = false   # Controlado pelo nível da base
 var ui_atual: Control = null        # Referência à UI instanciada
 var _tween_destaque: Tween = null   # Animação de destaque do conselheiro
 
+# Throttle: evita chamar unproject_position todo frame (caro em mobile)
+var _timer_cam: float = 0.0
+var _pos2d_cache: Vector2 = Vector2.ZERO
+var _base_mesh_scale_original: Vector3 = Vector3.ONE
+var _distancia_camera_referencia: float = 0.0
+var _fov_camera_referencia: float = 0.0
+var _size_camera_referencia: float = 0.0
+var _bolha_hover_scale: float = 1.0
+
 func _ready():
 	add_to_group("BuildSlots")
 
 	# Configura visibilidade inicial baseada na plataforma
 	if canvas_mobile:
-		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
+		# Verifica também o recurso 'pc' para garantir a exibição em exportações para desktop
+		canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor") or OS.has_feature("pc")
 		canvas_mobile.layer = 1
 	
 	# Conecta sinais do GameManager
@@ -53,7 +69,10 @@ func _ready():
 	# Define o pivô no centro e o cursor do mouse
 	if bolha_btn:
 		bolha_btn.mouse_default_cursor_shape = Control.CURSOR_CROSS
-		bolha_btn.pivot_offset = bolha_btn.size / 2.0
+		_configurar_tamanho_bolha()
+
+	if base_mesh:
+		_base_mesh_scale_original = base_mesh.scale
 
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
@@ -106,7 +125,8 @@ func _atualizar_visibilidade_por_tempo():
 	
 	if dia:
 		if base_mesh: base_mesh.show()
-		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor")
+		# Verifica também o recurso 'pc' para garantir a exibição em exportações para desktop
+		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor") or OS.has_feature("pc")
 	else:
 		_esconder_todos_elementos()
 
@@ -122,7 +142,8 @@ func _abrir_ui():
 	if ui_atual:
 		return
 	if not ui_construcao_prefab:
-		print("ERRO: ui_construcao_prefab não atribuída no slot!")
+		if Global.DEBUG_MODE:
+			print("ERRO: ui_construcao_prefab não atribuída no slot!")
 		return
 		
 	slot_clicado.emit()
@@ -135,9 +156,8 @@ func _abrir_ui():
 	else:
 		get_tree().current_scene.add_child(ui_atual)
 	
-	# Calcula o centro exato da tela para posicionar o menu estático
-	var tamanho_tela = get_viewport().get_visible_rect().size
-	ui_atual.position = tamanho_tela / 2.0
+	# O radial_menu usa PRESET_FULL_RECT internamente, posição deve ser zero
+	ui_atual.position = Vector2.ZERO
 	
 	ui_atual.abrir_menu(self)
 	
@@ -160,29 +180,28 @@ func fechar_ui():
 func construir(cena: PackedScene) -> bool:
 	if is_built:
 		return false
-	
-	var temp_instancia = cena.instantiate()
-	var custo_final = GameManager.obter_custo_com_desconto(temp_instancia.custo_moedas)
-	temp_instancia.queue_free()
-	
-	if GameManager.gastar_moedas(custo_final):
-		parar_destaque()
-		var nova_const = cena.instantiate()
-		add_child(nova_const)
-		nova_const.global_position = global_position
-		nova_const.is_fantasma = false  # Se suas construções usarem essa variável
-		is_built = true
-		
-		# Esconde os elementos do slot em vez de apagar (para poder reaproveitar depois)
-		if base_mesh: base_mesh.hide()
-		if canvas_mobile: canvas_mobile.hide() 
-		
-		# NOVO: Se a construção for vendida/destruída, reativa o slot!
-		nova_const.tree_exited.connect(reativar_slot)
-		
-		fechar_ui()
-		return true
-	return false
+
+	# Instancia uma única vez — reutiliza para construir ou descarta se sem moedas
+	var nova_const = cena.instantiate()
+	var custo_final = GameManager.obter_custo_com_desconto(nova_const.custo_moedas)
+
+	if not GameManager.gastar_moedas(custo_final):
+		nova_const.free()
+		return false
+
+	parar_destaque()
+	add_child(nova_const)
+	nova_const.global_position = global_position
+	nova_const.is_fantasma = false
+	is_built = true
+
+	if base_mesh: base_mesh.hide()
+	if canvas_mobile: canvas_mobile.hide()
+
+	nova_const.tree_exited.connect(reativar_slot)
+
+	fechar_ui()
+	return true
 
 # ==========================================
 # NOVO: REATIVAÇÃO DO SLOT APÓS VENDA
@@ -207,6 +226,8 @@ func reativar_slot():
 # INTERAÇÕES (PC E MOBILE)
 # ==========================================
 func _process(delta):
+	_atualizar_tamanho_visual_fixo()
+
 	if is_built or not pode_construir or not slot_disponivel or ui_atual:
 		return
 	
@@ -214,12 +235,19 @@ func _process(delta):
 	if canvas_mobile and canvas_mobile.visible and is_instance_valid(bolha_btn):
 		var camera = get_viewport().get_camera_3d()
 		if camera and not camera.is_position_behind(global_position):
-			var pos_2d = camera.unproject_position(global_position)
-			bolha_btn.position = pos_2d - (bolha_btn.size / 2)
+			# Throttle: unproject_position a 20 fps — caro em mobile, imperceptível na UI
+			_timer_cam -= delta
+			if _timer_cam <= 0.0:
+				_timer_cam = 0.05
+				_pos2d_cache = camera.unproject_position(global_position)
+			_configurar_tamanho_bolha()
+			bolha_btn.position = _pos2d_cache - (bolha_btn.size / 2)
 			
 			# Transição suave de escala e cor baseada no hover do mouse
 			var hover = bolha_btn.is_hovered()
-			var escala_alvo = Vector2(1.15, 1.15) if hover else Vector2(1.0, 1.0)
+			_bolha_hover_scale = 1.15 if hover else 1.0
+			var escala_zoom := _obter_escala_bolha_por_zoom(camera)
+			var escala_alvo = Vector2.ONE * escala_zoom * _bolha_hover_scale
 			bolha_btn.scale = bolha_btn.scale.lerp(escala_alvo, 15.0 * delta)
 			
 			var cor_alvo = Color(1.2, 1.2, 1.2) if hover else Color(1.0, 1.0, 1.0)
@@ -235,6 +263,58 @@ func _process(delta):
 		if _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
 			_abrir_ui()
 
+func _atualizar_tamanho_visual_fixo() -> void:
+	if not manter_tamanho_visual_fixo or not is_instance_valid(base_mesh) or not base_mesh.visible:
+		return
+
+	var camera := get_viewport().get_camera_3d()
+	if camera == null:
+		return
+
+	if _distancia_camera_referencia <= 0.0:
+		_distancia_camera_referencia = camera.global_position.distance_to(global_position)
+		_fov_camera_referencia = camera.fov
+		_size_camera_referencia = camera.size
+		return
+
+	var fator := 1.0
+	if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+		var distancia_atual := maxf(0.01, camera.global_position.distance_to(global_position))
+		var tangente_ref := tan(deg_to_rad(_fov_camera_referencia) * 0.5)
+		var tangente_atual := tan(deg_to_rad(camera.fov) * 0.5)
+		fator = (distancia_atual * tangente_atual) / maxf(0.01, _distancia_camera_referencia * tangente_ref)
+	else:
+		fator = camera.size / maxf(0.01, _size_camera_referencia)
+
+	fator = clampf(fator, escala_visual_minima, escala_visual_maxima)
+	base_mesh.scale = _base_mesh_scale_original * fator
+
+func _configurar_tamanho_bolha() -> void:
+	if not is_instance_valid(bolha_btn):
+		return
+	var tamanho := Vector2.ONE * bolha_tamanho_base
+	if bolha_btn.size != tamanho:
+		bolha_btn.custom_minimum_size = tamanho
+		bolha_btn.size = tamanho
+		bolha_btn.pivot_offset = tamanho * 0.5
+
+func _obter_escala_bolha_por_zoom(camera: Camera3D) -> float:
+	if camera == null:
+		return 1.0
+	if _distancia_camera_referencia <= 0.0:
+		return 1.0
+
+	var fator := 1.0
+	if camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+		var distancia_atual := maxf(0.01, camera.global_position.distance_to(global_position))
+		var tangente_ref := tan(deg_to_rad(_fov_camera_referencia) * 0.5)
+		var tangente_atual := tan(deg_to_rad(camera.fov) * 0.5)
+		var escala_mundo := (_distancia_camera_referencia * tangente_ref) / maxf(0.01, distancia_atual * tangente_atual)
+		fator = sqrt(maxf(1.0, escala_mundo))
+	else:
+		fator = _size_camera_referencia / maxf(0.01, camera.size)
+	return clampf(fator, bolha_escala_zoom_minima, bolha_escala_zoom_maxima)
+
 func _input(event):
 	if not pode_construir or not slot_disponivel or ui_atual:
 		return
@@ -242,16 +322,17 @@ func _input(event):
 	# Clique fora para cancelar a seleção no mobile (primeiro toque)
 	if event is InputEventMouseButton or event is InputEventScreenTouch:
 		if event.pressed and estado_toque_mobile == 1 and is_instance_valid(bolha_btn):
-			get_tree().create_timer(0.05).timeout.connect(func():
-				if is_instance_valid(bolha_btn) and not bolha_btn.get_global_rect().has_point(event.position):
-					cancelar_selecao()
-			)
+			# Verifica imediatamente (sem create_timer) — o layout já está calculado
+			if not bolha_btn.get_global_rect().has_point(event.position):
+				cancelar_selecao()
 
 func _on_area_input_event(_camera, _event, _position, _normal, _shape_idx):
 	if not pode_construir or is_built or not slot_disponivel or ui_atual:
 		return
 	if _event is InputEventMouseButton and _event.button_index == MOUSE_BUTTON_LEFT and _event.pressed:
 		if _pode_interagir_tutorial(): # <-- APLICAÇÃO DA TRAVA AQUI
+			# Consome o evento para que outras áreas sobrepostas não disparem também
+			get_viewport().set_input_as_handled()
 			_abrir_ui()
 
 func _on_texture_button_pressed():
@@ -270,7 +351,7 @@ func cancelar_selecao():
 	estado_toque_mobile = 0
 	if bolha_btn:
 		bolha_btn.modulate.a = 1.0
-		bolha_btn.scale = Vector2(1.0, 1.0)
+		bolha_btn.scale = Vector2.ONE * _obter_escala_bolha_por_zoom(get_viewport().get_camera_3d())
 		bolha_btn.show()
 
 # ==========================================

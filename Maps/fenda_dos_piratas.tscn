@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemys/Map 4/Bombardeiro.tscn" id="13_ruefr"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
+[ext_resource type="Shader" uid="uid://c6gnycjboy16t" path="res://Shaders/UnderTheSea.gdshader" id="24_14jxx"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
 [ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
 [ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
@@ -277,10 +278,8 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ms2d8"]
 render_priority = 0
 shader = ExtResource("13_ay0o5")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ixa2r"]
 resource_name = "colormap"
@@ -322,6 +321,20 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fp0b7")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xvse5"]
+render_priority = 0
+shader = ExtResource("24_14jxx")
+shader_parameter/quantidade = 40
+shader_parameter/velocidade = 0.08
+shader_parameter/tamanho_min = 0.00200000009499
+shader_parameter/tamanho_max = 0.02100000099749
+shader_parameter/opacidade = 0.45
+shader_parameter/sinuoso = 0.035
+shader_parameter/mesh_aspect = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_14jxx"]
+material = SubResource("ShaderMaterial_xvse5")
+
 [node name="FendaDosPiratas" type="Node3D" unique_id=653532525]
 script = ExtResource("99_fendascript")
 conquista_fim_Fenda = ExtResource("2_0hg87")
@@ -362,9 +375,9 @@ affect_navigation_mesh = true
 mesh_library = ExtResource("1_pebae")
 cell_size = Vector3(1, 1, 1)
 data = {
-"cells": PackedInt32Array(-65539, 1, 1048612, -131068, 0, 36, -65537, 1, 37, -131071, 1, 37, -131069, 1, 37, -131070, 3, 37, -131071, 3, 37, -131072, 3, 37, -65537, 3, 37, -65537, 2, 37, -131072, 2, 37, -131071, 2, 37, -131070, 2, 37, -131069, 2, 37, -131069, 3, 37, -131068, 2, 37, -131067, 2, 37, -131066, 1, 37, -131065, 1, 37, -131065, 0, 37, -131065, 65535, 37, -131064, 65535, 37, -131064, 65534, 37, -131065, 65534, 37, -131065, 65533, 37, -131065, 65532, 37, -131066, 65532, 37, -131067, 65532, 37, -131067, 65533, 37, -131066, 65531, 37, -131066, 65533, 37, -131066, 65534, 37, -131067, 65534, 37, -131067, 65535, 37, -131067, 65531, 37, -131067, 65530, 37, -131067, 65529, 37, -131068, 65529, 37, -131069, 65529, 37, -131070, 65529, 37, -131071, 65529, 37, -131072, 65529, 37, -65537, 65529, 37, -65537, 65530, 37, -65538, 65530, 37, -65539, 65530, 37, -65540, 65530, 37, -65541, 65530, 37, -65541, 65529, 37, -65542, 65530, 37, -65542, 65531, 37, -65542, 65532, 37, -65542, 65533, 37, -65542, 65534, 37, -65542, 65535, 37, -65541, 65535, 37, -65541, 0, 37, -65541, 1, 37, -65541, 3, 37, -65542, 3, 37, -65542, 2, 37, -65543, 2, 37, -65543, 1, 37, -65544, 1, 37, -65544, 0, 37, -65544, 65535, 37, -65544, 65534, 37, -65544, 65533, 37, -65544, 65532, 37, -65544, 65531, 37, -65544, 65530, 37, -65544, 65529, 37, -65543, 65529, 37, -65543, 65528, 37, -65542, 65528, 37, -65541, 65528, 37, -65540, 65528, 37, -65540, 65527, 37, -65539, 65527, 37, -65539, 65528, 37, -65538, 65528, 37, -65538, 65527, 37, -65537, 65527, 37, -131072, 65527, 37, -131072, 65526, 37, -131071, 65526, 37, -131070, 65526, 37, -131069, 65526, 37, -131069, 65527, 37, -131068, 65527, 37, -131067, 65527, 37, -131066, 65527, 37, -131066, 65528, 37, -131065, 65528, 37, -131065, 65529, 37, -131065, 65530, 37, -131065, 65531, 37, -131066, 65535, 37, -131066, 0, 37, -131067, 1, 37, -131067, 3, 37, -131068, 3, 37, -131068, 4, 37, -131069, 4, 37, -131070, 4, 37, -131070, 5, 37, -131071, 5, 37, -131072, 5, 37, -65537, 5, 37, -65538, 5, 37, -65544, 5, 524325, -65546, 3, 37, -65544, 6, 37, -65539, 8, 1048613, -65541, 8, 37, -131071, 9, 37, -131067, 7, 37, -131064, 5, 37, -131060, 2, 1048612, -131061, 4, 37, -65538, 11, 1441829, -131070, 11, 1441828, -131068, 10, 1441829, -131065, 9, 1441829, -131063, 8, 1441829, -65543, 10, 1441829, -65548, 2, 1441829, -131061, 7, 1441829, -65545, 6, 655396, -131072, 16, 1048613, -131069, 16, 37, -131068, 15, 37, -65540, 15, 1441829, -65542, 14, 655397, -131060, 11, 1048613, -131058, 10, 37, -131058, 8, 37, -131053, 9, 655397, -131050, 10, 655397, -65538, 18, 1048613, -131071, 19, 1048613, -131072, 22, 1441829, -65538, 23, 1441829, -65537, 26, 1441829, -131071, 25, 1441829, -131069, 25, 1441829, -131069, 23, 1441829, -65565, 8, 1441829, -131070, 28, 1441829, -131046, 9, 655397, -131050, 9, 655397, -131054, 8, 655397, -131055, 8, 655397, -131049, 7, 655397, -131048, 7, 655397, -131047, 7, 655397, -131046, 7, 655397, -131045, 7, 655397, -131044, 7, 655397, -131043, 7, 655397, -131042, 7, 655397, -131041, 7, 655397, -131041, 8, 655397, -131040, 8, 655397, -131040, 9, 655397, -131036, 10, 655397, -131035, 10, 655397, -131034, 10, 655397, -131037, 10, 655397, -131037, 9, 655397, -131038, 9, 655397, -131036, 9, 655397, -131036, 8, 655397, -131035, 8, 655397, -131034, 8, 655397, -131033, 8, 655397, -131033, 9, 655397, -131032, 9, 655397, -131033, 10, 655397, -131032, 10, 655397, -65569, 9, 655397, -65566, 12, 655397, -65569, 8, 655397, -65566, 7, 655397, -65567, 6, 655397, -65568, 6, 655397, -65562, 10, 65, -65560, 10, 65, -65558, 10, 65, -65556, 10, 65, -65552, 10, 65, -65548, 10, 65, -65546, 10, 65, -65562, 8, 65, -65560, 8, 65, -65558, 8, 65, -65556, 8, 65, -65553, 8, 65, -65549, 8, 65, -65547, 8, 65, -65546, 8, 65, -65554, 10, 65, -65555, 8, 65, -65551, 8, 65, -65550, 10, 65, -65547, 15, 61, -65555, 5, 61)
+"cells": PackedInt32Array(-65539, 1, 1048612, -131068, 0, 36, -65537, 1, 37, -131071, 1, 37, -131069, 1, 37, -131070, 3, 37, -131071, 3, 37, -131072, 3, 37, -65537, 3, 37, -65537, 2, 37, -131072, 2, 37, -131071, 2, 37, -131070, 2, 37, -131069, 2, 37, -131069, 3, 37, -131068, 2, 37, -131067, 2, 37, -131066, 1, 37, -131065, 1, 37, -131065, 0, 37, -131065, 65535, 37, -131064, 65535, 37, -131064, 65534, 37, -131065, 65534, 37, -131065, 65533, 37, -131065, 65532, 37, -131066, 65532, 37, -131067, 65532, 37, -131067, 65533, 37, -131066, 65531, 37, -131066, 65533, 37, -131066, 65534, 37, -131067, 65534, 37, -131067, 65535, 37, -131067, 65531, 37, -131067, 65530, 37, -131067, 65529, 37, -131068, 65529, 37, -131069, 65529, 37, -131070, 65529, 37, -131071, 65529, 37, -131072, 65529, 37, -65537, 65529, 37, -65537, 65530, 37, -65538, 65530, 37, -65539, 65530, 37, -65540, 65530, 37, -65541, 65530, 37, -65541, 65529, 37, -65542, 65530, 37, -65542, 65531, 37, -65542, 65532, 37, -65542, 65533, 37, -65542, 65534, 37, -65542, 65535, 37, -65541, 65535, 37, -65541, 0, 37, -65541, 1, 37, -65541, 3, 37, -65542, 3, 37, -65542, 2, 37, -65543, 2, 37, -65543, 1, 37, -65544, 1, 37, -65544, 0, 37, -65544, 65535, 37, -65544, 65534, 37, -65544, 65533, 37, -65544, 65532, 37, -65544, 65531, 37, -65544, 65530, 37, -65544, 65529, 37, -65543, 65529, 37, -65543, 65528, 37, -65542, 65528, 37, -65541, 65528, 37, -65540, 65528, 37, -65540, 65527, 37, -65539, 65527, 37, -65539, 65528, 37, -65538, 65528, 37, -65538, 65527, 37, -65537, 65527, 37, -131072, 65527, 37, -131072, 65526, 37, -131071, 65526, 37, -131070, 65526, 37, -131069, 65526, 37, -131069, 65527, 37, -131068, 65527, 37, -131067, 65527, 37, -131066, 65527, 37, -131066, 65528, 37, -131065, 65528, 37, -131065, 65529, 37, -131065, 65530, 37, -131065, 65531, 37, -131066, 65535, 37, -131066, 0, 37, -131067, 1, 37, -131067, 3, 37, -131068, 3, 37, -131068, 4, 37, -131069, 4, 37, -131070, 4, 37, -131070, 5, 37, -131071, 5, 37, -131072, 5, 37, -65537, 5, 37, -65538, 5, 37, -131064, 5, 37, -131060, 2, 1048612, -131061, 4, 37, -65543, 10, 1441829, -131061, 7, 1441829, -65545, 6, 655396, -65542, 14, 655397, -131060, 11, 1048613, -131058, 8, 37, -131053, 9, 655397, -131050, 10, 655397, -65538, 18, 1048613, -65565, 8, 1441829, -131046, 9, 655397, -131050, 9, 655397, -131054, 8, 655397, -131055, 8, 655397, -131049, 7, 655397, -131048, 7, 655397, -131047, 7, 655397, -131046, 7, 655397, -131045, 7, 655397, -131044, 7, 655397, -131043, 7, 655397, -131042, 7, 655397, -131041, 7, 655397, -131041, 8, 655397, -131040, 8, 655397, -131040, 9, 655397, -131036, 10, 655397, -131035, 10, 655397, -131034, 10, 655397, -131037, 10, 655397, -131037, 9, 655397, -131038, 9, 655397, -131036, 9, 655397, -131036, 8, 655397, -131035, 8, 655397, -131034, 8, 655397, -131033, 8, 655397, -131033, 9, 655397, -131032, 10, 655397, -65569, 9, 655397, -65566, 12, 655397, -65569, 8, 655397, -65566, 7, 655397, -65567, 6, 655397, -65568, 6, 655397, -65562, 10, 65, -65560, 10, 65, -65558, 10, 65, -65556, 10, 65, -65552, 10, 65, -65548, 10, 65, -65546, 10, 65, -65562, 8, 65, -65560, 8, 65, -65558, 8, 65, -65556, 8, 65, -65553, 8, 65, -65549, 8, 65, -65547, 8, 65, -65546, 8, 65, -65554, 10, 65, -65555, 8, 65, -65551, 8, 65, -65550, 10, 65, -65547, 15, 61, -65555, 5, 61, -131068, 15, 37, -131069, 16, 37, -131070, 11, 1441828, -131071, 9, 37, -131058, 10, 37, -131072, 16, 1048613, -131071, 19, 1048613, -65541, 8, 37, -65548, 2, 1441829, -65538, 11, 1441829, -65540, 15, 1441829, -131068, 10, 1441829, -131067, 7, 37, -131065, 9, 1441829, -131069, 25, 1441829, -65537, 26, 1441829, -131070, 28, 1441829, -131071, 25, 1441829, -65538, 23, 1441829, -131069, 23, 1441829)
 }
-metadata/_editor_floor_ = Vector3(0, -1, 0)
+metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="GridMap" type="GridMap" parent="NavigationRegion3D" unique_id=1083046713]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
@@ -403,17 +416,29 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="Spawners" type="Node3D" parent="NavigationRegion3D" unique_id=851536762]
 
-[node name="A" parent="NavigationRegion3D/Spawners" unique_id=423161848 instance=ExtResource("7_tigay")]
+[node name="A" parent="NavigationRegion3D/Spawners" unique_id=423161848 node_paths=PackedStringArray("hud_point") instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9270208, -0.11176777, 21.654905)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_ruefr"), SubResource("Resource_rf658"), SubResource("Resource_n8yof"), SubResource("Resource_ay0o5"), SubResource("Resource_ixa2r"), SubResource("Resource_obiuy")])
+hud_point = NodePath("../Spawner A")
 
-[node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 instance=ExtResource("7_tigay")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -27.348438, -0.4743364, 9.137367)
+[node name="B" parent="NavigationRegion3D/Spawners" unique_id=1499523901 node_paths=PackedStringArray("hud_point") instance=ExtResource("7_tigay")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.004326, 0.028158903, 9.678971)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_jmmw5"), SubResource("Resource_vv0he"), SubResource("Resource_oddva"), SubResource("Resource_47k5u"), SubResource("Resource_cw4hp"), SubResource("Resource_o6hc4")])
+hud_point = NodePath("../Spawner B")
 
-[node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 instance=ExtResource("7_tigay")]
+[node name="C" parent="NavigationRegion3D/Spawners" unique_id=516545323 node_paths=PackedStringArray("hud_point") instance=ExtResource("7_tigay")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.286411, -1.2499998, 8.591048)
 ondas = Array[ExtResource("8_x3h70")]([SubResource("Resource_thmf5"), SubResource("Resource_vosr4"), SubResource("Resource_mokxb"), SubResource("Resource_521y0"), SubResource("Resource_srq6k"), SubResource("Resource_nw1gr")])
+hud_point = NodePath("../Spawner C")
+
+[node name="Spawner A" type="Marker3D" parent="NavigationRegion3D/Spawners" unique_id=1014129345]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.27688575, -0.7187684, 18.01207)
+
+[node name="Spawner B" type="Marker3D" parent="NavigationRegion3D/Spawners" unique_id=1020288246]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.183558, 0.40693635, 9.569478)
+
+[node name="Spawner C" type="Marker3D" parent="NavigationRegion3D/Spawners" unique_id=1649891913]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721361, -0.7187684, 9.523366)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1139841382 node_paths=PackedStringArray("player")]
 transform = Transform3D(1, 0, 0, 0, 0.83867055, 0.54463905, 0, -0.54463905, 0.83867055, -1, 7, 22)
@@ -423,7 +448,7 @@ player = NodePath("../Player")
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
 transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
 
-[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
+[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=85292747]
 mesh = SubResource("ArrayMesh_colh8")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]
@@ -505,6 +530,10 @@ nivel_necessario = 2
 transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.9197119, -0.38529962, 0.9814201, 7.450581e-09, 0.19187117, 1.0822587, -1.3202078, -1.8165274)
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("4_1rk64")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=2048985593]
+transform = Transform3D(195.46477, 0, 0, 0, 3.650612, -126.88052, 0, 4.4028096, 105.203636, 1.9878407, -60.062828, -120.60943)
+mesh = SubResource("PlaneMesh_14jxx")
 
 [editable path="ship-ghost2"]
 [editable path="ship-wreck3"]

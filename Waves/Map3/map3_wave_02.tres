@@ -13,6 +13,7 @@ cena = ExtResource("3_abo")
 quantidade = 4
 cor = Color(0.95, 0.5, 0.1, 1)
 icone = ExtResource("icon_abo")
+descricao = "Abóbora: inimigo rápido e fraco. Derrota fácil, mas vem em grupo."
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [sub_resource type="Resource" id="Resource_knight"]
@@ -21,11 +22,13 @@ cena = ExtResource("4_knight")
 quantidade = 2
 cor = Color(0.45, 0.35, 0.95, 1)
 icone = ExtResource("icon_knight")
+descricao = "Cavaleiro: mais resistente e lento. Absorve dano antes de cair."
 metadata/_custom_type_script = "res://Enemys/inimigo_config.gd"
 
 [resource]
 script = ExtResource("2_wave")
 nome_da_onda = "Mapa 3 - Onda 2"
+descricao = "Cavaleiros chegam junto com as abóboras. Priorize os cavaleiros."
 intervalo = 2.2
 inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_abo"), SubResource("Resource_knight")])
 metadata/_custom_type_script = "res://Waves/wave_resource.gd"

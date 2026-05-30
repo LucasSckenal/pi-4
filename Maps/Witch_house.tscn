@@ -89,6 +89,12 @@ detail_sample_distance = 2.0
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_o1qpm"]
 data = PackedVector3Array(-0.080699995, -0.0109, -0.27249998, -0.080699995, -0.0109, -0.54499996, -0.080699995, 0.0109, -0.27249998, -0.080699995, -0.0109, -0.54499996, -0.080699995, 0.0109, -0.54499996, -0.080699995, 0.0109, -0.27249998, -0.080699995, -0.0109, -0.54499996, 0.080699995, -0.0109, -0.54499996, -0.080699995, 0.0109, -0.54499996, 0.080699995, -0.0109, -0.54499996, 0.080699995, 0.0109, -0.54499996, -0.080699995, 0.0109, -0.54499996, 0.080699995, -0.0109, 0.27249998, 0.080699995, -0.0109, 0.54499996, 0.080699995, 0.0109, 0.27249998, 0.080699995, -0.0109, 0.54499996, 0.080699995, 0.0109, 0.54499996, 0.080699995, 0.0109, 0.27249998, -0.080699995, -0.0109, 0.54499996, -0.080699995, 0.0109, 0.54499996, 0.0132, 0.0109, 0.54499996, -0.080699995, -0.0109, 0.54499996, 0.0132, 0.0109, 0.54499996, 0.024, 0.0050999997, 0.54499996, 0.0349, 0.0109, 0.54499996, 0.080699995, -0.0109, 0.54499996, 0.024, 0.0050999997, 0.54499996, 0.0349, 0.0109, 0.54499996, 0.080699995, 0.0109, 0.54499996, 0.080699995, -0.0109, 0.54499996, -0.080699995, -0.0109, 0.27249998, -0.080699995, -0.0109, 0.54499996, 0.080699995, -0.0109, 0.27249998, -0.080699995, -0.0109, 0.54499996, 0.080699995, -0.0109, 0.54499996, 0.080699995, -0.0109, 0.27249998, -0.080699995, -0.0109, 0.27249998, 0.080699995, -0.0109, 0.27249998, 0.0744, -0.0109, 0, -0.087, -0.0109, 0, -0.080699995, -0.0109, 0.27249998, 0.0744, -0.0109, 0, -0.087, -0.0109, 0, 0.0744, -0.0109, 0, -0.080699995, -0.0109, -0.27249998, 0.0744, -0.0109, 0, 0.080699995, -0.0109, -0.27249998, -0.080699995, -0.0109, -0.27249998, -0.080699995, -0.0109, -0.27249998, 0.080699995, -0.0109, -0.27249998, 0.080699995, -0.0109, -0.54499996, -0.080699995, -0.0109, -0.54499996, -0.080699995, -0.0109, -0.27249998, 0.080699995, -0.0109, -0.54499996, 0.080699995, 0.0109, 0.54499996, 0.0349, 0.0109, 0.54499996, 0.0251, 0.0109, 0.4836, 0.0251, 0.0109, 0.4836, 0.0132, 0.0109, 0.54499996, -0.080699995, 0.0109, 0.54499996, 0.0251, 0.0109, 0.4836, -0.080699995, 0.0109, 0.27249998, 0.080699995, 0.0109, 0.27249998, 0.080699995, 0.0109, 0.27249998, -0.080699995, 0.0109, 0.27249998, 0.0744, 0.0109, 0, -0.080699995, 0.0109, 0.27249998, -0.087, 0.0109, 0, 0.0744, 0.0109, 0, 0.0744, 0.0109, 0, -0.087, 0.0109, 0, -0.080699995, 0.0109, -0.27249998, -0.080699995, 0.0109, -0.27249998, 0.0515, 0.0109, -0.4393, 0.080699995, 0.0109, -0.4326, 0.0515, 0.0109, -0.4393, -0.080699995, 0.0109, -0.27249998, -0.080699995, 0.0109, -0.54499996, 0.0515, 0.0109, -0.4393, -0.080699995, 0.0109, -0.54499996, 0.080699995, 0.0109, -0.54499996, 0.0515, 0.0109, -0.4393, 0.080699995, 0.0109, -0.54499996, 0.080699995, 0.0109, -0.4427, 0.080699995, 0.0109, -0.4326, 0.0515, 0.0109, -0.4393, 0.080699995, 0.008599999, -0.4393, 0.080699995, 0.0109, -0.4326, 0.080699995, 0.008599999, -0.4393, 0.080699995, -0.0109, -0.27249998, -0.080699995, -0.0109, 0.27249998, -0.087, -0.0109, 0, -0.080699995, 0.0109, 0.27249998, -0.087, -0.0109, 0, -0.087, 0.0109, 0, -0.080699995, 0.0109, 0.27249998, 0.080699995, -0.0109, -0.27249998, 0.080699995, 0.0109, -0.4427, 0.080699995, -0.0109, -0.54499996, 0.080699995, 0.0109, -0.4427, 0.080699995, 0.0109, -0.54499996, 0.080699995, -0.0109, -0.54499996, -0.087, -0.0109, 0, -0.080699995, -0.0109, -0.27249998, -0.087, 0.0109, 0, -0.080699995, -0.0109, -0.27249998, -0.080699995, 0.0109, -0.27249998, -0.087, 0.0109, 0, -0.080699995, -0.0109, 0.54499996, -0.080699995, -0.0109, 0.27249998, -0.080699995, 0.0109, 0.54499996, -0.080699995, -0.0109, 0.27249998, -0.080699995, 0.0109, 0.27249998, -0.080699995, 0.0109, 0.54499996, 0.0744, -0.0109, 0, 0.080699995, -0.0109, 0.27249998, 0.0744, 0.0109, 0, 0.080699995, -0.0109, 0.27249998, 0.080699995, 0.0109, 0.27249998, 0.0744, 0.0109, 0, 0.080699995, 0.008599999, -0.4393, 0.0515, 0.0109, -0.4393, 0.080699995, 0.0109, -0.4427, 0.080699995, 0.008599999, -0.4393, 0.080699995, 0.0109, -0.4427, 0.080699995, -0.0109, -0.27249998, 0.080699995, 0.0109, -0.4326, 0.080699995, -0.0109, -0.27249998, 0.0744, 0.0109, 0, 0.024, 0.0050999997, 0.54499996, 0.0251, 0.0109, 0.4836, 0.0349, 0.0109, 0.54499996, 0.0132, 0.0109, 0.54499996, 0.0251, 0.0109, 0.4836, 0.024, 0.0050999997, 0.54499996, 0.024, 0.0050999997, 0.54499996, 0.080699995, -0.0109, 0.54499996, -0.080699995, -0.0109, 0.54499996, 0.0251, 0.0109, 0.4836, 0.080699995, 0.0109, 0.27249998, 0.080699995, 0.0109, 0.54499996, 0.0251, 0.0109, 0.4836, -0.080699995, 0.0109, 0.54499996, -0.080699995, 0.0109, 0.27249998, -0.080699995, 0.0109, -0.27249998, 0.080699995, 0.0109, -0.4326, 0.0744, 0.0109, 0, 0.080699995, -0.0109, -0.27249998, 0.0744, -0.0109, 0, 0.0744, 0.0109, 0)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_c0x8s"]
+size = Vector3(0.6742554, 1, 0.5501251)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v1blp"]
+size = Vector3(1, 0.99923706, 0.5590515)
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lo8m5"]
 render_priority = 0
 shader = ExtResource("23_oxycu")
@@ -135,7 +141,6 @@ rotation_speed = 20.0
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=1908486518]
 avoidance_enabled = true
 max_neighbors = 20
-debug_enabled = true
 
 [node name="LinhaCaminho" type="Decal" parent="Player" unique_id=1755658475]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 0, 0)
@@ -181,7 +186,7 @@ metadata/_editor_floor_ = Vector3(0, 7, 0)
 [node name="cooking-spoon2" parent="." unique_id=1554119870 instance=ExtResource("28_fme3q")]
 transform = Transform3D(0.06861784, 1.1897309e-09, 4.20444, -1.1549499, 4.043236, 0.01884916, -4.042698, -1.1551039, 0.06597817, -0.042731524, 3.292271, 3.6421657)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="cooking-spoon2/cooking-spoon" parent_id_path=PackedInt32Array(1554119870, 1548104318) index="0" unique_id=113149046]
+[node name="StaticBody3D" type="StaticBody3D" parent="cooking-spoon2/cooking-spoon" parent_id_path=PackedInt32Array(1554119870, 1963089343) index="0" unique_id=113149046]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="cooking-spoon2/cooking-spoon/StaticBody3D" unique_id=810608846]
 shape = SubResource("ConcavePolygonShape3D_fme3q")
@@ -196,7 +201,7 @@ transform = Transform3D(-0.03248294, -0.020356838, 1.4995099, -0.4726678, 1.4235
 [node name="Ponte" parent="NavigationRegion3D" unique_id=1696412422 instance=ExtResource("8_kb83g")]
 transform = Transform3D(1.4958947, 0, 5.9531984, 0, 6, 0, -11.906397, 0, 0.74794734, -6.3064537, 3.1026323, 1.8326743)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte/Wood_02" parent_id_path=PackedInt32Array(1696412422, 913943878) index="0" unique_id=1894193907]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte/Wood_02" parent_id_path=PackedInt32Array(1696412422, 2084618766) index="0" unique_id=1894193907]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ponte/Wood_02/StaticBody3D" unique_id=1713488031]
 shape = SubResource("ConcavePolygonShape3D_o1qpm")
@@ -259,7 +264,7 @@ metadata/_editor_floor_ = Vector3(0, 14, 0)
 [node name="Ponte2" parent="NavigationRegion3D" unique_id=773015503 instance=ExtResource("8_kb83g")]
 transform = Transform3D(-5.9916115, 0, -0.15857649, 0, 2.9999998, 0, 0.31715298, 0, -2.9958057, 1.0520896, 3.1026323, -1.839874)
 
-[node name="Wood_02" parent="NavigationRegion3D/Ponte2" index="0" unique_id=913943878]
+[node name="Wood_02" parent="NavigationRegion3D/Ponte2" index="0" unique_id=2084618766]
 transform = Transform3D(0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte2/Wood_02" index="0" unique_id=1750531879]
@@ -270,7 +275,7 @@ shape = SubResource("ConcavePolygonShape3D_o1qpm")
 [node name="Ponte3" parent="NavigationRegion3D" unique_id=364777469 instance=ExtResource("8_kb83g")]
 transform = Transform3D(1.4958947, 0, 5.9531984, 0, 6, 0, -11.906397, 0, 0.74794734, 8.189717, 3.1026323, 3.415284)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte3/Wood_02" parent_id_path=PackedInt32Array(364777469, 913943878) index="0" unique_id=666414433]
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Ponte3/Wood_02" parent_id_path=PackedInt32Array(364777469, 2084618766) index="0" unique_id=666414433]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Ponte3/Wood_02/StaticBody3D" unique_id=794789131]
 shape = SubResource("ConcavePolygonShape3D_o1qpm")
@@ -279,6 +284,12 @@ shape = SubResource("ConcavePolygonShape3D_o1qpm")
 transform = Transform3D(7.5, 0, 0, 0, 7.5, 0, 0, 0, 7.5, -0.014922321, 0.5421457, 6.1150837)
 script = ExtResource("10_o1qpm")
 tipo = 5
+upgrade_custos = Array[int]([7, 10])
+upgrade_vida_por_nivel = Array[int]([0, 0])
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Caldeirao/Pot_01/StaticBody3D" parent_id_path=PackedInt32Array(1678453625, 667413386) index="1" unique_id=633463311]
+transform = Transform3D(0.99999857, 0, 0, 0, 0.99999857, 0, 0, 0, 0.99999857, 0.0016174307, 0, 0.053856075)
+shape = SubResource("BoxShape3D_c0x8s")
 
 [node name="SpotLight3D3" type="SpotLight3D" parent="Caldeirao" unique_id=1330628085]
 transform = Transform3D(-0.9977175, -0.066987306, -0.008517342, -0.009715936, 0.017587485, 0.9997981, -0.06682396, 0.9975988, -0.018198185, 0.008240223, 0.56511354, -0.002714157)
@@ -287,6 +298,14 @@ light_energy = 2.5
 light_specular = 16.0
 spot_range = 2.474
 spot_attenuation = -3.55
+
+[node name="AreaClique" type="Area3D" parent="Caldeirao" unique_id=505441432]
+transform = Transform3D(0.99999857, 0, 0, 0, 0.99999857, 0, 0, 0, 0.99999857, 0, -0.00038148463, -0.8532362)
+priority = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Caldeirao/AreaClique" unique_id=1190789284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8026242)
+shape = SubResource("BoxShape3D_v1blp")
 
 [node name="Table_01" parent="." unique_id=953588602 instance=ExtResource("3_gh72r")]
 transform = Transform3D(9, 0, 0.0007853982, 0, 9, 0, -0.0007853982, 0, 9, -0.10079247, -1, 0.12788868)
@@ -309,7 +328,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0070925, 0.69, 3.105)
 [node name="Ground_01" parent="Decor" unique_id=1934833831 instance=ExtResource("1_gyldj")]
 transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0.22440866, 0.0016743243, 1.977972)
 
-[node name="CollisionShape3D" parent="Decor/Ground_01/Ground_01/StaticBody3D" parent_id_path=PackedInt32Array(1934833831, 207037079) index="0" unique_id=1846003156]
+[node name="CollisionShape3D" parent="Decor/Ground_01/Ground_01/StaticBody3D" parent_id_path=PackedInt32Array(1934833831, 1937260901) index="0" unique_id=1034141330]
 disabled = true
 
 [node name="Bottle_05" parent="Decor" unique_id=1060815643 instance=ExtResource("5_lgdko")]
@@ -543,15 +562,15 @@ transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246
 
 [node name="Spawners" type="Node3D" parent="." unique_id=759731134]
 
-[node name="SpawnerA" parent="Spawners" unique_id=1949187913 instance=ExtResource("100_spawner")]
+[node name="A" parent="Spawners" unique_id=1949187913 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.018281162, 3.6681845, -4.5453496)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("102_w01"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
-[node name="SpawnerB" parent="Spawners" unique_id=1550141656 instance=ExtResource("100_spawner")]
+[node name="B" parent="Spawners" unique_id=1550141656 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.73182, 3.8260355, -0.3767725)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
-[node name="SpawnerC" parent="Spawners" unique_id=647405914 instance=ExtResource("100_spawner")]
+[node name="C" parent="Spawners" unique_id=647405914 instance=ExtResource("100_spawner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.371412, 3.7880163, 1.6408707)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("112_wempty"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
@@ -566,7 +585,7 @@ transform = Transform3D(0.4368018, 0, -0.89955777, 0, 1, 0, 0.89955777, 0, 0.436
 nivel_necessario = 0
 
 [node name="BuildSlot3" parent="Builds" unique_id=1808681391 instance=ExtResource("39_v1blp")]
-transform = Transform3D(0.010920045, 0, -0.022488944, 0, 0.025000006, 0, 0.022488944, 0, 0.010920045, -0.13600135, 3.35135, -0.6024053)
+transform = Transform3D(0.4368018, 0, -0.89955777, 0, 1, 0, 0.89955777, 0, 0.4368018, -0.13600135, 3.35135, -0.6024053)
 
 [node name="BuildSlot4" parent="Builds" unique_id=892535448 instance=ExtResource("39_v1blp")]
 transform = Transform3D(0.4368018, 0, -0.89955777, 0, 1, 0, 0.89955777, 0, 0.4368018, 0.48420262, 3.35135, 2.2482116)
@@ -602,4 +621,5 @@ nivel_necessario = 2
 [editable path="NavigationRegion3D/Ponte"]
 [editable path="NavigationRegion3D/Ponte2"]
 [editable path="NavigationRegion3D/Ponte3"]
+[editable path="Caldeirao"]
 [editable path="Decor/Ground_01"]

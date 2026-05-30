@@ -8,10 +8,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uaa1f"]
 render_priority = 0
 shader = ExtResource("3_gqnwe")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 2.0
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_imlo3"]
 resource_name = "Material_1"
@@ -64,7 +62,7 @@ anim_morrer = "Dead"
 
 [node name="Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations" parent="." unique_id=1183622221 instance=ExtResource("1_bax70")]
 
-[node name="Skeleton3D" parent="Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(1183622221, 1841437224) index="0" unique_id=1526714085]
+[node name="Skeleton3D" parent="Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations/Armature" parent_id_path=PackedInt32Array(1183622221, 1354088655) index="0" unique_id=709460524]
 bones/0/position = Vector3(-0.14877802, 25.038134, 3.1929665)
 bones/0/rotation = Quaternion(0.2724448, 0.0472551, -0.0055523603, 0.9609943)
 bones/1/rotation = Quaternion(0.8737847, 0.18061073, -0.24770793, 0.3775193)
@@ -98,7 +96,7 @@ bones/22/rotation = Quaternion(-0.2293459, -1.890582e-05, 0.0065061795, 0.973323
 bones/23/position = Vector3(0.55667365, 1.4140792, 19.608458)
 bones/23/rotation = Quaternion(0.68093926, -1.4559982e-05, -0.019318515, 0.7320851)
 
-[node name="char1" parent="Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=1968056635]
+[node name="char1" parent="Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations/Armature/Skeleton3D" index="0" unique_id=1229508291]
 mesh = SubResource("ArrayMesh_6hfbu")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1784696798]

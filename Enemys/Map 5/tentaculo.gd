@@ -28,8 +28,12 @@ var kraken_pai: Node = null
 var _tempo_sem_alvo: float = 0.0
 # Contador de tempo com alvo mas fora do alcance de ataque
 var _tempo_fora_alcance: float = 0.0
+# Throttle: busca de novo alvo limitada a cada 0.2 s (evita get_nodes_in_group todo frame)
+var _timer_alvo_tentaculo: float = 0.0
 # AnimationPlayer encontrado no modelo (pode ser null se o GLB não tiver animações)
 var _anim_player: AnimationPlayer = null
+# Bloqueio de ataque durante a animação de surgimento (modelo ainda invisível)
+var _emergindo: bool = true
 
 # ============================================================================
 # READY
@@ -79,6 +83,7 @@ func _animar_emergencia() -> void:
 	if modelo:
 		tw.tween_property(modelo, "scale", Vector3.ONE, duracao_emergencia * 0.75)\
 			.set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+	tw.chain().tween_callback(func(): _emergindo = false)
 
 # ============================================================================
 # FÍSICA — Sobrescreve completamente. Tentáculo é ESTÁTICO:
@@ -93,11 +98,11 @@ func _physics_process(delta: float) -> void:
 	if esta_morto:
 		return
 
-	# Gravidade — só pra encostar no chão e travar
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	velocity.x = 0.0
-	velocity.z = 0.0
+	# Tentáculos são 100 % estáticos — spawnam exatamente no Y da construção.
+	# Gravidade REMOVIDA: nas plataformas flutuantes do Mapa 5 não há chão
+	# abaixo, então aplicar gravidade fazia o tentáculo cair no vazio e ocupar
+	# um slot de _tentaculos_ativos para sempre, bloqueando novas invocações.
+	velocity = Vector3.ZERO
 	move_and_slide()
 
 	# Renova o alvo se inválido / destruído
@@ -106,7 +111,11 @@ func _physics_process(delta: float) -> void:
 		or ("vida_atual" in alvo_atual and alvo_atual.vida_atual <= 0)
 
 	if alvo_invalido:
-		alvo_atual = procurar_novo_alvo()
+		# Throttle: evita get_nodes_in_group todo frame quando sem alvo
+		_timer_alvo_tentaculo -= delta
+		if _timer_alvo_tentaculo <= 0.0:
+			alvo_atual = procurar_novo_alvo()
+			_timer_alvo_tentaculo = 0.2
 		if alvo_atual == null:
 			_tempo_sem_alvo += delta
 			if _tempo_sem_alvo >= timeout_sem_alvo:
@@ -122,7 +131,13 @@ func _physics_process(delta: float) -> void:
 	if not global_position.is_equal_approx(alvo_pos):
 		look_at(alvo_pos, Vector3.UP, true)
 
+	# Não ataca enquanto ainda está emergindo (modelo invisível)
+	if _emergindo:
+		return
+
 	# Ataca se em alcance; acumula timeout se ficar preso fora do alcance
+	# (timeout desativado quando alvo é a base — é o último recurso)
+	var alvo_e_base: bool = alvo_atual.is_in_group("Castelo") or alvo_atual.is_in_group("Base")
 	var dist_xz: float = Vector2(
 		global_position.x - alvo_atual.global_position.x,
 		global_position.z - alvo_atual.global_position.z
@@ -132,10 +147,11 @@ func _physics_process(delta: float) -> void:
 		_tocar_animacao("attack")
 		atacar()
 	else:
-		_tempo_fora_alcance += delta
+		if not alvo_e_base:
+			_tempo_fora_alcance += delta
+			if _tempo_fora_alcance >= timeout_fora_alcance:
+				morrer()
 		_tocar_animacao("idle")
-		if _tempo_fora_alcance >= timeout_fora_alcance:
-			morrer()
 
 # ============================================================================
 # ANIMAÇÃO — Toca animação pelo nome; cai automaticamente na primeira
@@ -160,23 +176,37 @@ func _tocar_animacao(nome: String) -> void:
 # ============================================================================
 func procurar_novo_alvo():
 	var construcoes = get_tree().get_nodes_in_group("Construcao")
+
+	# Conta quantas construções válidas (não-base) ainda existem na cena inteira.
+	# O fallback para a base só ativa se TODAS tiverem sido destruídas.
+	var construcoes_vivas: int = 0
 	var melhor_alvo = null
 	var menor_dist: float = raio_visao_construcao + 0.001
 
 	for c in construcoes:
 		if not is_instance_valid(c):
 			continue
-		# Ignora a própria base — tentáculo só ataca construções
 		if c.is_in_group("Castelo") or c.is_in_group("Base"):
 			continue
 		if "esta_destruida" in c and c.esta_destruida:
 			continue
 		if "vida_atual" in c and c.vida_atual <= 0:
 			continue
+		construcoes_vivas += 1
 		var d: float = global_position.distance_to(c.global_position)
 		if d < menor_dist:
 			menor_dist = d
 			melhor_alvo = c
+
+	# Só ataca a base quando não existe NENHUMA construção viva no mapa
+	if melhor_alvo == null and construcoes_vivas == 0:
+		var base = get_tree().get_first_node_in_group("Castelo")
+		if not base:
+			base = get_tree().get_first_node_in_group("Base")
+		if is_instance_valid(base) \
+				and not ("esta_destruida" in base and base.esta_destruida) \
+				and not ("vida_atual" in base and base.vida_atual <= 0):
+			melhor_alvo = base
 
 	return melhor_alvo
 
