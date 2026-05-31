@@ -396,30 +396,6 @@ func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
 				if Global.DEBUG_MODE:
 					print("Anel foi ligado!")
 
-# Fallback para o Castelo no mobile: Area3D.input_event pode não disparar em
-# alguns dispositivos. Usamos proximidade 2D para garantir que um toque perto
-# do centro projetado do castelo abra o painel de upgrades.
-func _unhandled_input(event: InputEvent) -> void:
-	if tipo != TipoConstrucao.BASE or esta_destruida:
-		return
-	# Só responde a press (toque ou clique esquerdo)
-	if event is InputEventScreenTouch:
-		if not (event as InputEventScreenTouch).pressed: return
-	elif event is InputEventMouseButton:
-		var mb := event as InputEventMouseButton
-		if mb.button_index != MOUSE_BUTTON_LEFT or not mb.pressed: return
-	else:
-		return
-	var cam := get_viewport().get_camera_3d()
-	if not is_instance_valid(cam) or cam.is_position_behind(global_position):
-		return
-	# Raio de toque generoso (120 px no espaço de viewport 1920×1080)
-	if event.position.distance_to(cam.unproject_position(global_position)) > 120.0:
-		return
-	if _pode_interagir_tutorial():
-		get_viewport().set_input_as_handled()
-		construcao_selecionada.emit(self)
-
 # ==========================================
 # BALANCEAMENTO CSV POR PREFIXO
 # Lê custo, vida, dano e moedas_por_onda do

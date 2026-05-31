@@ -62,6 +62,10 @@ func _ready() -> void:
 	# Desenha tudo pela primeira vez
 	recalcular_linhas()
 
+	# Botão de debug "Desbloquear Tudo" — visível apenas em builds de debug ou editor
+	if OS.is_debug_build() or OS.has_feature("editor"):
+		_criar_botao_debug_unlock()
+
 func recalcular_linhas() -> void:
 	await get_tree().process_frame
 	criar_linhas_tracejadas()
@@ -131,6 +135,44 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 		else:
 			linhas_criadas[i].hide()
 
+func _criar_botao_debug_unlock() -> void:
+	var btn := Button.new()
+	btn.text = "🔓 DEBUG: Desbloquear Tudo"
+	btn.add_theme_font_size_override("font_size", 22)
+	btn.custom_minimum_size = Vector2(320, 64)
+
+	# Posição: canto inferior-direito da tela
+	btn.anchor_left   = 1.0
+	btn.anchor_right  = 1.0
+	btn.anchor_top    = 1.0
+	btn.anchor_bottom = 1.0
+	btn.offset_left   = -340
+	btn.offset_right  = -10
+	btn.offset_top    = -74
+	btn.offset_bottom = -10
+
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.15, 0.08, 0.28, 0.90)
+	st.border_color = Color(0.72, 0.40, 0.95)
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(10)
+	st.content_margin_left = 12
+	st.content_margin_right = 12
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_color_override("font_color", Color(0.88, 0.72, 1.0))
+	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+	btn.pressed.connect(func():
+		Global.fases_liberadas = botoes_fases.size()
+		# Marca todas as cutscenes como vistas — as fases 2-6 ainda têm cutscenes
+		# placeholder que não transicionam para a fase, então puladas evitam travar.
+		for n in range(1, botoes_fases.size() + 1):
+			Global.registrar_cutscene_vista(n)
+		Global.salvar_progresso()
+		atualizar_mapa(Global.fases_liberadas)
+	)
+	add_child(btn)
+
 func atualizar_estrelas_do_botao(botao: Button, nivel_da_fase: int) -> void:
 	# Puxa as estrelas do Global. Usa str() para buscar "1", "2", etc.
 	var qtd_estrelas = Global.estrelas_por_fase.get(str(nivel_da_fase), 0)
@@ -188,6 +230,9 @@ func _abrir_modal_fase(numero_fase: int) -> void:
 
 func _iniciar_fase(numero_fase: int, infinito: bool) -> void:
 	GameManager.modo_infinito = infinito
+	# Define a fase atual ANTES de carregar — a cutscene e a cena da fase leem
+	# GameManager.fase_atual para saber qual fase iniciar.
+	GameManager.fase_atual = numero_fase
 
 	# Limpa o estado da sessão anterior antes de trocar de cena.
 	# Isso garante que nivel_base (e demais bônus) estejam zerados quando a nova

@@ -112,10 +112,19 @@ const _TEMA_NEUTRO: Dictionary = {
 func _ready():
 	add_to_group("Interface")
 	
-	# Se certificando que o filtro de mouse não ira impedir o cursor mudar ao dar hover nas construções
+	# Garante que containers vazios não consumam eventos de toque destinados ao mundo 3D
 	var centro_tela = $InterfacePrincipal/CentroTela
 	if centro_tela != null:
-		centro_tela.mouse_filter = Control.MOUSE_FILTER_IGNORE # Ele é "Pass" por padrão no filter
+		centro_tela.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	# MarginInferior (y≈66-77%) e o seu CenterContainer têm STOP por defeito
+	# e bloqueiam o clique no Castelo que fica projetado no centro do ecrã.
+	var margin_inf = get_node_or_null("InterfacePrincipal/MarginInferior")
+	if margin_inf:
+		margin_inf.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		for child in margin_inf.get_children():
+			if child is Control:
+				child.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	# Conecta sinais do GameManager (upgrade de cartas)
 	if GameManager.has_signal("mostrar_menu_upgrade"):
