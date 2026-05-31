@@ -12,8 +12,16 @@ var banco_conquistas: Array[ConquistaData] = []
 @onready var label_titulo  := $LabelTitulo
 
 func _ready():
+	# Garante que pausas residuais (game-over, etc.) não bloqueiem o menu
+	get_tree().paused = false
 	_carregar_conquistas_da_pasta("res://Conquistas/")
 	_construir_ui()
+
+# Botão físico "Voltar" do Android
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.keycode == KEY_BACK and event.pressed:
+		_on_btn_voltar_pressed()
+		get_viewport().set_input_as_handled()
 
 # ==========================================
 # CARREGAMENTO
@@ -28,7 +36,7 @@ func _carregar_conquistas_da_pasta(caminho_pasta: String):
 		# Remove o sufixo .remap gerado pela engine durante a exportação de recursos
 		var arquivo_limpo = file_name.trim_suffix(".remap")
 		if arquivo_limpo.ends_with(".tres") or arquivo_limpo.ends_with(".res"):
-			var res = load(caminho_pasta + "/" + arquivo_limpo)
+			var res = load(caminho_pasta + arquivo_limpo)  # caminho_pasta já tem "/" no final
 			if res is ConquistaData:
 				banco_conquistas.append(res)
 		file_name = dir.get_next()
