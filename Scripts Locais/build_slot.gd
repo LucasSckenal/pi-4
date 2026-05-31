@@ -133,6 +133,9 @@ func _atualizar_visibilidade_por_tempo():
 func _esconder_todos_elementos():
 	if base_mesh: base_mesh.hide()
 	if canvas_mobile: canvas_mobile.hide()
+	# bolha_btn tem top_level=true e não herda a visibilidade do CanvasLayer pai —
+	# precisa ser escondida explicitamente para não ficar "travada" na tela.
+	if bolha_btn: bolha_btn.hide()
 	fechar_ui()
 
 # ==========================================
@@ -168,11 +171,15 @@ func fechar_ui():
 		ui_atual.fechar_menu()  # A UI deve ter um método "fechar_menu()"
 		ui_atual.queue_free()
 		ui_atual = null
-		
+
 		if canvas_mobile:
 			canvas_mobile.layer = 1 # Retorna a camada ao nível padrão
-		
-		if bolha_btn: bolha_btn.show()
+
+		# Só mostra a bolha se o lote ainda estiver disponível para construção.
+		# bolha_btn usa top_level=true (não herda visibilidade do CanvasLayer),
+		# por isso precisa ser controlado explicitamente aqui.
+		if bolha_btn and not is_built and pode_construir and slot_disponivel:
+			bolha_btn.show()
 
 # ==========================================
 # CONSTRUÇÃO (chamada pela UI após compra)
