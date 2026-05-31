@@ -239,6 +239,28 @@ func _ready():
 	_criar_barra_vida_base()
 	aplicar_tema_hud()
 
+	# No mobile, escala os painéis laterais para melhor legibilidade
+	if OS.has_feature("mobile"):
+		call_deferred("_escalar_hud_mobile")
+
+# ==========================================
+# ESCALA MOBILE DO HUD
+# ==========================================
+func _escalar_hud_mobile() -> void:
+	# Aumenta levemente os painéis de onda (esq) e de moedas/baú (dir)
+	# call_deferred garante que o layout já calculou os tamanhos finais.
+	const ESC := 1.4
+
+	var esq := get_node_or_null("InterfacePrincipal/MarginEsquerda")
+	if is_instance_valid(esq):
+		esq.pivot_offset = Vector2.ZERO
+		esq.scale = Vector2(ESC, ESC)
+
+	if is_instance_valid(margin_direita):
+		# Pivô no canto inferior-direito para escalar em direção ao centro
+		margin_direita.pivot_offset = margin_direita.size
+		margin_direita.scale = Vector2(ESC, ESC)
+
 # ==========================================
 # CONEXÃO COM CONSTRUÇÕES (UPGRADE INDIVIDUAL)
 # ==========================================

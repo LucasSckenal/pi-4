@@ -78,37 +78,6 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="TrilhaSlider"]
-bg_color = Color(0.25, 0.16, 0.08, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="StyleBoxFlat" id="AreaSlider"]
-bg_color = Color(0.92, 0.72, 0.24, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
-expand_margin_top = 6.0
-expand_margin_bottom = 6.0
-
-[sub_resource type="LabelSettings" id="ValorPorcentagem"]
-font_size = 22
-
 [sub_resource type="StyleBoxFlat" id="Botao"]
 content_margin_left = 24.0
 content_margin_top = 14.0
@@ -141,6 +110,37 @@ corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="TrilhaSlider"]
+bg_color = Color(0.25, 0.16, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="AreaSlider"]
+bg_color = Color(0.92, 0.72, 0.24, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="LabelSettings" id="ValorPorcentagem"]
+font_size = 22
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v3dhh"]
 content_margin_left = 24.0
@@ -340,6 +340,105 @@ corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
+[sub_resource type="StyleBoxFlat" id="BotaoVoltar_n"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.5, 0.16, 0.14, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoVoltar_p"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.34, 0.1, 0.09, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoVoltar_h"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.78, 0.28, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoEquipe_n"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.13, 0.28, 0.6, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoEquipe_p"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.08, 0.18, 0.4, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoEquipe_h"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.22, 0.46, 0.9, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoSalvar_n"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.11, 0.44, 0.2, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoSalvar_p"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.07, 0.28, 0.13, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoSalvar_h"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.18, 0.66, 0.32, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
 [node name="Configuracoes" type="Control" unique_id=35656818]
 layout_mode = 3
 anchors_preset = 15
@@ -469,7 +568,6 @@ text = "HUD Customizado"
 [node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=312847561]
 layout_mode = 2
 mouse_default_cursor_shape = 2
-button_pressed = true
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 22
@@ -478,6 +576,7 @@ theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
 theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
+button_pressed = true
 text = "Tremor de Tela"
 
 [node name="LabelQualidade" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=451928374]
@@ -769,10 +868,11 @@ custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.88, 1)
 theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_styles/normal = SubResource("BotaoVoltar_n")
+theme_override_styles/pressed = SubResource("BotaoVoltar_p")
+theme_override_styles/hover = SubResource("BotaoVoltar_h")
 text = "VOLTAR"
 
 [node name="BtnEquipe" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape" unique_id=1170443230]
@@ -780,10 +880,11 @@ custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.88, 0.94, 1, 1)
 theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_styles/normal = SubResource("BotaoEquipe_n")
+theme_override_styles/pressed = SubResource("BotaoEquipe_p")
+theme_override_styles/hover = SubResource("BotaoEquipe_h")
 text = "SOBRE A EQUIPE"
 
 [node name="BtnSalvar" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape" unique_id=1008608443]
@@ -791,10 +892,11 @@ custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.88, 1, 0.9, 1)
 theme_override_font_sizes/font_size = 24
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_styles/normal = SubResource("BotaoSalvar_n")
+theme_override_styles/pressed = SubResource("BotaoSalvar_p")
+theme_override_styles/hover = SubResource("BotaoSalvar_h")
 text = "SALVAR ALTERAÇÕES"
 
 [node name="FundoEquipe" type="ColorRect" parent="." unique_id=1109136482]

@@ -36,11 +36,12 @@ var temp_qualidade_3d: int = 2 # 0 = Baixa, 1 = Média, 2 = Alta
 
 func _ready():
 	master_bus = AudioServer.get_bus_index("Master")
-	
+
 	# Garante que o painel da equipe comece invisível
 	if _painel_equipe:
 		_painel_equipe.hide()
-		
+
+	_configurar_icones()
 	_carregar_configuracoes()
 
 	if OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios"):
@@ -70,6 +71,23 @@ func _ready():
 			
 		if _preview_cursor:
 			_atualizar_preview_cursor()
+
+# ==========================================
+# ÍCONES DOS BOTÕES
+# ==========================================
+func _configurar_icones() -> void:
+	var base = "CenterContainer/Painel/Margin/VBoxRoot/Rodape/"
+	_set_icon(base + "BtnVoltar",  "res://Assets/Menu/IconeVoltar.png")
+	_set_icon(base + "BtnEquipe",  "res://Assets/Menu/IconeEquipe.png")
+	_set_icon(base + "BtnSalvar",  "res://Assets/Menu/IconeSalvar.png")
+
+func _set_icon(node_path: String, texture_path: String, max_px: int = 38) -> void:
+	var btn := get_node_or_null(node_path)
+	if btn is Button:
+		var tex := load(texture_path) as Texture2D
+		if tex:
+			btn.icon = tex
+			btn.add_theme_constant_override("icon_max_width", max_px)
 
 # ==========================================
 # HELPERS

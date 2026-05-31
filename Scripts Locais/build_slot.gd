@@ -127,6 +127,8 @@ func _atualizar_visibilidade_por_tempo():
 		if base_mesh: base_mesh.show()
 		# Verifica também o recurso 'pc' para garantir a exibição em exportações para desktop
 		if canvas_mobile: canvas_mobile.visible = OS.has_feature("mobile") or OS.has_feature("editor") or OS.has_feature("pc")
+		# bolha_btn usa top_level=true — mostrar explicitamente para não depender só do _process
+		if bolha_btn and estado_toque_mobile == 0: bolha_btn.show()
 	else:
 		_esconder_todos_elementos()
 

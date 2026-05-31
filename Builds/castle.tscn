@@ -55,7 +55,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_hhkcv")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_07545"]
-radius = 0.6071644
+radius = 2.2
 
 [node name="building-castle2" unique_id=1806970837 groups=["Base", "Castelo"] instance=ExtResource("1_xtwgx")]
 script = ExtResource("2_07545")
