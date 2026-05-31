@@ -39,6 +39,10 @@ var _audio: AudioStreamPlayer = null
 
 
 func _ready() -> void:
+	# Fallback: cenas de cutscene que esqueceram de definir numero_fase no Inspetor
+	# (fases 2-6) herdam a fase actual — evita travar sem transição no fim.
+	if numero_fase <= 0:
+		numero_fase = GameManager.fase_atual
 	if numero_fase > 0:
 		Global.registrar_cutscene_vista(numero_fase)
 		if caminho_proxima_fase == "":

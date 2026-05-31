@@ -345,6 +345,11 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	var descricao: String = str(temp.get("descricao"))   if "descricao"     in temp else ""
 	temp.queue_free()
 
+	# Fallback: scene_file_path no nó instanciado pode apontar para o .glb raiz em vez do .tscn
+	# — usamos cena_torre.resource_path (do PackedScene) que é sempre o caminho do .tscn.
+	if icone == null:
+		icone = _icone_por_path_cena(cena_torre.resource_path)
+
 	var custo_final: int = GameManager.obter_custo_com_desconto(custo)
 
 	# Cor do tipo
@@ -686,3 +691,30 @@ func _unhandled_input(event: InputEvent) -> void:
 			if is_instance_valid(_slot_alvo) and _slot_alvo.has_method("fechar_ui"):
 				_slot_alvo.call_deferred("fechar_ui")
 				get_viewport().set_input_as_handled()
+
+# ==========================================
+# ÍCONE FALLBACK POR CAMINHO DO TSCN
+# ==========================================
+const _ICON_CONSTRUCAO_TORRE    = preload("res://Assets/Construcoes/ConstrucaoTorre.png")
+const _ICON_CONSTRUCAO_MOINHO   = preload("res://Assets/Construcoes/ConstrucaoMoinho.png")
+const _ICON_CONSTRUCAO_CASA     = preload("res://Assets/Construcoes/ConstrucaoCasa.png")
+const _ICON_CONSTRUCAO_MINA     = preload("res://Assets/Construcoes/ConstrucaoMina.png")
+const _ICON_CONSTRUCAO_QUARTEL  = preload("res://Assets/Construcoes/ConstrucaoQuartel.png")
+const _ICON_CONSTRUCAO_BRUXA    = preload("res://Assets/Construcoes/ConstrucaoBruxa.png")
+const _ICON_CONSTRUCAO_PIRATA   = preload("res://Assets/Construcoes/ConstrucaoPirata.png")
+const _ICON_CONSTRUCAO_DESERTO  = preload("res://Assets/Construcoes/ConstrucaoDeserto.png")
+const _ICON_CONSTRUCAO_SCIFI    = preload("res://Assets/Construcoes/ConstrucaoScifi.png")
+const _ICON_CONSTRUCAO_COVIL    = preload("res://Assets/Construcoes/ConstrucaoCovil.png")
+
+func _icone_por_path_cena(path: String) -> Texture2D:
+	if "tower" in path:      return _ICON_CONSTRUCAO_TORRE
+	if "mill" in path:       return _ICON_CONSTRUCAO_MOINHO
+	if "house" in path or "casebre" in path or "casa" in path: return _ICON_CONSTRUCAO_CASA
+	if "mina" in path:       return _ICON_CONSTRUCAO_MINA
+	if "quartel" in path:    return _ICON_CONSTRUCAO_QUARTEL
+	if "caldeiron" in path:  return _ICON_CONSTRUCAO_BRUXA
+	if "pirata" in path:     return _ICON_CONSTRUCAO_PIRATA
+	if "egipcio" in path or "deserto" in path: return _ICON_CONSTRUCAO_DESERTO
+	if "tesla" in path or "scifi" in path:     return _ICON_CONSTRUCAO_SCIFI
+	if "fogo" in path or "covil" in path:      return _ICON_CONSTRUCAO_COVIL
+	return _ICON_CONSTRUCAO_TORRE  # genérico
