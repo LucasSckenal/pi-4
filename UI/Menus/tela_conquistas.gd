@@ -147,7 +147,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	# ── Painel externo ────────────────────────────────────────────────
 	var card := PanelContainer.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	card.custom_minimum_size   = Vector2(0, 210 if mob else 148)
+	card.custom_minimum_size   = Vector2(0, 260 if mob else 148)
 
 	var st := StyleBoxFlat.new()
 	st.bg_color     = Color(0.17, 0.10, 0.04, 0.97) if liberada else Color(0.10, 0.07, 0.03, 0.95)
@@ -168,7 +168,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	card.add_child(hbox)
 
 	# ── Ícone (quadrado, 150×150 no mobile / 110×110 no desktop) ─────
-	var ic_sz: int = 150 if mob else 110
+	var ic_sz: int = 175 if mob else 110
 	var ic_cont := Control.new()
 	ic_cont.custom_minimum_size = Vector2(ic_sz, ic_sz)
 	ic_cont.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -246,7 +246,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	# Nome (sempre visível)
 	var nome_lbl := Label.new()
 	nome_lbl.text = conquista.nome
-	nome_lbl.add_theme_font_size_override("font_size", 26 if mob else 19)
+	nome_lbl.add_theme_font_size_override("font_size", 32 if mob else 19)
 	nome_lbl.add_theme_color_override("font_color",
 		Color(1.0, 0.88, 0.42) if liberada else Color(0.50, 0.50, 0.55))
 	nome_lbl.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -257,7 +257,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	# Descrição
 	var desc_lbl := Label.new()
 	desc_lbl.text = conquista.descricao if liberada else "Continue jogando para descobrir..."
-	desc_lbl.add_theme_font_size_override("font_size", 19 if mob else 14)
+	desc_lbl.add_theme_font_size_override("font_size", 23 if mob else 14)
 	desc_lbl.add_theme_color_override("font_color",
 		Color(0.78, 0.68, 0.48) if liberada else Color(0.36, 0.28, 0.16))
 	desc_lbl.autowrap_mode    = TextServer.AUTOWRAP_WORD_SMART

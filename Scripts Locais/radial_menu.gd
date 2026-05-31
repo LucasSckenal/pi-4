@@ -116,7 +116,8 @@ func _construir_ui() -> void:
 	# ── Corpo ──────────────────────────────────────────────────────────
 	var corpo := HBoxContainer.new()
 	corpo.add_theme_constant_override("separation", 0)
-	corpo.custom_minimum_size = Vector2(0 if OS.has_feature("mobile") else 920, 540)
+	# No mobile o painel precisa ser largo o suficiente para os botões de construção
+	corpo.custom_minimum_size = Vector2(700 if OS.has_feature("mobile") else 920, 540)
 	raiz.add_child(corpo)
 
 	# ── ESQUERDA: grade de construções ─────────────────────────────────
@@ -282,9 +283,9 @@ func _construir_ui() -> void:
 	# Botão Construir
 	_btn_confirmar = Button.new()
 	_btn_confirmar.text = "CONSTRUIR"
-	_btn_confirmar.add_theme_font_size_override("font_size", 24)
+	_btn_confirmar.add_theme_font_size_override("font_size", 28 if OS.has_feature("mobile") else 24)
 	_btn_confirmar.add_theme_color_override("font_color", Color(0.08, 0.05, 0.02))
-	_btn_confirmar.custom_minimum_size = Vector2(0, 72)
+	_btn_confirmar.custom_minimum_size = Vector2(0, 88 if OS.has_feature("mobile") else 72)
 	_btn_confirmar.focus_mode = Control.FOCUS_NONE
 	_btn_confirmar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_btn_confirmar.disabled = true
@@ -359,7 +360,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	var btn := Button.new()
 	btn.toggle_mode = true
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(168, 158)
+	btn.custom_minimum_size = Vector2(210, 190) if OS.has_feature("mobile") else Vector2(168, 158)
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
@@ -377,7 +378,8 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	var ic := TextureRect.new()
 	ic.texture = icone
-	ic.custom_minimum_size = Vector2(84, 84)
+	var ic_sz := 105 if OS.has_feature("mobile") else 84
+	ic.custom_minimum_size = Vector2(ic_sz, ic_sz)
 	ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -386,7 +388,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	var nome_lbl := Label.new()
 	nome_lbl.text = nome
-	nome_lbl.add_theme_font_size_override("font_size", 18)
+	nome_lbl.add_theme_font_size_override("font_size", 22 if OS.has_feature("mobile") else 18)
 	nome_lbl.add_theme_color_override("font_color", Color(0.90, 0.82, 0.65))
 	nome_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	nome_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -247,17 +247,23 @@ func _ready():
 # ESCALA MOBILE DO HUD
 # ==========================================
 func _escalar_hud_mobile() -> void:
-	# Aumenta levemente os painéis de onda (esq) e de moedas/baú (dir)
+	# Escala os três painéis HUD visíveis no mobile.
 	# call_deferred garante que o layout já calculou os tamanhos finais.
-	const ESC := 1.4
+	const ESC := 1.45
 
-	var esq := get_node_or_null("InterfacePrincipal/MarginEsquerda")
+	# Painel esquerdo: ampulheta + onda (ancora no canto superior-esquerdo)
+	var esq: Control = get_node_or_null("InterfacePrincipal/MarginEsquerda")
 	if is_instance_valid(esq):
 		esq.pivot_offset = Vector2.ZERO
 		esq.scale = Vector2(ESC, ESC)
 
+	# Controles mobile: zoom + play (ancora no canto superior-direito)
+	if is_instance_valid(hud_mobile_completo):
+		hud_mobile_completo.pivot_offset = Vector2(hud_mobile_completo.size.x, 0.0)
+		hud_mobile_completo.scale = Vector2(ESC, ESC)
+
+	# Baú + moedas (ancora no canto inferior-direito)
 	if is_instance_valid(margin_direita):
-		# Pivô no canto inferior-direito para escalar em direção ao centro
 		margin_direita.pivot_offset = margin_direita.size
 		margin_direita.scale = Vector2(ESC, ESC)
 
