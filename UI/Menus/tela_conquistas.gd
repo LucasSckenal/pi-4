@@ -280,7 +280,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 
 			var rlbl := Label.new()
 			rlbl.text = "Desbloqueou:"
-			rlbl.add_theme_font_size_override("font_size", 12)
+			rlbl.add_theme_font_size_override("font_size", 28 if mob else 12)
 			rlbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.60))
 			rlbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			rrow.add_child(rlbl)
@@ -288,7 +288,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 			if tem_chapeu:
 				var b := TextureRect.new()
 				b.texture = ICON_CHAPEU
-				b.custom_minimum_size = Vector2(16, 16)
+				b.custom_minimum_size = Vector2(32, 32) if mob else Vector2(16, 16)
 				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -296,7 +296,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 			if tem_arma:
 				var b := TextureRect.new()
 				b.texture = ICON_ESPADA
-				b.custom_minimum_size = Vector2(16, 16)
+				b.custom_minimum_size = Vector2(32, 32) if mob else Vector2(16, 16)
 				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER

@@ -116,10 +116,13 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 			# Chamamos a atualização das estrelas aqui:
 			atualizar_estrelas_do_botao(botoes_fases[i], nivel_da_fase)
 			botao.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			for botao_child in botao.get_children(): botao_child.visible = true
+
 		else:
 			botao.modulate = Color(0.01, 0.01, 0.01, 1) 
 			botao.disabled = true
 			botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
+			for botao_child in botao.get_children(): botao_child.visible = false
 
 	for i in range(linhas_criadas.size()):
 		var nivel_destino = i + 2 
