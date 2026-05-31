@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Onde Estão os Netos?"
-config/version="2.3"
+config/version="2.7"
 run/main_scene="uid://c6q536yvnfjtf"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/show_image=false
