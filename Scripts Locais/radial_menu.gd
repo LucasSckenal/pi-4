@@ -331,24 +331,49 @@ func fechar_menu() -> void:
 # ==========================================
 # CRIAÇÃO DOS BOTÕES NA GRADE
 # ==========================================
+# ==========================================
+# CRIAÇÃO DOS BOTÕES NA GRADE
+# ==========================================
 func _criar_botao_grade(dados: Dictionary) -> void:
 	var cena_torre: PackedScene = dados.cena
 	var bloqueado: bool         = dados.get("bloqueado", false)
 	var nivel_necessario: int   = dados.get("nivel_necessario", 0)
 
 	var temp := cena_torre.instantiate()
+
+	# Extrai o identificador base da torre pelo nome do arquivo (ex: "torre_padrao.tscn" -> "torre_padrao")
+	var id_torre: String = cena_torre.resource_path.get_file().get_basename().to_lower()
+	var chave_custo: String = id_torre + "_custo"
+
+	temp.process_mode = Node.PROCESS_MODE_DISABLED
+	temp.visible = false
+	add_child(temp)
+
 	if temp.has_method("_resolver_icone_construcao"):
 		temp._resolver_icone_construcao()
+		
 	var nome: String      = GameManager.nome_para_cena(cena_torre)
-	var icone: Texture2D  = temp.get("icone")            if "icone"         in temp else null
-	var custo: int        = int(temp.get("custo_moedas")) if "custo_moedas" in temp else 0
-	var descricao: String = str(temp.get("descricao"))   if "descricao"     in temp else ""
+	var icone: Texture2D  = temp.get("icone") if "icone" in temp else null
+	
+	# Resolução em cascata do custo para garantir funcionamento no mobile
+	var custo: int = 0
+	if dados.has("custo"):
+		custo = int(dados.get("custo"))
+	elif temp.get("custo_moedas") != null and int(temp.get("custo_moedas")) > 0:
+		custo = int(temp.get("custo_moedas"))
+	# Caso tenha um Singleton de balanceamento, a integração direta seria aqui:
+	# elif GameManager.balanceamento.has(chave_custo):
+	# 	custo = int(GameManager.balanceamento[chave_custo])
+		
+	var descricao: String = str(temp.get("descricao")) if "descricao" in temp else ""
+	
+	remove_child(temp)
 	temp.queue_free()
 
-	# Fallback: scene_file_path no nó instanciado pode apontar para o .glb raiz em vez do .tscn
-	# — usamos cena_torre.resource_path (do PackedScene) que é sempre o caminho do .tscn.
+	## Fallback: Compatibilidade para resolução de ícones em ambientes emulados e exportados
+	var caminho_cena: String = cena_torre.resource_path.replace(".remap", "")
 	if icone == null:
-		icone = _icone_por_path_cena(cena_torre.resource_path)
+		icone = _icone_por_path_cena(caminho_cena)
 
 	var custo_final: int = GameManager.obter_custo_com_desconto(custo)
 
@@ -465,7 +490,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 		lock_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		btn.add_child(lock_lbl)
 
-	btn.pressed.connect(func(): _ao_clicar_botao(btn))
+	btn.pressed.connect(_ao_clicar_botao.bind(btn))
 	_botoes_ativos.append(btn)
 	_grid.add_child(btn)
 

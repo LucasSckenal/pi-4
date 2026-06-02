@@ -69,6 +69,9 @@ nome_construcao = "Castelo"
 [node name="building-castle" parent="." index="0" unique_id=579859222]
 mesh = SubResource("ArrayMesh_d1utd")
 
+[node name="StaticBody3D" parent="building-castle" index="0" unique_id=1107109127]
+input_ray_pickable = false
+
 [node name="AreaClique" type="Area3D" parent="." index="1" unique_id=440299272]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaClique" index="0" unique_id=60864668]

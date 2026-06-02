@@ -195,6 +195,8 @@ var caminhos_das_cutscenes = {
 	6: "res://Cenas Locais/Cutscines/cutscene_animada_6.tscn"
 }
 
+var _debug_label: Label
+
 # ==========================================
 # AUTO-LOAD (INICIA JUNTO COM O JOGO)
 # ==========================================
@@ -207,6 +209,68 @@ func _ready():
 	# Reaplica sempre que o usuário pressionar F5 para hot-reload
 	if Balanceamento.recarregado.is_connected(_aplicar_balanceamento) == false:
 		Balanceamento.recarregado.connect(_aplicar_balanceamento)
+
+# --- INÍCIO DO DEBUGGER DE TELA ---
+	var canvas = CanvasLayer.new()
+	canvas.layer = 128 # Camada altíssima para ficar acima de qualquer UI sua
+	add_child(canvas)
+	
+	_debug_label = Label.new()
+	_debug_label.add_theme_font_size_override("font_size", 28)
+	_debug_label.add_theme_color_override("font_color", Color(1, 0.2, 0.2)) # Vermelho
+	_debug_label.add_theme_color_override("font_outline_color", Color.BLACK)
+	_debug_label.add_theme_constant_override("outline_size", 6)
+	_debug_label.position = Vector2(20, 100) # Fica no canto superior esquerdo
+	_debug_label.text = "DEBUG: Aguardando toque..."
+	canvas.add_child(_debug_label)
+	# --- FIM DO DEBUGGER ---
+
+func _input(event: InputEvent) -> void:
+	var is_touch = event is InputEventScreenTouch and event.pressed
+	var is_mouse = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+	
+	if is_touch or is_mouse:
+		var pos = event.position
+		var texto = "[%s] Pos: %d, %d" % ["Toque" if is_touch else "Mouse", pos.x, pos.y]
+		
+		var hovered_ui = get_viewport().gui_get_hovered_control()
+		if hovered_ui:
+			texto += " | UI BLOCK: " + hovered_ui.name
+		else:
+			texto += " | UI BLOCK: Nenhuma"
+			
+		var cam = get_viewport().get_camera_3d()
+		if cam:
+			var from = cam.project_ray_origin(pos)
+			var to = from + cam.project_ray_normal(pos) * 1000.0
+			var space = cam.get_world_3d().direct_space_state
+			var query = PhysicsRayQueryParameters3D.create(from, to)
+			
+			query.collide_with_areas = true
+			
+			var result = space.intersect_ray(query)
+			
+			if result:
+				texto += " | HIT 3D: " + str(result.collider.name)
+				var pai = result.collider.get_parent()
+				if pai:
+					texto += " (Pai: " + str(pai.name) + ")"
+			else:
+				texto += " | HIT 3D: Vazio"
+		else:
+			texto += " | ERRO: Sem Câmera!"
+			
+		adicionar_log_debug(texto)
+
+func adicionar_log_debug(texto: String) -> void:
+	if _debug_label:
+		var linhas = _debug_label.text.split("\n")
+		if linhas.size() > 5:
+			linhas = linhas.slice(linhas.size() - 5, linhas.size())
+		_debug_label.text = "\n".join(linhas) + "\n" + texto
+
+
+# Aqui termina o debugger, excluir após encontrar o problema por favor ou fazer isso ser ativável e desativável ingame
 
 # ==========================================
 # BALANCEAMENTO CENTRALIZADO (CSV)

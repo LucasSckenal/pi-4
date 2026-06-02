@@ -969,5 +969,6 @@ mouse_filter = 2
 [editable path="TutorialManager"]
 [editable path="TutorialManager/CaixaDialogo/HBoxContainer/RetratoEsquerda/SubViewport/character-female-c2"]
 [editable path="TutorialManager/CaixaDialogo/HBoxContainer/RetratoDireita/SubViewport/character-male-b2"]
+[editable path="building-castle2"]
 [editable path="HUD"]
 [editable path="HUD/InterfacePrincipal/HudMobileCompleto"]

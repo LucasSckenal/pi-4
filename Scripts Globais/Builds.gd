@@ -353,6 +353,16 @@ func _ready():
 		$AreaTransparencia.body_entered.connect(_on_area_transparencia_body_entered)
 		$AreaTransparencia.body_exited.connect(_on_area_transparencia_body_exited)
 	
+	for corpo in find_children("*", "StaticBody3D"):
+		corpo.input_ray_pickable = true # Garante que ele ouve o mouse/touch
+		
+		if not corpo.input_event.is_connected(_on_area_clique):
+			corpo.input_event.connect(_on_area_clique)
+		if not corpo.mouse_entered.is_connected(_on_area_clique_mouse_entered):
+			corpo.mouse_entered.connect(_on_area_clique_mouse_entered)
+		if not corpo.mouse_exited.is_connected(_on_area_clique_mouse_exited):
+			corpo.mouse_exited.connect(_on_area_clique_mouse_exited)
+	
 	# Notifica a interface sobre a existência desta construção após a inicialização dos grupos
 	for interface_node in get_tree().get_nodes_in_group("Interface"):
 		if interface_node.has_method("_conectar_construcao"):
@@ -382,15 +392,13 @@ func _on_area_clique(_camera, event, _position, _normal, _shape_idx):
 	var tocou_tela = (event is InputEventScreenTouch and event.pressed)
 
 	if clicou_mouse or tocou_tela:
+		if Global.DEBUG_MODE and GameManager.has_method("adicionar_log_debug"):
+			GameManager.adicionar_log_debug("SUCESSO: Script _on_area_clique rodou em " + name)
+			
 		if _pode_interagir_tutorial():
-			# Consome o evento para que construções MAIS DISTANTES que se sobreponham
-			# em projeção 2D não abram o seu painel em simultâneo. O Godot 4 dispara
-			# input_event das CollisionObjects em ordem câmera-mais-próxima-primeiro,
-			# então a que responde aqui é sempre a mais à frente.
 			get_viewport().set_input_as_handled()
 			construcao_selecionada.emit(self)
 
-			# ACENDE O ANEL
 			if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
 				indicador_alcance.visible = true
 				if Global.DEBUG_MODE:
@@ -968,6 +976,16 @@ func _trocar_modelo(nivel: int):
 			modelo.is_fantasma = true
 		modelo_anchor.add_child(modelo)
 		modelo.scale = escala_modelo
+		
+		# Tornando staticbody em um botão
+		for corpo in modelo.find_children("*", "StaticBody3D"):
+			corpo.input_ray_pickable = true
+			if not corpo.input_event.is_connected(_on_area_clique):
+				corpo.input_event.connect(_on_area_clique)
+			if not corpo.mouse_entered.is_connected(_on_area_clique_mouse_entered):
+				corpo.mouse_entered.connect(_on_area_clique_mouse_entered)
+			if not corpo.mouse_exited.is_connected(_on_area_clique_mouse_exited):
+				corpo.mouse_exited.connect(_on_area_clique_mouse_exited)
 		
 		# Esconde as malhas da torre base para evitar sobreposição
 		_esconder_malhas_originais(self)
@@ -2024,6 +2042,9 @@ func vender_construcao():
 func _on_area_clique_mouse_entered():
 	if esta_destruida or is_fantasma or GameManager.is_night: return
 	Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+	
+	if Global.DEBUG_MODE and GameManager.has_method("adicionar_log_debug"):
+		GameManager.adicionar_log_debug("SUCESSO: mouse_entered rodou em " + name)
 
 	if _tween_hover and _tween_hover.is_running():
 		_tween_hover.kill()
