@@ -11,7 +11,7 @@ const _ICON_ESCUDO    = preload("res://Assets/Icons/Escudo.png")
 const _ICON_CASTELO   = preload("res://Assets/Icons/Castelo.png")
 const _ICON_CRANIO    = preload("res://Assets/Icons/Cranio.png")
 const _ICON_GUINDASTE = preload("res://Assets/Icons/Guindaste.png")
-const _ICON_CADEADO   = preload("res://Assets/Icons/Cadeado.png")
+const _ICON_CADEADO   = preload("res://Assets/Icons/cadeado.png")
 
 # ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
@@ -1985,8 +1985,7 @@ func _atualizar_segundo_next_pass(no: Node, ativo: bool) -> void:
 			
 			if primeiro_pass == null:
 				primeiro_pass = ShaderMaterial.new()
-				primeiro_pass.shader = preload("res://Shaders/outline.gdshader")
-				primeiro_pass.set_shader_parameter("weight", 0.01)
+				primeiro_pass.shader = preload("res://Shaders/Outline.gdshader")
 				primeiro_pass.set_shader_parameter("color", Color.BLACK)
 				mat_override.next_pass = primeiro_pass
 			else:
@@ -1997,7 +1996,7 @@ func _atualizar_segundo_next_pass(no: Node, ativo: bool) -> void:
 			if ativo:
 				if primeiro_pass.next_pass == null:
 					var material_borda = ShaderMaterial.new()
-					material_borda.shader = preload("res://Shaders/outline.gdshader")
+					material_borda.shader = preload("res://Shaders/Outline.gdshader")
 					material_borda.set_shader_parameter("weight", 0.025)
 					material_borda.set_shader_parameter("color", Color.WHITE)
 					

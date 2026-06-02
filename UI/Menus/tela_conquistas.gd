@@ -3,7 +3,7 @@ extends Control
 const ICON_TROFEU   = preload("res://Assets/Icons/Trofeu.png")
 const ICON_MEDALHA  = preload("res://Assets/Icons/Medalha.png")
 const ICON_ESPADA   = preload("res://Assets/Icons/Espada.png")
-const ICON_CADEADO  = preload("res://Assets/Icons/Cadeado.png")
+const ICON_CADEADO  = preload("res://Assets/Icons/cadeado.png")
 const ICON_CHAPEU   = preload("res://Assets/Icons/Chapeu.png")
 
 var banco_conquistas: Array[ConquistaData] = []

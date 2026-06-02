@@ -9,7 +9,7 @@ const ICON_MOEDAS   = preload("res://Assets/Icons/Moedas.png")
 const ICON_ESPADA   = preload("res://Assets/Icons/Espada.png")
 const ICON_ESCUDO   = preload("res://Assets/Icons/Escudo.png")
 const ICON_CHAVE    = preload("res://Assets/Icons/ChaveInglesa.png")
-const ICON_CADEADO  = preload("res://Assets/Icons/Cadeado.png")
+const ICON_CADEADO  = preload("res://Assets/Icons/cadeado.png")
 
 var _botoes_ativos: Array[Node] = []
 var _slot_alvo: Node = null
