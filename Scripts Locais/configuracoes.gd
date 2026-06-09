@@ -115,24 +115,30 @@ func _aplicar_qualidade_3d(nivel: int) -> void:
 	temp_qualidade_3d = nivel
 	var root_viewport = get_tree().root
 	match nivel:
-		0:
+		0: # BAIXISSIMO (codinome: Qualidade Henrique) valor 0.25
+			root_viewport.scaling_3d_scale = 0.25
+			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
+		1: # Baixo valor 0.5
 			root_viewport.scaling_3d_scale = 0.5
 			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
-		1:
+		2: # Médio valor 0.75
 			root_viewport.scaling_3d_scale = 0.75
 			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR
-		2:
+		3: # Alto valor 1
 			root_viewport.scaling_3d_scale = 1.0
 			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 
-func _on_btn_qualidade_baixa_pressed() -> void:
+func _on_btn_qualidade_minima_pressed() -> void:
 	_aplicar_qualidade_3d(0)
 
-func _on_btn_qualidade_media_pressed() -> void:
+func _on_btn_qualidade_baixa_pressed() -> void:
 	_aplicar_qualidade_3d(1)
 
-func _on_btn_qualidade_alta_pressed() -> void:
+func _on_btn_qualidade_media_pressed() -> void:
 	_aplicar_qualidade_3d(2)
+
+func _on_btn_qualidade_alta_pressed() -> void:
+	_aplicar_qualidade_3d(3)
 
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(master_bus, linear_to_db(value))

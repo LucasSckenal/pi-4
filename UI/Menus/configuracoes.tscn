@@ -587,17 +587,23 @@ label_settings = SubResource("Texto")
 [node name="HBoxQualidade" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=451928375]
 layout_mode = 2
 theme_override_constants/separation = 12
+alignment = 1
 
-[node name="BtnQualidadeBaixa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=451928376]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=1474607159]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="BtnQualidadeMinima" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer" unique_id=2147483290]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("Botao")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
-text = "Baixa"
+text = "Mínimo"
 
-[node name="BtnQualidadeMedia" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=451928377]
+[node name="BtnQualidadeMedia" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer" unique_id=451928377]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -606,7 +612,21 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
 theme_override_styles/hover = SubResource("BotaoHover")
 text = "Média"
 
-[node name="BtnQualidadeAlta" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=451928378]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=1235333277]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="BtnQualidadeBaixa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2" unique_id=451928376]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
+theme_override_styles/hover = SubResource("BotaoHover")
+text = "Baixa"
+
+[node name="BtnQualidadeAlta" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2" unique_id=451928378]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
@@ -1112,9 +1132,10 @@ text = "Fechar"
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/BtnQualidadeBaixa" to="." method="_on_btn_qualidade_baixa_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/BtnQualidadeMedia" to="." method="_on_btn_qualidade_media_pressed"]
-[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/BtnQualidadeAlta" to="." method="_on_btn_qualidade_alta_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer/BtnQualidadeMinima" to="." method="_on_btn_qualidade_minima_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer/BtnQualidadeMedia" to="." method="_on_btn_qualidade_media_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2/BtnQualidadeBaixa" to="." method="_on_btn_qualidade_baixa_pressed"]
+[connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2/BtnQualidadeAlta" to="." method="_on_btn_qualidade_alta_pressed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica" to="." method="_on_slider_musica_changed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz" to="." method="_on_slider_voz_changed"]
