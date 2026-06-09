@@ -29,6 +29,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _abrir():
+	# Fecha quaisquer modais abertos (upgrade de torre/base, menu de construção)
+	# antes de pausar, para não ficarem sobrepostos por baixo do menu de pausa.
+	get_tree().call_group("Interface", "fechar_modais")
+	get_tree().call_group("BuildSlots", "fechar_ui")
+
 	_time_scale_antes_pause = Engine.time_scale
 	Engine.time_scale       = 0.0
 	get_tree().paused       = true

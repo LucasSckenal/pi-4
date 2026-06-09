@@ -25,7 +25,7 @@ shadow_color = Color(0, 0, 0, 0.55)
 shadow_size = 18
 
 [sub_resource type="LabelSettings" id="Titulo"]
-font_size = 34
+font_size = 46
 font_color = Color(1, 0.95, 0.84, 1)
 shadow_size = 5
 shadow_color = Color(0, 0, 0, 0.7)
@@ -43,7 +43,7 @@ corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
 [sub_resource type="LabelSettings" id="Texto"]
-font_size = 20
+font_size = 26
 font_color = Color(0.96, 0.9, 0.82, 1)
 
 [sub_resource type="StyleBoxFlat" id="CheckBG"]
@@ -140,7 +140,7 @@ expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 
 [sub_resource type="LabelSettings" id="ValorPorcentagem"]
-font_size = 22
+font_size = 28
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v3dhh"]
 content_margin_left = 24.0
@@ -531,7 +531,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("CheckBG")
 theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
@@ -544,7 +544,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("CheckBG")
 theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
@@ -557,7 +557,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("CheckBG")
 theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
@@ -570,7 +570,7 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("CheckBG")
 theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
@@ -671,7 +671,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="SliderMaster" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster" unique_id=691526318]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -699,7 +699,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="SliderMusica" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica" unique_id=709940078]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -727,7 +727,7 @@ layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="SliderVoz" type="HSlider" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz" unique_id=2080570088]
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -828,7 +828,7 @@ layout_mode = 2
 theme_override_constants/separation = 30
 
 [node name="BtnBranco" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1057477151]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_v3dhh")
@@ -836,7 +836,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_m0lqh")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3onyl")
 
 [node name="BtnCiano" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=776854515]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_1acin")
@@ -844,7 +844,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pa8gg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_uqgq3")
 
 [node name="BtnVermelho" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores" unique_id=1175908982]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_i7sfl")
@@ -856,7 +856,7 @@ layout_mode = 2
 theme_override_constants/separation = 30
 
 [node name="BtnRosa" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1158616299]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_kew2u")
@@ -864,7 +864,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_7q47h")
 theme_override_styles/hover = SubResource("StyleBoxFlat_5d7kw")
 
 [node name="BtnGold" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=1356528822]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_5aece")
@@ -872,7 +872,7 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_8bgb5")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w7881")
 
 [node name="BtnRoxo" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2" unique_id=131356615]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_axpow")
@@ -884,36 +884,36 @@ layout_mode = 2
 theme_override_constants/separation = 24
 
 [node name="BtnVoltar" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape" unique_id=1240907297]
-custom_minimum_size = Vector2(0, 72)
+custom_minimum_size = Vector2(0, 92)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 0.88, 0.88, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("BotaoVoltar_n")
 theme_override_styles/pressed = SubResource("BotaoVoltar_p")
 theme_override_styles/hover = SubResource("BotaoVoltar_h")
 text = "VOLTAR"
 
 [node name="BtnEquipe" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape" unique_id=1170443230]
-custom_minimum_size = Vector2(0, 72)
+custom_minimum_size = Vector2(0, 92)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.88, 0.94, 1, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("BotaoEquipe_n")
 theme_override_styles/pressed = SubResource("BotaoEquipe_p")
 theme_override_styles/hover = SubResource("BotaoEquipe_h")
 text = "SOBRE A EQUIPE"
 
 [node name="BtnSalvar" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Rodape" unique_id=1008608443]
-custom_minimum_size = Vector2(0, 72)
+custom_minimum_size = Vector2(0, 92)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(0.88, 1, 0.9, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("BotaoSalvar_n")
 theme_override_styles/pressed = SubResource("BotaoSalvar_p")
 theme_override_styles/hover = SubResource("BotaoSalvar_h")
@@ -995,7 +995,7 @@ expand_mode = 2
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 text = "Ana"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1030,7 +1030,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 text = "Lucas"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1073,7 +1073,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 text = "Luan"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1109,7 +1109,7 @@ stretch_mode = 5
 layout_mode = 2
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 30
 text = "Henrique"
 horizontal_alignment = 1
 vertical_alignment = 1

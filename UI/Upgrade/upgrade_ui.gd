@@ -86,10 +86,14 @@ func _ready():
 	painel_principal.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 	painel_principal.custom_minimum_size   = Vector2(0, 0)
 
+	# Botões maiores no mobile para facilitar o toque
+	var btn_h := 78 if OS.has_feature("mobile") else 58
+	var btn_fs := 26 if OS.has_feature("mobile") else 20
+
 	botao_fechar.pressed.connect(fechar)
 	botao_fechar.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	botao_fechar.custom_minimum_size = Vector2(0, 58)
-	botao_fechar.add_theme_font_size_override("font_size", 20)
+	botao_fechar.custom_minimum_size = Vector2(0, btn_h)
+	botao_fechar.add_theme_font_size_override("font_size", btn_fs)
 	botao_fechar.add_theme_stylebox_override("normal",  _sb(Color(0.62, 0.10, 0.10), Color(0,0,0,0), 0, 8))
 	botao_fechar.add_theme_stylebox_override("hover",   _sb(Color(0.80, 0.14, 0.14), Color(0,0,0,0), 0, 8))
 	botao_fechar.add_theme_stylebox_override("pressed", _sb(Color(0.45, 0.07, 0.07), Color(0,0,0,0), 0, 8))
@@ -97,8 +101,8 @@ func _ready():
 	if botao_vender:
 		botao_vender.pressed.connect(_on_botao_vender_pressed)
 		botao_vender.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		botao_vender.custom_minimum_size = Vector2(0, 58)
-		botao_vender.add_theme_font_size_override("font_size", 20)
+		botao_vender.custom_minimum_size = Vector2(0, btn_h)
+		botao_vender.add_theme_font_size_override("font_size", btn_fs)
 		botao_vender.add_theme_stylebox_override("normal",  _sb(Color(0.12, 0.52, 0.18), Color(0,0,0,0), 0, 8))
 		botao_vender.add_theme_stylebox_override("hover",   _sb(Color(0.16, 0.68, 0.24), Color(0,0,0,0), 0, 8))
 		botao_vender.add_theme_stylebox_override("pressed", _sb(Color(0.08, 0.38, 0.12), Color(0,0,0,0), 0, 8))
@@ -290,11 +294,18 @@ func atualizar_opcoes():
 			_criar_secao_desbloqueios(desbs)
 			break
 
+	# Dimensão dos cards: maior no mobile; mais largo ainda para a Base (tipo 5)
+	var mob := OS.has_feature("mobile")
+	var card_w := 360 if mob else 300
+	var card_h := 470 if mob else 380
+	if construcao_atual.get("tipo") == 5:
+		card_w = int(card_w * 1.3)  # painel da Base fica notavelmente mais largo
+
 	for opcao in opcoes:
 		if cena_opcao_button:
 			var btn = cena_opcao_button.instantiate()
 			btn.name = "Upgrade"
-			btn.custom_minimum_size = Vector2(280, 370)
+			btn.custom_minimum_size = Vector2(card_w, card_h)
 			btn.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 			btn.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 			opcoes_container.add_child(btn)

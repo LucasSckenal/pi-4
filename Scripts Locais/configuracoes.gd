@@ -111,6 +111,16 @@ func _atualizar_preview_cursor() -> void:
 # SINAIS DOS CONTROLES DE ÁUDIO E VÍDEO
 # ==========================================
 
+const _Q_BASE := "CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/"
+const _Q_NOMES := ["Mínima", "Baixa", "Média", "Alta"]
+const _Q_PATHS := [
+	_Q_BASE + "VBoxContainer/BtnQualidadeMinima",
+	_Q_BASE + "VBoxContainer2/BtnQualidadeBaixa",
+	_Q_BASE + "VBoxContainer/BtnQualidadeMedia",
+	_Q_BASE + "VBoxContainer2/BtnQualidadeAlta",
+]
+
+# Aplica de facto a qualidade ao viewport (chamado no load e ao Salvar)
 func _aplicar_qualidade_3d(nivel: int) -> void:
 	temp_qualidade_3d = nivel
 	var root_viewport = get_tree().root
@@ -127,18 +137,41 @@ func _aplicar_qualidade_3d(nivel: int) -> void:
 		3: # Alto valor 1
 			root_viewport.scaling_3d_scale = 1.0
 			root_viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
+	_atualizar_selecao_qualidade(nivel)
+
+# Apenas seleciona (preview) — NÃO aplica ao viewport até clicar em Salvar
+func _selecionar_qualidade_3d(nivel: int) -> void:
+	temp_qualidade_3d = nivel
+	_atualizar_selecao_qualidade(nivel)
+
+# Destaca o botão escolhido e atualiza o rótulo "Qualidade 3D: <nome>"
+func _atualizar_selecao_qualidade(nivel: int) -> void:
+	for i in range(_Q_PATHS.size()):
+		var btn := get_node_or_null(_Q_PATHS[i])
+		if btn is Button:
+			if i == nivel:
+				btn.modulate = Color(1, 1, 1, 1)
+				(btn as Button).add_theme_constant_override("outline_size", 0)
+				btn.scale = Vector2(1.06, 1.06)
+				btn.pivot_offset = btn.size / 2.0
+			else:
+				btn.modulate = Color(0.62, 0.62, 0.62, 1)
+				btn.scale = Vector2.ONE
+	var lbl := get_node_or_null(_Q_BASE + "../LabelQualidade") as Label
+	if lbl:
+		lbl.text = "Qualidade 3D:  %s" % _Q_NOMES[nivel]
 
 func _on_btn_qualidade_minima_pressed() -> void:
-	_aplicar_qualidade_3d(0)
+	_selecionar_qualidade_3d(0)
 
 func _on_btn_qualidade_baixa_pressed() -> void:
-	_aplicar_qualidade_3d(1)
+	_selecionar_qualidade_3d(1)
 
 func _on_btn_qualidade_media_pressed() -> void:
-	_aplicar_qualidade_3d(2)
+	_selecionar_qualidade_3d(2)
 
 func _on_btn_qualidade_alta_pressed() -> void:
-	_aplicar_qualidade_3d(3)
+	_selecionar_qualidade_3d(3)
 
 func _on_h_slider_value_changed(value: float) -> void:
 	AudioServer.set_bus_volume_db(master_bus, linear_to_db(value))
@@ -224,7 +257,10 @@ func _on_btn_salvar_pressed() -> void:
 		var manager = get_node("/root/CursorManager")
 		manager.set_cursor_scale(temp_cursor_size)
 		manager.set_cursor_color(temp_cursor_color)
-		
+
+	# Só agora a qualidade gráfica escolhida é aplicada de facto ao viewport
+	_aplicar_qualidade_3d(temp_qualidade_3d)
+
 	_salvar_configuracoes()
 
 # Abre o painel da equipe

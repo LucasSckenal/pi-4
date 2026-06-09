@@ -176,13 +176,42 @@ func _on_arma_selecionada(id_arma):
 		
 	_gerar_botoes_armas()
 
+# Determina se um chapéu/set está bloqueado (espelha a lógica de criação dos botões)
+func _chapeu_esta_bloqueado(id: String) -> bool:
+	if id == "Set Dark Souls" and not Global.armadura_darksouls_desbloqueada:
+		return true
+	elif id == "Set Bloodborne" and not Global.armadura_bloodborne_desbloqueada:
+		return true
+	elif id == "HollowKnight Head" and not Global.armadura_hollow_knight_desbloqueada:
+		return true
+	elif id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
+		return true
+	elif id != "Nenhum" \
+			and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
+			and not (id in Global.chapeus_desbloqueados):
+		return true
+	return false
+
 func _gerar_botoes_chapeus():
 	for filho in grid_chapeus.get_children():
 		filho.queue_free()
 
 	var chapeu_equipado: String = Global.equip_avo_m["chapeu"] if Global.personagem_jogado_atualmente == "avo_m" else Global.equip_avo_f["chapeu"]
 
-	for id in todos_os_chapeus:
+	# Ordena: desbloqueados primeiro, mantendo a ordem original dentro de cada grupo
+	var indexado := []
+	for i in range(todos_os_chapeus.size()):
+		indexado.append({"id": todos_os_chapeus[i], "idx": i, "bloq": _chapeu_esta_bloqueado(todos_os_chapeus[i])})
+	indexado.sort_custom(func(a, b):
+		if a.bloq != b.bloq:
+			return not a.bloq  # desbloqueados (não-bloqueados) vêm primeiro
+		return a.idx < b.idx    # estável dentro do mesmo grupo
+	)
+	var lista_ordenada := []
+	for item in indexado:
+		lista_ordenada.append(item.id)
+
+	for id in lista_ordenada:
 		var bloqueado = false
 		var texto_bloqueio = ""
 		

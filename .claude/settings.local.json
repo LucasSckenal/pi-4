@@ -33,7 +33,8 @@
       "Bash(extract-text \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\Otimizacoes_Pi4.xlsx\")",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\" -Recurse -Filter \"*.gd\")",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "Bash(Head -30)"
+      "Bash(Head -30)",
+      "PowerShell($godot = \"C:\\\\Users\\\\robny\\\\Downloads\\\\Godot_v4.6.1-stable_win64.exe\\\\Godot_v4.6.1-stable_win64.exe\"; $proj = \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\"; $p = Start-Process -FilePath $godot -ArgumentList @\\(\"--path\", $proj, \"res://Maps/tutorial_world.tscn\"\\) -PassThru; \"PID: $\\($p.Id\\)\")"
     ]
   }
 }

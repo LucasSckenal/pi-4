@@ -53,10 +53,10 @@ corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ic_n"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.24, 0.21, 0.17999999, 0.96862745)
 border_width_left = 4
 border_width_top = 4
@@ -72,10 +72,10 @@ shadow_size = 8
 shadow_offset = Vector2(0, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ic_p"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.2520276, 0.25202766, 0.25202757, 1)
 border_width_left = 4
 border_width_top = 4
@@ -88,10 +88,10 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ic_h"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.41949457, 0.385062, 0.32647398, 1)
 border_width_left = 4
 border_width_top = 4
@@ -104,10 +104,10 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4r6dx"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.18461922, 0.105877645, 0.26847178, 0.96862745)
 border_width_left = 4
 border_width_top = 4
@@ -123,10 +123,10 @@ shadow_size = 8
 shadow_offset = Vector2(0, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_12tp8"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.22571999, 0.049399998, 0.38, 1)
 border_width_left = 4
 border_width_top = 4
@@ -139,10 +139,10 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1aypu"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.28426665, 0.07799999, 0.52, 1)
 border_width_left = 4
 border_width_top = 4
@@ -155,10 +155,10 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vba1w"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.34119537, 0, 0.08118332, 0.96862745)
 border_width_left = 4
 border_width_top = 4
@@ -174,10 +174,10 @@ shadow_size = 8
 shadow_offset = Vector2(0, 2)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3jonr"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.38, 0.049399998, 0.049399998, 1)
 border_width_left = 4
 border_width_top = 4
@@ -190,10 +190,10 @@ corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4i60"]
-content_margin_left = 10.0
-content_margin_top = 10.0
-content_margin_right = 10.0
-content_margin_bottom = 10.0
+content_margin_left = 24.0
+content_margin_top = 24.0
+content_margin_right = 24.0
+content_margin_bottom = 24.0
 bg_color = Color(0.52, 0.07799999, 0.07799999, 1)
 border_width_left = 4
 border_width_top = 4
@@ -219,7 +219,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.59)
 
 [node name="Centro" type="Control" parent="." unique_id=339639294]
-custom_minimum_size = Vector2(480, 392)
+custom_minimum_size = Vector2(540, 560)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -231,8 +231,8 @@ grow_vertical = 2
 
 [node name="PainelPrincipal" type="Panel" parent="Centro" unique_id=612551805]
 layout_mode = 0
-offset_right = 480.0
-offset_bottom = 280.0
+offset_right = 540.0
+offset_bottom = 410.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_painel")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Centro/PainelPrincipal" unique_id=1737066765]
@@ -240,13 +240,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 36.0
-offset_top = 36.0
-offset_right = -36.0
-offset_bottom = -36.0
+offset_left = 44.0
+offset_top = 44.0
+offset_right = -44.0
+offset_bottom = -120.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 28
 
 [node name="TituloPausa" type="Label" parent="Centro/PainelPrincipal/VBoxContainer" unique_id=802094176]
 layout_mode = 2
@@ -272,11 +272,11 @@ text = "VOLTAR AO JOGO"
 
 [node name="BotoesRow" type="HBoxContainer" parent="Centro" unique_id=133538940]
 layout_mode = 0
-offset_left = 64.0
-offset_top = 258.0
-offset_right = 416.0
-offset_bottom = 386.0
-theme_override_constants/separation = 26
+offset_left = 50.0
+offset_top = 350.0
+offset_right = 490.0
+offset_bottom = 540.0
+theme_override_constants/separation = 30
 
 [node name="VBoxConfig" type="VBoxContainer" parent="Centro/BotoesRow" unique_id=1313308819]
 layout_mode = 2
@@ -284,7 +284,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="BotaoConfiguracoes" type="Button" parent="Centro/BotoesRow/VBoxConfig" unique_id=388081924]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 130)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_ic_n")
@@ -298,7 +298,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.75, 0.4, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 18
 text = "OPÇÕES"
 horizontal_alignment = 1
 
@@ -308,7 +308,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="BotaoRepetir" type="Button" parent="Centro/BotoesRow/VBoxRepetir" unique_id=1975738808]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 130)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_4r6dx")
@@ -322,7 +322,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.75, 0.4, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 18
 text = "REPETIR"
 horizontal_alignment = 1
 
@@ -332,7 +332,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="BotaoSair" type="Button" parent="Centro/BotoesRow/VBoxSair" unique_id=403834900]
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(130, 130)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_vba1w")
@@ -346,7 +346,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.75, 0.4, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 15
+theme_override_font_sizes/font_size = 18
 text = "SAIR"
 horizontal_alignment = 1
 

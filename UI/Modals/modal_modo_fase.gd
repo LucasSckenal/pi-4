@@ -68,7 +68,7 @@ func _montar_estrelas(qtd: int) -> void:
 	for i in range(3):
 		var tex := TextureRect.new()
 		tex.texture = ESTRELA_CHEIA if i < qtd else ESTRELA_VAZIA
-		tex.custom_minimum_size = Vector2(48, 48)
+		tex.custom_minimum_size = Vector2(68, 68)
 		tex.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		tex.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		estrelas_hbox.add_child(tex)

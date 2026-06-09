@@ -11,11 +11,32 @@ var banco_conquistas: Array[ConquistaData] = []
 @onready var scroll        := $ScrollContainer
 @onready var label_titulo  := $LabelTitulo
 
+# Estado de arrasto (scroll com mouse ou um dedo)
+var _arrastando: bool = false
+
 func _ready():
 	# Garante que pausas residuais (game-over, etc.) não bloqueiem o menu
 	get_tree().paused = false
 	_carregar_conquistas_da_pasta("res://Conquistas/")
 	_construir_ui()
+
+# ==========================================
+# ARRASTAR PARA ROLAR (mouse ou um dedo)
+# ==========================================
+func _input(event: InputEvent) -> void:
+	if scroll == null:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed and scroll.get_global_rect().has_point(event.position):
+			_arrastando = true
+		else:
+			_arrastando = false
+	elif event is InputEventMouseMotion and _arrastando:
+		scroll.scroll_vertical -= int(event.relative.y)
+	elif event is InputEventScreenDrag:
+		# Um dedo arrastando dentro da lista rola verticalmente
+		if scroll.get_global_rect().has_point(event.position):
+			scroll.scroll_vertical -= int(event.relative.y)
 
 # Botão físico "Voltar" do Android
 func _unhandled_key_input(event: InputEvent) -> void:
@@ -100,13 +121,21 @@ func _construir_ui():
 # BARRA DE PROGRESSO
 # ==========================================
 func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
+	var mob: bool = OS.has_feature("mobile")
+
+	# Margem extra acima para a barra "respirar" e ficar centralizada visualmente
+	var topo := Control.new()
+	topo.custom_minimum_size = Vector2(0, 10)
+	parent.add_child(topo)
+
 	var hbox := HBoxContainer.new()
-	hbox.add_theme_constant_override("separation", 14)
+	hbox.add_theme_constant_override("separation", 16)
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
 	parent.add_child(hbox)
 
 	var lbl := Label.new()
 	lbl.text = "%d desbloqueadas" % n
-	lbl.add_theme_font_size_override("font_size", 18)
+	lbl.add_theme_font_size_override("font_size", 24 if mob else 22)
 	lbl.add_theme_color_override("font_color", Color(0.90, 0.76, 0.28))
 	lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hbox.add_child(lbl)
@@ -116,7 +145,7 @@ func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
 	bar.max_value = max(1, total)
 	bar.value = n
 	bar.show_percentage = false
-	bar.custom_minimum_size = Vector2(0, 20)
+	bar.custom_minimum_size = Vector2(0, 30 if mob else 26)
 	bar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.size_flags_vertical   = Control.SIZE_SHRINK_CENTER
 
@@ -246,7 +275,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	# Nome (sempre visível)
 	var nome_lbl := Label.new()
 	nome_lbl.text = conquista.nome
-	nome_lbl.add_theme_font_size_override("font_size", 32 if mob else 19)
+	nome_lbl.add_theme_font_size_override("font_size", 32 if mob else 24)
 	nome_lbl.add_theme_color_override("font_color",
 		Color(1.0, 0.88, 0.42) if liberada else Color(0.50, 0.50, 0.55))
 	nome_lbl.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -257,7 +286,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 	# Descrição
 	var desc_lbl := Label.new()
 	desc_lbl.text = conquista.descricao if liberada else "Continue jogando para descobrir..."
-	desc_lbl.add_theme_font_size_override("font_size", 23 if mob else 14)
+	desc_lbl.add_theme_font_size_override("font_size", 23 if mob else 18)
 	desc_lbl.add_theme_color_override("font_color",
 		Color(0.78, 0.68, 0.48) if liberada else Color(0.36, 0.28, 0.16))
 	desc_lbl.autowrap_mode    = TextServer.AUTOWRAP_WORD_SMART
@@ -280,7 +309,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 
 			var rlbl := Label.new()
 			rlbl.text = "Desbloqueou:"
-			rlbl.add_theme_font_size_override("font_size", 28 if mob else 12)
+			rlbl.add_theme_font_size_override("font_size", 28 if mob else 19)
 			rlbl.add_theme_color_override("font_color", Color(0.55, 0.55, 0.60))
 			rlbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 			rrow.add_child(rlbl)
@@ -288,7 +317,7 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 			if tem_chapeu:
 				var b := TextureRect.new()
 				b.texture = ICON_CHAPEU
-				b.custom_minimum_size = Vector2(32, 32) if mob else Vector2(16, 16)
+				b.custom_minimum_size = Vector2(32, 32) if mob else Vector2(24, 24)
 				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -296,13 +325,21 @@ func _criar_card(conquista: ConquistaData) -> PanelContainer:
 			if tem_arma:
 				var b := TextureRect.new()
 				b.texture = ICON_ESPADA
-				b.custom_minimum_size = Vector2(32, 32) if mob else Vector2(16, 16)
+				b.custom_minimum_size = Vector2(32, 32) if mob else Vector2(24, 24)
 				b.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 				b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 				b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 				rrow.add_child(b)
 
+	# Cards não devem consumir cliques/toques — deixa o arrasto rolar a lista
+	_ignorar_mouse_recursivo(card)
 	return card
+
+func _ignorar_mouse_recursivo(node: Node) -> void:
+	if node is Control:
+		node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for filho in node.get_children():
+		_ignorar_mouse_recursivo(filho)
 
 # ==========================================
 # NAVEGAÇÃO

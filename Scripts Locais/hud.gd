@@ -313,8 +313,23 @@ func _on_upgrade_ui_fechado():
 		if torre_atual.has_method("esconder_indicador"):
 			torre_atual.esconder_indicador()
 		torre_atual = null # Limpa a memória para o próximo clique
-	
+
 	get_tree().paused = false
+
+## Chamado pelo menu de pausa (via grupo "Interface") para fechar modais abertos
+## antes de pausar — evita que o painel de upgrade fique sobreposto sob a pausa.
+## Esconde de forma INSTANTÂNEA (sem tween) pois a árvore é pausada no mesmo frame.
+func fechar_modais():
+	if is_instance_valid(upgrade_ui_instance) and upgrade_ui_instance.visible:
+		upgrade_ui_instance.hide()
+		# Restaura a escala do painel interno para a próxima abertura
+		var painel = upgrade_ui_instance.get_node_or_null("PainelPrincipal")
+		if is_instance_valid(painel):
+			painel.scale = Vector2.ONE
+		if torre_atual:
+			if torre_atual.has_method("esconder_indicador"):
+				torre_atual.esconder_indicador()
+			torre_atual = null
 
 # ==========================================
 # FUNÇÕES DE DIA/NOITE E MOEDAS
@@ -955,7 +970,13 @@ func _instanciar_menu_pausa():
 
 func _criar_botao_pausa():
 	var btn := Button.new()
-	btn.custom_minimum_size = Vector2(56, 56)
+	# Botão grande e visível, posicionado À ESQUERDA do cluster de zoom/start
+	# (que começa em ~-438 da borda direita) com um respiro claro entre eles,
+	# para o menu não ficar colado no botão de avançar a noite.
+	# Botão grande e visível, no canto superior DIREITO (como era originalmente)
+	var tam := 104.0
+	var margem := 34.0
+	btn.custom_minimum_size = Vector2(tam, tam)
 	btn.text = ""
 	btn.icon = _tex_botao_menu
 	_btn_pausa = btn
@@ -965,10 +986,10 @@ func _criar_botao_pausa():
 	btn.anchor_right  = 1.0
 	btn.anchor_top    = 0.0
 	btn.anchor_bottom = 0.0
-	btn.offset_left   = -70
-	btn.offset_right  = -70
-	btn.offset_top    = 14
-	btn.offset_bottom = 70
+	btn.offset_left   = -(tam + margem)
+	btn.offset_right  = -margem
+	btn.offset_top    = margem
+	btn.offset_bottom = margem + tam
 
 	var st := StyleBoxEmpty.new()
 	var st_hover := StyleBoxEmpty.new()

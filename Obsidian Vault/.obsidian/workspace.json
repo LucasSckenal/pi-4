@@ -11,10 +11,17 @@
             "id": "82b56fb5821ec2a7",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Visualização em gráfico"
+              "type": "canvas",
+              "state": {
+                "file": "graph.canvas",
+                "viewState": {
+                  "x": 511.7179474996934,
+                  "y": 505.5901196317461,
+                  "zoom": -0.3333333333333332
+                }
+              },
+              "icon": "lucide-layout-dashboard",
+              "title": "graph"
             }
           }
         ]
@@ -178,6 +185,8 @@
   },
   "active": "82b56fb5821ec2a7",
   "lastOpenFiles": [
+    "Sem título.canvas",
+    "_COMMUNITY_Configurações.md",
     "Onde Estão os Netos (Game).md",
     "InimigoBase.md",
     "graph.canvas",
@@ -188,7 +197,6 @@
     "_COMMUNITY_CursorManager.md",
     "_COMMUNITY_Onde Estão os Netos.md",
     "_COMMUNITY_Dummy Target.md",
-    "_COMMUNITY_Configurações.md",
     "_COMMUNITY_CameraFollow.md",
     "_COMMUNITY_WaveData e InimigoConfig.md",
     "_COMMUNITY_Water Shaders.md",
@@ -203,7 +211,6 @@
     "ConquistaData Resource.md",
     "ConselheiroIA (AI Advisor Logic).md",
     "MusicaGlobal (Autoload).md",
-    "Global (Autoload)_1.md",
-    "GameManager (Autoload)_1.md"
+    "Global (Autoload)_1.md"
   ]
 }

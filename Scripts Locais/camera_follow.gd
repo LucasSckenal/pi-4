@@ -1,8 +1,19 @@
 extends Camera3D
 
 @export var player: Node3D
+
+## Limites simétricos (retrocompatibilidade). Se os limites direcionais abaixo
+## forem 0, estes valores são usados para ambos os lados do eixo.
 @export var limite_maximo_pan_x: float = 4.0
 @export var limite_maximo_pan_z: float = 8.0
+
+@export_group("Limites Direcionais (manuais)")
+## Quando > 0, sobrescreve limite_maximo_pan_* para aquele lado específico.
+## Permite ajustar cada borda do mapa independentemente (X- ≠ X+, Z- ≠ Z+).
+@export var limite_x_negativo: float = 0.0
+@export var limite_x_positivo: float = 0.0
+@export var limite_z_negativo: float = 0.0
+@export var limite_z_positivo: float = 0.0
 
 ## Define se os limites de movimentação encolhem junto com o zoom (comportamento original) ou se permanecem fixos permitindo visão total das bordas do mapa (modo panorama livre)
 @export var escalar_limites_com_zoom: bool = true
@@ -43,17 +54,21 @@ func _process(delta):
 			
 		fator_zoom = clamp(fator_zoom, 0.0, 1.0)
 		
-		# Define a área de limite com base na configuração escolhida no Inspector
-		var limite_atual_x = limite_maximo_pan_x
-		var limite_atual_z = limite_maximo_pan_z
-		
+		# Limites por lado: usa o direcional se definido (>0), senão cai no simétrico.
+		var lim_x_neg = limite_x_negativo if limite_x_negativo > 0.0 else limite_maximo_pan_x
+		var lim_x_pos = limite_x_positivo if limite_x_positivo > 0.0 else limite_maximo_pan_x
+		var lim_z_neg = limite_z_negativo if limite_z_negativo > 0.0 else limite_maximo_pan_z
+		var lim_z_pos = limite_z_positivo if limite_z_positivo > 0.0 else limite_maximo_pan_z
+
 		if escalar_limites_com_zoom:
-			limite_atual_x *= fator_zoom
-			limite_atual_z *= fator_zoom
-		
+			lim_x_neg *= fator_zoom
+			lim_x_pos *= fator_zoom
+			lim_z_neg *= fator_zoom
+			lim_z_pos *= fator_zoom
+
 		# Restringe a movimentação da câmera ao limite dinâmico do centro original da fase
-		posicao_alvo.x = clamp(posicao_alvo.x, posicao_inicial.x - limite_atual_x, posicao_inicial.x + limite_atual_x)
-		posicao_alvo.z = clamp(posicao_alvo.z, posicao_inicial.z - limite_atual_z, posicao_inicial.z + limite_atual_z)
+		posicao_alvo.x = clamp(posicao_alvo.x, posicao_inicial.x - lim_x_neg, posicao_inicial.x + lim_x_pos)
+		posicao_alvo.z = clamp(posicao_alvo.z, posicao_inicial.z - lim_z_neg, posicao_inicial.z + lim_z_pos)
 		
 		# Garante a fixação da altura da câmera
 		posicao_alvo.y = posicao_inicial.y

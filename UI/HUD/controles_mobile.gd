@@ -17,6 +17,12 @@ var TEX_RESUME: Texture2D = preload("res://Assets/UI/BotaoResume.png")
 var nivel_zoom_atual := 1
 const MAX_NIVEIS_ZOOM := 4
 
+# FOV contínuo controlado por pinça (entre o zoom nível 1 e o nível MAX)
+const FOV_MIN := 90.0 - (MAX_NIVEIS_ZOOM * 15.0)  # mais zoom (nível 4)
+const FOV_MAX := 90.0 - (1 * 15.0)                # menos zoom (nível 1)
+var _toques_ativos: Dictionary = {}   # index -> Vector2
+var _pinca_dist_anterior: float = -1.0
+
 var estilo_caixa_cheia: StyleBox
 var estilo_caixa_vazia: StyleBox
 var estilo_vel_ativa: StyleBox
@@ -67,6 +73,40 @@ func _ready() -> void:
 	_atualizar_caixas_zoom()
 	_alterar_velocidade(1.0, btn_normal)
 
+# ==========================================
+# PINÇA PARA ZOOM (dois dedos)
+# ==========================================
+func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			_toques_ativos[event.index] = event.position
+		else:
+			_toques_ativos.erase(event.index)
+			_pinca_dist_anterior = -1.0
+	elif event is InputEventScreenDrag:
+		if _toques_ativos.has(event.index):
+			_toques_ativos[event.index] = event.position
+		# Só processa pinça com exatamente 2 dedos na tela
+		if _toques_ativos.size() == 2:
+			var pts: Array = _toques_ativos.values()
+			var dist: float = pts[0].distance_to(pts[1])
+			if _pinca_dist_anterior > 0.0:
+				var delta_dist: float = dist - _pinca_dist_anterior
+				_aplicar_pinca_zoom(delta_dist)
+			_pinca_dist_anterior = dist
+
+func _aplicar_pinca_zoom(delta_dist: float) -> void:
+	var camera := get_viewport().get_camera_3d()
+	if not camera:
+		return
+	# Afastar os dedos (delta>0) = aproximar (reduzir fov)
+	var novo_fov: float = clamp(camera.fov - delta_dist * 0.12, FOV_MIN, FOV_MAX)
+	camera.fov = novo_fov
+	# Sincroniza o indicador de caixas com o fov contínuo
+	var t: float = (FOV_MAX - novo_fov) / (FOV_MAX - FOV_MIN)
+	nivel_zoom_atual = clamp(int(round(t * (MAX_NIVEIS_ZOOM - 1))) + 1, 1, MAX_NIVEIS_ZOOM)
+	_atualizar_indicador_caixas_apenas()
+
 func _zoom_aproximar() -> void:
 	if nivel_zoom_atual < MAX_NIVEIS_ZOOM:
 		nivel_zoom_atual += 1
@@ -78,6 +118,11 @@ func _zoom_afastar() -> void:
 		_atualizar_caixas_zoom()
 
 func _atualizar_caixas_zoom() -> void:
+	_atualizar_indicador_caixas_apenas()
+	_aplicar_fov_na_camera()
+
+# Atualiza só o indicador visual (sem snap do fov) — usado pela pinça contínua
+func _atualizar_indicador_caixas_apenas() -> void:
 	var caixas_invertidas := indicador_caixas.duplicate()
 	caixas_invertidas.reverse()
 
@@ -86,8 +131,6 @@ func _atualizar_caixas_zoom() -> void:
 			caixas_invertidas[i].add_theme_stylebox_override("panel", estilo_caixa_cheia)
 		else:
 			caixas_invertidas[i].add_theme_stylebox_override("panel", estilo_caixa_vazia)
-
-	_aplicar_fov_na_camera()
 
 func _aplicar_fov_na_camera() -> void:
 	var camera := get_viewport().get_camera_3d()

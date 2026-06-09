@@ -213,8 +213,9 @@ text = "Reroll (2 moedas)"
 
 [node name="HudMobileCompleto" parent="InterfacePrincipal" unique_id=768701112 instance=ExtResource("5_8v21c")]
 layout_mode = 1
-offset_left = -438.0
+offset_left = -598.0
 offset_top = 10.0
+offset_right = -160.0
 
 [node name="MarginEsquerda" type="Control" parent="InterfacePrincipal" unique_id=1790859775]
 layout_mode = 1
