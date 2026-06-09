@@ -150,7 +150,27 @@ func _on_btn_continuar_pressed():
 		btn_continuar.disabled = false
 
 func _on_btn_jogar_pressed():
-	get_tree().change_scene_to_file("res://UI/Menus/seletor_fases.tscn")
+	# Primeira vez (ainda não passou do tutorial): entra direto no mapa do tutorial,
+	# pulando o seletor (que só mostraria a fase 1 mesmo). Depois de concluir,
+	# fases_liberadas >= 2 e o botão passa a abrir o seletor de fases.
+	if Global.fases_liberadas <= 1:
+		_iniciar_tutorial()
+	else:
+		get_tree().change_scene_to_file("res://UI/Menus/seletor_fases.tscn")
+
+func _iniciar_tutorial():
+	GameManager.modo_infinito = false
+	GameManager.fase_atual = 1
+	get_tree().paused = false
+	GameManager.limpar_estado_sessao()
+	# Marca o tutorial como "conhecido" — ao abrir o seletor depois, o mapa 1 não
+	# anima de descoberta (o jogador acabou de jogá-lo); só os novos revelam.
+	if Global.mapas_revelados < 1:
+		Global.mapas_revelados = 1
+		Global.salvar_progresso()
+	MusicaGlobal.tocar_tutorial()
+	# obter_cena_entrada_fase devolve a cutscene (se ainda não vista) ou o mapa
+	get_tree().change_scene_to_file(GameManager.obter_cena_entrada_fase(1))
 
 func _on_btn_conquistas_pressed() -> void:
 	get_tree().change_scene_to_file("res://UI/Menus/tela_conquistas.tscn")

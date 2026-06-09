@@ -38,7 +38,8 @@ func _ready() -> void:
 			botao.position -= centro * (Vector2.ONE - botao.scale)
 			
 			botao.set_meta("escala_original", botao.scale)
-			
+			botao.set_meta("rot_original", botao.rotation)
+
 			botao.mouse_entered.connect(func():
 				# Impede a animação em fases não liberadas
 				if botao.disabled: 
@@ -110,30 +111,67 @@ func criar_linhas_tracejadas() -> void:
 		linhas_criadas.append(linha)
 
 func atualizar_mapa(fases_liberadas: int) -> void:
+	var atraso: float = 0.0  # escalona a animação de descoberta de cada mapa novo
+
 	for i in range(botoes_fases.size()):
-		var botao = botoes_fases[i] 
-		var nivel_da_fase = i + 1 
-		
+		var botao = botoes_fases[i]
+		var nivel_da_fase = i + 1
+
 		if nivel_da_fase <= fases_liberadas:
-			botao.modulate = Color(1, 1, 1, 1) 
-			botao.disabled = false 
-			# Chamamos a atualização das estrelas aqui:
-			atualizar_estrelas_do_botao(botoes_fases[i], nivel_da_fase)
+			# Liberado → visível e interativo
+			botao.disabled = false
 			botao.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			atualizar_estrelas_do_botao(botao, nivel_da_fase)
 			for botao_child in botao.get_children(): botao_child.visible = true
 
+			if nivel_da_fase > Global.mapas_revelados:
+				# Mapa recém-descoberto → "peça" do mapa se encaixando
+				_revelar_mapa(botao, atraso)
+				atraso += 0.5
+			else:
+				# Já conhecido → mostra direto (no lugar certo)
+				botao.modulate = Color(1, 1, 1, 1)
+				botao.scale = botao.get_meta("escala_original")
+				botao.rotation = botao.get_meta("rot_original")
 		else:
-			botao.modulate = Color(0.01, 0.01, 0.01, 1) 
+			# Bloqueado → totalmente oculto (ainda não descoberto)
+			botao.modulate = Color(1, 1, 1, 0)
 			botao.disabled = true
 			botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
 			for botao_child in botao.get_children(): botao_child.visible = false
 
+	# Linhas: visíveis só até o último mapa liberado
 	for i in range(linhas_criadas.size()):
-		var nivel_destino = i + 2 
-		if nivel_destino <= fases_liberadas:
-			linhas_criadas[i].show()
-		else:
-			linhas_criadas[i].hide()
+		var nivel_destino = i + 2
+		linhas_criadas[i].visible = (nivel_destino <= fases_liberadas)
+
+	# Persiste o que já foi revelado para não animar de novo na próxima visita
+	if fases_liberadas > Global.mapas_revelados:
+		Global.mapas_revelados = fases_liberadas
+		Global.salvar_progresso()
+
+# Anima a "descoberta" de um mapa como uma peça de mapa rasgado se encaixando:
+# cai meio torta e deslocada, gira e se assenta no lugar com um "snap".
+func _revelar_mapa(botao: Button, atraso: float) -> void:
+	var escala_final: Vector2 = botao.get_meta("escala_original")
+	var rot_final: float = botao.get_meta("rot_original")
+	var pos_final: Vector2 = botao.position  # posição correta do layout
+
+	# Estado inicial: peça "solta" — caída de cima, inclinada, menor e transparente
+	botao.modulate = Color(1, 1, 1, 0)
+	botao.scale = escala_final * 0.6
+	botao.rotation = rot_final + deg_to_rad(randf_range(-16.0, 16.0))
+	botao.position = pos_final + Vector2(randf_range(-32.0, 32.0), -58.0)
+
+	var dur := 0.55
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(botao, "modulate:a", 1.0, 0.3).set_delay(atraso)
+	tw.tween_property(botao, "scale", escala_final, dur).set_delay(atraso) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(botao, "rotation", rot_final, dur).set_delay(atraso) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(botao, "position", pos_final, dur).set_delay(atraso) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 func _criar_botao_debug_unlock() -> void:
 	var btn := Button.new()

@@ -28,6 +28,9 @@ func is_personagem_liberado(_indice: int) -> bool:
 
 # --- PROGRESSO DO MAPA ---
 var fases_liberadas: int = 1
+# Quantos mapas o jogador já viu "revelados" no seletor. Mapas com índice acima
+# disto (mas já liberados) aparecem com animação de descoberta na próxima visita.
+var mapas_revelados: int = 0
 var estrelas_por_fase: Dictionary = {}
 var cutscenes_vistas: Array = []
 
@@ -110,6 +113,7 @@ func salvar_progresso():
 	config.load(SAVE_PATH)
 
 	config.set_value("progresso", "fases_liberadas", fases_liberadas)
+	config.set_value("progresso", "mapas_revelados", mapas_revelados)
 	config.set_value("progresso", "estrelas_por_fase", estrelas_por_fase)
 	config.set_value("progresso", "cutscenes_vistas", cutscenes_vistas)
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
@@ -150,6 +154,7 @@ func carregar_progresso():
 	# Suporte à migração da secção "mapa" (formato antigo) para "progresso"
 	fases_liberadas   = config.get_value("progresso", "fases_liberadas",
 						config.get_value("mapa", "fases_liberadas", 1))
+	mapas_revelados   = config.get_value("progresso", "mapas_revelados", 0)
 	estrelas_por_fase = config.get_value("progresso", "estrelas_por_fase",
 						config.get_value("mapa", "estrelas_por_fase", {}))
 	cutscenes_vistas = config.get_value("progresso", "cutscenes_vistas", [])
@@ -188,6 +193,7 @@ func _input(event):
 
 func resetar_tudo():
 	fases_liberadas = 1
+	mapas_revelados = 0
 	estrelas_por_fase = {}
 	cutscenes_vistas = []
 
