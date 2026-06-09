@@ -498,19 +498,19 @@ func procurar_novo_alvo():
 	return base_principal
 
 func atacar():
-	if eh_necromancer: 
+	if eh_necromancer:
 		return
 	if eh_kamikaze:
 		_explodir()
 		return
-		
+
 	if pode_atacar and alvo_atual:
 		pode_atacar = false
 		if animation_player and animation_player.has_animation(anim_atacar):
 			animation_player.play(anim_atacar)
 		if alvo_atual.has_method("receber_dano"):
 			alvo_atual.receber_dano(forca_dano)
-		
+
 		await get_tree().create_timer(tempo_recarga_ataque).timeout
 		pode_atacar = true
 

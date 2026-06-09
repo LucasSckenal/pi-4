@@ -12,7 +12,7 @@ extends Node3D
 @export var custo_moedas: int = 5
 @export var dano_por_segundo: float = 15.0
 @export var vida_maxima: int = 40
-@export var alcance: float = 8.0
+@export var alcance: float = 9.0
 @export var max_alvos: int = 3
 # Ramp-up de dano: quanto mais tempo no mesmo inimigo, mais dano faz
 @export var multiplicador_dano_max: float = 4.0  # DPS chega a 4× o base
@@ -47,11 +47,15 @@ var _dano_buffer: Dictionary = {}
 var _tempo_no_alvo: Dictionary = {}
 # Throttle: actualiza alvos a cada 0.15 s em vez de todo frame
 var _timer_alvo: float = 0.0
+# Alcance de projeto da inferno (piso). No modo upgrade o alcance da torre-pai
+# vem em unidades menores (torre básica), então não pode reduzir abaixo deste valor.
+var _alcance_base: float = 0.0
 
 # ==========================================
 # INICIALIZAÇÃO
 # ==========================================
 func _ready() -> void:
+	_alcance_base = alcance  # captura o alcance de projeto antes de qualquer sincronização
 	if is_fantasma:
 		# Modo fantasma (pré-visualização de construção): desliga tudo
 		if laser_base:
@@ -100,7 +104,9 @@ func _process(delta: float) -> void:
 		if is_instance_valid(ancora):
 			var torre_pai = ancora.get_parent()
 			if is_instance_valid(torre_pai) and "alcance_atual" in torre_pai:
-				alcance = torre_pai.alcance_atual
+				# Nunca abaixo do alcance de projeto da inferno (a torre-pai usa
+				# unidades menores; sem isto o alcance fica minúsculo).
+				alcance = maxf(_alcance_base, torre_pai.alcance_atual)
 
 	# 1. Atualiza a lista de alvos em alcance (throttle: 0.15 s — evita get_nodes_in_group todo frame)
 	_timer_alvo -= delta

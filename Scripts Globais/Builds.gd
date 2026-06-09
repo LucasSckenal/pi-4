@@ -1665,6 +1665,12 @@ func _atacar_fire_laser() -> void:
 	var max_alvos_fogo: int = Balanceamento.get_int("torre_fogo_max_alvos", 3)
 	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
 
+	# Alcance de DANO da torre de fogo: usa o alcance de projeto da inferno (igual ao
+	# laser visual), nunca abaixo do alcance_atual. Sem isto o dano usaria o alcance
+	# pequeno da torre básica e o laser "focava" o inimigo sem causar dano.
+	var alcance_fogo: float = Balanceamento.get_float("torre_fogo_alcance", 9.0)
+	alcance_fogo = maxf(alcance_fogo, alcance_atual)
+
 	# Coleta inimigos no alcance e ordena do mais próximo ao mais distante
 	var todos: Array = get_tree().get_nodes_in_group("inimigos")
 	var em_alcance: Array = []
@@ -1674,7 +1680,7 @@ func _atacar_fire_laser() -> void:
 		# Distância XZ para detectar aéreos em altitudes diferentes
 		var dist_xz: float = Vector2(global_position.x - inimigo.global_position.x,
 			global_position.z - inimigo.global_position.z).length()
-		if dist_xz <= alcance_atual:
+		if dist_xz <= alcance_fogo:
 			em_alcance.append(inimigo)
 	em_alcance.sort_custom(func(a: Node3D, b: Node3D) -> bool:
 		var da = Vector2(global_position.x - a.global_position.x, global_position.z - a.global_position.z).length()

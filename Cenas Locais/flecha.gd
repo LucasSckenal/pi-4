@@ -3,22 +3,37 @@ extends Area3D
 var velocidade: float = 15.0
 var dano: int = 30
 var alvo: Node3D = null
+var _ja_acertou: bool = false
 
 func _ready():
 	# Conecta o sinal de bater em algo
 	body_entered.connect(_on_body_entered)
 
 func _process(delta):
-	# Se o alvo ainda existe (não morreu pra outra torre), persegue ele!
-	if is_instance_valid(alvo):
-		var pos_alvo := _get_posicao_alvo()
-		# Olha para o inimigo
-		look_at(pos_alvo, Vector3.UP)
-		# Voa para frente (o eixo -Z que acabamos de alinhar!)
-		global_position += transform.basis.z * -velocidade * delta
-	else:
-		# Se o inimigo morreu no meio do caminho, a flecha some
+	# Se o alvo morreu (pra outra torre), a flecha some
+	if not is_instance_valid(alvo):
 		queue_free()
+		return
+
+	var pos_alvo := _get_posicao_alvo()
+	var para_alvo := pos_alvo - global_position
+
+	# Acerto por PROXIMIDADE — checado ANTES de mover/olhar. A flecha é movida em
+	# _process, então o body_entered do Area3D pode "atravessar" (tunneling) inimigos
+	# entre os ticks de física. Esta checagem garante o acerto mesmo que a colisão
+	# ou o look_at falhem (caso dos dragões grandes aproximados quase na vertical).
+	if para_alvo.length() < 0.9:
+		_acertar(alvo)
+		return
+
+	var dir := para_alvo.normalized()
+	# Protege o look_at: ele dá erro (e trava o _process) se a direção for quase
+	# paralela ao eixo UP (flecha quase em cima/embaixo do alvo). Nesse caso, voa direto.
+	if abs(dir.dot(Vector3.UP)) < 0.99:
+		look_at(pos_alvo, Vector3.UP)
+		global_position += -global_transform.basis.z * velocidade * delta
+	else:
+		global_position += dir * velocidade * delta
 
 func _get_posicao_alvo() -> Vector3:
 	if is_instance_valid(alvo) and alvo.has_method("get_ponto_alvo"):
@@ -27,20 +42,27 @@ func _get_posicao_alvo() -> Vector3:
 
 func _on_body_entered(body):
 	if body == alvo:
-		var dano_total = dano
-		if GameManager.bonus_dano_chefe > 0 and body.is_in_group("Chefe"):
-			dano_total += GameManager.bonus_dano_chefe
-		if body.has_method("receber_dano"):
-			body.receber_dano(dano_total)
+		_acertar(body)
 
-		_tentar_aplicar_gelo(body)
+func _acertar(body) -> void:
+	if _ja_acertou or not is_instance_valid(body):
+		return
+	_ja_acertou = true
 
-		if GameManager.dano_inflamavel > 0:
-			_aplicar_queimadura(body)
-		if GameManager.bonus_ricochete > 0:
-			_ricochetar(body)
+	var dano_total = dano
+	if GameManager.bonus_dano_chefe > 0 and body.is_in_group("Chefe"):
+		dano_total += GameManager.bonus_dano_chefe
+	if body.has_method("receber_dano"):
+		body.receber_dano(dano_total)
 
-		queue_free()
+	_tentar_aplicar_gelo(body)
+
+	if GameManager.dano_inflamavel > 0:
+		_aplicar_queimadura(body)
+	if GameManager.bonus_ricochete > 0:
+		_ricochetar(body)
+
+	queue_free()
 
 func _tentar_aplicar_gelo(alvo_hit: Node) -> void:
 	if GameManager.multiplicador_velocidade_inimigo < 1.0 and alvo_hit.has_method("aplicar_gelo"):

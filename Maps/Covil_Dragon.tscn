@@ -20,6 +20,7 @@
 [ext_resource type="Resource" uid="uid://jo5fw1efj10t" path="res://Waves/Map6/map6_stage_01_starter.tres" id="30_stage01"]
 [ext_resource type="Resource" uid="uid://11gdjhgat1vk" path="res://Waves/Map6/map6_stage_04_mid.tres" id="31_stage04"]
 [ext_resource type="Resource" uid="uid://bqvw5tr4v5wy0" path="res://Waves/Map6/map6_stage_10_final.tres" id="33_stage10"]
+[ext_resource type="Resource" uid="uid://drqsdl8dlhtuo" path="res://Waves/Map6/map6_empty.tres" id="40_empty"]
 [ext_resource type="Script" uid="uid://b1xfjldmvf8le" path="res://Maps/covil_dragon.gd" id="99_covilscript"]
 
 [sub_resource type="Environment" id="Environment_4l6fq"]
@@ -96,16 +97,20 @@ mesh = SubResource("PlaneMesh_s3dhy")
 [node name="Spawners" type="Node3D" parent="." unique_id=2079467093]
 
 [node name="SpawnerInimigos" parent="Spawners" unique_id=423161848 instance=ExtResource("8_mukah")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.833754, -0.08244449, 1.2547135)
-ondas = Array[ExtResource("9_x6lc8")]([ExtResource("30_stage01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("31_stage04"), ExtResource("24_s05"), ExtResource("33_stage10")])
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.833754, -0.08244449, 0)
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("40_empty"), ExtResource("40_empty"), ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("29_s10")])
 
 [node name="SpawnerInimigos2" parent="Spawners" unique_id=1448566816 instance=ExtResource("8_mukah")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.857983, 0.6841676, 0.6834929)
-ondas = Array[ExtResource("9_x6lc8")]([ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("23_s04"), ExtResource("24_s05"), ExtResource("29_s10")])
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.857983, 0.6841676, 0)
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("40_empty"), ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("23_s04"), ExtResource("29_s10")])
 
 [node name="SpawnerInimigos3" parent="Spawners" unique_id=971361423 instance=ExtResource("8_mukah")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4340022, 0.61426646, 11.467914)
-ondas = Array[ExtResource("9_x6lc8")]([ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("23_s04"), ExtResource("24_s05"), ExtResource("29_s10")])
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.61426646, 11.467914)
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("30_stage01"), ExtResource("20_s01"), ExtResource("31_stage04"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("33_stage10")])
+
+[node name="SpawnerInimigos4" parent="Spawners" unique_id=971361424 instance=ExtResource("8_mukah")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -11.467914)
+ondas = Array[ExtResource("9_x6lc8")]([ExtResource("40_empty"), ExtResource("40_empty"), ExtResource("40_empty"), ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("29_s10")])
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=205393174]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
@@ -128,13 +133,13 @@ data = {
 metadata/_editor_floor_ = Vector3(0, -35, 0)
 
 [node name="Jaula" parent="." unique_id=235904172 instance=ExtResource("6_e87ts")]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.39935446, 0.79512906, -0.6750733)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.24910748, 0.8237268, -0.63029915)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1874503483 node_paths=PackedStringArray("player")]
 transform = Transform3D(-1, 7.178715e-08, -4.9893373e-08, 0, 0.5707136, 0.82114935, 8.742278e-08, 0.82114923, -0.57071364, 0.142, 6.98, -8.914)
 script = ExtResource("5_nekdb")
 player = NodePath("../Player")
-limite_maximo_pan_z = 5.79
+limite_maximo_pan_x = 8.0
 
 [node name="ChaoColisao" type="MeshInstance3D" parent="." unique_id=1038916868]
 transform = Transform3D(31.66598, 0, 0, 0, 2.1030097, 0, 0, 0, 32.540306, 0, -4.325769, 0)
@@ -153,39 +158,51 @@ light_bake_mode = 1
 [node name="Builds" type="Node3D" parent="." unique_id=1808081354]
 
 [node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 5.135152, -2.1366413, 4.3755374)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 2.8, -2.1366413, 5.5)
 nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=1758389684 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 5.135152, -2.1366413, -5.197969)
-nivel_necessario = 0
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.8, -2.1366413, 5.5)
+nivel_necessario = 1
 
 [node name="BuildSlot3" parent="Builds" unique_id=543304925 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -4.391423, -2.1366413, 4.3755374)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 2.8, -2.1366413, -5.5)
 nivel_necessario = 0
 
 [node name="BuildSlot4" parent="Builds" unique_id=951543918 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -13.706537, -2.1366413, -5.197969)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.8, -2.1366413, -5.5)
+nivel_necessario = 1
+
+[node name="BuildSlot5" parent="Builds" unique_id=885191120 instance=ExtResource("6_vfgjs")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 5.5, -2.1366413, 2.8)
 nivel_necessario = 0
 
 [node name="BuildSlot6" parent="Builds" unique_id=652910107 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -7.127983, -2.1366413, -12.970736)
-nivel_necessario = 0
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 5.5, -2.1366413, -2.8)
+nivel_necessario = 1
 
 [node name="BuildSlot7" parent="Builds" unique_id=1316308097 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -10.625702, -0.87611485, 6.1556053)
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -5.5, -2.1366413, 2.8)
 nivel_necessario = 0
 
 [node name="BuildSlot8" parent="Builds" unique_id=1253838615 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -7.59988, -2.1366413, 11.932842)
-nivel_necessario = 0
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -5.5, -2.1366413, -2.8)
+nivel_necessario = 1
 
 [node name="BuildSlot9" parent="Builds" unique_id=1198725459 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 4.5687227, -2.1366413, 11.932842)
-nivel_necessario = 0
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 7.5, -2.1366413, 7.5)
+nivel_necessario = 2
 
-[node name="BuildSlot5" parent="Builds" unique_id=885191120 instance=ExtResource("6_vfgjs")]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -4.391423, -2.1366413, -5.197969)
-nivel_necessario = 0
+[node name="BuildSlot10" parent="Builds" unique_id=1198725460 instance=ExtResource("6_vfgjs")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -7.5, -2.1366413, 7.5)
+nivel_necessario = 2
+
+[node name="BuildSlot11" parent="Builds" unique_id=1198725461 instance=ExtResource("6_vfgjs")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 7.5, -2.1366413, -7.5)
+nivel_necessario = 2
+
+[node name="BuildSlot12" parent="Builds" unique_id=1198725462 instance=ExtResource("6_vfgjs")]
+transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -7.5, -2.1366413, -7.5)
+nivel_necessario = 2
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("1_1q4q1")]

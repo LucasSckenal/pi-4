@@ -482,6 +482,11 @@ func iniciar_dia(primeiro_dia: bool = false):
 func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
 	spawners_concluidos = 0
+	# Conta os spawners reais da fase (mapas variam: 3 ou 4 lanes).
+	# Antes era fixo em 3, o que quebrava mapas com nº diferente de spawners.
+	var _spawners = get_tree().get_nodes_in_group("Spawner")
+	if _spawners.size() > 0:
+		total_spawners = _spawners.size()
 	is_night = true
 	construcao_destaque_upgrade = null   # Limpa o destaque ao entrar na noite
 	_vida_base_ao_iniciar_noite = vida_base_atual

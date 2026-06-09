@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://drqsdl8dlhtuo"]
+
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
+
+[resource]
+script = ExtResource("2_wave")
+nome_da_onda = "Mapa 6 - Vazia"
+intervalo = 1.0
+inimigos = Array[ExtResource("1_cfg")]([])
+metadata/_custom_type_script = "res://Waves/wave_resource.gd"

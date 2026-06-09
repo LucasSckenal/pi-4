@@ -1773,6 +1773,7 @@ nome_inimigo = "Lava golem"
 vida_maxima = 500
 velocidade = 0.2
 forca_dano = 20
+distancia_ataque = 4.0
 anim_andar = "Dead"
 anim_atacar = "Running"
 anim_morrer = "Attack"

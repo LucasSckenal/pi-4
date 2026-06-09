@@ -34,7 +34,10 @@
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\" -Recurse -Filter \"*.gd\")",
       "Bash(Select-Object -ExpandProperty FullName)",
       "Bash(Head -30)",
-      "PowerShell($godot = \"C:\\\\Users\\\\robny\\\\Downloads\\\\Godot_v4.6.1-stable_win64.exe\\\\Godot_v4.6.1-stable_win64.exe\"; $proj = \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\"; $p = Start-Process -FilePath $godot -ArgumentList @\\(\"--path\", $proj, \"res://Maps/tutorial_world.tscn\"\\) -PassThru; \"PID: $\\($p.Id\\)\")"
+      "PowerShell($godot = \"C:\\\\Users\\\\robny\\\\Downloads\\\\Godot_v4.6.1-stable_win64.exe\\\\Godot_v4.6.1-stable_win64.exe\"; $proj = \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\"; $p = Start-Process -FilePath $godot -ArgumentList @\\(\"--path\", $proj, \"res://Maps/tutorial_world.tscn\"\\) -PassThru; \"PID: $\\($p.Id\\)\")",
+      "Bash(grep -nA8 \"6: {\" \"Scripts Globais/game_manager.gd\")",
+      "Bash(grep -nB2 \"Transform3D\\(4, 0, 0, 0, 4, 0, 0, 0, 4,\" \"Maps/Covil_Dragon.tscn\")",
+      "Bash(awk '/name=\"BuildSlot/{n=$0; gsub\\(/.*name=\"/,\"\",n\\); gsub\\(/\".*/,\"\",n\\)} /^nivel_necessario/{print n\": \"$0}' \"Maps/Covil_Dragon.tscn\")"
     ]
   }
 }
