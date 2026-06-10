@@ -1766,7 +1766,7 @@ height = 1.2067871
 radius = 1.0523071
 height = 2.1046143
 
-[node name="Node3D" type="CharacterBody3D" unique_id=517580159]
+[node name="Node3D" type="CharacterBody3D" unique_id=517580159 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_ymgw2")
 tipo_inimigo = 1
 nome_inimigo = "Lava golem"
@@ -1774,6 +1774,8 @@ vida_maxima = 500
 velocidade = 0.2
 forca_dano = 20
 distancia_ataque = 4.0
+modelo_3d = NodePath(".")
+animation_player = NodePath("Golem_Lite/AnimationPlayer")
 anim_andar = "Dead"
 anim_atacar = "Running"
 anim_morrer = "Attack"

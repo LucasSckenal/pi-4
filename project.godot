@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Onde Estão os Netos?"
-config/version="2.7"
+config/version="3.0"
 run/main_scene="uid://c6q536yvnfjtf"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/show_image=false
@@ -120,3 +120,4 @@ pointing/emulate_touch_from_mouse=true
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+renderer/version="3.0"
