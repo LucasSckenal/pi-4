@@ -579,6 +579,20 @@ theme_override_styles/focus = SubResource("CheckBG")
 button_pressed = true
 text = "Tremor de Tela"
 
+[node name="CheckNumerosDano" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=312847562]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+button_pressed = true
+text = "Números de Dano"
+
 [node name="LabelQualidade" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=451928374]
 layout_mode = 2
 text = "Qualidade 3D"
@@ -1132,6 +1146,7 @@ text = "Fechar"
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckNumerosDano" to="." method="_on_check_numeros_dano_toggled"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer/BtnQualidadeMinima" to="." method="_on_btn_qualidade_minima_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer/BtnQualidadeMedia" to="." method="_on_btn_qualidade_media_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2/BtnQualidadeBaixa" to="." method="_on_btn_qualidade_baixa_pressed"]

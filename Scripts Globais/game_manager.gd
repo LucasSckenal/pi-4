@@ -41,6 +41,13 @@ var recarregando_save: bool = false
 var modo_infinito: bool = false
 
 # ==========================================
+# ESTATÍSTICAS DA PARTIDA (reset por sessão)
+# ==========================================
+var inimigos_mortos_sessao: int = 0   # inimigos derrotados nesta partida
+var em_partida: bool = false          # true enquanto uma fase está em jogo (conta tempo)
+var novo_recorde_infinito: bool = false  # setado no game over do modo infinito
+
+# ==========================================
 # DESTAQUE DE UPGRADE
 # ==========================================
 # Qual construção exibe o indicador completo (seta + anel brilhante).
@@ -297,6 +304,10 @@ func carregar_jogo_salvo_manual() -> bool:
 # INPUTS GERAIS
 # ==========================================
 func _process(delta):
+	# Estatística: tempo jogado (só durante uma fase ativa, sem pausa)
+	if em_partida and not get_tree().paused:
+		Global.tempo_jogado_total += delta
+
 	if Input.is_action_just_pressed("passar_onda"):
 		if estado_atual == EstadoJogo.DIA and not is_tutorial_ativo:
 			iniciar_noite()
@@ -323,6 +334,11 @@ func carregar_fase(numero_fase: int):
 	var config = banco_de_fases[numero_fase]
 
 	construcoes_permitidas_na_fase = config["construcoes"]
+
+	# Estatísticas: começa a contar tempo e zera os mortos desta partida
+	em_partida = true
+	inimigos_mortos_sessao = 0
+	novo_recorde_infinito = false
 
 	if not recarregando_save:
 		moedas = config["moedas_iniciais"]
@@ -722,8 +738,22 @@ func obter_custo_com_desconto(custo_base: int) -> int:
 # SISTEMA DE GAME OVER E REINÍCIO
 # ==========================================
 func acionar_game_over():
+	em_partida = false  # para de contar tempo
+	# Recorde do modo infinito: a onda alcançada é a maior que ela chegou
+	novo_recorde_infinito = false
+	if modo_infinito:
+		var onda_alcancada := onda_atual
+		if onda_alcancada > Global.melhor_onda_infinito:
+			Global.melhor_onda_infinito = onda_alcancada
+			novo_recorde_infinito = true
+	Global.salvar_progresso()
 	game_over.emit()
 	get_tree().paused = true
+
+# Chamado por InimigoBase.morrer() — conta para as estatísticas.
+func registrar_inimigo_morto() -> void:
+	inimigos_mortos_sessao += 1
+	Global.total_inimigos_mortos += 1
 
 func acionar_vitoria():
 	var estrelas_ganhas = 1
@@ -756,12 +786,15 @@ func acionar_vitoria():
 		_tentar_conquista("res://Conquistas/primeiros_passos.tres")
 	# ────────────────────────────────────────────────────────────────
 
+	em_partida = false  # para de contar tempo
 	vitoria.emit()
 	get_tree().paused = true
 
 func limpar_estado_sessao() -> void:
 	# Reseta bônus e modificadores de sessão sem trocar de cena nem emitir sinais.
 	# Chame (com get_tree().paused = false no chamador) antes de change_scene_to_file().
+	em_partida              = false
+	inimigos_mortos_sessao  = 0
 	onda_atual         = 1
 	bonus_dano         = 0
 	bonus_moedas_onda  = 0

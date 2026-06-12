@@ -26,6 +26,7 @@ var temp_qualidade_3d: int = 2 # 0 = Baixa, 1 = Média, 2 = Alta
 @onready var _check_tela:     CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia")
 @onready var _check_hud:      CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD")
 @onready var _check_shake:    CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela")
+@onready var _check_numeros:  CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckNumerosDano")
 
 # Referências de Cursor
 @onready var _preview_cursor: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/PreviewArea/PreviewCursor")
@@ -206,6 +207,9 @@ func _on_check_hud_toggled(toggled_on: bool) -> void:
 func _on_check_shake_tela_toggled(toggled_on: bool) -> void:
 	Global.shake_tela_ativo = toggled_on
 
+func _on_check_numeros_dano_toggled(toggled_on: bool) -> void:
+	Global.numeros_dano_ativo = toggled_on
+
 # ==========================================
 # SINAIS DO CURSOR (Tamanho)
 # ==========================================
@@ -296,6 +300,7 @@ func _salvar_configuracoes() -> void:
 		cfg.set_value("video", "hud_customizado", _check_hud.button_pressed)
 
 	cfg.set_value("video", "shake_tela", Global.shake_tela_ativo)
+	cfg.set_value("video", "numeros_dano", Global.numeros_dano_ativo)
 	cfg.set_value("video", "qualidade_3d", temp_qualidade_3d)
 		
 	cfg.set_value("cursor", "tamanho", temp_cursor_size)
@@ -335,6 +340,11 @@ func _carregar_configuracoes() -> void:
 	Global.shake_tela_ativo = shake_on
 	if _check_shake:
 		_check_shake.button_pressed = shake_on
+
+	var numeros_on: bool = cfg.get_value("video", "numeros_dano", true)
+	Global.numeros_dano_ativo = numeros_on
+	if _check_numeros:
+		_check_numeros.button_pressed = numeros_on
 		
 	var qualidade_3d: int = cfg.get_value("video", "qualidade_3d", 2)
 	_aplicar_qualidade_3d(qualidade_3d)

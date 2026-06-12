@@ -516,11 +516,12 @@ func atacar():
 
 func receber_dano(qtd, origem = "torre"):
 	if esta_morto: return
-	
+
 	if eh_aereo and origem == "player":
-		return 
+		return
 
 	vida_atual -= qtd
+	_mostrar_dano_flutuante(int(qtd), origem)
 	
 	if barra_vida_boss:
 		var original_pos = canvas_boss.get_child(0).position
@@ -624,6 +625,8 @@ func morrer():
 		nav_agent.set_velocity(Vector3.ZERO)
 	remove_from_group("inimigos")
 	GameManager.inimigo_morreu.emit()  # Notifica spawners (substitui polling de grupo)
+	GameManager.registrar_inimigo_morto()  # estatística
+	_explosao_morte()  # partícula de "poof" na morte
 
 	if GameManager.modo_infinito:
 		var drop: int = 1
@@ -654,6 +657,78 @@ func morrer():
 	tw.tween_interval(1.5)
 	tw.tween_property(self, "scale", Vector3(0.01, 0.01, 0.01), 0.5)
 	tw.tween_callback(queue_free)
+
+# ==========================================
+# JUICE: número de dano flutuante + partícula de morte
+# ==========================================
+func _mostrar_dano_flutuante(qtd: int, origem: String = "torre") -> void:
+	if qtd <= 0:
+		return
+	if not Global.numeros_dano_ativo:
+		return
+	var pai = get_parent()
+	if not is_instance_valid(pai):
+		return
+	var lbl := Label3D.new()
+	lbl.text = str(qtd)
+	lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	lbl.no_depth_test = true
+	lbl.fixed_size = false  # escala com a distância da câmera (senão fica gigante)
+	lbl.pixel_size = 0.007
+	lbl.font_size = 48
+	lbl.outline_size = 12
+	lbl.outline_modulate = Color(0, 0, 0, 0.85)
+	# Cor por origem: fogo=laranja, gelo=azul, senão dourado
+	match origem:
+		"fogo": lbl.modulate = Color(1.0, 0.55, 0.15)
+		"gelo": lbl.modulate = Color(0.55, 0.85, 1.0)
+		_:      lbl.modulate = Color(1.0, 0.93, 0.45)
+	pai.add_child(lbl)
+	lbl.global_position = global_position + Vector3(randf_range(-0.25, 0.25), 1.1, 0)
+	var tw := lbl.create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(lbl, "global_position:y", lbl.global_position.y + 0.9, 0.6).set_ease(Tween.EASE_OUT)
+	tw.tween_property(lbl, "modulate:a", 0.0, 0.5).set_delay(0.25)
+	tw.set_parallel(false)
+	tw.tween_callback(lbl.queue_free)
+
+func _explosao_morte() -> void:
+	var pai = get_parent()
+	if not is_instance_valid(pai):
+		return
+	var p := CPUParticles3D.new()
+	var m := SphereMesh.new()
+	m.radius = 0.06
+	m.height = 0.12
+	m.radial_segments = 6
+	m.rings = 3
+	p.mesh = m
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.albedo_color = Color(0.9, 0.82, 0.6)  # poeira
+	p.material_override = mat
+	p.local_coords = true  # emite no frame do nó (senão a 1ª leva sai na origem do mapa)
+	p.emitting = false
+	p.one_shot = true
+	p.amount = 12
+	p.lifetime = 0.55
+	p.explosiveness = 1.0
+	p.spread = 80.0
+	p.gravity = Vector3(0, -7, 0)
+	p.initial_velocity_min = 2.2
+	p.initial_velocity_max = 4.8
+	p.scale_amount_min = 0.6
+	p.scale_amount_max = 1.2
+	# Captura a posição antes de adicionar à árvore para garantir o ponto certo
+	var pos_morte := global_position + Vector3(0, 0.4, 0)
+	pai.add_child(p)
+	p.global_position = pos_morte
+	# Dispara só no próximo frame, já com a transform aplicada
+	p.restart()
+	p.emitting = true
+	var tw := p.create_tween()
+	tw.tween_interval(p.lifetime + 0.3)
+	tw.tween_callback(p.queue_free)
 
 # ==========================================
 # GERAÇÃO DA INTERFACE DO BOSS

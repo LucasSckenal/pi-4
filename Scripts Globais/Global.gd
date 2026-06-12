@@ -3,6 +3,7 @@ extends Node
 # --- CONFIGURAÇÕES DE CAMINHO ---
 const SAVE_PATH = "user://save.cfg"
 const _SAVE_PATH_ANTIGO = "user://save_game.cfg"
+const SETTINGS_PATH = "user://settings.cfg"  # mesmo ficheiro usado por configuracoes.gd
 
 # --- MODO DEBUG ---
 ## Coloque true durante o desenvolvimento para ver os prints de diagnóstico.
@@ -13,6 +14,7 @@ var _save_count: int = 0  # Contador para throttle do backup (1 backup a cada 5 
 # --- VARIÁVEIS DE ESTADO ---
 var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
 var shake_tela_ativo: bool = true     # controlado por configuracoes.gd / CheckShakeTela
+var numeros_dano_ativo: bool = true   # controlado por configuracoes.gd / CheckNumerosDano
 
 var personagem_jogado_atualmente : String = "avo_m"
 var personagem_escolhido_path: String = ""
@@ -51,6 +53,11 @@ var usando_set_kakashi: bool = false
 var inimigos_descobertos: Array = []
 var total_ondas_completadas: int = 0
 
+# --- ESTATÍSTICAS (persistentes) ---
+var total_inimigos_mortos: int = 0   # acumulado entre todas as partidas
+var melhor_onda_infinito: int = 0    # recorde do modo infinito
+var tempo_jogado_total: float = 0.0  # segundos totais jogados (em fases)
+
 # O que cada um tem equipado neste momento
 var equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
 var equip_avo_f = { "arma": "arma_katana", "chapeu": "Nenhum" }
@@ -61,7 +68,20 @@ signal progresso_salvo
 
 
 func _ready():
+	_carregar_preferencias_video()
 	carregar_progresso()
+
+
+# Lê as preferências de vídeo (toggles) no arranque para valerem já na 1ª fase,
+# sem precisar abrir o menu de configurações. configuracoes.gd continua a ser a
+# fonte de escrita; aqui só replicamos a leitura das flags puras (sem efeitos colaterais).
+func _carregar_preferencias_video() -> void:
+	var cfg := ConfigFile.new()
+	if cfg.load(SETTINGS_PATH) != OK:
+		return
+	hud_tematico_ativo = cfg.get_value("video", "hud_customizado", true)
+	shake_tela_ativo   = cfg.get_value("video", "shake_tela", true)
+	numeros_dano_ativo = cfg.get_value("video", "numeros_dano", true)
 
 
 # --- SISTEMA DE RECOMPENSAS E CONQUISTAS ---
@@ -119,6 +139,9 @@ func salvar_progresso():
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
 	config.set_value("progresso", "total_ondas_completadas", total_ondas_completadas)
+	config.set_value("estatisticas", "inimigos_mortos", total_inimigos_mortos)
+	config.set_value("estatisticas", "melhor_onda_infinito", melhor_onda_infinito)
+	config.set_value("estatisticas", "tempo_jogado", tempo_jogado_total)
 	config.set_value("inventario", "armas_ganhas", armas_desbloqueadas)
 	config.set_value("inventario", "chapeus_ganhos", chapeus_desbloqueados)
 	config.set_value("equipamentos", "avo_m", equip_avo_m)
@@ -162,6 +185,9 @@ func carregar_progresso():
 	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
 	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
 	total_ondas_completadas      = config.get_value("progresso", "total_ondas_completadas", 0)
+	total_inimigos_mortos        = config.get_value("estatisticas", "inimigos_mortos", 0)
+	melhor_onda_infinito         = config.get_value("estatisticas", "melhor_onda_infinito", 0)
+	tempo_jogado_total           = config.get_value("estatisticas", "tempo_jogado", 0.0)
 	armas_desbloqueadas       = config.get_value("inventario", "armas_ganhas", ["arma_katana"])
 	chapeus_desbloqueados     = config.get_value("inventario", "chapeus_ganhos", ["Nenhum"])
 	equip_avo_m               = config.get_value("equipamentos", "avo_m", {"arma": "arma_katana", "chapeu": "Nenhum"})
@@ -201,6 +227,10 @@ func resetar_tudo():
 	armas_desbloqueadas = ["arma_katana"]
 	chapeus_desbloqueados = ["Nenhum"]
 	inimigos_descobertos = []
+	total_ondas_completadas = 0
+	total_inimigos_mortos = 0
+	melhor_onda_infinito = 0
+	tempo_jogado_total = 0.0
 	equip_avo_m = { "arma": "arma_katana", "chapeu": "Nenhum" }
 	equip_avo_f = { "arma": "arma_katana", "chapeu": "Nenhum" }
 	armadura_darksouls_desbloqueada = false
@@ -215,6 +245,14 @@ func obter_total_estrelas() -> int:
 	for qtd in estrelas_por_fase.values():
 		total += qtd
 	return total
+
+func formatar_tempo_jogado() -> String:
+	var s := int(tempo_jogado_total)
+	var h := s / 3600
+	var m := (s % 3600) / 60
+	if h > 0:
+		return "%dh %dm" % [h, m]
+	return "%dm %ds" % [m, s % 60]
 
 func cutscene_ja_vista(numero_fase: int) -> bool:
 	return str(numero_fase) in cutscenes_vistas

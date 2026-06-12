@@ -24,6 +24,14 @@ var progresso_atual = 6
 
 var linhas_criadas = []
 
+# Pedaços de papel rasgado (PLACEHOLDERS). Cada fase tem o seu; eles se juntam
+# conforme as fases liberam. Trocar por arte real depois (ver spec).
+var _pecas: Array = []
+const _CORES_PAPEL := [
+	Color(0.82, 0.72, 0.52), Color(0.80, 0.68, 0.47), Color(0.85, 0.75, 0.56),
+	Color(0.78, 0.67, 0.46), Color(0.83, 0.73, 0.53), Color(0.81, 0.70, 0.50),
+]
+
 func _ready() -> void:
 	# Conecta o sinal para redimensionar
 	get_tree().root.size_changed.connect(recalcular_linhas)
@@ -70,9 +78,76 @@ func _ready() -> void:
 func recalcular_linhas() -> void:
 	await get_tree().process_frame
 	criar_linhas_tracejadas()
-	
+	_criar_pecas()
+
 	# AGORA LÊ DO GLOBAL
 	atualizar_mapa(Global.fases_liberadas)
+
+# ==========================================
+# PEDAÇOS DE PAPEL RASGADO (placeholders)
+# ==========================================
+func _criar_pecas() -> void:
+	# Esconde o pergaminho 3D antigo — os pedaços passam a ser o "fundo" do mapa
+	for m in pergaminho.find_children("*", "MeshInstance3D", true, false):
+		m.visible = false
+
+	# Limpa pedaços antigos (recriação em resize)
+	for p in _pecas:
+		if is_instance_valid(p): p.queue_free()
+	_pecas.clear()
+
+	for i in range(botoes_fases.size()):
+		var botao = botoes_fases[i]
+		if botao == null:
+			_pecas.append(null)
+			continue
+		var centro: Vector2 = botao.global_position + (botao.size * botao.scale) / 2.0
+		var peca := _criar_peca_placeholder(i, Vector2(540, 470))
+		peca.global_position = centro
+		get_tree().current_scene.add_child(peca)
+		get_tree().current_scene.move_child(peca, 0)  # atrás de tudo
+		_pecas.append(peca)
+
+func _criar_peca_placeholder(idx: int, tam: Vector2) -> Node2D:
+	var raiz := Node2D.new()
+	raiz.z_index = -10
+	var pts := _gerar_contorno_rasgado(tam)
+	# Sombra (dá a sensação de papel sobre papel)
+	var sombra := Polygon2D.new()
+	sombra.polygon = pts
+	sombra.color = Color(0.12, 0.08, 0.05, 0.55)
+	sombra.position = Vector2(7, 9)
+	raiz.add_child(sombra)
+	# Papel
+	var papel := Polygon2D.new()
+	papel.polygon = pts
+	papel.color = _CORES_PAPEL[idx % _CORES_PAPEL.size()]
+	raiz.add_child(papel)
+	# Rótulo de placeholder (some quando a arte real entrar)
+	var lbl := Label.new()
+	lbl.text = "PEÇA %d" % (idx + 1)
+	lbl.position = Vector2(-tam.x / 2.0 + 22, -tam.y / 2.0 + 16)
+	lbl.add_theme_color_override("font_color", Color(0.32, 0.22, 0.12, 0.55))
+	lbl.add_theme_font_size_override("font_size", 24)
+	raiz.add_child(lbl)
+	return raiz
+
+# Gera um contorno retangular com bordas irregulares (rasgadas), centrado em (0,0).
+func _gerar_contorno_rasgado(tam: Vector2) -> PackedVector2Array:
+	var meio := tam / 2.0
+	var jag := 20.0       # amplitude do "rasgo"
+	var ph := 9           # subdivisões horizontais
+	var pv := 7           # subdivisões verticais
+	var pts := PackedVector2Array()
+	for s in range(ph):  # topo: esquerda -> direita
+		pts.append(Vector2(lerpf(-meio.x, meio.x, float(s) / ph), -meio.y + randf_range(-jag, jag)))
+	for s in range(pv):  # direita: cima -> baixo
+		pts.append(Vector2(meio.x + randf_range(-jag, jag), lerpf(-meio.y, meio.y, float(s) / pv)))
+	for s in range(ph):  # baixo: direita -> esquerda
+		pts.append(Vector2(lerpf(meio.x, -meio.x, float(s) / ph), meio.y + randf_range(-jag, jag)))
+	for s in range(pv):  # esquerda: baixo -> cima
+		pts.append(Vector2(-meio.x + randf_range(-jag, jag), lerpf(meio.y, -meio.y, float(s) / pv)))
+	return pts
 
 func criar_linhas_tracejadas() -> void:
 	# Limpa as antigas
@@ -111,30 +186,44 @@ func criar_linhas_tracejadas() -> void:
 		linhas_criadas.append(linha)
 
 func atualizar_mapa(fases_liberadas: int) -> void:
-	var atraso: float = 0.0  # escalona a animação de descoberta de cada mapa novo
+	var atraso: float = 0.0  # escalona a animação de descoberta de cada peça nova
 
 	for i in range(botoes_fases.size()):
 		var botao = botoes_fases[i]
 		var nivel_da_fase = i + 1
+		var peca = _pecas[i] if i < _pecas.size() else null
 
 		if nivel_da_fase <= fases_liberadas:
-			# Liberado → visível e interativo
+			# LIBERADO → peça + mapa visíveis e interativos
 			botao.disabled = false
 			botao.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 			atualizar_estrelas_do_botao(botao, nivel_da_fase)
 			for botao_child in botao.get_children(): botao_child.visible = true
 
 			if nivel_da_fase > Global.mapas_revelados:
-				# Mapa recém-descoberto → "peça" do mapa se encaixando
-				_revelar_mapa(botao, atraso)
+				# Recém-descoberto → peça de papel se encaixando (mapa cai junto)
+				_revelar_conjunto(botao, peca, atraso)
 				atraso += 0.5
 			else:
-				# Já conhecido → mostra direto (no lugar certo)
+				# Já conhecido → mostra direto, no lugar
 				botao.modulate = Color(1, 1, 1, 1)
 				botao.scale = botao.get_meta("escala_original")
 				botao.rotation = botao.get_meta("rot_original")
+				if peca != null and is_instance_valid(peca):
+					peca.modulate = Color(1, 1, 1, 1)
+					peca.rotation = 0.0
+		elif nivel_da_fase == fases_liberadas + 1 and peca != null and is_instance_valid(peca):
+			# PRÓXIMO bloqueado → "teaser": peça escura/fantasma (o pedaço por descobrir)
+			peca.modulate = Color(0.45, 0.40, 0.32, 0.4)
+			peca.rotation = 0.0
+			botao.modulate = Color(1, 1, 1, 0)
+			botao.disabled = true
+			botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
+			for botao_child in botao.get_children(): botao_child.visible = false
 		else:
-			# Bloqueado → totalmente oculto (ainda não descoberto)
+			# Demais bloqueados → totalmente ocultos
+			if peca != null and is_instance_valid(peca):
+				peca.modulate = Color(1, 1, 1, 0)
 			botao.modulate = Color(1, 1, 1, 0)
 			botao.disabled = true
 			botao.mouse_default_cursor_shape = Control.CURSOR_ARROW
@@ -150,28 +239,40 @@ func atualizar_mapa(fases_liberadas: int) -> void:
 		Global.mapas_revelados = fases_liberadas
 		Global.salvar_progresso()
 
-# Anima a "descoberta" de um mapa como uma peça de mapa rasgado se encaixando:
-# cai meio torta e deslocada, gira e se assenta no lugar com um "snap".
-func _revelar_mapa(botao: Button, atraso: float) -> void:
-	var escala_final: Vector2 = botao.get_meta("escala_original")
-	var rot_final: float = botao.get_meta("rot_original")
-	var pos_final: Vector2 = botao.position  # posição correta do layout
-
-	# Estado inicial: peça "solta" — caída de cima, inclinada, menor e transparente
-	botao.modulate = Color(1, 1, 1, 0)
-	botao.scale = escala_final * 0.6
-	botao.rotation = rot_final + deg_to_rad(randf_range(-16.0, 16.0))
-	botao.position = pos_final + Vector2(randf_range(-32.0, 32.0), -58.0)
-
+# Encaixe de uma peça de mapa rasgado: a peça de papel E o mapa (ícone/nome/estrelas)
+# caem juntos meio tortos de cima e se assentam no lugar com um "snap".
+func _revelar_conjunto(botao: Button, peca, atraso: float) -> void:
+	var offset := Vector2(randf_range(-30.0, 30.0), -62.0)
+	var tilt := deg_to_rad(randf_range(-13.0, 13.0))
 	var dur := 0.55
+
+	# --- Mapa (botão) ---
+	var b_escala: Vector2 = botao.get_meta("escala_original")
+	var b_rot: float = botao.get_meta("rot_original")
+	var b_pos: Vector2 = botao.position
+	botao.scale = b_escala
+	botao.modulate = Color(1, 1, 1, 0)
+	botao.rotation = b_rot + tilt
+	botao.position = b_pos + offset
+
 	var tw := create_tween().set_parallel(true)
 	tw.tween_property(botao, "modulate:a", 1.0, 0.3).set_delay(atraso)
-	tw.tween_property(botao, "scale", escala_final, dur).set_delay(atraso) \
+	tw.tween_property(botao, "rotation", b_rot, dur).set_delay(atraso) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_property(botao, "rotation", rot_final, dur).set_delay(atraso) \
+	tw.tween_property(botao, "position", b_pos, dur).set_delay(atraso) \
 		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	tw.tween_property(botao, "position", pos_final, dur).set_delay(atraso) \
-		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# --- Peça de papel (cai junto) ---
+	if peca != null and is_instance_valid(peca):
+		var p_pos: Vector2 = peca.position
+		peca.modulate = Color(1, 1, 1, 0)
+		peca.rotation = tilt
+		peca.position = p_pos + offset
+		tw.tween_property(peca, "modulate:a", 1.0, 0.3).set_delay(atraso)
+		tw.tween_property(peca, "rotation", 0.0, dur).set_delay(atraso) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(peca, "position", p_pos, dur).set_delay(atraso) \
+			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 func _criar_botao_debug_unlock() -> void:
 	var btn := Button.new()

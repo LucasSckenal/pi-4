@@ -87,6 +87,7 @@ func _construir_ui():
 	scroll.add_child(wrapper)
 
 	_criar_barra_progresso(wrapper, num_ok, total)
+	_criar_painel_estatisticas(wrapper)
 
 	# Grid: 1 coluna no mobile, 2 no desktop
 	var grid := GridContainer.new()
@@ -165,6 +166,64 @@ func _criar_barra_progresso(parent: VBoxContainer, n: int, total: int):
 	bg_st.corner_radius_bottom_right = 5
 	bar.add_theme_stylebox_override("background", bg_st)
 	hbox.add_child(bar)
+
+# ==========================================
+# PAINEL DE ESTATÍSTICAS
+# ==========================================
+func _criar_painel_estatisticas(parent: VBoxContainer) -> void:
+	var mob: bool = OS.has_feature("mobile")
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.13, 0.08, 0.03, 0.95)
+	st.border_color = Color(0.62, 0.46, 0.14)
+	st.set_border_width_all(2)
+	st.set_corner_radius_all(12)
+	st.content_margin_left = 16
+	st.content_margin_right = 16
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	card.add_theme_stylebox_override("panel", st)
+
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 28 if not mob else 18)
+	card.add_child(row)
+
+	row.add_child(_stat_coluna("Inimigos\nderrotados", str(Global.total_inimigos_mortos), mob))
+	row.add_child(_separador_vertical())
+	row.add_child(_stat_coluna("Melhor onda\n(infinito)", str(Global.melhor_onda_infinito), mob))
+	row.add_child(_separador_vertical())
+	row.add_child(_stat_coluna("Tempo\njogado", Global.formatar_tempo_jogado(), mob))
+
+	parent.add_child(card)
+
+func _stat_coluna(rotulo: String, valor: String, mob: bool) -> VBoxContainer:
+	var col := VBoxContainer.new()
+	col.alignment = BoxContainer.ALIGNMENT_CENTER
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var vlbl := Label.new()
+	vlbl.text = valor
+	vlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vlbl.add_theme_font_size_override("font_size", 30 if mob else 26)
+	vlbl.add_theme_color_override("font_color", Color(1.0, 0.85, 0.35))
+	col.add_child(vlbl)
+	var rlbl := Label.new()
+	rlbl.text = rotulo
+	rlbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rlbl.add_theme_font_size_override("font_size", 16 if mob else 13)
+	rlbl.add_theme_color_override("font_color", Color(0.70, 0.62, 0.45))
+	col.add_child(rlbl)
+	return col
+
+func _separador_vertical() -> Panel:
+	var sep := Panel.new()
+	sep.custom_minimum_size = Vector2(2, 44)
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.40, 0.32, 0.12, 0.6)
+	sep.add_theme_stylebox_override("panel", st)
+	sep.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return sep
 
 # ==========================================
 # CARD INDIVIDUAL
