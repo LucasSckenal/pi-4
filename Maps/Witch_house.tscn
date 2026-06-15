@@ -140,6 +140,8 @@ environment = SubResource("Environment_553vb")
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("3_lblfm")]
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0.0368039, 3.261833, 0.1024816)
 rotation_speed = 20.0
+cor_fumaca = Color(0.8509804, 0.5764706, 0.32156864, 0.4117647)
+tamanho_fumaca = 0.5
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=1908486518]
 avoidance_enabled = true

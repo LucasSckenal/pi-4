@@ -41,7 +41,7 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export_category("Referências Visuais & Som")
 @export var modelo_3d: Node3D
 @export var animation_player: AnimationPlayer
-@export var som_dano_stream: AudioStream
+@export var som_dano_stream: AudioStream = preload("res://Sons/EnemyHurt.wav")
 @export var icone: Texture2D            ## Ícone 2D exibido na tela de "Novo Inimigo"
 
 @export_category("Nomes das Animações")

@@ -535,6 +535,8 @@ nivel_necessario = 2
 transform = Transform3D(-1.463973, -0.009468852, 2.6185288, -0.018275727, 2.9999444, 0.0006304559, -2.6184824, -0.015644182, -1.4640033, 0.89926195, 0.6464263, -0.7715858)
 speed = 3.0
 rotation_speed = 20.0
+cor_fumaca = Color(0.8509804, 0.8509804, 0.8509804, 0.39215687)
+tamanho_fumaca = 0.6
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=1791159917]
 max_neighbors = 20

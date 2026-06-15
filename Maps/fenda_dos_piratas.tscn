@@ -457,9 +457,11 @@ mesh = SubResource("ArrayMesh_colh8")
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]
 transform = Transform3D(4.9998894, 0.030462272, -0.013501438, -0.030459546, 4.9999075, 0.0010507599, 0.01350759, -0.00096848706, 4.999982, 0.1185745, -0.20675087, 1.2186811)
-speed = 3.0
+speed = 4.5
 jump_velocity = 5.0
 rotation_speed = 20.0
+cor_fumaca = Color(0.9254902, 0.6313726, 0.30980393, 0.39215687)
+tamanho_fumaca = 0.5
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=865596590]
 max_neighbors = 20

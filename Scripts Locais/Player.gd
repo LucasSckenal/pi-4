@@ -9,6 +9,17 @@ const SOM_PULO = preload("res://Sons/jump.wav")
 @export var gravity = 20.0
 @export var rotation_speed = 10.0 
 
+# --- CONFIGURAÇÕES DE EFEITOS VISUAIS ---
+@export var cor_fumaca: Color = Color(0.85, 0.85, 0.85, 0.6)
+@export var tamanho_fumaca: float = 1.0
+@export var pos_y_fumaca: float = -0.9 # Altura da fumaça (ajuste para os pés)
+@export var gravidade_fumaca: Vector3 = Vector3(0, 0.2, 0) # Força vertical/horizontal da fumaça
+@export var quantidade_fumaca_andar: int = 5
+@export var quantidade_fumaca_pulo: int = 5
+@export var explosividade_pulo: float = 0.6
+@export var velocidade_pulo_fumaca: float = 1.0
+@export var estilo_cartoon: bool = true
+
 const TEXTURA_CORTE = preload("res://Icons/HalfMoon.png")
 const OUTLINE_SHADER = preload("res://Shaders/Outline.gdshader")
 
@@ -31,6 +42,8 @@ var tween_clique: Tween
 var rotation_tween: Tween = null
 var materiais_outline: Array[ShaderMaterial] = [] # Cache dos materiais para otimizar o zoom
 var _slash_shader: Shader = null  # Shader do corte compilado uma vez no _ready()
+var _particulas_andar: GPUParticles3D
+var _particulas_pulo: GPUParticles3D
 
 func _ready():
 	add_to_group("Player")
@@ -51,6 +64,8 @@ func _ready():
 	if nav_agent != null:
 		nav_agent.path_desired_distance = 0.5
 		nav_agent.target_desired_distance = 0.01
+		
+	_configurar_particulas_fumaca()
 	
 	# Pré-compila o shader do corte (evita Shader.new() + recompile por ataque)
 	_slash_shader = Shader.new()
@@ -66,7 +81,6 @@ func _ready():
         uniform vec4 slash_color : source_color = vec4(1.0, 0.9, 0.5, 1.0);
         // Define a espessura minima das pontas do rastro
         uniform float tips_thickness : hint_range(0.0, 1.0) = 0.0;
-
         void fragment() {
             vec2 pos = UV - 0.5;
             float dist = length(pos);
@@ -78,7 +92,6 @@ func _ready():
             float alpha_fade = smoothstep(lead_angle - tail_angle, lead_angle, angle);
 
             float thickness_curve = sin(alpha_fade * PI);
-
             float current_outer_radius = mix(inner_radius + tips_thickness, outer_radius, thickness_curve);
             float outer_mask = step(dist, current_outer_radius);
 
@@ -165,6 +178,7 @@ func _physics_process(delta):
 	# 1. Gravidade
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+		_particulas_andar.emitting = false
 
 	# 2. Navegação e Pulo Automático
 	var direction = Vector3.ZERO
@@ -187,6 +201,7 @@ func _physics_process(delta):
 					
 					if not eh_barreira:
 						velocity.y = jump_velocity
+						_particulas_pulo.restart()
 						var player_som = AudioStreamPlayer3D.new()
 						player_som.stream = SOM_PULO
 						player_som.volume_db = -25
@@ -219,9 +234,13 @@ func _physics_process(delta):
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 		angulo_destino = atan2(direction.x, direction.z)
+		
+		if is_on_floor():
+			_particulas_andar.emitting = true
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
+		_particulas_andar.emitting = false
 		
 	# SE ESTIVER ATACANDO ALGUÉM, IGNORA O CAMINHO E OLHA PARA O INIMIGO
 	if is_instance_valid(inimigo_focado) and not pode_atacar:
@@ -358,6 +377,79 @@ func _retornar_ao_spawn() -> void:
 # ==========================================
 # SISTEMAS AUXILIARES E ANIMAÇÕES
 # ==========================================
+
+func _configurar_particulas_fumaca():
+	var proc_mat = ParticleProcessMaterial.new()
+	proc_mat.direction = Vector3(0, 1, 0)
+	proc_mat.spread = 30.0
+	proc_mat.initial_velocity_min = 0.1
+	proc_mat.initial_velocity_max = 0.4
+	proc_mat.gravity = gravidade_fumaca
+	proc_mat.scale_min = tamanho_fumaca * 0.4
+	proc_mat.scale_max = tamanho_fumaca * 0.8
+	
+	var gradiente = Gradient.new()
+	
+	if estilo_cartoon:
+		# Documentação: Mantém a cor sólida e usa uma curva para aumentar rápido e diminuir gradualmente
+		gradiente.set_color(0, cor_fumaca)
+		gradiente.set_color(1, cor_fumaca)
+		
+		var curva_escala = Curve.new()
+		curva_escala.add_point(Vector2(0, 0.5))
+		curva_escala.add_point(Vector2(0.2, 1.0))
+		curva_escala.add_point(Vector2(1.0, 0.0))
+		
+		var tex_curva = CurveTexture.new()
+		tex_curva.curve = curva_escala
+		proc_mat.scale_curve = tex_curva
+	else:
+		# Documentação: Comportamento básico com transparência linear até sumir
+		gradiente.set_color(0, cor_fumaca)
+		var cor_transparente = cor_fumaca
+		cor_transparente.a = 0.0
+		gradiente.set_color(1, cor_transparente)
+		
+	var grad_tex = GradientTexture1D.new()
+	grad_tex.gradient = gradiente
+	proc_mat.color_ramp = grad_tex
+	
+	var draw_pass = SphereMesh.new()
+	draw_pass.radius = 0.2
+	draw_pass.height = 0.4
+	draw_pass.radial_segments = 8
+	draw_pass.rings = 4
+	
+	var mat_visual = StandardMaterial3D.new()
+	mat_visual.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat_visual.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat_visual.vertex_color_use_as_albedo = true
+	draw_pass.material = mat_visual
+	
+	_particulas_andar = GPUParticles3D.new()
+	_particulas_andar.name = "FumacaAndar"
+	_particulas_andar.process_material = proc_mat
+	_particulas_andar.draw_pass_1 = draw_pass
+	_particulas_andar.amount = quantidade_fumaca_andar
+	_particulas_andar.lifetime = 0.4
+	_particulas_andar.emitting = false
+	_particulas_andar.position = Vector3(0, pos_y_fumaca, 0)
+	add_child(_particulas_andar)
+	
+	_particulas_pulo = GPUParticles3D.new()
+	_particulas_pulo.name = "FumacaPulo"
+	_particulas_pulo.process_material = proc_mat.duplicate()
+	_particulas_pulo.process_material.initial_velocity_min = 0.5 * velocidade_pulo_fumaca
+	_particulas_pulo.process_material.initial_velocity_max = 1.0 * velocidade_pulo_fumaca
+	_particulas_pulo.process_material.spread = 90.0
+	_particulas_pulo.draw_pass_1 = draw_pass
+	_particulas_pulo.amount = quantidade_fumaca_pulo
+	_particulas_pulo.lifetime = 0.4
+	_particulas_pulo.emitting = false
+	_particulas_pulo.one_shot = true
+	_particulas_pulo.explosiveness = explosividade_pulo
+	_particulas_pulo.position = Vector3(0, pos_y_fumaca, 0)
+	add_child(_particulas_pulo)
 
 func _gerenciar_animacoes(direction):
 	if not anim_player: return

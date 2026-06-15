@@ -1373,6 +1373,12 @@ radius = 0.3104535
 [node name="Player" type="CharacterBody3D" unique_id=1040113878 groups=["Player"]]
 input_ray_pickable = false
 script = ExtResource("1_onrkg")
+cor_fumaca = Color(0.8509804, 0.8509804, 0.8509804, 0.21568628)
+tamanho_fumaca = 0.3
+pos_y_fumaca = 0.0
+gravidade_fumaca = Vector3(0, 0.1, 0)
+quantidade_fumaca_andar = 3
+explosividade_pulo = 0.3
 dano_ataque = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=617813738]

@@ -75,6 +75,8 @@ spot_angle = 50.0
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("1_mb5xg")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.8047767, -0.75805736, -4.955751)
 speed = 4.0
+cor_fumaca = Color(0.9999818, 0.24497324, 0.19068936, 0.39215687)
+tamanho_fumaca = 0.6
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="Player" unique_id=859633319]
 max_neighbors = 20

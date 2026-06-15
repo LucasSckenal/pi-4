@@ -1,17 +1,14 @@
 [gd_scene format=4 uid="uid://nbn0asbe4wf3"]
 
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemys/inimigo_base.gd" id="1_4uil2"]
-[ext_resource type="AudioStream" uid="uid://bsrglyegmdscu" path="res://Sons/EnemyHurt.wav" id="2_edil1"]
 [ext_resource type="Texture2D" uid="uid://bafeshtd72oke" path="res://Dungeon/Textures/colormap.png" id="2_l5fws"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_2scqa"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ycepd"]
 render_priority = 0
 shader = ExtResource("3_2scqa")
-shader_parameter/scale = 2.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jqg7f"]
 resource_name = "colormap"
@@ -69,10 +66,8 @@ bind/6/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34324998, -0.00263881
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vpr1b"]
 render_priority = 0
 shader = ExtResource("3_2scqa")
-shader_parameter/scale = 2.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6vp4"]
 resource_name = "colormap"
@@ -3195,7 +3190,6 @@ dist_tornar_random = 0.0
 quanto_espalhar = 0.0
 modelo_3d = NodePath(".")
 animation_player = NodePath("character-orc2/AnimationPlayer")
-som_dano_stream = ExtResource("2_edil1")
 
 [node name="character-orc2" type="Node3D" parent="." unique_id=1281602555]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
