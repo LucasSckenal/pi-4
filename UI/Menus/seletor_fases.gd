@@ -123,13 +123,6 @@ func _criar_peca_placeholder(idx: int, tam: Vector2) -> Node2D:
 	papel.polygon = pts
 	papel.color = _CORES_PAPEL[idx % _CORES_PAPEL.size()]
 	raiz.add_child(papel)
-	# Rótulo de placeholder (some quando a arte real entrar)
-	var lbl := Label.new()
-	lbl.text = "PEÇA %d" % (idx + 1)
-	lbl.position = Vector2(-tam.x / 2.0 + 22, -tam.y / 2.0 + 16)
-	lbl.add_theme_color_override("font_color", Color(0.32, 0.22, 0.12, 0.55))
-	lbl.add_theme_font_size_override("font_size", 24)
-	raiz.add_child(lbl)
 	return raiz
 
 # Gera um contorno retangular com bordas irregulares (rasgadas), centrado em (0,0).

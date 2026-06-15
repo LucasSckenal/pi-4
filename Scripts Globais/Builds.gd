@@ -1052,7 +1052,7 @@ func _inicializar_barra_vida():
 # NOVA BARRA DE VIDA 3D COM SHADER CUSTOMIZADA
 # ─────────────────────────────────────────────────────────────────────────────
 func _criar_barra_3d() -> void:
-	if (tipo == TipoConstrucao.BASE): return
+	if (tipo == TipoConstrucao.BASE and !tem_barra_vida): return
 	if is_instance_valid(_barra_3d_mesh):
 		_barra_3d_mesh.queue_free()
 
@@ -1065,11 +1065,11 @@ func _criar_barra_3d() -> void:
 		TipoConstrucao.BASE:
 			bar_y = 4.0
 		TipoConstrucao.TORRE:
-			bar_y = 3.2
+			bar_y = 0
 		TipoConstrucao.QUARTEL, TipoConstrucao.CALDEIRON:
-			bar_y = 2.6
+			bar_y = 0
 		_: # CASA, MINA, MOINHO
-			bar_y = 2.0
+			bar_y = 0
 
 	_barra_3d_mesh = MeshInstance3D.new()
 	_barra_3d_mesh.name = "BarraVidaShader"
