@@ -89,7 +89,7 @@ func recalcular_linhas() -> void:
 func _criar_pecas() -> void:
 	# Esconde o pergaminho 3D antigo — os pedaços passam a ser o "fundo" do mapa
 	for m in pergaminho.find_children("*", "MeshInstance3D", true, false):
-		m.visible = true
+		m.visible = false
 
 	# Limpa pedaços antigos (recriação em resize)
 	for p in _pecas:

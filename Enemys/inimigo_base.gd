@@ -675,7 +675,7 @@ func _mostrar_dano_flutuante(qtd: int, origem: String = "torre") -> void:
 	lbl.no_depth_test = true
 	lbl.fixed_size = false  # escala com a distância da câmera (senão fica gigante)
 	lbl.pixel_size = 0.007
-	lbl.font_size = 48
+	lbl.font_size = 36
 	lbl.outline_size = 12
 	lbl.outline_modulate = Color(0, 0, 0, 0.85)
 	# Cor por origem: fogo=laranja, gelo=azul, senão dourado

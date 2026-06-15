@@ -19,9 +19,8 @@ const MAX_NIVEIS_ZOOM := 4
 
 # FOV contínuo controlado por pinça (entre o zoom nível 1 e o nível MAX)
 const FOV_MIN := 90.0 - (MAX_NIVEIS_ZOOM * 15.0)  # mais zoom (nível 4)
-const FOV_MAX := 90.0 - (1 * 15.0)                # menos zoom (nível 1)
-var _toques_ativos: Dictionary = {}   # index -> Vector2
-var _pinca_dist_anterior: float = -1.0
+const FOV_MAX := 90.0 - (1 * 15.0)     
+		   # menos zoom (nível 1)
 
 var estilo_caixa_cheia: StyleBox
 var estilo_caixa_vazia: StyleBox
@@ -77,23 +76,9 @@ func _ready() -> void:
 # PINÇA PARA ZOOM (dois dedos)
 # ==========================================
 func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch:
-		if event.pressed:
-			_toques_ativos[event.index] = event.position
-		else:
-			_toques_ativos.erase(event.index)
-			_pinca_dist_anterior = -1.0
-	elif event is InputEventScreenDrag:
-		if _toques_ativos.has(event.index):
-			_toques_ativos[event.index] = event.position
-		# Só processa pinça com exatamente 2 dedos na tela
-		if _toques_ativos.size() == 2:
-			var pts: Array = _toques_ativos.values()
-			var dist: float = pts[0].distance_to(pts[1])
-			if _pinca_dist_anterior > 0.0:
-				var delta_dist: float = dist - _pinca_dist_anterior
-				_aplicar_pinca_zoom(delta_dist)
-			_pinca_dist_anterior = dist
+	if event is InputEventMagnifyGesture:
+		var delta_dist: float = (event.factor - 1.0) * 100.0
+		_aplicar_pinca_zoom(delta_dist)
 
 func _aplicar_pinca_zoom(delta_dist: float) -> void:
 	var camera := get_viewport().get_camera_3d()
@@ -226,3 +211,4 @@ func _configurar_animacao_hover(botao: Button) -> void:
 		var tween := create_tween()
 		tween.tween_property(botao, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
 	)
+	
