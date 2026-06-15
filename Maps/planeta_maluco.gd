@@ -136,6 +136,9 @@ func _ready():
 		_estrelas_normais.amount = _estrelas_normais.amount * 2
 		_estrelas_normais.amount_ratio = 0.5
 	_criar_luzes_plataforma()
+	
+	# Para ter a iluminação correta
+	_animar_para_dia()
 
 # ─── Planeta ─────────────────────────────────────────────────────────────────
 func _criar_planeta() -> void:

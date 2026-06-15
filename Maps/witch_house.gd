@@ -33,10 +33,10 @@ func _ready():
 
 	# ── Luz solar (criada aqui pois o mapa não tem DirectionalLight3D) ─────────
 	_luz_dia = DirectionalLight3D.new()
-	_luz_dia.light_color    = Color(1.0, 0.94, 0.82)
-	_luz_dia.light_energy   = 1.5               # dia bem iluminado
-	_luz_dia.shadow_enabled = false
-	_luz_dia.rotation_degrees = Vector3(-50.0, 40.0, 0.0)
+	_luz_dia.light_color    = Color(1.0, 0.941, 0.494, 1.0)
+	_luz_dia.light_energy   = 1.0               # dia bem iluminado
+	_luz_dia.shadow_enabled = true
+	_luz_dia.rotation_degrees = Vector3(-50.0, 95.0, 0.0)
 	add_child(_luz_dia)
 
 	# ── WorldEnvironment (duplicado para não afetar outros mapas) ─────────────

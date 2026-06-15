@@ -27,6 +27,9 @@ func _ready():
 	if is_instance_valid(_ambiente) and _ambiente.environment:
 		_ambient_energy_original = _ambiente.environment.ambient_light_energy
 	_criar_luzes_cais()
+	
+	# Para ter a iluminação correta
+	_animar_para_dia()
 
 # ─── Lanternas do cais ────────────────────────────────────────────────────────
 func _criar_luzes_cais() -> void:
