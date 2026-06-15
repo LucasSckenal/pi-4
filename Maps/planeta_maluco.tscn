@@ -438,6 +438,9 @@ transform = Transform3D(-0.74929404, -0.39235854, 0.5334916, -0.040869985, 0.831
 script = ExtResource("5_gpya5")
 player = NodePath("../Player")
 limite_maximo_pan_z = 5.79
+limite_x_negativo = 17.06
+limite_x_positivo = 6.125
+limite_z_positivo = 17.68
 
 [node name="Spawners" type="Node3D" parent="." unique_id=1994278130]
 

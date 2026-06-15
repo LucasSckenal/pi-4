@@ -53,11 +53,11 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_vmw3p")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_qvxli"]
-size = Vector3(5.172415, 9.395386, 10.939243)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_laode"]
 size = Vector3(9.072805, 9.395386, 12.293125)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qvxli"]
+size = Vector3(5.172415, 9.395386, 10.939243)
 
 [node name="ship-wreck2" unique_id=848616913 groups=["Base", "Castelo"] instance=ExtResource("1_qvxli")]
 script = ExtResource("2_laode")
@@ -67,19 +67,13 @@ upgrade_custos = Array[int]([5, 7])
 upgrade_vida_por_nivel = Array[int]([500, 750])
 nome_construcao = "Barco"
 
-[node name="ship-wreck" parent="." index="0" unique_id=2076038655]
+[node name="ship-wreck" parent="." index="0" unique_id=466570139]
 mesh = SubResource("ArrayMesh_w5vry")
 
-[node name="CollisionShape3D" parent="ship-wreck/StaticBody3D" parent_id_path=PackedInt32Array(1123412842) index="0" unique_id=213017337]
+[node name="CollisionShape3D" parent="ship-wreck/StaticBody3D" parent_id_path=PackedInt32Array(1206169003) index="0" unique_id=662439680]
 disabled = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." index="1" unique_id=185922796]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=1353856468]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10218334, 4.197693, -0.020975113)
-shape = SubResource("BoxShape3D_qvxli")
-
-[node name="AreaClique" type="Area3D" parent="." index="2" unique_id=552025519]
+[node name="AreaClique" type="Area3D" parent="." index="1" unique_id=552025519]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.8026243)
 priority = 1
 
@@ -87,3 +81,9 @@ priority = 1
 process_priority = 5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09503269, 4.197693, 0.7997303)
 shape = SubResource("BoxShape3D_laode")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." index="2" unique_id=185922796]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0" unique_id=1353856468]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10218334, 4.197693, -0.020975113)
+shape = SubResource("BoxShape3D_qvxli")

@@ -89,7 +89,7 @@ func recalcular_linhas() -> void:
 func _criar_pecas() -> void:
 	# Esconde o pergaminho 3D antigo — os pedaços passam a ser o "fundo" do mapa
 	for m in pergaminho.find_children("*", "MeshInstance3D", true, false):
-		m.visible = false
+		m.visible = true
 
 	# Limpa pedaços antigos (recriação em resize)
 	for p in _pecas:
@@ -115,7 +115,7 @@ func _criar_peca_placeholder(idx: int, tam: Vector2) -> Node2D:
 	# Sombra (dá a sensação de papel sobre papel)
 	var sombra := Polygon2D.new()
 	sombra.polygon = pts
-	sombra.color = Color(0.12, 0.08, 0.05, 0.55)
+	sombra.color = Color(0.12, 0.08, 0.05, 0.15) # Deixado mais transparente, antes era 0.55
 	sombra.position = Vector2(7, 9)
 	raiz.add_child(sombra)
 	# Papel

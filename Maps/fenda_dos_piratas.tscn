@@ -444,6 +444,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721361, -0.7187684, 9.5233
 transform = Transform3D(1, 0, 0, 0, 0.83867055, 0.54463905, 0, -0.54463905, 0.83867055, -1, 7, 22)
 script = ExtResource("10_n8yof")
 player = NodePath("../Player")
+limite_x_negativo = 26.31
+limite_x_positivo = 27.505
+limite_z_negativo = 25.0
+limite_z_positivo = 7.61
 
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
 transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)

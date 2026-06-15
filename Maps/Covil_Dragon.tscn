@@ -15,7 +15,6 @@
 [ext_resource type="Resource" uid="uid://cfholr2iw4ed4" path="res://Waves/Map6/map6_support_02.tres" id="21_s02"]
 [ext_resource type="Resource" uid="uid://dw43abv6hwvaa" path="res://Waves/Map6/map6_support_03.tres" id="22_s03"]
 [ext_resource type="Resource" uid="uid://gg2uj0l41vav" path="res://Waves/Map6/map6_support_04.tres" id="23_s04"]
-[ext_resource type="Resource" uid="uid://cktmfb2cea5tb" path="res://Waves/Map6/map6_support_05.tres" id="24_s05"]
 [ext_resource type="Resource" uid="uid://cik6wmybfla45" path="res://Waves/Map6/map6_support_10.tres" id="29_s10"]
 [ext_resource type="Resource" uid="uid://jo5fw1efj10t" path="res://Waves/Map6/map6_stage_01_starter.tres" id="30_stage01"]
 [ext_resource type="Resource" uid="uid://11gdjhgat1vk" path="res://Waves/Map6/map6_stage_04_mid.tres" id="31_stage04"]
@@ -140,6 +139,10 @@ transform = Transform3D(-1, 7.178715e-08, -4.9893373e-08, 0, 0.5707136, 0.821149
 script = ExtResource("5_nekdb")
 player = NodePath("../Player")
 limite_maximo_pan_x = 8.0
+limite_x_negativo = 15.44
+limite_x_positivo = 15.775
+limite_z_negativo = 5.4
+limite_z_positivo = 24.58
 
 [node name="ChaoColisao" type="MeshInstance3D" parent="." unique_id=1038916868]
 transform = Transform3D(31.66598, 0, 0, 0, 2.1030097, 0, 0, 0, 32.540306, 0, -4.325769, 0)
@@ -163,7 +166,6 @@ nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=1758389684 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.8, -2.1366413, 5.5)
-nivel_necessario = 1
 
 [node name="BuildSlot3" parent="Builds" unique_id=543304925 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 2.8, -2.1366413, -5.5)
@@ -171,7 +173,6 @@ nivel_necessario = 0
 
 [node name="BuildSlot4" parent="Builds" unique_id=951543918 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -2.8, -2.1366413, -5.5)
-nivel_necessario = 1
 
 [node name="BuildSlot5" parent="Builds" unique_id=885191120 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 5.5, -2.1366413, 2.8)
@@ -179,7 +180,6 @@ nivel_necessario = 0
 
 [node name="BuildSlot6" parent="Builds" unique_id=652910107 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 5.5, -2.1366413, -2.8)
-nivel_necessario = 1
 
 [node name="BuildSlot7" parent="Builds" unique_id=1316308097 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -5.5, -2.1366413, 2.8)
@@ -187,7 +187,6 @@ nivel_necessario = 0
 
 [node name="BuildSlot8" parent="Builds" unique_id=1253838615 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, -5.5, -2.1366413, -2.8)
-nivel_necessario = 1
 
 [node name="BuildSlot9" parent="Builds" unique_id=1198725459 instance=ExtResource("6_vfgjs")]
 transform = Transform3D(3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 7.5, -2.1366413, 7.5)

@@ -125,6 +125,9 @@ current = true
 fov = 79.7
 script = ExtResource("3_553vb")
 player = NodePath("../Player")
+limite_x_negativo = 6.125
+limite_x_positivo = 6.125
+limite_z_negativo = 3.35
 
 [node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=875634976]
 libraries/ = SubResource("AnimationLibrary_oxycu")
@@ -563,15 +566,15 @@ transform = Transform3D(-0.9944173, 0, 0.10551791, 0.05567525, 0.8494693, 0.5246
 [node name="Spawners" type="Node3D" parent="." unique_id=759731134]
 
 [node name="A" parent="Spawners" unique_id=1949187913 instance=ExtResource("100_spawner")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.018281162, 3.6681845, -4.5453496)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019436717, 3.6681845, -3.6149592)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("102_w01"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
 [node name="B" parent="Spawners" unique_id=1550141656 instance=ExtResource("100_spawner")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.73182, 3.8260355, -0.3767725)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.6340775, 3.8260355, -0.1392422)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("103_w02"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
 [node name="C" parent="Spawners" unique_id=647405914 instance=ExtResource("100_spawner")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.371412, 3.7880163, 1.6408707)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.2767467, 3.7880163, 1.5419117)
 ondas = Array[ExtResource("101_wavedata")]([ExtResource("112_wempty"), ExtResource("112_wempty"), ExtResource("104_w03"), ExtResource("105_w04"), ExtResource("106_w05"), ExtResource("111_w10")])
 
 [node name="Builds" type="Node3D" parent="." unique_id=1250627241]
