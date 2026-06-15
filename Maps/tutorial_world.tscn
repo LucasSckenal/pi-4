@@ -700,6 +700,10 @@ attributes = SubResource("CameraAttributesPractical_hj1xp")
 current = true
 script = ExtResource("2_hvshy")
 player = NodePath("../Player")
+limite_x_negativo = 1.8900000000000001
+limite_x_positivo = 7.0
+limite_z_negativo = 6.6850000000000005
+limite_z_positivo = 6.455
 
 [node name="building-castle2" parent="." unique_id=1806970837 instance=ExtResource("4_bmj55")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7585462, -0.041404128, 0.41468826)

@@ -699,8 +699,9 @@ script = ExtResource("2_ylt60")
 player = NodePath("../Player")
 limite_maximo_pan_x = 20.0
 limite_maximo_pan_z = 15.0
-limite_x_negativo = 6.0
+limite_x_negativo = 8.955
 limite_x_positivo = 9.22
+limite_z_negativo = 22.0
 limite_z_positivo = 4.465
 
 [node name="Water" type="Node3D" parent="." unique_id=987972882]
