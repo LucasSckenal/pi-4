@@ -14,6 +14,7 @@ enum Categoria { NORMAL, MINI_BOSS, BOSS }
 @export var usar_video_custom := false
 @export var video_stream: VideoStream
 @export var audio_intro: AudioStream           ## Sting dramático tocado no momento do reveal
+
 @export_category("Comportamento Kamikaze (Quebra-Muro)")
 @export var eh_kamikaze: bool = false
 @export var raio_explosao: float = 3.0
@@ -132,7 +133,7 @@ var _fogo_ticks_restantes: int = 0
 var _fogo_dano_tick: int = 0          # dano por tick de queimadura (sem timers)
 var _fogo_timer_acum: float = 0.0     # acumulador de tempo entre ticks
 var _mat_flash: StandardMaterial3D = null  # material de hit-flash pré-criado
-var _meshes_modelo: Array = []         # cache de MeshInstance3D do modelo
+var _meshes_modelo: Array = []        # cache de MeshInstance3D do modelo
 var _flash_tween: Tween = null         # tween do flash (para poder matar o anterior)
 var _cache_construcoes_aereo: Array = []   # cache da lista de construções (aéreos)
 var _timer_cache_construcoes: float = 0.0  # throttle do cache de construções
@@ -160,6 +161,25 @@ var label_vida: Label = null
 @export var textura_moldura_boss: Texture2D = null
 ## Cor da barra de vida (verde para pirata, vermelho para golem, etc.)
 @export var cor_barra_boss: Color = Color(0.85, 0.05, 0.05)
+## Escala de largura máxima da interface em relação à tela (0.1 a 1.0)
+@export_range(0.1, 1.0) var escala_tamanho_boss: float = 0.8
+
+## Ajuste extra do tamanho (largura, altura) APENAS do preenchimento da barra, sem afetar a textura da moldura
+@export var ajuste_tamanho_preenchimento: Vector2 = Vector2.ZERO
+
+## Porcentagem inicial visual desta forma na barra do chefe (ex: 100.0 para forma 1, 66.6 para forma 2)
+@export_range(0.0, 100.0) var limite_visual_max: float = 100.0
+## Porcentagem final visual desta forma na barra do chefe (ex: 66.6 para forma 1, 33.3 para forma 2)
+@export_range(0.0, 100.0) var limite_visual_min: float = 0.0
+
+## Exibir texto de porcentagem na barra de vida
+@export var mostrar_porcentagem_vida: bool = false
+## Tamanho da fonte da porcentagem
+@export var tamanho_fonte_porcentagem: int = 28
+## Cor da fonte da porcentagem
+@export var cor_fonte_porcentagem: Color = Color.BLACK
+## Porcentagem para cada separador visual na barra (ex: 25.0). 0 para desativar.
+@export_range(0.0, 50.0) var separacao_porcentagem_boss: float = 25.0
 
 # ==========================================
 # DICAS PARA A TELA DE NOVO INIMIGO
@@ -531,12 +551,16 @@ func receber_dano(qtd, origem = "torre"):
 			tw_shake.tween_property(canvas_boss.get_child(0), "position", original_pos + offset, 0.05)
 		tw_shake.tween_property(canvas_boss.get_child(0), "position", original_pos, 0.05)
 
+		# Calcula a porcentagem de vida e interpola na escala visual delimitada do boss
+		var pct_vida: float = max(float(vida_atual) / float(vida_maxima), 0.0)
+		var valor_visual: float = lerp(limite_visual_min, limite_visual_max, pct_vida)
+
 		var tw_barra = create_tween()
-		tw_barra.tween_property(barra_vida_boss, "value", vida_atual, 0.1).set_trans(Tween.TRANS_QUINT)
+		tw_barra.tween_property(barra_vida_boss, "value", valor_visual, 0.1).set_trans(Tween.TRANS_QUINT)
 		
 		var tw_fantasma = create_tween()
 		tw_fantasma.tween_interval(0.4) 
-		tw_fantasma.tween_property(barra_fantasma, "value", vida_atual, 0.8).set_trans(Tween.TRANS_SINE)
+		tw_fantasma.tween_property(barra_fantasma, "value", valor_visual, 0.8).set_trans(Tween.TRANS_SINE)
 	
 	if som_dano_stream:
 		var som_hit = AudioStreamPlayer3D.new()
@@ -745,7 +769,7 @@ func _criar_interface_do_boss() -> void:
 		tex_size = Vector2(textura_moldura_boss.get_width(), textura_moldura_boss.get_height())
 
 	var vp_size  := get_viewport().get_visible_rect().size if get_viewport() else Vector2(1280.0, 720.0)
-	var max_w: float = vp_size.x * 0.80                     # ocupa no máx. 80% da tela
+	var max_w: float = vp_size.x * escala_tamanho_boss
 	var escala: float = min(max_w / tex_size.x, 1.0)       # nunca amplia além do tamanho real
 	var w: float = tex_size.x * escala
 	var h: float = tex_size.y * escala
@@ -792,9 +816,13 @@ func _criar_interface_do_boss() -> void:
 	barra_fantasma.set_anchor(SIDE_RIGHT,  BAR_R)
 	barra_fantasma.set_anchor(SIDE_TOP,    BAR_T)
 	barra_fantasma.set_anchor(SIDE_BOTTOM, BAR_B)
+	barra_fantasma.offset_left   = -ajuste_tamanho_preenchimento.x / 2.0
+	barra_fantasma.offset_right  = ajuste_tamanho_preenchimento.x / 2.0
+	barra_fantasma.offset_top    = -ajuste_tamanho_preenchimento.y / 2.0
+	barra_fantasma.offset_bottom = ajuste_tamanho_preenchimento.y / 2.0
 	barra_fantasma.mouse_filter    = Control.MOUSE_FILTER_IGNORE
-	barra_fantasma.max_value       = vida_maxima
-	barra_fantasma.value           = vida_atual
+	barra_fantasma.max_value       = 100.0
+	barra_fantasma.value           = limite_visual_max
 	barra_fantasma.show_percentage = false
 	barra_fantasma.add_theme_stylebox_override("background", StyleBoxEmpty.new())
 	barra_fantasma.add_theme_stylebox_override("fill",       sty_ghost)
@@ -812,13 +840,38 @@ func _criar_interface_do_boss() -> void:
 	barra_vida_boss.set_anchor(SIDE_RIGHT,  BAR_R)
 	barra_vida_boss.set_anchor(SIDE_TOP,    BAR_T)
 	barra_vida_boss.set_anchor(SIDE_BOTTOM, BAR_B)
+	barra_vida_boss.offset_left   = -ajuste_tamanho_preenchimento.x / 2.0
+	barra_vida_boss.offset_right  = ajuste_tamanho_preenchimento.x / 2.0
+	barra_vida_boss.offset_top    = -ajuste_tamanho_preenchimento.y / 2.0
+	barra_vida_boss.offset_bottom = ajuste_tamanho_preenchimento.y / 2.0
 	barra_vida_boss.mouse_filter    = Control.MOUSE_FILTER_IGNORE
-	barra_vida_boss.max_value       = vida_maxima
-	barra_vida_boss.value           = vida_atual
-	barra_vida_boss.show_percentage = false
+	barra_vida_boss.max_value       = 100.0
+	barra_vida_boss.value           = limite_visual_max
+	barra_vida_boss.show_percentage = mostrar_porcentagem_vida
+	barra_vida_boss.add_theme_font_size_override("font_size", tamanho_fonte_porcentagem)
+	barra_vida_boss.add_theme_color_override("font_color", cor_fonte_porcentagem)
 	barra_vida_boss.add_theme_stylebox_override("background", StyleBoxEmpty.new())
 	barra_vida_boss.add_theme_stylebox_override("fill",       sty_fill)
 	root.add_child(barra_vida_boss)
+
+	if separacao_porcentagem_boss > 0.0:
+		var num_separadores = int(100.0 / separacao_porcentagem_boss)
+		for i in range(1, num_separadores):
+			var pct = (i * separacao_porcentagem_boss) / 100.0
+			if pct >= 1.0: break
+			
+			var separador = ColorRect.new()
+			separador.color = Color(0.1, 0.1, 0.1, 0.7)
+			separador.set_anchor(SIDE_LEFT, pct)
+			separador.set_anchor(SIDE_RIGHT, pct)
+			separador.set_anchor(SIDE_TOP, 0.0)
+			separador.set_anchor(SIDE_BOTTOM, 1.0)
+			separador.offset_left = -1.5
+			separador.offset_right = 1.5
+			separador.offset_top = 0.0
+			separador.offset_bottom = 0.0
+			separador.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			barra_vida_boss.add_child(separador)
 
 	# Pulso de brilho suave na barra
 	var tw_glow := create_tween().set_loops()
