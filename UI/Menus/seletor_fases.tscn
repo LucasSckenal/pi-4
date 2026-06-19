@@ -10,33 +10,42 @@
 [ext_resource type="Texture2D" uid="uid://dnestvljqgma1" path="res://Assets/MapSelection/Map5_Selector.png" id="9_0borg"]
 [ext_resource type="Texture2D" uid="uid://dhka5l1a1a2sm" path="res://Assets/MapSelection/Map6_Selector.png" id="10_arwf6"]
 [ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="11_kumk8"]
-[ext_resource type="Texture2D" uid="uid://dkbi7ljk0t7si" path="res://Icons/arrow_reverse.png" id="12_kumk8"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_mfnoj"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_vhorf"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pfc0p"]
-texture = ExtResource("11_kumk8")
-expand_margin_left = 30.0
-expand_margin_top = 30.0
-expand_margin_right = 35.0
-expand_margin_bottom = 30.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjkm8"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.17, 0.1, 0.04, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.56, 0.21, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kumk8"]
-texture = ExtResource("11_kumk8")
-expand_margin_left = 30.0
-expand_margin_top = 30.0
-expand_margin_right = 35.0
-expand_margin_bottom = 30.0
-modulate_color = Color(0.47007585, 0.47007585, 0.47007596, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ohijy"]
-texture = ExtResource("11_kumk8")
-expand_margin_left = 30.0
-expand_margin_top = 30.0
-expand_margin_right = 35.0
-expand_margin_bottom = 30.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kumk8"]
+content_margin_left = 22.0
+content_margin_top = 12.0
+content_margin_right = 22.0
+content_margin_bottom = 12.0
+bg_color = Color(0.3, 0.19, 0.06, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.93, 0.72, 0.28, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="SeletorFases" type="Control" unique_id=860466080]
 layout_mode = 3
@@ -416,24 +425,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.84632933)
 [node name="SpotLight3D" type="SpotLight3D" parent="Meshy_AI_Blank_Scroll_0416004051_texture" unique_id=2018396110]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.7083192)
 
-[node name="BtnVoltar" type="Button" parent="." unique_id=885441256]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.052
-anchor_top = 0.082
-anchor_right = 0.052
-anchor_bottom = 0.082
-offset_left = -37.840004
-offset_top = -37.560005
-offset_right = 37.159996
-offset_bottom = 37.439995
+[node name="BtnVoltar" type="Button" parent="." unique_id=1262003816]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 30.0
+offset_right = 250.0
+offset_bottom = 112.0
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_pfc0p")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_kumk8")
-theme_override_styles/hover = SubResource("StyleBoxTexture_ohijy")
-icon = ExtResource("12_kumk8")
-icon_alignment = 1
-expand_icon = true
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_sjkm8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_sjkm8")
+theme_override_styles/hover = SubResource("StyleBoxFlat_kumk8")
+text = "◀  Voltar"
 
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map1" to="." method="_on_map_1_pressed"]
 [connection signal="pressed" from="Meshy_AI_Blank_Scroll_0416004051_texture/Map2" to="." method="_on_map_2_pressed"]

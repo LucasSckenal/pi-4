@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const TELA_CONFIGURACOES = preload("res://UI/Menus/configuracoes.tscn")
+
 var _btn_voltar:  Button
 var _btn_repetir: Button
 var _btn_sair:    Button
@@ -45,7 +47,20 @@ func _on_voltar_pressed():
 	Engine.time_scale = _time_scale_antes_pause
 
 func _on_configuracoes_pressed():
-	pass  # TODO: abrir tela de configurações
+	# Esconde o miolo do menu de pausa para não ficar bagunçado atrás da tela de config
+	$Centro.hide()
+	
+	# Cria a tela de configurações
+	var config_instancia = TELA_CONFIGURACOES.instantiate()
+	
+	# Adiciona ela na tela (como filha do menu de pausa)
+	add_child(config_instancia)
+	
+	# Conecta o sinal que você já criou no configuracoes.gd
+	config_instancia.fechar_configuracoes.connect(func():
+		config_instancia.queue_free() # Destrói a tela de configurações
+		$Centro.show()                # Mostra os botões do pause novamente
+	)
 
 func _on_repetir_pressed():
 	Engine.time_scale = 1.0
