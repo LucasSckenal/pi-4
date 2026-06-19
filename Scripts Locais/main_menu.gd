@@ -175,6 +175,9 @@ func _iniciar_tutorial():
 func _on_btn_conquistas_pressed() -> void:
 	get_tree().change_scene_to_file("res://UI/Menus/tela_conquistas.tscn")
 
+func _on_btn_bestiario_pressed() -> void:
+	get_tree().change_scene_to_file("res://UI/Menus/bestiario.tscn")
+
 func _on_btn_sair_pressed() -> void:
 	get_tree().quit()
 

@@ -201,7 +201,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 40.0
 offset_top = -158.0
-offset_right = 342.0
+offset_right = 412.0
 offset_bottom = -38.0
 grow_vertical = 0
 size_flags_horizontal = 0
@@ -223,6 +223,22 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_41vpj")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_g1p8d")
 theme_override_styles/hover = SubResource("StyleBoxTexture_mn8lt")
 icon = ExtResource("7_wjhi1")
+icon_alignment = 1
+
+[node name="BtnBestiario" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=1957698946]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.1647, 0.1647, 0.1647, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxTexture_41vpj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_g1p8d")
+theme_override_styles/hover = SubResource("StyleBoxTexture_mn8lt")
+icon = ExtResource("5_lvola")
 icon_alignment = 1
 
 [node name="BtnConfiguracoes" type="Button" parent="CanvasLayer/HBoxContainer" unique_id=1038868166]
@@ -325,6 +341,7 @@ visible = false
 
 [connection signal="pressed" from="CanvasLayer/BtnJogar" to="." method="_on_btn_jogar_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/BtnConquistas" to="." method="_on_btn_conquistas_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/BtnBestiario" to="." method="_on_btn_bestiario_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/BtnConfiguracoes" to="." method="_on_btn_configuracoes_pressed"]
 [connection signal="pressed" from="CanvasLayer/BtnSair" to="." method="_on_btn_sair_pressed"]
 [connection signal="pressed" from="CanvasLayer/BtnContinuar" to="." method="_on_btn_continuar_pressed"]

@@ -155,7 +155,7 @@ func _ready():
 	
 	if botao_reroll != null:
 		botao_reroll.pressed.connect(_on_botao_reroll_pressed)
-		botao_reroll.custom_minimum_size = Vector2(220, 56)
+		_estilizar_botao_reroll()
 	if container_cartas != null:
 		container_cartas.mouse_filter = Control.MOUSE_FILTER_PASS
 	
@@ -426,8 +426,11 @@ func _on_abrir_menu_upgrade(cartas_sorteadas):
 
 	if botao_reroll != null:
 		botao_reroll.disabled = GameManager.reroll_usado
-		if GameManager.moedas < GameManager.custo_reroll:
-			botao_reroll.modulate = Color(0.5, 0.5, 0.5)
+		botao_reroll.text = "TENTAR A SORTE  (%d)" % GameManager.custo_reroll
+		if GameManager.reroll_usado:
+			botao_reroll.modulate = Color(0.45, 0.45, 0.45)
+		elif GameManager.moedas < GameManager.custo_reroll:
+			botao_reroll.modulate = Color(0.6, 0.6, 0.6)
 		else:
 			botao_reroll.modulate = Color(1, 1, 1)
 
@@ -445,7 +448,89 @@ func _ao_escolher_upgrade(dados):
 	if hud_mobile_completo:
 		hud_mobile_completo.show()
 
+# Deixa o botão de reroll com a cara dourada do resto do jogo: maior, com ícone
+# de dado (dica de que é sorte) e estilo de painel com borda dourada.
+func _estilizar_botao_reroll() -> void:
+	var mob := OS.has_feature("mobile")
+	botao_reroll.custom_minimum_size = Vector2(300 if mob else 270, 84 if mob else 70)
+	botao_reroll.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+	# Ícone de dado (gerado em código — não depende de asset)
+	botao_reroll.icon = _criar_icone_dado()
+	botao_reroll.expand_icon = false
+	botao_reroll.add_theme_constant_override("icon_max_width", 42 if mob else 36)
+	botao_reroll.add_theme_constant_override("h_separation", 12)
+
+	# Fonte dourada com contorno
+	botao_reroll.add_theme_font_size_override("font_size", 24 if mob else 20)
+	botao_reroll.add_theme_color_override("font_color", Color(1.0, 0.88, 0.45))
+	botao_reroll.add_theme_color_override("font_color_hover", Color(1.0, 0.95, 0.65))
+	botao_reroll.add_theme_color_override("font_color_pressed", Color(0.85, 0.72, 0.35))
+	botao_reroll.add_theme_color_override("font_outline_color", Color.BLACK)
+	botao_reroll.add_theme_constant_override("outline_size", 4)
+
+	# Estilo de painel dourado (igual aos demais painéis do jogo)
+	botao_reroll.add_theme_stylebox_override("normal",  _sb_reroll(Color(0.16, 0.10, 0.04, 0.98)))
+	botao_reroll.add_theme_stylebox_override("hover",   _sb_reroll(Color(0.22, 0.14, 0.05, 0.98)))
+	botao_reroll.add_theme_stylebox_override("pressed", _sb_reroll(Color(0.11, 0.07, 0.03, 0.98)))
+	botao_reroll.add_theme_stylebox_override("disabled", _sb_reroll(Color(0.12, 0.10, 0.07, 0.95)))
+
+func _sb_reroll(bg: Color) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.border_color = Color(0.62, 0.46, 0.16)
+	st.set_border_width_all(3)
+	st.set_corner_radius_all(12)
+	st.content_margin_left = 18
+	st.content_margin_right = 18
+	st.content_margin_top = 10
+	st.content_margin_bottom = 10
+	st.shadow_color = Color(0, 0, 0, 0.45)
+	st.shadow_size = 4
+	return st
+
+# Desenha um dado branco (face "5") com cantos arredondados e pontos pretos.
+func _criar_icone_dado() -> ImageTexture:
+	var tam := 64
+	var img := Image.create(tam, tam, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	var margem := 6
+	var raio := 13.0
+	var branco := Color(0.96, 0.96, 0.93)
+	var preto := Color(0.12, 0.10, 0.10)
+	# Corpo do dado (quadrado arredondado)
+	for y in range(margem, tam - margem):
+		for x in range(margem, tam - margem):
+			var dx := 0.0
+			var dy := 0.0
+			if x < margem + raio: dx = (margem + raio) - x
+			elif x > tam - margem - raio: dx = x - (tam - margem - raio)
+			if y < margem + raio: dy = (margem + raio) - y
+			elif y > tam - margem - raio: dy = y - (tam - margem - raio)
+			if dx * dx + dy * dy <= raio * raio:
+				img.set_pixel(x, y, branco)
+	# Pontos (padrão do "5": 4 cantos + centro)
+	var c := tam / 2
+	var off := 14
+	var pontos := [
+		Vector2i(c - off, c - off), Vector2i(c + off, c - off),
+		Vector2i(c, c),
+		Vector2i(c - off, c + off), Vector2i(c + off, c + off),
+	]
+	var r_ponto := 5.0
+	for p in pontos:
+		for y in range(p.y - 6, p.y + 7):
+			for x in range(p.x - 6, p.x + 7):
+				if x < 0 or y < 0 or x >= tam or y >= tam:
+					continue
+				var ddx := float(x - p.x)
+				var ddy := float(y - p.y)
+				if ddx * ddx + ddy * ddy <= r_ponto * r_ponto:
+					img.set_pixel(x, y, preto)
+	return ImageTexture.create_from_image(img)
+
 func _on_botao_reroll_pressed():
+	SFXManager.tocar_som_dado()
 	GameManager.rerolar_cartas()
 
 # ==========================================

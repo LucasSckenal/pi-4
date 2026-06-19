@@ -5,12 +5,27 @@ extends Control
 @onready var valor_onda = $CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelDias/VBoxDias/ValorDias
 @onready var valor_moedas = $CenterContainer/PainelPrincipal/VBoxContainer/HBoxStatus/PainelMoedas/VBoxMoedas/ValorMoedas
 
+const _ICON_CRANIO = preload("res://Assets/Icons/Cranio.png")
+
 var _info_recorde: VBoxContainer = null
+var _cranio: TextureRect = null
 
 func _ready():
 	hide()
-	# Bloco de recorde do modo infinito (criado uma vez, mostrado só no infinito)
 	var vbox = $CenterContainer/PainelPrincipal/VBoxContainer
+
+	# Caveira dramática acima do título
+	_cranio = TextureRect.new()
+	_cranio.texture = _ICON_CRANIO
+	_cranio.custom_minimum_size = Vector2(100, 100)
+	_cranio.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_cranio.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_cranio.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_cranio.modulate = Color(0.86, 0.32, 0.24)
+	vbox.add_child(_cranio)
+	vbox.move_child(_cranio, 0)
+
+	# Bloco de recorde do modo infinito (criado uma vez, mostrado só no infinito)
 	_info_recorde = VBoxContainer.new()
 	_info_recorde.alignment = BoxContainer.ALIGNMENT_CENTER
 	_info_recorde.add_theme_constant_override("separation", 4)
@@ -30,7 +45,7 @@ func _ready():
 	lbl_novo.text = "🏆 NOVO RECORDE! 🏆"
 	_info_recorde.add_child(lbl_novo)
 	vbox.add_child(_info_recorde)
-	vbox.move_child(_info_recorde, 1)  # logo abaixo do status
+	vbox.move_child(_info_recorde, 2)  # caveira(0), título(1), recorde(2)
 	_info_recorde.hide()
 
 func mostrar():
@@ -54,16 +69,27 @@ func mostrar():
 	else:
 		_info_recorde.hide()
 
+	# Som de derrota (toca se o arquivo existir em Audio/Sons/derrota.*)
+	if SFXManager and SFXManager.has_method("tocar_som_derrota"):
+		SFXManager.tocar_som_derrota()
+
 	show()
 	escurecer_fundo.modulate.a = 0.0
 	painel_principal.modulate.a = 0.0
 	painel_principal.scale = Vector2(0.6, 0.6)
 	painel_principal.pivot_offset = painel_principal.size / 2.0
-	
+
 	var tween = create_tween().set_parallel(true)
 	tween.tween_property(escurecer_fundo, "modulate:a", 1.0, 0.3)
 	tween.tween_property(painel_principal, "modulate:a", 1.0, 0.4)
 	tween.tween_property(painel_principal, "scale", Vector2(1.0, 1.0), 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+	# Pulso lento na caveira para dar vida à tela
+	if _cranio:
+		_cranio.pivot_offset = _cranio.size / 2.0
+		var tw_c := _cranio.create_tween().set_loops()
+		tw_c.tween_property(_cranio, "scale", Vector2(1.08, 1.08), 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		tw_c.tween_property(_cranio, "scale", Vector2.ONE, 1.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 
 # ==========================================
 # NOVOS BOTÕES
