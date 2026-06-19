@@ -11,6 +11,9 @@ extends Node
 @onready var player_estrela = $PlayerEstrela
 @onready var player_venda = $PlayerVenda
 @onready var player_new_map = $PlayerNewMap
+@onready var player_reroll = $PlayerReroll
+@onready var player_defeat = $PlayerDefeat
+@onready var enemy_hit = $EnemyHit
 
 func _ready():
 	# 1. Conecta os botões que já iniciam na tela
@@ -81,3 +84,12 @@ func tocar_venda():
 
 func tocar_new_map():
 	player_new_map.play()
+
+func tocar_reroll():
+	player_reroll.play()
+
+func tocar_defeat():
+	player_defeat.play()
+
+func tocar_enemy_hit():
+	enemy_hit.play()

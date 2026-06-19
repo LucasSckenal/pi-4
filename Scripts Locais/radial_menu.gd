@@ -693,7 +693,7 @@ func _sb(bg: Color, borda: Color, esp: int, raio: int) -> StyleBoxFlat:
 # ==========================================
 # CLIQUE FORA DO PAINEL
 # ==========================================
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not visible: return
 
 	if event is InputEventKey and event.pressed and not event.echo:

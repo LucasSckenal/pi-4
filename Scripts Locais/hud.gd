@@ -447,6 +447,7 @@ func _ao_escolher_upgrade(dados):
 
 func _on_botao_reroll_pressed():
 	GameManager.rerolar_cartas()
+	SFXManager.tocar_reroll()
 
 # ==========================================
 # INDICADORES DE ONDA (CONEXÃO COM SPAWNERS)

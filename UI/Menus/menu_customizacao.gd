@@ -84,6 +84,13 @@ func _input(event):
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		a_arrastar_rato = event.pressed
 
+	# Para voltar ao menu (e salvar ao mesmo tempo)
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			# Intercepta o input
+			get_viewport().set_input_as_handled()
+			_on_btn_voltar_pressed()
+
 	# 2. Detecta o movimento de ARRASTAR
 	if a_arrastar_rato:
 		# Verifica se a cena não está sendo destruída (Ex: ao clicar em voltar)

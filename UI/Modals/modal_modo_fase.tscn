@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://bf8mv2modal001"]
+[gd_scene format=3 uid="uid://blj652htmlage"]
 
-[ext_resource type="Script" path="res://UI/Modals/modal_modo_fase.gd" id="1_modal"]
+[ext_resource type="Script" uid="uid://c4w5ujkgpnnwn" path="res://UI/Modals/modal_modo_fase.gd" id="1_modal"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_painel"]
 bg_color = Color(0.09, 0.08, 0.16, 0.98)
@@ -13,92 +13,7 @@ corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
-shadow_color = Color(0, 0, 0, 0.6)
 shadow_size = 24
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal_n"]
-bg_color = Color(0.18, 0.55, 0.32, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.35, 0.85, 0.45, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal_h"]
-bg_color = Color(0.25, 0.7, 0.4, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.55, 1, 0.6, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal_p"]
-bg_color = Color(0.12, 0.4, 0.22, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.35, 0.85, 0.45, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_n"]
-bg_color = Color(0.55, 0.2, 0.75, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.95, 0.55, 1, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_h"]
-bg_color = Color(0.7, 0.28, 0.9, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 0.75, 1, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_p"]
-bg_color = Color(0.4, 0.12, 0.55, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.95, 0.55, 1, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_d"]
-bg_color = Color(0.22, 0.18, 0.28, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.35, 0.3, 0.4, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_fechar_n"]
 bg_color = Color(0.18, 0.15, 0.22, 0.9)
@@ -124,21 +39,104 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="ModalModoFase" type="CanvasLayer"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal_n"]
+bg_color = Color(0.18, 0.55, 0.32, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.85, 0.45, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal_p"]
+bg_color = Color(0.12, 0.4, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.85, 0.45, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal_h"]
+bg_color = Color(0.25, 0.7, 0.4, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.55, 1, 0.6, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_n"]
+bg_color = Color(0.55, 0.2, 0.75, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.55, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_p"]
+bg_color = Color(0.4, 0.12, 0.55, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95, 0.55, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_h"]
+bg_color = Color(0.7, 0.28, 0.9, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.75, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_inf_d"]
+bg_color = Color(0.22, 0.18, 0.28, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.3, 0.4, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="ModalModoFase" type="CanvasLayer" unique_id=960359869]
 process_mode = 3
 layer = 100
 script = ExtResource("1_modal")
 
-[node name="Fundo" type="ColorRect" parent="."]
+[node name="Fundo" type="ColorRect" parent="." unique_id=1241656583]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.72)
-mouse_filter = 0
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=915936119]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -146,28 +144,28 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Painel" type="PanelContainer" parent="CenterContainer"]
+[node name="Painel" type="PanelContainer" parent="CenterContainer" unique_id=300068851]
 custom_minimum_size = Vector2(740, 620)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_painel")
 
-[node name="Margin" type="MarginContainer" parent="CenterContainer/Painel"]
+[node name="Margin" type="MarginContainer" parent="CenterContainer/Painel" unique_id=1508984628]
 layout_mode = 2
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 48
 theme_override_constants/margin_bottom = 44
 
-[node name="VBox" type="VBoxContainer" parent="CenterContainer/Painel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="CenterContainer/Painel/Margin" unique_id=1079006961]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="TopBar" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="TopBar" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBox" unique_id=372353726]
 layout_mode = 2
 alignment = 2
 
-[node name="BtnFechar" type="Button" parent="CenterContainer/Painel/Margin/VBox/TopBar"]
+[node name="BtnFechar" type="Button" parent="CenterContainer/Painel/Margin/VBox/TopBar" unique_id=81808716]
 custom_minimum_size = Vector2(54, 54)
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -178,7 +176,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_btn_fechar_n")
 theme_override_styles/hover = SubResource("StyleBoxFlat_btn_fechar_h")
 text = "✕"
 
-[node name="Titulo" type="Label" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="Titulo" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=1775505001]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.98, 0.82, 0.32, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
@@ -188,63 +186,63 @@ theme_override_font_sizes/font_size = 58
 text = "FASE 1"
 horizontal_alignment = 1
 
-[node name="Subtitulo" type="Label" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="Subtitulo" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=1862255231]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.88, 0.95, 1)
 theme_override_font_sizes/font_size = 28
 text = "Tutorial"
 horizontal_alignment = 1
 
-[node name="EstrelasHBox" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="EstrelasHBox" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBox" unique_id=2045626084]
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="HSeparator" type="HSeparator" parent="CenterContainer/Painel/Margin/VBox" unique_id=1836753321]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="LabelEscolha" type="Label" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="LabelEscolha" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=460473628]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
 theme_override_font_sizes/font_size = 24
 text = "Escolha o modo de jogo:"
 horizontal_alignment = 1
 
-[node name="BotoesHBox" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="BotoesHBox" type="HBoxContainer" parent="CenterContainer/Painel/Margin/VBox" unique_id=2004095956]
 layout_mode = 2
 theme_override_constants/separation = 16
 alignment = 1
 
-[node name="BtnNormal" type="Button" parent="CenterContainer/Painel/Margin/VBox/BotoesHBox"]
+[node name="BtnNormal" type="Button" parent="CenterContainer/Painel/Margin/VBox/BotoesHBox" unique_id=954578609]
 custom_minimum_size = Vector2(290, 100)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal_n")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_normal_h")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_normal_p")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_normal_h")
 text = "▶  JOGAR"
 
-[node name="BtnInfinito" type="Button" parent="CenterContainer/Painel/Margin/VBox/BotoesHBox"]
+[node name="BtnInfinito" type="Button" parent="CenterContainer/Painel/Margin/VBox/BotoesHBox" unique_id=1670437950]
 custom_minimum_size = Vector2(290, 100)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
 theme_override_colors/font_disabled_color = Color(0.5, 0.5, 0.55, 1)
 theme_override_font_sizes/font_size = 28
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn_inf_n")
-theme_override_styles/hover = SubResource("StyleBoxFlat_btn_inf_h")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_inf_p")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_inf_h")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_inf_d")
 text = "∞  MODO INFINITO"
 
-[node name="AvisoBloqueado" type="Label" parent="CenterContainer/Painel/Margin/VBox"]
+[node name="AvisoBloqueado" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=563348105]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.55, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
