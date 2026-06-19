@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://c0w7h11dt0g84"]
 
-[ext_resource type="Texture2D" uid="uid://dst6pwj24eslm" path="res://Personagens/Textures/colormap.png" id="1_mkvex"]
+[ext_resource type="Texture2D" uid="uid://dst6pwj24eslm" path="res://Modelos_3D/Personagens/Textures/colormap.png" id="1_mkvex"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_fohdo"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uh5j4"]

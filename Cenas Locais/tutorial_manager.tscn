@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://droioh0h3ivkm" path="res://Cenas Locais/tutorial_manager.gd" id="1_8kacx"]
 [ext_resource type="Shader" uid="uid://c07c3ymo8xv0w" path="res://Cenas Locais/tutorial_manager.gdshader" id="2_wsspp"]
-[ext_resource type="PackedScene" uid="uid://clww287nh4jrb" path="res://Personagens/character-female-c.glb" id="3_iojbm"]
-[ext_resource type="PackedScene" uid="uid://b1w5410q2pt6w" path="res://Personagens/character-male-b.glb" id="4_wsspp"]
+[ext_resource type="PackedScene" uid="uid://clww287nh4jrb" path="res://Modelos_3D/Personagens/character-female-c.glb" id="3_iojbm"]
+[ext_resource type="PackedScene" uid="uid://b1w5410q2pt6w" path="res://Modelos_3D/Personagens/character-male-b.glb" id="4_wsspp"]
 [ext_resource type="Texture2D" uid="uid://dvui7s4ciymmg" path="res://Icons/seta_outline.png" id="5_ivfh5"]
 [ext_resource type="Texture2D" uid="uid://cmdarc5vqv8qr" path="res://Assets/UI/BotaoMedio.png" id="6_ivfh5"]
 

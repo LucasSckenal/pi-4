@@ -58,6 +58,8 @@ func mostrar_tela():
 		subtitulo.text = "Fase concluída!"
 		btn_proxima.show()
 
+	SFXManager.tocar_vitoria()
+
 	# Estatísticas da partida
 	_label_stats.text = "Inimigos derrotados: %d" % GameManager.inimigos_mortos_sessao
 
@@ -88,6 +90,7 @@ func _animar_estrelas(qtd: int) -> void:
 		tw.tween_callback(func():
 			star_texture.texture = ESTRELA_CHEIA if conquistada else ESTRELA_VAZIA
 			star_texture.modulate = Color(1, 1, 1, 1) if conquistada else Color(0.55, 0.55, 0.55, 0.9)
+			SFXManager.tocar_estrela()
 		)
 		# pop com overshoot
 		var alvo := Vector2(1.25, 1.25) if conquistada else Vector2(1.0, 1.0)

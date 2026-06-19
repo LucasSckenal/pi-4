@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bxymhdtuwhoh8" path="res://Map/unit-mill.glb" id="1_6f5ni"]
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="2_5a1o0"]
-[ext_resource type="PackedScene" uid="uid://btpfydaibdtuv" path="res://Medieval/buildings/blue/building_windmill_blue.gltf" id="3_n4g08"]
+[ext_resource type="PackedScene" uid="uid://btpfydaibdtuv" path="res://Modelos_3D/Medieval/buildings/blue/building_windmill_blue.gltf" id="3_n4g08"]
 [ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="4_5cmfp"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_3h8v1"]
 

@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://23mgfu5eda2u"]
 
-[ext_resource type="PackedScene" uid="uid://dfpcu540f3sky" path="res://Personagens/Kakashi.glb" id="1_5b2m5"]
-[ext_resource type="Texture2D" uid="uid://jh4tev4goquw" path="res://Personagens/Kakashi_texture_0.png" id="2_g3ang"]
+[ext_resource type="PackedScene" uid="uid://dfpcu540f3sky" path="res://Modelos_3D/Personagens/Kakashi.glb" id="1_5b2m5"]
+[ext_resource type="Texture2D" uid="uid://jh4tev4goquw" path="res://Modelos_3D/Personagens/Kakashi_texture_0.png" id="2_g3ang"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_5gjnm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pcu7g"]

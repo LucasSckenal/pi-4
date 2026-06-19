@@ -254,7 +254,7 @@ func _criar_ui():
 	luz.transform = Transform3D(Basis(), Vector3(0, 0.36, 0.94))
 	sub_vp.add_child(luz)
 
-	var berta_inst = load("res://Personagens/character-female-c.glb").instantiate()
+	var berta_inst = load("res://Modelos_3D/Personagens/character-female-c.glb").instantiate()
 	berta_inst.transform = Transform3D(Basis(), Vector3(0, 0, -0.41))
 	sub_vp.add_child(berta_inst)
 	call_deferred("_iniciar_animacao_berta", berta_inst)

@@ -332,13 +332,16 @@ func _on_opcao_escolhida(index: int):
 	if construcao_atual and construcao_atual.has_method("aplicar_upgrade"):
 		var sucesso = construcao_atual.aplicar_upgrade(index)
 		if sucesso:
+			SFXManager.tocar_construcao()
 			fechar()
 		else:
+			SFXManager.tocar_erro_compra()
 			atualizar_opcoes()
 
 func _on_botao_vender_pressed():
 	if construcao_atual and construcao_atual.has_method("vender_construcao"):
 		construcao_atual.vender_construcao()
+		SFXManager.tocar_venda()
 		if GameManager.has_signal("moedas_atualizadas"):
 			GameManager.moedas_atualizadas.emit()
 	fechar()

@@ -1,8 +1,5 @@
 extends CharacterBody3D
 
-# --- SONS ---
-const SOM_PULO = preload("res://Sons/jump.wav")
-
 # --- CONFIGURAÇÕES DE MOVIMENTO ---
 @export var speed = 2.0
 @export var jump_velocity = 4.0
@@ -202,13 +199,7 @@ func _physics_process(delta):
 					if not eh_barreira:
 						velocity.y = jump_velocity
 						_particulas_pulo.restart()
-						var player_som = AudioStreamPlayer3D.new()
-						player_som.stream = SOM_PULO
-						player_som.volume_db = -25
-						player_som.bus = "SFX" # Use um barramento de áudio para controle de volume
-						add_child(player_som)
-						player_som.play()
-						player_som.finished.connect(player_som.queue_free)
+						SFXManager.tocar_som_jump()
 
 	# 2.5 Se a navegação terminou, esconde o feedback visual e para a rotação
 	if linha_caminho.visible:

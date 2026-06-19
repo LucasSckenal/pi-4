@@ -194,7 +194,7 @@ func _ready():
 	
 	# Carrega a cena do ícone de inimigo se necessário (fallback)
 	if cena_enemy_icon == null:
-		cena_enemy_icon = preload("res://Enemys/enemy_icon.tscn")
+		cena_enemy_icon = preload("res://Enemies/enemy_icon.tscn")
 		if cena_enemy_icon == null:
 			if Global.DEBUG_MODE:
 				print("ERRO: Não foi possível carregar enemy_icon.tscn")

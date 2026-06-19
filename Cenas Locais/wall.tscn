@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cb16s0xdc77hq"]
 
-[ext_resource type="PackedScene" uid="uid://nuhr0vjybcci" path="res://Arena/wall.glb" id="1_y4f30"]
+[ext_resource type="PackedScene" uid="uid://nuhr0vjybcci" path="res://Modelos_3D/Arena/wall.glb" id="1_y4f30"]
 [ext_resource type="Script" uid="uid://dp5575noqjo8r" path="res://Scripts Locais/wall_2.gd" id="2_iuee5"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_xduj2"]

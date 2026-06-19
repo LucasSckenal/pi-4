@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://du3c3dfjwk7uh"]
 
-[ext_resource type="PackedScene" uid="uid://jla77h22537s" path="res://Personagens/BloodBorne_male.glb" id="1_rj4y5"]
-[ext_resource type="Texture2D" uid="uid://cwp86i06x5j" path="res://Personagens/BloodBorne_male_texture_0.png" id="2_flper"]
+[ext_resource type="PackedScene" uid="uid://jla77h22537s" path="res://Modelos_3D/Personagens/BloodBorne_male.glb" id="1_rj4y5"]
+[ext_resource type="Texture2D" uid="uid://cwp86i06x5j" path="res://Modelos_3D/Personagens/BloodBorne_male_texture_0.png" id="2_flper"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_4y7st"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2jrq"]

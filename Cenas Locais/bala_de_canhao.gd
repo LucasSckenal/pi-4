@@ -7,7 +7,7 @@ var alvo: Node3D = null
 
 func _ready():
 	body_entered.connect(_on_body_entered)
-	var modelo = preload("res://Towers/weapon-ammo-cannonball.glb").instantiate()
+	var modelo = preload("res://Modelos_3D/Towers/weapon-ammo-cannonball.glb").instantiate()
 	modelo.scale = Vector3(0.3, 0.3, 0.3)
 	add_child(modelo)
 

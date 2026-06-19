@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://83rtswsguqjg"]
 
-[ext_resource type="PackedScene" uid="uid://bwo1evew4ch" path="res://Arena/wall-gate.glb" id="1_qjre7"]
+[ext_resource type="PackedScene" uid="uid://bwo1evew4ch" path="res://Modelos_3D/Arena/wall-gate.glb" id="1_qjre7"]
 [ext_resource type="Script" uid="uid://dwsl1gaofhtc6" path="res://Scripts Locais/wall_gate_2.gd" id="2_20t8i"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ktyf3"]

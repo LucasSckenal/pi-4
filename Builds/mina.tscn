@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://crlseyxhymdsl"]
 
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_ug5hj"]
-[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Medieval/buildings/blue/hexagons_medieval.png" id="2_eav52"]
+[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Modelos_3D/Medieval/buildings/blue/hexagons_medieval.png" id="2_eav52"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_3msko"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w8ody"]

@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://be7edqt2mmq5q"]
 
 [ext_resource type="Script" uid="uid://uobghwmembi7" path="res://Scripts Globais/Builds.gd" id="1_6wxgo"]
-[ext_resource type="PackedScene" uid="uid://8jv7i52nhbgl" path="res://Medieval/buildings/blue/building_archeryrange_blue.gltf" id="1_486cl"]
+[ext_resource type="PackedScene" uid="uid://8jv7i52nhbgl" path="res://Modelos_3D/Medieval/buildings/blue/building_archeryrange_blue.gltf" id="1_486cl"]
 [ext_resource type="PackedScene" uid="uid://cnywugbxqu2pg" path="res://Cenas Locais/soldier.tscn" id="2_yitiu"]
 [ext_resource type="Texture2D" uid="uid://d11p2585w531y" path="res://Icons/white-circle-frame-with-shadow-free-png.png" id="4_ch61e"]
-[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Medieval/buildings/blue/hexagons_medieval.png" id="4_ulwvx"]
+[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Modelos_3D/Medieval/buildings/blue/hexagons_medieval.png" id="4_ulwvx"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_0avtp"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mi8mv"]

@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://imftqykvaxls"]
 
-[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Medieval/buildings/blue/hexagons_medieval.png" id="1_32yji"]
+[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Modelos_3D/Medieval/buildings/blue/hexagons_medieval.png" id="1_32yji"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_t8pi7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4kgog"]

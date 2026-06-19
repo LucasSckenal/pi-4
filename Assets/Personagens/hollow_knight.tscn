@@ -1,5 +1,5 @@
 [gd_scene format=3 uid="uid://cr5hrdjrmbna6"]
 
-[ext_resource type="PackedScene" uid="uid://bc5olyhq6uxim" path="res://Personagens/Hollow_knight.glb" id="1_66umm"]
+[ext_resource type="PackedScene" uid="uid://bc5olyhq6uxim" path="res://Modelos_3D/Personagens/Hollow_knight.glb" id="1_66umm"]
 
 [node name="Hollow_knight" unique_id=17556922 instance=ExtResource("1_66umm")]

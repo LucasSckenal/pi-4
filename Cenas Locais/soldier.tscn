@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" uid="uid://ckw06c2mcrwbe" path="res://Scripts Locais/soldier.gd" id="1_j7su8"]
 [ext_resource type="PackedScene" uid="uid://ccr63l42p5nxi" path="res://Cenas Locais/flecha.tscn" id="2_r0nhb"]
-[ext_resource type="PackedScene" uid="uid://nba6juc3u5wm" path="res://Arena/character-soldier.glb" id="3_ijs4u"]
-[ext_resource type="Texture2D" uid="uid://xy6aqodovhk1" path="res://Arena/Textures/colormap.png" id="4_r0nhb"]
+[ext_resource type="PackedScene" uid="uid://nba6juc3u5wm" path="res://Modelos_3D/Arena/character-soldier.glb" id="3_ijs4u"]
+[ext_resource type="Texture2D" uid="uid://xy6aqodovhk1" path="res://Modelos_3D/Arena/Textures/colormap.png" id="4_r0nhb"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_ijs4u"]
-[ext_resource type="Texture2D" uid="uid://doiiopf6mkyyj" path="res://Armas/weapons_bits_texture.png" id="6_tcdm2"]
+[ext_resource type="Texture2D" uid="uid://doiiopf6mkyyj" path="res://Modelos_3D/Armas/weapons_bits_texture.png" id="6_tcdm2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bcefr"]
 radius = 0.05029297

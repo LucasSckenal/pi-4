@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cbjrscx5ckcm6"]
 
 [ext_resource type="Script" uid="uid://caed3nj0dqqsy" path="res://Scripts Locais/musica_global.gd" id="1_ikofc"]
-[ext_resource type="AudioStream" uid="uid://bh1xj83yr2o0t" path="res://Musicas/MenuMusicTeste.mp3" id="1_uc8de"]
+[ext_resource type="AudioStream" uid="uid://bh1xj83yr2o0t" path="res://Audio/Musicas/MenuMusicTeste.mp3" id="1_uc8de"]
 
 [node name="MusicaGlobal" type="AudioStreamPlayer" unique_id=309634452]
 stream = ExtResource("1_uc8de")

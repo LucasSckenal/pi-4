@@ -1,18 +1,13 @@
 [gd_scene format=4 uid="uid://caugurktv3di2"]
 
-[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Medieval/buildings/blue/hexagons_medieval.png" id="1_tfnxx"]
+[ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Modelos_3D/Medieval/buildings/blue/hexagons_medieval.png" id="1_tfnxx"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_4hcrd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f62yu"]
 render_priority = 0
 shader = ExtResource("2_4hcrd")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vjs6"]
 resource_name = "hexagons_medieval"

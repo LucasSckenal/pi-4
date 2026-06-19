@@ -571,10 +571,12 @@ func _atualizar_preview(icone: Texture2D, nome: String, custo: int, descricao: S
 func _solicitar_construcao(cena_torre: PackedScene, _custo: int) -> void:
 	if _slot_alvo and _slot_alvo.has_method("construir"):
 		if _slot_alvo.construir(cena_torre):
+			SFXManager.tocar_construcao()
 			fechar_menu()
 		else:
 			_preview_custo.text = "Moedas insuficientes!"
 			_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.30, 0.30))
+			SFXManager.tocar_erro_compra()
 			var tw := create_tween()
 			tw.tween_interval(1.8)
 			tw.tween_callback(func():

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dk4n4qgmeax2x"]
 
-[ext_resource type="PackedScene" uid="uid://df82cdpb0rcmi" path="res://Arena/stairs.glb" id="1_l5oqe"]
+[ext_resource type="PackedScene" uid="uid://df82cdpb0rcmi" path="res://Modelos_3D/Arena/stairs.glb" id="1_l5oqe"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l5oqe"]
 height = 1.2475586

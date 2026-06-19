@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://ccr63l42p5nxi"]
 
 [ext_resource type="Script" uid="uid://br71wprnvef43" path="res://Cenas Locais/flecha.gd" id="1_83ry3"]
-[ext_resource type="Texture2D" uid="uid://csff756xlyesd" path="res://Towers/Textures/colormap.png" id="2_83ry3"]
+[ext_resource type="Texture2D" uid="uid://csff756xlyesd" path="res://Modelos_3D/Towers/Textures/colormap.png" id="2_83ry3"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_3obi5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fy0up"]

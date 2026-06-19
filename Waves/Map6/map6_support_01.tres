@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://c081lkqqlmgkd"]
 
-[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemys/inimigo_config.gd" id="1_cfg"]
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemies/inimigo_config.gd" id="1_cfg"]
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
-[ext_resource type="PackedScene" uid="uid://dvhuuy5abjvwr" path="res://Enemys/Map 6/Demon.tscn" id="3_demon"]
+[ext_resource type="PackedScene" uid="uid://dvhuuy5abjvwr" path="res://Enemies/Map 6/Demon.tscn" id="3_demon"]
 [ext_resource type="Texture2D" uid="uid://bsv20p1jbl5e4" path="res://Icons/VermelinPreview.png" id="icon_demon"]
 
 [sub_resource type="Resource" id="Resource_demon"]

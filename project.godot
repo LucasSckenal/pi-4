@@ -17,6 +17,10 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/show_image=false
 config/icon="uid://b6bv31frms1ig"
 
+[audio]
+
+buses/default_bus_layout="uid://bh8ol65nlhh8k"
+
 [autoload]
 
 Balanceamento="*uid://7sx4gvgw6mxv"
@@ -28,6 +32,7 @@ BuildSlotManager="*uid://crqu4gymu8x62"
 TelaAvisoInimigo="*uid://b0wsp05pdf7u3"
 AiMemory="*uid://qdvgwy7vofc6"
 CursorManager="*uid://brm0aa2i116s4"
+SFXManager="*uid://cuu7gw1jyydph"
 
 [display]
 
@@ -41,20 +46,32 @@ mouse_cursor/custom_image="uid://bc3kbt4jk3cy8"
 [file_customization]
 
 folder_colors={
-"res://Cenas Locais/": "gray",
-"res://Conquistas/": "gray",
-"res://Enemys/": "red",
-"res://Map/": "purple",
-"res://Map2/": "purple",
-"res://Map3/": "purple",
-"res://Map4/": "purple",
-"res://Map5/": "purple",
-"res://Map6/": "purple",
-"res://Maps/": "purple",
-"res://PowerUps/": "gray",
-"res://Scripts Globais/": "teal",
-"res://Scripts Locais/": "teal",
-"res://Upgrades/": "gray"
+"res://Assets/": "red",
+"res://Audio/": "red",
+"res://Balanceamento/": "yellow",
+"res://Builds/": "green",
+"res://Cenas Locais/": "green",
+"res://Conquistas/": "yellow",
+"res://Enemies/": "green",
+"res://Gridmap/": "gray",
+"res://Ia/": "blue",
+"res://Icons/": "red",
+"res://Map/": "red",
+"res://Map2/": "red",
+"res://Map3/": "red",
+"res://Map4/": "red",
+"res://Map5/": "red",
+"res://Map6/": "red",
+"res://Maps/": "green",
+"res://Modelos_3D/": "red",
+"res://PowerUps/": "yellow",
+"res://Scripts Globais/": "blue",
+"res://Scripts Locais/": "blue",
+"res://Shaders/": "red",
+"res://UI/": "yellow",
+"res://Upgrades/": "blue",
+"res://Waves/": "yellow",
+"res://android/": "gray"
 }
 
 [global_group]

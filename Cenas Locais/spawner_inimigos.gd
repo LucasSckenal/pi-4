@@ -148,12 +148,12 @@ func _finalizar_onda():
 
 func emitir_info():
 	if onda_atual >= ondas.size():
-		info_proxima_onda.emit("", [], global_position)
+		info_proxima_onda.emit("", "", [], global_position)
 		return
 	
 	var onda = ondas[onda_atual]
 	if onda == null:
-		info_proxima_onda.emit("", [], global_position)
+		info_proxima_onda.emit("", "", [], global_position)
 		return
 	
 	var info = []
