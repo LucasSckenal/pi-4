@@ -68,6 +68,9 @@ func _instanciar_personagem():
 	player_instanciado.set_process(false)
 	player_instanciado.set_physics_process(false)
 	
+	player_instanciado.set_process_input(false)
+	player_instanciado.set_process_unhandled_input(false)
+	
 	if player_instanciado.has_method("_configurar_modelo_escolhido"):
 		player_instanciado.call("_configurar_modelo_escolhido")
 		
@@ -81,8 +84,13 @@ func _input(event):
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		a_arrastar_rato = event.pressed
 
-	# 2. Detecta o movimento de ARRASTAR o dedo na tela (Mobile) ou mover o mouse (PC)
+	# 2. Detecta o movimento de ARRASTAR
 	if a_arrastar_rato:
+		# Verifica se a cena não está sendo destruída (Ex: ao clicar em voltar)
+		# Se não for válido, interrompe a função imediatamente para evitar crash.
+		if not is_instance_valid(manequim_ponto):
+			return
+			
 		if event is InputEventScreenDrag:
 			manequim_ponto.rotate_y(-deg_to_rad(-event.relative.x * sensibilidade_rotacao))
 		elif event is InputEventMouseMotion:

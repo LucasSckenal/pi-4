@@ -107,6 +107,52 @@ func _atualizar_preview_cursor() -> void:
 	if _preview_cursor:
 		_preview_cursor.modulate = temp_cursor_color
 		_preview_cursor.custom_minimum_size = Vector2(48 * temp_cursor_size, 48 * temp_cursor_size)
+		
+	# --- ATUALIZA O VISUAL DOS BOTÕES DE TAMANHO ---
+	var caminhos_tamanho = [
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnPequeno",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnMedio",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnGrande"
+	]
+	var valores_tamanho = [1.0, 1.5, 2.0]
+	
+	for i in range(caminhos_tamanho.size()):
+		var btn = get_node_or_null(caminhos_tamanho[i])
+		if btn is Button:
+			btn.pivot_offset = btn.size / 2.0
+			# Se for o tamanho atual, destaca
+			if abs(valores_tamanho[i] - temp_cursor_size) < 0.1:
+				btn.modulate = Color(1, 1, 1, 1)
+				btn.scale = Vector2(1.06, 1.06)
+			else:
+				# Se não for, deixa acinzentado igual à Qualidade 3D
+				btn.modulate = Color(0.62, 0.62, 0.62, 1)
+				btn.scale = Vector2.ONE
+				
+	# --- ATUALIZA O VISUAL DOS BOTÕES DE COR ---
+	var caminhos_cor = [
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnBranco",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnCiano",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores/BtnVermelho",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnRosa",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnGold",
+		"CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/VBoxCores/HBoxCores2/BtnRoxo"
+	]
+	var valores_cor = [
+		Color.WHITE, Color.CYAN, Color.RED, Color("ff99c2"), Color(0.93, 0.72, 0.28, 1), Color("9933ff")
+	]
+	
+	for i in range(caminhos_cor.size()):
+		var btn = get_node_or_null(caminhos_cor[i])
+		if btn is Button:
+			btn.pivot_offset = btn.size / 2.0
+			# Usa is_equal_approx para comparar cores de forma segura
+			if valores_cor[i].is_equal_approx(temp_cursor_color):
+				btn.scale = Vector2(1.15, 1.15) # Dá um "pop" maior no quadrado da cor
+				btn.modulate = Color(1, 1, 1, 1) 
+			else:
+				btn.scale = Vector2.ONE
+				btn.modulate = Color(0.65, 0.65, 0.65, 0.8) # Escurece/apaga as cores não selecionadas
 
 # ==========================================
 # SINAIS DOS CONTROLES DE ÁUDIO E VÍDEO
@@ -266,6 +312,9 @@ func _on_btn_salvar_pressed() -> void:
 	_aplicar_qualidade_3d(temp_qualidade_3d)
 
 	_salvar_configuracoes()
+	
+	# Emite o sinal para destruir a janela (O menu de pausa captura isso e volta o jogo pro pause)
+	fechar_configuracoes.emit()
 
 # Abre o painel da equipe
 func _on_btn_equipe_pressed() -> void:
@@ -277,8 +326,9 @@ func _on_button_fechar_equipe_pressed() -> void:
 	if _painel_equipe:
 		_painel_equipe.hide()
 
-# Botão Voltar (Fecha o menu de configurações)
+# Botão Voltar (Fecha o menu de configurações e REVERTE testes)
 func _on_button_pressed() -> void:
+	_carregar_configuracoes() # <--- Puxa o último save para desfazer as alterações visuais
 	fechar_configuracoes.emit()
 
 
@@ -310,8 +360,9 @@ func _salvar_configuracoes() -> void:
 
 func _carregar_configuracoes() -> void:
 	var cfg := ConfigFile.new()
-	if cfg.load(SETTINGS_PATH) != OK:
-		return
+	# Removido o 'return' de erro daqui. Se não houver arquivo salvo, 
+	# a função vai puxar os valores padrões com perfeição!
+	cfg.load(SETTINGS_PATH)
 
 	var vol_master: float = cfg.get_value("audio", "master", 1.0)
 	AudioServer.set_bus_volume_db(master_bus, linear_to_db(vol_master))
@@ -330,11 +381,14 @@ func _carregar_configuracoes() -> void:
 	var tela_cheia: bool = cfg.get_value("video", "tela_cheia", false)
 	if tela_cheia:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		
 	if _check_hud:
 		var hud_on: bool = cfg.get_value("video", "hud_customizado", true)
 		_check_hud.button_pressed = hud_on
 		Global.hud_tematico_ativo = hud_on
+		get_tree().call_group("Interface", "aplicar_tema_hud") 
 
 	var shake_on: bool = cfg.get_value("video", "shake_tela", true)
 	Global.shake_tela_ativo = shake_on
@@ -351,3 +405,5 @@ func _carregar_configuracoes() -> void:
 		
 	temp_cursor_size = cfg.get_value("cursor", "tamanho", 1.5)
 	temp_cursor_color = cfg.get_value("cursor", "cor", Color.WHITE)
+	
+	_atualizar_preview_cursor()

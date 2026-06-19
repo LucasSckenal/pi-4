@@ -66,7 +66,7 @@ func mostrar_tela():
 	# Estado inicial das estrelas (vazias e escondidas)
 	for empty_star_texture in _estrelas_row.get_children():
 		empty_star_texture.texture = ESTRELA_VAZIA
-		empty_star_texture.scale = Vector2.ZERO
+		empty_star_texture.scale = Vector2(0.001, 0.001)
 		empty_star_texture.modulate = Color(1, 1, 1, 0)
 
 	# Pop do painel
@@ -103,5 +103,6 @@ func _on_proxima_fase_pressed():
 	GameManager.ir_para_proxima_fase()
 
 func _on_menu_pressed():
+	Engine.time_scale = 1.0
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")

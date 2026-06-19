@@ -36,7 +36,7 @@ func _process(delta):
 		global_position += dir * velocidade * delta
 
 func _get_posicao_alvo() -> Vector3:
-	if is_instance_valid(alvo) and alvo.has_method("get_ponto_alvo"):
+	if is_instance_valid(alvo) and alvo.has_method("get_ponto_alvo") and alvo.is_inside_tree():
 		return alvo.get_ponto_alvo()
 	return alvo.global_position
 

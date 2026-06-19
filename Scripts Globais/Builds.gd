@@ -2135,4 +2135,5 @@ func _set_transparencia(no: Node, valor: float):
 		if filho == _indicador_upgrade: continue
 		if filho == indicador_alcance: continue
 		if filho.name == "CirculoVeneno": continue
+		if filho.name == "BarraVidaShader": continue
 		_set_transparencia(filho, valor)

@@ -12,7 +12,7 @@ func _ready():
 	add_child(modelo)
 
 func _process(delta):
-	if is_instance_valid(alvo):
+	if is_instance_valid(alvo) and alvo.is_inside_tree():
 		var pos_alvo := _get_posicao_alvo()
 		var direcao := (pos_alvo - global_position).normalized()
 		global_position += direcao * velocidade * delta
