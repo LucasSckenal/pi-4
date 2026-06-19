@@ -248,7 +248,11 @@ func obter_total_estrelas() -> int:
 
 func formatar_tempo_jogado() -> String:
 	var s := int(tempo_jogado_total)
+	
+	@warning_ignore("integer_division")
 	var h := s / 3600
+	
+	@warning_ignore("integer_division")
 	var m := (s % 3600) / 60
 	if h > 0:
 		return "%dh %dm" % [h, m]

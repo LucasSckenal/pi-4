@@ -343,6 +343,8 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	# Extrai o identificador base da torre pelo nome do arquivo (ex: "torre_padrao.tscn" -> "torre_padrao")
 	var id_torre: String = cena_torre.resource_path.get_file().get_basename().to_lower()
+	
+	@warning_ignore("unused_variable")
 	var chave_custo: String = id_torre + "_custo"
 
 	temp.process_mode = Node.PROCESS_MODE_DISABLED

@@ -35,7 +35,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"Nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "HollowKnight Head", "Set Kakashi", "Set Bloodborne" ,"Set Dark Souls"
+	"nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "HollowKnight Head", "Set Kakashi", "Set Bloodborne" ,"Set Dark Souls"
 ]
 
 func _ready():
@@ -186,7 +186,7 @@ func _chapeu_esta_bloqueado(id: String) -> bool:
 		return true
 	elif id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
 		return true
-	elif id != "Nenhum" \
+	elif id != "nenhum" \
 			and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
 			and not (id in Global.chapeus_desbloqueados):
 		return true
@@ -231,7 +231,7 @@ func _gerar_botoes_chapeus():
 		
 		# --- REGRA 2: CHAPÉUS NORMAIS (POR CONQUISTA / LISTA) ---
 		# Exclui sets especiais (controlados por flags próprias, não por chapeus_desbloqueados)
-		elif id != "Nenhum" \
+		elif id != "nenhum" \
 				and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
 				and not (id in Global.chapeus_desbloqueados):
 			bloqueado = true
@@ -268,7 +268,7 @@ func _gerar_botoes_chapeus():
 			if ResourceLoader.exists(caminho_icone):
 				btn.icon = load(caminho_icone)
 			# sempre mostra nome abaixo do ícone
-			if id == "Nenhum":
+			if id == "nenhum":
 				btn.text = "Nenhum"
 			else:
 				btn.text = id if id.length() <= 12 else id.left(11) + "…"
@@ -317,8 +317,8 @@ func _on_chapeu_selecionado(id_chapeu):
 		Global.equip_avo_f["chapeu"] = id_chapeu
 	else:
 		# Se trocou para um set de corpo inteiro (DS, BB, Kakashi), removemos o chapéu normal
-		Global.equip_avo_m["chapeu"] = "Nenhum"
-		Global.equip_avo_f["chapeu"] = "Nenhum"
+		Global.equip_avo_m["chapeu"] = "nenhum"
+		Global.equip_avo_f["chapeu"] = "nenhum"
 
 	Global.salvar_progresso()
 	label_nome_item.text = _obter_nome_formatado(id_chapeu)

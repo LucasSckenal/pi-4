@@ -1,23 +1,25 @@
-[gd_scene format=4 uid="uid://bolhasfundo01"]
+[gd_scene format=3 uid="uid://bolhasfundo01"]
 
-[ext_resource type="Shader" uid="uid://bolhasshader01" path="res://Shaders/Bolhas.gdshader" id="1_bolha"]
+[ext_resource type="Shader" uid="uid://cpu1alajoqssd" path="res://Shaders/Bolhas.gdshader" id="1_bolha"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_bolha"]
 shader = ExtResource("1_bolha")
+shader_parameter/quantidade = 40
 shader_parameter/velocidade = 0.065
+shader_parameter/tamanho_min = 0.01
+shader_parameter/tamanho_max = 0.04
 shader_parameter/opacidade = 0.6
-shader_parameter/raio_max = 0.03
+shader_parameter/sinuoso = 0.035
 
-[node name="BolhasFundo" type="CanvasLayer"]
+[node name="BolhasFundo" type="CanvasLayer" unique_id=46708106]
 layer = -1
 
-[node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 3
+[node name="ColorRect" type="ColorRect" parent="." unique_id=193529780]
+material = SubResource("ShaderMaterial_bolha")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-material = SubResource("ShaderMaterial_bolha")
 color = Color(0, 0, 0, 0)

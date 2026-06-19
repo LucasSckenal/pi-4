@@ -1462,15 +1462,16 @@ func _animar_indicador_upgrade() -> void:
 				.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		else:
 			# Defasagem inicial via timer — mantém período igual entre os pontos
-			get_tree().create_timer(i * 0.25).timeout.connect(func():
-				if not is_instance_valid(ponto):
+			var animar_ponto := func(p):
+				if not is_instance_valid(p):
 					return
-				var tw_p2 := ponto.create_tween().set_loops()
-				tw_p2.tween_property(ponto, "scale", Vector3.ONE * 1.3, 0.38)\
+				var tw_p2: Tween = p.create_tween().set_loops()
+				tw_p2.tween_property(p, "scale", Vector3.ONE * 1.3, 0.38)\
 					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-				tw_p2.tween_property(ponto, "scale", Vector3.ONE * 0.25, 0.38)\
+				tw_p2.tween_property(p, "scale", Vector3.ONE * 0.25, 0.38)\
 					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-			)
+			
+			get_tree().create_timer(i * 0.25).timeout.connect(animar_ponto.bind(ponto))
 
 func _atualizar_indicador_upgrade() -> void:
 	if not is_instance_valid(_indicador_upgrade):

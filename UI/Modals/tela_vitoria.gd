@@ -25,13 +25,13 @@ func _ready():
 	vbox.add_child(_estrelas_row)
 	vbox.move_child(_estrelas_row, 2)
 	for i in range(3):
-		var tr := TextureRect.new()
-		tr.texture = ESTRELA_VAZIA
-		tr.custom_minimum_size = Vector2(64, 64)
-		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.pivot_offset = Vector2(32, 32)
-		_estrelas_row.add_child(tr)
+		var empty_star_texture := TextureRect.new()
+		empty_star_texture.texture = ESTRELA_VAZIA
+		empty_star_texture.custom_minimum_size = Vector2(64, 64)
+		empty_star_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		empty_star_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		empty_star_texture.pivot_offset = Vector2(32, 32)
+		_estrelas_row.add_child(empty_star_texture)
 	_label_stats = Label.new()
 	_label_stats.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label_stats.add_theme_font_size_override("font_size", 20)
@@ -62,10 +62,10 @@ func mostrar_tela():
 	_label_stats.text = "Inimigos derrotados: %d" % GameManager.inimigos_mortos_sessao
 
 	# Estado inicial das estrelas (vazias e escondidas)
-	for tr in _estrelas_row.get_children():
-		tr.texture = ESTRELA_VAZIA
-		tr.scale = Vector2.ZERO
-		tr.modulate = Color(1, 1, 1, 0)
+	for empty_star_texture in _estrelas_row.get_children():
+		empty_star_texture.texture = ESTRELA_VAZIA
+		empty_star_texture.scale = Vector2.ZERO
+		empty_star_texture.modulate = Color(1, 1, 1, 0)
 
 	# Pop do painel
 	painel.scale = Vector2(0.1, 0.1)
@@ -80,20 +80,20 @@ func mostrar_tela():
 func _animar_estrelas(qtd: int) -> void:
 	var estrelas = _estrelas_row.get_children()
 	for i in range(estrelas.size()):
-		var tr: TextureRect = estrelas[i]
+		var star_texture: TextureRect = estrelas[i]
 		var conquistada := i < qtd
 		var atraso := 0.45 + i * 0.25
-		var tw := tr.create_tween()
+		var tw := star_texture.create_tween()
 		tw.tween_interval(atraso)
 		tw.tween_callback(func():
-			tr.texture = ESTRELA_CHEIA if conquistada else ESTRELA_VAZIA
-			tr.modulate = Color(1, 1, 1, 1) if conquistada else Color(0.55, 0.55, 0.55, 0.9)
+			star_texture.texture = ESTRELA_CHEIA if conquistada else ESTRELA_VAZIA
+			star_texture.modulate = Color(1, 1, 1, 1) if conquistada else Color(0.55, 0.55, 0.55, 0.9)
 		)
 		# pop com overshoot
 		var alvo := Vector2(1.25, 1.25) if conquistada else Vector2(1.0, 1.0)
-		tw.tween_property(tr, "scale", alvo, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(star_texture, "scale", alvo, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		if conquistada:
-			tw.tween_property(tr, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_SINE)
+			tw.tween_property(star_texture, "scale", Vector2.ONE, 0.12).set_trans(Tween.TRANS_SINE)
 
 func _on_proxima_fase_pressed():
 	hide()

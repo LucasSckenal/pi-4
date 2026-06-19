@@ -16,21 +16,14 @@
 [ext_resource type="PackedScene" uid="uid://bclwgnu2insp5" path="res://Map/unit-tree.glb" id="17_1ew0l"]
 [ext_resource type="PackedScene" uid="uid://c5uvwuixpjxo7" path="res://Map/path-corner-sharp.glb" id="18_ryup7"]
 [ext_resource type="PackedScene" uid="uid://h3b7l8i5cr8o" path="res://Map/building-market.glb" id="19_ytpkv"]
-[ext_resource type="PackedScene" uid="uid://c24hpoqubnlm4" path="res://Builds/house.tscn" id="23_bo7i5"]
-[ext_resource type="PackedScene" uid="uid://d0i607qaiy12s" path="res://Builds/mill.tscn" id="24_bo7i5"]
 [ext_resource type="PackedScene" uid="uid://dcuts5m8bbhl6" path="res://Arena/weapon-spear.glb" id="24_mc2jv"]
-[ext_resource type="PackedScene" uid="uid://dkwapliiu1mys" path="res://Cenas Locais/wallsWord1.tscn" id="25_4h6ng"]
 [ext_resource type="PackedScene" uid="uid://dq303uf7r1s1t" path="res://Arena/statue.glb" id="25_bo7i5"]
 [ext_resource type="PackedScene" uid="uid://q88m868cdvrf" path="res://Builds/castle.tscn" id="25_k83mh"]
 [ext_resource type="PackedScene" uid="uid://q805fk3aftux" path="res://Cenas Locais/player.tscn" id="25_mc2jv"]
-[ext_resource type="PackedScene" uid="uid://mpgruuoi13dm" path="res://Builds/tower.tscn" id="25_o3ebs"]
-[ext_resource type="PackedScene" uid="uid://nbn0asbe4wf3" path="res://Enemys/Map 1/orc.tscn" id="26_4h6ng"]
 [ext_resource type="Script" uid="uid://c15whta027iit" path="res://Scripts Locais/camera_follow.gd" id="26_bo7i5"]
 [ext_resource type="PackedScene" uid="uid://dk4n4qgmeax2x" path="res://Cenas Locais/stairs.tscn" id="26_o3ebs"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="27_4h6ng"]
 [ext_resource type="PackedScene" uid="uid://bv18ljnwtohhk" path="res://Cenas Locais/spawner_inimigos.tscn" id="27_38lot"]
-[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="28_l5s07"]
-
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_il2jm"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -90,11 +83,6 @@ size = Vector3(1, 1, 2.8411865)
 vertices = PackedVector3Array(1.5826988, 0.57415605, -2.400628, 1.8326988, 0.82415605, -3.150628, 1.3326988, 0.82415605, -3.150628, 1.0826988, 0.82415605, -2.400628, 3.8326988, 0.32415605, 3.099372, 3.0826988, 0.57415605, 1.3493719, 2.5826988, 0.57415605, 1.5993719, 0.8326988, 0.32415605, 2.849372, 1.3326988, 0.32415605, 3.599372, 1.5826988, 0.57415605, -1.6506281, -0.6673012, 0.82415605, 2.099372, -0.41730118, 0.57415605, 2.599372, -0.16730118, 0.32415605, 2.849372, 2.5826988, 0.82415605, 1.0993719, 3.8326988, 0.32415605, 0.8493719, 1.3326988, 0.57415605, -0.6506281, 1.8326988, 0.82415605, -2.900628, 3.0826988, 0.32415605, -1.1506281, 2.8326988, 0.32415605, -2.900628, 0.33269882, 0.57415605, 0.5993719, -1.6673012, 0.32415605, 0.09937191, -1.1673012, 0.57415605, 2.099372, 1.3326988, 0.57415605, -1.1506281, 0.33269882, 0.32415605, -1.4006281, -0.9173012, 1.074156, -0.6506281, -0.16730118, 0.82415605, -0.4006281, -0.16730118, 0.82415605, -1.1506281, -0.9173012, 0.82415605, -1.1506281, -1.4173012, 0.32415605, 3.099372)
 polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 8), PackedInt32Array(6, 8, 7), PackedInt32Array(9, 3, 0), PackedInt32Array(11, 10, 12), PackedInt32Array(12, 10, 7), PackedInt32Array(5, 13, 14), PackedInt32Array(14, 13, 15), PackedInt32Array(0, 16, 9), PackedInt32Array(9, 16, 18), PackedInt32Array(9, 18, 17), PackedInt32Array(4, 5, 14), PackedInt32Array(10, 21, 19), PackedInt32Array(19, 21, 20), PackedInt32Array(6, 7, 13), PackedInt32Array(13, 7, 10), PackedInt32Array(13, 10, 19), PackedInt32Array(13, 19, 15), PackedInt32Array(23, 9, 22), PackedInt32Array(22, 9, 17), PackedInt32Array(22, 15, 23), PackedInt32Array(23, 15, 19), PackedInt32Array(27, 26, 24), PackedInt32Array(24, 26, 25), PackedInt32Array(10, 11, 21), PackedInt32Array(11, 12, 21), PackedInt32Array(21, 12, 28)]
 agent_radius = 0.2
-
-[sub_resource type="Resource" id="Resource_0baal"]
-script = ExtResource("28_l5s07")
-inimigo = ExtResource("26_4h6ng")
-metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 
 [node name="World 1" type="Node3D" unique_id=1357575747]
 
@@ -289,43 +277,33 @@ transform = Transform3D(0.3512989, 0, 0.93615335, 0, 0.99989694, 0, -0.93615335,
 
 [node name="BuildSlot" parent="NavigationRegion3D" unique_id=612575103 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.99989694, 0, 0, 0, 0.99989694, 0, 0, 0, 0.99989694, 0.56411284, 0.22399326, 1.7099305)
-building_scene = ExtResource("25_o3ebs")
 
 [node name="BuildSlot2" parent="NavigationRegion3D" unique_id=1895283342 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.99989694, 0, 0, 0, 0.99989694, 0, 0, 0, 0.99989694, 1.3851752, 0.22399326, 0.87192845)
-building_scene = ExtResource("25_o3ebs")
 
 [node name="BuildSlot3" parent="NavigationRegion3D" unique_id=749433405 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.99989694, 0, 0, 0, 0.99989694, 0, 0, 0, 0.99989694, 1.8300178, 0.04640235, -1.9720056)
-building_scene = ExtResource("25_o3ebs")
 
 [node name="BuildSlot4" parent="NavigationRegion3D" unique_id=205492282 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.9593825, 0, 0.28174302, 0, 0.99989694, 0, -0.28174302, 0, 0.9593825, 1.4552937, 0.22272071, 1.4366528)
-building_scene = ExtResource("23_bo7i5")
 
 [node name="BuildSlot8" parent="NavigationRegion3D" unique_id=124503989 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.32759652, 0, 0.9447087, 0, 0.99989694, 0, -0.9447087, 0, 0.32759652, 2.1104531, 0.0011357388, 1.1661319)
-building_scene = ExtResource("24_bo7i5")
 
 [node name="BuildSlot9" parent="NavigationRegion3D" unique_id=996746159 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(-0.20372324, 0, 0.9789233, 0, 0.99989694, 0, -0.9789233, 0, -0.20372324, 1.2555153, 0.20510168, 0.11538586)
-building_scene = ExtResource("24_bo7i5")
 
 [node name="BuildSlot5" parent="NavigationRegion3D" unique_id=1608736979 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.38634932, 0, 0.9222409, 0, 0.99989694, 0, -0.9222409, 0, 0.38634932, 0.75958157, 0.22272071, -0.2217974)
-building_scene = ExtResource("23_bo7i5")
 
 [node name="BuildSlot6" parent="NavigationRegion3D" unique_id=1150459479 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(-0.97793067, 0, 0.20843641, 0, 0.99989694, 0, -0.20843641, 0, -0.97793067, 0.7795759, 0.025057385, 2.3021414)
-building_scene = ExtResource("25_o3ebs")
 
 [node name="BuildSlot10" parent="NavigationRegion3D" unique_id=1271325995 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(0.9952719, 0, 0.09606179, 0, 0.99989694, 0, -0.09606179, 0, 0.9952719, 1.5177383, 0.020770824, 3.1826072)
-building_scene = ExtResource("25_4h6ng")
 
 [node name="BuildSlot7" parent="NavigationRegion3D" unique_id=789839566 instance=ExtResource("27_4h6ng")]
 transform = Transform3D(-0.97793067, 0, 0.20843641, 0, 0.99989694, 0, -0.20843641, 0, -0.97793067, -0.3058821, 0.22272071, 0.8810018)
-building_scene = ExtResource("23_bo7i5")
 
 [node name="path-straight8" parent="NavigationRegion3D" unique_id=67354607 instance=ExtResource("8_qktwf")]
 transform = Transform3D(0.1563322, 0, -0.9876002, 0, 0.99989694, 0, 0.9876002, 0, 0.1563322, 1.4184121, 0.0012547869, 2.4901502)
@@ -443,4 +421,3 @@ transform = Transform3D(0.9862827, 0, 0.16506481, 0, 1, 0, -0.16506481, 0, 0.986
 
 [node name="SpawnerInimigos" parent="." unique_id=423161848 instance=ExtResource("27_38lot")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5250306, 0.016780019, 3.4390223)
-lista_waves = Array[ExtResource("28_l5s07")]([SubResource("Resource_0baal"), null, null, null, null, null, null, null, null, null, null])
