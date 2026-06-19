@@ -10,6 +10,7 @@ extends Node
 @onready var player_vitoria = $PlayerVitoria
 @onready var player_estrela = $PlayerEstrela
 @onready var player_venda = $PlayerVenda
+@onready var player_new_map = $PlayerNewMap
 
 func _ready():
 	# 1. Conecta os botões que já iniciam na tela
@@ -77,3 +78,6 @@ func tocar_estrela():
 
 func tocar_venda():
 	player_venda.play()
+
+func tocar_new_map():
+	player_new_map.play()

@@ -194,12 +194,12 @@ var caminhos_das_fases = {
 }
 
 var caminhos_das_cutscenes = {
-	1: "res://Cenas Locais/Cutscines/cutscene_dinamica.tscn",
-	2: "res://Cenas Locais/Cutscines/cutscene_animada_2.tscn",
-	3: "res://Cenas Locais/Cutscines/cutscene_animada_3.tscn",
-	4: "res://Cenas Locais/Cutscines/cutscene_animada_4.tscn",
-	5: "res://Cenas Locais/Cutscines/cutscene_animada_5.tscn",
-	6: "res://Cenas Locais/Cutscines/cutscene_animada_6.tscn"
+	1: "res://Cenas Locais/Cutscenes/cutscene_dinamica.tscn",
+	2: "res://Cenas Locais/Cutscenes/cutscene_animada_2.tscn",
+	3: "res://Cenas Locais/Cutscenes/cutscene_animada_3.tscn",
+	4: "res://Cenas Locais/Cutscenes/cutscene_animada_4.tscn",
+	5: "res://Cenas Locais/Cutscenes/cutscene_animada_5.tscn",
+	6: "res://Cenas Locais/Cutscenes/cutscene_animada_6.tscn"
 }
 
 # ==========================================

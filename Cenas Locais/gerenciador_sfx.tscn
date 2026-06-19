@@ -1,20 +1,21 @@
 [gd_scene format=3 uid="uid://cuu7gw1jyydph"]
 
 [ext_resource type="Script" uid="uid://owwomk7x5gi0" path="res://Scripts Globais/gerenciador_sfx.gd" id="1_fw4bv"]
-[ext_resource type="AudioStream" uid="uid://bsrglyegmdscu" path="res://Audio/Sons/EnemyHurt.wav" id="2_omjip"]
+[ext_resource type="AudioStream" uid="uid://1ijtskw3l8jd" path="res://Audio/Sons/hit.mp3" id="3_0rhkg"]
 [ext_resource type="AudioStream" uid="uid://bo0qge47v0jxt" path="res://Audio/Sons/jump.wav" id="3_gpcue"]
 [ext_resource type="AudioStream" uid="uid://cey8kadiooapt" path="res://Audio/Sons/hoverbutton.wav" id="4_dfm1n"]
 [ext_resource type="AudioStream" uid="uid://dy4hndli1k312" path="res://Audio/Sons/clickbutton.mp3" id="4_ro1bc"]
 [ext_resource type="AudioStream" uid="uid://2k6q88sisfha" path="res://Audio/Sons/construct.mp3" id="5_dfm1n"]
 [ext_resource type="AudioStream" uid="uid://co1y1y452dlxe" path="res://Audio/Sons/error.wav" id="6_ec8dw"]
-[ext_resource type="AudioStream" uid="uid://c5fi3q7au6431" path="res://Audio/Sons/victory.wav" id="8_d6050"]
+[ext_resource type="AudioStream" uid="uid://2eqden8r4mvr" path="res://Audio/Sons/victory.mp3" id="8_f6qop"]
 [ext_resource type="AudioStream" uid="uid://joprvar5gakp" path="res://Audio/Sons/star.wav" id="9_yyr35"]
-[ext_resource type="AudioStream" uid="uid://d0jg4ag745fw0" path="res://Audio/Sons/venda.wav" id="10_f6qop"]
+[ext_resource type="AudioStream" uid="uid://dofpyuf44idii" path="res://Audio/Sons/money.mp3" id="10_0rhkg"]
+[ext_resource type="AudioStream" uid="uid://b6tlsj1hv2ypt" path="res://Audio/Sons/newmap.mp3" id="11_0rhkg"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fw4bv"]
 random_pitch = 1.0779822
 streams_count = 1
-stream_0/stream = ExtResource("2_omjip")
+stream_0/stream = ExtResource("3_0rhkg")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ec8dw"]
 random_pitch = 1.0717734
@@ -30,6 +31,11 @@ stream_0/stream = ExtResource("6_ec8dw")
 random_pitch = 1.0779822
 streams_count = 1
 stream_0/stream = ExtResource("9_yyr35")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fbh0m"]
+random_pitch = 1.0779822
+streams_count = 1
+stream_0/stream = ExtResource("11_0rhkg")
 
 [node name="GerenciadorSFX" type="Node" unique_id=876628305]
 script = ExtResource("1_fw4bv")
@@ -58,7 +64,7 @@ stream = SubResource("AudioStreamRandomizer_dfm1n")
 stream = ExtResource("5_dfm1n")
 
 [node name="PlayerVitoria" type="AudioStreamPlayer" parent="." unique_id=1144359357]
-stream = ExtResource("8_d6050")
+stream = ExtResource("8_f6qop")
 
 [node name="PlayerEstrela" type="AudioStreamPlayer" parent="." unique_id=368098192]
 stream = SubResource("AudioStreamRandomizer_6j28x")
@@ -66,4 +72,8 @@ volume_db = -10.0
 max_polyphony = 3
 
 [node name="PlayerVenda" type="AudioStreamPlayer" parent="." unique_id=1212531500]
-stream = ExtResource("10_f6qop")
+stream = ExtResource("10_0rhkg")
+volume_db = -10.0
+
+[node name="PlayerNewMap" type="AudioStreamPlayer" parent="." unique_id=956067341]
+stream = SubResource("AudioStreamRandomizer_fbh0m")

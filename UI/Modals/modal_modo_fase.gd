@@ -55,7 +55,7 @@ func abrir(numero_fase: int) -> void:
 		btn_infinito.icon = null
 	else:
 		btn_infinito.text = "  MODO INFINITO"
-		btn_infinito.icon = load("res://Assets/Icons/Cadeado.png")
+		btn_infinito.icon = load("res://Assets/Icons/cadeado.png")
 		btn_infinito.add_theme_constant_override("icon_max_width", 38)
 		btn_infinito.expand_icon = false
 

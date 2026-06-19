@@ -262,6 +262,7 @@ func _revelar_conjunto(botao: Button, peca, atraso: float) -> void:
 		peca.rotation = tilt
 		peca.position = p_pos + offset
 		tw.tween_property(peca, "modulate:a", 1.0, 0.3).set_delay(atraso)
+		SFXManager.tocar_new_map()
 		tw.tween_property(peca, "rotation", 0.0, dur).set_delay(atraso) \
 			.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tw.tween_property(peca, "position", p_pos, dur).set_delay(atraso) \
