@@ -43,6 +43,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode == KEY_BACK and event.pressed:
 		_on_btn_voltar_pressed()
 		get_viewport().set_input_as_handled()
+		
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			# Intercepta o input
+			get_viewport().set_input_as_handled()
+			
+			# Chama a mesma função que você fez para o "BtnVoltar"
+			_on_btn_voltar_pressed()
 
 # ==========================================
 # CARREGAMENTO

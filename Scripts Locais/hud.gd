@@ -532,6 +532,7 @@ func _criar_icone_dado() -> ImageTexture:
 func _on_botao_reroll_pressed():
 	SFXManager.tocar_som_dado()
 	GameManager.rerolar_cartas()
+	SFXManager.tocar_reroll()
 
 # ==========================================
 # INDICADORES DE ONDA (CONEXÃO COM SPAWNERS)

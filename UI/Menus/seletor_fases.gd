@@ -75,6 +75,18 @@ func _ready() -> void:
 	if OS.is_debug_build() or OS.has_feature("editor"):
 		_criar_botao_debug_unlock()
 
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+		
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			# Intercepta o input
+			get_viewport().set_input_as_handled()
+			
+			# Chama a mesma função que você fez para o "BtnVoltar"
+			_on_btn_voltar_pressed()
+
 func recalcular_linhas() -> void:
 	await get_tree().process_frame
 	criar_linhas_tracejadas()

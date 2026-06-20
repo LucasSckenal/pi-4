@@ -47,10 +47,21 @@ func _ready():
 
 # === SISTEMA GENSHIN: PULAR/ACELERAR TEXTO ===
 func _input(event):
+	if not visible:
+		return
+
 	if visible and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		# Impede o avanço do texto caso o clique seja especificamente sobre o botão de pular tutorial
 		if btn and btn.is_visible_in_tree() and btn.is_hovered():
 			return
+			
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			# Consome o input para o ESC não vazar e acabar abrindo o menu de pausa no fundo
+			get_viewport().set_input_as_handled()
+			
+			# Chama exatamente a mesma função de quando o jogador clica no botão "Pular"
+			_on_botao_pular_pressed()
 			
 		if caixa_texto.visible_ratio < 1.0:
 			if tween_texto and tween_texto.is_valid():

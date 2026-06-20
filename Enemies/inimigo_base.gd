@@ -528,6 +528,7 @@ func atacar():
 		pode_atacar = false
 		if animation_player and animation_player.has_animation(anim_atacar):
 			animation_player.play(anim_atacar)
+			SFXManager.tocar_enemy_hit()
 		if alvo_atual.has_method("receber_dano"):
 			alvo_atual.receber_dano(forca_dano)
 

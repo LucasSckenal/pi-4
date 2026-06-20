@@ -49,6 +49,9 @@ func _ready():
 	_info_recorde.hide()
 
 func mostrar():
+	
+	SFXManager.tocar_defeat()
+	
 	if GameManager:
 		var dias_completos = max(0, GameManager.onda_atual - 1)
 		valor_onda.text = str(dias_completos)

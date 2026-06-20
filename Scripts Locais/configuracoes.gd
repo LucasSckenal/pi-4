@@ -73,6 +73,20 @@ func _ready():
 		if _preview_cursor:
 			_atualizar_preview_cursor()
 
+# Para fechar usando ESC (ele não salva daí e eu sei, precisaria abrir um pop-up pedindo se quer sair sem salvar)
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+		
+	# Verifica se foi a tecla ESC
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			# Evita que o ESC vaze para outras telas
+			get_viewport().set_input_as_handled() 
+			
+			# Roda a mesma lógica do botão Voltar (que já reverte as coisas e fecha)
+			_on_button_pressed()
+
 # ==========================================
 # ÍCONES DOS BOTÕES
 # ==========================================

@@ -37,6 +37,12 @@ func _ready() -> void:
 	btn_fechar.pressed.connect(_on_fechar)
 	fundo.gui_input.connect(_on_fundo_input)
 
+func _input(event: InputEvent) -> void:
+	if not visible: return
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			get_viewport().set_input_as_handled()
+			_on_fechar()
 
 func abrir(numero_fase: int) -> void:
 	fase_numero = numero_fase
