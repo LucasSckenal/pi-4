@@ -1,9 +1,7 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://btemaglobal0001"]
+[gd_resource type="Theme" format=3 uid="uid://boq04b1mula4w"]
 
 [sub_resource type="SystemFont" id="SystemFont_base"]
 font_names = PackedStringArray("Segoe UI", "Arial", "Helvetica", "Noto Sans", "DejaVu Sans", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", "sans-serif")
-subpixel_positioning = 1
-antialiasing = 1
 
 [resource]
 default_font = SubResource("SystemFont_base")

@@ -35,17 +35,8 @@ var _capitulo_sel: int = 1        # capítulo (mapa) atualmente aberto na aba In
 
 func _ready() -> void:
 	get_tree().paused = false
-	_aplicar_fundo_madeira()
 	_criar_abas()
 	_render()
-
-# Fundo: mesa de madeira procedural (shader, sem asset)
-func _aplicar_fundo_madeira() -> void:
-	var fundo := get_node_or_null("ColorRect")
-	if fundo:
-		var mat := ShaderMaterial.new()
-		mat.shader = _SHADER_MADEIRA
-		fundo.material = mat
 
 # ==========================================
 # ABAS (seções)
@@ -199,18 +190,18 @@ func _portrait_inimigo(dados: Dictionary, idx: int, mob: bool, card_h: float) ->
 	mc.add_child(v)
 	b.add_child(mc)
 
-	var tr := TextureRect.new()
-	tr.custom_minimum_size = Vector2(0, card_h * 0.58)
-	tr.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var icontexture := TextureRect.new()
+	icontexture.custom_minimum_size = Vector2(0, card_h * 0.58)
+	icontexture.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	icontexture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icontexture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icontexture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if descoberto and ResourceLoader.exists(String(dados["icone"])):
-		tr.texture = load(String(dados["icone"]))
-		tr.modulate = Color.WHITE
+		icontexture.texture = load(String(dados["icone"]))
+		icontexture.modulate = Color.WHITE
 	else:
-		tr.modulate = Color(0, 0, 0, 0)  # silhueta vazia
-	v.add_child(tr)
+		icontexture.modulate = Color(0, 0, 0, 0)  # silhueta vazia
+	v.add_child(icontexture)
 
 	var lbl := Label.new()
 	lbl.text = String(dados["nome"]) if descoberto else "???"
@@ -749,12 +740,12 @@ func _card_historia(m: Dictionary, mob: bool, card_h: float) -> PanelContainer:
 	moldura.add_theme_stylebox_override("panel", _sb(Color(0.06, 0.04, 0.02), Color(0.35, 0.26, 0.12), 1, 8, 0))
 	moldura.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	moldura.clip_contents = true
-	var tr := TextureRect.new()
-	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tr.custom_minimum_size = Vector2(0, card_h * 0.45)
+	var maptexture := TextureRect.new()
+	maptexture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	maptexture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	maptexture.custom_minimum_size = Vector2(0, card_h * 0.45)
 	if liberado and ResourceLoader.exists(String(m["thumb"])):
-		tr.texture = load(String(m["thumb"]))
+		maptexture.texture = load(String(m["thumb"]))
 	else:
 		# Bloqueado: "?" grande no lugar da miniatura
 		var q := Label.new()
@@ -765,7 +756,7 @@ func _card_historia(m: Dictionary, mob: bool, card_h: float) -> PanelContainer:
 		q.add_theme_color_override("font_color", Color(0.4, 0.34, 0.24))
 		q.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		moldura.add_child(q)
-	moldura.add_child(tr)
+	moldura.add_child(maptexture)
 	vbox.add_child(moldura)
 
 	var titulo := Label.new()
@@ -938,3 +929,11 @@ func _sb(bg: Color, borda: Color, esp: int, raio: int, _margem: int) -> StyleBox
 
 func _on_btn_voltar_pressed() -> void:
 	get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
+
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_ESCAPE:
+			get_viewport().set_input_as_handled()
+			get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")

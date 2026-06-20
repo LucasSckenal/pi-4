@@ -510,6 +510,7 @@ func _criar_icone_dado() -> ImageTexture:
 			if dx * dx + dy * dy <= raio * raio:
 				img.set_pixel(x, y, branco)
 	# Pontos (padrão do "5": 4 cantos + centro)
+	@warning_ignore("integer_division")
 	var c := tam / 2
 	var off := 14
 	var pontos := [
