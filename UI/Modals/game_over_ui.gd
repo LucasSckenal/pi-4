@@ -72,10 +72,6 @@ func mostrar():
 	else:
 		_info_recorde.hide()
 
-	# Som de derrota (toca se o arquivo existir em Audio/Sons/derrota.*)
-	if SFXManager and SFXManager.has_method("tocar_som_derrota"):
-		SFXManager.tocar_som_derrota()
-
 	show()
 	escurecer_fundo.modulate.a = 0.0
 	painel_principal.modulate.a = 0.0

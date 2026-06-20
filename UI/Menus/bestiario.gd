@@ -6,6 +6,9 @@ extends Control
 # ==========================================
 
 const BD = preload("res://Bestiario/bestiario_dados.gd")
+const _SHADER_MADEIRA = preload("res://Shaders/wood_desk.gdshader")
+const _SHADER_CURL = preload("res://Shaders/page_curl.gdshader")
+const _SHADER_PERGAMINHO = preload("res://Shaders/parchment.gdshader")
 
 @onready var conteudo: VBoxContainer = $ScrollContainer/Conteudo
 @onready var abas: HBoxContainer = $Abas
@@ -32,8 +35,17 @@ var _capitulo_sel: int = 1        # capítulo (mapa) atualmente aberto na aba In
 
 func _ready() -> void:
 	get_tree().paused = false
+	_aplicar_fundo_madeira()
 	_criar_abas()
 	_render()
+
+# Fundo: mesa de madeira procedural (shader, sem asset)
+func _aplicar_fundo_madeira() -> void:
+	var fundo := get_node_or_null("ColorRect")
+	if fundo:
+		var mat := ShaderMaterial.new()
+		mat.shader = _SHADER_MADEIRA
+		fundo.material = mat
 
 # ==========================================
 # ABAS (seções)
@@ -240,30 +252,22 @@ func _abrir_dossie(cap: int, idx: int) -> void:
 	var holder := Control.new()
 	folha.add_child(holder)
 
-	var vinco := Panel.new()
-	var st_vinco := StyleBoxFlat.new()
-	st_vinco.bg_color = COR_PERGAMINHO_ESCURA
-	st_vinco.shadow_color = Color(0.3, 0.2, 0.1, 0.45)
-	st_vinco.shadow_size = 12
-	vinco.add_theme_stylebox_override("panel", st_vinco)
-	vinco.anchor_left = 0.5
-	vinco.anchor_right = 0.5
-	vinco.anchor_top = 0.0
-	vinco.anchor_bottom = 1.0
-	vinco.offset_left = -3.0
-	vinco.offset_right = 3.0
-	vinco.offset_top = 12.0
-	vinco.offset_bottom = -12.0
-	vinco.visible = not mob
-	holder.add_child(vinco)
+	# Fundo de pergaminho envelhecido (shader)
+	var paper := ColorRect.new()
+	paper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	paper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var mat_paper := ShaderMaterial.new()
+	mat_paper.shader = _SHADER_PERGAMINHO
+	paper.material = mat_paper
+	holder.add_child(paper)
 
 	# Conteúdo que vira (corpo)
 	var mc_corpo := MarginContainer.new()
 	mc_corpo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mc_corpo.add_theme_constant_override("margin_left", 20)
-	mc_corpo.add_theme_constant_override("margin_right", 20)
-	mc_corpo.add_theme_constant_override("margin_top", 16)
-	mc_corpo.add_theme_constant_override("margin_bottom", 16)
+	mc_corpo.add_theme_constant_override("margin_left", 34)
+	mc_corpo.add_theme_constant_override("margin_right", 34)
+	mc_corpo.add_theme_constant_override("margin_top", 28)
+	mc_corpo.add_theme_constant_override("margin_bottom", 26)
 	holder.add_child(mc_corpo)
 	var corpo := VBoxContainer.new()
 	corpo.add_theme_constant_override("separation", 10)
@@ -296,12 +300,12 @@ func _abrir_dossie(cap: int, idx: int) -> void:
 	btn_ant.pressed.connect(func():
 		if _flipando: return
 		estado["i"] = (estado["i"] - 1 + lista.size()) % lista.size()
-		_flip(corpo, montar)
+		_flip(folha, corpo, montar, -1)
 	)
 	btn_prox.pressed.connect(func():
 		if _flipando: return
 		estado["i"] = (estado["i"] + 1) % lista.size()
-		_flip(corpo, montar)
+		_flip(folha, corpo, montar, 1)
 	)
 	btn_fechar.pressed.connect(func(): layer.queue_free())
 	if lista.size() <= 1:
@@ -309,24 +313,69 @@ func _abrir_dossie(cap: int, idx: int) -> void:
 		btn_prox.disabled = true
 	montar.call()
 
-# Animação de "virar página": o conteúdo dobra no vinco (escala X → 0),
-# troca de inimigo e desdobra do outro lado.
-func _flip(corpo: Control, montar: Callable) -> void:
+# Animação de virar página (page-curl real via shader): tira um "snapshot" da
+# página atual, troca o conteúdo por baixo e enrola o snapshot revelando a nova.
+func _flip(folha: Control, corpo: Control, montar: Callable, dir: int) -> void:
 	if _flipando:
 		return
 	_flipando = true
 	if SFXManager and SFXManager.has_method("tocar_som_pagina"):
 		SFXManager.tocar_som_pagina()
-	corpo.pivot_offset = corpo.size * 0.5
+
+	# Captura a página atual antes de trocar o conteúdo
+	await RenderingServer.frame_post_draw
+	if not is_instance_valid(folha) or not is_instance_valid(corpo):
+		_flipando = false
+		return
+	var snap := _snapshot_controle(folha)
+	montar.call()  # nova página por baixo
+	if snap == null:
+		_flipando = false
+		return
+
+	var overlay := TextureRect.new()
+	overlay.texture = snap
+	overlay.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	overlay.stretch_mode = TextureRect.STRETCH_SCALE
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var mat := ShaderMaterial.new()
+	mat.shader = _SHADER_CURL
+	mat.set_shader_parameter("progress", 0.0)
+	mat.set_shader_parameter("curl_radius", 0.16)
+	mat.set_shader_parameter("flip_x", 0.0 if dir >= 0 else 1.0)
+	overlay.material = mat
+	folha.add_child(overlay)
+
 	var tw := create_tween()
-	tw.tween_property(corpo, "scale:x", 0.04, 0.15).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+	tw.tween_method(func(v): mat.set_shader_parameter("progress", v), 0.0, 1.0, 0.55) \
+		.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	tw.tween_callback(func():
-		if is_instance_valid(corpo):
-			montar.call()
-			corpo.pivot_offset = corpo.size * 0.5
+		if is_instance_valid(overlay):
+			overlay.queue_free()
+		_flipando = false
 	)
-	tw.tween_property(corpo, "scale:x", 1.0, 0.18).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
-	tw.tween_callback(func(): _flipando = false)
+
+# Snapshot de um Control para textura (recorta o frame do viewport na região dele)
+func _snapshot_controle(ctrl: Control) -> ImageTexture:
+	var vp := get_viewport()
+	if vp == null:
+		return null
+	var img := vp.get_texture().get_image()
+	if img == null:
+		return null
+	var vis := vp.get_visible_rect().size
+	if vis.x <= 0.0 or vis.y <= 0.0:
+		return null
+	var gr := ctrl.get_global_rect()
+	var sx := float(img.get_width()) / vis.x
+	var sy := float(img.get_height()) / vis.y
+	var rx := clampi(int(round(gr.position.x * sx)), 0, img.get_width() - 1)
+	var ry := clampi(int(round(gr.position.y * sy)), 0, img.get_height() - 1)
+	var rw := clampi(int(round(gr.size.x * sx)), 1, img.get_width() - rx)
+	var rh := clampi(int(round(gr.size.y * sy)), 1, img.get_height() - ry)
+	var region := img.get_region(Rect2i(rx, ry, rw, rh))
+	return ImageTexture.create_from_image(region)
 
 func _sb_livro_capa() -> StyleBoxFlat:
 	var st := StyleBoxFlat.new()
@@ -356,9 +405,16 @@ func _preencher_dossie(corpo: VBoxContainer, dados: Dictionary, mob: bool) -> vo
 	topo.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	corpo.add_child(topo)
 
-	# Arte (moldura sobre pergaminho)
+	# Arte (moldura "montada" sobre o pergaminho, com sombra)
 	var moldura := PanelContainer.new()
-	var st_mold := _sb(Color(0.91, 0.85, 0.67, 1), COR_COURO_BORDA, 2, 12, 0)
+	var st_mold := StyleBoxFlat.new()
+	st_mold.bg_color = Color(0.94, 0.88, 0.71)
+	st_mold.border_color = Color(0.34, 0.22, 0.10)
+	st_mold.set_border_width_all(3)
+	st_mold.set_corner_radius_all(10)
+	st_mold.shadow_color = Color(0.22, 0.14, 0.07, 0.55)
+	st_mold.shadow_size = 10
+	st_mold.shadow_offset = Vector2(0, 5)
 	moldura.add_theme_stylebox_override("panel", st_mold)
 	var arte_lado := 300 if not mob else 220
 	moldura.custom_minimum_size = Vector2(arte_lado, arte_lado)
@@ -413,6 +469,19 @@ func _preencher_dossie(corpo: VBoxContainer, dados: Dictionary, mob: bool) -> vo
 	cap_lbl.add_theme_color_override("font_color", COR_TINTA_CLARA)
 	info.add_child(cap_lbl)
 
+	# Ficha (campos do dossiê)
+	if descoberto:
+		info.add_child(_linha_dossie("Primeiro avistamento", String(dados.get("avistamento", "—")), mob))
+		info.add_child(_linha_dossie("Comportamento", String(dados.get("comportamento", "—")), mob))
+		info.add_child(_linha_dossie("Fraqueza", String(dados.get("fraqueza", "—")), mob))
+
+		var sep2 := HSeparator.new()
+		var sl2 := StyleBoxLine.new()
+		sl2.color = Color(0.45, 0.32, 0.16, 0.4)
+		sl2.thickness = 1
+		sep2.add_theme_stylebox_override("separator", sl2)
+		info.add_child(sep2)
+
 	var lore := Label.new()
 	lore.text = String(dados["lore"]) if descoberto else "Inimigo ainda não descoberto.\nDerrote-o em batalha para revelar seu dossiê."
 	lore.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -420,6 +489,20 @@ func _preencher_dossie(corpo: VBoxContainer, dados: Dictionary, mob: bool) -> vo
 	lore.add_theme_color_override("font_color", COR_TINTA if descoberto else Color(0.5, 0.42, 0.3))
 	lore.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	info.add_child(lore)
+
+func _linha_dossie(rotulo: String, valor: String, mob: bool) -> RichTextLabel:
+	var rt := RichTextLabel.new()
+	rt.bbcode_enabled = true
+	rt.fit_content = true
+	rt.scroll_active = false
+	rt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rt.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var fs := 15 if not mob else 14
+	rt.add_theme_font_size_override("normal_font_size", fs)
+	rt.add_theme_font_size_override("bold_font_size", fs)
+	rt.add_theme_color_override("default_color", COR_TINTA)
+	rt.text = "[b][color=#7a5526]%s:[/color][/b]  %s" % [rotulo, valor]
+	return rt
 
 func _badge_ameaca(cat: String) -> PanelContainer:
 	var nivel := "Baixa"
@@ -433,14 +516,14 @@ func _badge_ameaca(cat: String) -> PanelContainer:
 	st.border_color = cor
 	st.set_border_width_all(2)
 	st.set_corner_radius_all(6)
-	st.content_margin_left = 8; st.content_margin_right = 8
-	st.content_margin_top = 2; st.content_margin_bottom = 2
+	st.content_margin_left = 11; st.content_margin_right = 11
+	st.content_margin_top = 4; st.content_margin_bottom = 4
 	p.add_theme_stylebox_override("panel", st)
 	p.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var l := Label.new()
 	l.text = "Ameaça: " + nivel
-	l.add_theme_font_size_override("font_size", 13)
-	l.add_theme_color_override("font_color", cor.lightened(0.3))
+	l.add_theme_font_size_override("font_size", 15)
+	l.add_theme_color_override("font_color", cor.lightened(0.55))
 	p.add_child(l)
 	return p
 
@@ -477,17 +560,21 @@ func _badge_categoria(cat: String) -> PanelContainer:
 	var p := PanelContainer.new()
 	var st := StyleBoxFlat.new()
 	st.bg_color = cor
+	st.border_color = cor.darkened(0.35)
+	st.set_border_width_all(1)
 	st.set_corner_radius_all(6)
-	st.content_margin_left = 8
-	st.content_margin_right = 8
-	st.content_margin_top = 2
-	st.content_margin_bottom = 2
+	st.content_margin_left = 11
+	st.content_margin_right = 11
+	st.content_margin_top = 4
+	st.content_margin_bottom = 4
 	p.add_theme_stylebox_override("panel", st)
 	p.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var l := Label.new()
 	l.text = cat
-	l.add_theme_font_size_override("font_size", 13)
+	l.add_theme_font_size_override("font_size", 15)
 	l.add_theme_color_override("font_color", Color(1, 1, 1))
+	l.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.5))
+	l.add_theme_constant_override("outline_size", 2)
 	p.add_child(l)
 	return p
 
