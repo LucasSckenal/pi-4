@@ -78,6 +78,10 @@ folder_colors={
 
 Player=""
 
+[gui]
+
+theme/custom="res://UI/tema_global.tres"
+
 [input]
 
 ui_left={
