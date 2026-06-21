@@ -178,15 +178,15 @@ func _card_powerup(carta, mob: bool) -> PanelContainer:
 	margin.add_child(hbox)
 	card.add_child(margin)
 
-	var tr := TextureRect.new()
+	var cardtexture := TextureRect.new()
 	var ic := 120 if mob else 104
-	tr.custom_minimum_size = Vector2(ic, ic)
-	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	cardtexture.custom_minimum_size = Vector2(ic, ic)
+	cardtexture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	cardtexture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	cardtexture.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	if "icone" in carta and carta.icone != null:
-		tr.texture = carta.icone
-	hbox.add_child(tr)
+		cardtexture.texture = carta.icone
+	hbox.add_child(cardtexture)
 
 	var vbox := VBoxContainer.new()
 	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL

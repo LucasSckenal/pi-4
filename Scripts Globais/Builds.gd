@@ -2026,6 +2026,7 @@ func reviver():
 	if Global.DEBUG_MODE:
 		print("%s reconstruída!" % name)
 	esta_destruida = false
+	visible = true
 	_animar_transicao_visual(true, 0.4)
 	vida_atual = vida_maxima
 	# Cancela qualquer tween de dano que tenha ficado pendente e garante

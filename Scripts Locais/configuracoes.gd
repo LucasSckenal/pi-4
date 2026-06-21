@@ -351,7 +351,7 @@ func _on_button_pressed() -> void:
 # ==========================================
 func _salvar_configuracoes() -> void:
 	var cfg := ConfigFile.new()
-	cfg.set_value("audio", "master",  db_to_linear(AudioServer.get_bus_volume_db(master_bus)))
+	cfg.set_value("audio", "master",  db_to_linear(AudioServer.get_bus_volume_db(master_bus))) #Tem que mudar pra começar em 100%
 	cfg.set_value("audio", "musica",  _musica_linear())
 	
 	if _slider_voz:
