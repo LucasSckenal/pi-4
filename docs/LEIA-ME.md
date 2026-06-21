@@ -12,6 +12,7 @@ Adicione os arquivos abaixo para completar o README:
 - `boss_fight.png`      — Batalha contra um boss
 - `tela_cartas.png`     — Tela de seleção de power-up
 - `conquistas.png`      — Tela de conquistas
+- `bestiario.png`       — Bestiário (o "livro": aba Inimigos, Cartas ou Construções)
 
 ## Fotos da equipe (`docs/team/`)
 - `ana_luiza.png`  — Foto da Ana Luiza Escher
