@@ -29,6 +29,7 @@ var _preview_tipo: Label = null               # texto do tipo
 var _preview_desc: Label = null
 var _preview_upgrade: Label = null
 var _preview_custo: Label = null              # só o número/texto; ícone Moedas fica ao lado
+var _preview_custo_icon: TextureRect = null   # ícone de moedas ao lado do custo (escondido quando grátis)
 var _btn_confirmar: Button = null
 var _grid: GridContainer = null
 
@@ -260,13 +261,13 @@ func _construir_ui() -> void:
 	hbox_custo.add_theme_constant_override("separation", 7)
 	vbox.add_child(hbox_custo)
 
-	var custo_icon := TextureRect.new()
-	custo_icon.texture = ICON_MOEDAS
-	custo_icon.custom_minimum_size = Vector2(26, 26)
-	custo_icon.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
-	custo_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	custo_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	hbox_custo.add_child(custo_icon)
+	_preview_custo_icon = TextureRect.new()
+	_preview_custo_icon.texture = ICON_MOEDAS
+	_preview_custo_icon.custom_minimum_size = Vector2(26, 26)
+	_preview_custo_icon.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
+	_preview_custo_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_preview_custo_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	hbox_custo.add_child(_preview_custo_icon)
 
 	_preview_custo = Label.new()
 	_preview_custo.text = ""
@@ -392,7 +393,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	var btn := Button.new()
 	btn.toggle_mode = true
 	btn.text = ""
-	btn.custom_minimum_size = Vector2(210, 190) if OS.has_feature("mobile") else Vector2(168, 158)
+	btn.custom_minimum_size = Vector2(210, 220) if OS.has_feature("mobile") else Vector2(168, 220)
 	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.focus_mode = Control.FOCUS_NONE
@@ -410,7 +411,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	var ic := TextureRect.new()
 	ic.texture = icone
-	var ic_sz := 105 if OS.has_feature("mobile") else 84
+	var ic_sz := 130 if OS.has_feature("mobile") else 130
 	ic.custom_minimum_size = Vector2(ic_sz, ic_sz)
 	ic.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 	ic.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -420,7 +421,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	var nome_lbl := Label.new()
 	nome_lbl.text = nome
-	nome_lbl.add_theme_font_size_override("font_size", 22 if OS.has_feature("mobile") else 18)
+	nome_lbl.add_theme_font_size_override("font_size", 22 if OS.has_feature("mobile") else 20)
 	nome_lbl.add_theme_color_override("font_color", Color(0.90, 0.82, 0.65))
 	nome_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	nome_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -436,7 +437,7 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 
 	var ic_moeda := TextureRect.new()
 	ic_moeda.texture = ICON_MOEDAS
-	ic_moeda.custom_minimum_size = Vector2(19, 19)
+	ic_moeda.custom_minimum_size = Vector2(23, 23)
 	ic_moeda.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 	ic_moeda.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	ic_moeda.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -444,11 +445,17 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 	hcusto.add_child(ic_moeda)
 
 	var custo_lbl := Label.new()
-	custo_lbl.text = str(custo_final)
-	custo_lbl.add_theme_font_size_override("font_size", 16)
-	custo_lbl.add_theme_color_override("font_color", Color(1.0, 0.80, 0.18))
+	custo_lbl.add_theme_font_size_override("font_size", 19)
 	custo_lbl.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	custo_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# PRIMEIRA_GRATIS: enquanto a próxima construção for de graça, mostra "Grátis"
+	if GameManager.construcao_gratis_disponivel:
+		ic_moeda.visible = false
+		custo_lbl.text = "Grátis"
+		custo_lbl.add_theme_color_override("font_color", Color(0.45, 0.92, 0.40))
+	else:
+		custo_lbl.text = str(custo_final)
+		custo_lbl.add_theme_color_override("font_color", Color(1.0, 0.80, 0.18))
 	hcusto.add_child(custo_lbl)
 
 	btn.set_meta("nome_torre",  nome)
@@ -562,8 +569,15 @@ func _atualizar_preview(icone: Texture2D, nome: String, custo: int, descricao: S
 	_preview_upgrade.text = _upgrade_fallback(nome)
 
 	var custo_final := GameManager.obter_custo_com_desconto(custo)
-	_preview_custo.text = "%d moedas" % custo_final
-	_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.82, 0.20))
+	# PRIMEIRA_GRATIS: a primeira construção da onda sai de graça
+	if GameManager.construcao_gratis_disponivel:
+		if _preview_custo_icon: _preview_custo_icon.visible = false
+		_preview_custo.text = "Grátis!"
+		_preview_custo.add_theme_color_override("font_color", Color(0.45, 0.92, 0.40))
+	else:
+		if _preview_custo_icon: _preview_custo_icon.visible = true
+		_preview_custo.text = "%d moedas" % custo_final
+		_preview_custo.add_theme_color_override("font_color", Color(1.0, 0.82, 0.20))
 
 # ==========================================
 # CONSTRUÇÃO

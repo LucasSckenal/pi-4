@@ -167,7 +167,8 @@ void fragment() {
 @onready var sprite_respawn = get_node_or_null("SpriteRespawn")
 @onready var barra_respawn = get_node_or_null("RespawnViewport/BarraRespawn")
 
-var soldados_vivos: int = 0 # Controle interno
+var soldados_vivos: int = 0 # Controle interno (total: arqueiros + espadachins)
+var _espadas_vivas: int = 0 # Quantos dos vivos são espadachins (Guarda Real)
 
 # ==========================================
 # CONFIGURAÇÕES ECONÔMICAS (MINA, CASA, MOINHO)
@@ -1767,37 +1768,58 @@ func _pagar_recompensa():
 func _spawn_aliados(_onda_atual):
 	if is_fantasma or esta_destruida or cena_aliado == null:
 		return
-		
-	# Trava de segurança: só spawna o que falta para completar o limite
-	# MAIS_SOLDADOS: soma o bônus global de soldados ao limite
-	var limite_aliados := numero_aliados_atual + GameManager.bonus_soldados
-	var quantidade_para_spawnar = limite_aliados - soldados_vivos
-	if quantidade_para_spawnar <= 0:
-		return
-		
-	for i in range(quantidade_para_spawnar):
-		_criar_um_aliado()
+	# Repõe a composição alvo (arqueiros + espadachins).
+	_repor_aliados()
 
-func _criar_um_aliado():
+# Quantos arqueiros este quartel deve manter vivos.
+# MAIS_SOLDADOS (Convocação): soma o bônus global ao alvo.
+func _alvo_arqueiros() -> int:
+	if _quartel_modo_espada():
+		return 3 + GameManager.bonus_soldados   # Guarda Real: 3 arqueiros (+1 por Convocação)
+	return numero_aliados_atual + GameManager.bonus_soldados
+
+# Quantos espadachins este quartel deve manter vivos.
+func _alvo_espadas() -> int:
+	if _quartel_modo_espada():
+		return 2 + GameManager.bonus_soldados   # Guarda Real: 2 espadas (+1 por Convocação)
+	return 0
+
+func _arqueiros_vivos() -> int:
+	return soldados_vivos - _espadas_vivas
+
+# Spawna o que falta para completar a composição alvo.
+func _repor_aliados() -> void:
+	while _arqueiros_vivos() < _alvo_arqueiros():
+		_criar_um_aliado(false)
+	while _espadas_vivas < _alvo_espadas():
+		_criar_um_aliado(true)
+
+func _criar_um_aliado(com_espada: bool = false):
 	var aliado = cena_aliado.instantiate()
+	# Upgrade "Guarda Real": o espadachim luta no corpo a corpo.
+	# Marca ANTES do add_child (_ready).
+	var virou_espada := false
+	if com_espada and "modo_espada" in aliado:
+		aliado.modo_espada = true
+		virou_espada = true
 	get_tree().current_scene.add_child(aliado)
-	
+
 	# 1. Pega a posição base
 	var posicao_base = global_position
 	if ponto_spawn:
 		posicao_base = ponto_spawn.global_position
-		
+
 	# 2. Sorteia um ponto ao redor
 	var pos_aleatoria = posicao_base + Vector3(randf_range(-1, 1), 0, randf_range(-1, 1))
-	
+
 	# 3. Raio da Física (RayCast)
 	var espaco_fisica = get_world_3d().direct_space_state
 	var origem_raio = pos_aleatoria + Vector3(0, 5.0, 0)
 	var destino_raio = pos_aleatoria + Vector3(0, -10.0, 0)
 	var query = PhysicsRayQueryParameters3D.create(origem_raio, destino_raio)
-	
+
 	var colisao = espaco_fisica.intersect_ray(query)
-	
+
 	# 4. Posiciona o soldado (Validação de terreno)
 	if colisao:
 		# Se colidir com água, tenta centralizar no ponto de spawn original
@@ -1807,36 +1829,54 @@ func _criar_um_aliado():
 			aliado.global_position = colisao.position
 	else:
 		aliado.global_position = pos_aleatoria
-	
+
 	aliado.add_to_group("aliados")
 	soldados_vivos += 1
-	
+	if virou_espada:
+		_espadas_vivas += 1
+
 	if aliado.has_signal("morreu"):
 		aliado.morreu.connect(_on_aliado_morreu)
 
-func _on_aliado_morreu(_aliado_morto: Node):
+# True quando este quartel foi melhorado para o caminho de soldados com espada.
+func _quartel_modo_espada() -> bool:
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		return path != null and "tipo_ataque" in path and path.tipo_ataque == "espada"
+	return false
+
+func _on_aliado_morreu(aliado_morto: Node):
+	# Descobre o tipo do soldado que morreu para repor o mesmo
+	var era_espada := false
+	if is_instance_valid(aliado_morto) and "modo_espada" in aliado_morto:
+		era_espada = aliado_morto.modo_espada
 	soldados_vivos -= 1
-	
+	if era_espada:
+		_espadas_vivas = max(0, _espadas_vivas - 1)
+
 	# 1. MOSTRA A BARRA E INICIA A ANIMAÇÃO
 	if sprite_respawn and barra_respawn:
 		sprite_respawn.visible = true
 		barra_respawn.value = 0.0
-		
+
 		var tween = create_tween()
 		tween.tween_property(barra_respawn, "value", 100.0, tempo_respawn)
-	
+
 	# 2. AGUARDA O TEMPO DO TIMER DO JOGO
 	await get_tree().create_timer(tempo_respawn).timeout
-	
+
 	# 3. VERIFICA SE A CONSTRUÇÃO AINDA EXISTE E NÃO ESTÁ DESTRUÍDA
-	if not is_instance_valid(self) or esta_destruida or soldados_vivos >= numero_aliados_atual + GameManager.bonus_soldados:
+	if not is_instance_valid(self) or esta_destruida:
 		return
 
-	# 4. CRIA O NOVO SOLDADO
-	_criar_um_aliado()
+	# 4. REPÕE O MESMO TIPO QUE MORREU (se ainda falta)
+	if era_espada and _espadas_vivas < _alvo_espadas():
+		_criar_um_aliado(true)
+	elif not era_espada and _arqueiros_vivos() < _alvo_arqueiros():
+		_criar_um_aliado(false)
 
-	# 5. ESCONDE A BARRA (Apenas se o quartel estiver com todos os soldados vivos novamente)
-	if sprite_respawn and soldados_vivos >= numero_aliados_atual + GameManager.bonus_soldados:
+	# 5. ESCONDE A BARRA (Apenas se a composição estiver completa de novo)
+	if sprite_respawn and _arqueiros_vivos() >= _alvo_arqueiros() and _espadas_vivas >= _alvo_espadas():
 		sprite_respawn.visible = false
 
 # ==========================================
@@ -1906,74 +1946,6 @@ func destruir():
 	await get_tree().create_timer(0.3).timeout
 	if esta_destruida:
 		visible = false
-
-# BASE_ATIRADORA: a base dispara uma flecha no inimigo mais próximo (stats da torre básica)
-func _base_atacar() -> void:
-	var alvo := _base_alvo_mais_proximo()
-	if alvo == null:
-		return
-	var flecha = _FLECHA_BASE.instantiate()
-	get_tree().root.add_child(flecha)
-	flecha.global_position = global_position + Vector3(0, 1.5, 0)
-	flecha.dano = max(1, Balanceamento.get_int("torre_padrao_dano", 28) + GameManager.bonus_dano)
-	flecha.alvo = alvo
-
-func _base_alvo_mais_proximo() -> Node3D:
-	var raio := 6.5
-	var melhor: Node3D = null
-	var melhor_d := raio
-	for inimigo in get_tree().get_nodes_in_group("inimigos"):
-		if not is_instance_valid(inimigo) or inimigo.get("esta_morto"):
-			continue
-		var d: float = global_position.distance_to(inimigo.global_position)
-		if d <= melhor_d:
-			melhor_d = d
-			melhor = inimigo
-	return melhor
-
-func _explodir_ao_destruir() -> void:
-	# Dano em área aos inimigos por perto + efeito visual
-	var raio := 4.0
-	for inimigo in get_tree().get_nodes_in_group("inimigos"):
-		if is_instance_valid(inimigo) and global_position.distance_to(inimigo.global_position) <= raio:
-			if inimigo.has_method("receber_dano"):
-				inimigo.receber_dano(GameManager.dano_explosao_construcao, "fogo")
-	_efeito_visual_explosao()
-
-func _efeito_visual_explosao() -> void:
-	var pai = get_parent()
-	if not is_instance_valid(pai):
-		return
-	var p := CPUParticles3D.new()
-	var m := SphereMesh.new()
-	m.radius = 0.12
-	m.height = 0.24
-	m.radial_segments = 6
-	m.rings = 3
-	p.mesh = m
-	var mat := StandardMaterial3D.new()
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.albedo_color = Color(1.0, 0.55, 0.15)
-	p.material_override = mat
-	p.local_coords = true
-	p.emitting = false
-	p.one_shot = true
-	p.amount = 22
-	p.lifetime = 0.6
-	p.explosiveness = 1.0
-	p.spread = 90.0
-	p.gravity = Vector3(0, -4, 0)
-	p.initial_velocity_min = 3.0
-	p.initial_velocity_max = 6.5
-	p.scale_amount_min = 0.8
-	p.scale_amount_max = 1.7
-	pai.add_child(p)
-	p.global_position = global_position + Vector3(0, 0.4, 0)
-	p.restart()
-	p.emitting = true
-	var tw := p.create_tween()
-	tw.tween_interval(p.lifetime + 0.3)
-	tw.tween_callback(p.queue_free)
 
 # BASE_ATIRADORA: a base dispara uma flecha no inimigo mais próximo (stats da torre básica)
 func _base_atacar() -> void:

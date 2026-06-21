@@ -11,6 +11,10 @@ extends CharacterBody3D
 @export var cena_flecha: PackedScene
 @export var alcance_deteccao: float = 15.0
 
+# Guarda Real (upgrade do quartel): quando true, o soldado luta de espada (corpo a corpo) em vez de atirar flechas.
+# Definido pelo quartel ANTES do add_child (portanto antes do _ready).
+var modo_espada: bool = false
+
 # ==========================================
 # REFERÊNCIAS DOS NÓS
 # ==========================================
@@ -38,6 +42,9 @@ func _ready():
 	add_to_group("aliados")
 	# Aplica balanceamento centralizado (CSV) antes de inicializar a vida
 	_aplicar_balanceamento()
+	# Guarda Real (upgrade do quartel): converte o soldado para combate corpo a corpo (espada)
+	if modo_espada:
+		_configurar_modo_espada()
 	vida_atual = vida_maxima
 
 	# Soldado não bloqueia fisicamente o jogador nem os inimigos.
@@ -100,10 +107,9 @@ func _physics_process(delta):
 			velocity.x = 0
 			velocity.z = 0
 			
-			# Olha para o inimigo (Segurança para não dar erro se estiverem na mesma posição exata)
+			# Olha para o inimigo (de frente)
 			var pos_alvo = Vector3(alvo_atual.global_position.x, global_position.y, alvo_atual.global_position.z)
-			if global_position.distance_to(pos_alvo) > 0.1:
-				look_at(pos_alvo, Vector3.UP)
+			_encarar(pos_alvo)
 			
 			# CHAMA A FUNÇÃO CERTA QUE TOCA A ANIMAÇÃO DE MIRAR E ATIRAR!
 			if pode_atacar and not esta_atacando:
@@ -125,10 +131,9 @@ func _physics_process(delta):
 				elif animation_player and animation_player.has_animation("run"):
 					animation_player.play("run") # Fallback caso você use "run"
 				
-				# Olha para o caminho onde está indo
+				# Olha para o caminho onde está indo (de frente)
 				var pos_olhar = Vector3(proxima_posicao.x, global_position.y, proxima_posicao.z)
-				if global_position.distance_to(pos_olhar) > 0.1:
-					look_at(pos_olhar, Vector3.UP)
+				_encarar(pos_olhar)
 	else:
 		# SE NÃO TEM ALVO: Fica parado e descansa
 		velocity.x = 0
@@ -151,8 +156,8 @@ func _physics_process(delta):
 			velocity.x = 0
 			velocity.z = 0
 			
-			# Olha para o inimigo
-			look_at(Vector3(alvo_atual.global_position.x, global_position.y, alvo_atual.global_position.z), Vector3.UP)
+			# Olha para o inimigo (de frente)
+			_encarar(Vector3(alvo_atual.global_position.x, global_position.y, alvo_atual.global_position.z))
 			
 			if pode_atacar and not esta_atacando:
 				esta_atacando = true
@@ -172,8 +177,8 @@ func _physics_process(delta):
 				if animation_player.has_animation("run"):
 					animation_player.play("run")
 				
-				# Olha para o caminho onde está indo
-				look_at(Vector3(proxima_posicao.x, global_position.y, proxima_posicao.z), Vector3.UP)
+				# Olha para o caminho onde está indo (de frente)
+				_encarar(Vector3(proxima_posicao.x, global_position.y, proxima_posicao.z))
 	else:
 		# SE NÃO TEM ALVO: Fica parado e zera a velocidade horizontal
 		velocity.x = 0
@@ -207,6 +212,14 @@ func _mover_em_direcao_ao_alvo(delta):
 		if dist <= alcance_ataque:
 			_iniciar_ataque()
 
+# Vira o soldado para ENCARAR o ponto de frente.
+# O look_at do Godot aponta o -Z ao alvo, mas o modelo encara +Z — por isso o flip de 180°.
+func _encarar(pos: Vector3) -> void:
+	if global_position.distance_to(pos) <= 0.05:
+		return
+	look_at(pos, Vector3.UP)
+	rotate_y(PI)
+
 func _apontar_para_alvo():
 	if not alvo_atual or esta_atacando:
 		return
@@ -237,11 +250,17 @@ func _atirar_flecha():
 		esta_atacando = false
 		pode_atacar = true
 		return
-	
+
+	# Guarda Real (upgrade do quartel): golpe corpo a corpo em vez de flecha
+	if modo_espada:
+		_golpe_espada()
+		timer_ataque.start()
+		return
+
 	# Toca animação de disparo
 	if animation_player and animation_player.has_animation("holding-left-shoot"):
 		animation_player.play("holding-left-shoot")
-	
+
 	# Instancia a flecha
 	if cena_flecha and ponto_tiro:
 		var flecha = cena_flecha.instantiate()
@@ -249,9 +268,77 @@ func _atirar_flecha():
 		flecha.global_position = ponto_tiro.global_position
 		flecha.dano = dano + GameManager.bonus_dano_soldado  # SOLDADO_FORTE
 		flecha.alvo = alvo_atual
-	
+
 	# Inicia o timer de recarga
 	timer_ataque.start()
+
+# Guarda Real (upgrade do quartel): aplica dano direto no alvo (corpo a corpo), respeitando as cartas
+func _golpe_espada() -> void:
+	if not alvo_atual or not is_instance_valid(alvo_atual):
+		return
+	# Animação de golpe (usa o que houver disponível no modelo)
+	if animation_player:
+		for nome_anim in ["attack-melee-left", "attack-melee-right", "interact-left", "holding-left-shoot"]:
+			if animation_player.has_animation(nome_anim):
+				animation_player.play(nome_anim)
+				break
+	if not alvo_atual.has_method("receber_dano"):
+		return
+	var dano_total: int = dano + GameManager.bonus_dano_soldado  # SOLDADO_FORTE
+	# CRITICO: chance de dobrar o dano
+	if GameManager.chance_critico > 0.0 and randf() < GameManager.chance_critico:
+		dano_total *= 2
+	alvo_atual.receber_dano(dano_total)
+	# VENENO: aplica dano ao longo do tempo, igual às flechas
+	if GameManager.dano_veneno > 0 and alvo_atual.has_method("iniciar_veneno"):
+		alvo_atual.iniciar_veneno(GameManager.dano_veneno)
+
+# Guarda Real (upgrade do quartel): transforma o arqueiro num soldado de espada (tanque, corpo a corpo)
+func _configurar_modo_espada() -> void:
+	# Combate colado: só ataca bem perto do inimigo
+	alcance_ataque = 1.8
+	# Range curto: só engaja inimigos PERTO (não sai correndo atrás como o arqueiro).
+	# Isso é aplicado ao raio da AreaAtk logo depois, no _ready.
+	alcance_deteccao = 5.0
+	# Tanque de frente: bem mais vida, mais dano, um pouco mais rápido para alcançar o alvo
+	vida_maxima = int(round(vida_maxima * 2.6))
+	dano = int(round(dano * 1.5))
+	velocidade *= 1.15
+	_trocar_arco_por_espada()
+
+# --- Ajuste fino da espada na mão (mexa aqui se ficar torta) ---
+const ESPADA_ESCALA := 0.45
+const ESPADA_POS := Vector3(0.231, 0.026, 0.057)          # posição na palma (mesma referência do arco)
+const ESPADA_ROT_GRAUS := Vector3(-90.0, 0.0, 0.0)        # gira a lâmina para frente do soldado
+
+# Troca o visual: esconde o arco/flecha das mãos e encaixa uma espada
+func _trocar_arco_por_espada() -> void:
+	var base := "character-soldier2/character-soldier/Skeleton3D"
+	var mao_dir := get_node_or_null(base + "/MaoDireita")
+	var arco_mesh := get_node_or_null(base + "/MaoDireita/bow_A_withString2/bow_A_withString")
+	var flecha_mao := get_node_or_null(base + "/MaoEsquerda/arrow_A2")
+	# Esconde só a MALHA do arco e a flecha (mantém o nó-pai, que tem a transform da mão)
+	if arco_mesh:
+		arco_mesh.visible = false
+	if flecha_mao:
+		flecha_mao.visible = false
+	if mao_dir == null or not ResourceLoader.exists("res://Modelos_3D/Arena/weapon-sword.glb"):
+		return
+	var cena_espada: PackedScene = load("res://Modelos_3D/Arena/weapon-sword.glb")
+	if cena_espada == null:
+		return
+	var espada := cena_espada.instantiate()
+	# Encaixa direto na mão (osso) com transform própria — controle total da orientação.
+	mao_dir.add_child(espada)
+	if espada is Node3D:
+		var t := Transform3D.IDENTITY
+		t.basis = Basis.from_euler(Vector3(
+			deg_to_rad(ESPADA_ROT_GRAUS.x),
+			deg_to_rad(ESPADA_ROT_GRAUS.y),
+			deg_to_rad(ESPADA_ROT_GRAUS.z)
+		)).scaled(Vector3.ONE * ESPADA_ESCALA)
+		t.origin = ESPADA_POS
+		espada.transform = t
 
 func _on_timer_ataque_timeout():
 	# Fim da recarga

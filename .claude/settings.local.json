@@ -43,7 +43,11 @@
       "Bash(sed -n '/var baralho_upgrades/,/]/p' \"Scripts Globais/game_manager.gd\")",
       "Bash(cat)",
       "PowerShell(Stop-Process -Id 14196 -Force -ErrorAction SilentlyContinue)",
-      "PowerShell(\"limpo\")"
+      "PowerShell(\"limpo\")",
+      "Bash(grep -ivE \"\\\\.import$\")",
+      "Bash(\"/c/Users/robny/Downloads/Godot_v4.6.1-stable_win64.exe/Godot_v4.6.1-stable_win64_console.exe\" --path . --editor --quit --headless)",
+      "Bash(cd \"/c/Users/robny/Documents/pi-4/.claude/worktrees/happy-kepler-3e73b7\" && rm -f PowerUps/GuardaReal.tres && echo \"removed GuardaReal.tres\")",
+      "Bash(rm -f err.log)"
     ]
   }
 }

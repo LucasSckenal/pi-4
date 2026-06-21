@@ -6,6 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://d11p2585w531y" path="res://Icons/white-circle-frame-with-shadow-free-png.png" id="4_ch61e"]
 [ext_resource type="Texture2D" uid="uid://bem8r1tq7x0o" path="res://Modelos_3D/Medieval/buildings/blue/hexagons_medieval.png" id="4_ulwvx"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_0avtp"]
+[ext_resource type="Script" uid="uid://cj7setbrccrxh" path="res://Upgrades/upgrade_path_data.gd" id="6_upath"]
+[ext_resource type="Texture2D" uid="uid://dhybipisk5nrr" path="res://Assets/Icons/Espada.png" id="7_espada"]
+
+[sub_resource type="Resource" id="Resource_guardareal"]
+script = ExtResource("6_upath")
+nome = "Guarda Real"
+icone = ExtResource("7_espada")
+tipo_ataque = "espada"
+custos = Array[int]([12])
+descricoes = Array[String](["Mistura arqueiros com espadachins", "As espadas avançam no corpo a corpo", "Mais resistentes e fortes"])
+cor = Color(0.32, 0.58, 0.88, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mi8mv"]
 render_priority = 0
@@ -76,6 +87,8 @@ vida_maxima = 60
 cena_aliado = ExtResource("2_yitiu")
 numero_aliados_base = 3
 ponto_spawn_path = NodePath("PontoSpawn")
+tem_paths = true
+upgrade_paths = Array[ExtResource("6_upath")]([SubResource("Resource_guardareal")])
 
 [node name="building_archeryrange_blue2" parent="." unique_id=1337676271 instance=ExtResource("1_486cl")]
 
