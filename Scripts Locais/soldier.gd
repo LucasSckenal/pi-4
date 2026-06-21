@@ -286,9 +286,11 @@ func _golpe_espada() -> void:
 		return
 	var dano_total: int = dano + GameManager.bonus_dano_soldado  # SOLDADO_FORTE
 	# CRITICO: chance de dobrar o dano
+	var foi_critico := false
 	if GameManager.chance_critico > 0.0 and randf() < GameManager.chance_critico:
 		dano_total *= 2
-	alvo_atual.receber_dano(dano_total)
+		foi_critico = true
+	alvo_atual.receber_dano(dano_total, "torre", foi_critico)
 	# VENENO: aplica dano ao longo do tempo, igual às flechas
 	if GameManager.dano_veneno > 0 and alvo_atual.has_method("iniciar_veneno"):
 		alvo_atual.iniciar_veneno(GameManager.dano_veneno)

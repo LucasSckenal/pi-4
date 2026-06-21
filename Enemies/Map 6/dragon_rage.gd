@@ -22,8 +22,8 @@ func _ready() -> void:
 	_dano_base = forca_dano
 	_anim_andar_base = anim_andar
 
-func receber_dano(qtd, origem = "torre") -> void:
-	super.receber_dano(qtd, origem)
+func receber_dano(qtd, origem = "torre", critico := false) -> void:
+	super.receber_dano(qtd, origem, critico)
 	if rage_ativado or esta_morto:
 		return
 	if vida_maxima <= 0:

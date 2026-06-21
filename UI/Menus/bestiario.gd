@@ -28,6 +28,11 @@ const COR_TINTA_CLARA := Color(0.42, 0.30, 0.15)
 
 var _flipando: bool = false
 
+# Scroll por arraste (clique esquerdo / toque)
+var _arr_ativo: bool = false
+var _arr_y0: float = 0.0
+var _arr_scroll0: int = 0
+
 var _secao: String = "inimigos"   # "inimigos" | "historias" | "cartas" | "construcoes"
 var _btn_inimigos: Button = null
 var _btn_historias: Button = null
@@ -1175,3 +1180,22 @@ func _input(event: InputEvent) -> void:
 		if event.keycode == KEY_ESCAPE:
 			get_viewport().set_input_as_handled()
 			get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
+		return
+
+	# ── Scroll por arraste (clique esquerdo ou toque) dentro da lista ──────
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed and scroll.get_global_rect().has_point(event.position):
+			_arr_ativo = true
+			_arr_y0 = event.position.y
+			_arr_scroll0 = scroll.scroll_vertical
+		else:
+			_arr_ativo = false
+	elif event is InputEventScreenTouch:
+		if event.pressed and scroll.get_global_rect().has_point(event.position):
+			_arr_ativo = true
+			_arr_y0 = event.position.y
+			_arr_scroll0 = scroll.scroll_vertical
+		else:
+			_arr_ativo = false
+	elif _arr_ativo and (event is InputEventMouseMotion or event is InputEventScreenDrag):
+		scroll.scroll_vertical = _arr_scroll0 - int(event.position.y - _arr_y0)
