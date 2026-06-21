@@ -1831,12 +1831,25 @@ func _criar_um_aliado(com_espada: bool = false):
 		aliado.global_position = pos_aleatoria
 
 	aliado.add_to_group("aliados")
+	# Mapas maiores escalam os slots/construções; o soldado nasce na raiz da cena
+	# com escala 1, então fica pequeno. Escala ele pelo fator de escala do mapa.
+	if aliado.has_method("aplicar_escala_mapa"):
+		aliado.aplicar_escala_mapa(_fator_escala_mapa())
 	soldados_vivos += 1
 	if virou_espada:
 		_espadas_vivas += 1
 
 	if aliado.has_signal("morreu"):
 		aliado.morreu.connect(_on_aliado_morreu)
+
+# Fator de escala que o mapa aplica a esta construção (escala global ÷ escala local).
+# No tutorial os slots têm escala 1; em mapas maiores 2, 3.5, etc.
+func _fator_escala_mapa() -> float:
+	var g := global_transform.basis.get_scale()
+	var l := transform.basis.get_scale()
+	if l.y == 0.0:
+		return 1.0
+	return max(0.1, g.y / l.y)
 
 # True quando este quartel foi melhorado para o caminho de soldados com espada.
 func _quartel_modo_espada() -> bool:

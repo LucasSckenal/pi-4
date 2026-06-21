@@ -419,3 +419,14 @@ func recarregar_balanceamento() -> void:
 	_aplicar_balanceamento()
 	if timer_ataque:
 		timer_ataque.wait_time = tempo_entre_ataques
+
+# Escala o soldado conforme o tamanho do mapa (mapas maiores => soldados maiores).
+# Deve ser chamado DEPOIS do _ready (a AreaAtk de detecção já existe e escala junto com o nó).
+func aplicar_escala_mapa(fator: float) -> void:
+	if fator <= 0.0 or is_equal_approx(fator, 1.0):
+		return
+	scale = Vector3.ONE * fator
+	# A AreaAtk (detecção) é filha do nó, então o raio já cresce com a escala.
+	# Mas velocidade e alcance de ataque são em unidades de mundo no código — precisam escalar.
+	velocidade *= fator
+	alcance_ataque *= fator
