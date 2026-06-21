@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://d3h6esyusk8kl"]
 
 [ext_resource type="Script" uid="uid://58a8pnam3ssk" path="res://UI/Menus/tela_conquistas.gd" id="1_pnd5v"]
+[ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="2_mbkx8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_FundoLista"]
 bg_color = Color(0.11, 0.07, 0.03, 0.96)
@@ -60,6 +61,7 @@ grow_vertical = 2
 script = ExtResource("1_pnd5v")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1481832516]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -67,6 +69,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.08, 0.05, 0.02, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=711910096]
+modulate = Color(0.6542321, 0.6542321, 0.654232, 1)
+z_index = -50
+position = Vector2(1000, 600)
+scale = Vector2(6.6453743, 6.6453743)
+texture = ExtResource("2_mbkx8")
 
 [node name="LabelTitulo" type="Label" parent="." unique_id=1048512826]
 layout_mode = 1

@@ -375,6 +375,10 @@ func _ready():
 			
 	_registrar_escalas_base(self)
 	
+	if not is_fantasma:
+		_animar_transicao_visual(true, 0.4)
+
+
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
 # ==========================================
@@ -991,15 +995,20 @@ func _trocar_modelo(nivel: int):
 				corpo.mouse_entered.connect(_on_area_clique_mouse_entered)
 			if not corpo.mouse_exited.is_connected(_on_area_clique_mouse_exited):
 				corpo.mouse_exited.connect(_on_area_clique_mouse_exited)
-		
+			
 		# Esconde as malhas da torre base para evitar sobreposição
 		_esconder_malhas_originais(self)
 		
 		# Aplica a borda de interatividade no novo modelo instanciado, caso esteja de dia
 		if not GameManager.is_night and not is_fantasma:
 			_atualizar_segundo_next_pass(modelo, true)
+			
+		if not is_fantasma:
+			_animar_transicao_visual(true, 0.4)
 	else:
 		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
+	
+
 
 # Nova função para ocultar o modelo 3D original que veio do .glb
 func _esconder_malhas_originais(no: Node):
@@ -1868,10 +1877,13 @@ func destruir():
 		_explodir_ao_destruir()
 	if is_instance_valid(_indicador_upgrade):
 		_indicador_upgrade.visible = false
-	visible = false
-
+	
+	_animar_transicao_visual(false, 0.3)
+	
 	# Remove do grupo para os Orcs pararem de focar nela
 	remove_from_group("Construcao")
+	
+	SFXManager.tocar_destruicao()
 	
 	# Desconectar sinais para evitar chamadas após destruição
 	if tipo in [TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO, TipoConstrucao.CALDEIRON]:
@@ -1889,6 +1901,79 @@ func destruir():
 		
 	if not GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.connect(reviver)
+	
+	# Aguarda o tempo exato da animação (0.3s) e esconde o nó raiz
+	await get_tree().create_timer(0.3).timeout
+	if esta_destruida:
+		visible = false
+
+# BASE_ATIRADORA: a base dispara uma flecha no inimigo mais próximo (stats da torre básica)
+func _base_atacar() -> void:
+	var alvo := _base_alvo_mais_proximo()
+	if alvo == null:
+		return
+	var flecha = _FLECHA_BASE.instantiate()
+	get_tree().root.add_child(flecha)
+	flecha.global_position = global_position + Vector3(0, 1.5, 0)
+	flecha.dano = max(1, Balanceamento.get_int("torre_padrao_dano", 28) + GameManager.bonus_dano)
+	flecha.alvo = alvo
+
+func _base_alvo_mais_proximo() -> Node3D:
+	var raio := 6.5
+	var melhor: Node3D = null
+	var melhor_d := raio
+	for inimigo in get_tree().get_nodes_in_group("inimigos"):
+		if not is_instance_valid(inimigo) or inimigo.get("esta_morto"):
+			continue
+		var d: float = global_position.distance_to(inimigo.global_position)
+		if d <= melhor_d:
+			melhor_d = d
+			melhor = inimigo
+	return melhor
+
+func _explodir_ao_destruir() -> void:
+	# Dano em área aos inimigos por perto + efeito visual
+	var raio := 4.0
+	for inimigo in get_tree().get_nodes_in_group("inimigos"):
+		if is_instance_valid(inimigo) and global_position.distance_to(inimigo.global_position) <= raio:
+			if inimigo.has_method("receber_dano"):
+				inimigo.receber_dano(GameManager.dano_explosao_construcao, "fogo")
+	_efeito_visual_explosao()
+
+func _efeito_visual_explosao() -> void:
+	var pai = get_parent()
+	if not is_instance_valid(pai):
+		return
+	var p := CPUParticles3D.new()
+	var m := SphereMesh.new()
+	m.radius = 0.12
+	m.height = 0.24
+	m.radial_segments = 6
+	m.rings = 3
+	p.mesh = m
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.albedo_color = Color(1.0, 0.55, 0.15)
+	p.material_override = mat
+	p.local_coords = true
+	p.emitting = false
+	p.one_shot = true
+	p.amount = 22
+	p.lifetime = 0.6
+	p.explosiveness = 1.0
+	p.spread = 90.0
+	p.gravity = Vector3(0, -4, 0)
+	p.initial_velocity_min = 3.0
+	p.initial_velocity_max = 6.5
+	p.scale_amount_min = 0.8
+	p.scale_amount_max = 1.7
+	pai.add_child(p)
+	p.global_position = global_position + Vector3(0, 0.4, 0)
+	p.restart()
+	p.emitting = true
+	var tw := p.create_tween()
+	tw.tween_interval(p.lifetime + 0.3)
+	tw.tween_callback(p.queue_free)
 
 # BASE_ATIRADORA: a base dispara uma flecha no inimigo mais próximo (stats da torre básica)
 func _base_atacar() -> void:
@@ -1969,7 +2054,7 @@ func reviver():
 	if Global.DEBUG_MODE:
 		print("%s reconstruída!" % name)
 	esta_destruida = false
-	visible = true
+	_animar_transicao_visual(true, 0.4)
 	vida_atual = vida_maxima
 	# Cancela qualquer tween de dano que tenha ficado pendente e garante
 	# que a construção volta à altura correta (evita o bug de underground).
@@ -2233,3 +2318,30 @@ func _set_transparencia(no: Node, valor: float):
 		if filho.name == "CirculoVeneno": continue
 		if filho.name == "BarraVidaShader": continue
 		_set_transparencia(filho, valor)
+
+# Executa a animação visual de transição de escala ao construir ou destruir.
+func _animar_transicao_visual(surgir: bool, tempo: float = 0.35) -> void:
+	var visuais = []
+	
+	if is_instance_valid(modelo_anchor) and modelo_anchor.get_child_count() > 0:
+		visuais.append({"no": modelo_anchor, "escala": Vector3.ONE})
+	else:
+		for malha in _escalas_base_malhas.keys():
+			if is_instance_valid(malha):
+				visuais.append({"no": malha, "escala": _escalas_base_malhas[malha]})
+
+	for item in visuais:
+		var no = item["no"]
+		var esc = item["escala"]
+		
+		if surgir:
+			no.scale = Vector3(0.0001, 0.0001, 0.0001)
+			no.visible = true
+			var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(no, "scale", esc, tempo)
+		else:
+			var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(no, "scale", Vector3.ZERO, tempo)
+			tween.tween_callback(no.hide)
+			tween.tween_callback(func(): no.scale = esc)
+			

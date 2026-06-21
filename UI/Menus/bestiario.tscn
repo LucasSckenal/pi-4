@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://pfb1hgih8vwa"]
 
-[ext_resource type="Script" path="res://UI/Menus/bestiario.gd" id="1_best"]
+[ext_resource type="Script" uid="uid://bljipdyytff5v" path="res://UI/Menus/bestiario.gd" id="1_best"]
+[ext_resource type="Texture2D" uid="uid://b3kfs4cpfjhxp" path="res://Assets/UI/BotaoPauseVazio.png" id="2_jvner"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_FundoLista"]
 bg_color = Color(0.09, 0.06, 0.03, 0.42)
@@ -49,7 +50,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="Bestiario" type="Control"]
+[node name="Bestiario" type="Control" unique_id=1688554489]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,7 +59,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_best")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1952357516]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -67,7 +69,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.08, 0.05, 0.02, 1)
 
-[node name="LabelTitulo" type="Label" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=779887199]
+modulate = Color(0.6542321, 0.6542321, 0.654232, 1)
+z_index = -50
+position = Vector2(1000, 600)
+scale = Vector2(6.6453743, 6.6453743)
+texture = ExtResource("2_jvner")
+
+[node name="LabelTitulo" type="Label" parent="." unique_id=567907118]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -88,7 +97,7 @@ text = "Bestiário"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Abas" type="HBoxContainer" parent="."]
+[node name="Abas" type="HBoxContainer" parent="." unique_id=358747211]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -101,7 +110,7 @@ grow_horizontal = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="PanelFundoLista" type="Panel" parent="."]
+[node name="PanelFundoLista" type="Panel" parent="." unique_id=908839312]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -114,7 +123,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_FundoLista")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1209597323]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -126,13 +135,13 @@ offset_bottom = -56.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Conteudo" type="VBoxContainer" parent="ScrollContainer"]
+[node name="Conteudo" type="VBoxContainer" parent="ScrollContainer" unique_id=1482710470]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 18
 
-[node name="BtnVoltar" type="Button" parent="."]
+[node name="BtnVoltar" type="Button" parent="." unique_id=413199926]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 28.0

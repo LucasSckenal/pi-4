@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://b1t8bi0n5mijc" path="res://Audio/Sons/reroll.mp3" id="12_v0e1p"]
 [ext_resource type="AudioStream" uid="uid://djfl682qgixsr" path="res://Audio/Sons/defeat.mp3" id="13_f3aib"]
 [ext_resource type="AudioStream" uid="uid://bds7w4202txkj" path="res://Audio/Sons/enemyhit.mp3" id="14_f3aib"]
+[ext_resource type="AudioStream" uid="uid://dl4jh80tppes1" path="res://Audio/Sons/destruction.mp3" id="16_p6sxm"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fw4bv"]
 random_pitch = 1.0779822
@@ -42,6 +43,12 @@ stream_0/stream = ExtResource("11_0rhkg")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wivkl"]
 random_pitch = 1.0842268
+random_volume_offset_db = 0.5
+streams_count = 1
+stream_0/stream = ExtResource("14_f3aib")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_4x0s8"]
+random_pitch = 1.0779822
 random_volume_offset_db = 0.5
 streams_count = 1
 stream_0/stream = ExtResource("14_f3aib")
@@ -101,3 +108,10 @@ volume_db = -8.0
 stream = SubResource("AudioStreamRandomizer_wivkl")
 volume_db = -8.0
 max_polyphony = 3
+
+[node name="EnemyDead" type="AudioStreamPlayer" parent="." unique_id=836792832]
+stream = SubResource("AudioStreamRandomizer_4x0s8")
+volume_db = -5.0
+
+[node name="PlayerDestruicao" type="AudioStreamPlayer" parent="." unique_id=893435976]
+stream = ExtResource("16_p6sxm")
