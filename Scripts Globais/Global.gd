@@ -207,6 +207,24 @@ func salvar_progresso():
 		progresso_salvo.emit()
 
 
+# Migração: corrige nomes de inimigos renomeados depois que alguns saves já existiam.
+# Ex.: o lacaio do deserto se chamava "Desert minion" antes de virar "Servo do Deserto".
+func _migrar_nomes_inimigos() -> void:
+	var renomeados := {
+		"Desert minion": "Servo do Deserto",
+		"Tentáculo Cósmico": "Tentáculo",
+	}
+	var mudou := false
+	for antigo in renomeados:
+		if inimigos_descobertos.has(antigo):
+			inimigos_descobertos.erase(antigo)
+			var novo: String = renomeados[antigo]
+			if not inimigos_descobertos.has(novo):
+				inimigos_descobertos.append(novo)
+			mudou = true
+	if mudou:
+		salvar_progresso()
+
 func carregar_progresso():
 	var config = ConfigFile.new()
 	var err = config.load(SAVE_PATH)
@@ -228,6 +246,7 @@ func carregar_progresso():
 	cutscenes_vistas = config.get_value("progresso", "cutscenes_vistas", [])
 
 	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
+	_migrar_nomes_inimigos()  # corrige nomes de inimigos renomeados em saves antigos
 	cartas_obtidas               = config.get_value("progresso", "cartas_obtidas", [])
 	construcoes_descobertas      = config.get_value("progresso", "construcoes_descobertas", [])
 	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
