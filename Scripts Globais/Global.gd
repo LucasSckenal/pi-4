@@ -79,6 +79,8 @@ signal progresso_salvo
 func _ready():
 	_carregar_preferencias_video()
 	carregar_progresso()
+	# Save que já tinha todas as conquistas libera o chapéu de 100% ao abrir o jogo
+	verificar_100_porcento()
 
 
 # Lê as preferências de vídeo (toggles) no arranque para valerem já na 1ª fase,
@@ -118,6 +120,38 @@ func processar_recompensa(conquista: ConquistaData):
 		salvar_progresso()
 		_atualizar_interface_customizacao()
 		conquista_desbloqueada.emit(conquista.nome, itens_ganhos, conquista.icone)
+
+	# Após qualquer conquista, verifica se o jogo chegou a 100% (libera o chapéu do Ash).
+	# Guard: não re-checa ao conceder a PRÓPRIA conquista de 100% (evita recursão).
+	if conquista.id != CONQUISTA_100_ID:
+		verificar_100_porcento()
+
+# ==========================================
+# CONQUISTA DE 100% — desbloqueia ao ter TODAS as outras conquistas
+# ==========================================
+const CONQUISTA_100_ID := "colecionador_supremo"
+const CONQUISTA_100_PATH := "res://Conquistas/colecionador_supremo.tres"
+
+func verificar_100_porcento() -> void:
+	if CONQUISTA_100_ID in conquistas_desbloqueadas:
+		return
+	var dir = DirAccess.open("res://Conquistas/")
+	if not dir:
+		return
+	dir.list_dir_begin()
+	var arq = dir.get_next()
+	while arq != "":
+		var limpo = arq.trim_suffix(".remap")
+		if limpo.ends_with(".tres") or limpo.ends_with(".res"):
+			var c = load("res://Conquistas/" + limpo)
+			if c is ConquistaData and c.id != CONQUISTA_100_ID:
+				if not c.id in conquistas_desbloqueadas:
+					return  # ainda falta alguma conquista → não está 100%
+		arq = dir.get_next()
+	# Todas as outras estão desbloqueadas → concede a de 100% (libera o chapéu)
+	var c100 = load(CONQUISTA_100_PATH)
+	if c100 is ConquistaData:
+		processar_recompensa(c100)
 
 
 func _atualizar_interface_customizacao():

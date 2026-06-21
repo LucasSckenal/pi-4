@@ -1517,6 +1517,7 @@ bone_idx = 6
 
 [node name="+1 to catch\'em all" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=1229252670 instance=ExtResource("21_l0gc4")]
 transform = Transform3D(-0.9661899, 0, 0.25782996, 0, 0.99999976, 0, -0.25782996, 0, -0.9661899, -0.0035468994, 0.36463848, 0.13502309)
+visible = false
 
 [node name="Crown" parent="character-male-f2/character-male-f/Skeleton3D/BoneAttachment3D_Cabeca" unique_id=284706006 instance=ExtResource("21_ohhix")]
 transform = Transform3D(0.26430672, 0.19759007, 0, -0.19759007, 0.26430672, 0, 0, 0, 0.3299998, 0.13159047, 0.32000962, 0.070111506)

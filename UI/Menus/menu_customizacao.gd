@@ -35,7 +35,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "HollowKnight Head", "Set Kakashi", "Set Bloodborne" ,"Set Dark Souls"
+	"nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "+1 to catch'em all", "HollowKnight Head", "Set Kakashi", "Set Bloodborne" ,"Set Dark Souls"
 ]
 
 func _ready():
