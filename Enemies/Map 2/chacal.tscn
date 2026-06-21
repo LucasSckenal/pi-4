@@ -54,6 +54,7 @@ height = 2.0651855
 [node name="Chacal" type="CharacterBody3D" unique_id=632332236 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_cecf2")
+nome_inimigo = "Chacal"
 vida_maxima = 120
 velocidade = 1.0
 forca_dano = 12

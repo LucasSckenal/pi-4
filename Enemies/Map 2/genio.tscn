@@ -55,6 +55,7 @@ height = 2.0651855
 [node name="Genio" type="CharacterBody3D" unique_id=1252573154 node_paths=PackedStringArray("modelo_3d")]
 transform = Transform3D(0.77, 0, 0, 0, 0.77, 0, 0, 0, 0.77, 0, 0, 0)
 script = ExtResource("1_36wgu")
+nome_inimigo = "Genio"
 vida_maxima = 200
 forca_dano = 20
 modelo_3d = NodePath("Genio")

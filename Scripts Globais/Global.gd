@@ -52,7 +52,15 @@ var usando_set_kakashi: bool = false
 
 var inimigos_descobertos: Array = []
 var cartas_obtidas: Array = []   # ids das cartas que o jogador já pegou em batalha
+var construcoes_descobertas: Array = []   # ids das construções que o jogador já ergueu
 var total_ondas_completadas: int = 0
+
+# Registra a descoberta de uma construção (ao ser construída/melhorada pela 1ª vez).
+func descobrir_construcao(id: String) -> void:
+	if id == "" or construcoes_descobertas.has(id):
+		return
+	construcoes_descobertas.append(id)
+	salvar_progresso()
 
 # --- ESTATÍSTICAS (persistentes) ---
 var total_inimigos_mortos: int = 0   # acumulado entre todas as partidas
@@ -139,6 +147,7 @@ func salvar_progresso():
 	config.set_value("progresso", "cutscenes_vistas", cutscenes_vistas)
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
 	config.set_value("progresso", "cartas_obtidas", cartas_obtidas)
+	config.set_value("progresso", "construcoes_descobertas", construcoes_descobertas)
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
 	config.set_value("progresso", "total_ondas_completadas", total_ondas_completadas)
 	config.set_value("estatisticas", "inimigos_mortos", total_inimigos_mortos)
@@ -186,6 +195,7 @@ func carregar_progresso():
 
 	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
 	cartas_obtidas               = config.get_value("progresso", "cartas_obtidas", [])
+	construcoes_descobertas      = config.get_value("progresso", "construcoes_descobertas", [])
 	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
 	total_ondas_completadas      = config.get_value("progresso", "total_ondas_completadas", 0)
 	total_inimigos_mortos        = config.get_value("estatisticas", "inimigos_mortos", 0)
@@ -231,6 +241,7 @@ func resetar_tudo():
 	chapeus_desbloqueados = ["Nenhum"]
 	inimigos_descobertos = []
 	cartas_obtidas = []
+	construcoes_descobertas = []
 	total_ondas_completadas = 0
 	total_inimigos_mortos = 0
 	melhor_onda_infinito = 0

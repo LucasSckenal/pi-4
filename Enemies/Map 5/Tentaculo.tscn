@@ -70,7 +70,7 @@ radius = 1.5
 [node name="Tentaculo" type="CharacterBody3D" unique_id=2118301557 groups=["inimigos"]]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_script")
-nome_inimigo = "Tentáculo Cósmico"
+nome_inimigo = "Tentáculo"
 vida_maxima = 250
 velocidade = 0.0
 forca_dano = 12

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bsv20p1jbl5e4"
-path="res://.godot/imported/VermelinPreview.png-69033f7b28ef9f38599d4e57c274018c.ctex"
+path="res://.godot/imported/DemoniozinhoPreview.png-5f9bb606d06e989ec3138755cd0083d7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Icons/VermelinPreview.png"
-dest_files=["res://.godot/imported/VermelinPreview.png-69033f7b28ef9f38599d4e57c274018c.ctex"]
+source_file="res://Icons/DemoniozinhoPreview.png"
+dest_files=["res://.godot/imported/DemoniozinhoPreview.png-5f9bb606d06e989ec3138755cd0083d7.ctex"]
 
 [params]
 

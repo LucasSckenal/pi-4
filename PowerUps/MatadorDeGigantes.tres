@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://b485ks6lln3m2"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dafw3knx0l76v" path="res://Assets/Icons/Cranio.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "22"
+titulo = "Matador de Gigantes"
+descricao = "Esmaga chefes com muito mais dano e a flecha ainda salta para um segundo alvo."
+icone = ExtResource("2")
+tipo_bonus = 11
+valor_bonus = 18.0
+tipo_bonus_2 = 8
+valor_bonus_2 = 1.0

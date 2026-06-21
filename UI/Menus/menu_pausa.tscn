@@ -207,7 +207,7 @@ corner_radius_bottom_left = 16
 
 [node name="MenuPausa" type="CanvasLayer" unique_id=917918808]
 process_mode = 3
-layer = 10
+layer = 200
 script = ExtResource("1_uhuac")
 
 [node name="FundoEscuro" type="ColorRect" parent="." unique_id=249045471]

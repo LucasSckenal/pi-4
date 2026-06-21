@@ -54,6 +54,7 @@ height = 1.2573242
 [node name="Abobora" type="CharacterBody3D" unique_id=1461780441 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0, 0)
 script = ExtResource("1_gqnwe")
+nome_inimigo = "Abóbora"
 modelo_3d = NodePath(".")
 animation_player = NodePath("Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations/AnimationPlayer")
 anim_andar = "Unsteady_Walk"

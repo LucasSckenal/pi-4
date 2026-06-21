@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://cwbqsquppb8ge"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cn7olv3jualk5" path="res://Assets/Icons/Lento.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "15"
+titulo = "Nevasca"
+descricao = "Inimigos mais lentos e torres com mais alcance. Combina muito bem com Gelo."
+icone = ExtResource("2")
+tipo_bonus = 4
+valor_bonus = -0.15
+tipo_bonus_2 = 7
+valor_bonus_2 = 0.4

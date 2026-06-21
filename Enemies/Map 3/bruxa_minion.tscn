@@ -190,7 +190,7 @@ height = 3.9189453
 [node name="BruxaMinion" type="CharacterBody3D" unique_id=88370004 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
 script = ExtResource("1_ha1bv")
-nome_inimigo = "Bilbo"
+nome_inimigo = "Aprendiz da Bruxa"
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")
 anim_andar = "CharacterArmature|Jump"

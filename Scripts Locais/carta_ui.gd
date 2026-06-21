@@ -22,22 +22,7 @@ func configurar(dados: CartaUpgrade):
 	# ==========================================
 	# SISTEMA DE IMAGEM DE FUNDO (Texturas)
 	# ==========================================
-	var caminho_imagem = ""
-	
-	match dados.tipo_bonus:
-		CartaUpgrade.TipoUpgrade.DANO:
-			caminho_imagem = "res://Assets/UI/CartaDano.png"
-		CartaUpgrade.TipoUpgrade.VELOCIDADE_ATAQUE:
-			caminho_imagem = "res://Assets/UI/CartaDano.png"
-		CartaUpgrade.TipoUpgrade.VIDA:
-			caminho_imagem = "res://Assets/UI/CartaVida.png"
-		CartaUpgrade.TipoUpgrade.MOEDA:
-			caminho_imagem = "res://Assets/UI/CartaEconomia.png"
-		CartaUpgrade.TipoUpgrade.CUSTO_CONSTRUCAO:
-			caminho_imagem = "res://Assets/UI/CartaEconomia.png"
-		_:
-			# Caso não tenha uma imagem específica, pode usar uma padrão ou a de Dano
-			caminho_imagem = "res://Assets/UI/CartaDano.png" 
+	var caminho_imagem = _textura_por_tipo(int(dados.tipo_bonus))
 
 	if caminho_imagem != "":
 		var textura_fundo = load(caminho_imagem)
@@ -48,6 +33,25 @@ func configurar(dados: CartaUpgrade):
 		add_theme_stylebox_override("normal", estilo_imagem)
 		add_theme_stylebox_override("hover", estilo_imagem)
 		add_theme_stylebox_override("pressed", estilo_imagem)
+
+# Escolhe a textura de fundo conforme o EFEITO da carta (não só dano).
+# Economia (ouro) / Defesa+controle (azul) / Ofensiva (vermelho = padrão).
+# Os números são os valores do enum TipoUpgrade (carta_upgrade.gd).
+func _textura_por_tipo(tipo: int) -> String:
+	match tipo:
+		# Economia: moeda, custo, ouro por abate, renda, ouro inicial,
+		# reroll grátis, onda perfeita, primeira grátis
+		1, 5, 12, 14, 18, 19, 26, 27:
+			return "res://Assets/UI/CartaEconomia.png"
+		# Defesa/utilidade: vida, lentidão, menos inimigos, espinho, explosão
+		# da construção, soldado forte, vida torres, mais soldados
+		2, 4, 6, 10, 13, 21, 23, 24:
+			return "res://Assets/UI/CartaVida.png"
+		# Ofensiva (padrão): dano, velocidade de ataque, alcance, ricochete,
+		# inflamável, dano chefe, crítico, dano aéreo, execução, veneno,
+		# dano crescente, base atiradora
+		_:
+			return "res://Assets/UI/CartaDano.png"
 
 # ==========================================
 # ANIMAÇÕES DE HOVER (Suave)

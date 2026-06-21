@@ -28,10 +28,11 @@ const COR_TINTA_CLARA := Color(0.42, 0.30, 0.15)
 
 var _flipando: bool = false
 
-var _secao: String = "inimigos"   # "inimigos" | "historias" | "cartas"
+var _secao: String = "inimigos"   # "inimigos" | "historias" | "cartas" | "construcoes"
 var _btn_inimigos: Button = null
 var _btn_historias: Button = null
 var _btn_cartas: Button = null
+var _btn_construcoes: Button = null
 var _capitulo_sel: int = 1        # capítulo (mapa) atualmente aberto na aba Inimigos
 
 func _ready() -> void:
@@ -46,9 +47,11 @@ func _criar_abas() -> void:
 	_btn_inimigos = _criar_aba("Inimigos", "inimigos")
 	_btn_historias = _criar_aba("Histórias", "historias")
 	_btn_cartas = _criar_aba("Cartas", "cartas")
+	_btn_construcoes = _criar_aba("Construções", "construcoes")
 	abas.add_child(_btn_inimigos)
 	abas.add_child(_btn_historias)
 	abas.add_child(_btn_cartas)
+	abas.add_child(_btn_construcoes)
 	_atualizar_abas()
 
 func _criar_aba(texto: String, id: String) -> Button:
@@ -68,7 +71,7 @@ func _on_aba_pressed(id: String) -> void:
 	_render()
 
 func _atualizar_abas() -> void:
-	for par in [[_btn_inimigos, "inimigos"], [_btn_historias, "historias"], [_btn_cartas, "cartas"]]:
+	for par in [[_btn_inimigos, "inimigos"], [_btn_historias, "historias"], [_btn_cartas, "cartas"], [_btn_construcoes, "construcoes"]]:
 		var b: Button = par[0]
 		var ativo: bool = (_secao == par[1])
 		var bg := Color(0.28, 0.18, 0.06) if ativo else Color(0.14, 0.09, 0.04)
@@ -97,6 +100,8 @@ func _render() -> void:
 		_render_inimigos()
 	elif _secao == "cartas":
 		_render_cartas()
+	elif _secao == "construcoes":
+		_render_construcoes()
 	else:
 		_render_historias()
 
@@ -156,7 +161,7 @@ func _cor_tipo_carta(tipo: int) -> Color:
 			return Color(0.92, 0.74, 0.22)
 		2, 10, 13, 21, 23, 24:          # defesa — azul
 			return Color(0.32, 0.58, 0.88)
-		4, 6, 20:                       # controle / especial — roxo
+		4, 6:                           # controle / especial — roxo
 			return Color(0.66, 0.40, 0.85)
 		_:                              # ofensiva — vermelho
 			return Color(0.85, 0.30, 0.22)
@@ -205,6 +210,116 @@ func _card_powerup(carta, mob: bool) -> PanelContainer:
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	desc.add_theme_font_size_override("font_size", 24 if mob else 21)
 	desc.add_theme_color_override("font_color", Color(0.92, 0.85, 0.72))
+	desc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(desc)
+
+	return card
+
+# ==========================================
+# ABA CONSTRUÇÕES (descobertas ao construir)
+# ==========================================
+func _render_construcoes() -> void:
+	var mob := OS.has_feature("mobile")
+	var intro := Label.new()
+	intro.text = "As construções que você já ergueu nas batalhas."
+	intro.add_theme_font_size_override("font_size", 26 if mob else 24)
+	intro.add_theme_color_override("font_color", COR_TEXTO)
+	intro.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	conteudo.add_child(intro)
+
+	var lista: Array = BD.CONSTRUCOES
+	var descobertas := 0
+	for c in lista:
+		if Global.construcoes_descobertas.has(c["id"]):
+			descobertas += 1
+
+	var contador := Label.new()
+	contador.text = "Coleção: %d/%d" % [descobertas, lista.size()]
+	contador.add_theme_font_size_override("font_size", 38 if mob else 34)
+	contador.add_theme_color_override("font_color", Color(1, 0.86, 0.4))
+	contador.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	contador.add_theme_constant_override("outline_size", 4)
+	contador.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	conteudo.add_child(contador)
+
+	var grid := GridContainer.new()
+	grid.columns = 1
+	grid.add_theme_constant_override("v_separation", 16)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	conteudo.add_child(grid)
+	for c in lista:
+		var descoberta: bool = Global.construcoes_descobertas.has(c["id"])
+		grid.add_child(_card_construcao(c, descoberta, mob))
+
+# Cor da borda conforme o tipo da construção
+func _cor_tipo_construcao(tipo: String) -> Color:
+	match tipo:
+		"economia": return Color(0.92, 0.74, 0.22)   # dourado
+		"defesa":   return Color(0.32, 0.58, 0.88)    # azul
+		_:          return Color(0.85, 0.30, 0.22)    # ofensiva — vermelho
+
+func _card_construcao(dados: Dictionary, descoberta: bool, mob: bool) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 150 if mob else 138)
+	var cor_borda := _cor_tipo_construcao(String(dados.get("tipo", "ofensiva"))) if descoberta else COR_BORDA
+	card.add_theme_stylebox_override("panel", _sb(Color(0.14, 0.09, 0.04, 0.97), cor_borda, 3, 14, 0))
+
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 20)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	margin.add_child(hbox)
+	card.add_child(margin)
+
+	var ic := 120 if mob else 104
+	if descoberta:
+		var tr := TextureRect.new()
+		tr.custom_minimum_size = Vector2(ic, ic)
+		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var cam := String(dados.get("icone", ""))
+		if cam != "" and ResourceLoader.exists(cam):
+			tr.texture = load(cam)
+		hbox.add_child(tr)
+	else:
+		# Silhueta: mostra "?" grande no lugar do ícone
+		var q := Label.new()
+		q.text = "?"
+		q.add_theme_font_size_override("font_size", 64 if mob else 56)
+		q.add_theme_color_override("font_color", Color(0.55, 0.45, 0.30))
+		q.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		q.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		q.custom_minimum_size = Vector2(ic, ic)
+		hbox.add_child(q)
+
+	var vbox := VBoxContainer.new()
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	vbox.add_theme_constant_override("separation", 8)
+	hbox.add_child(vbox)
+
+	var titulo := Label.new()
+	titulo.text = String(dados.get("nome", "")) if descoberta else "???"
+	titulo.add_theme_font_size_override("font_size", 30 if mob else 27)
+	titulo.add_theme_color_override("font_color", Color(1, 0.92, 0.6) if descoberta else Color(0.62, 0.52, 0.36))
+	vbox.add_child(titulo)
+
+	var desc := Label.new()
+	if descoberta:
+		var txt := String(dados.get("descricao", ""))
+		if dados.has("melhoria") and String(dados.melhoria) != "":
+			txt += "\nMelhoria: " + String(dados.melhoria)
+		desc.text = txt
+	else:
+		desc.text = "Construa esta construção em uma partida para revelá-la."
+	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc.add_theme_font_size_override("font_size", 24 if mob else 21)
+	desc.add_theme_color_override("font_color", Color(0.92, 0.85, 0.72) if descoberta else Color(0.60, 0.52, 0.40))
 	desc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox.add_child(desc)
 

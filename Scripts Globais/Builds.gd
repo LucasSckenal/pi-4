@@ -719,12 +719,12 @@ func _icone_para_modelo_upgrade(modelo: PackedScene) -> Texture2D:
 	# ── Mapeamento explícito por caminho (máxima prioridade) ──────────
 	match modelo.resource_path:
 		# Castelo (BASE) — níveis 1 e 2
-		"res://Medieval/buildings/blue/building_barracks_blue.gltf":
+		"res://Modelos_3D/Medieval/buildings/blue/building_barracks_blue.gltf":
 			return preload("res://Assets/Construcoes/BaseCastelo2.png")
-		"res://Medieval/buildings/blue/building_castle_blue.gltf":
+		"res://Modelos_3D/Medieval/buildings/blue/building_castle_blue.gltf":
 			return preload("res://Assets/Construcoes/BaseCastelo3.png")
-		# Moinho — nível 1
-		"res://Medieval/buildings/blue/building_windmill_blue.gltf":
+		# Moinho — nível 2
+		"res://Modelos_3D/Medieval/buildings/blue/building_windmill_blue.gltf":
 			return preload("res://Assets/Construcoes/ConstrucaoMoinho2.png")
 		# Casa — níveis 1 e 2
 		"res://Builds/casa_classe_media.tscn":
@@ -920,6 +920,7 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			caminho_atual = index
 			nivel_atual = 1
 			_atualizar_valores_pos_upgrades()
+			_curar_total()   # melhorar restaura a vida cheia (corrige barra parcial)
 			_trocar_modelo(nivel_atual)
 			_atualizar_barra_3d()   # restaura visibilidade após troca de modelo
 			if tipo == TipoConstrucao.BASE:
@@ -930,6 +931,9 @@ func aplicar_upgrade(index: int = 0) -> bool:
 				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
 					_criar_circulo_caldeiron(alcance_atual * 0.85)
 				atualizar_status()
+				# Bestiário: descobre o ramo da torre (Morteiro, Sniper, Fogo, Tesla...)
+				if path != null and "nome" in path:
+					Global.descobrir_construcao(_id_construcao_ramo(str(path.nome)))
 			if Global.DEBUG_MODE:
 				print("%s escolheu caminho %s e subiu para nível 1" % [name, path.nome])
 			return true
@@ -943,6 +947,7 @@ func aplicar_upgrade(index: int = 0) -> bool:
 		if GameManager.gastar_moedas(custo):
 			nivel_atual += 1
 			_atualizar_valores_pos_upgrades()
+			_curar_total()   # melhorar restaura a vida cheia (corrige barra parcial)
 			_trocar_modelo(nivel_atual)
 			_atualizar_barra_3d()   # restaura visibilidade após troca de modelo
 			if tipo == TipoConstrucao.BASE:
@@ -1062,6 +1067,19 @@ func _inicializar_barra_vida():
 		barra_vida.value = vida_atual
 		container_barra.visible = false
 	_criar_barra_3d()
+
+# Restaura a vida ao máximo e sincroniza as barras (usado ao melhorar a construção).
+func _curar_total() -> void:
+	vida_atual = vida_maxima
+	if tem_barra_vida and barra_vida:
+		barra_vida.max_value = vida_maxima
+		barra_vida.value = vida_atual
+	if container_barra:
+		container_barra.visible = false
+	if tipo == TipoConstrucao.BASE:
+		GameManager.vida_base_maxima = vida_maxima
+		GameManager.vida_base_atual = vida_atual
+	_atualizar_barra_3d()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # NOVA BARRA DE VIDA 3D COM SHADER CUSTOMIZADA
@@ -1850,6 +1868,16 @@ func _fator_escala_mapa() -> float:
 	if l.y == 0.0:
 		return 1.0
 	return max(0.1, g.y / l.y)
+
+# Mapeia o nome do caminho de upgrade da torre para o id usado no bestiário.
+func _id_construcao_ramo(nome: String) -> String:
+	var n := nome.to_lower()
+	if "morteiro" in n: return "morteiro"
+	if "sniper" in n:   return "sniper"
+	if "fogo" in n:     return "torre_fogo"
+	if "tesla" in n:    return "tesla"
+	if "caldeir" in n:  return "caldeirao"
+	return ""
 
 # True quando este quartel foi melhorado para o caminho de soldados com espada.
 func _quartel_modo_espada() -> bool:

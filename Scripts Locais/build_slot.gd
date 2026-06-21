@@ -209,6 +209,10 @@ func construir(cena: PackedScene) -> bool:
 	nova_const.is_fantasma = false
 	is_built = true
 
+	# Bestiário: registra a descoberta desta construção (ao erguê-la pela 1ª vez)
+	var _tipo_const: int = int(nova_const.tipo) if "tipo" in nova_const else -1
+	Global.descobrir_construcao(_id_construcao_descoberta(cena, _tipo_const))
+
 	if base_mesh: base_mesh.hide()
 	if canvas_mobile: canvas_mobile.hide()
 
@@ -216,6 +220,26 @@ func construir(cena: PackedScene) -> bool:
 
 	fechar_ui()
 	return true
+
+# Resolve o id do bestiário: primeiro construções ÚNICAS (por cena), senão por tipo.
+func _id_construcao_descoberta(cena: PackedScene, tipo: int) -> String:
+	var arq := ""
+	if cena != null:
+		arq = cena.resource_path.get_file().get_basename().to_lower()
+	if "mercadinho_egipcio" in arq: return "mercadinho"
+	if "taverna_dos_piratas" in arq: return "taverna"
+	return _id_construcao_base(tipo)
+
+# Mapeia o tipo de construção (enum TipoConstrucao) para o id usado no bestiário.
+func _id_construcao_base(tipo: int) -> String:
+	match tipo:
+		0: return "torre"
+		1: return "mina"
+		2: return "casa"
+		3: return "moinho"
+		4: return "quartel"
+		6: return "caldeirao"
+	return ""
 
 # ==========================================
 # NOVO: REATIVAÇÃO DO SLOT APÓS VENDA

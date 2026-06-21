@@ -55,7 +55,7 @@ height = 2.0651855
 [node name="MinionDesert" type="CharacterBody3D" unique_id=769583604 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_ahkvp")
-nome_inimigo = "Desert minion"
+nome_inimigo = "Servo do Deserto"
 distancia_ataque = 1.7
 raio_visao_construcao = 4.0
 raio_visao_aliados = 3.0

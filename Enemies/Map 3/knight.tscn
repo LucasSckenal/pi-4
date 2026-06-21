@@ -57,6 +57,7 @@ height = 1.890625
 [node name="CharacterBody3D" type="CharacterBody3D" unique_id=2021911921 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0, 0)
 script = ExtResource("1_uor7t")
+nome_inimigo = "Cavaleiro"
 modelo_3d = NodePath(".")
 animation_player = NodePath("Meshy_AI_Violet_Skull_Knight_biped_Meshy_AI_Meshy_Merged_Animations/AnimationPlayer")
 anim_andar = "Running"

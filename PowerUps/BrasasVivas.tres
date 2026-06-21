@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://b7r6c0jhep2bb"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://l5t2satffqpb" path="res://Assets/Icons/Fogo.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "14"
+titulo = "Brasas Vivas"
+descricao = "Queimadura mais intensa e torres mais fortes. Brilha junto com a carta Inflamável."
+icone = ExtResource("2")
+tipo_bonus = 9
+valor_bonus = 3.0
+valor_bonus_2 = 5.0

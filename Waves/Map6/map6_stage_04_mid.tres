@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
 [ext_resource type="PackedScene" uid="uid://v7g5uxby4hkm" path="res://Enemies/Map 6/MidDragon.tscn" id="3_dragon"]
 [ext_resource type="PackedScene" uid="uid://dvhuuy5abjvwr" path="res://Enemies/Map 6/Demon.tscn" id="4_demon"]
-[ext_resource type="Texture2D" uid="uid://bsv20p1jbl5e4" path="res://Icons/VermelinPreview.png" id="icon_demon"]
+[ext_resource type="Texture2D" uid="uid://bsv20p1jbl5e4" path="res://Icons/DemoniozinhoPreview.png" id="icon_demon"]
 [ext_resource type="Texture2D" uid="uid://d2tagr0u6bgce" path="res://Icons/DragaoJovemPreview.png" id="icon_dragon"]
 
 [sub_resource type="Resource" id="Resource_dragon"]
