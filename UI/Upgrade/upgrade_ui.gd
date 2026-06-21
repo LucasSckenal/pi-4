@@ -39,6 +39,10 @@ const ICON_BRILHO  = preload("res://Assets/Icons/Brilho.png")
 var construcao_atual: Node = null
 var _sec_desbloqueios: Control = null
 
+# Preview de alcance: botão na barra + botão grande central para voltar
+var _btn_ver_alcance: Button = null
+var _btn_voltar_alcance: Button = null
+
 func _sb(bg: Color, borda: Color, esp: int, raio: int) -> StyleBoxFlat:
 	var st := StyleBoxFlat.new()
 	st.bg_color = bg
@@ -103,9 +107,56 @@ func _ready():
 		botao_vender.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		botao_vender.custom_minimum_size = Vector2(0, btn_h)
 		botao_vender.add_theme_font_size_override("font_size", btn_fs)
-		botao_vender.add_theme_stylebox_override("normal",  _sb(Color(0.12, 0.52, 0.18), Color(0,0,0,0), 0, 8))
-		botao_vender.add_theme_stylebox_override("hover",   _sb(Color(0.16, 0.68, 0.24), Color(0,0,0,0), 0, 8))
-		botao_vender.add_theme_stylebox_override("pressed", _sb(Color(0.08, 0.38, 0.12), Color(0,0,0,0), 0, 8))
+		# Amarelo (em vez de verde) + ícone de moedas (vender devolve ouro)
+		botao_vender.icon = ICON_MOEDAS
+		botao_vender.add_theme_constant_override("icon_max_width", 28)
+		botao_vender.add_theme_constant_override("h_separation", 8)
+		botao_vender.add_theme_color_override("font_color", Color(0.16, 0.11, 0.02))
+		botao_vender.add_theme_stylebox_override("normal",  _sb(Color(0.86, 0.68, 0.12), Color(0,0,0,0), 0, 8))
+		botao_vender.add_theme_stylebox_override("hover",   _sb(Color(1.0, 0.82, 0.20),  Color(0,0,0,0), 0, 8))
+		botao_vender.add_theme_stylebox_override("pressed", _sb(Color(0.66, 0.50, 0.08), Color(0,0,0,0), 0, 8))
+
+	# ── Botão "Ver alcance": minimiza o menu e mostra o alcance no campo ──
+	_btn_ver_alcance = Button.new()
+	_btn_ver_alcance.text = "Ver alcance"
+	_btn_ver_alcance.icon = ICON_ALVO
+	_btn_ver_alcance.add_theme_constant_override("icon_max_width", 26)
+	_btn_ver_alcance.add_theme_constant_override("h_separation", 8)
+	_btn_ver_alcance.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_btn_ver_alcance.focus_mode = Control.FOCUS_NONE
+	_btn_ver_alcance.custom_minimum_size = Vector2(0, btn_h)
+	_btn_ver_alcance.add_theme_font_size_override("font_size", btn_fs)
+	_btn_ver_alcance.add_theme_color_override("font_color", Color(0.92, 0.95, 1.0))
+	_btn_ver_alcance.add_theme_stylebox_override("normal",  _sb(Color(0.20, 0.36, 0.62), Color(0,0,0,0), 0, 8))
+	_btn_ver_alcance.add_theme_stylebox_override("hover",   _sb(Color(0.28, 0.48, 0.80), Color(0,0,0,0), 0, 8))
+	_btn_ver_alcance.add_theme_stylebox_override("pressed", _sb(Color(0.15, 0.28, 0.50), Color(0,0,0,0), 0, 8))
+	_btn_ver_alcance.pressed.connect(_on_ver_alcance)
+	if botao_fechar and botao_fechar.get_parent():
+		botao_fechar.get_parent().add_child(_btn_ver_alcance)
+		botao_fechar.get_parent().move_child(_btn_ver_alcance, botao_fechar.get_index())
+
+	# ── Botão grande central para voltar ao menu (visível durante o preview) ──
+	_btn_voltar_alcance = Button.new()
+	_btn_voltar_alcance.text = "◀  VOLTAR AO MENU"
+	_btn_voltar_alcance.visible = false
+	_btn_voltar_alcance.process_mode = Node.PROCESS_MODE_ALWAYS
+	_btn_voltar_alcance.focus_mode = Control.FOCUS_NONE
+	_btn_voltar_alcance.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_btn_voltar_alcance.add_theme_font_size_override("font_size", 34 if OS.has_feature("mobile") else 30)
+	_btn_voltar_alcance.add_theme_color_override("font_color", Color(0.10, 0.07, 0.02))
+	_btn_voltar_alcance.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.5))
+	_btn_voltar_alcance.add_theme_constant_override("outline_size", 2)
+	_btn_voltar_alcance.add_theme_stylebox_override("normal",  _sb(Color(1.0, 0.82, 0.20),  Color(0.30, 0.20, 0.0), 3, 12))
+	_btn_voltar_alcance.add_theme_stylebox_override("hover",   _sb(Color(1.0, 0.90, 0.40),  Color(0.30, 0.20, 0.0), 3, 12))
+	_btn_voltar_alcance.add_theme_stylebox_override("pressed", _sb(Color(0.80, 0.64, 0.12), Color(0.30, 0.20, 0.0), 3, 12))
+	_btn_voltar_alcance.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	_btn_voltar_alcance.custom_minimum_size = Vector2(360, 84)
+	_btn_voltar_alcance.offset_left   = -180
+	_btn_voltar_alcance.offset_right  = 180
+	_btn_voltar_alcance.offset_top    = -150
+	_btn_voltar_alcance.offset_bottom = -66
+	_btn_voltar_alcance.pressed.connect(_on_voltar_alcance)
+	add_child(_btn_voltar_alcance)
 
 func set_cena_opcao_button(cena: PackedScene):
 	if cena != null:
@@ -120,6 +171,9 @@ func abrir(construcao: Node):
 
 	construcao_atual = construcao
 	show()
+	# Restaura visibilidade caso um preview de alcance tenha ficado aberto
+	painel_principal.visible = true
+	fundo_escuro.visible = true
 	painel_principal.scale = Vector2.ONE
 
 	# Título do header: "MELHORAR TORRE" etc.
@@ -137,6 +191,12 @@ func abrir(construcao: Node):
 		var valor: int = construcao_atual.get_valor_venda() if construcao_atual.has_method("get_valor_venda") \
 			else (int(float(construcao_atual.get("custo_moedas")) / 2.0) if "custo_moedas" in construcao_atual else 0)
 		botao_vender.text = "VENDER (+" + str(valor) + ")"
+
+	# "Ver alcance" só faz sentido para torres (que têm indicador de alcance)
+	if _btn_ver_alcance:
+		_btn_ver_alcance.visible = (construcao_atual.get("tipo") == 0)
+	if _btn_voltar_alcance:
+		_btn_voltar_alcance.visible = false
 
 	atualizar_status_atuais()
 	atualizar_opcoes()
@@ -338,6 +398,22 @@ func _on_opcao_escolhida(index: int):
 			SFXManager.tocar_erro_compra()
 			atualizar_opcoes()
 
+# Minimiza o menu + esconde o overlay para revelar o alcance da torre no campo
+func _on_ver_alcance() -> void:
+	painel_principal.visible = false
+	fundo_escuro.visible = false
+	if is_instance_valid(construcao_atual) and construcao_atual.has_method("set_indicador_alcance_visivel"):
+		construcao_atual.set_indicador_alcance_visivel(true)
+	if _btn_voltar_alcance:
+		_btn_voltar_alcance.visible = true
+
+# Volta para o menu de melhoria
+func _on_voltar_alcance() -> void:
+	if _btn_voltar_alcance:
+		_btn_voltar_alcance.visible = false
+	fundo_escuro.visible = true
+	painel_principal.visible = true
+
 func _on_botao_vender_pressed():
 	if construcao_atual and construcao_atual.has_method("vender_construcao"):
 		construcao_atual.vender_construcao()
@@ -355,6 +431,8 @@ func _input(event: InputEvent) -> void:
 			fechar()
 
 func fechar():
+	if _btn_voltar_alcance:
+		_btn_voltar_alcance.visible = false
 	var tw = create_tween().set_parallel(true)
 	tw.tween_property(fundo_escuro, "modulate:a", 0.0, 0.1)
 	tw.tween_property(painel_principal, "scale", Vector2(0.5, 0.5), 0.1)

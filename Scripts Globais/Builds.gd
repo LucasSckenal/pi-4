@@ -2108,7 +2108,12 @@ func _on_area_transparencia_body_exited(body):
 func esconder_indicador():
 	if indicador_alcance:
 		indicador_alcance.visible = false
-		
+
+# Liga/desliga o anel de alcance desta torre (usado pelo botão-olho do HUD e pelo preview).
+func set_indicador_alcance_visivel(v: bool) -> void:
+	if tipo == TipoConstrucao.TORRE and indicador_alcance and not GameManager.is_night:
+		indicador_alcance.visible = v
+	
 # ==========================================
 # LUZ INTERNA À NOITE
 # ==========================================

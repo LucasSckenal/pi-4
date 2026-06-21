@@ -9,6 +9,7 @@ const _ScriptPainelConselheiro = preload("res://UI/HUD/painel_conselheiro.gd")
 const _CenaMenuPausa = preload("res://UI/Menus/menu_pausa.tscn")
 const _ICON_CORACAO = preload("res://Assets/Icons/Coracao.png")
 const _ICON_MOEDAS  = preload("res://Assets/Icons/Moedas.png")
+const _ICON_ALVO    = preload("res://Assets/Icons/Alvo.png")
 
 # Texturas activas — trocadas por _kit_textura() em aplicar_tema_hud()
 var _tex_bau_fechado: Texture2D = preload("res://Assets/UI/BauFechado.png")
@@ -17,6 +18,8 @@ var _tex_botao_menu:  Texture2D = preload("res://Assets/UI/BotaoMenu.png")
 
 var _menu_pausa_inst = null
 var _btn_pausa: Button = null   # ref guardada para troca de ícone temático
+var _btn_alcance: Button = null      # botão-olho (canto inferior esquerdo) para ver alcance das torres
+var _alcance_global_ativo: bool = false
 
 # ==========================================
 # REFERÊNCIAS DA INTERFACE PRINCIPAL
@@ -210,6 +213,8 @@ func _ready():
 		GameManager.dia_iniciado.connect(_ao_iniciar_dia_hud)
 	if GameManager.has_signal("noite_iniciada"):
 		GameManager.noite_iniciada.connect(_ao_iniciar_noite_hud)
+
+	_criar_botao_alcance()
 	if GameManager.has_signal("renda_recolhida"):
 		GameManager.renda_recolhida.connect(_mostrar_moedas_flutuante)
 	if Global.has_signal("progresso_salvo"):
@@ -294,6 +299,9 @@ func _conectar_construcao(construcao: Node):
 		construcao.connect("construcao_selecionada", _on_construcao_selecionada)
 		if Global.DEBUG_MODE:
 			print("HUD conectada à construção: ", construcao.name)
+	# Torre nova construída com o modo "ver alcance" ligado já nasce com o anel visível
+	if _alcance_global_ativo and construcao.has_method("set_indicador_alcance_visivel"):
+		construcao.call_deferred("set_indicador_alcance_visivel", true)
 
 func _on_construcao_selecionada(construcao):
 	if Global.DEBUG_MODE:
@@ -313,6 +321,10 @@ func _on_upgrade_ui_fechado():
 		if torre_atual.has_method("esconder_indicador"):
 			torre_atual.esconder_indicador()
 		torre_atual = null # Limpa a memória para o próximo clique
+
+	# Se o modo "ver alcance" global estiver ligado, religa os anéis de todas as torres
+	if _alcance_global_ativo:
+		get_tree().call_group("Torres", "set_indicador_alcance_visivel", true)
 
 	get_tree().paused = false
 
@@ -661,6 +673,85 @@ func _calcular_posicao_borda(posicao_mundo: Vector3, tamanho: Vector2) -> Vector
 
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
 # Atualiza os rótulos de texto, inicia a transição visual e exibe os controles de preparação
+# ==========================================
+# BOTÃO-OLHO: VER ALCANCE DAS TORRES (canto inferior esquerdo, só de dia)
+# ==========================================
+func _criar_botao_alcance() -> void:
+	var pai := get_node_or_null("InterfacePrincipal")
+	if pai == null:
+		return
+	var mob := OS.has_feature("mobile")
+	_btn_alcance = Button.new()
+	_btn_alcance.name = "BotaoAlcance"
+	_btn_alcance.icon = _ICON_ALVO
+	_btn_alcance.text = "ALCANCE"
+	_btn_alcance.tooltip_text = "Mostrar/esconder o alcance das torres"
+	_btn_alcance.focus_mode = Control.FOCUS_NONE
+	_btn_alcance.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_btn_alcance.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_btn_alcance.add_theme_constant_override("icon_max_width", 38 if mob else 32)
+	_btn_alcance.add_theme_constant_override("h_separation", 10)
+	_btn_alcance.add_theme_font_size_override("font_size", 28 if mob else 23)
+	_btn_alcance.add_theme_color_override("font_color", Color(1, 1, 1))
+	_btn_alcance.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	_btn_alcance.add_theme_constant_override("outline_size", 5)
+	var bw := 232 if mob else 196
+	var bh := 78 if mob else 60
+	_btn_alcance.custom_minimum_size = Vector2(bw, bh)
+	# Canto inferior esquerdo, ACIMA da placa "AJUDA" (que ocupa ~y[-126,-12])
+	_btn_alcance.anchor_left = 0.0
+	_btn_alcance.anchor_right = 0.0
+	_btn_alcance.anchor_top = 1.0
+	_btn_alcance.anchor_bottom = 1.0
+	_btn_alcance.offset_left = 14
+	_btn_alcance.offset_right = 14 + bw
+	_btn_alcance.offset_bottom = -138
+	_btn_alcance.offset_top = -138 - bh
+	_btn_alcance.pivot_offset = Vector2(bw, bh) / 2.0
+	_btn_alcance.pressed.connect(_on_botao_alcance_pressed)
+	# Leve animação de hover (igual aos outros botões)
+	_btn_alcance.mouse_entered.connect(func():
+		create_tween().tween_property(_btn_alcance, "scale", Vector2(1.05, 1.05), 0.1).set_trans(Tween.TRANS_SINE))
+	_btn_alcance.mouse_exited.connect(func():
+		create_tween().tween_property(_btn_alcance, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE))
+	pai.add_child(_btn_alcance)
+	_atualizar_visual_botao_alcance()
+	_btn_alcance.visible = not GameManager.is_night
+
+func _on_botao_alcance_pressed() -> void:
+	_alcance_global_ativo = not _alcance_global_ativo
+	get_tree().call_group("Torres", "set_indicador_alcance_visivel", _alcance_global_ativo)
+	_atualizar_visual_botao_alcance()
+
+func _atualizar_visual_botao_alcance() -> void:
+	if _btn_alcance == null:
+		return
+	var ativo := _alcance_global_ativo
+	# Ligado: verde brilhante. Desligado: madeira escura com borda dourada (tema do jogo).
+	var bg    := Color(0.13, 0.45, 0.24, 0.97) if ativo else Color(0.17, 0.11, 0.05, 0.95)
+	var bg_h  := Color(0.18, 0.58, 0.30, 0.98) if ativo else Color(0.26, 0.18, 0.08, 0.97)
+	var borda := Color(0.40, 0.95, 0.55)       if ativo else Color(0.72, 0.55, 0.22)
+	_btn_alcance.add_theme_stylebox_override("normal",  _sb_botao_alcance(bg, borda))
+	_btn_alcance.add_theme_stylebox_override("hover",   _sb_botao_alcance(bg_h, borda))
+	_btn_alcance.add_theme_stylebox_override("pressed", _sb_botao_alcance(bg_h, borda))
+	# Ícone fica esverdeado quando ligado, dourado quando desligado
+	_btn_alcance.add_theme_color_override("icon_normal_color", Color(0.75, 1.0, 0.80) if ativo else Color(1.0, 0.88, 0.55))
+
+func _sb_botao_alcance(bg: Color, borda: Color) -> StyleBoxFlat:
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.border_color = borda
+	st.set_border_width_all(3)
+	st.set_corner_radius_all(13)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	st.shadow_color = Color(0, 0, 0, 0.45)
+	st.shadow_size = 6
+	st.shadow_offset = Vector2(0, 3)
+	return st
+
 func _ao_iniciar_dia_hud(onda: int) -> void:
 	label_onda.text = _formatar_texto_onda(onda)
 	label_turno.text = "DIA"
@@ -671,6 +762,8 @@ func _ao_iniciar_dia_hud(onda: int) -> void:
 		container_direcoes.show()
 	if margin_direita and not menu_upgrade.visible:
 		margin_direita.show()
+	if _btn_alcance:
+		_btn_alcance.show()
 	_atualizar_renda_preview()
 
 # Atualiza os rótulos de texto, inicia a transição visual e oculta os controles de preparação
@@ -683,6 +776,12 @@ func _ao_iniciar_noite_hud(onda: int) -> void:
 		container_direcoes.hide()
 	if margin_direita:
 		margin_direita.hide()
+	# Esconde o botão-olho e apaga todos os anéis de alcance ao começar a noite
+	if _btn_alcance:
+		_btn_alcance.hide()
+	_alcance_global_ativo = false
+	get_tree().call_group("Torres", "set_indicador_alcance_visivel", false)
+	_atualizar_visual_botao_alcance()
 	_atualizar_renda_preview()
 
 # Executa a animação de rotação e distorção ("smear") da ampulheta.

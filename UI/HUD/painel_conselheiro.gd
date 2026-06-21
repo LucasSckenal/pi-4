@@ -45,10 +45,16 @@ func _ready():
 
 	_criar_ui()
 
-	GameManager.dia_iniciado.connect(func(_n):  call_deferred("_verificar_urgencia"))
+	GameManager.dia_iniciado.connect(func(_n):
+		if is_instance_valid(_btn_toggle): _btn_toggle.show()
+		call_deferred("_verificar_urgencia"))
 	GameManager.onda_terminada.connect(func():  call_deferred("_verificar_urgencia"))
 	GameManager.noite_iniciada.connect(func(_n): _ao_iniciar_noite())
 	GameManager.upgrade_aplicado.connect(func(): call_deferred("_verificar_urgencia"))
+
+	# Estado inicial: o botão de ajuda só existe de dia (fase de preparação)
+	if GameManager.is_night and is_instance_valid(_btn_toggle):
+		_btn_toggle.hide()
 
 # ==========================================
 # CRIAÇÃO DA UI
@@ -430,6 +436,8 @@ func _ao_iniciar_noite():
 	_style_btn.border_color = COR_NENHUMA
 	_btn_toggle.text = ""
 	_btn_toggle.add_theme_color_override("font_color", Color.WHITE)
+	# Esconde o botão de ajuda durante a noite (fase de combate)
+	_btn_toggle.hide()
 
 # ==========================================
 # ANIMAÇÃO DA BERTA NO RETRATO
