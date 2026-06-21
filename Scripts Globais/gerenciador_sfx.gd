@@ -14,6 +14,8 @@ extends Node
 @onready var player_reroll = $PlayerReroll
 @onready var player_defeat = $PlayerDefeat
 @onready var enemy_hit = $EnemyHit
+@onready var enemy_dead = $EnemyDead
+@onready var player_destruicao = $PlayerDestruicao
 
 # Som de virar página (bestiário). Carregado sob demanda: enquanto o arquivo não
 # existir, simplesmente não toca (sem erro). Basta soltar pagina.wav/.mp3 em Audio/Sons.
@@ -62,6 +64,7 @@ func _conectar_sinais_do_botao(botao: BaseButton):
 
 # --- VARIÁVEIS DE CONTROLE (O COOLDOWN) ---
 var tempo_ultimo_hit = 0
+var tempo_ultima_death = 0
 
 # --- FUNÇÕES DOS INIMIGOS ---
 func tocar_som_hit():
@@ -69,6 +72,16 @@ func tocar_som_hit():
 	if tempo_atual - tempo_ultimo_hit > 50:
 		player_hit.play()
 		tempo_ultimo_hit = tempo_atual
+
+func tocar_som_dead():
+	var tempo_atual = Time.get_ticks_msec()
+	if tempo_atual - tempo_ultima_death > 50:
+		enemy_dead.play()
+		tempo_ultima_death = tempo_atual
+
+func tocar_enemy_hit():
+	enemy_hit.play()
+
 
 # --- FUNÇÕES DA INTERFACE (UI) ---
 func tocar_ui_hover():
@@ -88,6 +101,9 @@ func tocar_erro_compra():
 func tocar_construcao():
 	player_construcao.play()
 
+func tocar_destruicao():
+	player_destruicao.play()
+
 func tocar_vitoria():
 	player_vitoria.play()
 
@@ -106,8 +122,7 @@ func tocar_reroll():
 func tocar_defeat():
 	player_defeat.play()
 
-func tocar_enemy_hit():
-	enemy_hit.play()
+
 
 # Som de virar página (bestiário). Lazy: toca só se o arquivo existir.
 func tocar_som_pagina():

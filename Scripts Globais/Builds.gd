@@ -370,6 +370,10 @@ func _ready():
 			
 	_registrar_escalas_base(self)
 	
+	if not is_fantasma:
+		_animar_transicao_visual(true, 0.4)
+
+
 # ==========================================
 # TRAVA CENTRAL DO TUTORIAL
 # ==========================================
@@ -986,15 +990,20 @@ func _trocar_modelo(nivel: int):
 				corpo.mouse_entered.connect(_on_area_clique_mouse_entered)
 			if not corpo.mouse_exited.is_connected(_on_area_clique_mouse_exited):
 				corpo.mouse_exited.connect(_on_area_clique_mouse_exited)
-		
+			
 		# Esconde as malhas da torre base para evitar sobreposição
 		_esconder_malhas_originais(self)
 		
 		# Aplica a borda de interatividade no novo modelo instanciado, caso esteja de dia
 		if not GameManager.is_night and not is_fantasma:
 			_atualizar_segundo_next_pass(modelo, true)
+			
+		if not is_fantasma:
+			_animar_transicao_visual(true, 0.4)
 	else:
 		push_warning(name + ": Nenhum modelo configurado para o nível " + str(nivel))
+	
+
 
 # Nova função para ocultar o modelo 3D original que veio do .glb
 func _esconder_malhas_originais(no: Node):
@@ -1840,10 +1849,13 @@ func destruir():
 	esta_destruida = true
 	if is_instance_valid(_indicador_upgrade):
 		_indicador_upgrade.visible = false
-	visible = false 
+	
+	_animar_transicao_visual(false, 0.3)
 	
 	# Remove do grupo para os Orcs pararem de focar nela
 	remove_from_group("Construcao")
+	
+	SFXManager.tocar_destruicao()
 	
 	# Desconectar sinais para evitar chamadas após destruição
 	if tipo in [TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO, TipoConstrucao.CALDEIRON]:
@@ -1861,6 +1873,11 @@ func destruir():
 		
 	if not GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.connect(reviver)
+	
+	# Aguarda o tempo exato da animação (0.3s) e esconde o nó raiz
+	await get_tree().create_timer(0.3).timeout
+	if esta_destruida:
+		visible = false
 
 func _aplicar_espinho() -> void:
 	var inimigos = get_tree().get_nodes_in_group("inimigos")
@@ -1873,7 +1890,7 @@ func reviver():
 	if Global.DEBUG_MODE:
 		print("%s reconstruída!" % name)
 	esta_destruida = false
-	visible = true
+	_animar_transicao_visual(true, 0.4)
 	vida_atual = vida_maxima
 	# Cancela qualquer tween de dano que tenha ficado pendente e garante
 	# que a construção volta à altura correta (evita o bug de underground).
@@ -2137,3 +2154,30 @@ func _set_transparencia(no: Node, valor: float):
 		if filho.name == "CirculoVeneno": continue
 		if filho.name == "BarraVidaShader": continue
 		_set_transparencia(filho, valor)
+
+# Executa a animação visual de transição de escala ao construir ou destruir.
+func _animar_transicao_visual(surgir: bool, tempo: float = 0.35) -> void:
+	var visuais = []
+	
+	if is_instance_valid(modelo_anchor) and modelo_anchor.get_child_count() > 0:
+		visuais.append({"no": modelo_anchor, "escala": Vector3.ONE})
+	else:
+		for malha in _escalas_base_malhas.keys():
+			if is_instance_valid(malha):
+				visuais.append({"no": malha, "escala": _escalas_base_malhas[malha]})
+
+	for item in visuais:
+		var no = item["no"]
+		var esc = item["escala"]
+		
+		if surgir:
+			no.scale = Vector3(0.0001, 0.0001, 0.0001)
+			no.visible = true
+			var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(no, "scale", esc, tempo)
+		else:
+			var tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_BACK)
+			tween.tween_property(no, "scale", Vector3.ZERO, tempo)
+			tween.tween_callback(no.hide)
+			tween.tween_callback(func(): no.scale = esc)
+			

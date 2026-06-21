@@ -213,7 +213,7 @@ status_vida = "ALTA"
 [node name="Root Scene" parent="." unique_id=266215608 instance=ExtResource("1_lg3hq")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(266215608, 1550357860) index="0" unique_id=1018580850]
+[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(266215608, 614155196) index="0" unique_id=1810396472]
 bones/1/position = Vector3(3.1971842e-05, 0.0143151535, -0.0011103946)
 bones/1/rotation = Quaternion(-0.014627179, -0.00093779224, 0.0032875575, 0.99988717)
 bones/2/rotation = Quaternion(0.23638545, 0.00018450986, -0.003413518, 0.97165334)
@@ -227,19 +227,19 @@ bones/10/rotation = Quaternion(0.075742684, 0.0022281504, -0.036572848, 0.996454
 bones/12/position = Vector3(3.197184e-05, 0.014346371, -0.001112804)
 bones/12/rotation = Quaternion(0.9996173, -0.012635804, -0.008294479, -0.023170263)
 
-[node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=1468494532]
+[node name="Head" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=1404803624]
 transform = Transform3D(0.99999976, 1.1929728e-08, -0.0005504965, 5.1851413e-05, -0.9955561, 0.09416857, -0.00054804963, -0.094168514, -0.99555606, -6.3837488e-06, -0.0007217269, 0.022193491)
 
-[node name="Wing4_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=334995849]
+[node name="Wing4_L" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=2134201513]
 transform = Transform3D(0.47771448, 0.8372923, -0.2659533, -0.8763812, 0.47527933, -0.077881545, 0.061192237, 0.27028167, 0.9608351, 0.016462628, 0.011334168, 0.024317529)
 
-[node name="Wing4_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=667913854]
+[node name="Wing4_R" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=753332971]
 transform = Transform3D(0.47771463, -0.8372918, 0.265953, 0.8763812, 0.47527912, -0.077881604, -0.06119226, 0.2702815, 0.96083486, -0.016462624, 0.011334168, 0.024317525)
 
-[node name="Body1" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=1556075872]
+[node name="Body1" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=1502722600]
 transform = Transform3D(0.99954796, -0.025646327, -0.015997795, 0.01716872, 0.04611328, 0.998805, -0.024877682, -0.99860686, 0.04653328, 1.8856615e-05, 0.001113949, 0.014322217)
 
-[node name="Dragon_Fly" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=1984032038]
+[node name="Dragon_Fly" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="4" unique_id=107984629]
 mesh = SubResource("ArrayMesh_bbtkx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=102675702]

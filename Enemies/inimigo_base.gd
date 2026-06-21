@@ -641,6 +641,8 @@ func invocar_minions():
 func morrer():
 	esta_morto = true
 	velocity = Vector3.ZERO
+	SFXManager.tocar_som_dead()
+	
 	if nav_agent:
 		nav_agent.set_velocity(Vector3.ZERO)
 	remove_from_group("inimigos")
