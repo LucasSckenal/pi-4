@@ -145,7 +145,7 @@ const INIMIGOS: Array = [
 	 "avistamento": "Vazio entre estrelas"},
 
 	# ---------------- Mapa 6 — O Covil do Dragão ----------------
-	{"nome": "Demoniozinho", "mapa": 6, "categoria": "Comum", "icone": "res://Icons/FireGolemPreview.png",
+	{"nome": "Demoniozinho", "mapa": 6, "categoria": "Comum", "icone": "res://Icons/DemoniozinhoPreview.png",
 	 "lore": "Capeta de bolso que voa direto pra base soltando fumacinha. Pequeno, mas atrevido.",
 	 "comportamento": "Voa em linha reta, ignorando o chão.",
 	 "fraqueza": "Defesas antiaéreas.",

@@ -243,6 +243,7 @@ var y_inicial: float
 var is_fantasma: bool = false
 var _caldeiron_timer: float = 0.0
 var _inimigos_no_veneno: Array = []  # Inimigos dentro do círculo de veneno
+var _raio_circulo_veneno: float = -1.0  # Raio atual do círculo do caldeirão-torre (p/ recriar só quando muda)
 var vida_atual: int
 var inimigos_no_alcance = []
 
@@ -318,7 +319,7 @@ func _ready():
 			if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
 				var _p = upgrade_paths[caminho_atual]
 				if "tipo_ataque" in _p and _p.tipo_ataque == "caldeiron_area":
-					_criar_circulo_caldeiron(alcance_atual * 0.85)
+					_criar_circulo_caldeiron(alcance_atual)
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			add_to_group("Construcao")
 			GameManager.onda_terminada.connect(_pagar_recompensa)
@@ -929,7 +930,7 @@ func aplicar_upgrade(index: int = 0) -> bool:
 			if tipo == TipoConstrucao.TORRE:
 				_configurar_alcance()
 				if "tipo_ataque" in path and path.tipo_ataque == "caldeiron_area":
-					_criar_circulo_caldeiron(alcance_atual * 0.85)
+					_criar_circulo_caldeiron(alcance_atual)
 				atualizar_status()
 				# Bestiário: descobre o ramo da torre (Morteiro, Sniper, Fogo, Tesla...)
 				if path != null and "nome" in path:
@@ -1183,6 +1184,23 @@ func _configurar_alcance():
 	# 3. FAZ O ANEL APARECER NO TAMANHO CERTO
 	if indicador_alcance:
 		indicador_alcance.scale = Vector3(alcance_efetivo * 2, 1, alcance_efetivo * 2)
+
+	# 4. CALDEIRÃO-TORRE: o círculo de veneno acompanha o alcance (carta de alcance, upgrades)
+	#    Recria só quando o raio realmente muda (evita refazer partículas toda hora).
+	if _eh_caldeiron_area() and not is_equal_approx(_raio_circulo_veneno, alcance_efetivo):
+		_raio_circulo_veneno = alcance_efetivo
+		var velho := get_node_or_null("CirculoVeneno")
+		if velho:
+			velho.name = "_CirculoVenenoAntigo"  # libera o nome para o novo círculo
+			velho.queue_free()
+		_criar_circulo_caldeiron(alcance_efetivo)
+
+# True se esta torre foi melhorada para o caminho do caldeirão (dano em área de veneno).
+func _eh_caldeiron_area() -> bool:
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var p = upgrade_paths[caminho_atual]
+		return p != null and "tipo_ataque" in p and p.tipo_ataque == "caldeiron_area"
+	return false
 
 # ==========================================
 # SISTEMA DE ATAQUE (TORRE)

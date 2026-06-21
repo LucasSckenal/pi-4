@@ -119,7 +119,7 @@ const _ICONES: Dictionary = {
 	"Cosmic Kraken":             "res://Icons/AlienPreview.png",
 	"Tentáculo":                 "res://Icons/VermelinPreview.png",
 	# Mapa 6
-	"Demoniozinho":              "res://Icons/FireGolemPreview.png",
+	"Demoniozinho":              "res://Icons/DemoniozinhoPreview.png",
 	"Dragao Inicial":            "res://Icons/DragaoBebePreview.png",
 	"Dragao Evoluido":           "res://Icons/DragaoJovemPreview.png",
 	"Dragao Final":              "res://Icons/DragaoAdultoPreview.png",
