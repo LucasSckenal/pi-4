@@ -51,6 +51,7 @@ var armadura_kakashi_desbloqueada: bool = false
 var usando_set_kakashi: bool = false
 
 var inimigos_descobertos: Array = []
+var cartas_obtidas: Array = []   # ids das cartas que o jogador já pegou em batalha
 var total_ondas_completadas: int = 0
 
 # --- ESTATÍSTICAS (persistentes) ---
@@ -137,6 +138,7 @@ func salvar_progresso():
 	config.set_value("progresso", "estrelas_por_fase", estrelas_por_fase)
 	config.set_value("progresso", "cutscenes_vistas", cutscenes_vistas)
 	config.set_value("progresso", "inimigos", inimigos_descobertos)
+	config.set_value("progresso", "cartas_obtidas", cartas_obtidas)
 	config.set_value("progresso", "conquistas", conquistas_desbloqueadas)
 	config.set_value("progresso", "total_ondas_completadas", total_ondas_completadas)
 	config.set_value("estatisticas", "inimigos_mortos", total_inimigos_mortos)
@@ -183,6 +185,7 @@ func carregar_progresso():
 	cutscenes_vistas = config.get_value("progresso", "cutscenes_vistas", [])
 
 	inimigos_descobertos         = config.get_value("progresso", "inimigos", [])
+	cartas_obtidas               = config.get_value("progresso", "cartas_obtidas", [])
 	conquistas_desbloqueadas     = config.get_value("progresso", "conquistas", [])
 	total_ondas_completadas      = config.get_value("progresso", "total_ondas_completadas", 0)
 	total_inimigos_mortos        = config.get_value("estatisticas", "inimigos_mortos", 0)
@@ -227,6 +230,7 @@ func resetar_tudo():
 	armas_desbloqueadas = ["arma_katana"]
 	chapeus_desbloqueados = ["Nenhum"]
 	inimigos_descobertos = []
+	cartas_obtidas = []
 	total_ondas_completadas = 0
 	total_inimigos_mortos = 0
 	melhor_onda_infinito = 0

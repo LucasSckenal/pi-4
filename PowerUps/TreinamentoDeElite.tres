@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova33"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ckv2jlinsllix" path="res://Assets/Icons/Escudo.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "33"
+titulo = "Treinamento de Elite"
+descricao = "Seus soldados batem muito mais forte."
+icone = ExtResource("2")
+tipo_bonus = 21
+valor_bonus = 15.0

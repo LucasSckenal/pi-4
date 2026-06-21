@@ -12,6 +12,8 @@ const _ICON_CASTELO   = preload("res://Assets/Icons/Castelo.png")
 const _ICON_CRANIO    = preload("res://Assets/Icons/Cranio.png")
 const _ICON_GUINDASTE = preload("res://Assets/Icons/Guindaste.png")
 const _ICON_CADEADO   = preload("res://Assets/Icons/cadeado.png")
+const _FLECHA_BASE    = preload("res://Cenas Locais/flecha.tscn")  # BASE_ATIRADORA
+var _base_ataque_acum: float = 0.0  # acumulador de cadência do ataque da base
 
 # ==========================================
 # ENUM PARA O TIPO DE CONSTRUÇÃO
@@ -288,6 +290,9 @@ func _ready():
 
 	_aplicar_balanceamento_csv()
 	_atualizar_valores_pos_upgrades()
+	# VIDA_TORRES: torres construídas com a carta ativa já nascem mais resistentes
+	if tipo == TipoConstrucao.TORRE and GameManager.bonus_vida_torre > 0:
+		vida_maxima += GameManager.bonus_vida_torre
 	vida_atual = vida_maxima
 	_inicializar_barra_vida()
 	if tipo == TipoConstrucao.BASE:
@@ -1119,6 +1124,16 @@ func _aplicar_bonus_vida(delta: int):
 		barra_vida.value = vida_atual
 	_atualizar_barra_3d()
 
+# VIDA_TORRES: aplica vida extra às torres já construídas
+func _bonus_vida_torre(delta: int):
+	if tipo != TipoConstrucao.TORRE or esta_destruida: return
+	vida_maxima = max(1, vida_maxima + delta)
+	vida_atual  = clamp(vida_atual + max(0, delta), 1, vida_maxima)
+	if tem_barra_vida and barra_vida:
+		barra_vida.max_value = vida_maxima
+		barra_vida.value = vida_atual
+	_atualizar_barra_3d()
+
 func _configurar_alcance():
 	var alcance_efetivo = alcance_atual + GameManager.bonus_alcance
 	if area_ataque and area_ataque.has_node("CollisionShape3D"):
@@ -1162,6 +1177,14 @@ func _process(delta):
 		if _timer_indicador <= 0.0:
 			_timer_indicador = 0.5
 			_atualizar_indicador_upgrade()
+
+	# BASE_ATIRADORA: a base ataca como uma torre durante a noite
+	if tipo == TipoConstrucao.BASE and GameManager.base_atira and not esta_destruida and GameManager.is_night:
+		_base_ataque_acum += delta
+		var intervalo_base: float = Balanceamento.get_float("torre_padrao_tempo_ataque", 1.5)
+		if _base_ataque_acum >= intervalo_base:
+			_base_ataque_acum = 0.0
+			_base_atacar()
 
 	# Caldeirão — ataque em área periódico durante a noite
 	if tipo == TipoConstrucao.CALDEIRON and not is_fantasma and not esta_destruida:
@@ -1737,7 +1760,9 @@ func _spawn_aliados(_onda_atual):
 		return
 		
 	# Trava de segurança: só spawna o que falta para completar o limite
-	var quantidade_para_spawnar = numero_aliados_atual - soldados_vivos
+	# MAIS_SOLDADOS: soma o bônus global de soldados ao limite
+	var limite_aliados := numero_aliados_atual + GameManager.bonus_soldados
+	var quantidade_para_spawnar = limite_aliados - soldados_vivos
 	if quantidade_para_spawnar <= 0:
 		return
 		
@@ -1795,14 +1820,14 @@ func _on_aliado_morreu(_aliado_morto: Node):
 	await get_tree().create_timer(tempo_respawn).timeout
 	
 	# 3. VERIFICA SE A CONSTRUÇÃO AINDA EXISTE E NÃO ESTÁ DESTRUÍDA
-	if not is_instance_valid(self) or esta_destruida or soldados_vivos >= numero_aliados_atual:
+	if not is_instance_valid(self) or esta_destruida or soldados_vivos >= numero_aliados_atual + GameManager.bonus_soldados:
 		return
-	
+
 	# 4. CRIA O NOVO SOLDADO
 	_criar_um_aliado()
-	
+
 	# 5. ESCONDE A BARRA (Apenas se o quartel estiver com todos os soldados vivos novamente)
-	if sprite_respawn and soldados_vivos >= numero_aliados_atual:
+	if sprite_respawn and soldados_vivos >= numero_aliados_atual + GameManager.bonus_soldados:
 		sprite_respawn.visible = false
 
 # ==========================================
@@ -1838,10 +1863,13 @@ func destruir():
 		return
 
 	esta_destruida = true
+	# EXPLOSAO_CONSTRUCAO: ao ser destruída, fere os inimigos por perto
+	if GameManager.dano_explosao_construcao > 0:
+		_explodir_ao_destruir()
 	if is_instance_valid(_indicador_upgrade):
 		_indicador_upgrade.visible = false
-	visible = false 
-	
+	visible = false
+
 	# Remove do grupo para os Orcs pararem de focar nela
 	remove_from_group("Construcao")
 	
@@ -1861,6 +1889,74 @@ func destruir():
 		
 	if not GameManager.onda_terminada.is_connected(reviver):
 		GameManager.onda_terminada.connect(reviver)
+
+# BASE_ATIRADORA: a base dispara uma flecha no inimigo mais próximo (stats da torre básica)
+func _base_atacar() -> void:
+	var alvo := _base_alvo_mais_proximo()
+	if alvo == null:
+		return
+	var flecha = _FLECHA_BASE.instantiate()
+	get_tree().root.add_child(flecha)
+	flecha.global_position = global_position + Vector3(0, 1.5, 0)
+	flecha.dano = max(1, Balanceamento.get_int("torre_padrao_dano", 28) + GameManager.bonus_dano)
+	flecha.alvo = alvo
+
+func _base_alvo_mais_proximo() -> Node3D:
+	var raio := 6.5
+	var melhor: Node3D = null
+	var melhor_d := raio
+	for inimigo in get_tree().get_nodes_in_group("inimigos"):
+		if not is_instance_valid(inimigo) or inimigo.get("esta_morto"):
+			continue
+		var d: float = global_position.distance_to(inimigo.global_position)
+		if d <= melhor_d:
+			melhor_d = d
+			melhor = inimigo
+	return melhor
+
+func _explodir_ao_destruir() -> void:
+	# Dano em área aos inimigos por perto + efeito visual
+	var raio := 4.0
+	for inimigo in get_tree().get_nodes_in_group("inimigos"):
+		if is_instance_valid(inimigo) and global_position.distance_to(inimigo.global_position) <= raio:
+			if inimigo.has_method("receber_dano"):
+				inimigo.receber_dano(GameManager.dano_explosao_construcao, "fogo")
+	_efeito_visual_explosao()
+
+func _efeito_visual_explosao() -> void:
+	var pai = get_parent()
+	if not is_instance_valid(pai):
+		return
+	var p := CPUParticles3D.new()
+	var m := SphereMesh.new()
+	m.radius = 0.12
+	m.height = 0.24
+	m.radial_segments = 6
+	m.rings = 3
+	p.mesh = m
+	var mat := StandardMaterial3D.new()
+	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mat.albedo_color = Color(1.0, 0.55, 0.15)
+	p.material_override = mat
+	p.local_coords = true
+	p.emitting = false
+	p.one_shot = true
+	p.amount = 22
+	p.lifetime = 0.6
+	p.explosiveness = 1.0
+	p.spread = 90.0
+	p.gravity = Vector3(0, -4, 0)
+	p.initial_velocity_min = 3.0
+	p.initial_velocity_max = 6.5
+	p.scale_amount_min = 0.8
+	p.scale_amount_max = 1.7
+	pai.add_child(p)
+	p.global_position = global_position + Vector3(0, 0.4, 0)
+	p.restart()
+	p.emitting = true
+	var tw := p.create_tween()
+	tw.tween_interval(p.lifetime + 0.3)
+	tw.tween_callback(p.queue_free)
 
 func _aplicar_espinho() -> void:
 	var inimigos = get_tree().get_nodes_in_group("inimigos")

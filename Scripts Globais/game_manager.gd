@@ -152,6 +152,22 @@ var bonus_ricochete: int = 0
 var dano_inflamavel: int = 0
 var bonus_espinho: int = 0
 var bonus_dano_chefe: int = 0
+var moedas_por_abate: int = 0   # OURO_ABATE: ganho de moedas a cada inimigo morto
+var dano_explosao_construcao: int = 0   # EXPLOSAO_CONSTRUCAO: dano em área quando uma construção é destruída
+var mult_renda_construcao: float = 1.0  # RENDA_CONSTRUCAO: multiplicador da renda das construções
+var chance_critico: float = 0.0         # CRITICO: chance (0..1) da flecha causar dano dobrado
+var bonus_dano_aereo: int = 0           # DANO_AEREO: dano extra contra inimigos voadores
+var bonus_execucao: int = 0             # EXECUCAO: dano extra contra inimigos com pouca vida
+var dano_explosao_inimigo: int = 0      # EXPLOSAO_INIMIGO: dano em área quando um inimigo morre
+var bonus_dano_soldado: int = 0         # SOLDADO_FORTE: dano extra dos soldados
+var dano_veneno: int = 0                # VENENO: dano por tick de veneno das flechas
+var bonus_vida_torre: int = 0           # VIDA_TORRES: vida extra das torres
+var bonus_soldados: int = 0             # MAIS_SOLDADOS: soldados extras no quartel
+var dano_crescente_por_onda: int = 0    # DANO_CRESCENTE: dano que as torres ganham a cada onda
+var bonus_onda_perfeita: int = 0        # ONDA_PERFEITA: ouro extra ao terminar a onda sem dano na base
+var tem_construcao_gratis: bool = false       # PRIMEIRA_GRATIS: carta ativa
+var construcao_gratis_disponivel: bool = false # PRIMEIRA_GRATIS: próxima construção sai de graça
+var base_atira: bool = false            # BASE_ATIRADORA: a base ataca como uma torre
 
 # ==========================================
 # BARALHO DE UPGRADES
@@ -170,6 +186,24 @@ var baralho_upgrades: Array = [
 	preload("res://PowerUps/Inflamavel.tres"),
 	preload("res://PowerUps/Espinhosa.tres"),
 	preload("res://PowerUps/Cacador.tres"),
+	# --- Cartas de mecânica única (cada uma faz algo diferente das outras) ---
+	preload("res://PowerUps/MercadoNegro.tres"),        # ouro por abate
+	preload("res://PowerUps/CargaExplosiva.tres"),      # construção explode ao ser destruída
+	preload("res://PowerUps/EngrenagensDeOuro.tres"),   # mais renda das construções
+	preload("res://PowerUps/Critico.tres"),             # chance de dano dobrado
+	preload("res://PowerUps/CacadorDasAlturas.tres"),   # dano extra contra voadores
+	preload("res://PowerUps/GolpeFinal.tres"),          # dano extra contra inimigos feridos
+	preload("res://PowerUps/CofreCheio.tres"),          # ouro imediato
+	preload("res://PowerUps/SegundaChance.tres"),       # reroll grátis
+	preload("res://PowerUps/PolvoraNegra.tres"),        # inimigo explode ao morrer
+	preload("res://PowerUps/TreinamentoDeElite.tres"),  # soldados mais fortes
+	preload("res://PowerUps/FlechaEnvenenada.tres"),    # veneno (dano ao longo do tempo)
+	preload("res://PowerUps/MuralhasDeAco.tres"),       # torres mais resistentes
+	preload("res://PowerUps/Convocacao.tres"),          # mais soldados no quartel
+	preload("res://PowerUps/FuriaCrescente.tres"),      # dano cresce a cada onda
+	preload("res://PowerUps/DefesaImpecavel.tres"),     # ouro por onda sem dano na base
+	preload("res://PowerUps/MaoDeObra.tres"),           # primeira construção da onda grátis
+	preload("res://PowerUps/FortalezaArmada.tres"),     # a base ataca como uma torre
 ]
 
 var reroll_usado: bool = false
@@ -495,6 +529,10 @@ func iniciar_dia(primeiro_dia: bool = false):
 	get_tree().call_group("Interface", "verificar_estado_dia_noite")
 	get_tree().call_group("Torres", "curar_totalmente")
 
+	# PRIMEIRA_GRATIS: libera de novo a construção grátis a cada dia
+	if tem_construcao_gratis:
+		construcao_gratis_disponivel = true
+
 func iniciar_noite():
 	estado_atual = EstadoJogo.NOITE
 	spawners_concluidos = 0
@@ -506,6 +544,11 @@ func iniciar_noite():
 	is_night = true
 	construcao_destaque_upgrade = null   # Limpa o destaque ao entrar na noite
 	_vida_base_ao_iniciar_noite = vida_base_atual
+
+	# DANO_CRESCENTE: as torres ficam mais fortes a cada onda
+	if dano_crescente_por_onda > 0:
+		bonus_dano += dano_crescente_por_onda
+		get_tree().call_group("Torres", "atualizar_status")
 
 	# Salva ANTES da noite começar — garante que todas as construções
 	# do jogador estão no arquivo. Assim ao carregar/reiniciar a noite
@@ -524,6 +567,11 @@ func registrar_spawner_concluido():
 
 func terminar_onda():
 	if estado_atual == EstadoJogo.DIA: return
+
+	# ONDA_PERFEITA: ouro extra se a base não levou dano nesta onda
+	if bonus_onda_perfeita > 0 and vida_base_atual == _vida_base_ao_iniciar_noite:
+		moedas += bonus_onda_perfeita
+		get_tree().call_group("Interface", "atualizar_moedas")
 
 	var ultima_onda := Balanceamento.get_int("ultima_onda", 10)
 	# Tutorial usa sempre 5 ondas, independente do valor global
@@ -576,10 +624,12 @@ func get_renda_preview() -> int:
 		if not is_instance_valid(construcao): continue
 		if construcao.get("is_fantasma"): continue
 		if construcao.get("esta_destruida"): continue
+		var r := 0
 		if "moedas_por_onda_atual" in construcao:
-			total += construcao.moedas_por_onda_atual + bonus_onda
+			r = construcao.moedas_por_onda_atual + bonus_onda
 		elif "moedas_por_onda" in construcao:
-			total += construcao.moedas_por_onda
+			r = construcao.moedas_por_onda
+		total += int(r * mult_renda_construcao)
 	return total
 
 func calcular_e_recolher_renda():
@@ -591,7 +641,7 @@ func calcular_e_recolher_renda():
 	var construcoes_economia = get_tree().get_nodes_in_group("Economia")
 	for construcao in construcoes_economia:
 		if construcao.has_method("gerar_renda"):
-			total_renda += construcao.gerar_renda()
+			total_renda += int(construcao.gerar_renda() * mult_renda_construcao)
 
 	moedas += total_renda
 	renda_recolhida.emit(total_renda)
@@ -641,12 +691,20 @@ func aplicar_upgrade(dados):
 	# Sobrescreve valores das cartas com o que estiver no CSV (se houver)
 	var valor_bonus_final = dados.valor_bonus
 	var id_carta = str(dados.id) if "id" in dados else ""
+	# Registra a carta como "pega" (para o bestiário), de forma persistente
+	if id_carta != "" and not Global.cartas_obtidas.has(id_carta):
+		Global.cartas_obtidas.append(id_carta)
+		Global.salvar_progresso()
 	if id_carta in _MAPA_UPGRADES:
 		var chave = _MAPA_UPGRADES[id_carta]
 		if Balanceamento.tem(chave):
 			valor_bonus_final = Balanceamento.get_float(chave, dados.valor_bonus)
 
 	_processar_efeito(dados.tipo_bonus, valor_bonus_final)
+
+	# Segundo efeito bônus (cartas combo / arquétipo)
+	if "valor_bonus_2" in dados and dados.valor_bonus_2 != 0:
+		_processar_efeito(dados.tipo_bonus_2, dados.valor_bonus_2)
 
 	if dados.valor_debuff != 0:
 		var valor_debuff_final = dados.valor_debuff
@@ -692,6 +750,43 @@ func _processar_efeito(tipo_efeito, valor):
 			bonus_espinho += int(valor)
 		11: # DANO_CHEFE
 			bonus_dano_chefe += int(valor)
+		12: # OURO_ABATE
+			moedas_por_abate += int(valor)
+		13: # EXPLOSAO_CONSTRUCAO
+			dano_explosao_construcao += int(valor)
+		14: # RENDA_CONSTRUCAO
+			mult_renda_construcao += float(valor)
+		15: # CRITICO
+			chance_critico = min(1.0, chance_critico + float(valor))
+		16: # DANO_AEREO
+			bonus_dano_aereo += int(valor)
+		17: # EXECUCAO
+			bonus_execucao += int(valor)
+		18: # OURO_INICIAL (ganho imediato de moedas)
+			moedas += int(valor)
+			get_tree().call_group("Interface", "atualizar_moedas")
+		19: # REROLL_GRATIS
+			custo_reroll = 0
+		20: # EXPLOSAO_INIMIGO
+			dano_explosao_inimigo += int(valor)
+		21: # SOLDADO_FORTE
+			bonus_dano_soldado += int(valor)
+		22: # VENENO
+			dano_veneno += int(valor)
+		23: # VIDA_TORRES
+			bonus_vida_torre += int(valor)
+			get_tree().call_group("Torres", "_bonus_vida_torre", int(valor))
+		24: # MAIS_SOLDADOS
+			bonus_soldados += int(valor)
+		25: # DANO_CRESCENTE (cresce a cada onda)
+			dano_crescente_por_onda += int(valor)
+		26: # ONDA_PERFEITA
+			bonus_onda_perfeita += int(valor)
+		27: # PRIMEIRA_GRATIS
+			tem_construcao_gratis = true
+			construcao_gratis_disponivel = true
+		28: # BASE_ATIRADORA
+			base_atira = true
 
 func rerolar_cartas():
 	if reroll_usado:
@@ -754,6 +849,10 @@ func acionar_game_over():
 func registrar_inimigo_morto() -> void:
 	inimigos_mortos_sessao += 1
 	Global.total_inimigos_mortos += 1
+	# OURO_ABATE: recompensa por inimigo derrotado
+	if moedas_por_abate > 0:
+		moedas += moedas_por_abate
+		get_tree().call_group("Interface", "atualizar_moedas")
 
 func acionar_vitoria():
 	var estrelas_ganhas = 1
@@ -807,6 +906,22 @@ func limpar_estado_sessao() -> void:
 	dano_inflamavel    = 0
 	bonus_espinho      = 0
 	bonus_dano_chefe   = 0
+	moedas_por_abate   = 0
+	dano_explosao_construcao = 0
+	mult_renda_construcao    = 1.0
+	chance_critico        = 0.0
+	bonus_dano_aereo      = 0
+	bonus_execucao        = 0
+	dano_explosao_inimigo = 0
+	bonus_dano_soldado    = 0
+	dano_veneno           = 0
+	bonus_vida_torre      = 0
+	bonus_soldados        = 0
+	dano_crescente_por_onda = 0
+	bonus_onda_perfeita   = 0
+	tem_construcao_gratis = false
+	construcao_gratis_disponivel = false
+	base_atira            = false
 	upgrades_escolhidos.clear()
 	# Garante que construções de uma sessão antiga nunca vazem para outra
 	dados_construcoes_pendentes.clear()

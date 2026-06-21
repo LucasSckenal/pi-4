@@ -28,9 +28,10 @@ const COR_TINTA_CLARA := Color(0.42, 0.30, 0.15)
 
 var _flipando: bool = false
 
-var _secao: String = "inimigos"   # "inimigos" | "historias"
+var _secao: String = "inimigos"   # "inimigos" | "historias" | "cartas"
 var _btn_inimigos: Button = null
 var _btn_historias: Button = null
+var _btn_cartas: Button = null
 var _capitulo_sel: int = 1        # capítulo (mapa) atualmente aberto na aba Inimigos
 
 func _ready() -> void:
@@ -53,8 +54,10 @@ func _aplicar_fundo_madeira() -> void:
 func _criar_abas() -> void:
 	_btn_inimigos = _criar_aba("Inimigos", "inimigos")
 	_btn_historias = _criar_aba("Histórias", "historias")
+	_btn_cartas = _criar_aba("Cartas", "cartas")
 	abas.add_child(_btn_inimigos)
 	abas.add_child(_btn_historias)
+	abas.add_child(_btn_cartas)
 	_atualizar_abas()
 
 func _criar_aba(texto: String, id: String) -> Button:
@@ -74,7 +77,7 @@ func _on_aba_pressed(id: String) -> void:
 	_render()
 
 func _atualizar_abas() -> void:
-	for par in [[_btn_inimigos, "inimigos"], [_btn_historias, "historias"]]:
+	for par in [[_btn_inimigos, "inimigos"], [_btn_historias, "historias"], [_btn_cartas, "cartas"]]:
 		var b: Button = par[0]
 		var ativo: bool = (_secao == par[1])
 		var bg := Color(0.28, 0.18, 0.06) if ativo else Color(0.14, 0.09, 0.04)
@@ -101,8 +104,120 @@ func _render() -> void:
 	scroll.scroll_vertical = 0
 	if _secao == "inimigos":
 		_render_inimigos()
+	elif _secao == "cartas":
+		_render_cartas()
 	else:
 		_render_historias()
+
+# ==========================================
+# ABA CARTAS (poderes de batalha)
+# ==========================================
+func _render_cartas() -> void:
+	var mob := OS.has_feature("mobile")
+	var intro := Label.new()
+	intro.text = "As cartas que você já encontrou nas batalhas."
+	intro.add_theme_font_size_override("font_size", 26 if mob else 24)
+	intro.add_theme_color_override("font_color", COR_TEXTO)
+	intro.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	conteudo.add_child(intro)
+
+	# Só mostra as cartas que o jogador já pegou
+	var obtidas: Array = []
+	var total := 0
+	for carta in GameManager.baralho_upgrades:
+		if carta != null and ("id" in carta):
+			total += 1
+			if Global.cartas_obtidas.has(str(carta.id)):
+				obtidas.append(carta)
+
+	# Contador de coleção (ex.: 18/30)
+	var contador := Label.new()
+	contador.text = "Coleção: %d/%d" % [obtidas.size(), total]
+	contador.add_theme_font_size_override("font_size", 38 if mob else 34)
+	contador.add_theme_color_override("font_color", Color(1, 0.86, 0.4))
+	contador.add_theme_color_override("font_outline_color", Color(0, 0, 0))
+	contador.add_theme_constant_override("outline_size", 4)
+	contador.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	conteudo.add_child(contador)
+
+	if obtidas.is_empty():
+		var vazio := Label.new()
+		vazio.text = "Você ainda não pegou nenhuma carta.\nJogue uma partida para começar a coleção!"
+		vazio.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		vazio.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		vazio.add_theme_font_size_override("font_size", 24)
+		vazio.add_theme_color_override("font_color", COR_TEXTO)
+		conteudo.add_child(vazio)
+		return
+
+	var grid := GridContainer.new()
+	grid.columns = 1
+	grid.add_theme_constant_override("v_separation", 16)
+	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	conteudo.add_child(grid)
+	for carta in obtidas:
+		grid.add_child(_card_powerup(carta, mob))
+
+# Cor da borda conforme o tipo da carta (ofensiva / defesa / economia / especial)
+func _cor_tipo_carta(tipo: int) -> Color:
+	match tipo:
+		1, 5, 12, 14, 18, 19, 26, 27:   # economia — dourado
+			return Color(0.92, 0.74, 0.22)
+		2, 10, 13, 21, 23, 24:          # defesa — azul
+			return Color(0.32, 0.58, 0.88)
+		4, 6, 20:                       # controle / especial — roxo
+			return Color(0.66, 0.40, 0.85)
+		_:                              # ofensiva — vermelho
+			return Color(0.85, 0.30, 0.22)
+
+func _card_powerup(carta, mob: bool) -> PanelContainer:
+	var card := PanelContainer.new()
+	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	card.custom_minimum_size = Vector2(0, 150 if mob else 138)
+	var cor_borda := _cor_tipo_carta(int(carta.tipo_bonus)) if "tipo_bonus" in carta else COR_BORDA
+	card.add_theme_stylebox_override("panel", _sb(Color(0.14, 0.09, 0.04, 0.97), cor_borda, 3, 14, 0))
+
+	var hbox := HBoxContainer.new()
+	hbox.add_theme_constant_override("separation", 20)
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	margin.add_child(hbox)
+	card.add_child(margin)
+
+	var tr := TextureRect.new()
+	var ic := 120 if mob else 104
+	tr.custom_minimum_size = Vector2(ic, ic)
+	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	if "icone" in carta and carta.icone != null:
+		tr.texture = carta.icone
+	hbox.add_child(tr)
+
+	var vbox := VBoxContainer.new()
+	vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	vbox.add_theme_constant_override("separation", 8)
+	hbox.add_child(vbox)
+
+	var titulo := Label.new()
+	titulo.text = String(carta.titulo) if "titulo" in carta else ""
+	titulo.add_theme_font_size_override("font_size", 30 if mob else 27)
+	titulo.add_theme_color_override("font_color", Color(1, 0.92, 0.6))
+	vbox.add_child(titulo)
+
+	var desc := Label.new()
+	desc.text = String(carta.descricao) if "descricao" in carta else ""
+	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	desc.add_theme_font_size_override("font_size", 24 if mob else 21)
+	desc.add_theme_color_override("font_color", Color(0.92, 0.85, 0.72))
+	desc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(desc)
+
+	return card
 
 func _render_inimigos() -> void:
 	var mob := OS.has_feature("mobile")
@@ -663,9 +778,17 @@ func _render_historias() -> void:
 	intro.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	conteudo.add_child(intro)
 
+	# Só os mapas já liberados
+	var mapas_lib: Array = []
+	for m in BD.MAPAS:
+		if int(m["numero"]) <= Global.fases_liberadas:
+			mapas_lib.append(m)
+	if mapas_lib.is_empty():
+		return
+
 	# Grade de capítulos que preenche a tela (cards grandes)
-	var n := BD.MAPAS.size()
-	var cols := 1 if mob else 3
+	var n := mapas_lib.size()
+	var cols := 1 if mob else mini(3, n)
 	var rows := int(ceil(float(n) / float(cols)))
 	var sep := 18
 	var vp_h := get_viewport_rect().size.y
@@ -679,7 +802,7 @@ func _render_historias() -> void:
 	grid.add_theme_constant_override("v_separation", sep)
 	grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	conteudo.add_child(grid)
-	for m in BD.MAPAS:
+	for m in mapas_lib:
 		grid.add_child(_card_historia(m, mob, card_h))
 
 # ==========================================

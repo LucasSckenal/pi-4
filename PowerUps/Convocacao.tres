@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova36"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://cxay4e3jmrobp" path="res://Assets/Icons/Medalha.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "36"
+titulo = "Convocação"
+descricao = "Seus quartéis treinam mais soldados."
+icone = ExtResource("2")
+tipo_bonus = 24
+valor_bonus = 2.0

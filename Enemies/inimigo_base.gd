@@ -127,6 +127,9 @@ var _gelo_timer: float = 0.0
 var _gelo_ativo: bool = false
 var _fogo_ativo: bool = false
 var _veneno_ativo: bool = false
+var _veneno_ticks_restantes: int = 0
+var _veneno_dano_tick: int = 0
+var _veneno_timer_acum: float = 0.0
 var _fogo_ticks_restantes: int = 0
 
 # ── Otimizações de runtime ─────────────────────────────────────────────
@@ -241,11 +244,14 @@ func _ready():
 	(func(): posicao_de_spawn = global_position).call_deferred()
 
 	if tipo_inimigo == Categoria.BOSS:
-		if not Global.inimigos_descobertos.has(nome_inimigo):
+		# Só toca a cutscene de reveal se o boss tiver um vídeo configurado.
+		# Formas sem vídeo (ex.: dragão inicial/evoluído) não mostram tela preta —
+		# vão direto para a barra de vida de boss.
+		if video_stream != null and not Global.inimigos_descobertos.has(nome_inimigo):
 			await _tocar_cutscene()
 		else:
 			_criar_interface_do_boss()
-		
+
 	elif tipo_inimigo == Categoria.MINI_BOSS:
 		if modelo_3d:
 			modelo_3d.scale = escala_original * 1.3 
@@ -298,6 +304,17 @@ func _physics_process(delta):
 			_fogo_ticks_restantes -= 1
 			if _fogo_ticks_restantes <= 0:
 				_fogo_ativo = false
+				_atualizar_tints()
+
+	# Veneno (VENENO) — dano ao longo do tempo, mais lento e duradouro que o fogo
+	if _veneno_ativo and _veneno_ticks_restantes > 0:
+		_veneno_timer_acum += delta
+		if _veneno_timer_acum >= 1.0:
+			_veneno_timer_acum -= 1.0
+			receber_dano(_veneno_dano_tick)
+			_veneno_ticks_restantes -= 1
+			if _veneno_ticks_restantes <= 0:
+				_veneno_ativo = false
 				_atualizar_tints()
 
 	if global_position.y < limite_queda_y:
@@ -647,6 +664,9 @@ func morrer():
 	GameManager.inimigo_morreu.emit()  # Notifica spawners (substitui polling de grupo)
 	GameManager.registrar_inimigo_morto()  # estatística
 	_explosao_morte()  # partícula de "poof" na morte
+	# EXPLOSAO_INIMIGO: ao morrer, fere os inimigos por perto (efeito dominó)
+	if GameManager.dano_explosao_inimigo > 0:
+		_explodir_em_inimigos()
 
 	if GameManager.modo_infinito:
 		var drop: int = 1
@@ -711,6 +731,15 @@ func _mostrar_dano_flutuante(qtd: int, origem: String = "torre") -> void:
 	tw.tween_property(lbl, "modulate:a", 0.0, 0.5).set_delay(0.25)
 	tw.set_parallel(false)
 	tw.tween_callback(lbl.queue_free)
+
+func _explodir_em_inimigos() -> void:
+	# EXPLOSAO_INIMIGO: fere os inimigos por perto ao morrer
+	var raio := 3.0
+	for outro in get_tree().get_nodes_in_group("inimigos"):
+		if outro == self or not is_instance_valid(outro):
+			continue
+		if global_position.distance_to(outro.global_position) <= raio and outro.has_method("receber_dano"):
+			outro.receber_dano(GameManager.dano_explosao_inimigo, "fogo")
 
 func _explosao_morte() -> void:
 	var pai = get_parent()
@@ -938,6 +967,10 @@ func _criar_efeito_explosao():
 	tween.tween_callback(node_explosao.queue_free)
 
 func _tocar_cutscene():
+	# Sem vídeo configurado: pula a cutscene (evita tela preta) e vai direto à interface.
+	if video_stream == null:
+		_criar_interface_do_boss()
+		return
 	var cutscene = preload("res://Cenas Locais/boss_intro.tscn").instantiate()
 	get_tree().current_scene.add_child(cutscene)
 
@@ -1005,7 +1038,12 @@ func iniciar_queimadura(dano_tick: int) -> void:
 		_fogo_ativo = true
 		_atualizar_tints()
 
-func iniciar_veneno() -> void:
+func iniciar_veneno(dano_tick: int = 0) -> void:
+	if dano_tick <= 0:
+		return
+	_veneno_dano_tick       = dano_tick
+	_veneno_ticks_restantes = 4
+	_veneno_timer_acum      = 0.0
 	if not _veneno_ativo:
 		_veneno_ativo = true
 		_atualizar_tints()

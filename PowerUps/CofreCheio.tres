@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova30"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://gdwsa2as5auy" path="res://Assets/Icons/Moedas.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "30"
+titulo = "Cofre Cheio"
+descricao = "Ganha um bom dinheiro na hora."
+icone = ExtResource("2")
+tipo_bonus = 18
+valor_bonus = 60.0

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova3a"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://dhybipisk5nrr" path="res://Assets/Icons/Espada.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "29"
+titulo = "Golpe de Misericórdia"
+descricao = "Causa dano extra contra inimigos já feridos."
+icone = ExtResource("2")
+tipo_bonus = 17
+valor_bonus = 20.0

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova32"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://l5t2satffqpb" path="res://Assets/Icons/Fogo.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "32"
+titulo = "Pólvora Negra"
+descricao = "Inimigos explodem ao morrer, ferindo os que estão perto."
+icone = ExtResource("2")
+tipo_bonus = 20
+valor_bonus = 30.0

@@ -247,7 +247,7 @@ func _atirar_flecha():
 		var flecha = cena_flecha.instantiate()
 		get_tree().root.add_child(flecha)
 		flecha.global_position = ponto_tiro.global_position
-		flecha.dano = dano
+		flecha.dano = dano + GameManager.bonus_dano_soldado  # SOLDADO_FORTE
 		flecha.alvo = alvo_atual
 	
 	# Inicia o timer de recarga

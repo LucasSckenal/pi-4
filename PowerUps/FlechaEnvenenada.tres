@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova34"]
+
+[ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b1ife0fbhmw7f" path="res://Assets/Icons/Pocao.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = "34"
+titulo = "Flecha Envenenada"
+descricao = "As flechas envenenam, causando dano ao longo do tempo."
+icone = ExtResource("2")
+tipo_bonus = 22
+valor_bonus = 12.0

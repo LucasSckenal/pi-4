@@ -194,6 +194,11 @@ func construir(cena: PackedScene) -> bool:
 	var nova_const = cena.instantiate()
 	var custo_final = GameManager.obter_custo_com_desconto(nova_const.custo_moedas)
 
+	# PRIMEIRA_GRATIS: a primeira construção da onda sai de graça
+	if GameManager.construcao_gratis_disponivel:
+		custo_final = 0
+		GameManager.construcao_gratis_disponivel = false
+
 	if not GameManager.gastar_moedas(custo_final):
 		nova_const.free()
 		return false

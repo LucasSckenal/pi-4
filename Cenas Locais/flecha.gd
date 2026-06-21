@@ -52,6 +52,16 @@ func _acertar(body) -> void:
 	var dano_total = dano
 	if GameManager.bonus_dano_chefe > 0 and body.is_in_group("Chefe"):
 		dano_total += GameManager.bonus_dano_chefe
+	# DANO_AEREO: dano extra contra voadores
+	if GameManager.bonus_dano_aereo > 0 and body.get("eh_aereo"):
+		dano_total += GameManager.bonus_dano_aereo
+	# EXECUCAO: dano extra contra inimigos com pouca vida
+	if GameManager.bonus_execucao > 0 and "vida_atual" in body and "vida_maxima" in body \
+			and body.vida_maxima > 0 and body.vida_atual <= body.vida_maxima * 0.4:
+		dano_total += GameManager.bonus_execucao
+	# CRITICO: chance de dano dobrado
+	if GameManager.chance_critico > 0.0 and randf() < GameManager.chance_critico:
+		dano_total *= 2
 	if body.has_method("receber_dano"):
 		body.receber_dano(dano_total)
 
@@ -59,6 +69,8 @@ func _acertar(body) -> void:
 
 	if GameManager.dano_inflamavel > 0:
 		_aplicar_queimadura(body)
+	if GameManager.dano_veneno > 0 and body.has_method("iniciar_veneno"):
+		body.iniciar_veneno(GameManager.dano_veneno)
 	if GameManager.bonus_ricochete > 0:
 		_ricochetar(body)
 

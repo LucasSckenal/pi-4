@@ -38,7 +38,12 @@
       "Bash(grep -nA8 \"6: {\" \"Scripts Globais/game_manager.gd\")",
       "Bash(grep -nB2 \"Transform3D\\(4, 0, 0, 0, 4, 0, 0, 0, 4,\" \"Maps/Covil_Dragon.tscn\")",
       "Bash(awk '/name=\"BuildSlot/{n=$0; gsub\\(/.*name=\"/,\"\",n\\); gsub\\(/\".*/,\"\",n\\)} /^nivel_necessario/{print n\": \"$0}' \"Maps/Covil_Dragon.tscn\")",
-      "Bash(grep -iv \".godot\\\\|graphify\\\\|\\\\.import$\")"
+      "Bash(grep -iv \".godot\\\\|graphify\\\\|\\\\.import$\")",
+      "Bash(sed -n '/func _baralho_filtrado/,/^func /p' \"Scripts Globais/game_manager.gd\")",
+      "Bash(sed -n '/var baralho_upgrades/,/]/p' \"Scripts Globais/game_manager.gd\")",
+      "Bash(cat)",
+      "PowerShell(Stop-Process -Id 14196 -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(\"limpo\")"
     ]
   }
 }
