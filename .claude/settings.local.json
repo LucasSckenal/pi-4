@@ -48,7 +48,9 @@
       "Bash(\"/c/Users/robny/Downloads/Godot_v4.6.1-stable_win64.exe/Godot_v4.6.1-stable_win64_console.exe\" --path . --editor --quit --headless)",
       "Bash(cd \"/c/Users/robny/Documents/pi-4/.claude/worktrees/happy-kepler-3e73b7\" && rm -f PowerUps/GuardaReal.tres && echo \"removed GuardaReal.tres\")",
       "Bash(rm -f err.log)",
-      "Bash(grep -vE \"^$\")"
+      "Bash(grep -vE \"^$\")",
+      "Bash(python -)",
+      "Bash(python -m pip install Pillow --quiet)"
     ]
   }
 }

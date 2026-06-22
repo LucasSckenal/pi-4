@@ -187,7 +187,10 @@ var label_vida: Label = null
 ## Cor da barra de vida (verde para pirata, vermelho para golem, etc.)
 @export var cor_barra_boss: Color = Color(0.85, 0.05, 0.05)
 ## Escala de largura máxima da interface em relação à tela (0.1 a 1.0)
-@export_range(0.1, 1.0) var escala_tamanho_boss: float = 0.8
+@export_range(0.1, 1.0) var escala_tamanho_boss: float = 0.32
+## Posição do canto superior-esquerdo do quadro (já descontado o padding transparente),
+## em fração da tela (x, y). (0,0) = encostado no canto. Aceita valores negativos.
+@export var pos_boss: Vector2 = Vector2(0.33, 0.10)
 
 ## Ajuste extra do tamanho (largura, altura) APENAS do preenchimento da barra, sem afetar a textura da moldura
 @export var ajuste_tamanho_preenchimento: Vector2 = Vector2.ZERO
@@ -966,27 +969,44 @@ func _criar_interface_do_boss() -> void:
 	var escala: float = min(max_w / tex_size.x, 1.0)       # nunca amplia além do tamanho real
 	var w: float = tex_size.x * escala
 	var h: float = tex_size.y * escala
-	var cx: float = vp_size.x * 0.5
 
-	# Container raiz — posicionado no topo, centralizado horizontalmente
+	# Padding transparente da imagem (muitas têm uma borda vazia em cima/à esquerda).
+	# Descontamos para o quadro encostar de verdade no canto, sem espaço morto.
+	var pad := Vector2.ZERO
+	if textura_moldura_boss:
+		var img := textura_moldura_boss.get_image()
+		if img:
+			if img.is_compressed():
+				img.decompress()
+			var usado := img.get_used_rect()
+			if usado.size.x > 0 and usado.size.y > 0:
+				pad.x = float(usado.position.x) / tex_size.x
+				pad.y = float(usado.position.y) / tex_size.y
+
+	# Container raiz — posicionado pelo canto superior-esquerdo (export 'pos_boss').
+	var px := vp_size.x * pos_boss.x - pad.x * w
+	var py := vp_size.y * pos_boss.y - pad.y * h
 	var root := Control.new()
 	root.mouse_filter  = Control.MOUSE_FILTER_IGNORE
 	root.set_anchor(SIDE_LEFT,   0.0)
 	root.set_anchor(SIDE_RIGHT,  0.0)
 	root.set_anchor(SIDE_TOP,    0.0)
 	root.set_anchor(SIDE_BOTTOM, 0.0)
-	root.offset_left   = cx - w * 0.5
-	root.offset_right  = cx + w * 0.5
-	root.offset_top    = 20.0
-	root.offset_bottom = 20.0 + h
+	root.offset_left   = px
+	root.offset_right  = px + w
+	root.offset_top    = py
+	root.offset_bottom = py + h
 	canvas_boss.add_child(root)
 
 	# ── Moldura (quadro de madeira/pedra) — posicionável via moldura_rect ──
 	if textura_moldura_boss:
 		var frame := TextureRect.new()
 		frame.texture      = textura_moldura_boss
-		_aplicar_rect_boss(frame, moldura_rect, w, h)
+		# IGNORE_SIZE: o quadro respeita o rect (w×h) em vez do tamanho nativo da imagem.
+		# Sem isso a moldura renderiza maior que o root e o slot desalinha da barra.
+		frame.expand_mode  = TextureRect.EXPAND_IGNORE_SIZE
 		frame.stretch_mode = TextureRect.STRETCH_SCALE
+		_aplicar_rect_boss(frame, moldura_rect, w, h)
 		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		root.add_child(frame)
 

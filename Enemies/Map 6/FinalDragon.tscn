@@ -56,7 +56,7 @@ height = 2.6015625
 [node name="Final Dragon" type="CharacterBody3D" unique_id=2080402072 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_2s3nm")
 textura_moldura_boss = ExtResource("barvida_boss")
-barra_rect = Rect2(0.264, 0.568, 0.695, 0.263)
+barra_rect = Rect2(0.236, 0.56, 0.733, 0.139)
 rage_velocidade_mult = 1.85
 rage_dano_mult = 1.35
 rage_animacao = "Skill_01"
