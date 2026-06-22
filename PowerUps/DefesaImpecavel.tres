@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova38"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://nv86mc212uwf" path="res://Assets/Icons/Estrela.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://c2le2bpb2r5gs" path="res://Assets/Cards/SwordShield.png" id="1_n428f"]
 
 [resource]
 script = ExtResource("1")
 id = "38"
 titulo = "Defesa Impecável"
 descricao = "Ganha ouro extra ao passar uma onda sem perder vida."
-icone = ExtResource("2")
+icone = ExtResource("1_n428f")
 tipo_bonus = 26
 valor_bonus = 40.0

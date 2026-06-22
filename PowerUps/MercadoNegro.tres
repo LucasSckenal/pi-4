@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova16"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://gdwsa2as5auy" path="res://Assets/Icons/Moedas.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b0knqdjbisy48" path="res://Assets/Cards/BountyHunter.png" id="1_co61v"]
 
 [resource]
 script = ExtResource("1")
 id = "16"
-titulo = "Recompensa de Caça"
+titulo = "Espólios de Caça"
 descricao = "Ganhe 1 moeda a cada inimigo derrotado. Quanto mais você abate, mais ouro entra."
-icone = ExtResource("2")
+icone = ExtResource("1_co61v")
 tipo_bonus = 12
 valor_bonus = 1.0

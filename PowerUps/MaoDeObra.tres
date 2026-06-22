@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova4a"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://cw6wn2pb0xfgv" path="res://Assets/Icons/ChaveInglesa.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://bxpgsg78xjybf" path="res://Assets/Cards/GoldHammer.png" id="1_oh40f"]
 
 [resource]
 script = ExtResource("1")
 id = "39"
 titulo = "Mão de Obra"
 descricao = "A primeira construção de cada onda sai de graça."
-icone = ExtResource("2")
+icone = ExtResource("1_oh40f")
 tipo_bonus = 27
 valor_bonus = 1.0

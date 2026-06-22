@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova37"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://xiyutngnjwnp" path="res://Assets/Icons/Brilho.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://d1123g5jbmvjm" path="res://Assets/Cards/BurningFist.png" id="1_1dsk3"]
 
 [resource]
 script = ExtResource("1")
 id = "37"
 titulo = "Fúria Crescente"
 descricao = "Suas torres ficam mais fortes a cada onda."
-icone = ExtResource("2")
+icone = ExtResource("1_1dsk3")
 tipo_bonus = 25
 valor_bonus = 4.0

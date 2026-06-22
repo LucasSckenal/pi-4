@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova31"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://b13t13pybo0ib" path="res://Assets/Icons/Tempo.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://sgg6ypm658m1" path="res://Assets/Cards/SegundaChance.png" id="1_kjn5l"]
 
 [resource]
 script = ExtResource("1")
 id = "31"
 titulo = "Segunda Chance"
 descricao = "Rerolar cartas fica de graça."
-icone = ExtResource("2")
+icone = ExtResource("1_kjn5l")
 tipo_bonus = 19
 valor_bonus = 1.0

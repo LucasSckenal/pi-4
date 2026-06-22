@@ -1,13 +1,13 @@
 [gd_resource type="Resource" script_class="CartaUpgrade" format=3 uid="uid://bcartanova25"]
 
 [ext_resource type="Script" uid="uid://ckllnh0oimgco" path="res://PowerUps/carta_upgrade.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://l5t2satffqpb" path="res://Assets/Icons/Fogo.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://cp6dderkdssfm" path="res://Assets/Cards/PolvoraNegra.png" id="1_ir5hy"]
 
 [resource]
 script = ExtResource("1")
 id = "25"
 titulo = "Carga Explosiva"
 descricao = "Construções explodem ao serem destruídas, ferindo inimigos próximos."
-icone = ExtResource("2")
+icone = ExtResource("1_ir5hy")
 tipo_bonus = 13
 valor_bonus = 40.0
