@@ -173,6 +173,18 @@ var label_vida: Label = null
 ## Ajuste extra do tamanho (largura, altura) APENAS do preenchimento da barra, sem afetar a textura da moldura
 @export var ajuste_tamanho_preenchimento: Vector2 = Vector2.ZERO
 
+## Posições/tamanhos (em fração 0..1 da interface) de cada parte — permitem mover
+## RETRATO, MOLDURA e BARRA separadamente para montar barras padrão ou customizadas.
+## Rect2(x, y, largura, altura).
+@export_group("Posicionamento (fração 0..1)")
+## Onde fica o retrato do boss (só aparece se 'retrato_boss' tiver textura)
+@export var retrato_rect: Rect2 = Rect2(0.015, 0.10, 0.17, 0.80)
+## Onde fica a moldura/quadro. Padrão = ocupa toda a interface.
+@export var moldura_rect: Rect2 = Rect2(0.0, 0.0, 1.0, 1.0)
+## Onde fica a barra de vida (faixa colorida) dentro da interface.
+@export var barra_rect: Rect2 = Rect2(0.22, 0.54, 0.68, 0.29)
+@export_group("")
+
 ## Porcentagem inicial visual desta forma na barra do chefe (ex: 100.0 para forma 1, 66.6 para forma 2)
 @export_range(0.0, 100.0) var limite_visual_max: float = 100.0
 ## Porcentagem final visual desta forma na barra do chefe (ex: 66.6 para forma 1, 33.3 para forma 2)
@@ -555,14 +567,14 @@ func atacar():
 		await get_tree().create_timer(tempo_recarga_ataque).timeout
 		pode_atacar = true
 
-func receber_dano(qtd, origem = "torre"):
+func receber_dano(qtd, origem = "torre", critico := false):
 	if esta_morto: return
 
 	if eh_aereo and origem == "player":
 		return
 
 	vida_atual -= qtd
-	_mostrar_dano_flutuante(int(qtd), origem)
+	_mostrar_dano_flutuante(int(qtd), origem, critico)
 	
 	if barra_vida_boss:
 		var original_pos = canvas_boss.get_child(0).position
@@ -666,8 +678,12 @@ func morrer():
 	if nav_agent:
 		nav_agent.set_velocity(Vector3.ZERO)
 	remove_from_group("inimigos")
+	remove_from_group("Chefe")  # bosses (ex.: Kraken) saem do grupo já na morte, senão a wave nunca termina
 	GameManager.inimigo_morreu.emit()  # Notifica spawners (substitui polling de grupo)
-	GameManager.registrar_inimigo_morto()  # estatística
+	GameManager.registrar_inimigo_morto()  # estatística (também paga o OURO_ABATE)
+	# OURO_ABATE: indicador visual de moeda ganha no abate
+	if GameManager.moedas_por_abate > 0:
+		_mostrar_moeda_flutuante(GameManager.moedas_por_abate)
 	_explosao_morte()  # partícula de "poof" na morte
 	# EXPLOSAO_INIMIGO: ao morrer, fere os inimigos por perto (efeito dominó)
 	if GameManager.dano_explosao_inimigo > 0:
@@ -706,7 +722,11 @@ func morrer():
 # ==========================================
 # JUICE: número de dano flutuante + partícula de morte
 # ==========================================
-func _mostrar_dano_flutuante(qtd: int, origem: String = "torre") -> void:
+# Escala do número de dano POR FASE (ajuste manual aqui). 1.0 = padrão.
+# Mapas maiores (ex.: 5) costumam precisar de números maiores para ficarem legíveis.
+const ESCALA_DANO_POR_FASE := {1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.6, 6: 1.0}
+
+func _mostrar_dano_flutuante(qtd: int, origem: String = "torre", critico: bool = false) -> void:
 	if qtd <= 0:
 		return
 	if not Global.numeros_dano_ativo:
@@ -714,26 +734,58 @@ func _mostrar_dano_flutuante(qtd: int, origem: String = "torre") -> void:
 	var pai = get_parent()
 	if not is_instance_valid(pai):
 		return
+	var escala_fase: float = float(ESCALA_DANO_POR_FASE.get(GameManager.fase_atual, 1.0))
 	var lbl := Label3D.new()
-	lbl.text = str(qtd)
+	lbl.text = (str(qtd) + "!") if critico else str(qtd)
 	lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	lbl.no_depth_test = true
 	lbl.fixed_size = false  # escala com a distância da câmera (senão fica gigante)
-	lbl.pixel_size = 0.007
+	lbl.pixel_size = 0.007 * escala_fase * (1.3 if critico else 1.0)  # crítico um pouco maior
 	lbl.font_size = 36
 	lbl.outline_size = 12
-	lbl.outline_modulate = Color(0, 0, 0, 0.85)
-	# Cor por origem: fogo=laranja, gelo=azul, senão dourado
-	match origem:
-		"fogo": lbl.modulate = Color(1.0, 0.55, 0.15)
-		"gelo": lbl.modulate = Color(0.55, 0.85, 1.0)
-		_:      lbl.modulate = Color(1.0, 0.93, 0.45)
+	lbl.outline_modulate = Color(0, 0, 0, 0.9)
+	if critico:
+		lbl.modulate = Color(1.0, 0.18, 0.12)   # vermelho de crítico
+		lbl.rotation_degrees.z = -12.0           # leve inclinação
+	else:
+		# Cor por origem: fogo=laranja, gelo=azul, senão dourado
+		match origem:
+			"fogo": lbl.modulate = Color(1.0, 0.55, 0.15)
+			"gelo": lbl.modulate = Color(0.55, 0.85, 1.0)
+			_:      lbl.modulate = Color(1.0, 0.93, 0.45)
 	pai.add_child(lbl)
 	lbl.global_position = global_position + Vector3(randf_range(-0.25, 0.25), 1.1, 0)
 	var tw := lbl.create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(lbl, "global_position:y", lbl.global_position.y + 0.9, 0.6).set_ease(Tween.EASE_OUT)
 	tw.tween_property(lbl, "modulate:a", 0.0, 0.5).set_delay(0.25)
+	tw.set_parallel(false)
+	tw.tween_callback(lbl.queue_free)
+
+# OURO_ABATE: mostra "+N" dourado subindo quando o inimigo é derrotado com a carta ativa.
+func _mostrar_moeda_flutuante(qtd: int) -> void:
+	if qtd <= 0:
+		return
+	var pai = get_parent()
+	if not is_instance_valid(pai):
+		return
+	var escala_fase: float = float(ESCALA_DANO_POR_FASE.get(GameManager.fase_atual, 1.0))
+	var lbl := Label3D.new()
+	lbl.text = "+%d" % qtd
+	lbl.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	lbl.no_depth_test = true
+	lbl.fixed_size = false
+	lbl.pixel_size = 0.0075 * escala_fase
+	lbl.font_size = 34
+	lbl.outline_size = 12
+	lbl.outline_modulate = Color(0.15, 0.10, 0.0, 0.9)
+	lbl.modulate = Color(1.0, 0.84, 0.20)   # dourado de moeda
+	pai.add_child(lbl)
+	lbl.global_position = global_position + Vector3(randf_range(-0.2, 0.2), 1.5, 0)
+	var tw := lbl.create_tween()
+	tw.set_parallel(true)
+	tw.tween_property(lbl, "global_position:y", lbl.global_position.y + 1.1, 0.8).set_ease(Tween.EASE_OUT)
+	tw.tween_property(lbl, "modulate:a", 0.0, 0.5).set_delay(0.4)
 	tw.set_parallel(false)
 	tw.tween_callback(lbl.queue_free)
 
@@ -787,6 +839,17 @@ func _explosao_morte() -> void:
 # ==========================================
 # GERAÇÃO DA INTERFACE DO BOSS
 # ==========================================
+# Posiciona um Control dentro da interface do boss a partir de um Rect2 em frações (0..1).
+func _aplicar_rect_boss(ctrl: Control, r: Rect2, largura: float, altura: float) -> void:
+	ctrl.set_anchor(SIDE_LEFT,   0.0)
+	ctrl.set_anchor(SIDE_TOP,    0.0)
+	ctrl.set_anchor(SIDE_RIGHT,  0.0)
+	ctrl.set_anchor(SIDE_BOTTOM, 0.0)
+	ctrl.offset_left   = r.position.x * largura
+	ctrl.offset_top    = r.position.y * altura
+	ctrl.offset_right  = (r.position.x + r.size.x) * largura
+	ctrl.offset_bottom = (r.position.y + r.size.y) * altura
+
 func _criar_interface_do_boss() -> void:
 	canvas_boss = CanvasLayer.new()
 	canvas_boss.layer = 10
@@ -818,23 +881,29 @@ func _criar_interface_do_boss() -> void:
 	root.offset_bottom = 20.0 + h
 	canvas_boss.add_child(root)
 
-	# ── Moldura (a imagem já tem tudo: porta-retrato, nome, quadro) ────
+	# ── Moldura (quadro de madeira/pedra) — posicionável via moldura_rect ──
 	if textura_moldura_boss:
 		var frame := TextureRect.new()
 		frame.texture      = textura_moldura_boss
-		frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		frame.stretch_mode = TextureRect.STRETCH_SCALE   # container é do mesmo aspecto → sem distorção
+		_aplicar_rect_boss(frame, moldura_rect, w, h)
+		frame.stretch_mode = TextureRect.STRETCH_SCALE
 		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		root.add_child(frame)
 
-	# ── Âncoras da barra dentro da imagem ─────────────────────────────
-	# Ajuste fino: LEFT/RIGHT = limites horizontais da faixa verde,
-	# TOP/BOTTOM = limites verticais. Valores em fração [0..1] da imagem.
-	# (Altere se a barra não cobrir exatamente o canal verde da arte.)
-	const BAR_L := 0.22   # borda esquerda da barra na imagem
-	const BAR_R := 0.90   # borda direita
-	const BAR_T := 0.54   # borda superior
-	const BAR_B := 0.83   # borda inferior
+	# ── Retrato do boss — desenhado separadamente, posicionável via retrato_rect ──
+	if retrato_boss:
+		var retr := TextureRect.new()
+		retr.texture      = retrato_boss
+		_aplicar_rect_boss(retr, retrato_rect, w, h)
+		retr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		retr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(retr)
+
+	# ── Âncoras da barra dentro da interface (frações vindas de barra_rect) ──
+	var BAR_L := barra_rect.position.x
+	var BAR_R := barra_rect.position.x + barra_rect.size.x
+	var BAR_T := barra_rect.position.y
+	var BAR_B := barra_rect.position.y + barra_rect.size.y
 
 	# ── Barra fantasma (branca, lag ~0.4 s atrás da vida real) ────────
 	var sty_ghost := StyleBoxFlat.new()

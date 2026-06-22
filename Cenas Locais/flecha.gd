@@ -60,10 +60,12 @@ func _acertar(body) -> void:
 			and body.vida_maxima > 0 and body.vida_atual <= body.vida_maxima * 0.4:
 		dano_total += GameManager.bonus_execucao
 	# CRITICO: chance de dano dobrado
+	var foi_critico := false
 	if GameManager.chance_critico > 0.0 and randf() < GameManager.chance_critico:
 		dano_total *= 2
+		foi_critico = true
 	if body.has_method("receber_dano"):
-		body.receber_dano(dano_total)
+		body.receber_dano(dano_total, "torre", foi_critico)
 
 	_tentar_aplicar_gelo(body)
 

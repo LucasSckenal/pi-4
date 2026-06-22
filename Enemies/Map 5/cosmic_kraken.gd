@@ -395,12 +395,12 @@ func _explodir() -> void:
 
 # Bloqueia dano direto vindo de torres — apenas tentáculos podem ferir.
 # Player toca dano via tentáculo → este chama notificar_tentaculo_morto().
-func receber_dano(qtd, origem = "torre") -> void:
+func receber_dano(qtd, origem = "torre", critico := false) -> void:
 	if origem != "tentaculo":
 		# Pequeno feedback visual de "imune" — pulso vermelho rápido nos olhos
 		_pulso_imunidade()
 		return
-	super.receber_dano(qtd, origem)
+	super.receber_dano(qtd, origem, critico)
 
 func _pulso_imunidade() -> void:
 	if not _olho_esquerdo and not _olho_direito:

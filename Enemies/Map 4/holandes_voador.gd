@@ -128,8 +128,8 @@ func _physics_process(delta: float) -> void:
 # DANO CORRIGIDO (Bug 3)
 # ==========================================
 # Removendo tipagem estrita (int/String) para evitar conflitos silenciosos com InimigoBase
-func receber_dano(qtd, origem = "torre") -> void:
-	super.receber_dano(qtd, origem)
+func receber_dano(qtd, origem = "torre", critico := false) -> void:
+	super.receber_dano(qtd, origem, critico)
 
 	# Impede ativar teleporte múltiplo
 	if has_teleported or is_teleporting or esta_morto:

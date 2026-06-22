@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ConquistaData" format=3 uid="uid://difgyrsy44hkd"]
+
+[ext_resource type="Script" uid="uid://ig1nqt01ys3c" path="res://Conquistas/conquista_data.gd" id="1_csup"]
+[ext_resource type="Texture2D" uid="uid://clbi1j2og8rii" path="res://Assets/Icons/Trofeu.png" id="2_csup"]
+
+[resource]
+script = ExtResource("1_csup")
+id = "colecionador_supremo"
+nome = "Temos que Pegar Todas!"
+descricao = "Desbloqueie todas as outras conquistas do jogo. 100% completo — você dominou cada canto do tabuleiro e ganhou o chapéu lendário!"
+icone = ExtResource("2_csup")
+libera_chapeu_id = "+1 to catch'em all"
+libera_arma_id = ""
+metadata/_custom_type_script = "uid://ig1nqt01ys3c"
