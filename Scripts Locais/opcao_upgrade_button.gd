@@ -204,7 +204,7 @@ func bloquear(motivo: String) -> void:
 	add_child(overlay)
 
 	var cadeado = TextureRect.new()
-	cadeado.texture = load("res://Assets/Icons/Cadeado.png")
+	cadeado.texture = load("res://Assets/Icons/cadeado.png")
 	cadeado.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	cadeado.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	cadeado.custom_minimum_size = Vector2(56, 56)

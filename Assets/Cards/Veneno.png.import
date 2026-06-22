@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://cv3w3bfw8efyi"
+path="res://.godot/imported/Veneno.png-79fb8f77ee92b4a170b0a0d33c6ef3e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Cards/Veneno.png"
+dest_files=["res://.godot/imported/Veneno.png-79fb8f77ee92b4a170b0a0d33c6ef3e6.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://dwv1konkngvp0"
+path="res://.godot/imported/Misericordia.png-dc7bb3cf0f2500469aa94bcc0e9b93f5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Cards/Misericordia.png"
+dest_files=["res://.godot/imported/Misericordia.png-dc7bb3cf0f2500469aa94bcc0e9b93f5.ctex"]
 
 [params]
 

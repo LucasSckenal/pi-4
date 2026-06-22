@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://bo26mf10xigrh"
+path="res://.godot/imported/CacadorDasAlturas.png-4975b71a87810ba08c1d52c411fe1787.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Cards/CacadorDasAlturas.png"
+dest_files=["res://.godot/imported/CacadorDasAlturas.png-4975b71a87810ba08c1d52c411fe1787.ctex"]
 
 [params]
 

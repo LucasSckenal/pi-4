@@ -277,15 +277,15 @@ func _card_construcao(dados: Dictionary, descoberta: bool, mob: bool) -> PanelCo
 
 	var ic := 120 if mob else 104
 	if descoberta:
-		var tr := TextureRect.new()
-		tr.custom_minimum_size = Vector2(ic, ic)
-		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tr.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var texturecard := TextureRect.new()
+		texturecard.custom_minimum_size = Vector2(ic, ic)
+		texturecard.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		texturecard.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		texturecard.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		var cam := String(dados.get("icone", ""))
 		if cam != "" and ResourceLoader.exists(cam):
-			tr.texture = load(cam)
-		hbox.add_child(tr)
+			texturecard.texture = load(cam)
+		hbox.add_child(texturecard)
 	else:
 		# Silhueta: mostra "?" grande no lugar do ícone
 		var q := Label.new()

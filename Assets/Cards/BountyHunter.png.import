@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://b0knqdjbisy48"
+path="res://.godot/imported/BountyHunter.png-bde3c1290b21a70977c8029258671c25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Cards/BountyHunter.png"
+dest_files=["res://.godot/imported/BountyHunter.png-bde3c1290b21a70977c8029258671c25.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://c2le2bpb2r5gs"
+path="res://.godot/imported/SwordShield.png-f10b284cf9550b84ce84b2a388edeb7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Cards/SwordShield.png"
+dest_files=["res://.godot/imported/SwordShield.png-f10b284cf9550b84ce84b2a388edeb7b.ctex"]
 
 [params]
 

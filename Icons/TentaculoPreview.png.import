@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://bv11h376xm0kb"
+path="res://.godot/imported/TentaculoPreview.png-ded473fe0288ca05c000f1410198b59f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Icons/TentaculoPreview.png"
+dest_files=["res://.godot/imported/TentaculoPreview.png-ded473fe0288ca05c000f1410198b59f.ctex"]
 
 [params]
 
