@@ -499,6 +499,17 @@ func _criar_botao_grade(dados: Dictionary) -> void:
 		lock_lbl.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		btn.add_child(lock_lbl)
 
+	# Estado de "repouso" do modulate: cinza se bloqueado, apagado se faltam moedas, normal caso contrário.
+	# Guardado em meta para o destaque de recomendação saber ao que voltar (em vez de forçar branco)
+	# e atualizado a cada instante por _atualizar_dim_moedas() conforme as moedas mudam.
+	var mod_repouso := Color(1, 1, 1, 1)
+	if bloqueado:
+		mod_repouso = Color(0.45, 0.45, 0.45, 0.9)
+	elif not GameManager.construcao_gratis_disponivel and GameManager.moedas < custo_final:
+		mod_repouso = Color(0.5, 0.5, 0.5, 0.85)   # apagado: sem moedas suficientes
+	btn.set_meta("mod_repouso", mod_repouso)
+	btn.modulate = mod_repouso
+
 	btn.pressed.connect(_ao_clicar_botao.bind(btn))
 	_botoes_ativos.append(btn)
 	_grid.add_child(btn)
@@ -628,7 +639,29 @@ func _parar_destaque(btn: Button) -> void:
 		var tw = _tweens_destaque[btn]
 		if is_instance_valid(tw): tw.kill()
 		_tweens_destaque.erase(btn)
-	btn.create_tween().tween_property(btn, "modulate", Color(1,1,1,1), 0.2)
+	var destino: Color = btn.get_meta("mod_repouso", Color(1,1,1,1))
+	btn.create_tween().tween_property(btn, "modulate", destino, 0.2)
+
+# Atualiza o "apagado" dos botões conforme as moedas mudam enquanto o menu está aberto.
+var _refresh_dim_acum: float = 0.0
+func _process(delta: float) -> void:
+	if not visible: return
+	_refresh_dim_acum += delta
+	if _refresh_dim_acum < 0.25: return
+	_refresh_dim_acum = 0.0
+	_atualizar_dim_moedas()
+
+func _atualizar_dim_moedas() -> void:
+	for btn in _botoes_ativos:
+		if not is_instance_valid(btn): continue
+		if btn.disabled: continue   # bloqueado por nível: mantém o estado de bloqueio
+		var custo: int = int(btn.get_meta("custo_torre")) if btn.has_meta("custo_torre") else 0
+		var custo_final: int = GameManager.obter_custo_com_desconto(custo)
+		var pode_pagar: bool = GameManager.construcao_gratis_disponivel or GameManager.moedas >= custo_final
+		var mod_repouso := Color(1, 1, 1, 1) if pode_pagar else Color(0.5, 0.5, 0.5, 0.85)
+		btn.set_meta("mod_repouso", mod_repouso)
+		if _tweens_destaque.has(btn): continue   # botão em destaque: o tween controla o modulate
+		btn.modulate = mod_repouso
 
 # Legacy no-op
 func atualizar_informacoes(_nome: String, _custo: int) -> void: pass

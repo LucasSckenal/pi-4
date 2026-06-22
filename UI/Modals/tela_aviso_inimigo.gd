@@ -5,9 +5,9 @@ extends CanvasLayer
 # ==========================================
 @onready var nome_inimigo_label: Label      = $CartaoCentral/Margin/VBox/NomeInimigo
 @onready var dica_texto: Label              = $CartaoCentral/Margin/VBox/DicaTexto
-@onready var vel_info: Label                = $CartaoCentral/Margin/VBox/Status/VelocidadeInfo
-@onready var vida_info: Label               = $CartaoCentral/Margin/VBox/Status/VidaInfo
-@onready var icone_rect: TextureRect        = $CartaoCentral/Margin/VBox/IconeInimigo
+@onready var vel_info: Label                = $CartaoCentral/Margin/VBox/Status/VelChip/VelocidadeInfo
+@onready var vida_info: Label               = $CartaoCentral/Margin/VBox/Status/VidaChip/VidaInfo
+@onready var icone_rect: TextureRect        = $CartaoCentral/Margin/VBox/MolduraIcone/IconeInimigo
 @onready var cartao: Panel                  = $CartaoCentral
 
 func _ready():

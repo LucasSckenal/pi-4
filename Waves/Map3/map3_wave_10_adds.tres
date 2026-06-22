@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="WaveData" format=3 uid="uid://cm3w10addsx1"]
+
+[ext_resource type="Script" uid="uid://ciw2y5bxsm8i0" path="res://Enemies/inimigo_config.gd" id="1_cfg"]
+[ext_resource type="Script" uid="uid://bhmiwxgo74e8k" path="res://Waves/wave_resource.gd" id="2_wave"]
+[ext_resource type="PackedScene" uid="uid://c266c7n2kritr" path="res://Enemies/Map 3/Franke.tscn" id="4_franke"]
+[ext_resource type="PackedScene" uid="uid://0d51ytvkkhod" path="res://Enemies/Map 3/abobora.tscn" id="5_abo"]
+[ext_resource type="PackedScene" uid="uid://b3c5hgtqmdtmi" path="res://Enemies/Map 3/knight.tscn" id="6_knight"]
+[ext_resource type="Texture2D" uid="uid://h4an3uj06fr7" path="res://Icons/AboboraPreview.png" id="icon_abo"]
+[ext_resource type="Texture2D" uid="uid://pe148cm73hb3" path="res://Icons/FrankPreview.png" id="icon_frank"]
+[ext_resource type="Texture2D" uid="uid://2o060fwqlrxd" path="res://Icons/CavaleiroPreview.png" id="icon_knight"]
+
+[sub_resource type="Resource" id="Resource_franke"]
+script = ExtResource("1_cfg")
+cena = ExtResource("4_franke")
+quantidade = 2
+cor = Color(0.25, 0.8, 0.25, 1)
+icone = ExtResource("icon_frank")
+descricao = "Franke: tanque lento com muita vida. Foque torres de alto dano nele."
+
+[sub_resource type="Resource" id="Resource_abo"]
+script = ExtResource("1_cfg")
+cena = ExtResource("5_abo")
+quantidade = 4
+cor = Color(0.95, 0.5, 0.1, 1)
+icone = ExtResource("icon_abo")
+descricao = "Abóbora: inimigo rápido e fraco. Derrota fácil, mas vem em grupo."
+
+[sub_resource type="Resource" id="Resource_knight"]
+script = ExtResource("1_cfg")
+cena = ExtResource("6_knight")
+quantidade = 3
+cor = Color(0.45, 0.35, 0.95, 1)
+icone = ExtResource("icon_knight")
+descricao = "Cavaleiro: mais resistente e lento. Absorve dano antes de cair."
+
+[resource]
+script = ExtResource("2_wave")
+nome_da_onda = "Mapa 3 - Onda Final (reforços)"
+descricao = "Os reforços da guarda da Bruxa chegam pelos outros caminhos."
+intervalo = 1.8
+inimigos = Array[ExtResource("1_cfg")]([SubResource("Resource_franke"), SubResource("Resource_abo"), SubResource("Resource_knight")])

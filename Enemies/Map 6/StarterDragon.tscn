@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bv7ism2n2qiu7" path="res://Enemies/Map 6/dragon_rage.gd" id="1_e45u3"]
 [ext_resource type="PackedScene" uid="uid://pmrhrtpnlx72" path="res://Map6/Dragon.glb" id="1_lg3hq"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="2_1wk1n"]
-[ext_resource type="Texture2D" uid="uid://b8anjep6lntqv" path="res://Assets/HealthBar/BarraVidaPirata.png" id="2_21ty5"]
+[ext_resource type="Texture2D" uid="uid://dk4ucj3xqrjv1" path="res://Assets/HealthBar/BarraVidaDragao.png" id="2_21ty5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1wk1n"]
 render_priority = 0
@@ -201,8 +201,9 @@ anim_andar = "CharacterArmature|Flying_Idle"
 anim_atacar = "CharacterArmature|Headbutt"
 anim_morrer = "CharacterArmature|Death"
 textura_moldura_boss = ExtResource("2_21ty5")
+barra_rect = Rect2(0.273, 0.527, 0.652, 0.204)
 cor_barra_boss = Color(1, 0, 0.023529412, 1)
-ajuste_tamanho_preenchimento = Vector2(-15, -65)
+ajuste_tamanho_preenchimento = Vector2(0, 0)
 limite_visual_min = 66.6
 mostrar_porcentagem_vida = true
 separacao_porcentagem_boss = 33.3

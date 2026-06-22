@@ -1,4 +1,5 @@
 [gd_scene format=4 uid="uid://v7g5uxby4hkm"]
+[ext_resource type="Texture2D" uid="uid://dk4ucj3xqrjv1" path="res://Assets/HealthBar/BarraVidaDragao.png" id="barvida_boss"]
 
 [ext_resource type="PackedScene" uid="uid://shgjn222oijp" path="res://Map6/Dragon Evolved.glb" id="1_as75k"]
 [ext_resource type="Script" uid="uid://bv7ism2n2qiu7" path="res://Enemies/Map 6/dragon_rage.gd" id="1_mli3n"]
@@ -193,6 +194,13 @@ height = 1.5126953
 
 [node name="MidDragon" type="CharacterBody3D" unique_id=617332867 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_mli3n")
+textura_moldura_boss = ExtResource("barvida_boss")
+barra_rect = Rect2(0.273, 0.527, 0.652, 0.204)
+cor_barra_boss = Color(1, 0, 0.023529412, 1)
+limite_visual_max = 66.6
+limite_visual_min = 33.3
+separacao_porcentagem_boss = 33.3
+mostrar_porcentagem_vida = true
 rage_velocidade_mult = 1.65
 rage_dano_mult = 1.25
 rage_animacao = "CharacterArmature|Headbutt"

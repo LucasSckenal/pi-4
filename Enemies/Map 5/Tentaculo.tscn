@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://cyuqepup8cejs"]
 
 [ext_resource type="Script" uid="uid://cir5o22586cv1" path="res://Enemies/Map 5/tentaculo.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bv11h376xm0kb" path="res://Icons/TentaculoPreview.png" id="2_m3gn2"]
 [ext_resource type="PackedScene" uid="uid://ckg4fp2xehecm" path="res://Map5/Tentaculo.glb" id="2_mesh"]
 [ext_resource type="Texture2D" uid="uid://dpwvkfndxarqb" path="res://Map5/Tentaculo_0.jpg" id="3_j2erf"]
 [ext_resource type="Texture2D" uid="uid://27metapdrbdn" path="res://Map5/Tentaculo_1.jpg" id="4_441rq"]
@@ -70,7 +71,7 @@ radius = 1.5
 [node name="Tentaculo" type="CharacterBody3D" unique_id=2118301557 groups=["inimigos"]]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_script")
-nome_inimigo = "Tentáculo"
+nome_inimigo = "Tentáculo Cósmico"
 vida_maxima = 250
 velocidade = 0.0
 forca_dano = 12
@@ -79,6 +80,7 @@ tempo_recarga_ataque = 1.2
 raio_visao_construcao = 4.5
 raio_visao_aliados = 0.0
 modelo_3d = NodePath("ModeloAnchor")
+icone = ExtResource("2_m3gn2")
 dica_tutorial = "Tentáculo do Cosmic Kraken. Está fixo perto das construções — destrua-o antes que abra caminho pros invasores."
 status_velocidade = "ESTÁTICA"
 status_vida = "ALTA"
@@ -95,7 +97,7 @@ target_desired_distance = 0.5
 
 [node name="Modelo" parent="ModeloAnchor" unique_id=1569291843 instance=ExtResource("2_mesh")]
 
-[node name="Mesh" parent="ModeloAnchor/Modelo" index="0" unique_id=364023273]
+[node name="Mesh" parent="ModeloAnchor/Modelo" index="0" unique_id=373771231]
 mesh = SubResource("ArrayMesh_xqn3c")
 
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=1477858210]

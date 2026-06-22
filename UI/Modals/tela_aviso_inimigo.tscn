@@ -3,18 +3,53 @@
 [ext_resource type="Script" uid="uid://vo7nxu7xmuy3" path="res://UI/Modals/tela_aviso_inimigo.gd" id="1_rmby8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
-bg_color = Color(0.12, 0.12, 0.14, 0.95)
+bg_color = Color(0.12, 0.09, 0.06, 0.98)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(0.85, 0.65, 0.2, 1)
-corner_radius_top_left = 12
-corner_radius_top_right = 12
-corner_radius_bottom_right = 12
-corner_radius_bottom_left = 12
-shadow_color = Color(0, 0, 0, 0.5)
-shadow_size = 15
+border_color = Color(0.6, 0.46, 0.18, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.55)
+shadow_size = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icone"]
+bg_color = Color(0.06, 0.04, 0.02, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35, 0.27, 0.12, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chip"]
+bg_color = Color(0.18, 0.13, 0.07, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.3, 0.14, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 14.0
+content_margin_top = 7.0
+content_margin_right = 14.0
+content_margin_bottom = 7.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sep"]
+bg_color = Color(0.35, 0.27, 0.1, 0.6)
 
 [node name="TelaAvisoInimigo" type="CanvasLayer" unique_id=674670310]
 process_mode = 3
@@ -27,7 +62,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.6)
+color = Color(0, 0, 0, 0.7)
 
 [node name="CartaoCentral" type="Panel" parent="." unique_id=1112759753]
 anchors_preset = 8
@@ -35,10 +70,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -260.0
-offset_right = 180.0
-offset_bottom = 260.0
+offset_left = -210.0
+offset_top = -300.0
+offset_right = 210.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_card")
@@ -48,82 +83,96 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -6.0
-offset_top = -18.0
-offset_right = 6.0
-offset_bottom = 18.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 15
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 22
 
 [node name="VBox" type="VBoxContainer" parent="CartaoCentral/Margin" unique_id=1979158382]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 14
 alignment = 1
 
-[node name="TituloSuperior" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=1381663580]
+[node name="Cabecalho" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=1381663580]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.35, 0.2, 1)
-theme_override_colors/font_outline_color = Color(0.2, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 20
-text = "🔥 INIMIGO 🔥"
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 22
+text = "NOVO INIMIGO"
 horizontal_alignment = 1
 
-[node name="IconeInimigo" type="TextureRect" parent="CartaoCentral/Margin/VBox" unique_id=1991747479]
-custom_minimum_size = Vector2(160, 160)
+[node name="SepTopo" type="Panel" parent="CartaoCentral/Margin/VBox" unique_id=599670091]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sep")
+
+[node name="MolduraIcone" type="PanelContainer" parent="CartaoCentral/Margin/VBox" unique_id=1991747480]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_icone")
+
+[node name="IconeInimigo" type="TextureRect" parent="CartaoCentral/Margin/VBox/MolduraIcone" unique_id=1991747479]
+custom_minimum_size = Vector2(170, 170)
+layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Separador1" type="HSeparator" parent="CartaoCentral/Margin/VBox" unique_id=599670091]
-layout_mode = 2
-
 [node name="NomeInimigo" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=758953691]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 0.92, 0.66, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 28
 text = "DUNE SKELETON"
 horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="DicaTexto" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=1531284841]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
-text = "\"Extremely fast. Break them quickly \""
+theme_override_colors/font_color = Color(0.8, 0.7, 0.54, 1)
+theme_override_font_sizes/font_size = 17
+text = "\"Extremamente rápido. Quebre-o rápido.\""
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Separador2" type="HSeparator" parent="CartaoCentral/Margin/VBox" unique_id=1447790669]
+[node name="SepBaixo" type="Panel" parent="CartaoCentral/Margin/VBox" unique_id=1447790669]
+custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sep")
 
 [node name="Status" type="HBoxContainer" parent="CartaoCentral/Margin/VBox" unique_id=1325001773]
 layout_mode = 2
-theme_override_constants/separation = 30
+theme_override_constants/separation = 14
 alignment = 1
 
-[node name="VelocidadeInfo" type="Label" parent="CartaoCentral/Margin/VBox/Status" unique_id=420591295]
+[node name="VelChip" type="PanelContainer" parent="CartaoCentral/Margin/VBox/Status" unique_id=420591294]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.85, 0.4, 1)
-text = "⚡ Velocidade: HIGH"
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
 
-[node name="VidaInfo" type="Label" parent="CartaoCentral/Margin/VBox/Status" unique_id=2103409838]
+[node name="VelocidadeInfo" type="Label" parent="CartaoCentral/Margin/VBox/Status/VelChip" unique_id=420591295]
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
-text = "❤️ HP: LOW"
+theme_override_colors/font_color = Color(1, 0.82, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+text = "Vel: ALTA"
 
-[node name="EspacoVazio" type="Control" parent="CartaoCentral/Margin/VBox" unique_id=1550001983]
-custom_minimum_size = Vector2(0, 10)
+[node name="VidaChip" type="PanelContainer" parent="CartaoCentral/Margin/VBox/Status" unique_id=2103409837]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_chip")
+
+[node name="VidaInfo" type="Label" parent="CartaoCentral/Margin/VBox/Status/VidaChip" unique_id=2103409838]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.48, 0.42, 1)
+theme_override_font_sizes/font_size = 18
+text = "HP: BAIXO"
 
 [node name="TextoPressione" type="Label" parent="CartaoCentral/Margin/VBox" unique_id=2131766579]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
-theme_override_font_sizes/font_size = 14
-text = "(Clique qualquer tecla ou toque para continuar)"
+theme_override_colors/font_color = Color(0.62, 0.54, 0.42, 1)
+theme_override_font_sizes/font_size = 15
+text = "Toque para continuar"
 horizontal_alignment = 1

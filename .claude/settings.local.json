@@ -50,7 +50,12 @@
       "Bash(rm -f err.log)",
       "Bash(grep -vE \"^$\")",
       "Bash(python -)",
-      "Bash(python -m pip install Pillow --quiet)"
+      "Bash(python -m pip install Pillow --quiet)",
+      "Bash(awk 'NR>=183 && NR<=235' \"Enemies/Map 6/StarterDragon.tscn\")",
+      "Bash(grep -nB2 -A2 \"bonus_dano += int\" \"Scripts Globais/game_manager.gd\")",
+      "Bash(grep -nA6 \"func get_int\" \"Scripts Globais/Balanceamento.gd\")",
+      "Bash(grep -nA10 \"^func atualizar_status\" \"Scripts Globais/Builds.gd\")",
+      "Bash(grep -nA8 \"CALDEIRÃO-TORRE: o círculo\" \"Scripts Globais/Builds.gd\")"
     ]
   }
 }

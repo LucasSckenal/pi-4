@@ -133,7 +133,7 @@ const INIMIGOS: Array = [
 	 "comportamento": "Voo irregular rumo à base.",
 	 "fraqueza": "Defesas antiaéreas.",
 	 "avistamento": "Anéis do planeta"},
-	{"nome": "Tentáculo", "mapa": 5, "categoria": "Comum", "icone": "res://Icons/VermelinPreview.png",
+	{"nome": "Tentáculo Cósmico", "mapa": 5, "categoria": "Comum", "icone": "res://Icons/TentaculoPreview.png",
 	 "lore": "Apêndice cósmico que se arrasta sozinho rumo à base. Nojento e teimoso.",
 	 "comportamento": "Pequeno e teimoso; fura a fila.",
 	 "fraqueza": "Tiro rápido.",

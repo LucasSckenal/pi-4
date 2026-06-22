@@ -136,7 +136,7 @@ const _ICONES: Dictionary = {
 	"Sapao Astronauta":          "res://Icons/SapoPreview.png",
 	"Fernando o flamingo":       "res://Icons/FlamingoPreview.png",
 	"Cosmic Kraken":             "res://Icons/AlienPreview.png",
-	"Tentáculo":                 "res://Icons/VermelinPreview.png",
+	"Tentáculo Cósmico":         "res://Icons/TentaculoPreview.png",
 	# Mapa 6
 	"Demoniozinho":              "res://Icons/DemoniozinhoPreview.png",
 	"Dragao Inicial":            "res://Icons/DragaoBebePreview.png",

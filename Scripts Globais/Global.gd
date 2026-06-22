@@ -212,7 +212,7 @@ func salvar_progresso():
 func _migrar_nomes_inimigos() -> void:
 	var renomeados := {
 		"Desert minion": "Servo do Deserto",
-		"Tentáculo Cósmico": "Tentáculo",
+		"Tentáculo": "Tentáculo Cósmico",
 	}
 	var mudou := false
 	for antigo in renomeados:

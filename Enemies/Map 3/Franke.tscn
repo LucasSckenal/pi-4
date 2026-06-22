@@ -55,6 +55,7 @@ height = 1.890625
 transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0, 0)
 script = ExtResource("1_cjg2v")
 nome_inimigo = "Bilbo"
+vida_maxima = 600
 tipo_inimigo = 1
 modelo_3d = NodePath(".")
 animation_player = NodePath("Meshy_AI_Low_Poly_Frankenstein_biped_Meshy_AI_Meshy_Merged_Animations/AnimationPlayer")

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemies/inimigo_base.gd" id="1_ha1bv"]
 [ext_resource type="PackedScene" uid="uid://bob5h36vdfvty" path="res://Map3/Wizard.glb" id="2_cgy6y"]
+[ext_resource type="Texture2D" uid="uid://phlwixp7fb0j" path="res://Icons/AprendizBruxaPreview.png" id="2_wl42u"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_cgy6y"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gbaoe"]
@@ -191,8 +192,10 @@ height = 3.9189453
 transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
 script = ExtResource("1_ha1bv")
 nome_inimigo = "Aprendiz da Bruxa"
+vida_maxima = 140
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")
+icone = ExtResource("2_wl42u")
 anim_andar = "CharacterArmature|Jump"
 anim_atacar = "CharacterArmature|Bite_Front"
 anim_morrer = "CharacterArmature|Death"
@@ -200,23 +203,23 @@ anim_morrer = "CharacterArmature|Death"
 [node name="Root Scene" parent="." unique_id=146680274 instance=ExtResource("2_cgy6y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.13527858, 0, -0.0045433044)
 
-[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(146680274, 1425561781) index="0" unique_id=1561487027]
+[node name="Skeleton3D" parent="Root Scene/RootNode/CharacterArmature" parent_id_path=PackedInt32Array(146680274, 1644117966) index="0" unique_id=190898094]
 bones/0/position = Vector3(1.0145632e-18, -0.003652282, 0.0046745073)
 bones/0/rotation = Quaternion(0.11968598, -8.8763005e-17, 9.6025465e-17, 0.9928118)
 bones/1/position = Vector3(2.3798395e-19, 0.0005014175, 0.0058478652)
 bones/1/rotation = Quaternion(0.071898125, -9.1759655e-17, 8.969734e-17, 0.99741197)
 bones/3/rotation = Quaternion(6.7479003e-20, 3.5471476e-10, -0.0026400522, 0.99999654)
 
-[node name="Body" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=689661684]
+[node name="Body" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="0" unique_id=1076075988]
 transform = Transform3D(1, -2.119178e-16, -1.5326411e-16, 1.6942305e-16, 0.97135055, -0.2376513, 1.9923571e-16, 0.2376513, 0.97135055, 1.0145632e-18, -0.003652282, 0.0046745073)
 
-[node name="Head3" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=1011335358]
+[node name="Head3" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="1" unique_id=1188683194]
 transform = Transform3D(0.999986, 0.005280086, 7.094269e-10, -0.005225497, 0.98964745, -0.14342411, -0.0007572923, 0.1434221, 0.98966134, -1.5039389e-18, 0.009474287, 0.007148235)
 
-[node name="Wizard_Blob_001" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=81465884]
+[node name="Wizard_Blob_001" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="2" unique_id=2088164272]
 mesh = SubResource("ArrayMesh_7sujg")
 
-[node name="Wizard_Blob" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=1088899819]
+[node name="Wizard_Blob" parent="Root Scene/RootNode/CharacterArmature/Skeleton3D" index="3" unique_id=991856120]
 mesh = SubResource("ArrayMesh_26alf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2070744820]

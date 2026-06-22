@@ -328,7 +328,9 @@ func _ready():
 			GameManager.noite_iniciada.connect(_spawn_aliados)
 		TipoConstrucao.CALDEIRON:
 			add_to_group("Construcao")
-			_criar_circulo_caldeiron(Balanceamento.get_float("caldeiron_alcance", 5.0))
+			# Raio segue a propriedade 'alcance' da cena (editável no inspetor) + carta de alcance
+			_raio_circulo_veneno = alcance_atual + GameManager.bonus_alcance
+			_criar_circulo_caldeiron(_raio_circulo_veneno)
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
@@ -1234,6 +1236,15 @@ func _process(delta):
 
 	# Caldeirão — ataque em área periódico durante a noite
 	if tipo == TipoConstrucao.CALDEIRON and not is_fantasma and not esta_destruida:
+		# Atualiza o raio do veneno em tempo real (carta de alcance OU mudança no inspetor).
+		var raio_efetivo: float = alcance_atual + GameManager.bonus_alcance
+		if not is_equal_approx(_raio_circulo_veneno, raio_efetivo):
+			_raio_circulo_veneno = raio_efetivo
+			var velho := get_node_or_null("CirculoVeneno")
+			if velho:
+				velho.name = "_CirculoVenenoAntigo"  # libera o nome para o novo círculo
+				velho.queue_free()
+			_criar_circulo_caldeiron(raio_efetivo)
 		if GameManager.is_night:
 			_caldeiron_timer += delta
 			var intervalo: float = Balanceamento.get_float("caldeiron_intervalo", 3.0)
@@ -1250,7 +1261,11 @@ func _process(delta):
 	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
 
 func _caldeiron_atacar_area() -> void:
-	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	# Veneno em ÁREA: usa o dano PRÓPRIO (propriedade 'dano' da caldeiron.tscn) e IGNORA o
+	# bônus global de dano. Como bate em todos de uma vez (e o bônus cresce sozinho via
+	# DANO_CRESCENTE), herdar o bônus deixava o caldeirão absurdo (85+). Aqui é previsível
+	# e ajustável direto no inspetor da cena.
+	var dano_base: int = max(1, dano_atual)
 	# Purga em-lugar (sem filter() → sem alocação por tick)
 	for i in range(_inimigos_no_veneno.size() - 1, -1, -1):
 		var e = _inimigos_no_veneno[i]
@@ -1261,7 +1276,16 @@ func _caldeiron_atacar_area() -> void:
 			inimigo.receber_dano(dano_base)
 
 func _caldeiron_atacar_area_torre() -> void:
-	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	# Dano da ÁREA = valor do caminho "Caldeirão" (dano_por_nivel do Resource_caldeiron na
+	# tower.tscn). NÃO soma o dano de flecha da torre (60) nem o bônus global — senão dá 85+.
+	# Assim é previsível e ajustável direto no dano_por_nivel do caminho.
+	var dano_caminho: int = dano_atual
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var p = upgrade_paths[caminho_atual]
+		var idx := nivel_atual - 1
+		if idx >= 0 and idx < p.dano_por_nivel.size():
+			dano_caminho = p.dano_por_nivel[idx]
+	var dano_base: int = max(1, dano_caminho)
 	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
 		if not is_instance_valid(inimigos_no_alcance[i]):
 			inimigos_no_alcance.remove_at(i)

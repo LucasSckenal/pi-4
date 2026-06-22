@@ -55,6 +55,7 @@ height = 1.2573242
 transform = Transform3D(0.55, 0, 0, 0, 0.55, 0, 0, 0, 0.55, 0, 0, 0)
 script = ExtResource("1_gqnwe")
 nome_inimigo = "Abóbora"
+vida_maxima = 120
 modelo_3d = NodePath(".")
 animation_player = NodePath("Meshy_AI_Pumpkin_Knight_biped_Meshy_AI_Meshy_Merged_Animations/AnimationPlayer")
 anim_andar = "Unsteady_Walk"
