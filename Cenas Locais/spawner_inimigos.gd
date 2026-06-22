@@ -6,6 +6,9 @@ signal info_proxima_onda(_id_spawner: String, direcao: String, inimigos: Array, 
 @export var ondas: Array[WaveData] = []
 @export var label_wave: Label
 @export var hud_point: Marker3D
+## Chance (0..1) dos inimigos DESTE spawner desviarem por um lado aleatório no caminho.
+## Deixe 0 nos spawners normais; coloque ~0.5 no "spawner A" cujo lane sempre vai pro mesmo lado.
+@export_range(0.0, 1.0) var chance_rota_lateral: float = 0.0
 
 var onda_atual: int = 0
 var _luz_spawner: OmniLight3D = null
@@ -113,6 +116,9 @@ func _spawnar_proximo():
 	# Aplica escala de HP ANTES de adicionar à árvore para que _ready use o valor escalado
 	if hp_mult > 1.0 and "vida_maxima" in inimigo:
 		inimigo.vida_maxima = int(inimigo.vida_maxima * hp_mult)
+	# Rota lateral: passa a chance deste spawner ANTES do _ready do inimigo
+	if "_chance_rota_lateral" in inimigo:
+		inimigo._chance_rota_lateral = chance_rota_lateral
 	get_tree().current_scene.add_child(inimigo)
 	inimigo.global_position = global_position
 	inimigos_restantes -= 1

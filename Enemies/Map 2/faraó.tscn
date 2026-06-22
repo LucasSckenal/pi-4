@@ -1,4 +1,5 @@
 [gd_scene format=4 uid="uid://dnmgh03i2ix21"]
+[ext_resource type="Texture2D" uid="uid://bf5w5y1mtq8f4" path="res://Assets/HealthBar/BarraVidaFarao.png" id="barvida_boss"]
 
 [ext_resource type="PackedScene" uid="uid://duu7n3v1uixxc" path="res://Map2/Meshy_AI_Pharaoh_Mummy_Warrior_biped_Meshy_AI_Meshy_Merged_Animations.glb" id="1_0ki3c"]
 [ext_resource type="Script" uid="uid://b10p5n60o5vy" path="res://Enemies/Map 2/farao.gd" id="1_oswje"]
@@ -57,6 +58,8 @@ height = 2.0651855
 [node name="Faraó" type="CharacterBody3D" unique_id=1483349175 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_oswje")
+textura_moldura_boss = ExtResource("barvida_boss")
+barra_rect = Rect2(0.247, 0.575, 0.704, 0.242)
 anim_especial = "Skill_03"
 tipo_inimigo = 2
 nome_inimigo = "Faraó"

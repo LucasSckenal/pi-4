@@ -82,6 +82,25 @@ var pode_atacar: bool = true
 var escala_original: Vector3
 var posicao_de_spawn: Vector3
 var desvio_posicao: Vector3 = Vector3.ZERO
+
+# ── Rota lateral aleatória (faz alguns inimigos irem por outro lado) ──────────
+# A chance é definida POR SPAWNER: o spawner seta '_chance_rota_lateral' antes do
+# inimigo entrar na árvore. Assim só os inimigos do "spawner A" (que você configurar)
+# desviam para um lado aleatório no caminho até a base.
+@export var dist_rota_lateral: float = 3.5   # quão "largo" é o desvio lateral
+var _chance_rota_lateral: float = 0.0        # 0..1, ajustado pelo spawner
+var _rota_pendente: bool = false             # sorteado: vai desviar, mas só depois de sair do spawner
+var _rota_ativa: bool = false
+var _rota_lado: int = 1
+var _rota_waypoint: Vector3 = Vector3.ZERO
+var _rota_calculada: bool = false
+var _rota_timer: float = 0.0                 # segurança: abandona o desvio se demorar demais
+
+# ── Detector anti-travamento (especialmente para inimigos grandes no spawner) ──
+var _stuck_timer: float = 0.0
+var _stuck_check_pos: Vector3 = Vector3.ZERO
+var _stuck_check_acc: float = 0.0
+var _stuck_escape: float = 0.0               # > 0 = empurra direto pra base ignorando avoidance
 var tempo_bloqueado: float = 0.0
 var _contador_quedas: int = 0
 var _timer_re_check: float = 0.0
@@ -221,7 +240,13 @@ func _ready():
 			add_collision_exception_with(jogador)
 	
 	desvio_posicao = Vector3(randf_range(-quanto_espalhar, quanto_espalhar), 0, randf_range(-quanto_espalhar, quanto_espalhar))
-	
+
+	# Rota lateral: só os inimigos cujo spawner pediu (chance > 0) desviam para um lado aleatório.
+	# Fica PENDENTE: só ativa depois que o inimigo sai da aglomeração do spawner (evita travar lá).
+	if not eh_aereo and randf() < _chance_rota_lateral:
+		_rota_pendente = true
+		_rota_lado = 1 if randf() < 0.5 else -1
+
 	if modelo_3d:
 		escala_original = modelo_3d.scale
 	else:
@@ -438,6 +463,59 @@ func _physics_process(delta):
 		if dist < dist_tornar_random:
 			alvo_pos += desvio_posicao
 
+		var indo_para_base := alvo_atual.is_in_group("Castelo") or alvo_atual.is_in_group("Base")
+
+		# Só ativa o desvio lateral DEPOIS que o inimigo saiu da aglomeração do spawner.
+		# Evita que inimigos grandes (ex.: Franke) entalem tentando fanar pro lado no spawn.
+		if _rota_pendente and indo_para_base and posicao_de_spawn.distance_to(global_position) > 3.5:
+			_rota_pendente = false
+			_rota_ativa = true
+
+		# ── Detector anti-travamento ────────────────────────────────────────────
+		# Se mal se mexeu por ~2 s enquanto deveria estar andando, dispara um "escape".
+		_stuck_check_acc += delta
+		if _stuck_check_acc >= 0.5:
+			if global_position.distance_to(_stuck_check_pos) < 0.25 and dist_xz > distancia_ataque:
+				_stuck_timer += _stuck_check_acc
+			else:
+				_stuck_timer = 0.0
+			_stuck_check_pos = global_position
+			_stuck_check_acc = 0.0
+			if _stuck_timer >= 2.0:
+				_rota_ativa = false
+				_rota_pendente = false
+				_stuck_escape = 1.0          # empurra direto pra base por 1 s
+				_stuck_timer = 0.0
+
+		# Escape: empurra direto rumo à base, ignorando o avoidance, para desentalar.
+		if _stuck_escape > 0.0:
+			_stuck_escape -= delta
+			var dir_esc := alvo_atual.global_position - global_position
+			dir_esc.y = 0.0
+			if dir_esc.length() > 0.01:
+				dir_esc = dir_esc.normalized()
+				var vel_esc: float = velocidade * max(0.1, _multiplicador_gelo)
+				velocity.x = dir_esc.x * vel_esc
+				velocity.z = dir_esc.z * vel_esc
+				rotation.y = lerp_angle(rotation.y, Vector2(dir_esc.z, dir_esc.x).angle(), 10 * delta)
+			if (is_on_floor() or eh_aereo) and animation_player and animation_player.has_animation(anim_andar):
+				animation_player.play(anim_andar)
+			move_and_slide()
+			return
+
+		# Rota lateral: enquanto vai para a BASE, mira um waypoint deslocado p/ um lado.
+		# Faz a NavMesh rotear por outro caminho. Some quando chega perto do waypoint
+		# OU se demorar demais (segurança contra waypoint fora da NavMesh = inimigo travado).
+		if _rota_ativa and indo_para_base:
+			if not _rota_calculada:
+				_rota_waypoint = _calcular_waypoint_lateral(alvo_pos)
+				_rota_calculada = true
+			_rota_timer += delta
+			if _rota_timer < 4.0 and global_position.distance_to(_rota_waypoint) > 2.5:
+				alvo_pos = _rota_waypoint
+			else:
+				_rota_ativa = false   # chegou ao desvio (ou esgotou o tempo) → segue normal para a base
+
 		nav_agent.target_position = alvo_pos
 		
 		# Verifica fisicamente se colidiu com o alvo (especialmente útil para construções grandes)
@@ -492,7 +570,12 @@ func _physics_process(delta):
 				if (is_on_floor() or eh_aereo) and animation_player and animation_player.has_animation(anim_andar):
 					animation_player.play(anim_andar)
 			else:
-				# NavMesh sem caminho válido (base bloqueada) — avança diretamente
+				# NavMesh sem caminho válido. Se estávamos desviando, o waypoint lateral
+				# provavelmente é inalcançável → abandona o desvio e mira a base direto.
+				if _rota_ativa:
+					_rota_ativa = false
+					alvo_pos = alvo_atual.global_position
+				# base bloqueada — avança diretamente
 				var vel_aplicada = velocidade * max(0.1, _multiplicador_gelo)
 				var dir_direto = Vector3(alvo_pos.x - global_position.x, 0.0,
 					alvo_pos.z - global_position.z).normalized()
@@ -517,6 +600,23 @@ func _on_navigation_agent_3d_velocity_computed(safe_velocity: Vector3):
 	velocity.x = safe_velocity.x
 	velocity.z = safe_velocity.z
 	move_and_slide()
+
+# Ponto deslocado para um lado, no meio do caminho até a base, snapado na NavMesh.
+# Faz o inimigo "abrir" para a esquerda/direita antes de seguir para a base.
+func _calcular_waypoint_lateral(base_pos: Vector3) -> Vector3:
+	var dir := base_pos - global_position
+	dir.y = 0.0
+	if dir.length() < 0.1:
+		return base_pos
+	dir = dir.normalized()
+	var perp := Vector3(-dir.z, 0.0, dir.x)   # perpendicular no plano XZ
+	var meio := (global_position + base_pos) * 0.5
+	var ponto := meio + perp * float(_rota_lado) * dist_rota_lateral
+	# Garante que o ponto está sobre a NavMesh (senão o caminho falha)
+	var mapa_nav := get_world_3d().navigation_map
+	if mapa_nav.is_valid():
+		ponto = NavigationServer3D.map_get_closest_point(mapa_nav, ponto)
+	return ponto
 
 func procurar_novo_alvo():
 	var aliados = get_tree().get_nodes_in_group("aliados")

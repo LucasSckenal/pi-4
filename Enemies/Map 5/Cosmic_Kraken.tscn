@@ -1,4 +1,5 @@
 [gd_scene format=3 uid="uid://ch5u6n18i5nvs"]
+[ext_resource type="Texture2D" uid="uid://gfysklubyrdu" path="res://Assets/HealthBar/BarraVidaKraken.png" id="barvida_boss"]
 
 [ext_resource type="Script" uid="uid://bw23hq56j7m26" path="res://Enemies/Map 5/cosmic_kraken.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://cyuqepup8cejs" path="res://Enemies/Map 5/Tentaculo.tscn" id="2_tentaculo"]
@@ -13,6 +14,8 @@ height = 0.5
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_script")
+textura_moldura_boss = ExtResource("barvida_boss")
+barra_rect = Rect2(0.246, 0.557, 0.687, 0.279)
 cena_tentaculo = ExtResource("2_tentaculo")
 tipo_inimigo = 2
 nome_inimigo = "Cosmic Kraken"

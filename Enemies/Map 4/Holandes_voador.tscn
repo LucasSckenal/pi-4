@@ -1,4 +1,5 @@
 [gd_scene format=4 uid="uid://b7wfiyfe18d3d"]
+[ext_resource type="Texture2D" uid="uid://b8anjep6lntqv" path="res://Assets/HealthBar/BarraVidaPirata.png" id="barvida_boss"]
 
 [ext_resource type="PackedScene" uid="uid://d12e8b462dr2c" path="res://Enemies/holandes_voador.glb" id="1_cavi6"]
 [ext_resource type="Script" uid="uid://c6vp5ild7kki6" path="res://Enemies/Map 4/holandes_voador.gd" id="1_yqujj"]
@@ -52,6 +53,8 @@ height = 3.7821045
 [node name="CharacterBody3D2" type="CharacterBody3D" unique_id=126271688 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_yqujj")
+textura_moldura_boss = ExtResource("barvida_boss")
+barra_rect = Rect2(0.247, 0.543, 0.686, 0.257)
 tipo_inimigo = 2
 nome_inimigo = "Holandês Voador"
 usar_video_custom = true

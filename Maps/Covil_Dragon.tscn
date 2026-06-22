@@ -98,6 +98,7 @@ mesh = SubResource("PlaneMesh_s3dhy")
 [node name="Spawners" type="Node3D" parent="." unique_id=2079467093]
 
 [node name="SpawnerInimigos" parent="Spawners" unique_id=423161848 instance=ExtResource("8_mukah")]
+chance_rota_lateral = 0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.833754, -0.08244449, 0)
 ondas = Array[ExtResource("9_x6lc8")]([ExtResource("40_empty"), ExtResource("40_empty"), ExtResource("20_s01"), ExtResource("21_s02"), ExtResource("22_s03"), ExtResource("29_s10")])
 

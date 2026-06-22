@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/Cadeado.png-fcbb40d46366397e2c55aa1e31749223.ctex"
+uid="uid://gfysklubyrdu"
+path="res://.godot/imported/BarraVidaKraken.png-519740c4db88744765f98539b7d38343.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/Cadeado.png"
-dest_files=["res://.godot/imported/Cadeado.png-fcbb40d46366397e2c55aa1e31749223.ctex"]
+source_file="res://Assets/HealthBar/BarraVidaKraken.png"
+dest_files=["res://.godot/imported/BarraVidaKraken.png-519740c4db88744765f98539b7d38343.ctex"]
 
 [params]
 
