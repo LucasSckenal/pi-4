@@ -742,8 +742,10 @@ func _processar_efeito(tipo_efeito, valor):
 			multiplicador_horda = max(0.1, multiplicador_horda + float(valor) / 100.0)
 		7: # ALCANCE
 			bonus_alcance += float(valor)
-			# Atualiza o alcance das torres JÁ construídas na hora (inclui recriar o
-			# círculo do caldeirão-torre com o raio novo, sem esperar a próxima onda).
+			# Atualiza o alcance das torres JÁ construídas na hora: chama _configurar_alcance
+			# DIRETO (sem depender do guard de timer do atualizar_status). Recria também o
+			# círculo do caldeirão-torre com o raio novo, sem esperar a próxima onda.
+			get_tree().call_group("Torres", "_configurar_alcance")
 			get_tree().call_group("Torres", "atualizar_status")
 		8: # RICOCHETE
 			bonus_ricochete += int(valor)
