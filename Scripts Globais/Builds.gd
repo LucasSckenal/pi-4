@@ -241,7 +241,6 @@ var _escalas_base_malhas: Dictionary = {}
 # ==========================================
 var y_inicial: float
 var is_fantasma: bool = false
-var _caldeiron_timer: float = 0.0
 var _inimigos_no_veneno: Array = []  # Inimigos dentro do círculo de veneno
 var _raio_circulo_veneno: float = -1.0  # Raio atual do círculo do caldeirão-torre (p/ recriar só quando muda)
 var vida_atual: int
@@ -326,11 +325,6 @@ func _ready():
 		TipoConstrucao.QUARTEL:
 			add_to_group("Construcao")
 			GameManager.noite_iniciada.connect(_spawn_aliados)
-		TipoConstrucao.CALDEIRON:
-			add_to_group("Construcao")
-			# Raio segue a propriedade 'alcance' da cena (editável no inspetor) + carta de alcance
-			_raio_circulo_veneno = alcance_atual + GameManager.bonus_alcance
-			_criar_circulo_caldeiron(_raio_circulo_veneno)
 		TipoConstrucao.BASE:
 			add_to_group("Construcao")
 			add_to_group("Base")
@@ -682,8 +676,6 @@ func _resolver_icone_construcao() -> void:
 			icone = preload("res://Assets/Construcoes/ConstrucaoTorre.png")
 		"res://Builds/mill.tscn":
 			icone = preload("res://Assets/Construcoes/ConstrucaoMoinho.png")
-		"res://Builds/caldeiron.tscn":
-			icone = preload("res://Assets/Construcoes/ConstrucaoBruxa.png")
 		"res://Builds/mina.tscn":
 			icone = preload("res://Assets/Construcoes/ConstrucaoMina.png")
 		"res://Builds/quartel.tscn":
@@ -1234,46 +1226,12 @@ func _process(delta):
 			_base_ataque_acum = 0.0
 			_base_atacar()
 
-	# Caldeirão — ataque em área periódico durante a noite
-	if tipo == TipoConstrucao.CALDEIRON and not is_fantasma and not esta_destruida:
-		# Atualiza o raio do veneno em tempo real (carta de alcance OU mudança no inspetor).
-		var raio_efetivo: float = alcance_atual + GameManager.bonus_alcance
-		if not is_equal_approx(_raio_circulo_veneno, raio_efetivo):
-			_raio_circulo_veneno = raio_efetivo
-			var velho := get_node_or_null("CirculoVeneno")
-			if velho:
-				velho.name = "_CirculoVenenoAntigo"  # libera o nome para o novo círculo
-				velho.queue_free()
-			_criar_circulo_caldeiron(raio_efetivo)
-		if GameManager.is_night:
-			_caldeiron_timer += delta
-			var intervalo: float = Balanceamento.get_float("caldeiron_intervalo", 3.0)
-			if _caldeiron_timer >= intervalo:
-				_caldeiron_timer = 0.0
-				_caldeiron_atacar_area()
-		return
-
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	# Purga inimigos inválidos sem alocar array novo (evita filter() GC por frame)
 	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
 		if not is_instance_valid(inimigos_no_alcance[i]):
 			inimigos_no_alcance.remove_at(i)
 	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
-
-func _caldeiron_atacar_area() -> void:
-	# Veneno em ÁREA: usa o dano PRÓPRIO (propriedade 'dano' da caldeiron.tscn) e IGNORA o
-	# bônus global de dano. Como bate em todos de uma vez (e o bônus cresce sozinho via
-	# DANO_CRESCENTE), herdar o bônus deixava o caldeirão absurdo (85+). Aqui é previsível
-	# e ajustável direto no inspetor da cena.
-	var dano_base: int = max(1, dano_atual)
-	# Purga em-lugar (sem filter() → sem alocação por tick)
-	for i in range(_inimigos_no_veneno.size() - 1, -1, -1):
-		var e = _inimigos_no_veneno[i]
-		if not is_instance_valid(e) or e.get("esta_morto", false):
-			_inimigos_no_veneno.remove_at(i)
-	for inimigo in _inimigos_no_veneno:
-		if inimigo.has_method("receber_dano"):
-			inimigo.receber_dano(dano_base)
 
 func _caldeiron_atacar_area_torre() -> void:
 	# Dano da ÁREA = valor do caminho "Caldeirão" (dano_por_nivel do Resource_caldeiron na
@@ -2124,8 +2082,6 @@ func reviver():
 		TipoConstrucao.MINA, TipoConstrucao.CASA, TipoConstrucao.MOINHO:
 			if not GameManager.onda_terminada.is_connected(_pagar_recompensa):
 				GameManager.onda_terminada.connect(_pagar_recompensa)
-		TipoConstrucao.CALDEIRON:
-			_caldeiron_timer = 0.0  # Reseta o timer ao reviver
 		TipoConstrucao.QUARTEL:
 			if not GameManager.noite_iniciada.is_connected(_spawn_aliados):
 				GameManager.noite_iniciada.connect(_spawn_aliados)

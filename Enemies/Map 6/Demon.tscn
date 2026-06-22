@@ -264,6 +264,7 @@ height = 1.3945313
 [node name="Demon" type="CharacterBody3D" unique_id=1085897100 node_paths=PackedStringArray("modelo_3d", "animation_player")]
 script = ExtResource("1_jgll1")
 nome_inimigo = "Demoniozinho"
+vida_maxima = 400
 eh_aereo = true
 modelo_3d = NodePath(".")
 animation_player = NodePath("Root Scene/AnimationPlayer")

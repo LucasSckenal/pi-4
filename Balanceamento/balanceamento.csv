@@ -74,9 +74,6 @@ upgrade_ganancia_horda,15,float,upgrade,Debuff Ganancia: +15pct mais inimigos na
 mercado_custo,5,int,economia,Custo do Mercado (exclusivo Mapa 2)
 mercado_renda_onda,4,int,economia,Moedas por onda do Mercado (melhor que moinho)
 mercado_vida,25,int,economia,Vida maxima do Mercado
-caldeiron_custo,6,int,caldeiron,Custo do Caldeirao (exclusivo Mapa 3)
-caldeiron_intervalo,4.0,float,caldeiron,Segundos entre ataques de area
-caldeiron_vida,30,int,caldeiron,Vida maxima do Caldeirao
 taverna_custo,4,int,economia,Custo da Taverna (exclusivo Mapa 4)
 taverna_renda_onda,3,int,economia,Moedas por onda da Taverna
 taverna_vida,25,int,economia,Vida maxima da Taverna

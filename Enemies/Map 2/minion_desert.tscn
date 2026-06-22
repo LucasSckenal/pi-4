@@ -56,6 +56,7 @@ height = 2.0651855
 transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0, 0, 0)
 script = ExtResource("1_ahkvp")
 nome_inimigo = "Servo do Deserto"
+vida_maxima = 150
 distancia_ataque = 1.7
 raio_visao_construcao = 4.0
 raio_visao_aliados = 3.0
