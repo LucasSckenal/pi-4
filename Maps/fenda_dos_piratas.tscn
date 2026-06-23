@@ -19,8 +19,9 @@
 [ext_resource type="PackedScene" uid="uid://de3p4lwcaff46" path="res://Enemies/Map 4/Bombardeiro.tscn" id="13_ruefr"]
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
-[ext_resource type="Shader" uid="uid://c6gnycjboy16t" path="res://Shaders/UnderTheSea.gdshader" id="24_14jxx"]
+[ext_resource type="Shader" path="res://Shaders/UnderTheSea.gdshader" id="24_14jxx"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
+[ext_resource type="Script" uid="uid://dsti6uqpcqqcb" path="res://Maps/barco_boss.gd" id="barco_ctrl"]
 [ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
 [ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
 [ext_resource type="Texture2D" uid="uid://r4431siwfts6" path="res://Icons/TubaraoPreview.png" id="icon_tubarao"]
@@ -719,10 +720,13 @@ limite_z_negativo = 25.0
 limite_z_positivo = 7.61
 
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
-transform = Transform3D(-0.05357338, 0, -0.9985638, 0, 1, 0, 0.9985638, 0, -0.05357338, 22.356092, -2.94731, 4.3616343)
+transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
+script = ExtResource("barco_ctrl")
 
-[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=85292747]
+[node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
 mesh = SubResource("ArrayMesh_colh8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ship-ghost2" unique_id=1965885803]
 
 [node name="Player" parent="." unique_id=1040113878 instance=ExtResource("5_sxogr")]
 transform = Transform3D(4.9998894, 0.030462272, -0.013501438, -0.030459546, 4.9999075, 0.0010507599, 0.01350759, -0.00096848706, 4.999982, 0.1185745, -0.20675087, 1.2186811)
@@ -800,6 +804,15 @@ transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.0109337
 [node name="BuildSlot14" parent="Builds" unique_id=1684181307 instance=ExtResource("15_mrbo5")]
 transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.15309119, 0.01614856, -0.22213057)
 nivel_necessario = 2
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=259816272 groups=["MarcaBarco"]]
+transform = Transform3D(195.40182, 0.11171874, 2.6694803, 0, 3.6506119, -126.88052, -4.959797, 4.4013934, 105.16978, -23.686087, -2.5021484, 3.6065845)
+
+[node name="Marker3D3" type="Marker3D" parent="." unique_id=1942792103 groups=["InicioBarco"]]
+transform = Transform3D(-195.46474, -0.0023815897, -0.056906812, 0, 3.6506119, -126.88052, 0.10572383, -4.4028096, -105.20362, 41.790947, 0.905951, 5.463427)
+
+[node name="Marker3D2" type="Marker3D" parent="." unique_id=1693415899 groups=["MarcaBarco"]]
+transform = Transform3D(-15.8417015, -4.3883266, -104.85755, 0, 3.6506119, -126.88052, 194.82176, -0.35683152, -8.5263605, -8.919321, -1.9043791, 17.23993)
 
 [node name="ship-wreck3" parent="." unique_id=848616913 instance=ExtResource("15_n8yof")]
 transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.9197119, -0.38529962, 0.9814201, 7.450581e-09, 0.19187117, 1.0822587, -1.3202078, -1.8165274)

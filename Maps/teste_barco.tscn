@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://68mnpte2pi4c"]
+
+[ext_resource type="Script" path="res://Maps/teste_barco.gd" id="1_tb"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_agua"]
+size = Vector2(80, 80)
+
+[sub_resource type="StandardMaterial3D" id="Mat_agua"]
+albedo_color = Color(0.1, 0.42, 0.7, 1)
+metallic = 0.2
+roughness = 0.4
+
+[sub_resource type="ProceduralSkyMaterial" id="Sky_mat"]
+
+[sub_resource type="Sky" id="Sky_res"]
+sky_material = SubResource("Sky_mat")
+
+[sub_resource type="Environment" id="Env"]
+background_mode = 2
+sky = SubResource("Sky_res")
+ambient_light_source = 2
+ambient_light_color = Color(0.7, 0.72, 0.8, 1)
+ambient_light_energy = 0.7
+
+[node name="TesteBarco" type="Node3D"]
+script = ExtResource("1_tb")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Env")
+
+[node name="Sol" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.86, -0.35, 0.37, 0, 0.72, 0.69, -0.51, -0.59, 0.62, 0, 12, 0)
+light_energy = 1.3
+shadow_enabled = true
+
+[node name="Agua" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_agua")
+material_override = SubResource("Mat_agua")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.92, 0.39, 0, -0.39, 0.92, 0, 6, 14)

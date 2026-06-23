@@ -67,9 +67,12 @@ func _iniciar_noite(_n):
 		# Bosses e mini-bosses nunca recebem mult_horda (evita ceil duplicar chefes)
 		var mult: float = 1.0 if (config.cena != null and _cenas_boss.has(config.cena.resource_path)) else mult_horda
 		var qtd = int(ceil(config.quantidade * mult))
+		# #12: o chefe a cada 5 ondas vem MUITO mais tanque que o trash da mesma onda
+		var eh_boss_cena: bool = config.cena != null and _cenas_boss.has(config.cena.resource_path)
+		var mult_hp_cena: float = hp_mult_base * (2.5 if eh_boss_cena else 1.0)
 		for i in range(qtd):
 			fila_inimigos.append(config.cena)
-			fila_hp_mult.append(hp_mult_base)
+			fila_hp_mult.append(mult_hp_cena)
 
 	inimigos_restantes = fila_inimigos.size()
 	if Global.DEBUG_MODE:
@@ -296,8 +299,9 @@ func _construir_pool_procedural() -> void:
 func _calcular_hp_multiplicador(onda_global: int) -> float:
 	if not GameManager.modo_infinito:
 		return 1.0
-	# Escala linear leve a partir da onda 6
-	return 1.0 + max(0, onda_global - 5) * 0.15
+	# #14: escala mais pesada no infinito — linear + exponencial suave (ajustável).
+	var n: int = max(0, onda_global - 5)
+	return (1.0 + n * 0.20) * pow(1.035, n)
 
 
 func _gerar_onda_procedural(onda_global: int) -> WaveData:

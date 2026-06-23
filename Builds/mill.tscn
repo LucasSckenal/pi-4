@@ -128,7 +128,7 @@ radius = 1.0
 script = ExtResource("2_5a1o0")
 tipo = 3
 custo_moedas = 3
-tem_barra_vida = true
+tem_barra_vida = false
 caminho_barra_vida = NodePath("HealthBar3D/SubViewport/TextureProgressBar")
 caminho_container_barra = NodePath("HealthBar3D")
 upgrade_custos = Array[int]([2])
@@ -152,6 +152,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2124086, 0)
 shape = SubResource("SphereShape3D_x5qa7")
 
 [node name="HealthBar3D" type="Sprite3D" parent="." index="3" unique_id=702624270]
+visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85420346, 0)
 billboard = 1
 texture = SubResource("ViewportTexture_5a1o0")

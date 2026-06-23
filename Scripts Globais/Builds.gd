@@ -1379,6 +1379,9 @@ func _criar_circulo_caldeiron(raio: float = 4.5) -> void:
 	area.name = "AreaVeneno"
 	area.collision_layer = 0
 	area.collision_mask  = 0xFFFFFFFF
+	# Não interceptar o raycast/picking do cursor — senão o círculo (que cresce com a
+	# carta de alcance) "rouba" o clique dos build slots e da seleção de torres.
+	area.input_ray_pickable = false
 	var col := CollisionShape3D.new()
 	var esfera := SphereShape3D.new()
 	esfera.radius = raio

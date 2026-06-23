@@ -261,8 +261,7 @@ func _on_check_tela_cheia_toggled(toggled_on: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_check_hud_toggled(toggled_on: bool) -> void:
-	Global.hud_tematico_ativo = toggled_on
-	get_tree().call_group("Interface", "aplicar_tema_hud")
+	Global.lembrar_velocidade = toggled_on
 
 func _on_check_shake_tela_toggled(toggled_on: bool) -> void:
 	Global.shake_tela_ativo = toggled_on
@@ -361,7 +360,7 @@ func _salvar_configuracoes() -> void:
 	cfg.set_value("video", "tela_cheia", DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN)
 	
 	if _check_hud:
-		cfg.set_value("video", "hud_customizado", _check_hud.button_pressed)
+		cfg.set_value("video", "lembrar_velocidade", _check_hud.button_pressed)
 
 	cfg.set_value("video", "shake_tela", Global.shake_tela_ativo)
 	cfg.set_value("video", "numeros_dano", Global.numeros_dano_ativo)
@@ -399,10 +398,9 @@ func _carregar_configuracoes() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		
 	if _check_hud:
-		var hud_on: bool = cfg.get_value("video", "hud_customizado", true)
-		_check_hud.button_pressed = hud_on
-		Global.hud_tematico_ativo = hud_on
-		get_tree().call_group("Interface", "aplicar_tema_hud") 
+		var lembrar_on: bool = cfg.get_value("video", "lembrar_velocidade", false)
+		_check_hud.button_pressed = lembrar_on
+		Global.lembrar_velocidade = lembrar_on
 
 	var shake_on: bool = cfg.get_value("video", "shake_tela", true)
 	Global.shake_tela_ativo = shake_on
