@@ -1,63 +1,100 @@
 extends Node3D
-# Controlador do barco do boss — anexado ao "ship-ghost2" no mapa do pirata.
-# Fica ESCONDIDO até a wave do boss.
-#  • 1ª aparição: CHEGA NAVEGANDO (desliza pela água) e PARA na posição inicial
-#    do barco no mapa (onde você o deixou no editor).
-#  • Teleportes (boss troca de rota): SURGE das profundezas no Marker3D
-#    (grupo "MarcaBarco") mais próximo do boss. Sem marcadores → perto do boss.
+# Controlador do barco do boss (anexado ao "ship-ghost2").
+# Animações do AnimationPlayer da CENA (posição FIXA no dock):
+#   ShipArrival = Aparecendo | Ship = Aparecido (idle) | ShipVanish = Sumindo | ShipLess = Ausente
+# Fluxo:
+#   • 1ª wave do boss: Aparecendo → idle (no dock).
+#   • Teleporte (boss troca de rota): vai por TWEEN até o Marker3D mais próximo
+#     (grupo "MarcaBarco"), assumindo a ROTAÇÃO do mark, emergindo das profundezas.
+#   • Derrota: no dock usa Sumindo; se estiver num mark, afunda no lugar.
 
-## Tempo da navegação da 1ª chegada
-@export var duracao_navegacao: float = 4.0
-## De onde ele começa a navegar na 1ª chegada (offset da posição inicial do barco).
-## Ajuste para ele vir da água aberta / fora da tela e deslizar até o ponto.
-@export var offset_chegada: Vector3 = Vector3(0, 0, 20)
-## De quão fundo (abaixo) ele emerge nos teleportes
+@export var anim_entrada: String = "ShipArrival"   # Aparecendo
+@export var anim_idle: String = "Ship"             # Aparecido (loop)
+@export var anim_sumir: String = "ShipVanish"      # Sumindo (derrota no dock)
+@export var anim_ausente: String = "ShipLess"      # Ausente (escondido)
+## Profundidade da emersão/afundamento quando está num mark
 @export var profundidade: float = 8.0
-## Tempo da emersão (teleportes)
+## Tempo da emersão no mark
 @export var duracao_surgir: float = 3.0
 
-var _pos_base: Vector3
+var _ap: AnimationPlayer = null
 var _tw: Tween = null
+var _em_mark: bool = false
 
 func _ready() -> void:
 	add_to_group("BarcoBoss")
-	_pos_base = global_position
-	visible = false   # só aparece quando o boss chama aparecer()
+	_ap = _achar_ap()
+	if _ap and _ap.has_animation(anim_ausente):
+		_ap.play(anim_ausente)
+	else:
+		visible = false
 
-# 1ª aparição: começa no ponto de partida e NAVEGA até a posição inicial do barco.
-# Ponto de partida = Marker3D no grupo "InicioBarco" (arraste no editor). Sem ele, usa offset_chegada.
-func aparecer(_boss_pos: Vector3) -> void:
-	var inicio := _pos_base + offset_chegada
-	var pontos := get_tree().get_nodes_in_group("InicioBarco")
-	if pontos.size() > 0 and pontos[0] is Node3D:
-		inicio = (pontos[0] as Node3D).global_position
-	global_position = inicio
+# 1ª aparição (no dock): animação de entrada → idle.
+func aparecer(_boss_pos: Vector3 = Vector3.ZERO) -> void:
+	_em_mark = false
 	visible = true
-	if _tw and _tw.is_valid():
-		_tw.kill()
-	_tw = create_tween()
-	_tw.tween_property(self, "global_position", _pos_base, duracao_navegacao).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	if _ap == null:
+		_ap = _achar_ap()
+	if _ap and _ap.has_animation(anim_entrada):
+		if not _ap.animation_finished.is_connected(_ao_terminar):
+			_ap.animation_finished.connect(_ao_terminar)
+		_ap.play(anim_entrada)
 
-# Teleportes: SURGE das profundezas no mark mais próximo do boss.
+func _ao_terminar(nome: StringName) -> void:
+	if String(nome) == anim_entrada and not _em_mark and _ap and _ap.has_animation(anim_idle):
+		_ap.play(anim_idle)
+
+# Teleporte: TWEEN até o mark mais próximo do boss, com a rotação do mark, emergindo.
 func ir_para(boss_pos: Vector3) -> void:
-	var destino := _destino_para(boss_pos)
+	_em_mark = true
+	_parar_ap()   # tira o AnimationPlayer do controle (ele é fixo no dock)
 	visible = true
+	var mark := _mark_mais_proximo(boss_pos)
+	var destino := global_position
+	if mark != null:
+		destino = mark.global_position
+		global_rotation = mark.global_rotation   # gira igual ao Marker3D
 	if _tw and _tw.is_valid():
 		_tw.kill()
 	global_position = destino - Vector3(0, profundidade, 0)
 	_tw = create_tween()
 	_tw.tween_property(self, "global_position", destino, duracao_surgir).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 
-# Marker3D (grupo "MarcaBarco") mais próximo do boss; senão, perto do boss no nível do barco.
-func _destino_para(boss_pos: Vector3) -> Vector3:
-	var marcas := get_tree().get_nodes_in_group("MarcaBarco")
-	var melhor := Vector3(boss_pos.x, _pos_base.y, boss_pos.z)
+# Derrota do chefe.
+func derrota() -> void:
+	if _em_mark:
+		# Num mark: afunda no lugar (a animação ShipVanish é fixa no dock).
+		_parar_ap()
+		if _tw and _tw.is_valid():
+			_tw.kill()
+		_tw = create_tween()
+		_tw.tween_property(self, "global_position", global_position - Vector3(0, profundidade, 0), 1.2).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+		_tw.tween_callback(func(): visible = false)
+	elif _ap and _ap.has_animation(anim_sumir):
+		_ap.play(anim_sumir)   # No dock: usa a animação Sumindo
+
+func _parar_ap() -> void:
+	if _ap and _ap.is_playing():
+		_ap.stop()
+
+func _mark_mais_proximo(boss_pos: Vector3) -> Node3D:
+	var melhor: Node3D = null
 	var menor := INF
-	for m in marcas:
+	for m in get_tree().get_nodes_in_group("MarcaBarco"):
 		if m is Node3D:
 			var d: float = (m as Node3D).global_position.distance_to(boss_pos)
 			if d < menor:
 				menor = d
-				melhor = (m as Node3D).global_position
-	print("[BarcoBoss] marcas no grupo 'MarcaBarco': %d | destino do barco: %s" % [marcas.size(), str(melhor)])
+				melhor = m as Node3D
+	print("[BarcoBoss] mark mais próximo: %s" % (melhor.name if melhor else "(nenhum)"))
 	return melhor
+
+func _achar_ap() -> AnimationPlayer:
+	var raiz := get_tree().current_scene
+	if raiz == null:
+		return null
+	for n in raiz.find_children("*", "AnimationPlayer", true, false):
+		var a := n as AnimationPlayer
+		if a != null and a.has_animation(anim_entrada):
+			return a
+	return null

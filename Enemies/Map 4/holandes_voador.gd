@@ -51,6 +51,13 @@ func _animar_chegada_barco() -> void:
 	if barco.has_method("ir_para") and not teleport_reappear.is_connected(barco.ir_para):
 		teleport_reappear.connect(barco.ir_para)
 
+# Derrota do chefe: manda o barco afundar (animação Sumindo).
+func morrer():
+	var barco = get_tree().get_first_node_in_group("BarcoBoss")
+	if barco and barco.has_method("derrota"):
+		barco.derrota()
+	super.morrer()
+
 # ==========================================
 # READY
 # ==========================================

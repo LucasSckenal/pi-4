@@ -720,7 +720,7 @@ limite_z_negativo = 25.0
 limite_z_positivo = 7.61
 
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
-transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
+transform = Transform3D(-0.05357338, 0, -0.9985638, 0, 1, 0, 0.9985638, 0, -0.05357338, 22.356092, -2.94731, 4.3616343)
 script = ExtResource("barco_ctrl")
 
 [node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=1973919219]
@@ -805,14 +805,14 @@ transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.0109337
 transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.15309119, 0.01614856, -0.22213057)
 nivel_necessario = 2
 
-[node name="Marker3D" type="Marker3D" parent="." unique_id=259816272 groups=["MarcaBarco"]]
-transform = Transform3D(195.40182, 0.11171874, 2.6694803, 0, 3.6506119, -126.88052, -4.959797, 4.4013934, 105.16978, -23.686087, -2.5021484, 3.6065845)
+[node name="PathB" type="Marker3D" parent="." unique_id=259816272 groups=["MarcaBarco"]]
+transform = Transform3D(13.657864, -0.5143539, 163.75018, -7.8212104, 5.6900983, 15.30717, -194.83014, -0.2644788, 10.864628, -24.494102, -2.5021484, 3.6065845)
 
-[node name="Marker3D3" type="Marker3D" parent="." unique_id=1942792103 groups=["InicioBarco"]]
+[node name="Start" type="Marker3D" parent="." unique_id=1942792103 groups=["InicioBarco"]]
 transform = Transform3D(-195.46474, -0.0023815897, -0.056906812, 0, 3.6506119, -126.88052, 0.10572383, -4.4028096, -105.20362, 41.790947, 0.905951, 5.463427)
 
-[node name="Marker3D2" type="Marker3D" parent="." unique_id=1693415899 groups=["MarcaBarco"]]
-transform = Transform3D(-15.8417015, -4.3883266, -104.85755, 0, 3.6506119, -126.88052, 194.82176, -0.35683152, -8.5263605, -8.919321, -1.9043791, 17.23993)
+[node name="PathA" type="Marker3D" parent="." unique_id=1693415899 groups=["MarcaBarco"]]
+transform = Transform3D(-194.3811, 0.46296847, 11.062466, 16.261322, 5.696763, 5.1709366, -12.570757, 0.21037412, -164.36957, -7.9145513, -2.502, 19.696724)
 
 [node name="ship-wreck3" parent="." unique_id=848616913 instance=ExtResource("15_n8yof")]
 transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.9197119, -0.38529962, 0.9814201, 7.450581e-09, 0.19187117, 1.0822587, -1.3202078, -1.8165274)
