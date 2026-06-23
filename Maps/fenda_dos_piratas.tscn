@@ -335,6 +335,275 @@ shader_parameter/mesh_aspect = 1.0
 [sub_resource type="PlaneMesh" id="PlaneMesh_14jxx"]
 material = SubResource("ShaderMaterial_xvse5")
 
+[sub_resource type="Animation" id="Animation_14jxx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship-ghost2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(22.356092, -2.94731, 4.3616343)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship-ghost2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.6243954, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship-ghost2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.99999994, 1, 0.99999994)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship-ghost2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_gssta"]
+resource_name = "Ship"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship-ghost2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(22.356092, -2.94731, 4.3616343)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship-ghost2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.96666664, 1.9666667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.6243954, 0), Vector3(0, -1.6249015, -0.02617994), Vector3(0, -1.6249015, 0.02617994)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship-ghost2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.99999994, 1, 0.99999994)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship-ghost2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xvse5"]
+resource_name = "ShipArrival"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship-ghost2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3.9, 4.06, 5.4666667, 5.6666665, 5.866667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-72.971, -2.947, -18.073), Vector3(69, -2.947, -18.073), Vector3(60.689735, -2.94731, 4.3616343), Vector3(21.251, -2.94, 4.362), Vector3(22.711, -2.947, 4.362), Vector3(22.356092, -2.94731, 4.3616343)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship-ghost2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.43333334, 0.93333334, 1.4, 1.8666667, 2.5333333, 3.2333333, 3.9, 4.06, 4.5, 5.0333333, 5.3, 5.5333333, 5.633333, 5.866667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 1.5707964, 0), Vector3(0, 1.5707964, 0.05235988), Vector3(0, 1.5707964, -0.05235988), Vector3(0, 1.5707964, 0.05235988), Vector3(0, 1.5707964, -0.05235988), Vector3(0, 1.5707964, 0.05235988), Vector3(0, 1.5707964, -0.05235988), Vector3(0, 1.5707964, 0), Vector3(0, -1.5707964, 0), Vector3(0, -1.5830137, 0.08726646), Vector3(0, -1.6039575, -0.08726646), Vector3(0, -1.6039575, 0), Vector3(-0.08726646, -1.6039575, -0.08726646), Vector3(0.17453292, -1.6039575, -0.08726646), Vector3(0, -1.6243954, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship-ghost2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 5.866667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(0.99999994, 1, 0.99999994)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship-ghost2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 5.866667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+
+[sub_resource type="Animation" id="Animation_sn2ws"]
+resource_name = "ShipLess"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship-ghost2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship-ghost2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-72.971, -2.947, -18.073)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship-ghost2:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5707965, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship-ghost2:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.99999994, 1, 0.99999994)]
+}
+
+[sub_resource type="Animation" id="Animation_xkexh"]
+resource_name = "ShipVanish"
+length = 2.0
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ship-ghost2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36333337, 0.8, 1.2333333, 1.8466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(22.356092, -2.94731, 4.3616343), Vector3(22.356, -2.947, 2.982), Vector3(23.113579, -4.306674, 2.0734177), Vector3(23.54, -5.072, 1.562), Vector3(22.356092, -10.135294, 4.3616343)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ship-ghost2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.36333337, 1.3666667, 1.8666667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.6243954, 0), Vector3(0, -1.3962634, 0.05235988), Vector3(-0.87266463, -1.3089969, 0), Vector3(-1.5707964, -1.6249015, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ship-ghost2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5, 1.8466667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.99999994, 1, 0.99999994), Vector3(0.99999994, 1, 0.99999994), Vector3(0.1, 0.1, 0.1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ship-ghost2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.8666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gssta"]
+_data = {
+&"RESET": SubResource("Animation_14jxx"),
+&"Ship": SubResource("Animation_gssta"),
+&"ShipArrival": SubResource("Animation_xvse5"),
+&"ShipLess": SubResource("Animation_sn2ws"),
+&"ShipVanish": SubResource("Animation_xkexh")
+}
+
 [node name="FendaDosPiratas" type="Node3D" unique_id=653532525]
 script = ExtResource("99_fendascript")
 conquista_fim_Fenda = ExtResource("2_0hg87")
@@ -450,7 +719,7 @@ limite_z_negativo = 25.0
 limite_z_positivo = 7.61
 
 [node name="ship-ghost2" parent="." unique_id=1855083239 instance=ExtResource("3_vvj8p")]
-transform = Transform3D(-0.053573385, 0, -0.9985639, 0, 1, 0, 0.9985639, 0, -0.053573385, 22.356092, -2.94731, 4.3616343)
+transform = Transform3D(-0.05357338, 0, -0.9985638, 0, 1, 0, 0.9985638, 0, -0.05357338, 22.356092, -2.94731, 4.3616343)
 
 [node name="ship-ghost" parent="ship-ghost2" index="0" unique_id=85292747]
 mesh = SubResource("ArrayMesh_colh8")
@@ -540,6 +809,9 @@ transform = Transform3D(0.17646618, -0.39259395, -0.9026238, 0.07532745, 0.91971
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=2048985593]
 transform = Transform3D(195.46477, 0, 0, 0, 3.650612, -126.88052, 0, 4.4028096, 105.203636, 1.9878407, -60.062828, -120.60943)
 mesh = SubResource("PlaneMesh_14jxx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=148026919]
+libraries/ = SubResource("AnimationLibrary_gssta")
 
 [editable path="ship-ghost2"]
 [editable path="ship-wreck3"]
