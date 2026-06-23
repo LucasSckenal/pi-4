@@ -899,7 +899,7 @@ func _render_historias() -> void:
 
 	# Grade de capítulos que preenche a tela (cards grandes)
 	var n := mapas_lib.size()
-	var cols := 1 if mob else mini(3, n)
+	var cols := 2 if mob else mini(3, n)
 	var rows := int(ceil(float(n) / float(cols)))
 	var sep := 18
 	var vp_h := get_viewport_rect().size.y
@@ -959,79 +959,86 @@ func _badge_categoria(cat: String) -> PanelContainer:
 # ==========================================
 # CARD DE HISTÓRIA (capítulo)
 # ==========================================
-func _card_historia(m: Dictionary, mob: bool, card_h: float) -> PanelContainer:
+func _card_historia(m: Dictionary, mob: bool, card_h: float) -> Control:
 	var num := int(m["numero"])
 	var liberado: bool = num <= Global.fases_liberadas
-	var card := PanelContainer.new()
+
+	# Card = BOTÃO grande com o mapa: clica em qualquer lugar pra ler a história.
+	var card := Button.new()
 	card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	card.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	card.custom_minimum_size = Vector2(0, card_h)
-	card.add_theme_stylebox_override("panel", _sb(Color(0.14, 0.09, 0.04, 0.97), COR_BORDA, 2, 14, 0))
+	card.focus_mode = Control.FOCUS_NONE
+	card.add_theme_stylebox_override("normal",   _sb(Color(0.14, 0.09, 0.04, 0.97), COR_BORDA, 2, 14, 0))
+	card.add_theme_stylebox_override("hover",    _sb(Color(0.20, 0.13, 0.06, 0.98), COR_DOURADO, 3, 14, 0))
+	card.add_theme_stylebox_override("pressed",  _sb(Color(0.12, 0.08, 0.03, 0.98), COR_BORDA, 2, 14, 0))
+	card.add_theme_stylebox_override("disabled", _sb(Color(0.11, 0.07, 0.03, 0.95), COR_BORDA, 2, 14, 0))
+	if liberado:
+		card.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		card.pressed.connect(_abrir_leitor.bind(String(m["cutscene"]), String(m["nome"])))
+	else:
+		card.disabled = true
+		card.modulate = Color(0.85, 0.85, 0.85, 0.95)
 
-	var vbox := VBoxContainer.new()
-	vbox.add_theme_constant_override("separation", 10)
 	var margin := MarginContainer.new()
-	margin.add_theme_constant_override("margin_left", 16)
-	margin.add_theme_constant_override("margin_right", 16)
-	margin.add_theme_constant_override("margin_top", 16)
-	margin.add_theme_constant_override("margin_bottom", 16)
-	margin.add_child(vbox)
+	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	margin.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	for lado in ["margin_left", "margin_right", "margin_top", "margin_bottom"]:
+		margin.add_theme_constant_override(lado, 12)
 	card.add_child(margin)
 
-	# Miniatura grande do mapa (ocupa o topo do card)
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 8)
+	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margin.add_child(vbox)
+
+	# Mapa grande — ocupa quase todo o card
 	var moldura := PanelContainer.new()
 	moldura.add_theme_stylebox_override("panel", _sb(Color(0.06, 0.04, 0.02), Color(0.35, 0.26, 0.12), 1, 8, 0))
 	moldura.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	moldura.clip_contents = true
+	moldura.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var maptexture := TextureRect.new()
 	maptexture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	maptexture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	maptexture.custom_minimum_size = Vector2(0, card_h * 0.45)
+	maptexture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	maptexture.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	if liberado and ResourceLoader.exists(String(m["thumb"])):
 		maptexture.texture = load(String(m["thumb"]))
 	else:
-		# Bloqueado: "?" grande no lugar da miniatura
 		var q := Label.new()
 		q.text = "?"
 		q.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		q.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		q.add_theme_font_size_override("font_size", 72)
+		q.add_theme_font_size_override("font_size", 80)
 		q.add_theme_color_override("font_color", Color(0.4, 0.34, 0.24))
 		q.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		q.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		moldura.add_child(q)
 	moldura.add_child(maptexture)
 	vbox.add_child(moldura)
 
+	# Título embaixo do mapa
 	var titulo := Label.new()
 	titulo.text = "Capítulo %d — %s" % [num, String(m["nome"])] if liberado else "Capítulo %d — ???" % num
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	titulo.add_theme_font_size_override("font_size", 25 if not mob else 23)
+	titulo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	titulo.add_theme_font_size_override("font_size", 27 if not mob else 25)
 	titulo.add_theme_color_override("font_color", Color(1, 0.92, 0.6) if liberado else Color(0.6, 0.54, 0.44))
+	titulo.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+	titulo.add_theme_constant_override("outline_size", 3)
 	vbox.add_child(titulo)
 
-	if liberado:
-		var btn := Button.new()
-		btn.text = "📖  Ler história"
-		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-		btn.custom_minimum_size = Vector2(0, 56)
-		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		btn.add_theme_font_size_override("font_size", 22 if not mob else 20)
-		btn.add_theme_color_override("font_color", Color(1, 0.92, 0.6))
-		btn.add_theme_stylebox_override("normal", _sb(Color(0.22, 0.14, 0.05), COR_BORDA, 2, 10, 0))
-		btn.add_theme_stylebox_override("hover", _sb(Color(0.3, 0.2, 0.07), COR_DOURADO, 3, 10, 0))
-		btn.add_theme_stylebox_override("pressed", _sb(Color(0.18, 0.11, 0.04), COR_BORDA, 2, 10, 0))
-		btn.pressed.connect(_abrir_leitor.bind(String(m["cutscene"]), String(m["nome"])))
-		vbox.add_child(btn)
-	else:
+	if not liberado:
 		var bloq := Label.new()
-		bloq.text = "🔒  Conclua a fase anterior para liberar"
+		bloq.text = "🔒 Conclua a fase anterior"
 		bloq.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		bloq.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		bloq.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bloq.add_theme_font_size_override("font_size", 18 if not mob else 17)
 		bloq.add_theme_color_override("font_color", Color(0.6, 0.54, 0.44))
 		vbox.add_child(bloq)
-		card.modulate = Color(0.82, 0.82, 0.82, 0.92)
 
 	return card
 

@@ -53,9 +53,9 @@ func _ready() -> void:
 		btn.add_theme_color_override("font_hover_pressed_color", Color.BLACK)
 		_configurar_animacao_hover(btn)
 
-	btn_lento.pressed.connect(func(): _alterar_velocidade(0.5, btn_lento))
-	btn_normal.pressed.connect(func(): _alterar_velocidade(1.0, btn_normal))
-	btn_rapido.pressed.connect(func(): _alterar_velocidade(2.0, btn_rapido))
+	btn_lento.pressed.connect(func(): _alterar_velocidade(0.5, btn_lento, true))
+	btn_normal.pressed.connect(func(): _alterar_velocidade(1.0, btn_normal, true))
+	btn_rapido.pressed.connect(func(): _alterar_velocidade(2.0, btn_rapido, true))
 
 	if GameManager.has_signal("dia_iniciado"):
 		GameManager.dia_iniciado.connect(_ao_iniciar_dia)
@@ -132,6 +132,11 @@ func _ao_iniciar_noite(_onda) -> void:
 	jogo_pausado = false
 	_definir_icone_menu(TEX_PAUSE)
 	grupo_velocidades.show()
+	# Lembrar multiplicador: reaplica a velocidade escolhida sem re-clicar toda noite.
+	if Global.lembrar_velocidade:
+		var v: float = Global.velocidade_lembrada
+		var botao: Button = btn_rapido if v >= 2.0 else (btn_lento if v <= 0.5 else btn_normal)
+		_alterar_velocidade(v, botao)
 
 func _on_menu_pressionado() -> void:
 	if GameManager.estado_atual == GameManager.EstadoJogo.DIA:
@@ -171,8 +176,10 @@ func aplicar_kit_botoes(tex_play: Texture2D, tex_pause: Texture2D, tex_resume: T
 	else:
 		_definir_icone_menu(TEX_PAUSE)
 
-func _alterar_velocidade(multiplicador: float, botao_clicado: Button) -> void:
+func _alterar_velocidade(multiplicador: float, botao_clicado: Button, por_usuario := false) -> void:
 	ultima_velocidade = multiplicador
+	if por_usuario and Global.lembrar_velocidade:
+		Global.salvar_velocidade_lembrada(multiplicador)
 
 	if not jogo_pausado:
 		Engine.time_scale = multiplicador

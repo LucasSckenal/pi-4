@@ -146,12 +146,16 @@ func _esconder_todos_elementos():
 func _abrir_ui():
 	if ui_atual:
 		return
+	# Guard global: se OUTRO slot já tem uma modal aberta, não abre uma segunda/terceira.
+	if is_instance_valid(BuildSlotManager.slot_ui_aberta) and BuildSlotManager.slot_ui_aberta != self:
+		return
 	if not ui_construcao_prefab:
 		if Global.DEBUG_MODE:
 			print("ERRO: ui_construcao_prefab não atribuída no slot!")
 		return
 		
 	slot_clicado.emit()
+	BuildSlotManager.slot_ui_aberta = self
 	ui_atual = ui_construcao_prefab.instantiate()
 	
 	# Adiciona ao CanvasLayer do slot para garantir que renderize sobre o mundo 3D
@@ -173,6 +177,8 @@ func fechar_ui():
 		ui_atual.fechar_menu()  # A UI deve ter um método "fechar_menu()"
 		ui_atual.queue_free()
 		ui_atual = null
+		if BuildSlotManager.slot_ui_aberta == self:
+			BuildSlotManager.slot_ui_aberta = null
 
 		if canvas_mobile:
 			canvas_mobile.layer = 1 # Retorna a camada ao nível padrão

@@ -164,6 +164,8 @@ var dano_veneno: int = 0                # VENENO: dano por tick de veneno das fl
 var bonus_vida_torre: int = 0           # VIDA_TORRES: vida extra das torres
 var bonus_soldados: int = 0             # MAIS_SOLDADOS: soldados extras no quartel
 var dano_crescente_por_onda: int = 0    # DANO_CRESCENTE: dano que as torres ganham a cada onda
+var _crescente_acumulado: int = 0       # #13: total já somado por DANO_CRESCENTE (softcap infinito)
+const CRESCENTE_SOFTCAP := 150          # #13: a partir daqui o ganho por onda despenca
 var bonus_onda_perfeita: int = 0        # ONDA_PERFEITA: ouro extra ao terminar a onda sem dano na base
 var tem_construcao_gratis: bool = false       # PRIMEIRA_GRATIS: carta ativa
 var construcao_gratis_disponivel: bool = false # PRIMEIRA_GRATIS: próxima construção sai de graça
@@ -547,7 +549,12 @@ func iniciar_noite():
 
 	# DANO_CRESCENTE: as torres ficam mais fortes a cada onda
 	if dano_crescente_por_onda > 0:
-		bonus_dano += dano_crescente_por_onda
+		var inc: int = dano_crescente_por_onda
+		# #13 SOFTCAP no infinito: depois de acumular muito, cada onda soma bem menos.
+		if modo_infinito and _crescente_acumulado >= CRESCENTE_SOFTCAP:
+			inc = max(1, int(inc * 0.30))
+		_crescente_acumulado += inc
+		bonus_dano += inc
 		get_tree().call_group("Torres", "atualizar_status")
 
 	# Salva ANTES da noite começar — garante que todas as construções
@@ -923,6 +930,7 @@ func limpar_estado_sessao() -> void:
 	bonus_vida_torre      = 0
 	bonus_soldados        = 0
 	dano_crescente_por_onda = 0
+	_crescente_acumulado = 0
 	bonus_onda_perfeita   = 0
 	tem_construcao_gratis = false
 	construcao_gratis_disponivel = false

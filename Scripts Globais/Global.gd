@@ -13,6 +13,8 @@ var _save_count: int = 0  # Contador para throttle do backup (1 backup a cada 5 
 
 # --- VARIÁVEIS DE ESTADO ---
 var hud_tematico_ativo: bool = true   # controlado por configuracoes.gd / CheckHUD
+var lembrar_velocidade: bool = false   # #9: relembrar o multiplicador de velocidade escolhido
+var velocidade_lembrada: float = 1.0
 var shake_tela_ativo: bool = true     # controlado por configuracoes.gd / CheckShakeTela
 var numeros_dano_ativo: bool = true   # controlado por configuracoes.gd / CheckNumerosDano
 
@@ -90,9 +92,20 @@ func _carregar_preferencias_video() -> void:
 	var cfg := ConfigFile.new()
 	if cfg.load(SETTINGS_PATH) != OK:
 		return
-	hud_tematico_ativo = cfg.get_value("video", "hud_customizado", true)
+	hud_tematico_ativo  = true   # HUD temático sempre ligado (toggle virou "lembrar velocidade")
+	lembrar_velocidade  = cfg.get_value("video", "lembrar_velocidade", false)
+	velocidade_lembrada = cfg.get_value("video", "velocidade_lembrada", 1.0)
 	shake_tela_ativo   = cfg.get_value("video", "shake_tela", true)
 	numeros_dano_ativo = cfg.get_value("video", "numeros_dano", true)
+
+
+# Persiste a última velocidade escolhida (para "lembrar multiplicador de velocidade").
+func salvar_velocidade_lembrada(v: float) -> void:
+	velocidade_lembrada = v
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS_PATH)
+	cfg.set_value("video", "velocidade_lembrada", v)
+	cfg.save(SETTINGS_PATH)
 
 
 # --- SISTEMA DE RECOMPENSAS E CONQUISTAS ---

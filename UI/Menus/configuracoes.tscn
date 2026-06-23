@@ -563,7 +563,7 @@ theme_override_styles/pressed = SubResource("CheckBG")
 theme_override_styles/hover = SubResource("CheckBGHover")
 theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
-text = "HUD Customizado"
+text = "Lembrar velocidade"
 
 [node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=312847561]
 layout_mode = 2

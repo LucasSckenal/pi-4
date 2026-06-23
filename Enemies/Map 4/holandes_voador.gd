@@ -22,6 +22,13 @@ signal teleport_reappear(pos: Vector3)
 @export var alpha_preparacao: float = 0.3
 
 # ==========================================
+# BARCO FANTASMA (#15)
+# ==========================================
+@export_category("Barco Fantasma")
+## Liga/desliga a aparição do barco (ship-ghost2) na wave do boss
+@export var mostrar_barco_chegada: bool = true
+
+# ==========================================
 # ESTADO — Salto Fantasma
 # ==========================================
 var initial_path: Vector3 = Vector3.ZERO
@@ -29,6 +36,20 @@ var current_path: Vector3 = Vector3.ZERO
 var has_teleported: bool = false
 var is_teleporting: bool = false
 
+
+# ==========================================
+# BARCO FANTASMA (#15)
+# ==========================================
+# Controla o barco JÁ existente no mapa (ship-ghost2, grupo "BarcoBoss"):
+# ele surge na wave do boss e segue o teleporte indo ao Marker3D mais próximo.
+func _animar_chegada_barco() -> void:
+	var barco = get_tree().get_first_node_in_group("BarcoBoss")
+	if barco == null:
+		return
+	if barco.has_method("aparecer"):
+		barco.aparecer(global_position)
+	if barco.has_method("ir_para") and not teleport_reappear.is_connected(barco.ir_para):
+		teleport_reappear.connect(barco.ir_para)
 
 # ==========================================
 # READY
@@ -46,6 +67,10 @@ func _ready() -> void:
 	initial_path = global_position
 	current_path = global_position
 	posicao_de_spawn = global_position
+
+	# #15: barco fantasma chega dramaticamente no spawn do Holandês
+	if mostrar_barco_chegada:
+		_animar_chegada_barco()
 
 	# Pré-aquece a navegação: define alvo e dispara o cálculo de caminho
 	# ANTES do primeiro _physics_process, evitando is_navigation_finished()

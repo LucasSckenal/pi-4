@@ -6,6 +6,10 @@ var menu_radial_ref: Control = null
 # Referência ao slot que o jogador clicou no momento
 var slot_ativo: Node3D = null
 
+# Slot que está com uma modal de construção ABERTA (impede abrir várias de uma vez).
+# Usa is_instance_valid no guard, então se o slot for liberado o estado se auto-corrige.
+var slot_ui_aberta: Node = null
+
 # Função chamada pelo build_slot.gd quando o jogador interage com ele
 func abrir_menu_para_slot(slot: Node3D, pos_tela: Vector2):
 	if menu_radial_ref and not menu_radial_ref.menu_ativo:
