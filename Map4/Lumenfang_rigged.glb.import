@@ -4156,7 +4156,7 @@ _subresources={
 },
 "nodes": {
 "PATH:FishRig/Skeleton3D/Mesh_0": {
-"generate/physics": true
+"generate/physics": false
 }
 }
 }

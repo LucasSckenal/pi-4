@@ -1231,7 +1231,17 @@ func _process(delta):
 	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
 		if not is_instance_valid(inimigos_no_alcance[i]):
 			inimigos_no_alcance.remove_at(i)
-	alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
+	# Isca Provocadora (Peixe-Lanterna): se um inimigo no alcance estiver
+	# provocando, a torre foca SÓ nele; senão, alvo normal (primeiro da fila).
+	var _provocador: Node3D = null
+	for _ini in inimigos_no_alcance:
+		if _ini.get("taunt_ativo") == true:
+			_provocador = _ini
+			break
+	if _provocador != null:
+		alvo_atual = _provocador
+	else:
+		alvo_atual = inimigos_no_alcance.front() if inimigos_no_alcance.size() > 0 else null
 
 func _caldeiron_atacar_area_torre() -> void:
 	# Dano da ÁREA = valor do caminho "Caldeirão" (dano_por_nivel do Resource_caldeiron na

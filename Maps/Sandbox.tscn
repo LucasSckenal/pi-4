@@ -3,8 +3,8 @@
 [ext_resource type="MeshLibrary" uid="uid://bn25gdv0kdyjl" path="res://Gridmap/PlatformerKitOutline.meshlib" id="1_jgjqi"]
 [ext_resource type="PackedScene" uid="uid://cri36f13bdtw1" path="res://UI/HUD/hud.tscn" id="1_vrv26"]
 [ext_resource type="PackedScene" uid="uid://4tops0doxnpi" path="res://Cenas Locais/dummy.tscn" id="2_vrv26"]
-[ext_resource type="PackedScene" uid="uid://byu7mutqbi4rt" path="res://Enemies/Map 3/Witch.tscn" id="4_ti018"]
 [ext_resource type="PackedScene" uid="uid://c24hpoqubnlm4" path="res://Builds/house.tscn" id="5_u6t3p"]
+[ext_resource type="PackedScene" uid="uid://b7wfiyfe18d3d" path="res://Enemies/Map 4/Holandes_voador.tscn" id="5_yx1jx"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vrv26"]
 sky_top_color = Color(0.81710947, 0.01682627, 0.3807821, 1)
@@ -70,8 +70,8 @@ shadow_enabled = true
 shadow_normal_bias = 10.0
 shadow_blur = 2.5
 
-[node name="CharacterBody3D" parent="." unique_id=917845874 instance=ExtResource("4_ti018")]
-transform = Transform3D(0.33, 0, 0, 0, 0.33, 0, 0, 0, 0.33, 0.12391639, 1, 2.676201)
-
 [node name="unit-house2" parent="." unique_id=1623196517 instance=ExtResource("5_u6t3p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9275197, 1, 2.7651463)
+
+[node name="CharacterBody3D2" parent="." unique_id=126271688 instance=ExtResource("5_yx1jx")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 1.5357513, 1, -1.2653902)

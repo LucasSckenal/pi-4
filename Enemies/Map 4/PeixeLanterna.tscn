@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dwprhjhbjntk"]
 
-[ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemies/inimigo_base.gd" id="1_cuk5b"]
+[ext_resource type="Script" uid="uid://byio60onekw4a" path="res://Enemies/Map 4/peixe_lanterna.gd" id="1_cuk5b"]
 [ext_resource type="PackedScene" uid="uid://4gg1131wbcwv" path="res://Map4/Lumenfang_rigged.glb" id="1_hq168"]
 [ext_resource type="Texture2D" uid="uid://ckfauje2k131n" path="res://Map4/Lumenfang_rigged_Image_0.jpg" id="2_cuk5b"]
 [ext_resource type="Texture2D" uid="uid://cvoievgl4ljpl" path="res://Map4/Lumenfang_rigged_Image_1.jpg" id="3_hcwvl"]
@@ -55,8 +55,11 @@ radius = 1.5527344
 height = 3.1054688
 
 [node name="PeixeLanterna" type="CharacterBody3D" unique_id=453152422 node_paths=PackedStringArray("modelo_3d", "animation_player")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 script = ExtResource("1_cuk5b")
+altura_voo = 0.5
 nome_inimigo = "Peixe-Lanterna"
+eh_aereo = true
 prioriza_construcoes = false
 vida_maxima = 140
 velocidade = 0.6
@@ -73,7 +76,7 @@ anim_morrer = "Death"
 [node name="Lumenfang_rigged" parent="." unique_id=272722186 instance=ExtResource("1_hq168")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16636384, 0.5000446, -0.29485536)
 
-[node name="Skeleton3D" parent="Lumenfang_rigged/FishRig" parent_id_path=PackedInt32Array(272722186, 1779551402) index="0" unique_id=996197998]
+[node name="Skeleton3D" parent="Lumenfang_rigged/FishRig" parent_id_path=PackedInt32Array(272722186, 1452782900) index="0" unique_id=902515331]
 bones/1/rotation = Quaternion(3.0908623e-08, 0.7071068, 0.7071068, 3.0908623e-08)
 bones/3/rotation = Quaternion(2.4172564e-09, 0.99846977, 0.055300385, 4.3644498e-08)
 bones/4/rotation = Quaternion(0.17688236, 4.30219e-08, -7.731819e-09, 0.984232)
@@ -85,14 +88,11 @@ bones/9/rotation = Quaternion(-9.921015e-09, -0.0944727, -0.75591916, 0.6478127)
 bones/10/rotation = Quaternion(1.1866839e-08, 0.09853772, 0.99513334, -7.439369e-09)
 bones/11/rotation = Quaternion(-0.0985375, -3.1631895e-08, -3.1321794e-09, 0.99513334)
 
-[node name="Mesh_0" parent="Lumenfang_rigged/FishRig/Skeleton3D" index="0" unique_id=1474595273]
+[node name="Mesh_0" parent="Lumenfang_rigged/FishRig/Skeleton3D" index="0" unique_id=1772116611]
 mesh = SubResource("ArrayMesh_nj3fc")
 
-[node name="CollisionShape3D" parent="Lumenfang_rigged/FishRig/Skeleton3D/Mesh_0/StaticBody3D" parent_id_path=PackedInt32Array(272722186, 364469979) index="0" unique_id=257621191]
-visible = false
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=934035643]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11215619, 0.41552283, -0.3793048)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11215619, 0.41552284, -0.3793048)
 shape = SubResource("CapsuleShape3D_cuk5b")
 
 [node name="SensorAtaque" type="Area3D" parent="." unique_id=2123451699]

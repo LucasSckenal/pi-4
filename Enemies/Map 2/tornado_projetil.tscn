@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dunli5wy2sd8l"]
+
+[ext_resource type="PackedScene" uid="uid://cvua1hyjgsg83" path="res://Map2/Tornado.glb" id="1_glb"]
+[ext_resource type="Script" path="res://Enemies/Map 2/tornado_ataque.gd" id="2_scr"]
+
+[node name="TornadoProjetil" type="Node3D"]
+script = ExtResource("2_scr")
+
+[node name="Tornado" parent="." instance=ExtResource("1_glb")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
