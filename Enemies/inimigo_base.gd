@@ -129,6 +129,7 @@ const _ICONES: Dictionary = {
 	"Bombardeiro":               "res://Icons/BombardeiroPreview.png",
 	"Holandês Voador":           "res://Icons/HolandesPreview.png",
 	"Monstro Peixe":             "res://Icons/PeixePreview.png",
+	"Peixe-Lanterna":            "res://Icons/PeixeLanternaPreview.png",
 	"Tutuba":                    "res://Icons/TubaraoPreview.png",
 	# Mapa 5
 	"Alexa astronauta":          "res://Icons/AlexaPreview.png",

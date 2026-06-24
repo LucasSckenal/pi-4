@@ -74,6 +74,10 @@ folder_colors={
 "res://android/": "gray"
 }
 
+[filesystem]
+
+import/blender/enabled=false
+
 [global_group]
 
 Player=""

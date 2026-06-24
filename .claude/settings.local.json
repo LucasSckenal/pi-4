@@ -60,7 +60,12 @@
       "Bash(grep -nA30 \"func _gerar_onda_procedural\" \"Cenas Locais/spawner_inimigos.gd\")",
       "Bash(grep -nA12 \"func _calcular_hp_multiplicador\" \"Cenas Locais/spawner_inimigos.gd\")",
       "Bash(grep -nA45 \"func _render_historias\" \"UI/Menus/bestiario.gd\")",
-      "Bash(grep -nA55 \"func _card_historia\" \"UI/Menus/bestiario.gd\")"
+      "Bash(grep -nA55 \"func _card_historia\" \"UI/Menus/bestiario.gd\")",
+      "mcp__mcp-registry__search_mcp_registry",
+      "PowerShell(python -m pip install --user uv 2>&1)",
+      "mcp__blender__execute_blender_code",
+      "mcp__blender__get_viewport_screenshot",
+      "Bash(python)"
     ]
   }
 }

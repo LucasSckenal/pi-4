@@ -1,0 +1,6 @@
+ERROR: Unrecognized UID: "uid://bh8ol65nlhh8k".
+   at: get_id_path (core/io/resource_uid.cpp:208)
+ERROR: Can't save resource to empty path. Provide non-empty path or a Resource with non-empty resource_path.
+   at: save (core/io/resource_saver.cpp:106)
+ERROR: Unable to open file: res://.godot/imported/Meshy_AI_Large_brute_elemental_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-87a2a6395f19a78525c92d386ddc2611.s3tc.ctex.
+   at: _load_data (scene/resources/compressed_texture.cpp:42)
