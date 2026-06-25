@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://glwww1xm4loj"
-path="res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"
+uid="uid://dy863p4ktfnmm"
+path="res://.godot/imported/cut2cena1.png-3fa0960afcca6236f55fc6e0d753ca50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Icons/cadeado.png"
-dest_files=["res://.godot/imported/cadeado.png-7f291423e4b1c7a1ae13f4e3a47bf75c.ctex"]
+source_file="res://Assets/Cutscenes/cut2egito/cut2cena1.png"
+dest_files=["res://.godot/imported/cut2cena1.png-3fa0960afcca6236f55fc6e0d753ca50.ctex"]
 
 [params]
 
