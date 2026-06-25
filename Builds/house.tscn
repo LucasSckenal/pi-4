@@ -6,6 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://c7r8fsamj8wtx" path="res://Builds/casebre.tscn" id="4_4lr0g"]
 [ext_resource type="Texture2D" uid="uid://icp2ghk6g1cr" path="res://Map/Textures/colormap.png" id="5_2nqtp"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="6_4lr0g"]
+[ext_resource type="Script" uid="uid://cj7setbrccrxh" path="res://Upgrades/upgrade_path_data.gd" id="10_upath"]
+[ext_resource type="PackedScene" uid="uid://bbv12tx1i4mrr" path="res://Modelos_3D/Medieval/buildings/blue/building_mine_blue.gltf" id="11_mina"]
+[ext_resource type="PackedScene" uid="uid://btpfydaibdtuv" path="res://Modelos_3D/Medieval/buildings/blue/building_windmill_blue.gltf" id="12_moinho"]
+[ext_resource type="PackedScene" uid="uid://bxymhdtuwhoh8" path="res://Map/unit-mill.glb" id="18_millbase"]
+[ext_resource type="PackedScene" uid="uid://d2sydjnpl4263" path="res://Builds/mercadinho_egipcio.glb" id="13_mercado"]
+[ext_resource type="Texture2D" uid="uid://dl2ojv03losf" path="res://Assets/Construcoes/ConstrucaoCasa2.png" id="14_icasa"]
+[ext_resource type="Texture2D" uid="uid://csl8kaf0tfij" path="res://Assets/Construcoes/ConstrucaoMina.png" id="15_imina"]
+[ext_resource type="Texture2D" uid="uid://1x4eh321qxe0" path="res://Assets/Construcoes/ConstrucaoMoinho.png" id="16_imoinho"]
+[ext_resource type="Texture2D" uid="uid://belanwclrojpw" path="res://Assets/Construcoes/ConstrucaoDeserto.png" id="17_imercado"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n1ywn"]
 render_priority = 0
@@ -62,16 +71,59 @@ shadow_mesh = SubResource("ArrayMesh_gv58l")
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_2nqtp"]
 height = 1.0
 
+[sub_resource type="Resource" id="Resource_casa"]
+script = ExtResource("10_upath")
+nome = "Casa"
+icone = ExtResource("14_icasa")
+custos = Array[int]([2, 3])
+moedas_por_nivel = Array[int]([2, 3])
+vida_por_nivel = Array[int]([100, 150])
+modelos_por_nivel = Array[PackedScene]([ExtResource("3_2nqtp"), ExtResource("4_4lr0g")])
+descricoes = Array[String](["Vira casa de classe média","Mais renda e resistência","Lar reforçado"])
+cor = Color(0.45, 0.6, 0.85, 1)
+[sub_resource type="Resource" id="Resource_mina"]
+script = ExtResource("10_upath")
+nome = "Mina"
+icone = ExtResource("15_imina")
+custos = Array[int]([3, 4])
+moedas_por_nivel = Array[int]([2, 4])
+vida_por_nivel = Array[int]([50, 100])
+modelos_por_nivel = Array[PackedScene]([ExtResource("11_mina"), ExtResource("11_mina")])
+descricoes = Array[String](["Escava ouro a cada onda","Renda constante e confiável","Bem resistente"])
+cor = Color(0.72, 0.55, 0.2, 1)
+
+[sub_resource type="Resource" id="Resource_moinho"]
+script = ExtResource("10_upath")
+nome = "Moinho"
+icone = ExtResource("16_imoinho")
+custos = Array[int]([2, 4])
+moedas_por_nivel = Array[int]([2, 5])
+vida_por_nivel = Array[int]([40, 80])
+modelos_por_nivel = Array[PackedScene]([ExtResource("18_millbase"), ExtResource("12_moinho")])
+descricoes = Array[String](["Mói grãos e gera renda","Cresce bem com o tempo","Sólido"])
+cor = Color(0.5, 0.7, 0.3, 1)
+
+[sub_resource type="Resource" id="Resource_mercado"]
+script = ExtResource("10_upath")
+nome = "Mercado Egípcio"
+icone = ExtResource("17_imercado")
+fase_minima = 2
+fase_maxima = 2
+custos = Array[int]([4, 5])
+moedas_por_nivel = Array[int]([3, 6])
+vida_por_nivel = Array[int]([30, 60])
+modelos_por_nivel = Array[PackedScene]([ExtResource("13_mercado"), ExtResource("13_mercado")])
+descricoes = Array[String](["Comércio do deserto","A melhor renda — só no Egito","Riqueza faraônica"])
+cor = Color(0.85, 0.65, 0.2, 1)
+
 [node name="unit-house2" unique_id=1623196517 instance=ExtResource("1_metfq")]
 script = ExtResource("2_61xxl")
 tipo = 2
 custo_moedas = 2
 vida_maxima = 200
 moedas_por_onda = 1
-upgrade_custos = Array[int]([2, 3])
-upgrade_moedas_por_nivel = Array[int]([2, 3])
-upgrade_vida_por_nivel = Array[int]([100, 150])
-modelos_por_nivel = Array[PackedScene]([ExtResource("3_2nqtp"), ExtResource("4_4lr0g")])
+tem_paths = true
+upgrade_paths = Array[ExtResource("10_upath")]([SubResource("Resource_casa"), SubResource("Resource_mina"), SubResource("Resource_moinho"), SubResource("Resource_mercado")])
 
 [node name="unit-house" parent="." index="0" unique_id=1216390564]
 mesh = SubResource("ArrayMesh_tpccq")

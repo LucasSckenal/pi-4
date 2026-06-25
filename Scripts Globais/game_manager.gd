@@ -75,8 +75,8 @@ var banco_de_fases: Dictionary = {
 		"tutorial": true,
 		"renda_base_por_onda": 5,
 		"construcoes": {
-			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
+			1: [preload("res://Builds/quartel.tscn")],
 			2: []
 		}
 	},
@@ -86,9 +86,9 @@ var banco_de_fases: Dictionary = {
 		"tutorial": false,
 		"renda_base_por_onda": 5,
 		"construcoes": {
-			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [preload("res://Builds/mercadinho_egipcio.tscn")]
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
+			1: [preload("res://Builds/quartel.tscn")],
+			2: []
 		}
 	},
 	3: {
@@ -97,8 +97,8 @@ var banco_de_fases: Dictionary = {
 		"tutorial": false,
 		"renda_base_por_onda": 6,
 		"construcoes": {
-			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
+			1: [preload("res://Builds/quartel.tscn")],
 			2: []
 		}
 	},
@@ -108,9 +108,9 @@ var banco_de_fases: Dictionary = {
 		"tutorial": false,
 		"renda_base_por_onda": 7,
 		"construcoes": {
-			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
-			2: [ preload("res://Builds/taverna_dos_piratas.tscn")]
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
+			1: [preload("res://Builds/quartel.tscn")],
+			2: []
 		}
 	},
 	5: {
@@ -119,8 +119,8 @@ var banco_de_fases: Dictionary = {
 		"tutorial": false,
 		"renda_base_por_onda": 8,
 		"construcoes": {
-			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
+			1: [preload("res://Builds/quartel.tscn")],
 			2: []
 		}
 	},
@@ -130,8 +130,8 @@ var banco_de_fases: Dictionary = {
 		"tutorial": false,
 		"renda_base_por_onda": 10,
 		"construcoes": {
-			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn"), preload("res://Builds/mill.tscn")],
-			1: [preload("res://Builds/mina.tscn"), preload("res://Builds/quartel.tscn")],
+			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
+			1: [preload("res://Builds/quartel.tscn")],
 			2: []
 		}
 	}
@@ -415,6 +415,12 @@ func ir_para_proxima_fase() -> void:
 		return
 	# Limpa perks, upgrades e nivel_base ANTES de carregar a nova fase
 	limpar_estado_sessao()
+	# Define a fase ANTES de carregar: a cutscene lê GameManager.fase_atual para
+	# decidir qual fase carregar depois dela. Sem isto, as fases COM cutscene
+	# carregavam a fase ANTERIOR (fase_atual só era atualizado quando a cena
+	# carregada já era a própria fase — o que não acontece com cutscene no meio).
+	# É o mesmo que o seletor de fases faz, por isso lá funciona.
+	fase_atual = proxima
 	get_tree().change_scene_to_file(obter_cena_entrada_fase(proxima))
 	await get_tree().tree_changed
 	await get_tree().process_frame
