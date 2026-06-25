@@ -35,7 +35,7 @@ func _ready():
 	_label_stats = Label.new()
 	_label_stats.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_label_stats.add_theme_font_size_override("font_size", 20)
-	_label_stats.add_theme_color_override("font_color", Color(0.85, 0.85, 0.9))
+	_label_stats.add_theme_color_override("font_color", Color(0.8, 0.7, 0.54))
 	vbox.add_child(_label_stats)
 	vbox.move_child(_label_stats, 3)
 
