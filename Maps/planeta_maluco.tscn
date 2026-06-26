@@ -329,6 +329,183 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_jv6bm")
 
+[sub_resource type="Animation" id="Animation_qn8nw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Orbita/craft_racer2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-3.4145372, -0.17999999, -1.6010201)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Orbita/craft_racer2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Orbita/craft_racer2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.5, 0.5, 0.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Orbita/craft_racer2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_bprw1"]
+resource_name = "Spaceship"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Orbita/craft_racer2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-3.4145372, -0.17999999, -1.6010201)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Orbita/craft_racer2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Orbita/craft_racer2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.5, 0.5, 0.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Orbita/craft_racer2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xs4ar"]
+resource_name = "SpaceshipArrival"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Orbita/craft_racer2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6333333, 0.73333335, 1.16, 1.5333333, 1.8666667, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-11.08, -0.085, 4.151), Vector3(-6.81, -0.1, 4.151), Vector3(-6.81, -0.085, 4.151), Vector3(-5.081623, -0.085103825, 3.3453212), Vector3(-2.872, 0.125, 2.155), Vector3(-3.333, -0.188, -1.038), Vector3(-3.4145372, -0.17999999, -1.6010201)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Orbita/craft_racer2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6666667, 1.0333333, 1.5333333, 1.75, 1.9, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.17453292, -1.1327187, 0.17278759), Vector3(0.17453292, -1.1327187, 0.17278759), Vector3(0, -1.1327187, 0.17278759), Vector3(0, -1.1327187, 0.17278759), Vector3(0, 0.045378562, 0), Vector3(0, 0.045378562, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Orbita/craft_racer2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.33880284, 0.43333334, 0.6666667, 0.73333335, 1.16, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.01, 0.01, 0.01), Vector3(0.01, 0.01, 0.01), Vector3(0.1, 0.1, 0.5), Vector3(0.1, 0.1, 2), Vector3(0.3, 0.3, 0.3), Vector3(0.3, 0.3, 0.3), Vector3(0.5, 0.5, 0.5)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Orbita/craft_racer2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+
+[sub_resource type="Animation" id="Animation_adkph"]
+resource_name = "SpaceshipLess"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Orbita/craft_racer2:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_m68ma"]
+_data = {
+&"RESET": SubResource("Animation_qn8nw"),
+&"Spaceship": SubResource("Animation_bprw1"),
+&"SpaceshipArrival": SubResource("Animation_xs4ar"),
+&"SpaceshipLess": SubResource("Animation_adkph")
+}
+
 [node name="Planeta Maluco" type="Node3D" unique_id=601620069]
 script = ExtResource("99_planetascript")
 conquista_fim_Espaco = ExtResource("2_rrmf8")
@@ -408,6 +585,7 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -3.4145372, -0.17999999, -1.6010201)
 
 [node name="craft_racer" parent="Orbita/craft_racer2" index="0" unique_id=385275757]
+transform = Transform3D(0.9999999, -1.4901161e-08, -2.9802322e-08, -1.2709885e-08, 1, 2.4360663e-08, -2.9802322e-08, 2.9802322e-08, 1, 2, 0, 1.5)
 mesh = SubResource("ArrayMesh_5arfd")
 
 [node name="Computer" type="GridMap" parent="." unique_id=1184474124]
@@ -550,6 +728,9 @@ texture_emission = ExtResource("8_mlm15")
 emission_energy = 2.0
 
 [node name="HUD" parent="." unique_id=1178528872 instance=ExtResource("9_mlm15")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1259694003]
+libraries/ = SubResource("AnimationLibrary_m68ma")
 
 [editable path="Orbita/craft_racer2"]
 [editable path="Portal"]
