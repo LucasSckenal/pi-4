@@ -1,14 +1,12 @@
 [gd_scene format=3 uid="uid://cusm37famdbvk"]
 
 [ext_resource type="Script" uid="uid://ckw26womkvsi2" path="res://Cenas Locais/Cutscenes/cutscene_dinamica.gd" id="1_pp23j"]
-[ext_resource type="Texture2D" uid="uid://bkok8ijxhn8rj" path="res://Assets/Cutscenes/Teste/Teste_parte1.png" id="2_78uad"]
-[ext_resource type="Texture2D" uid="uid://ckfuhiovdghlo" path="res://Assets/Cutscenes/Teste/Teste_parte2.png" id="3_j21wo"]
-[ext_resource type="Texture2D" uid="uid://c0vt4hsuhqng2" path="res://Assets/Cutscenes/Teste/Teste_parte3.png" id="4_pwm4c"]
-[ext_resource type="Texture2D" uid="uid://p6s3gbo8h4wv" path="res://Assets/Cutscenes/Teste/Teste_parte4.png" id="5_yw7nn"]
-[ext_resource type="Texture2D" uid="uid://ct084bis7tbon" path="res://Assets/Cutscenes/Teste/Teste_parte5.png" id="6_cw2uu"]
-[ext_resource type="Texture2D" uid="uid://d3kcmmt087vrr" path="res://Assets/Cutscenes/Teste/Teste_parte6.png" id="7_achfs"]
-[ext_resource type="Texture2D" uid="uid://cqgtoewmvkg61" path="res://Assets/Cutscenes/Teste/Teste_parte7.png" id="8_ra0y1"]
+[ext_resource type="Texture2D" uid="uid://bdgolq0suwnll" path="res://Assets/Cutscenes/cut4fenda/cut4cena1.png" id="2_y6he5"]
+[ext_resource type="Texture2D" uid="uid://bvn0ddbmi105m" path="res://Assets/Cutscenes/cut4fenda/cut4cena2.png" id="3_770m0"]
+[ext_resource type="Texture2D" uid="uid://cl81boblcmkpo" path="res://Assets/Cutscenes/cut4fenda/cut4cena3.png" id="4_h8bxl"]
+[ext_resource type="Texture2D" uid="uid://c3rwwytgi866m" path="res://Assets/Cutscenes/cut4fenda/cut4cena4.png" id="5_5am71"]
+[ext_resource type="Texture2D" uid="uid://dhcmkd3s3n11u" path="res://Assets/Cutscenes/cut4fenda/cut4cena5.png" id="6_m5p4i"]
 
 [node name="CutsceneAnimada" type="CanvasLayer" unique_id=1720865964]
 script = ExtResource("1_pp23j")
-imagens = Array[Texture2D]([ExtResource("2_78uad"), ExtResource("3_j21wo"), ExtResource("4_pwm4c"), ExtResource("5_yw7nn"), ExtResource("6_cw2uu"), ExtResource("7_achfs"), ExtResource("8_ra0y1")])
+imagens = Array[Texture2D]([ExtResource("2_y6he5"), ExtResource("3_770m0"), ExtResource("4_h8bxl"), ExtResource("5_5am71"), ExtResource("6_m5p4i")])

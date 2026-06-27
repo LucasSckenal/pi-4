@@ -583,6 +583,7 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="craft_racer2" parent="Orbita" unique_id=446235446 instance=ExtResource("3_s8s8w")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -3.4145372, -0.17999999, -1.6010201)
+visible = false
 
 [node name="craft_racer" parent="Orbita/craft_racer2" index="0" unique_id=385275757]
 transform = Transform3D(0.9999999, -1.4901161e-08, -2.9802322e-08, -1.2709885e-08, 1, 2.4360663e-08, -2.9802322e-08, 2.9802322e-08, 1, 2, 0, 1.5)

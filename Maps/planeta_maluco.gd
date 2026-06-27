@@ -12,8 +12,12 @@ var _luz_solar: DirectionalLight3D = null
 var _ambiente: WorldEnvironment = null
 var _luzes_plataforma: Array = []
 var _energia_solar_original: float = 1.0
+var _nave: Node3D = null
+var _anim_player: AnimationPlayer = null
+var _nave_animacao_tocada: bool = false
 
 const ONDA_BOSS := 6
+const ONDA_NAVE_DIRECAO_D := 4
 
 # ─── Shader da superfície — estilo Terra ─────────────────────────────────────
 const SHADER_PLANETA = """
@@ -120,6 +124,9 @@ func _ready():
 	await get_tree().process_frame
 	GameManager.carregar_fase(5)
 	GameManager.vitoria.connect(_on_fase_vencida)
+	_nave = get_node_or_null("Orbita/craft_racer2")
+	_anim_player = get_node_or_null("AnimationPlayer")
+	_preparar_nave_para_onda_atual()
 
 	_estrelas_normais = get_node_or_null("Estrelas")
 	_criar_estrelas_cadentes()
@@ -352,9 +359,16 @@ func _process(delta: float) -> void:
 # ─── Callbacks ────────────────────────────────────────────────────────────────
 func _on_dia_iniciado(_onda_atual: int) -> void:
 	_animar_para_dia()
+	if _onda_atual < ONDA_NAVE_DIRECAO_D:
+		_esconder_nave()
 
 func _on_noite_iniciada(_onda_atual: int) -> void:
 	_animar_para_noite()
+	if _onda_atual == ONDA_NAVE_DIRECAO_D:
+		_tocar_animacao_chegada_nave()
+	elif _onda_atual > ONDA_NAVE_DIRECAO_D:
+		_mostrar_nave_no_ponto_final()
+
 	if _onda_atual >= ONDA_BOSS:
 		if is_instance_valid(_estrelas_normais):
 			_estrelas_normais.emitting = false
@@ -366,3 +380,39 @@ func _on_noite_iniciada(_onda_atual: int) -> void:
 func _on_fase_vencida():
 	if conquista_fim_Espaco != null:
 		Global.processar_recompensa(conquista_fim_Espaco)
+
+func _preparar_nave_para_onda_atual() -> void:
+	if GameManager.onda_atual < ONDA_NAVE_DIRECAO_D:
+		_esconder_nave()
+	else:
+		_mostrar_nave_no_ponto_final()
+
+func _esconder_nave() -> void:
+	_nave_animacao_tocada = false
+	if is_instance_valid(_anim_player):
+		_anim_player.stop()
+		if _anim_player.has_animation("SpaceshipLess"):
+			_anim_player.play("SpaceshipLess")
+			_anim_player.seek(0.0, true)
+	if is_instance_valid(_nave):
+		_nave.visible = false
+
+func _mostrar_nave_no_ponto_final() -> void:
+	_nave_animacao_tocada = true
+	if is_instance_valid(_anim_player):
+		_anim_player.stop()
+		if _anim_player.has_animation("Spaceship"):
+			_anim_player.play("Spaceship")
+			_anim_player.seek(0.0, true)
+			_anim_player.stop()
+	if is_instance_valid(_nave):
+		_nave.visible = true
+
+func _tocar_animacao_chegada_nave() -> void:
+	if _nave_animacao_tocada:
+		return
+	_nave_animacao_tocada = true
+	if is_instance_valid(_nave):
+		_nave.visible = true
+	if is_instance_valid(_anim_player) and _anim_player.has_animation("SpaceshipArrival"):
+		_anim_player.play("SpaceshipArrival")
