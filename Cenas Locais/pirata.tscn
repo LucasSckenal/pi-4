@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cpirata00ally"]
+
+[ext_resource type="Script" path="res://Scripts Locais/pirata.gd" id="1_pir"]
+[ext_resource type="PackedScene" uid="uid://cbbrs3mwioewm" path="res://Map4/Pirate Captain.glb" id="2_pir"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corpo"]
+radius = 0.11
+height = 0.34
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_det"]
+radius = 6.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hit"]
+radius = 0.24
+
+[node name="Pirata" type="CharacterBody3D" groups=["aliados"]]
+script = ExtResource("1_pir")
+
+[node name="Modelo" parent="." instance=ExtResource("2_pir")]
+transform = Transform3D(0.22, 0, 0, 0, 0.22, 0, 0, 0, 0.22, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("CapsuleShape3D_corpo")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="AreaAtk" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("SphereShape3D_det")
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+shape = SubResource("SphereShape3D_hit")

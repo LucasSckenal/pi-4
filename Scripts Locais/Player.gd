@@ -284,6 +284,8 @@ func _verificar_ataque_automatico():
 func _executar_ataque_area(inimigos: Array):
 	pode_atacar = false
 	inimigo_focado = inimigos[0] # Salva o primeiro inimigo para o personagem virar para ele
+	# Buff do bardo (caminho Taverna): ataca mais rápido enquanto estiver no raio da aura.
+	timer_ataque.wait_time = max(0.15, velocidade_ataque / GameManager.fator_buff_bardo(global_position))
 	timer_ataque.start()
 	
 	# --- TRADUTOR DO ATAQUE ---
@@ -310,10 +312,11 @@ func _executar_ataque_area(inimigos: Array):
 		
 	_criar_efeito_visual_corte()
 	
-	# Aplica dano em todos os inimigos capturados na área de ataque
+	# Aplica dano em todos os inimigos capturados na área de ataque (com buff do bardo, se houver)
+	var dano_final := int(round(dano_ataque * GameManager.fator_buff_bardo(global_position)))
 	for inimigo in inimigos:
 		if inimigo.has_method("receber_dano"):
-			inimigo.receber_dano(dano_ataque)
+			inimigo.receber_dano(dano_final)
 
 func _criar_efeito_visual_corte():
 	# Cria uma malha simples para o rastro da espada

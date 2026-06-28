@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://cbardo00ally0"]
+
+[ext_resource type="Script" path="res://Scripts Locais/bardo.gd" id="1_bar"]
+[ext_resource type="PackedScene" uid="uid://bm8sf3adkivb" path="res://Map4/Bardo.glb" id="2_bar"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_corpo"]
+radius = 0.095
+height = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_hit"]
+radius = 0.22
+
+[sub_resource type="TorusMesh" id="TorusMesh_aura"]
+inner_radius = 2.4
+outer_radius = 2.5
+rings = 48
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aura"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.85, 0.35, 0.55)
+emission_enabled = true
+emission = Color(1, 0.8, 0.3, 1)
+emission_energy_multiplier = 2.0
+
+[node name="Bardo" type="CharacterBody3D" groups=["aliados"]]
+script = ExtResource("1_bar")
+
+[node name="Modelo" parent="." instance=ExtResource("2_bar")]
+transform = Transform3D(0.19, 0, 0, 0, 0.19, 0, 0, 0, 0.19, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+shape = SubResource("CapsuleShape3D_corpo")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="Hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+shape = SubResource("SphereShape3D_hit")
+
+[node name="AnelAura" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0)
+mesh = SubResource("TorusMesh_aura")
+surface_material_override/0 = SubResource("StandardMaterial3D_aura")

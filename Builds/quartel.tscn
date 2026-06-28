@@ -8,6 +8,10 @@
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="5_0avtp"]
 [ext_resource type="Script" uid="uid://cj7setbrccrxh" path="res://Upgrades/upgrade_path_data.gd" id="6_upath"]
 [ext_resource type="Texture2D" uid="uid://dhybipisk5nrr" path="res://Assets/Icons/Espada.png" id="7_espada"]
+[ext_resource type="PackedScene" uid="uid://cpirata00ally" path="res://Cenas Locais/pirata.tscn" id="8_pirata"]
+[ext_resource type="PackedScene" uid="uid://cbardo00ally0" path="res://Cenas Locais/bardo.tscn" id="9_bardo"]
+[ext_resource type="PackedScene" uid="uid://crim6rf2eh2lg" path="res://Builds/taverna_dos_piratas.glb" id="10_taverna"]
+[ext_resource type="Texture2D" uid="uid://dymmhg0ey5bp" path="res://Assets/Construcoes/ConstrucaoPirata.png" id="11_ipirata"]
 
 [sub_resource type="Resource" id="Resource_guardareal"]
 script = ExtResource("6_upath")
@@ -17,6 +21,19 @@ tipo_ataque = "espada"
 custos = Array[int]([12])
 descricoes = Array[String](["Mistura arqueiros com espadachins", "As espadas avançam no corpo a corpo", "Mais resistentes e fortes"])
 cor = Color(0.32, 0.58, 0.88, 1)
+
+[sub_resource type="Resource" id="Resource_taverna"]
+script = ExtResource("6_upath")
+nome = "Taverna dos Piratas"
+icone = ExtResource("11_ipirata")
+fase_minima = 4
+fase_maxima = 4
+custos = Array[int]([12])
+modelos_por_nivel = Array[PackedScene]([ExtResource("10_taverna")])
+cenas_aliados = Array[PackedScene]([ExtResource("8_pirata"), ExtResource("9_bardo")])
+quantidades_aliados = Array[int]([1, 1])
+descricoes = Array[String](["Troca soldados por um pirata tanque", "Pirata segura os inimigos de perto", "Bardo turbina dano e ataque perto"])
+cor = Color(0.55, 0.27, 0.16, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mi8mv"]
 render_priority = 0
@@ -88,7 +105,7 @@ cena_aliado = ExtResource("2_yitiu")
 numero_aliados_base = 3
 ponto_spawn_path = NodePath("PontoSpawn")
 tem_paths = true
-upgrade_paths = Array[ExtResource("6_upath")]([SubResource("Resource_guardareal")])
+upgrade_paths = Array[ExtResource("6_upath")]([SubResource("Resource_guardareal"), SubResource("Resource_taverna")])
 
 [node name="building_archeryrange_blue2" parent="." unique_id=1337676271 instance=ExtResource("1_486cl")]
 

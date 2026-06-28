@@ -169,6 +169,7 @@ void fragment() {
 
 var soldados_vivos: int = 0 # Controle interno (total: arqueiros + espadachins)
 var _espadas_vivas: int = 0 # Quantos dos vivos são espadachins (Guarda Real)
+var _vivos_por_cena: Dictionary = {} # Composição customizada (Taverna): resource_path -> qtd viva
 
 # ==========================================
 # CONFIGURAÇÕES ECONÔMICAS (MINA, CASA, MOINHO)
@@ -547,7 +548,11 @@ func get_opcoes_proximo_upgrade() -> Array:
 			if modelo_correto == null and path.modelos_por_nivel.size() > 0:
 				modelo_correto = path.modelos_por_nivel[path.modelos_por_nivel.size() - 1]
 
-			var icone_path2 = path.icone if path.icone != null else _icone_por_path_nome(nome_path)
+			# Ícone do PRÓXIMO NÍVEL: resolve pelo modelo desse nível (ex.: Casa nv2
+			# usa ConstrucaoCasa3, Moinho nv2 usa ConstrucaoMoinho2). Fallback no ícone do path.
+			var icone_path2 = _icone_modelo_especifico(modelo_correto)
+			if icone_path2 == null:
+				icone_path2 = path.icone if path.icone != null else _icone_por_path_nome(nome_path)
 			opcoes.append({
 				"index": caminho_atual,
 				"nome": nome_path,
@@ -746,6 +751,53 @@ func _icone_por_path_nome(nome: String) -> Texture2D:
 		"Torre de Fogo": return preload("res://Assets/Construcoes/ConstrucaoCovil.png")
 		"Tesla":         return preload("res://Assets/Construcoes/ConstrucaoScifi.png")
 		_: return null
+
+# Ícone específico de um modelo de upgrade (por nível). Retorna null se o modelo
+# não tem mapeamento explícito — aí o chamador usa o ícone do path/torre como fallback
+# (evita quebrar os ícones das torres, cujos modelos não estão aqui).
+func _icone_modelo_especifico(modelo: PackedScene) -> Texture2D:
+	if modelo == null:
+		return null
+	match modelo.resource_path:
+		"res://Builds/casa_classe_media.tscn":
+			return preload("res://Assets/Construcoes/ConstrucaoCasa2.png")
+		"res://Builds/casebre.tscn":
+			return preload("res://Assets/Construcoes/ConstrucaoCasa3.png")
+		"res://Map/unit-mill.glb":
+			return preload("res://Assets/Construcoes/ConstrucaoMoinho.png")
+		"res://Modelos_3D/Medieval/buildings/blue/building_windmill_blue.gltf":
+			return preload("res://Assets/Construcoes/ConstrucaoMoinho2.png")
+		"res://Modelos_3D/Medieval/buildings/blue/building_mine_blue.gltf":
+			return preload("res://Assets/Construcoes/ConstrucaoMina.png")
+		"res://Builds/mercadinho_egipcio.glb":
+			return preload("res://Assets/Construcoes/ConstrucaoDeserto.png")
+	return null
+
+# Escala 3D específica de modelos cuja malha nativa difere do padrão (escala_modelo).
+# Retorna Vector3.ZERO quando o modelo deve usar a escala padrão.
+func _escala_modelo_especifico(modelo: PackedScene) -> Vector3:
+	if modelo == null:
+		return Vector3.ZERO
+	match modelo.resource_path:
+		# unit-mill.glb: meio-termo entre alinhar com as outras de economia (0.55) e o
+		# tamanho maior anterior (1.1). 0.8 deixa o moinho-base levemente acima das demais.
+		"res://Map/unit-mill.glb":
+			return Vector3(0.8, 0.8, 0.8)
+		# Taverna (caminho do quartel): ajusta para ficar do tamanho do prédio do quartel
+		"res://Builds/taverna_dos_piratas.glb":
+			return Vector3(1.15, 1.15, 1.15)
+	return Vector3.ZERO
+
+# Deslocamento de posição para modelos cuja origem não está na base (afundam no chão).
+func _offset_modelo_especifico(modelo: PackedScene) -> Vector3:
+	if modelo == null:
+		return Vector3.ZERO
+	match modelo.resource_path:
+		# A taverna tem origem no centro; sobe para a base encostar no chão (não afundar).
+		# Sobe ~metade da altura (≈ escala aplicada), acompanhando a escala 1.15.
+		"res://Builds/taverna_dos_piratas.glb":
+			return Vector3(0, 1.15, 0)
+	return Vector3.ZERO
 
 func _calcular_escala_ideal_para_ui(path_data: Resource = null) -> Vector3:
 	# 1. Tenta pegar a escala específica definida no PathData (se existir no futuro)
@@ -985,7 +1037,10 @@ func _trocar_modelo(nivel: int):
 		elif "is_fantasma" in modelo:
 			modelo.is_fantasma = true
 		modelo_anchor.add_child(modelo)
-		modelo.scale = escala_modelo
+		var escala_especifica = _escala_modelo_especifico(modelo_scene)
+		modelo.scale = escala_especifica if escala_especifica != Vector3.ZERO else escala_modelo
+		# Alguns modelos têm origem no centro e afundam — sobe pela base.
+		modelo.position += _offset_modelo_especifico(modelo_scene)
 		
 		# Tornando staticbody em um botão
 		for corpo in modelo.find_children("*", "StaticBody3D"):
@@ -1253,7 +1308,7 @@ func _caldeiron_atacar_area_torre() -> void:
 		var idx := nivel_atual - 1
 		if idx >= 0 and idx < p.dano_por_nivel.size():
 			dano_caminho = p.dano_por_nivel[idx]
-	var dano_base: int = max(1, dano_caminho)
+	var dano_base: int = max(1, int(round(dano_caminho * GameManager.fator_buff_bardo(global_position))))
 	for i in range(inimigos_no_alcance.size() - 1, -1, -1):
 		if not is_instance_valid(inimigos_no_alcance[i]):
 			inimigos_no_alcance.remove_at(i)
@@ -1625,6 +1680,13 @@ func _on_timer_ataque_timeout():
 	if tipo != TipoConstrucao.TORRE or is_fantasma or esta_destruida: return
 	if alvo_atual != null and is_instance_valid(alvo_atual):
 		atacar()
+	# Reaplica a cadência a cada disparo: o buff do bardo é dinâmico (entra/sai do raio).
+	atualizar_status()
+
+# Dano efetivo de um disparo da torre, já com o bônus global e o buff do bardo (aura).
+func _dano_torre_base() -> int:
+	var fator := GameManager.fator_buff_bardo(global_position)
+	return max(1, int(round((dano_atual + GameManager.bonus_dano) * fator)))
 
 func atacar():
 	if not is_instance_valid(alvo_atual):
@@ -1659,7 +1721,7 @@ func atacar():
 	var flecha = cena_flecha.instantiate()
 	get_tree().root.add_child(flecha)
 	flecha.global_position = ponto_tiro.global_position if ponto_tiro else global_position + Vector3(0, 1.5, 0)
-	flecha.dano = max(1, dano_atual + GameManager.bonus_dano)
+	flecha.dano = _dano_torre_base()
 	flecha.alvo = alvo_atual
 
 # ==========================================
@@ -1673,7 +1735,7 @@ func _atacar_chain_lightning():
 	var raio_chain: float = Balanceamento.get_float("tesla_chain_raio", 4.0)
 	var mult_dano: float  = Balanceamento.get_float("tesla_chain_mult", 0.6)
 
-	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	var dano_base: int = _dano_torre_base()
 	if GameManager.bonus_dano_chefe > 0 and alvo_atual.is_in_group("Chefe"):
 		dano_base += GameManager.bonus_dano_chefe
 
@@ -1729,7 +1791,7 @@ func _spawnar_raio(origem: Vector3, destino: Vector3) -> void:
 # ==========================================
 func _atacar_fire_laser() -> void:
 	var max_alvos_fogo: int = Balanceamento.get_int("torre_fogo_max_alvos", 3)
-	var dano_base: int = max(1, dano_atual + GameManager.bonus_dano)
+	var dano_base: int = _dano_torre_base()
 
 	# Alcance de DANO da torre de fogo: usa o alcance de projeto da inferno (igual ao
 	# laser visual), nunca abaixo do alcance_atual. Sem isto o dano usaria o alcance
@@ -1773,7 +1835,7 @@ func _atacar_morteiro() -> void:
 	var bala = cena_bala_morteiro.instantiate()
 	get_tree().root.add_child(bala)
 	bala.global_position = global_position + Vector3(0, 1.4, 0)
-	bala.dano = max(1, dano_atual + GameManager.bonus_dano)
+	bala.dano = _dano_torre_base()
 	bala.alvo = alvo_atual
 
 # ==========================================
@@ -1818,19 +1880,42 @@ func _alvo_espadas() -> int:
 func _arqueiros_vivos() -> int:
 	return soldados_vivos - _espadas_vivas
 
+# Caminho com composição customizada de aliados (Taverna): retorna o path ou null.
+func _composicao_custom() -> Resource:
+	if tem_paths and caminho_atual >= 0 and caminho_atual < upgrade_paths.size():
+		var path = upgrade_paths[caminho_atual]
+		if path != null and "cenas_aliados" in path and path.cenas_aliados.size() > 0:
+			return path
+	return null
+
 # Spawna o que falta para completar a composição alvo.
 func _repor_aliados() -> void:
+	var comp = _composicao_custom()
+	if comp != null:
+		# Composição customizada (ex.: Taverna = 1 pirata + 1 bardo)
+		for i in range(comp.cenas_aliados.size()):
+			var cena: PackedScene = comp.cenas_aliados[i]
+			if cena == null:
+				continue
+			var alvo: int = comp.quantidades_aliados[i] if i < comp.quantidades_aliados.size() else 1
+			while _vivos_por_cena.get(cena.resource_path, 0) < alvo:
+				_criar_um_aliado(false, cena)
+		return
 	while _arqueiros_vivos() < _alvo_arqueiros():
 		_criar_um_aliado(false)
 	while _espadas_vivas < _alvo_espadas():
 		_criar_um_aliado(true)
 
-func _criar_um_aliado(com_espada: bool = false):
-	var aliado = cena_aliado.instantiate()
+func _criar_um_aliado(com_espada: bool = false, cena_especifica: PackedScene = null):
+	var cena: PackedScene = cena_especifica if cena_especifica != null else cena_aliado
+	if cena == null:
+		return
+	var eh_custom := cena_especifica != null
+	var aliado = cena.instantiate()
 	# Upgrade "Guarda Real": o espadachim luta no corpo a corpo.
-	# Marca ANTES do add_child (_ready).
+	# Marca ANTES do add_child (_ready). Não se aplica à composição customizada (pirata/bardo).
 	var virou_espada := false
-	if com_espada and "modo_espada" in aliado:
+	if not eh_custom and com_espada and "modo_espada" in aliado:
 		aliado.modo_espada = true
 		virou_espada = true
 	get_tree().current_scene.add_child(aliado)
@@ -1869,6 +1954,10 @@ func _criar_um_aliado(com_espada: bool = false):
 	soldados_vivos += 1
 	if virou_espada:
 		_espadas_vivas += 1
+	if eh_custom:
+		# Marca a origem para repor a MESMA cena ao morrer (composição da Taverna)
+		aliado.set_meta("cena_origem", cena.resource_path)
+		_vivos_por_cena[cena.resource_path] = _vivos_por_cena.get(cena.resource_path, 0) + 1
 
 	if aliado.has_signal("morreu"):
 		aliado.morreu.connect(_on_aliado_morreu)
@@ -1900,12 +1989,18 @@ func _quartel_modo_espada() -> bool:
 	return false
 
 func _on_aliado_morreu(aliado_morto: Node):
+	# Composição customizada (Taverna): identifica a cena que morreu para repor a mesma.
+	var chave_custom := ""
+	if is_instance_valid(aliado_morto) and aliado_morto.has_meta("cena_origem"):
+		chave_custom = aliado_morto.get_meta("cena_origem")
 	# Descobre o tipo do soldado que morreu para repor o mesmo
 	var era_espada := false
-	if is_instance_valid(aliado_morto) and "modo_espada" in aliado_morto:
+	if chave_custom == "" and is_instance_valid(aliado_morto) and "modo_espada" in aliado_morto:
 		era_espada = aliado_morto.modo_espada
 	soldados_vivos -= 1
-	if era_espada:
+	if chave_custom != "":
+		_vivos_por_cena[chave_custom] = max(0, _vivos_por_cena.get(chave_custom, 0) - 1)
+	elif era_espada:
 		_espadas_vivas = max(0, _espadas_vivas - 1)
 
 	# 1. MOSTRA A BARRA E INICIA A ANIMAÇÃO
@@ -1924,14 +2019,37 @@ func _on_aliado_morreu(aliado_morto: Node):
 		return
 
 	# 4. REPÕE O MESMO TIPO QUE MORREU (se ainda falta)
-	if era_espada and _espadas_vivas < _alvo_espadas():
+	var comp = _composicao_custom()
+	if chave_custom != "" and comp != null:
+		for i in range(comp.cenas_aliados.size()):
+			var cena: PackedScene = comp.cenas_aliados[i]
+			if cena != null and cena.resource_path == chave_custom:
+				var alvo: int = comp.quantidades_aliados[i] if i < comp.quantidades_aliados.size() else 1
+				if _vivos_por_cena.get(chave_custom, 0) < alvo:
+					_criar_um_aliado(false, cena)
+				break
+	elif era_espada and _espadas_vivas < _alvo_espadas():
 		_criar_um_aliado(true)
-	elif not era_espada and _arqueiros_vivos() < _alvo_arqueiros():
+	elif chave_custom == "" and not era_espada and _arqueiros_vivos() < _alvo_arqueiros():
 		_criar_um_aliado(false)
 
 	# 5. ESCONDE A BARRA (Apenas se a composição estiver completa de novo)
-	if sprite_respawn and _arqueiros_vivos() >= _alvo_arqueiros() and _espadas_vivas >= _alvo_espadas():
+	if sprite_respawn and _composicao_completa():
 		sprite_respawn.visible = false
+
+# True quando a composição de aliados (padrão OU customizada) está completa.
+func _composicao_completa() -> bool:
+	var comp = _composicao_custom()
+	if comp != null:
+		for i in range(comp.cenas_aliados.size()):
+			var cena: PackedScene = comp.cenas_aliados[i]
+			if cena == null:
+				continue
+			var alvo: int = comp.quantidades_aliados[i] if i < comp.quantidades_aliados.size() else 1
+			if _vivos_por_cena.get(cena.resource_path, 0) < alvo:
+				return false
+		return true
+	return _arqueiros_vivos() >= _alvo_arqueiros() and _espadas_vivas >= _alvo_espadas()
 
 # ==========================================
 # SISTEMA DE DANO (COMUM A TODOS)
@@ -2116,7 +2234,8 @@ func reviver():
 func atualizar_status():
 	if tipo == TipoConstrucao.TORRE and timer_ataque:
 		var tempo_com_upgrade = tempo_ataque_atual
-		var tempo_final = tempo_com_upgrade / (1.0 + GameManager.bonus_velocidade_ataque)
+		# Buff do bardo: deixa a torre atacar mais rápido enquanto estiver no raio da aura.
+		var tempo_final = tempo_com_upgrade / (1.0 + GameManager.bonus_velocidade_ataque) / GameManager.fator_buff_bardo(global_position)
 		timer_ataque.wait_time = max(0.1, tempo_final)
 		if GameManager.bonus_alcance > 0.0:
 			_configurar_alcance()

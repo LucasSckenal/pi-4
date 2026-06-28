@@ -583,9 +583,8 @@ metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="craft_racer2" parent="Orbita" unique_id=446235446 instance=ExtResource("3_s8s8w")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -3.4145372, -0.17999999, -1.6010201)
-visible = false
 
-[node name="craft_racer" parent="Orbita/craft_racer2" index="0" unique_id=385275757]
+[node name="craft_racer" parent="Orbita/craft_racer2" index="0" unique_id=1252617461]
 transform = Transform3D(0.9999999, -1.4901161e-08, -2.9802322e-08, -1.2709885e-08, 1, 2.4360663e-08, -2.9802322e-08, 2.9802322e-08, 1, 2, 0, 1.5)
 mesh = SubResource("ArrayMesh_5arfd")
 
@@ -658,7 +657,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.256919, 0.45088357, -0.025
 [node name="Portal" parent="." unique_id=683417852 instance=ExtResource("7_gpya5")]
 transform = Transform3D(1.14517, 0, -0.96880627, 0, 1.5, 0, 0.96880627, 0, 1.14517, 0.049744606, 0.5363734, 0.06908631)
 
-[node name="gate_simple" parent="Portal/gate_simple2" parent_id_path=PackedInt32Array(683417852, 1855232070) index="0" unique_id=399550621]
+[node name="gate_simple" parent="Portal/gate_simple2" parent_id_path=PackedInt32Array(683417852, 1855232070) index="0" unique_id=1103761507]
 mesh = SubResource("ArrayMesh_adkph")
 
 [node name="StaticBody3D" parent="Portal" index="1" unique_id=774108571]

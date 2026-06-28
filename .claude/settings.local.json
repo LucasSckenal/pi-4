@@ -67,7 +67,8 @@
       "mcp__blender__get_viewport_screenshot",
       "Bash(python)",
       "mcp__blender__get_scene_info",
-      "Bash(cd \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\" && echo \"=== dest do import ===\"; grep -nE \"dest_files|path=\" Map2/Genio.glb.import | head; echo \"=== removendo cache .scn do Genio ===\"; ls .godot/imported/ 2>/dev/null | grep -i genio; rm -f .godot/imported/Genio.glb-*.scn .godot/imported/Genio.glb-*.scn.* 2>/dev/null; echo \"removido \\(se existia\\)\"; ls .godot/imported/ 2>/dev/null | grep -i genio || echo \"cache do Genio limpo\")"
+      "Bash(cd \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\" && echo \"=== dest do import ===\"; grep -nE \"dest_files|path=\" Map2/Genio.glb.import | head; echo \"=== removendo cache .scn do Genio ===\"; ls .godot/imported/ 2>/dev/null | grep -i genio; rm -f .godot/imported/Genio.glb-*.scn .godot/imported/Genio.glb-*.scn.* 2>/dev/null; echo \"removido \\(se existia\\)\"; ls .godot/imported/ 2>/dev/null | grep -i genio || echo \"cache do Genio limpo\")",
+      "Bash(echo \"exit $?\")"
     ]
   }
 }

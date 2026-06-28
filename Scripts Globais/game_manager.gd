@@ -171,6 +171,10 @@ var tem_construcao_gratis: bool = false       # PRIMEIRA_GRATIS: carta ativa
 var construcao_gratis_disponivel: bool = false # PRIMEIRA_GRATIS: próxima construção sai de graça
 var base_atira: bool = false            # BASE_ATIRADORA: a base ataca como uma torre
 
+# BARDO (caminho Taverna do quartel): aura que aumenta dano E cadência de ataque de
+# torres, aliados e jogador dentro do raio do bardo. NÃO acumula (vários bardos = mesmo bônus).
+const BUFF_BARDO_MULT := 1.2  # +20% de dano e +20% de cadência
+
 # ==========================================
 # BARALHO DE UPGRADES
 # ==========================================
@@ -871,6 +875,20 @@ func registrar_inimigo_morto() -> void:
 	if moedas_por_abate > 0:
 		moedas += moedas_por_abate
 		get_tree().call_group("Interface", "atualizar_moedas")
+
+# Fator de buff do bardo para uma entidade na posição dada (1.0 = sem buff; 1.2 = dentro do raio).
+# Não acumula: basta UM bardo no raio para receber o bônus máximo.
+func fator_buff_bardo(pos: Vector3) -> float:
+	var arvore := get_tree()
+	if arvore == null:
+		return 1.0
+	for bardo in arvore.get_nodes_in_group("bardos"):
+		if not is_instance_valid(bardo):
+			continue
+		var raio: float = bardo.raio_buff if "raio_buff" in bardo else 2.5
+		if bardo.global_position.distance_to(pos) <= raio:
+			return BUFF_BARDO_MULT
+	return 1.0
 
 func acionar_vitoria():
 	var estrelas_ganhas = 1

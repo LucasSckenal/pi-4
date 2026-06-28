@@ -20,13 +20,13 @@
 [ext_resource type="PackedScene" uid="uid://det7oyq61ct6y" path="res://Cenas Locais/build_slot.tscn" id="15_mrbo5"]
 [ext_resource type="PackedScene" uid="uid://dm588cd2q0rcn" path="res://Builds/BarcoBase.tscn" id="15_n8yof"]
 [ext_resource type="Shader" path="res://Shaders/UnderTheSea.gdshader" id="24_14jxx"]
+[ext_resource type="PackedScene" uid="uid://dwprhjhbjntk" path="res://Enemies/Map 4/PeixeLanterna.tscn" id="30_lanterna"]
+[ext_resource type="Texture2D" uid="uid://cjrsea5fspmub" path="res://Icons/PeixeLanternaPreview.png" id="31_iconlant"]
 [ext_resource type="Script" uid="uid://drocqrctwsiwf" path="res://Maps/fenda_dos_piratas.gd" id="99_fendascript"]
 [ext_resource type="Script" uid="uid://dsti6uqpcqqcb" path="res://Maps/barco_boss.gd" id="barco_ctrl"]
 [ext_resource type="Texture2D" uid="uid://ceuqx6rcsto1s" path="res://Icons/BombardeiroPreview.png" id="icon_bombardeiro"]
 [ext_resource type="Texture2D" uid="uid://u80l0jxva2gk" path="res://Icons/PeixePreview.png" id="icon_peixe"]
 [ext_resource type="Texture2D" uid="uid://r4431siwfts6" path="res://Icons/TubaraoPreview.png" id="icon_tubarao"]
-[ext_resource type="PackedScene" uid="uid://dwprhjhbjntk" path="res://Enemies/Map 4/PeixeLanterna.tscn" id="30_lanterna"]
-[ext_resource type="Texture2D" path="res://Icons/PeixeLanternaPreview.png" id="31_iconlant"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mrbo5"]
 sky_top_color = Color(0.33507562, 0.35175762, 0.94232005, 1)
@@ -54,27 +54,6 @@ polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 4), PackedInt32Arr
 cell_height = 0.04
 agent_radius = 1.0
 agent_max_climb = 0.75
-
-[sub_resource type="Resource" id="Resource_lanta"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("30_lanterna")
-quantidade = 2
-icone = ExtResource("31_iconlant")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_lantb"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("30_lanterna")
-quantidade = 3
-icone = ExtResource("31_iconlant")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
-
-[sub_resource type="Resource" id="Resource_lantc"]
-script = ExtResource("10_3b0o8")
-cena = ExtResource("30_lanterna")
-quantidade = 2
-icone = ExtResource("31_iconlant")
-metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_n0wf0"]
 script = ExtResource("10_3b0o8")
@@ -107,6 +86,13 @@ script = ExtResource("10_3b0o8")
 cena = ExtResource("11_rf658")
 quantidade = 4
 icone = ExtResource("icon_peixe")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_lanta"]
+script = ExtResource("10_3b0o8")
+cena = ExtResource("30_lanterna")
+quantidade = 2
+icone = ExtResource("31_iconlant")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_n8yof"]
@@ -197,6 +183,13 @@ quantidade = 5
 icone = ExtResource("icon_peixe")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
+[sub_resource type="Resource" id="Resource_lantb"]
+script = ExtResource("10_3b0o8")
+cena = ExtResource("30_lanterna")
+quantidade = 3
+icone = ExtResource("31_iconlant")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
 [sub_resource type="Resource" id="Resource_47k5u"]
 script = ExtResource("8_x3h70")
 nome_da_onda = "Onda 4"
@@ -279,6 +272,13 @@ script = ExtResource("10_3b0o8")
 cena = ExtResource("13_ruefr")
 quantidade = 3
 icone = ExtResource("icon_bombardeiro")
+metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
+
+[sub_resource type="Resource" id="Resource_lantc"]
+script = ExtResource("10_3b0o8")
+cena = ExtResource("30_lanterna")
+quantidade = 2
+icone = ExtResource("31_iconlant")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_srq6k"]
@@ -774,58 +774,58 @@ emission_energy = 2.0
 transform = Transform3D(43.636208, 0, 89.977104, 0, 100, 0, -89.977104, 0, 43.636208, 8.109369, -0.9268074, 1.4977369)
 
 [node name="BuildSlot" parent="Builds" unique_id=612575103 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.108707264, -0.0031771334, -0.08524318)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.108707264, -0.0031771334, -0.08524318)
 nivel_necessario = 0
 
 [node name="BuildSlot2" parent="Builds" unique_id=75307205 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.06867255, -0.003031414, 0.0033182502)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.06867255, -0.003031414, 0.0033182502)
 nivel_necessario = 0
 
 [node name="BuildSlot3" parent="Builds" unique_id=1743296267 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.009935927, 0.0031041908, 0.021779776)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.009935927, 0.0031041908, 0.021779776)
 nivel_necessario = 0
 
 [node name="BuildSlot4" parent="Builds" unique_id=1594258856 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.023164364, -0.0034946445, 0.06566082)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.023164364, -0.0034946445, 0.06566082)
 
 [node name="BuildSlot5" parent="Builds" unique_id=1893772980 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.023697624, -0.0033133226, 0.08330524)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.023697624, -0.0033133226, 0.08330524)
 
 [node name="BuildSlot6" parent="Builds" unique_id=278292556 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.073319666, -0.0029172795, 0.088186294)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.073319666, -0.0029172795, 0.088186294)
 nivel_necessario = 2
 
 [node name="BuildSlot7" parent="Builds" unique_id=455302010 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.10475719, -0.002990053, 0.023362659)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.10475719, -0.002990053, 0.023362659)
 
 [node name="BuildSlot8" parent="Builds" unique_id=816610983 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.15944427, -0.003198782, -0.089401156)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.15944427, -0.003198782, -0.089401156)
 nivel_necessario = 2
 
 [node name="BuildSlot9" parent="Builds" unique_id=1853929400 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.06683694, 0.0030125831, -0.14225723)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.06683694, 0.0030125831, -0.14225723)
 nivel_necessario = 0
 
 [node name="BuildSlot10" parent="Builds" unique_id=830905339 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.18915084, -0.0030007856, -0.055684287)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.18915084, -0.0030007856, -0.055684287)
 nivel_necessario = 2
 
 [node name="BuildSlot13" parent="Builds" unique_id=1092608297 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.14388007, -0.0031843344, 0.03766328)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.14388007, -0.0031843344, 0.03766328)
 nivel_necessario = 2
 
 [node name="BuildSlot16" parent="Builds" unique_id=530620712 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.12727445, -0.003129268, -0.019234013)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.12727445, -0.003129268, -0.019234013)
 nivel_necessario = 0
 
 [node name="BuildSlot11" parent="Builds" unique_id=621661771 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.11218721, -0.0030687926, -0.156758)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.11218721, -0.0030687926, -0.156758)
 
 [node name="BuildSlot12" parent="Builds" unique_id=754873953 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.20788905, 0.016617425, -0.1054524)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.20788905, 0.016617425, -0.1054524)
 
 [node name="BuildSlot14" parent="Builds" unique_id=1684181307 instance=ExtResource("15_mrbo5")]
-transform = Transform3D(0.02248227, 0, 0.01093378, 0, 0.025000006, 0, -0.01093378, 0, 0.02248227, -0.15309119, 0.01614856, -0.22213057)
+transform = Transform3D(0.026978724, 0, 0.013120536, 0, 0.03, 0, -0.013120536, 0, 0.026978724, -0.15309119, 0.01614856, -0.22213057)
 nivel_necessario = 2
 
 [node name="PathB" type="Marker3D" parent="." unique_id=259816272 groups=["MarcaBarco"]]

@@ -31,6 +31,13 @@ class_name UpgradePathData
 @export var vida_por_nivel: Array[int] = []
 @export var modelos_por_nivel: Array[PackedScene] = []  # Modelos 3D para cada nível
 
+# Composição de aliados CUSTOMIZADA (caminho "Taverna" do quartel).
+# Quando 'cenas_aliados' tem itens, o quartel passa a spawnar EXATAMENTE estas cenas
+# (nas quantidades de 'quantidades_aliados'), em vez dos soldados/arqueiros padrão.
+# Ex.: [pirata.tscn, bardo.tscn] + [1, 1] => 1 pirata + 1 bardo.
+@export var cenas_aliados: Array[PackedScene] = []
+@export var quantidades_aliados: Array[int] = []
+
 # Descrições visuais (até 3) exibidas no card de upgrade — sem números, só texto descritivo.
 # Deixe vazio para geração automática baseada nos arrays de stats.
 @export var descricoes: Array[String] = []

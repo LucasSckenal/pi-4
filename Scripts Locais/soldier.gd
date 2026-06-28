@@ -254,7 +254,7 @@ func _atirar_flecha():
 	# Guarda Real (upgrade do quartel): golpe corpo a corpo em vez de flecha
 	if modo_espada:
 		_golpe_espada()
-		timer_ataque.start()
+		_iniciar_recarga()
 		return
 
 	# Toca animação de disparo
@@ -266,10 +266,15 @@ func _atirar_flecha():
 		var flecha = cena_flecha.instantiate()
 		get_tree().root.add_child(flecha)
 		flecha.global_position = ponto_tiro.global_position
-		flecha.dano = dano + GameManager.bonus_dano_soldado  # SOLDADO_FORTE
+		flecha.dano = int(round((dano + GameManager.bonus_dano_soldado) * GameManager.fator_buff_bardo(global_position)))  # SOLDADO_FORTE + buff bardo
 		flecha.alvo = alvo_atual
 
-	# Inicia o timer de recarga
+	# Inicia o timer de recarga (cadência acelerada se houver bardo no raio)
+	_iniciar_recarga()
+
+# Inicia a recarga aplicando o buff de cadência do bardo (se houver).
+func _iniciar_recarga() -> void:
+	timer_ataque.wait_time = max(0.2, tempo_entre_ataques / GameManager.fator_buff_bardo(global_position))
 	timer_ataque.start()
 
 # Guarda Real (upgrade do quartel): aplica dano direto no alvo (corpo a corpo), respeitando as cartas
@@ -284,7 +289,7 @@ func _golpe_espada() -> void:
 				break
 	if not alvo_atual.has_method("receber_dano"):
 		return
-	var dano_total: int = dano + GameManager.bonus_dano_soldado  # SOLDADO_FORTE
+	var dano_total: int = int(round((dano + GameManager.bonus_dano_soldado) * GameManager.fator_buff_bardo(global_position)))  # SOLDADO_FORTE + buff bardo
 	# CRITICO: chance de dobrar o dano
 	var foi_critico := false
 	if GameManager.chance_critico > 0.0 and randf() < GameManager.chance_critico:
