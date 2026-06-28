@@ -41,7 +41,8 @@ func iniciar_sequencia_tutorial():
 	# ------------------------------------------------------------
 	
 	await tutorial.mostrar_dialogo("Afonso: Minhas costas... Berta, onde viemos parar?! Levaram nossos netos pra dentro desse jogo!")
-	await tutorial.mostrar_dialogo("Berta: Calma, Afonso. Olha aqueles ícones ali embaixo. De noite, monstros verdes vão sair dali e vão tentar destruir tudo até chegar no nosso Castelo.")
+	await tutorial.mostrar_dialogo("Berta: Calma, Afonso. De noite, monstros verdes saem lá da entrada e marcham até o nosso Castelo. Temos que defender!")
+	await tutorial.mostrar_dialogo("Berta: Temos três tipos de construção: a [color=yellow]Torre[/color] ataca de longe, a [color=yellow]Casa[/color] dá ouro e o [color=yellow]Quartel[/color] chama soldados.")
 	
 	torre_1 = await passo_construcao(slot_torre_1, 0, "Berta: Afonso, constrói a primeira Torre aqui!")
 	torre_2 = await passo_construcao(slot_torre_2, 0, "Berta: Outra torre para reforçar a entrada.")
@@ -66,12 +67,17 @@ func iniciar_sequencia_tutorial():
 	await tutorial.focar_em_ui_2d(botao_noite, "Toque aqui para iniciar a noite!")
 	
 	# ------------------------------------------------------------
-	# NOITE 1 – Foco no ponto de defesa
+	# NOITE 1 – Botões de velocidade e ponto de defesa
 	# ------------------------------------------------------------
+	# Os botões de velocidade só aparecem à noite — ensina aqui.
+	await get_tree().create_timer(0.7).timeout
+	if is_instance_valid(controles_mobile) and controles_mobile.grupo_velocidades.visible:
+		await tutorial.apontar_e_falar_2d(controles_mobile.btn_rapido, "Berta: Estes botões controlam o tempo: [color=yellow]LENTO[/color], [color=yellow]NORMAL[/color] e [color=yellow]RÁPIDO[/color]. Acelera quando estiver tranquilo!")
+
 	tutorial.visible = true
 	tutorial.fundo_escuro.visible = true
 	tutorial.alvo_3d_atual = ponto_defesa
-	tutorial.configurar_dialogo("Afonso: Vou lutar ali com a minha espada onde as torres não chegam!")
+	tutorial.configurar_dialogo("Afonso: Vou pra linha de frente com a minha espada, onde as torres não alcançam!")
 	
 	# Encontra o jogador (grupo "Player")
 	var player = get_tree().get_first_node_in_group("Player")
@@ -112,6 +118,7 @@ func iniciar_sequencia_tutorial():
 		tempo_carta += 0.05
 		carta = get_tree().root.find_child("CartaTutorial0", true, false)
 	if is_instance_valid(carta):
+		await tutorial.mostrar_dialogo("Berta: Cada noite vencida te dá uma [color=yellow]Carta[/color] de poder. Escolha uma pra ficar mais forte!")
 		await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
 	
 	# Upgrade do Castelo usando passo_upgrade (mais confiável)
@@ -119,7 +126,7 @@ func iniciar_sequencia_tutorial():
 	
 	await tutorial.mostrar_dialogo("Berta: Pronto! Agora a escolha é sua, Afonso. Posiciona o Quartel e vamos salvar nossos netos!")
 	
-	quartel = await passo_construcao(slot_quartel, 4, "Constrói o Quartel neste novo lote!")
+	quartel = await passo_construcao(slot_quartel, 2, "Constrói o Quartel neste novo lote!")
 	
 	# ------------------------------------------------------------
 	# NOITE 2 – (aguarda outra noite para preparar upgrades)
@@ -140,16 +147,18 @@ func iniciar_sequencia_tutorial():
 	# ------------------------------------------------------------
 	await tutorial.mostrar_dialogo("Chegou o dia! Agora podemos melhorar nossas construções.")
 	
-	# Upgrade na torre (dois paths)
-	await passo_upgrade(torre_1, "Clique na torre para abrir o menu de upgrade. Ela tem dois caminhos: escolha um!")
+	# Upgrade na Torre (dois caminhos)
+	await passo_upgrade(torre_1, "Toca na Torre. Ela tem dois caminhos de melhoria: escolhe um!")
 	
-	# Upgrade na casa (linear)
-	# Upgrade na casa (linear)
-	if Global.DEBUG_MODE:
-		print("Esperando jogador fazer o upgrade da casa...")
-	await passo_upgrade(casa_2, "Agora clique na casa. Ela tem apenas um upgrade linear.")
-	if Global.DEBUG_MODE:
-		print("Upgrade da casa concluído!")
+	# Upgrade na Casa = escolha de caminho de ECONOMIA (Mina / Moinho / Mercado)
+	await tutorial.mostrar_dialogo("Afonso: E a Casa? Olha só: ela pode virar [color=yellow]Mina[/color], [color=yellow]Moinho[/color] ou [color=yellow]Mercado[/color] — cada uma rende de um jeito!")
+	await passo_upgrade(casa_2, "Toca na Casa e escolhe um caminho de economia.")
+
+	# Quartel também tem caminhos — explica sem forçar a compra (mais cara)
+	if is_instance_valid(quartel):
+		await tutorial.apontar_e_falar_3d(quartel, "Berta: O Quartel também melhora! A [color=yellow]Guarda Real[/color] reforça os soldados, e mais pra frente aparece a [color=yellow]Taverna[/color], com pirata e bardo. Experimenta quando tiver ouro!")
+
+	await tutorial.mostrar_dialogo("Berta: Prontinho! Você já sabe o básico. Agora é só defender e resgatar nossos netos!")
 
 	# Final do tutorial
 	GameManager.is_tutorial_ativo = false
@@ -201,6 +210,18 @@ func passo_construcao(slot, indice_botao, texto) -> Node3D:
 	var construcao = await aguardar_construcao_no_slot(slot)
 	return construcao
 
+# Retorna o primeiro botão de opção de melhoria visível dentro da janela de upgrade.
+func _primeira_opcao_visivel(upgrade_ui) -> Control:
+	if upgrade_ui == null or not ("opcoes_container" in upgrade_ui):
+		return null
+	var cont = upgrade_ui.opcoes_container
+	if not is_instance_valid(cont):
+		return null
+	for ch in cont.get_children():
+		if ch is Control and ch.visible:
+			return ch
+	return null
+
 # Passo de upgrade: foca na construção, aguarda a UI abrir e o upgrade ser concluído
 func passo_upgrade(construcao: Node3D, texto: String):
 	if not GameManager.is_tutorial_ativo: return
@@ -240,8 +261,14 @@ func passo_upgrade(construcao: Node3D, texto: String):
 				print("UI de upgrade não apareceu. Tentando novamente.")
 			continue
 
+		# Indica O QUE clicar: aponta a seta (animada) para a opção de melhoria na janela.
+		var opcao_btn := _primeira_opcao_visivel(upgrade_ui)
+		if opcao_btn:
+			tutorial.indicar_alvo_2d(opcao_btn, "Toque na melhoria para confirmar!")
+
 		# Aguarda o sinal de fechamento da UI (resposta imediata)
 		await upgrade_ui.fechado
+		tutorial.esconder()
 		if Global.DEBUG_MODE:
 			print("Sinal fechado recebido")
 

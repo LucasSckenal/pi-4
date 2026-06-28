@@ -20,9 +20,10 @@ var alvo_3d_atual: Node3D = null
 var alvo_2d_atual: Control = null
 var material_fundo: ShaderMaterial
 
-var velocidade_texto: float = 0.05 
+var velocidade_texto: float = 0.05
 var tamanho_fonte: int = 32
 var tween_texto: Tween # Animação do texto estilo Genshin
+var _tempo_seta: float = 0.0  # acumulador para a animação de "pulo" da seta
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -50,20 +51,30 @@ func _input(event):
 	if not visible:
 		return
 
-	if visible and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		# Impede o avanço do texto caso o clique seja especificamente sobre o botão de pular tutorial
+	var quer_avancar := false
+
+	# Clique/toque na tela avança (ou completa) o diálogo
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		# Ignora se o clique foi no botão de pular tutorial (ele tem sua própria ação)
 		if btn and btn.is_visible_in_tree() and btn.is_hovered():
 			return
-			
+		quer_avancar = true
+	elif event is InputEventScreenTouch and event.pressed:
+		quer_avancar = true
+
+	# Teclado: ESC pula o tutorial; qualquer outra tecla avança
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_ESCAPE:
 			# Consome o input para o ESC não vazar e acabar abrindo o menu de pausa no fundo
 			get_viewport().set_input_as_handled()
-			
 			# Chama exatamente a mesma função de quando o jogador clica no botão "Pular"
 			_on_botao_pular_pressed()
-			
+			return
+		quer_avancar = true
+
+	if quer_avancar:
 		if caixa_texto.visible_ratio < 1.0:
+			# Texto ainda digitando: completa de uma vez
 			if tween_texto and tween_texto.is_valid():
 				tween_texto.kill()
 			caixa_texto.visible_ratio = 1.0
@@ -105,7 +116,10 @@ func _process(_delta):
 		pos_global = t.get_origin() + (alvo_2d_atual.size * t.get_scale() / 2.0)
 	
 	if pos_global != Vector2.ZERO:
-		seta.global_position = pos_global + Vector2(-seta.size.x / 2, -110)
+		# Animação de "pulo": a seta sobe e desce suavemente para chamar atenção.
+		_tempo_seta += _delta
+		var bob := sin(_tempo_seta * 6.0) * 12.0
+		seta.global_position = pos_global + Vector2(-seta.size.x / 2, -110 + bob)
 		
 		if material_fundo:
 			var tamanho_tela = get_viewport().get_visible_rect().size
@@ -170,6 +184,51 @@ func mostrar_dialogo(texto: String):
 	
 	esconder()
 
+# Aponta a seta para um alvo 3D e fala, avançando ao clique (sem exigir interação no alvo).
+# Útil para EXPLICAR algo (ex.: caminhos do quartel) sem forçar uma compra.
+func apontar_e_falar_3d(alvo: Node3D, texto: String) -> void:
+	if not GameManager.is_tutorial_ativo: return
+	var camera = get_viewport().get_camera_3d()
+	if camera and camera.has_method("reset_zoom_tutorial"):
+		camera.reset_zoom_tutorial()
+	visible = true
+	fundo_escuro.visible = true
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_STOP
+	alvo_2d_atual = null
+	alvo_3d_atual = alvo
+	configurar_dialogo(texto)
+	await clicou_na_tela
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	esconder()
+
+# Aponta a seta (animada) para um Control 2D SEM bloquear e SEM escurecer a tela.
+# Usado para indicar o botão de melhoria dentro da janela de upgrade (que fica visível).
+# O chamador deve chamar esconder() quando terminar.
+func indicar_alvo_2d(alvo: Control, texto: String = "") -> void:
+	if not GameManager.is_tutorial_ativo: return
+	if not is_instance_valid(alvo): return
+	visible = true
+	fundo_escuro.visible = false  # mantém a janela de upgrade totalmente visível
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	alvo_3d_atual = null
+	alvo_2d_atual = alvo
+	if texto != "":
+		configurar_dialogo(texto)
+
+# Aponta a seta para um botão/Control 2D e fala, avançando ao clique (sem exigir clique no alvo).
+func apontar_e_falar_2d(alvo: Control, texto: String) -> void:
+	if not GameManager.is_tutorial_ativo: return
+	if not is_instance_valid(alvo): return
+	visible = true
+	fundo_escuro.visible = true
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_STOP
+	alvo_3d_atual = null
+	alvo_2d_atual = alvo
+	configurar_dialogo(texto)
+	await clicou_na_tela
+	fundo_escuro.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	esconder()
+
 # As tuas funções originais de foco inalteradas (apenas usam o fundo_escuro)
 func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 	if not GameManager.is_tutorial_ativo: return
@@ -200,9 +259,21 @@ func focar_em_slot_3d(slot_alvo: Node3D, texto: String):
 
 	while not estado.concluido:
 		if not GameManager.is_tutorial_ativo: break
+		# Robustez: assim que a UI de upgrade abrir, considera o passo concluído.
+		# (Evita o diálogo ficar preso por cima da janela de melhoria — ex.: Castelo.)
+		if _upgrade_ui_aberta():
+			break
 		await get_tree().create_timer(0.1).timeout
 
 	esconder()
+
+# True quando a janela de upgrade da HUD está aberta (visível).
+func _upgrade_ui_aberta() -> bool:
+	var hud = get_tree().get_first_node_in_group("Interface")
+	if hud and "upgrade_ui_instance" in hud:
+		var uui = hud.upgrade_ui_instance
+		return is_instance_valid(uui) and uui.visible
+	return false
 
 func focar_em_ui_2d(botao_alvo: Control, texto: String):
 	if not GameManager.is_tutorial_ativo: return
