@@ -828,7 +828,7 @@ func morrer():
 # ==========================================
 # Escala do número de dano POR FASE (ajuste manual aqui). 1.0 = padrão.
 # Mapas maiores (ex.: 5) costumam precisar de números maiores para ficarem legíveis.
-const ESCALA_DANO_POR_FASE := {1: 1.0, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.6, 6: 1.0}
+const ESCALA_DANO_POR_FASE := {1: 0.5, 2: 1.0, 3: 1.0, 4: 1.0, 5: 1.6, 6: 1.0}
 
 func _mostrar_dano_flutuante(qtd: int, origem: String = "torre", critico: bool = false) -> void:
 	if qtd <= 0:
@@ -861,7 +861,7 @@ func _mostrar_dano_flutuante(qtd: int, origem: String = "torre", critico: bool =
 	lbl.global_position = global_position + Vector3(randf_range(-0.25, 0.25), 1.1, 0)
 	var tw := lbl.create_tween()
 	tw.set_parallel(true)
-	tw.tween_property(lbl, "global_position:y", lbl.global_position.y + 0.9, 0.6).set_ease(Tween.EASE_OUT)
+	tw.tween_property(lbl, "global_position:y", lbl.global_position.y + 0.9, 1).set_ease(Tween.EASE_OUT)
 	tw.tween_property(lbl, "modulate:a", 0.0, 0.5).set_delay(0.25)
 	tw.set_parallel(false)
 	tw.tween_callback(lbl.queue_free)

@@ -9,7 +9,6 @@ extends Node3D
 # Referências dos slots (todas as quatro construções)
 @onready var slot_torre_1 = $BuildSlots/BuildSlot
 @onready var slot_torre_2 = $BuildSlots/BuildSlot2
-@onready var slot_casa_1 = $BuildSlots/BuildSlot11   # casa da frente (não usada no tutorial)
 @onready var slot_casa_2 = $BuildSlots/BuildSlot12    # casa segura (atrás)
 @onready var castelo = $"building-castle2"
 @onready var slot_quartel = $BuildSlots/BuildSlot24

@@ -645,6 +645,18 @@ conquista_fim_tutorial = ExtResource("2_gtwgk")
 [node name="CaixaDialogo" parent="TutorialManager" index="1" unique_id=50702287]
 offset_top = -220.0
 
+[node name="BotaoPular" parent="TutorialManager" index="3" unique_id=2055384221]
+anchor_left = 0.134
+anchor_top = 0.708
+anchor_right = 0.134
+anchor_bottom = 0.708
+offset_left = -216.28
+offset_top = -79.640015
+offset_right = 214.72
+offset_bottom = 80.36005
+grow_horizontal = 2
+grow_vertical = 0
+
 [node name="DayNightAnimator" type="AnimationPlayer" parent="." unique_id=1212433029]
 root_node = NodePath("../WorldEnvironment")
 libraries/ = SubResource("AnimationLibrary_odk4x")
@@ -852,9 +864,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.313, 0.2, -0.607)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.09520054)
 nivel_necessario = 0
 
-[node name="BuildSlot5" parent="BuildSlots" unique_id=495726038 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(-0.8351552, 0, 0.55001444, 0, 1, 0, -0.55001444, 0, -0.8351552, 0, 0, -0.31268764)
-
 [node name="BuildSlot9" parent="BuildSlots" unique_id=1226165845 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4480908, 0, -0.8111186)
 nivel_necessario = 2
@@ -862,43 +871,21 @@ nivel_necessario = 2
 [node name="BuildSlot10" parent="BuildSlots" unique_id=1078032586 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.9274452, 0, 0.37395924, 0, 1, 0, -0.37395924, 0, 0.9274452, 1.8745488, 0, -0.12188935)
 
-[node name="BuildSlot11" parent="BuildSlots" unique_id=1357329205 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(0.98082614, 0, -0.1948849, 0, 1, 0, 0.1948849, 0, 0.98082614, 1.8745488, 0, 0.38037884)
-nivel_necessario = 0
-
 [node name="BuildSlot12" parent="BuildSlots" unique_id=827608956 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.881839, 0, -0.47155067, 0, 1, 0, 0.47155067, 0, 0.881839, 1.5291252, 0, 2.2028127)
 nivel_necessario = 0
 
-[node name="BuildSlot13" parent="BuildSlots" unique_id=876319919 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(0.82392836, 0, -0.56669384, 0, 1, 0, 0.56669384, 0, 0.82392836, -0.4180132, -0.33609104, 2.9778233)
-nivel_necessario = 3
-
 [node name="BuildSlot14" parent="BuildSlots" unique_id=1751659036 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6779697, -0.33609104, 1.5583209)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.55358, -0.33609104, 1.72131)
 nivel_necessario = 2
 
 [node name="BuildSlot15" parent="BuildSlots" unique_id=1785872574 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(-0.9855087, 0, 0.16962472, 0, 1, 0, -0.16962472, 0, -0.9855087, -1.5618589, -0.33609104, 0.3124467)
-nivel_necessario = 2
-
-[node name="BuildSlot16" parent="BuildSlots" unique_id=1831703532 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(-0.6507345, 0, 0.75930536, 0, 1, 0, -0.75930536, 0, -0.6507345, -1.0030364, -0.33609104, -0.63867855)
-nivel_necessario = 2
-
-[node name="BuildSlot17" parent="BuildSlots" unique_id=97055062 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(0.9177962, 0, -0.39705178, 0, 1, 0, 0.39705178, 0, 0.9177962, -0.16264054, -0.33609104, -0.88250136)
-
-[node name="BuildSlot18" parent="BuildSlots" unique_id=1628266352 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7918587, -0.33609104, -2.3794303)
+transform = Transform3D(0.99999994, 0, 0, 0, 1, 0, 0, 0, 0.99999994, -1.5483764, -0.336, 0.24394271)
 nivel_necessario = 2
 
 [node name="BuildSlot19" parent="BuildSlots" unique_id=1657120420 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.67076313, 0, 0.7416716, 0, 1, 0, -0.7416716, 0, -0.67076313, 0.43604803, -0.33609104, -2.3794303)
 nivel_necessario = 2
-
-[node name="BuildSlot20" parent="BuildSlots" unique_id=929543497 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(-0.5485705, 0, -0.8361043, 0, 1, 0, 0.8361043, 0, -0.5485705, 0.43604803, -0.33609104, -1.3000958)
 
 [node name="BuildSlot21" parent="BuildSlots" unique_id=762738595 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(0.91256315, 0, 0.4089358, 0, 1, 0, -0.4089358, 0, 0.91256315, 2.0000803, -0.33609104, -1.3000958)
@@ -908,36 +895,21 @@ transform = Transform3D(0.50641, 0, 0.86229277, 0, 1, 0, -0.86229277, 0, 0.50641
 nivel_necessario = 2
 
 [node name="BuildSlot23" parent="BuildSlots" unique_id=912276588 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 0.2527057)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, -0.28884262)
 
 [node name="BuildSlot24" parent="BuildSlots" unique_id=1861636071 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 1.6935269)
-
-[node name="BuildSlot25" parent="BuildSlots" unique_id=60715781 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 2.2470012)
-
-[node name="BuildSlot26" parent="BuildSlots" unique_id=1296620977 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, -0.23502684)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 2.2315571)
 
 [node name="BuildSlot2" parent="BuildSlots" unique_id=793557631 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04100001, 0, 1.6783695)
 nivel_necessario = 0
 
-[node name="BuildSlot6" parent="BuildSlots" unique_id=1044529797 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(-0.84810364, 0, -0.5298304, 0, 1, 0, 0.5298304, 0, -0.84810364, -0.04100001, 0, 2.212057)
-
 [node name="BuildSlot7" parent="BuildSlots" unique_id=979164414 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(-0.81443965, 0, -0.58024824, 0, 1, 0, 0.58024824, 0, -0.81443965, 0.47808325, 0, 2.6985273)
 nivel_necessario = 0
 
-[node name="BuildSlot8" parent="BuildSlots" unique_id=654285740 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.47808325, 0, 3.092256)
-
 [node name="BuildSlot3" parent="BuildSlots" unique_id=407418112 instance=ExtResource("11_ro1kq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.423, 0, 3.217)
-
-[node name="BuildSlot4" parent="BuildSlots" unique_id=783219845 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8709999, 0, -0.80411935)
 
 [node name="Tochas" type="Node3D" parent="." unique_id=1935310363]
 visible = false
