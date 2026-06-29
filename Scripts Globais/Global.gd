@@ -52,6 +52,9 @@ var usando_set_hollow_knight: bool = false
 var armadura_kakashi_desbloqueada: bool = false
 var usando_set_kakashi: bool = false
 
+var armadura_gojo_desbloqueada: bool = false
+var usando_set_gojo: bool = false
+
 var inimigos_descobertos: Array = []
 var cartas_obtidas: Array = []   # ids das cartas que o jogador já pegou em batalha
 var construcoes_descobertas: Array = []   # ids das construções que o jogador já ergueu
@@ -208,6 +211,7 @@ func salvar_progresso():
 	config.set_value("sets_especiais", "bloodborne", armadura_bloodborne_desbloqueada)
 	config.set_value("sets_especiais", "hollow", armadura_hollow_knight_desbloqueada)
 	config.set_value("sets_especiais", "kakashi", armadura_kakashi_desbloqueada)
+	config.set_value("sets_especiais", "gojo", armadura_gojo_desbloqueada)
 
 	var err = config.save(SAVE_PATH)
 	if err != OK:
@@ -275,6 +279,7 @@ func carregar_progresso():
 	armadura_bloodborne_desbloqueada     = config.get_value("sets_especiais", "bloodborne", false)
 	armadura_hollow_knight_desbloqueada  = config.get_value("sets_especiais", "hollow", false)
 	armadura_kakashi_desbloqueada        = config.get_value("sets_especiais", "kakashi", false)
+	armadura_gojo_desbloqueada           = config.get_value("sets_especiais", "gojo", false)
 	verificar_desbloqueios_por_estrelas()
 
 
@@ -318,6 +323,7 @@ func resetar_tudo():
 	armadura_bloodborne_desbloqueada = false
 	armadura_hollow_knight_desbloqueada = false
 	armadura_kakashi_desbloqueada = false
+	armadura_gojo_desbloqueada = false
 	salvar_progresso()
 
 
@@ -362,6 +368,11 @@ func verificar_desbloqueios_por_estrelas():
 		armadura_kakashi_desbloqueada = true
 		houve_novo = true
 		conquista_desbloqueada.emit("Set Kakashi", ["Set Kakashi"], null)
+
+	if total >= 10 and not armadura_gojo_desbloqueada:
+		armadura_gojo_desbloqueada = true
+		houve_novo = true
+		conquista_desbloqueada.emit("Set Gojo", ["Set Gojo"], null)
 
 	if total >= 13 and not armadura_bloodborne_desbloqueada:
 		armadura_bloodborne_desbloqueada = true

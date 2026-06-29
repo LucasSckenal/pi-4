@@ -289,9 +289,9 @@ func _executar_ataque_area(inimigos: Array):
 	timer_ataque.start()
 	
 	# --- TRADUTOR DO ATAQUE ---
-	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
-	
-	if anim_player.has_animation(anim_ataque):
+	var anim_ataque = _nome_anim(["attack-melee-left", "Triple_Combo_Attack", "Attack"])
+
+	if anim_ataque != "" and anim_player.has_animation(anim_ataque):
 		anim_player.play(anim_ataque)
 		
 	# --- EFEITO DE ESCALA DINÂMICA NA ARMA ---
@@ -448,10 +448,11 @@ func _configurar_particulas_fumaca():
 func _gerenciar_animacoes(direction):
 	if not anim_player: return
 
-	var anim_ataque = "Triple_Combo_Attack" if Global.usando_set_bloodborne else "attack-melee-left"
-	var anim_andar = "Walking" if Global.usando_set_bloodborne else "walk"
-	var anim_parado = "Idle" if Global.usando_set_bloodborne else "idle"
-	var anim_pulo = "jump"
+	# Mapeia as animações conforme o modelo ativo (base, Bloodborne, Gojo, Dark Souls...).
+	var anim_ataque = _nome_anim(["attack-melee-left", "Triple_Combo_Attack", "Attack"])
+	var anim_andar = _nome_anim(["walk", "Walking", "Running"])
+	var anim_parado = _nome_anim(["idle", "Idle", "Alert"])
+	var anim_pulo = _nome_anim(["jump"])
 
 	if anim_player.current_animation == anim_ataque and anim_player.is_playing():
 		return
@@ -476,6 +477,21 @@ func _gerenciar_animacoes(direction):
 # TROCA DE PERSONAGEM E ARMA (POR CÓDIGO)
 # ==========================================
 
+# True quando o set ativo usa um MODELO próprio completo (não o boneco base):
+# Bloodborne, Gojo e Dark Souls (john_darksouls).
+func _usando_set_modelo_proprio() -> bool:
+	return Global.usando_set_bloodborne or Global.usando_set_gojo or Global.usando_set_especial
+
+# Retorna o primeiro nome de animação que existe no anim_player atual.
+# Mapeia nomes diferentes entre modelos (idle/Idle/Alert, walk/Walking/Running, etc.).
+func _nome_anim(candidatos: Array) -> String:
+	if anim_player == null:
+		return ""
+	for c in candidatos:
+		if anim_player.has_animation(c):
+			return c
+	return ""
+
 func _configurar_modelo_escolhido():
 	var modelo_antigo = get_node_or_null("character-male-f2")
 	var ossos_salvos = []
@@ -494,6 +510,11 @@ func _configurar_modelo_escolhido():
 	
 	if Global.usando_set_bloodborne:
 		caminho_novo_modelo = "res://Assets/Personagens/blood_borne_male.tscn"
+	elif Global.usando_set_gojo:
+		caminho_novo_modelo = "res://Assets/Personagens/gojo_satoru.tscn"
+	elif Global.usando_set_especial:
+		# Dark Souls agora é um modelo próprio (substitui o antigo toggle de armadura)
+		caminho_novo_modelo = "res://Assets/Personagens/john_darksouls.tscn"
 	elif Global.personagem_escolhido_path != "":
 		# Usa o personagem selecionado na tela de seleção
 		caminho_novo_modelo = Global.personagem_escolhido_path
@@ -521,15 +542,14 @@ func _configurar_modelo_escolhido():
 		if "anim_player" in self: self.anim_player = novo_anim_player
 		
 		# Define quais animações devem ficar em repetição contínua (Loop)
-		for anim_name in ["idle", "walk", "Idle", "Walking", "sit"]:
+		for anim_name in ["idle", "walk", "Idle", "Walking", "Running", "Alert", "sit"]:
 			if novo_anim_player.has_animation(anim_name):
 				novo_anim_player.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
-				
-		# Tenta dar play na animação de ficar parado inicial
-		if novo_anim_player.has_animation("idle"):
-			novo_anim_player.play("idle")
-		elif novo_anim_player.has_animation("Idle"):
-			novo_anim_player.play("Idle")
+
+		# Tenta dar play na animação de ficar parado inicial (idle/Idle/Alert/Walking)
+		var anim_inicial = _nome_anim(["idle", "Idle", "Alert", "Walking"])
+		if anim_inicial != "":
+			novo_anim_player.play(anim_inicial)
 		
 	# --- 4. DEVOLVER AS PEÇAS SALVAS AO ESQUELETO NOVO ---
 	var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
@@ -557,12 +577,12 @@ func _configurar_modelo_escolhido():
 	# Aplica as regras do Dark Souls
 	call_deferred("_forcar_visual_darksouls")
 	
-	# --- 5. LÓGICA FINAL DO BLOODBORNE (Esconder armas) ---
-	if Global.usando_set_bloodborne:
+	# --- 5. SETS DE MODELO PRÓPRIO (Bloodborne/Gojo/Dark Souls): escondem arma e chapéu da base ---
+	if _usando_set_modelo_proprio():
 		var osso_arma = find_child("BoneAttachment3D", true, false)
 		if osso_arma:
 			osso_arma.visible = false
-			
+
 		var osso_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
 		if osso_chapeu:
 			osso_chapeu.visible = false
