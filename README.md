@@ -112,20 +112,20 @@ A forma mais rápida de jogar — **sem precisar instalar o Godot**:
 
 ### 🌅 Fase de Preparação (Dia)
 
-- **Menu radial de construção** com preview da estrutura, custo e descrição
-- Sistema de **slots de construção** gerenciado globalmente via `BuildSlotManager`
-- **Casa** como base de economia, evoluível em caminhos de renda (**Mina**, **Moinho**, **Mercado**)
-- **Conselheiro IA (Berta)** — analisa a situação e sugere a construção prioritária em tempo real
-- **Botão "Ver alcance"** — exibe o raio de todas as torres com um toque, sem precisar selecioná-las
+- **Menu radial de construção** com preview da estrutura, custo e descrição;
+- Sistema de **slots de construção** gerenciado globalmente via `BuildSlotManager`;
+- **Casa** como base de economia, evoluível em caminhos de renda (**Mina**, **Moinho**, **Mercado**);
+- **Conselheiro IA (Berta)** — analisa a situação e sugere a construção prioritária em tempo real;
+- **Botão "Ver alcance"** — exibe o raio de todas as torres com um toque, sem precisar selecioná-las.
 
 ### 🌙 Fase de Confronto (Noite)
 
-- Ondas de inimigos configuráveis via recursos `.tres` (`WaveResource`)
-- IA de inimigos com navegação 3D via `NavigationAgent3D`
-- Comportamentos distintos: terrestre, **aéreo**, **kamikaze** e **invocador** (a Bruxa convoca aprendizes)
-- **Soldados aliados** do Quartel que perseguem e combatem os inimigos, com renascimento automático — ou, pelo caminho da **Taverna**, um **Pirata** tanque e um **Bardo** de suporte que segue o pirata
-- Mini-chefes e chefes com **barra de vida dedicada** e cutscenes de apresentação
-- Controle de velocidade **0.5× / 1× / 2×** e pausa a qualquer momento
+- Ondas de inimigos configuráveis via recursos `.tres` (`WaveResource`);
+- IA de inimigos com navegação 3D via `NavigationAgent3D`;
+- Comportamentos distintos: terrestre, **aéreo**, **kamikaze** e **invocador** (a Bruxa convoca aprendizes);
+- **Soldados aliados** do Quartel que perseguem e combatem os inimigos, com renascimento automático — ou, pelo caminho da **Taverna**, um **Pirata** tanque e um **Bardo** de suporte que segue o pirata;
+- Mini-chefes e chefes com **barra de vida dedicada** e cutscenes de apresentação;
+- Controle de velocidade **0.5× / 1× / 2×** e pausa a qualquer momento.
 
 ### 🎴 Sistema de Cartas (Roguelike)
 
@@ -144,20 +144,20 @@ São **mais de 30 cartas distintas** — cada uma com um efeito mecânico único
 
 ### 🏰 Progressão de Construções
 
-- **Torre** evoluível em vários ramos: **Morteiro** (área), **Sniper** (longo alcance), **Torre de Fogo** (queima vários alvos), **Tesla** (dano em cadeia) e **Caldeirão** (veneno em área)
-- **Casa** é a base da economia e, ao ser melhorada, escolhe um caminho de renda: **Mina**, **Moinho** ou **Mercado** — cada um rende de um jeito (o Mercado é exclusivo do Deserto Carmesim)
-- **Quartel** escolhe um caminho defensivo: **Guarda Real** (mistura arqueiros com espadachins corpo a corpo) ou, na Fenda dos Piratas, a **Taverna dos Piratas** — que troca os soldados por um **Pirata** tanque e um **Bardo** de suporte, cuja aura dá **+20% de dano e cadência** a torres, aliados e ao jogador por perto
-- Melhorar uma construção **restaura sua vida** e adapta seu tamanho/alcance ao mapa
-- Caminhos de melhoria com **restrição por fase** (ex.: a Taverna só aparece na Fenda dos Piratas), facilitando a vida do jogador com menos botões por mapa
+- **Torre** evoluível em vários ramos: **Morteiro** (área), **Sniper** (longo alcance), **Torre de Fogo** (queima vários alvos), **Tesla** (dano em cadeia) e **Caldeirão** (veneno em área);
+- **Casa** é a base da economia e, ao ser melhorada, escolhe um caminho de renda: **Mina**, **Moinho** ou **Mercado** — cada um rende de um jeito (o Mercado é exclusivo do Deserto Carmesim);
+- **Quartel** escolhe um caminho defensivo: **Guarda Real** (mistura arqueiros com espadachins corpo a corpo) ou, na Fenda dos Piratas, a **Taverna dos Piratas** — que troca os soldados por um **Pirata** tanque e um **Bardo** de suporte, cuja aura dá **+20% de dano e cadência** a torres, aliados e ao jogador por perto;
+- Melhorar uma construção **restaura sua vida** e adapta seu tamanho/alcance ao mapa;
+- Caminhos de melhoria com **restrição por fase** (ex.: a Taverna só aparece na Fenda dos Piratas), facilitando a vida do jogador com menos botões por mapa.
 
 ### 📖 Bestiário ("o livro")
 
 Uma enciclopédia no menu principal com **quatro abas**, no estilo de um livro com folhear de páginas:
 
-- **Inimigos** — dossiê de cada inimigo (lore, comportamento, fraqueza, primeiro avistamento), revelado ao encontrá-lo
-- **Histórias** — as cutscenes/contexto de cada mapa já liberado
-- **Cartas** — a coleção de power-ups já obtidos, com contador (ex.: `18/30`)
-- **Construções** — todas as construções descobertas (reveladas ao construí-las), com contador
+- **Inimigos** — dossiê de cada inimigo (lore, comportamento, fraqueza, primeiro avistamento), revelado ao encontrá-lo;
+- **Histórias** — as cutscenes/contexto de cada mapa já liberado;
+- **Cartas** — a coleção de power-ups já obtidos, com contador (ex.: `18/30`);
+- **Construções** — todas as construções descobertas (reveladas ao construí-las), com contador.
 
 ### 🏆 Conquistas
 
@@ -167,15 +167,15 @@ Uma enciclopédia no menu principal com **quatro abas**, no estilo de um livro c
 
 Sistema original de recomendações em tempo real (`conselheiro_ia.gd`):
 
-- Analisa renda por onda, HP da base, slots livres e nível de ameaça
-- Classifica sugestões em **Urgente / Alta / Média / Baixa** prioridade
-- Destaca a construção recomendada diretamente no menu radial
+- Analisa renda por onda, HP da base, slots livres e nível de ameaça;
+- Classifica sugestões em **Urgente / Alta / Média / Baixa** prioridade;
+- Destaca a construção recomendada diretamente no menu radial.
 
 ### ⚖️ Balanceamento por CSV
 
-- Vida, dano, custo e velocidade lidos de `balanceamento.csv` em tempo de execução
-- Ajuste de dificuldade **sem rebuild** — basta editar o CSV
-- Valores-base nas cenas; o CSV aplica os valores oficiais por cima
+- Vida, dano, custo e velocidade lidos de `balanceamento.csv` em tempo de execução;
+- Ajuste de dificuldade **sem rebuild** — basta editar o CSV;
+- Valores-base nas cenas; o CSV aplica os valores oficiais por cima.
 
 ---
 
@@ -241,11 +241,11 @@ Conteúdo ainda não descoberto aparece como **"???"**, incentivando a exploraç
 
 Sistemas próprios que vão além de um tower defense básico — pensados para manutenção fácil e expansão por dados:
 
-- **Caminhos de upgrade como `Resource` (`UpgradePathData`)** — cada construção ramifica em vários caminhos definidos por dados (custo, modelo, stats, composição de aliados, restrição por fase), **sem escrever código novo**. É o que faz a Casa virar Mina/Moinho/Mercado e o Quartel virar Guarda Real/Taverna.
-- **Conselheiro IA (`conselheiro_ia.gd`)** — analisa renda por onda, HP da base, slots livres e nível de ameaça, classifica sugestões em **Urgente / Alta / Média / Baixa** e destaca a jogada diretamente no menu radial.
-- **Aura do Bardo (buff "puxado")** — em vez de cada bardo empurrar bônus, cada torre/aliado/jogador consulta `GameManager.fator_buff_bardo()` na hora de atacar: **não acumula** e tem custo zero quando não há bardo em campo.
-- **Balanceamento por CSV em runtime** — vida, dano, custo e velocidade lidos de `balanceamento.csv` por cima das cenas: ajuste de dificuldade **sem rebuild**.
-- **Descoberta progressiva do Bestiário** — inimigos, cartas, histórias e construções revelados conforme o jogador encontra/usa, com persistência no save.
+- **Caminhos de upgrade como `Resource` (`UpgradePathData`)** — cada construção ramifica em vários caminhos definidos por dados (custo, modelo, stats, composição de aliados, restrição por fase), **sem escrever código novo**. É o que faz a Casa virar Mina/Moinho/Mercado e o Quartel virar Guarda Real/Taverna;
+- **Conselheiro IA (`conselheiro_ia.gd`)** — analisa renda por onda, HP da base, slots livres e nível de ameaça, classifica sugestões em **Urgente / Alta / Média / Baixa** e destaca a jogada diretamente no menu radial;
+- **Aura do Bardo (buff "puxado")** — em vez de cada bardo empurrar bônus, cada torre/aliado/jogador consulta `GameManager.fator_buff_bardo()` na hora de atacar: **não acumula** e tem custo zero quando não há bardo em campo;
+- **Balanceamento por CSV em runtime** — vida, dano, custo e velocidade lidos de `balanceamento.csv` por cima das cenas: ajuste de dificuldade **sem rebuild**;
+- **Descoberta progressiva do Bestiário** — inimigos, cartas, histórias e construções revelados conforme o jogador encontra/usa, com persistência no save;
 - **Tutorial guiado dirigido por dados** — passos encadeados (diálogos, foco em alvos 3D/2D, seta animada, espera por sinais) que ensinam os sistemas sem travar o jogador.
 
 ### Autoloads (Singletons)
@@ -344,7 +344,7 @@ pi-4/
 
 | Ferramenta                                       | Versão                               |
 | ------------------------------------------------ | ------------------------------------ |
-| [Godot Engine](https://godotengine.org/download) | **4.6** (Forward Plus)               |
+| [Godot Engine](https://godotengine.org/download) | **4.7** (Mobile)                     |
 | Sistema Operacional                              | Windows 10/11 ou Android 8+          |
 | GPU                                              | Compatível com Direct3D 12 (Windows) |
 
@@ -355,7 +355,7 @@ pi-4/
 git clone https://github.com/LucasSckenal/pi-4.git
 cd pi-4
 
-# 2. Abra o Godot 4.6
+# 2. Abra o Godot 4.7
 #    Import Project > selecione a pasta pi-4/
 
 # 3. Aguarde a importação de assets (.glb, texturas, etc.)
@@ -391,14 +391,14 @@ O jogo é controlado inteiramente por **toque** (Android) ou **clique** (PC) —
 
 ### Loop de Jogo
 
-1. **Explore o mapa** — identifique os slots de construção disponíveis
-2. **Invista em renda** — construa **Casas** (que evoluem em Mina, Moinho ou Mercado) antes das torres
-3. **Posicione as defesas** — use "Ver alcance" e aproveite os pontos de estrangulamento
-4. **Consulte o Conselheiro IA** — veja a sugestão de prioridade
-5. **Inicie a onda (▶)** — defenda a base até o último inimigo cair
-6. **Escolha sua carta** — cada onda concede um power-up permanente (com reroll)
-7. **Melhore e evolua** — torres viram Morteiro/Sniper/Fogo/Tesla; a Casa vira Mina/Moinho/Mercado; o Quartel vira Guarda Real ou Taverna
-8. **Avance ao próximo mundo** — e complete o Bestiário pelo caminho
+1. **Explore o mapa** — identifique os slots de construção disponíveis;
+2. **Invista em renda** — construa **Casas** (que evoluem em Mina, Moinho ou Mercado) antes das torres;
+3. **Posicione as defesas** — use "Ver alcance" e aproveite os pontos de estrangulamento;
+4. **Consulte o Conselheiro IA** — veja a sugestão de prioridade;
+5. **Inicie a onda (▶)** — defenda a base até o último inimigo cair;
+6. **Escolha sua carta** — cada onda concede um power-up permanente (com reroll);
+7. **Melhore e evolua** — torres viram Morteiro/Sniper/Fogo/Tesla; a Casa vira Mina/Moinho/Mercado; o Quartel vira Guarda Real ou Taverna;
+8. **Avance ao próximo mundo** — e complete o Bestiário pelo caminho.
 
 ---
 
