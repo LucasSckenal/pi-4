@@ -2,8 +2,12 @@
 
 [ext_resource type="Script" uid="uid://csnwqdn10atkj" path="res://Scripts Locais/configuracoes.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://bc3kbt4jk3cy8" path="res://Assets/Cursor/cursor.png" id="2_cursor"]
+[ext_resource type="Texture2D" uid="uid://bqnmyyowjuup3" path="res://Assets/Graphics/Baixissima.png" id="2_kew2u"]
 [ext_resource type="Texture2D" uid="uid://uvcaqtgbq63" path="res://Assets/ana_SBG.png" id="3_1acin"]
+[ext_resource type="Texture2D" uid="uid://cbvujtlucsqtq" path="res://Assets/Graphics/Baixa.png" id="3_7q47h"]
+[ext_resource type="Texture2D" uid="uid://cwticmkfxqpox" path="res://Assets/Graphics/Media.png" id="4_5d7kw"]
 [ext_resource type="Texture2D" uid="uid://dsv1bic1cmlyp" path="res://Assets/lucas-SBG.png" id="4_i7sfl"]
+[ext_resource type="Texture2D" uid="uid://bsewrs6jk1xig" path="res://Assets/Graphics/Alta.png" id="5_5aece"]
 [ext_resource type="Texture2D" uid="uid://4iackgwda5e2" path="res://Assets/luan_SBG.png" id="5_r1puj"]
 [ext_resource type="Texture2D" uid="uid://dgvgjjoh5uvvd" path="res://Assets/henrique_SBG.png" id="6_4q6f4"]
 
@@ -78,34 +82,157 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="Botao"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d8xsx"]
 content_margin_left = 24.0
 content_margin_top = 14.0
 content_margin_right = 24.0
 content_margin_bottom = 14.0
-bg_color = Color(0.6878053, 0.5119215, 0.154755, 1)
+bg_color = Color(0.65871847, 0.2908289, 0.23111904, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.56, 0.21, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_orkys"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.46040505, 0.18822888, 0.14532518, 1)
 corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h08j4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q80v4"]
 content_margin_left = 24.0
 content_margin_top = 14.0
 content_margin_right = 24.0
 content_margin_bottom = 14.0
-bg_color = Color(0.47034264, 0.34774897, 0.090756916, 1)
+bg_color = Color(0.83056235, 0.4119158, 0.3422071, 1)
 corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
-[sub_resource type="StyleBoxFlat" id="BotaoHover"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqcbm"]
 content_margin_left = 24.0
 content_margin_top = 14.0
 content_margin_right = 24.0
 content_margin_bottom = 14.0
-bg_color = Color(0.92, 0.72, 0.24, 1)
+bg_color = Color(0.84606034, 0.6721036, 0.29786608, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.56, 0.21, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="BotaoNeutroPressed"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.61742556, 0.4782706, 0.17565978, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoNeutroHover"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.9387387, 0.7767012, 0.45231104, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyysn"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.74634176, 0.38918906, 0.21323949, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.56, 0.21, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_babbd"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.56932765, 0.28297362, 0.13916346, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7vek"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.8991108, 0.52758, 0.3520084, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8gmnp"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.5024373, 0.7369724, 0.3301929, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.75, 0.56, 0.21, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cyg2u"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.35223475, 0.5290678, 0.22114366, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgnyq"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.5876952, 0.84509057, 0.4025488, 1)
 corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
@@ -439,6 +566,39 @@ corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
 
+[sub_resource type="StyleBoxFlat" id="Botao"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.6878053, 0.5119215, 0.154755, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h08j4"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.47034264, 0.34774897, 0.090756916, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="BotaoHover"]
+content_margin_left = 24.0
+content_margin_top = 14.0
+content_margin_right = 24.0
+content_margin_bottom = 14.0
+bg_color = Color(0.92, 0.72, 0.24, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+
 [node name="Configuracoes" type="Control" unique_id=35656818]
 layout_mode = 3
 anchors_preset = 15
@@ -447,6 +607,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
+preview_minima = ExtResource("2_kew2u")
+preview_baixa = ExtResource("3_7q47h")
+preview_media = ExtResource("4_5d7kw")
+preview_alta = ExtResource("5_5aece")
 
 [node name="Escurecer" type="ColorRect" parent="." unique_id=371141235]
 layout_mode = 1
@@ -519,7 +683,7 @@ theme_override_constants/margin_bottom = 16
 
 [node name="VBoxVideo" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo" unique_id=175230866]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 26
 
 [node name="LabelVideo" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=1721820391]
 layout_mode = 2
@@ -539,59 +703,11 @@ theme_override_styles/hover_pressed = SubResource("CheckBGHover")
 theme_override_styles/focus = SubResource("CheckBG")
 text = "Tela Cheia"
 
-[node name="CheckMudo" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=231025745]
+[node name="PreviewQualidade" type="TextureRect" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=837461923]
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("CheckBG")
-theme_override_styles/pressed = SubResource("CheckBG")
-theme_override_styles/hover = SubResource("CheckBGHover")
-theme_override_styles/hover_pressed = SubResource("CheckBGHover")
-theme_override_styles/focus = SubResource("CheckBG")
-text = "Silenciar Jogo"
-
-[node name="CheckHUD" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=758748905]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("CheckBG")
-theme_override_styles/pressed = SubResource("CheckBG")
-theme_override_styles/hover = SubResource("CheckBGHover")
-theme_override_styles/hover_pressed = SubResource("CheckBGHover")
-theme_override_styles/focus = SubResource("CheckBG")
-text = "Lembrar velocidade"
-
-[node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=312847561]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("CheckBG")
-theme_override_styles/pressed = SubResource("CheckBG")
-theme_override_styles/hover = SubResource("CheckBGHover")
-theme_override_styles/hover_pressed = SubResource("CheckBGHover")
-theme_override_styles/focus = SubResource("CheckBG")
-button_pressed = true
-text = "Tremor de Tela"
-
-[node name="CheckNumerosDano" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=312847562]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("CheckBG")
-theme_override_styles/pressed = SubResource("CheckBG")
-theme_override_styles/hover = SubResource("CheckBGHover")
-theme_override_styles/hover_pressed = SubResource("CheckBGHover")
-theme_override_styles/focus = SubResource("CheckBG")
-button_pressed = true
-text = "Números de Dano"
+expand_mode = 1
+stretch_mode = 5
 
 [node name="LabelQualidade" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo" unique_id=451928374]
 layout_mode = 2
@@ -612,18 +728,30 @@ theme_override_constants/separation = 12
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
-text = "Mínimo"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8xsx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_orkys")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q80v4")
+text = "Mínima"
 
 [node name="BtnQualidadeMedia" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer" unique_id=451928377]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_sqcbm")
+theme_override_styles/pressed = SubResource("BotaoNeutroPressed")
+theme_override_styles/hover = SubResource("BotaoNeutroHover")
 text = "Média"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade" unique_id=1235333277]
@@ -635,18 +763,30 @@ theme_override_constants/separation = 12
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_cyysn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_babbd")
+theme_override_styles/hover = SubResource("StyleBoxFlat_k7vek")
 text = "Baixa"
 
 [node name="BtnQualidadeAlta" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2" unique_id=451928378]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gmnp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cyg2u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fgnyq")
 text = "Alta"
 
 [node name="ColunaAudio" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=1781028162]
@@ -759,6 +899,81 @@ text = "100%"
 label_settings = SubResource("ValorPorcentagem")
 horizontal_alignment = 2
 
+[node name="CheckMudo" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio" unique_id=231025745]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+text = "Silenciar Jogo"
+
+[node name="CardJogabilidade" type="PanelContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio" unique_id=648291074]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("Card")
+
+[node name="MarginJogabilidade" type="MarginContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade" unique_id=987213456]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxJogabilidade" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade" unique_id=214568903]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="LabelJogabilidade" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade" unique_id=553719024]
+layout_mode = 2
+text = "JOGABILIDADE"
+label_settings = SubResource("Texto")
+
+[node name="CheckHUD" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade" unique_id=758748905]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+text = "Lembrar velocidade"
+
+[node name="CheckShakeTela" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade" unique_id=312847561]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+button_pressed = true
+text = "Tremor de Tela"
+
+[node name="CheckNumerosDano" type="CheckButton" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade" unique_id=312847562]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("CheckBG")
+theme_override_styles/pressed = SubResource("CheckBG")
+theme_override_styles/hover = SubResource("CheckBGHover")
+theme_override_styles/hover_pressed = SubResource("CheckBGHover")
+theme_override_styles/focus = SubResource("CheckBG")
+button_pressed = true
+text = "Números de Dano"
+
 [node name="ColunaCursor" type="VBoxContainer" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo" unique_id=834620862]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -807,25 +1022,43 @@ layout_mode = 2
 [node name="BtnPequeno" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=397218502]
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_d8xsx")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_orkys")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q80v4")
 text = "Pequeno"
 
 [node name="BtnMedio" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=2006163299]
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
-text = "Medio"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_sqcbm")
+theme_override_styles/pressed = SubResource("BotaoNeutroPressed")
+theme_override_styles/hover = SubResource("BotaoNeutroHover")
+text = "Médio"
 
 [node name="BtnGrande" type="Button" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho" unique_id=1654076982]
 layout_mode = 2
 mouse_default_cursor_shape = 2
-theme_override_styles/normal = SubResource("Botao")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_h08j4")
-theme_override_styles/hover = SubResource("BotaoHover")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_8gmnp")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_cyg2u")
+theme_override_styles/hover = SubResource("StyleBoxFlat_fgnyq")
 text = "Grande"
 
 [node name="TextoCor" type="Label" parent="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor" unique_id=164284013]
@@ -1143,10 +1376,6 @@ theme_override_styles/hover = SubResource("BotaoHover")
 text = "Fechar"
 
 [connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckTelaCheia" to="." method="_on_check_tela_cheia_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckMudo" to="." method="_on_check_mudo_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD" to="." method="_on_check_hud_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
-[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckNumerosDano" to="." method="_on_check_numeros_dano_toggled"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer/BtnQualidadeMinima" to="." method="_on_btn_qualidade_minima_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer/BtnQualidadeMedia" to="." method="_on_btn_qualidade_media_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/HBoxQualidade/VBoxContainer2/BtnQualidadeBaixa" to="." method="_on_btn_qualidade_baixa_pressed"]
@@ -1154,6 +1383,10 @@ text = "Fechar"
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster" to="." method="_on_h_slider_value_changed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMusica/SliderMusica" to="." method="_on_slider_musica_changed"]
 [connection signal="value_changed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxVoz/SliderVoz" to="." method="_on_slider_voz_changed"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/CheckMudo" to="." method="_on_check_mudo_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade/CheckHUD" to="." method="_on_check_hud_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade/CheckShakeTela" to="." method="_on_check_shake_tela_toggled"]
+[connection signal="toggled" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardJogabilidade/MarginJogabilidade/VBoxJogabilidade/CheckNumerosDano" to="." method="_on_check_numeros_dano_toggled"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnPequeno" to="." method="_on_btn_pequeno_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnMedio" to="." method="_on_btn_medio_pressed"]
 [connection signal="pressed" from="CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/HBoxTamanho/BtnGrande" to="." method="_on_btn_grande_pressed"]

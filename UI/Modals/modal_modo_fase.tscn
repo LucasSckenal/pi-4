@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://c4w5ujkgpnnwn" path="res://UI/Modals/modal_modo_fase.gd" id="1_modal"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_painel"]
-bg_color = Color(0.09, 0.08, 0.16, 0.98)
+bg_color = Color(0.16862746, 0.101960786, 0.039215688, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
@@ -189,7 +189,7 @@ horizontal_alignment = 1
 [node name="Subtitulo" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=1862255231]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.88, 0.88, 0.95, 1)
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 36
 text = "Tutorial"
 horizontal_alignment = 1
 
@@ -205,7 +205,7 @@ theme_override_constants/separation = 16
 [node name="LabelEscolha" type="Label" parent="CenterContainer/Painel/Margin/VBox" unique_id=460473628]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.75, 0.85, 1)
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 32
 text = "Escolha o modo de jogo:"
 horizontal_alignment = 1
 
@@ -247,7 +247,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.55, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 24
 text = "Conquiste 3 estrelas nesta fase para desbloquear o Modo Infinito"
 horizontal_alignment = 1
 autowrap_mode = 3
