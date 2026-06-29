@@ -69,7 +69,8 @@
       "mcp__blender__get_scene_info",
       "Bash(cd \"C:\\\\Users\\\\robny\\\\Documents\\\\pi-4\\\\.claude\\\\worktrees\\\\happy-kepler-3e73b7\" && echo \"=== dest do import ===\"; grep -nE \"dest_files|path=\" Map2/Genio.glb.import | head; echo \"=== removendo cache .scn do Genio ===\"; ls .godot/imported/ 2>/dev/null | grep -i genio; rm -f .godot/imported/Genio.glb-*.scn .godot/imported/Genio.glb-*.scn.* 2>/dev/null; echo \"removido \\(se existia\\)\"; ls .godot/imported/ 2>/dev/null | grep -i genio || echo \"cache do Genio limpo\")",
       "Bash(echo \"exit $?\")",
-      "Bash(awk '/banco_de_fases *=/{f=1} f{print NR\": \"$0} f&&/^\\\\t*}/{c++; if\\(c>=1 && /^\\\\t\\\\t1:/\\){}}' \"Scripts Globais/game_manager.gd\")"
+      "Bash(awk '/banco_de_fases *=/{f=1} f{print NR\": \"$0} f&&/^\\\\t*}/{c++; if\\(c>=1 && /^\\\\t\\\\t1:/\\){}}' \"Scripts Globais/game_manager.gd\")",
+      "Bash(/c/Users/robny/Downloads/Godot_v4.6.1-stable_win64.exe/Godot_v4.6.1-stable_win64_console.exe --path . --headless -s __TRACKED_VAR__/dump_rig.gd)"
     ]
   }
 }
