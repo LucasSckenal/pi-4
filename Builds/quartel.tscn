@@ -38,13 +38,8 @@ cor = Color(0.55, 0.27, 0.16, 1)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mi8mv"]
 render_priority = 0
 shader = ExtResource("5_0avtp")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0kacf"]
 resource_name = "hexagons_medieval"
@@ -109,10 +104,10 @@ upgrade_paths = Array[ExtResource("6_upath")]([SubResource("Resource_guardareal"
 
 [node name="building_archeryrange_blue2" parent="." unique_id=1337676271 instance=ExtResource("1_486cl")]
 
-[node name="building_archeryrange_blue" parent="building_archeryrange_blue2" index="0" unique_id=998135307]
+[node name="building_archeryrange_blue" parent="building_archeryrange_blue2" index="0" unique_id=1679196209]
 mesh = SubResource("ArrayMesh_kj6bx")
 
-[node name="CollisionShape3D" parent="building_archeryrange_blue2/building_archeryrange_blue/StaticBody3D" parent_id_path=PackedInt32Array(1337676271, 768542400) index="0" unique_id=729280728]
+[node name="CollisionShape3D" parent="building_archeryrange_blue2/building_archeryrange_blue/StaticBody3D" parent_id_path=PackedInt32Array(1337676271, 1804108826) index="0" unique_id=751107401]
 disabled = true
 
 [node name="AreaClique" type="Area3D" parent="." unique_id=60161341]
@@ -159,6 +154,7 @@ alpha_cut = 1
 texture = SubResource("ViewportTexture_ch61e")
 
 [node name="AreaTransparencia" type="Area3D" parent="." unique_id=1614353055]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" unique_id=1646070657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)

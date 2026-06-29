@@ -12,7 +12,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u0jka"]
 render_priority = 0
 shader = ExtResource("4_3fgor")
-shader_parameter/weight = 2.0
+shader_parameter/weight = 3.0
 shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eootc"]
@@ -51,7 +51,7 @@ blend_shape_mode = 0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8qqca"]
 render_priority = 0
 shader = ExtResource("4_3fgor")
-shader_parameter/weight = 0.05
+shader_parameter/weight = 0.1
 shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d5oyd"]
