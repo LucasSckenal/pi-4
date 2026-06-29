@@ -7,24 +7,19 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2jrq"]
 render_priority = 0
 shader = ExtResource("3_4y7st")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthNormalThreshold = 0.1
-shader_parameter/_DepthNormalThresholdScale = 3.0
-shader_parameter/_DepthThreshold = 1.5
-shader_parameter/_NormalThreshold = 2.0
+shader_parameter/weight = 1.5
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q7cmg"]
 resource_name = "Material_1"
 next_pass = SubResource("ShaderMaterial_h2jrq")
-cull_mode = 2
 diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.48570347, 0.48570353, 0.48570347, 1)
 albedo_texture = ExtResource("2_flper")
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 0.4
+emission_energy_multiplier = 0.3
 emission_operator = 1
 emission_texture = ExtResource("2_flper")
 
@@ -65,7 +60,7 @@ _data = {
 
 [node name="BloodBorne_male" unique_id=671058536 instance=ExtResource("1_rj4y5")]
 
-[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(500989969) index="0" unique_id=1535191564]
+[node name="Skeleton3D" parent="Armature" parent_id_path=PackedInt32Array(2122708518) index="0" unique_id=437850336]
 bones/0/position = Vector3(3.1040967, 20.968988, -3.2213645)
 bones/0/rotation = Quaternion(0.08117282, -0.50589836, 0.04870178, 0.8573833)
 bones/0/scale = Vector3(1.176471, 1.1764705, 1.176471)
@@ -93,8 +88,8 @@ bones/21/rotation = Quaternion(0.0035535886, 0.17313696, -0.072147004, 0.9822452
 bones/22/rotation = Quaternion(-0.23947063, -0.0011672247, 0.012205801, 0.97082627)
 bones/23/rotation = Quaternion(0.56883085, 9.312504e-08, -0.04723531, 0.821097)
 
-[node name="char1" parent="Armature/Skeleton3D" index="0" unique_id=1595074359]
+[node name="char1" parent="Armature/Skeleton3D" index="0" unique_id=1410642115]
 mesh = SubResource("ArrayMesh_8furk")
 
-[node name="AnimationPlayer" parent="." index="1" unique_id=1495037723]
+[node name="AnimationPlayer" parent="." index="1" unique_id=529995492]
 libraries/Bloodborne_Attack = SubResource("AnimationLibrary_bmuvj")
