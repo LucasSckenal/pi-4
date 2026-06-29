@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./docs/banner.png" alt="Onde Estão os Netos? Banner" width="100%"/>
+<img src="./Assets/Titulo.png" alt="Onde Estão os Netos? Banner" width="100%"/>
 
-# Onde Estão os Netos?
+
 
 **Tower Defense · Ação · Estratégia · Roguelike**
 
@@ -10,11 +10,19 @@ _Avós heroicos atravessam mundos fantásticos para resgatar seus netos_
 
 <br/>
 
-[![Godot 4.6](https://img.shields.io/badge/Godot-4.6-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Godot 4.7](https://img.shields.io/badge/Godot-4.7-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![GDScript](https://img.shields.io/badge/GDScript-informational?style=for-the-badge&logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/)
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](.)
-[![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)](.)
-[![Versão](https://img.shields.io/badge/versão-1.0-success?style=for-the-badge)](.)
+[![Versão](https://img.shields.io/badge/versão-4.0-success?style=for-the-badge)](https://github.com/LucasSckenal/pi-4/releases/latest)
+[![Status](https://img.shields.io/badge/status-jogável-brightgreen?style=for-the-badge)](https://github.com/LucasSckenal/pi-4/releases/latest)
+
+<br/>
+
+### ⬇️ Baixe e jogue agora
+
+[![Baixar para Windows](https://img.shields.io/badge/Baixar_para_Windows-.zip-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/LucasSckenal/pi-4/releases/download/v3.5/OndeEstaoOsNetos_Windows_v3.5.zip)
+[![Baixar para Android](https://img.shields.io/badge/Baixar_para_Android-.apk-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/LucasSckenal/pi-4/releases/download/v3.5/OndeEstaoOsNetos_Android_v3.5.apk)
+
+<sub>Última versão: <b>v4.0</b> · <a href="https://github.com/LucasSckenal/pi-4/releases">ver todos os releases</a></sub>
 
 </div>
 
@@ -23,17 +31,19 @@ _Avós heroicos atravessam mundos fantásticos para resgatar seus netos_
 ## Índice
 
 1. [Sobre o Projeto](#sobre-o-projeto)
-2. [Screenshots](#screenshots)
-3. [Funcionalidades](#funcionalidades)
-4. [Construções](#construções)
-5. [Mundos do Jogo](#mundos-do-jogo)
-6. [O Bestiário (o "livro")](#o-bestiário-o-livro)
-7. [Arquitetura & Sistemas](#arquitetura--sistemas)
-8. [Estrutura de Pastas](#estrutura-de-pastas)
-9. [Instalação](#instalação)
-10. [Como Jogar](#como-jogar)
-11. [Equipe](#equipe)
-12. [Licença](#licença)
+2. [Baixar e Jogar](#baixar-e-jogar)
+3. [Screenshots](#screenshots)
+4. [Funcionalidades](#funcionalidades)
+5. [Construções](#construções)
+6. [Mundos do Jogo](#mundos-do-jogo)
+7. [O Bestiário (o "livro")](#o-bestiário-o-livro)
+8. [Arquitetura & Sistemas](#arquitetura--sistemas)
+9. [Estrutura de Pastas](#estrutura-de-pastas)
+10. [Rodar a partir do código](#instalação)
+11. [Como Jogar](#como-jogar)
+12. [Equipe](#equipe)
+13. [Créditos](#créditos)
+14. [Licença](#licença)
 
 ---
 
@@ -61,9 +71,29 @@ O jogo foi projetado desde o início para o **público idoso**. Cada decisão de
 
 ---
 
+## Baixar e Jogar
+
+A forma mais rápida de jogar — **sem precisar instalar o Godot**:
+
+| Plataforma     | Download                                                                                                                          | Como rodar                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| 🪟 **Windows** | [`OndeEstaoOsNetos_Windows_v3.5.zip`](https://github.com/LucasSckenal/pi-4/releases/download/v3.5/OndeEstaoOsNetos_Windows_v3.5.zip) | Extraia o `.zip` e execute o `.exe`                             |
+| 🤖 **Android** | [`OndeEstaoOsNetos_Android_v3.5.apk`](https://github.com/LucasSckenal/pi-4/releases/download/v3.5/OndeEstaoOsNetos_Android_v3.5.apk) | Baixe o `.apk` e instale (permita instalar de "fontes desconhecidas") |
+
+> 📦 A versão mais recente fica sempre em **[Releases](https://github.com/LucasSckenal/pi-4/releases/latest)**.
+> Quer rodar a partir do código-fonte? Veja [Rodar a partir do código](#instalação).
+
+---
+
 ## Screenshots
 
 <div align="center">
+
+<img src="./docs/gameplay.gif" width="85%" alt="Gameplay — construção no Dia e defesa na Noite"/>
+<br/>
+<sub><i>Gameplay — preparação no Dia e defesa na Noite <!-- Substitua docs/gameplay.gif por um GIF real de gameplay --></i></sub>
+
+<br/><br/>
 
 |                                                                                       |                                                                                      |
 | :-----------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------: |
@@ -84,7 +114,7 @@ O jogo foi projetado desde o início para o **público idoso**. Cada decisão de
 
 - **Menu radial de construção** com preview da estrutura, custo e descrição
 - Sistema de **slots de construção** gerenciado globalmente via `BuildSlotManager`
-- Fontes de **renda passiva** (minas, casas, moinhos e construções exclusivas de mapa)
+- **Casa** como base de economia, evoluível em caminhos de renda (**Mina**, **Moinho**, **Mercado**)
 - **Conselheiro IA (Berta)** — analisa a situação e sugere a construção prioritária em tempo real
 - **Botão "Ver alcance"** — exibe o raio de todas as torres com um toque, sem precisar selecioná-las
 
@@ -93,7 +123,7 @@ O jogo foi projetado desde o início para o **público idoso**. Cada decisão de
 - Ondas de inimigos configuráveis via recursos `.tres` (`WaveResource`)
 - IA de inimigos com navegação 3D via `NavigationAgent3D`
 - Comportamentos distintos: terrestre, **aéreo**, **kamikaze** e **invocador** (a Bruxa convoca aprendizes)
-- **Soldados aliados** do Quartel que perseguem e combatem os inimigos, com renascimento automático
+- **Soldados aliados** do Quartel que perseguem e combatem os inimigos, com renascimento automático — ou, pelo caminho da **Taverna**, um **Pirata** tanque e um **Bardo** de suporte que segue o pirata
 - Mini-chefes e chefes com **barra de vida dedicada** e cutscenes de apresentação
 - Controle de velocidade **0.5× / 1× / 2×** e pausa a qualquer momento
 
@@ -114,10 +144,11 @@ São **mais de 30 cartas distintas** — cada uma com um efeito mecânico único
 
 ### 🏰 Progressão de Construções
 
-- **Torre** evoluível em quatro ramos: **Morteiro** (área), **Sniper** (longo alcance), **Torre de Fogo** (queima vários alvos) e **Tesla** (dano em cadeia)
-- **Quartel** com o upgrade **"Guarda Real"**: passa a soltar uma mistura de **arqueiros + espadachins** (combate corpo a corpo, mais resistentes)
-- **Caldeirão** com área de veneno que acompanha o alcance da torre
+- **Torre** evoluível em vários ramos: **Morteiro** (área), **Sniper** (longo alcance), **Torre de Fogo** (queima vários alvos), **Tesla** (dano em cadeia) e **Caldeirão** (veneno em área)
+- **Casa** é a base da economia e, ao ser melhorada, escolhe um caminho de renda: **Mina**, **Moinho** ou **Mercado** — cada um rende de um jeito (o Mercado é exclusivo do Deserto Carmesim)
+- **Quartel** escolhe um caminho defensivo: **Guarda Real** (mistura arqueiros com espadachins corpo a corpo) ou, na Fenda dos Piratas, a **Taverna dos Piratas** — que troca os soldados por um **Pirata** tanque e um **Bardo** de suporte, cuja aura dá **+20% de dano e cadência** a torres, aliados e ao jogador por perto
 - Melhorar uma construção **restaura sua vida** e adapta seu tamanho/alcance ao mapa
+- Caminhos de melhoria com **restrição por fase** (ex.: a Taverna só aparece na Fenda dos Piratas), facilitando a vida do jogador com menos botões por mapa
 
 ### 📖 Bestiário ("o livro")
 
@@ -130,7 +161,7 @@ Uma enciclopédia no menu principal com **quatro abas**, no estilo de um livro c
 
 ### 🏆 Conquistas
 
-12 conquistas desbloqueáveis que recompensam diferentes estilos de jogo (iniciar a aventura, completar o tutorial, defesa perfeita, derrotar um chefe sem dano, acumular riqueza, alcançar a fase final, etc.).
+14 conquistas desbloqueáveis que recompensam diferentes estilos de jogo (iniciar a aventura, completar o tutorial, defesa perfeita, derrotar um chefe sem dano, acumular riqueza, alcançar a fase final, etc.).
 
 ### 🤖 Conselheiro IA
 
@@ -150,20 +181,21 @@ Sistema original de recomendações em tempo real (`conselheiro_ia.gd`):
 
 ## Construções
 
-| Construção            | Tipo      | Função                                              | Disponibilidade   |
-| --------------------- | --------- | --------------------------------------------------- | ----------------- |
-| **Torre**             | Ofensiva  | Atira flechas; evolui em 4 ramos                    | Todos os mapas    |
-| **Morteiro**          | Ofensiva  | Bombas explosivas em área (ramo da Torre)           | Upgrade           |
-| **Sniper**            | Ofensiva  | Tiros certeiros de longo alcance (ramo da Torre)    | Upgrade           |
-| **Torre de Fogo**     | Ofensiva  | Queima vários inimigos ao mesmo tempo               | Covil do Dragão   |
-| **Tesla**             | Ofensiva  | Raios que saltam entre inimigos                     | Planeta Maluco    |
-| **Caldeirão**         | Ofensiva  | Área de veneno e dano contínuo                      | Casa da Bruxa     |
-| **Quartel**           | Defesa    | Solta soldados; upgrade "Guarda Real" = espadachins | Todos os mapas    |
-| **Mina**              | Economia  | Ouro extra por onda                                 | Todos os mapas    |
-| **Casa**              | Economia  | Renda passiva                                        | Todos os mapas    |
-| **Moinho**            | Economia  | Processa recursos por onda                           | Todos os mapas    |
-| **Mercadinho Egípcio**| Economia  | Renda — exclusivo do Deserto Carmesim               | Deserto Carmesim  |
-| **Taverna dos Piratas**| Economia | Renda — exclusivo da Fenda dos Piratas              | Fenda dos Piratas |
+| Construção             | Tipo     | Função                                                        | Disponibilidade   |
+| ---------------------- | -------- | ------------------------------------------------------------ | ----------------- |
+| **Torre**              | Ofensiva | Atira flechas; evolui em vários ramos                        | Todos os mapas    |
+| **Morteiro**           | Ofensiva | Bombas explosivas em área (ramo da Torre)                    | Upgrade           |
+| **Sniper**             | Ofensiva | Tiros certeiros de longo alcance (ramo da Torre)             | Upgrade           |
+| **Torre de Fogo**      | Ofensiva | Queima vários inimigos ao mesmo tempo (ramo da Torre)        | Covil do Dragão   |
+| **Tesla**              | Ofensiva | Raios que saltam entre inimigos (ramo da Torre)              | Planeta Maluco    |
+| **Caldeirão**          | Ofensiva | Área de veneno e dano contínuo (ramo da Torre)               | Casa da Bruxa     |
+| **Quartel**            | Defesa   | Solta soldados; evolui em **Guarda Real** ou **Taverna**     | Todos os mapas    |
+| **Guarda Real**        | Defesa   | Arqueiros + espadachins corpo a corpo (caminho do Quartel)   | Upgrade           |
+| **Taverna dos Piratas**| Defesa   | Troca soldados por **Pirata** (tanque) + **Bardo** (buff de dano/cadência) — caminho do Quartel | Fenda dos Piratas |
+| **Casa**               | Economia | Renda passiva; evolui em **Mina**, **Moinho** ou **Mercado** | Todos os mapas    |
+| **Mina**               | Economia | Mais ouro por onda (caminho da Casa)                         | Upgrade           |
+| **Moinho**             | Economia | Renda crescente por onda (caminho da Casa)                   | Upgrade           |
+| **Mercado Egípcio**    | Economia | Renda alta (caminho da Casa)                                 | Deserto Carmesim  |
 
 ---
 
@@ -188,10 +220,10 @@ O Bestiário é o coração colecionável do jogo e reforça a **rejogabilidade*
 
 | Aba             | O que mostra                                  | Como liberar              |
 | --------------- | --------------------------------------------- | ------------------------- |
-| **Inimigos**    | Dossiê completo (30 inimigos)                 | Encontrar o inimigo       |
+| **Inimigos**    | Dossiê completo (mais de 30 inimigos)         | Encontrar o inimigo       |
 | **Histórias**   | Cutscenes/contexto dos mapas                  | Liberar o mapa            |
 | **Cartas**      | Coleção de power-ups (contador X/N)           | Pegar a carta numa partida|
-| **Construções** | 12 construções, com bordas por tipo           | Construí-la uma vez       |
+| **Construções** | Todas as construções e seus caminhos          | Construí-la uma vez       |
 
 Conteúdo ainda não descoberto aparece como **"???"**, incentivando a exploração de todos os mundos e estratégias.
 
@@ -204,6 +236,17 @@ Conteúdo ainda não descoberto aparece como **"???"**, incentivando a exploraç
 ---
 
 ## Arquitetura & Sistemas
+
+### Destaques de Engenharia
+
+Sistemas próprios que vão além de um tower defense básico — pensados para manutenção fácil e expansão por dados:
+
+- **Caminhos de upgrade como `Resource` (`UpgradePathData`)** — cada construção ramifica em vários caminhos definidos por dados (custo, modelo, stats, composição de aliados, restrição por fase), **sem escrever código novo**. É o que faz a Casa virar Mina/Moinho/Mercado e o Quartel virar Guarda Real/Taverna.
+- **Conselheiro IA (`conselheiro_ia.gd`)** — analisa renda por onda, HP da base, slots livres e nível de ameaça, classifica sugestões em **Urgente / Alta / Média / Baixa** e destaca a jogada diretamente no menu radial.
+- **Aura do Bardo (buff "puxado")** — em vez de cada bardo empurrar bônus, cada torre/aliado/jogador consulta `GameManager.fator_buff_bardo()` na hora de atacar: **não acumula** e tem custo zero quando não há bardo em campo.
+- **Balanceamento por CSV em runtime** — vida, dano, custo e velocidade lidos de `balanceamento.csv` por cima das cenas: ajuste de dificuldade **sem rebuild**.
+- **Descoberta progressiva do Bestiário** — inimigos, cartas, histórias e construções revelados conforme o jogador encontra/usa, com persistência no save.
+- **Tutorial guiado dirigido por dados** — passos encadeados (diálogos, foco em alvos 3D/2D, seta animada, espera por sinais) que ensinam os sistemas sem travar o jogador.
 
 ### Autoloads (Singletons)
 
@@ -254,10 +297,10 @@ pi-4/
 ├── Maps/                     # Cenas dos 6 mundos
 ├── Gridmap/                  # Layouts de grid / NavMesh
 ├── Builds/                   # Estruturas construíveis (.tscn)
-│   ├── tower.tscn            # Torre base (+ ramos Morteiro/Sniper/Fogo/Tesla)
-│   ├── quartel.tscn          # Produz soldados (upgrade Guarda Real)
-│   ├── caldeiron.tscn        # Área de veneno
-│   ├── mina / mill / mercadinho_egipcio / taverna_dos_piratas …
+│   ├── tower.tscn            # Torre base (+ ramos Morteiro/Sniper/Fogo/Tesla/Caldeirão)
+│   ├── quartel.tscn          # Produz soldados (caminhos Guarda Real / Taverna)
+│   ├── house.tscn            # Casa: base da economia (caminhos Mina / Moinho / Mercado)
+│   ├── taverna_dos_piratas.glb # Modelo da Taverna (caminho do Quartel)
 │   └── [bases temáticas]     # castle, Gate, piramede, BarcoBase, jaula, cripta
 │
 ├── Enemies/                  # IA base (inimigo_base.gd) + cenas por mapa (Map 1…6)
@@ -294,6 +337,8 @@ pi-4/
 ---
 
 ## Instalação
+
+> 🎮 **Só quer jogar?** Baixe o build pronto em [Baixar e Jogar](#baixar-e-jogar) — não precisa de Godot. Os passos abaixo são para **rodar/editar o projeto** a partir do código-fonte.
 
 ### Requisitos
 
@@ -347,12 +392,12 @@ O jogo é controlado inteiramente por **toque** (Android) ou **clique** (PC) —
 ### Loop de Jogo
 
 1. **Explore o mapa** — identifique os slots de construção disponíveis
-2. **Invista em renda** — construa minas, casas e mercados antes das torres
+2. **Invista em renda** — construa **Casas** (que evoluem em Mina, Moinho ou Mercado) antes das torres
 3. **Posicione as defesas** — use "Ver alcance" e aproveite os pontos de estrangulamento
 4. **Consulte o Conselheiro IA** — veja a sugestão de prioridade
 5. **Inicie a onda (▶)** — defenda a base até o último inimigo cair
 6. **Escolha sua carta** — cada onda concede um power-up permanente (com reroll)
-7. **Melhore e evolua** — torres viram Morteiro/Sniper/Fogo/Tesla; o Quartel vira Guarda Real
+7. **Melhore e evolua** — torres viram Morteiro/Sniper/Fogo/Tesla; a Casa vira Mina/Moinho/Mercado; o Quartel vira Guarda Real ou Taverna
 8. **Avance ao próximo mundo** — e complete o Bestiário pelo caminho
 
 ---
@@ -400,6 +445,28 @@ _Projeto Integrador IV (PI-4) — Unijui · 2026_
 
 ---
 
+## Créditos
+
+Os assets de terceiros utilizados pertencem aos seus autores e estão sob suas respectivas licenças:
+
+### Modelos 3D & Arte
+
+| Fonte             | Uso                                            | Link                                          |
+| ----------------- | ---------------------------------------------- | --------------------------------------------- |
+| **Kenney**        | Kits de modelos, ícones e elementos de UI      | [kenney.nl](https://kenney.nl)                |
+| **Quaternius**    | Modelos 3D de personagens e props              | [quaternius.com](https://quaternius.com)      |
+| **Poly Pizza**    | Modelos 3D diversos                            | [poly.pizza](https://poly.pizza)              |
+| **Sketchfab**     | Modelos 3D selecionados                        | [sketchfab.com](https://sketchfab.com)        |
+| **Meshy AI**      | Modelos 3D gerados por IA (inimigos e props)   | [meshy.ai](https://www.meshy.ai)              |
+
+### Áudio
+
+- Trilha sonora (Lo-fi / Bossa Nova) e efeitos sonoros — _adicionar fonte/licença_
+
+> Todos os direitos dos assets de terceiros pertencem aos seus respectivos criadores. Se algum crédito estiver faltando ou incorreto, abra uma _issue_.
+
+---
+
 ## Licença
 
-Este projeto foi desenvolvido para fins **acadêmicos**. Assets de terceiros utilizados estão sob suas respectivas licenças (consulte os créditos na pasta `Assets/`).
+Este projeto foi desenvolvido para fins **acadêmicos** (Projeto Integrador IV). O código é de autoria da equipe; os assets de terceiros seguem as licenças de seus autores — veja [Créditos](#créditos).

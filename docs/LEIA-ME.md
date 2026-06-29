@@ -5,6 +5,10 @@ Adicione os arquivos abaixo para completar o README:
 ## Banner
 - `docs/banner.png` — Imagem principal do jogo (recomendado: 1280×400px)
 
+## Gameplay (GIF) — aparece no topo dos Screenshots
+- `docs/gameplay.gif` — GIF curto em loop mostrando o Dia (construção) e a Noite (combate)
+  - Recomendado: ~8–15s, largura 800–1000px, bem otimizado (use [ezgif](https://ezgif.com) ou `ffmpeg`/`gifski` para reduzir o tamanho do arquivo)
+
 ## Screenshots do jogo (`docs/screenshots/`)
 - `gameplay_dia.png`    — Fase de preparação / construção
 - `gameplay_noite.png`  — Fase de combate / onda de inimigos
