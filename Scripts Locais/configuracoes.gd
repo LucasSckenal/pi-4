@@ -11,6 +11,12 @@ var temp_cursor_size: float = 1.5
 var temp_cursor_color: Color = Color.WHITE
 var temp_qualidade_3d: int = 2 # 0 = Baixa, 1 = Média, 2 = Alta
 
+# Texturas estáticas para o preview de qualidade gráfica
+@export var preview_minima: Texture2D
+@export var preview_baixa: Texture2D
+@export var preview_media: Texture2D
+@export var preview_alta: Texture2D
+
 # Referências de Áudio
 @onready var _slider_master:  HSlider     = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/SliderMaster")
 @onready var _lbl_master:     Label       = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaAudio/CardAudio/MarginAudio/VBoxAudio/HBoxMaster/LabelPctMaster")
@@ -27,6 +33,7 @@ var temp_qualidade_3d: int = 2 # 0 = Baixa, 1 = Média, 2 = Alta
 @onready var _check_hud:      CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckHUD")
 @onready var _check_shake:    CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckShakeTela")
 @onready var _check_numeros:  CheckButton = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/CheckNumerosDano")
+@onready var _preview_qualidade: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaVideo/CardVideo/MarginVideo/VBoxVideo/PreviewQualidade")
 
 # Referências de Cursor
 @onready var _preview_cursor: TextureRect = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Conteudo/ColunaCursor/CardCursor/MarginCursor/VBoxCursor/PreviewArea/PreviewCursor")
@@ -212,15 +219,18 @@ func _atualizar_selecao_qualidade(nivel: int) -> void:
 		if btn is Button:
 			if i == nivel:
 				btn.modulate = Color(1, 1, 1, 1)
-				(btn as Button).add_theme_constant_override("outline_size", 0)
 				btn.scale = Vector2(1.06, 1.06)
 				btn.pivot_offset = btn.size / 2.0
 			else:
 				btn.modulate = Color(0.62, 0.62, 0.62, 1)
 				btn.scale = Vector2.ONE
-	var lbl := get_node_or_null(_Q_BASE + "../LabelQualidade") as Label
-	if lbl:
-		lbl.text = "Qualidade 3D:  %s" % _Q_NOMES[nivel]
+		
+	if _preview_qualidade:
+		match nivel:
+			0: _preview_qualidade.texture = preview_minima
+			1: _preview_qualidade.texture = preview_baixa
+			2: _preview_qualidade.texture = preview_media
+			3: _preview_qualidade.texture = preview_alta
 
 func _on_btn_qualidade_minima_pressed() -> void:
 	_selecionar_qualidade_3d(0)
