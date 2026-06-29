@@ -148,6 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4763685, 0.4496616)
 
 [node name="Seta" type="TextureRect" parent="." unique_id=1808561704]
 top_level = true
+z_index = 1000
 offset_right = 90.0
 offset_bottom = 70.0
 texture = ExtResource("5_ivfh5")
