@@ -66,12 +66,12 @@ func _construir_ui() -> void:
 
 	var btn := Button.new()
 	btn.text = "PULAR  >"
-	btn.custom_minimum_size = Vector2(130, 44)
+	btn.custom_minimum_size = Vector2(200, 70)
 	btn.anchor_left = 1.0
 	btn.anchor_right = 1.0
 	btn.anchor_top = 0.0
 	btn.anchor_bottom = 0.0
-	btn.offset_left = -145.0
+	btn.offset_left = -300.0
 	btn.offset_right = -10.0
 	btn.offset_top = 12.0
 	btn.offset_bottom = 56.0
@@ -88,7 +88,7 @@ func _construir_ui() -> void:
 	btn.add_theme_stylebox_override("hover", st_btn)
 	btn.add_theme_stylebox_override("pressed", st_btn)
 	btn.add_theme_color_override("font_color", COR_PULAR)
-	btn.add_theme_font_size_override("font_size", 16)
+	btn.add_theme_font_size_override("font_size", 32)
 	btn.pressed.connect(_pular_cutscene)
 	add_child(btn)
 
