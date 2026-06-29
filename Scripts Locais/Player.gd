@@ -104,7 +104,7 @@ func _ready():
 func _unhandled_input(event):
 	# Adiciona trava para ignorar input se o tutorial estiver com diálogo aberto
 	var tutorial = get_tree().get_first_node_in_group("TutorialManager")
-	if tutorial and tutorial.visible and tutorial.alvo_2d_atual == null:
+	if tutorial and tutorial.visible and tutorial.alvo_2d_atual == null and tutorial.alvo_3d_atual == null:
 		return
 
 	if event.is_action_pressed("ui_cancel"):
@@ -551,7 +551,7 @@ func _configurar_modelo_escolhido():
 		if anim_inicial != "":
 			novo_anim_player.play(anim_inicial)
 		
-	# --- 4. DEVOLVER AS PEÇAS SALVAS AO ESQUELETO NOVO ---
+# --- 4. DEVOLVER AS PEÇAS SALVAS AO ESQUELETO NOVO ---
 	var novo_skeleton = modelo_novo.find_child("Skeleton3D", true)
 	if novo_skeleton:
 		for dado in ossos_salvos:
@@ -563,12 +563,20 @@ func _configurar_modelo_escolhido():
 				lixo.name = "lixo_" + osso_node.name
 				lixo.free()
 				
+			# Limpa o nome do osso ANTES de colocar na árvore para a Godot não 
+			# procurar um osso que não existe logo no add_child e gerar warnings
+			osso_node.bone_name = ""
 			novo_skeleton.add_child(osso_node)
-			osso_node.bone_name = nome_ancora
 			
-			if osso_node.bone_name == "":
-				if osso_node.name == "BoneAttachment3D_Cabeca": osso_node.bone_name = "head"
-				elif osso_node.name == "BoneAttachment3D": osso_node.bone_name = "arm-left"
+			# Define a âncora com fallback caso ela tenha vindo vazia de um set especial
+			var alvo_bone = nome_ancora
+			if alvo_bone == "":
+				if osso_node.name == "BoneAttachment3D_Cabeca": alvo_bone = "head"
+				elif osso_node.name == "BoneAttachment3D": alvo_bone = "arm-left"
+				
+			# Apenas vincula o osso se o esqueleto novo possuir a âncora solicitada
+			if alvo_bone != "" and novo_skeleton.find_bone(alvo_bone) != -1:
+				osso_node.bone_name = alvo_bone
 
 	# Atualiza o visual base
 	_atualizar_arma_visivel()
@@ -577,15 +585,17 @@ func _configurar_modelo_escolhido():
 	# Aplica as regras do Dark Souls
 	call_deferred("_forcar_visual_darksouls")
 	
-	# --- 5. SETS DE MODELO PRÓPRIO (Bloodborne/Gojo/Dark Souls): escondem arma e chapéu da base ---
-	if _usando_set_modelo_proprio():
-		var osso_arma = find_child("BoneAttachment3D", true, false)
-		if osso_arma:
-			osso_arma.visible = false
+	# --- 5. SETS DE MODELO PRÓPRIO (Bloodborne/Gojo/Dark Souls): visibilidade ---
+	var osso_arma = find_child("BoneAttachment3D", true, false)
+	var osso_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
 
-		var osso_chapeu = find_child("BoneAttachment3D_Cabeca", true, false)
-		if osso_chapeu:
-			osso_chapeu.visible = false
+	if _usando_set_modelo_proprio():
+		if osso_arma: osso_arma.visible = false
+		if osso_chapeu: osso_chapeu.visible = false
+	else:
+		# Reacende a visibilidade dos pontos de anexo para os modelos convencionais
+		if osso_arma: osso_arma.visible = true
+		if osso_chapeu: osso_chapeu.visible = true
 
 # --- NOVA FUNÇÃO (Copia também isto) ---
 func _forcar_visual_darksouls():

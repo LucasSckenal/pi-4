@@ -41,16 +41,16 @@ func iniciar_sequencia_tutorial():
 	# ------------------------------------------------------------
 	
 	await tutorial.mostrar_dialogo("Afonso: Minhas costas... Berta, onde viemos parar?! Levaram nossos netos pra dentro desse jogo!")
-	await tutorial.mostrar_dialogo("Berta: Calma, Afonso. De noite, monstros verdes saem lá da entrada e marcham até o nosso Castelo. Temos que defender!")
+	await tutorial.mostrar_dialogo("Berta: Calma, Afonso. De noite, [color=orchid]monstros[/color] saem lá da entrada e marcham até o nosso [color=pink]Castelo[/color]. Temos que defender!")
 	await tutorial.mostrar_dialogo("Berta: Temos três tipos de construção: a [color=tomato]Torre[/color] ataca de longe, a [color=yellow]Casa[/color] dá ouro e o [color=light_sky_blue]Quartel[/color] chama soldados.")
 	
-	torre_1 = await passo_construcao(slot_torre_1, 0, "Berta: Afonso, constrói a primeira Torre aqui!")
-	torre_2 = await passo_construcao(slot_torre_2, 0, "Berta: Outra torre para reforçar a entrada.")
+	torre_1 = await passo_construcao(slot_torre_1, 0, "Berta: Afonso, constrói a primeira [color=tomato]Torre[/color] aqui!")
+	torre_2 = await passo_construcao(slot_torre_2, 0, "Berta: Outra [color=tomato]Torre[/color] para reforçar a entrada.")
 	
-	await tutorial.mostrar_dialogo("Afonso: Legal, mas olha esse menu! Dá pra fazer uma Casa por só 2 moedas. O tabuleiro diz que ela gera ouro todo dia. Eu adoro um bom investimento!")
-	await tutorial.mostrar_dialogo("Berta: Tá bom, mas não coloca na frente! Aqueles bichos destroem as casas. Constrói lá atrás, perto do Castelo, onde é seguro!")
+	await tutorial.mostrar_dialogo("Afonso: Legal, mas olha esse menu! Dá pra fazer uma [color=yellow]Casa[/color] por só 2 moedas. O tabuleiro diz que ela [color=yellow]gera ouro[/color] todo dia. Eu adoro um bom investimento!")
+	await tutorial.mostrar_dialogo("Berta: Tá bom, mas não coloca na frente! Aqueles [color=orchid]monstros DESTROEM[/color] as [color=yellow]casas[/color]. Constrói lá atrás, perto do [color=pink]Castelo[/color], onde é seguro!")
 	
-	casa_2 = await passo_construcao(slot_casa_2, 1, "Afonso: Vou fazer uma Casa aqui para ganhar ouro.")
+	casa_2 = await passo_construcao(slot_casa_2, 1, "Afonso: Vou fazer uma [color=yellow]Casa[/color] aqui para [color=yellow]ganhar ouro[/color].")
 	
 	# Botão "Iniciar Noite"
 	var btn_noite = get_tree().get_first_node_in_group("BotaoIniciarNoite")
@@ -72,12 +72,22 @@ func iniciar_sequencia_tutorial():
 	# Os botões de velocidade só aparecem à noite — ensina aqui.
 	await get_tree().create_timer(0.7).timeout
 	if is_instance_valid(controles_mobile) and controles_mobile.grupo_velocidades.visible:
+		
+		## Pausa o jogo para garantir tempo de leitura e decisão.
+		## Altera o process_mode para que os botões respondam mesmo com o jogo pausado.
+		get_tree().paused = true
+		controles_mobile.grupo_velocidades.process_mode = Node.PROCESS_MODE_ALWAYS
+		
 		await tutorial.apontar_e_falar_2d(controles_mobile.btn_rapido, "Berta: Estes botões controlam o tempo: [color=light_sky_blue]LENTO[/color], [color=yellow]NORMAL[/color] e [color=tomato]RÁPIDO[/color]. Acelera quando estiver tranquilo!")
+		
+		## Retorna as configurações ao normal após a interação.
+		controles_mobile.grupo_velocidades.process_mode = Node.PROCESS_MODE_INHERIT
+		get_tree().paused = false
 
 	tutorial.visible = true
 	tutorial.fundo_escuro.visible = true
 	tutorial.alvo_3d_atual = ponto_defesa
-	tutorial.configurar_dialogo("Afonso: Vou pra linha de frente com a minha espada, onde as torres não alcançam!")
+	tutorial.configurar_dialogo("Afonso: Vou pra linha de frente com a minha espada, onde as [color=tomato]torres[/color] não alcançam!")
 	
 	# Encontra o jogador (grupo "Player")
 	var player = get_tree().get_first_node_in_group("Player")
@@ -88,9 +98,9 @@ func iniciar_sequencia_tutorial():
 	
 	var player_chegou = false
 	var tempo_espera = 0.0
-	var raio_chegada = 5.0
+	var raio_chegada = 1.0
 	
-	while not player_chegou and tempo_espera < 15.0:
+	while not player_chegou and tempo_espera < 7.5:
 		if not GameManager.is_tutorial_ativo: break
 		if player and player.global_position.distance_to(ponto_defesa.global_position) < raio_chegada:
 			player_chegou = true
@@ -107,8 +117,8 @@ func iniciar_sequencia_tutorial():
 	# ------------------------------------------------------------
 	# DIA 2 – Carta, Upgrade do Castelo e Quartel
 	# ------------------------------------------------------------
-	await tutorial.mostrar_dialogo("Afonso: Sobrevivemos! E olha o dinheiro entrando! Agora já posso construir o Quartel pra chamar soldados!")
-	await tutorial.mostrar_dialogo("Berta: Ainda não. O Quartel é Nível 1. Nosso Castelo é Nível 0. Precisamos gastar 5 moedas pra evoluir ele primeiro.")
+	await tutorial.mostrar_dialogo("Afonso: Sobrevivemos! E olha o dinheiro entrando! Agora já posso construir o [color=light_sky_blue]Quartel[/color] pra chamar soldados!")
+	await tutorial.mostrar_dialogo("Berta: Ainda não. O [color=light_sky_blue]Quartel[/color] é Nível 1. Nosso [color=pink]Castelo[/color] é Nível 0. Precisamos [color=yellow]gastar 5 moedas[/color] pra evoluir ele primeiro.")
 	
 	var carta = get_tree().root.find_child("CartaTutorial0", true, false)
 	var tempo_carta: float = 0.0
@@ -118,15 +128,15 @@ func iniciar_sequencia_tutorial():
 		tempo_carta += 0.05
 		carta = get_tree().root.find_child("CartaTutorial0", true, false)
 	if is_instance_valid(carta):
-		await tutorial.mostrar_dialogo("Berta: A cada duas noites vencidas, nós ganhamos uma [color=yellow]Carta[/color] de poder! Escolha uma pra ficar mais forte!")
-		await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
+		await tutorial.mostrar_dialogo("Berta: A cada duas noites vencidas, nós ganhamos uma [color=lime]Carta[/color] de poder! Escolha uma pra ficar mais forte!")
+		await tutorial.focar_em_ui_2d(carta, "Escolha esta [color=lime]Carta[/color], ela vai nos ajudar bastante!")
 	
 	# Upgrade do Castelo usando passo_upgrade (mais confiável)
-	await passo_upgrade(castelo, "Afonso: Toca no Castelo para melhorá-lo.")
+	await passo_upgrade(castelo, "Afonso: Toca no [color=pink]Castelo[/color] para melhorá-lo.")
 	
-	await tutorial.mostrar_dialogo("Berta: Pronto! Agora a escolha é sua, Afonso. Posiciona o Quartel e vamos salvar nossos netos!")
+	await tutorial.mostrar_dialogo("Berta: Pronto! Agora a escolha é sua, Afonso. Posiciona o [color=light_sky_blue]Quartel[/color] e vamos salvar nossos netos!")
 	
-	quartel = await passo_construcao(slot_quartel, 2, "Constrói o Quartel neste novo lote!")
+	quartel = await passo_construcao(slot_quartel, 2, "Constrói o [color=light_sky_blue]Quartel[/color] neste novo lote!")
 	
 	# ------------------------------------------------------------
 	# NOITE 2 – (aguarda outra noite para preparar upgrades)
@@ -148,15 +158,15 @@ func iniciar_sequencia_tutorial():
 	await tutorial.mostrar_dialogo("Chegou o dia! Agora podemos melhorar nossas construções.")
 	
 	# Upgrade na Torre (dois caminhos)
-	await passo_upgrade(torre_1, "Toca na Torre. Ela tem dois caminhos de melhoria: escolhe um!")
+	await passo_upgrade(torre_1, "Toca na Torre. Ela tem dois caminhos de melhoria, basta escolher um! [color=yellow]Neste mapa é altamente recomendo o Morteiro![/color]")
 	
 	# Upgrade na Casa = escolha de caminho de ECONOMIA (Mina / Moinho / Mercado)
-	await tutorial.mostrar_dialogo("Afonso: E a Casa? Olha só: ela pode virar [color=yellow]Mina[/color], [color=yellow]Moinho[/color] ou [color=yellow]Mercado[/color] — cada uma rende de um jeito!")
-	await passo_upgrade(casa_2, "Toca na Casa e escolhe um caminho de economia.")
+	await tutorial.mostrar_dialogo("Afonso: E a [color=yellow]Casa[/color]? Olha só: ela pode virar [color=yellow]Mina[/color], [color=yellow]Moinho[/color] ou [color=yellow]Mercado[/color] — cada uma rende de um jeito!")
+	await passo_upgrade(casa_2, "Toca na [color=yellow]Casa[/color] e escolhe um caminho de economia.")
 
 	# Quartel também tem caminhos — explica sem forçar a compra (mais cara)
 	if is_instance_valid(quartel):
-		await tutorial.apontar_e_falar_3d(quartel, "Berta: O Quartel também melhora! A [color=light_sky_blue]Guarda Real[/color] reforça os soldados, e mais pra frente aparece a [color=light_sky_blue]Taverna dos Piratas[/color], com pirata e bardo. Experimenta quando tiver ouro!")
+		await tutorial.apontar_e_falar_3d(quartel, "Berta: O [color=light_sky_blue]Quartel[/color] também melhora! A [color=light_sky_blue]Guarda Real[/color] reforça os soldados, e mais pra frente aparece a [color=light_sky_blue]Taverna dos Piratas[/color], com pirata e bardo. Experimenta quando tiver ouro!")
 
 	await tutorial.mostrar_dialogo("Berta: Prontinho! Você já sabe o básico. Agora é só defender e resgatar nossos netos!")
 
