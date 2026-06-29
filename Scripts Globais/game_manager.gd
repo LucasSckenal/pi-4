@@ -81,10 +81,10 @@ var banco_de_fases: Dictionary = {
 		}
 	},
 	2: {
-		"moedas_iniciais": 10,
+		"moedas_iniciais": 16,
 		"nivel_base_inicial": 0,
 		"tutorial": false,
-		"renda_base_por_onda": 5,
+		"renda_base_por_onda": 6,
 		"construcoes": {
 			0: [preload("res://Builds/tower.tscn"), preload("res://Builds/house.tscn")],
 			1: [preload("res://Builds/quartel.tscn")],

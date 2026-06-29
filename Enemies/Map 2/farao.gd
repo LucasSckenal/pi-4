@@ -8,7 +8,7 @@ extends InimigoBase
 # ==========================================
 
 @export_category("Especial — Tornado de Areia")
-@export var dano_por_tick: int = 25               ## Dano aplicado a cada pulso de área
+@export var dano_por_tick: int = 10               ## Dano aplicado a cada pulso de área
 @export var raio_tornado: float = 3.5             ## Raio de dano (unidades de mundo)
 @export var duracao_tornado: float = 3.5          ## Segundos com o tornado activo
 @export var intervalo_dano: float = 0.5           ## Segundos entre pulsos de dano

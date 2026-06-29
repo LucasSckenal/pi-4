@@ -221,7 +221,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_flogr"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("11_64pmn")
-quantidade = 12
+quantidade = 8
 cor = Color(0, 0.21176471, 0, 1)
 icone = ExtResource("12_b2idl")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
@@ -235,7 +235,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_8eam0"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("11_64pmn")
-quantidade = 12
+quantidade = 8
 cor = Color(0, 0.313239, 0.31323883, 1)
 icone = ExtResource("12_b2idl")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
@@ -269,7 +269,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_2r26d"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("15_5a8yk")
-quantidade = 6
+quantidade = 3
 icone = ExtResource("icon_genio")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
@@ -331,7 +331,7 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_ie0f7"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("11_64pmn")
-quantidade = 10
+quantidade = 6
 icone = ExtResource("12_b2idl")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
@@ -364,14 +364,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_cd0h3"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("17_qpw32")
-quantidade = 2
+quantidade = 1
 icone = ExtResource("icon_litch")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_0rvl4"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("11_64pmn")
-quantidade = 12
+quantidade = 8
 icone = ExtResource("12_b2idl")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
@@ -437,14 +437,14 @@ metadata/_custom_type_script = "uid://bhmiwxgo74e8k"
 [sub_resource type="Resource" id="Resource_kcimh"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("16_x8cn2")
-quantidade = 5
+quantidade = 2
 icone = ExtResource("icon_anubis")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 
 [sub_resource type="Resource" id="Resource_nhyxo"]
 script = ExtResource("10_8aef0")
 cena = ExtResource("15_5a8yk")
-quantidade = 10
+quantidade = 3
 icone = ExtResource("icon_genio")
 metadata/_custom_type_script = "uid://ciw2y5bxsm8i0"
 

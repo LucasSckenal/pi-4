@@ -51,6 +51,7 @@ func _ready():
 
 	_configurar_icones()
 	_carregar_configuracoes()
+	_criar_botao_reset()
 
 	if OS.has_feature("mobile") or OS.has_feature("web_android") or OS.has_feature("web_ios"):
 		if _card_cursor:
@@ -89,8 +90,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_ESCAPE:
 			# Evita que o ESC vaze para outras telas
-			get_viewport().set_input_as_handled() 
-			
+			get_viewport().set_input_as_handled()
+
+			# Se o modal de confirmação de reset estiver aberto, o ESC só fecha ele
+			var modal = get_node_or_null("ModalResetProgresso")
+			if modal:
+				modal.queue_free()
+				return
+
 			# Roda a mesma lógica do botão Voltar (que já reverte as coisas e fecha)
 			_on_button_pressed()
 
@@ -427,5 +434,127 @@ func _carregar_configuracoes() -> void:
 		
 	temp_cursor_size = cfg.get_value("cursor", "tamanho", 1.5)
 	temp_cursor_color = cfg.get_value("cursor", "cor", Color.WHITE)
-	
+
 	_atualizar_preview_cursor()
+
+# ==========================================
+# RESETAR PROGRESSO (botão no rodapé + modal de confirmação)
+# ==========================================
+func _criar_botao_reset() -> void:
+	var rodape = get_node_or_null("CenterContainer/Painel/Margin/VBoxRoot/Rodape")
+	if rodape == null:
+		return
+	if rodape.has_node("BtnResetarProgresso"):
+		return
+	var btn := Button.new()
+	btn.name = "BtnResetarProgresso"
+	btn.text = "Resetar Progresso"
+	btn.custom_minimum_size = Vector2(0, 56)
+	btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	btn.add_theme_font_size_override("font_size", 18)
+	btn.add_theme_color_override("font_color", Color(1, 0.88, 0.85))
+	var st := StyleBoxFlat.new()
+	st.bg_color = Color(0.45, 0.12, 0.10, 1)
+	st.set_corner_radius_all(10)
+	st.set_border_width_all(2)
+	st.border_color = Color(0.9, 0.35, 0.30, 1)
+	st.content_margin_left = 16
+	st.content_margin_right = 16
+	st.content_margin_top = 8
+	st.content_margin_bottom = 8
+	var st_hover := st.duplicate()
+	st_hover.bg_color = Color(0.58, 0.16, 0.13, 1)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st_hover)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.pressed.connect(_mostrar_confirmacao_reset)
+	rodape.add_child(btn)
+
+func _mostrar_confirmacao_reset() -> void:
+	if has_node("ModalResetProgresso"):
+		return
+
+	var overlay := Control.new()
+	overlay.name = "ModalResetProgresso"
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.z_index = 100
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(overlay)
+
+	var fundo := ColorRect.new()
+	fundo.color = Color(0, 0, 0, 0.72)
+	fundo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(fundo)
+
+	var center := CenterContainer.new()
+	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(center)
+
+	var painel := PanelContainer.new()
+	painel.custom_minimum_size = Vector2(480, 0)
+	var st_painel := StyleBoxFlat.new()
+	st_painel.bg_color = Color(0.12, 0.09, 0.06, 0.99)
+	st_painel.set_corner_radius_all(16)
+	st_painel.set_border_width_all(3)
+	st_painel.border_color = Color(0.85, 0.35, 0.30, 1)
+	st_painel.content_margin_left = 30
+	st_painel.content_margin_right = 30
+	st_painel.content_margin_top = 28
+	st_painel.content_margin_bottom = 28
+	painel.add_theme_stylebox_override("panel", st_painel)
+	center.add_child(painel)
+
+	var vbox := VBoxContainer.new()
+	vbox.add_theme_constant_override("separation", 18)
+	painel.add_child(vbox)
+
+	var titulo := Label.new()
+	titulo.text = "APAGAR TODO O PROGRESSO?"
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	titulo.add_theme_font_size_override("font_size", 26)
+	titulo.add_theme_color_override("font_color", Color(1, 0.5, 0.45))
+	vbox.add_child(titulo)
+
+	var aviso := Label.new()
+	aviso.text = "Isto apaga estrelas, fases, conquistas, cartas e itens desbloqueados. Não dá para desfazer!"
+	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	aviso.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	aviso.custom_minimum_size = Vector2(0, 0)
+	aviso.add_theme_font_size_override("font_size", 17)
+	aviso.add_theme_color_override("font_color", Color(0.85, 0.8, 0.72))
+	vbox.add_child(aviso)
+
+	var hbox := HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.add_theme_constant_override("separation", 16)
+	vbox.add_child(hbox)
+
+	var btn_cancelar := _criar_btn_modal("Cancelar", Color(0.20, 0.16, 0.10, 1), Color(0.6, 0.52, 0.36, 1))
+	btn_cancelar.pressed.connect(func(): overlay.queue_free())
+	hbox.add_child(btn_cancelar)
+
+	var btn_confirmar := _criar_btn_modal("Sim, apagar tudo", Color(0.5, 0.13, 0.11, 1), Color(0.95, 0.4, 0.35, 1))
+	btn_confirmar.pressed.connect(func():
+		Global.resetar_tudo()
+		get_tree().change_scene_to_file("res://UI/Menus/main_menu.tscn")
+	)
+	hbox.add_child(btn_confirmar)
+
+func _criar_btn_modal(txt: String, bg: Color, borda: Color) -> Button:
+	var b := Button.new()
+	b.text = txt
+	b.custom_minimum_size = Vector2(180, 54)
+	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	b.add_theme_font_size_override("font_size", 18)
+	b.add_theme_color_override("font_color", Color(1, 0.94, 0.88))
+	var st := StyleBoxFlat.new()
+	st.bg_color = bg
+	st.set_corner_radius_all(10)
+	st.set_border_width_all(2)
+	st.border_color = borda
+	var st_h := st.duplicate()
+	st_h.bg_color = bg.lightened(0.12)
+	b.add_theme_stylebox_override("normal", st)
+	b.add_theme_stylebox_override("hover", st_h)
+	b.add_theme_stylebox_override("pressed", st)
+	return b

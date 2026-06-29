@@ -287,9 +287,6 @@ func carregar_progresso():
 func _input(event):
 	if event is InputEventKey and event.pressed:
 
-		if event.keycode == KEY_J:
-			resetar_tudo()
-
 		if event.keycode == KEY_L:
 			if Global.DEBUG_MODE:
 				print("\n--- STATUS DO SAVE ---")
