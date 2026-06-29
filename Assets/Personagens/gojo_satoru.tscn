@@ -1411,7 +1411,7 @@ _data = {
 [node name="Meshy_AI_Meshy_AI_Crystal_Gole_biped_Meshy_AI_Meshy_Merged_Animations" type="Node3D" unique_id=1497305402]
 
 [node name="Armature" type="Node3D" parent="." unique_id=94735437]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+transform = Transform3D(0.0038, 0, 0, 0, 0.0038, 0, 0, 0, 0.0038, 0, 0, 0)
 
 [node name="Skeleton3D" type="Skeleton3D" parent="Armature" unique_id=1041734727]
 bones/0/name = "Hips"
