@@ -591,8 +591,11 @@ func _configurar_modelo_escolhido():
 func _forcar_visual_darksouls():
 	var modelo = get_node_or_null("character-male-f2")
 	if not modelo: return
-	
-	var is_darksouls = Global.armadura_darksouls_desbloqueada and Global.usando_set_especial
+
+	# Dark Souls agora é um MODELO próprio (john_darksouls). O toggle de armadura antigo
+	# fica desativado — senão ele reexibe a âncora antiga e força os pais visíveis,
+	# duplicando o modelo escondido no menu de customização.
+	var is_darksouls = false
 	
 	# Pega ABSOLUTAMENTE TODOS os nós do personagem, não importa a profundidade
 	var todos_nos = modelo.find_children("*", "", true, false)
