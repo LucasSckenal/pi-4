@@ -35,7 +35,7 @@ var todas_as_armas = [
 
 # ADICIONADO O "Set Dark Souls" NA LISTA
 var todos_os_chapeus = [
-	"nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "+1 to catch'em all", "HollowKnight Head", "Set Kakashi", "Set Bloodborne" ,"Set Dark Souls"
+	"nenhum","Crown", "Witch Hat", "Pirate hat", "Graduation cap", "Cowboy Hat", "Hard hat", "+1 to catch'em all", "HollowKnight Head", "Set Kakashi", "Set Gojo", "Set Bloodborne" ,"Set Dark Souls"
 ]
 
 func _ready():
@@ -201,8 +201,10 @@ func _chapeu_esta_bloqueado(id: String) -> bool:
 		return true
 	elif id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
 		return true
+	elif id == "Set Gojo" and not Global.armadura_gojo_desbloqueada:
+		return true
 	elif id != "nenhum" \
-			and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
+			and id not in ["HollowKnight Head", "Set Kakashi", "Set Gojo", "Set Bloodborne", "Set Dark Souls"] \
 			and not (id in Global.chapeus_desbloqueados):
 		return true
 	return false
@@ -243,11 +245,14 @@ func _gerar_botoes_chapeus():
 		elif id == "Set Kakashi" and not Global.armadura_kakashi_desbloqueada:
 			bloqueado = true
 			texto_bloqueio = "8★"
-		
+		elif id == "Set Gojo" and not Global.armadura_gojo_desbloqueada:
+			bloqueado = true
+			texto_bloqueio = "10★"
+
 		# --- REGRA 2: CHAPÉUS NORMAIS (POR CONQUISTA / LISTA) ---
 		# Exclui sets especiais (controlados por flags próprias, não por chapeus_desbloqueados)
 		elif id != "nenhum" \
-				and id not in ["HollowKnight Head", "Set Kakashi", "Set Bloodborne", "Set Dark Souls"] \
+				and id not in ["HollowKnight Head", "Set Kakashi", "Set Gojo", "Set Bloodborne", "Set Dark Souls"] \
 				and not (id in Global.chapeus_desbloqueados):
 			bloqueado = true
 
@@ -323,11 +328,12 @@ func _on_chapeu_selecionado(id_chapeu):
 	Global.usando_set_especial = (id_chapeu == "Set Dark Souls")
 	Global.usando_set_bloodborne = (id_chapeu == "Set Bloodborne")
 	Global.usando_set_kakashi = (id_chapeu == "Set Kakashi")
+	Global.usando_set_gojo = (id_chapeu == "Set Gojo")
 	Global.usando_set_hollow_knight = (id_chapeu == "HollowKnight Head")
-	
+
 	# 2. Se for um chapéu normal (ou o Hollow Knight), equipamos no slot de chapéu
 	# Nota: Hollow Knight aqui é tratado como um chapéu que esconde a cabeça
-	if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_kakashi):
+	if not (Global.usando_set_especial or Global.usando_set_bloodborne or Global.usando_set_kakashi or Global.usando_set_gojo):
 		Global.equip_avo_m["chapeu"] = id_chapeu
 		Global.equip_avo_f["chapeu"] = id_chapeu
 	else:
@@ -359,28 +365,43 @@ func _on_chapeu_selecionado(id_chapeu):
 
 # Função auxiliar para limpar a bagunça dos modelos especiais no menu
 func _atualizar_modelos_menu_especiais():
-	var modelo_normal = find_child("character-male-f2", true, false) 
+	var modelo_normal = find_child("character-male-f2", true, false)
 	var modelo_bb = find_child("ModeloBloodborneMenu", true, false)
 	var modelo_kak = find_child("ModeloKakashiMenu", true, false)
-	
+	var modelo_gojo = find_child("ModeloGojoMenu", true, false)
+	var modelo_ds = find_child("ModeloDarkSoulsMenu", true, false)
+
 	# Esconde todos primeiro para evitar sobreposição
 	if modelo_normal: modelo_normal.visible = false
 	if modelo_bb: modelo_bb.visible = false
 	if modelo_kak: modelo_kak.visible = false
-	
+	if modelo_gojo: modelo_gojo.visible = false
+	if modelo_ds: modelo_ds.visible = false
+
 	if Global.usando_set_bloodborne:
 		if not modelo_bb:
-			var cena = load("res://Assets/Personagens/blood_borne_male.tscn") 
+			var cena = load("res://Assets/Personagens/blood_borne_male.tscn")
 			modelo_bb = _instanciar_easter_egg_menu(cena, "ModeloBloodborneMenu", modelo_normal)
 		modelo_bb.visible = true
 	elif Global.usando_set_kakashi:
 		if not modelo_kak:
-			var cena = load("res://Assets/Personagens/kakashi.tscn") 
+			var cena = load("res://Assets/Personagens/kakashi.tscn")
 			modelo_kak = _instanciar_easter_egg_menu(cena, "ModeloKakashiMenu", modelo_normal)
 		modelo_kak.visible = true
+	elif Global.usando_set_gojo:
+		if not modelo_gojo:
+			var cena = load("res://Assets/Personagens/gojo_satoru.tscn")
+			modelo_gojo = _instanciar_easter_egg_menu(cena, "ModeloGojoMenu", modelo_normal)
+		modelo_gojo.visible = true
+	elif Global.usando_set_especial:
+		# Dark Souls agora é um modelo próprio (john_darksouls)
+		if not modelo_ds:
+			var cena = load("res://Assets/Personagens/john_darksouls.tscn")
+			modelo_ds = _instanciar_easter_egg_menu(cena, "ModeloDarkSoulsMenu", modelo_normal)
+		modelo_ds.visible = true
 	else:
 		# Se for chapéu normal ou Hollow Knight, volta para o modelo base
-		if modelo_normal: 
+		if modelo_normal:
 			modelo_normal.visible = true
 
 
@@ -405,9 +426,13 @@ func _instanciar_easter_egg_menu(cena_carregada, nome_node, modelo_referencia) -
 		modelo.rotation = modelo_referencia.rotation
 		
 	var anim_player_menu = modelo.find_child("AnimationPlayer", true)
-	if anim_player_menu and anim_player_menu.has_animation("Idle"):
-		anim_player_menu.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
-		anim_player_menu.play("Idle")
+	if anim_player_menu:
+		# Modelos diferentes nomeiam o "parado" de formas distintas (Idle/Alert) ou só têm andar.
+		for nome in ["Idle", "Alert", "Walking", "Running"]:
+			if anim_player_menu.has_animation(nome):
+				anim_player_menu.get_animation(nome).loop_mode = Animation.LOOP_LINEAR
+				anim_player_menu.play(nome)
+				break
 		
 	var osso_arma = modelo.find_child("BoneAttachment3D", true, false)
 	if osso_arma: osso_arma.visible = false
