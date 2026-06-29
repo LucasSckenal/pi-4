@@ -1,10 +1,8 @@
 [gd_scene format=4 uid="uid://crleyiaceehic"]
 
 [ext_resource type="Script" uid="uid://dflxaw5gv6tpq" path="res://Enemies/inimigo_base.gd" id="1_ymgw2"]
+[ext_resource type="Texture2D" uid="uid://bfk4li0i21cm" path="res://Enemies/Golem_Lite_texture_0.png" id="2_3rxgo"]
 [ext_resource type="Shader" uid="uid://bnl7bracmb2jd" path="res://Shaders/Outline.gdshader" id="3_i4vnx"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1kynv"]
-load_path = "res://.godot/imported/Meshy_AI_Large_brute_elemental_biped_Meshy_AI_Meshy_Merged_Animations_texture_0.png-87a2a6395f19a78525c92d386ddc2611.s3tc.ctex"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_j43yi"]
 render_priority = 0
@@ -17,12 +15,12 @@ resource_name = "Material_1"
 next_pass = SubResource("ShaderMaterial_j43yi")
 diffuse_mode = 3
 specular_mode = 1
-albedo_texture = SubResource("CompressedTexture2D_1kynv")
+albedo_texture = ExtResource("2_3rxgo")
 emission_enabled = true
 emission = Color(1, 1, 1, 1)
 emission_energy_multiplier = 0.3
 emission_operator = 1
-emission_texture = SubResource("CompressedTexture2D_1kynv")
+emission_texture = ExtResource("2_3rxgo")
 stencil_flags = 2
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ifcne"]
