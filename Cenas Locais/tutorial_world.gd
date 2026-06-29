@@ -11,7 +11,7 @@ extends Node3D
 @onready var slot_torre_2 = $BuildSlots/BuildSlot2
 @onready var slot_casa_2 = $BuildSlots/BuildSlot12    # casa segura (atrás)
 @onready var castelo = $"building-castle2"
-@onready var slot_quartel = $BuildSlots/BuildSlot24
+@onready var slot_quartel = $BuildSlots/BuildSlot10
 @onready var ponto_defesa = $PontoDefesaPlayer   # Pode ser Marker3D
 @onready var controles_mobile = $HUD/InterfacePrincipal/HudMobileCompleto
 
@@ -42,7 +42,7 @@ func iniciar_sequencia_tutorial():
 	
 	await tutorial.mostrar_dialogo("Afonso: Minhas costas... Berta, onde viemos parar?! Levaram nossos netos pra dentro desse jogo!")
 	await tutorial.mostrar_dialogo("Berta: Calma, Afonso. De noite, monstros verdes saem lá da entrada e marcham até o nosso Castelo. Temos que defender!")
-	await tutorial.mostrar_dialogo("Berta: Temos três tipos de construção: a [color=yellow]Torre[/color] ataca de longe, a [color=yellow]Casa[/color] dá ouro e o [color=yellow]Quartel[/color] chama soldados.")
+	await tutorial.mostrar_dialogo("Berta: Temos três tipos de construção: a [color=tomato]Torre[/color] ataca de longe, a [color=yellow]Casa[/color] dá ouro e o [color=light_sky_blue]Quartel[/color] chama soldados.")
 	
 	torre_1 = await passo_construcao(slot_torre_1, 0, "Berta: Afonso, constrói a primeira Torre aqui!")
 	torre_2 = await passo_construcao(slot_torre_2, 0, "Berta: Outra torre para reforçar a entrada.")
@@ -72,7 +72,7 @@ func iniciar_sequencia_tutorial():
 	# Os botões de velocidade só aparecem à noite — ensina aqui.
 	await get_tree().create_timer(0.7).timeout
 	if is_instance_valid(controles_mobile) and controles_mobile.grupo_velocidades.visible:
-		await tutorial.apontar_e_falar_2d(controles_mobile.btn_rapido, "Berta: Estes botões controlam o tempo: [color=yellow]LENTO[/color], [color=yellow]NORMAL[/color] e [color=yellow]RÁPIDO[/color]. Acelera quando estiver tranquilo!")
+		await tutorial.apontar_e_falar_2d(controles_mobile.btn_rapido, "Berta: Estes botões controlam o tempo: [color=light_sky_blue]LENTO[/color], [color=yellow]NORMAL[/color] e [color=tomato]RÁPIDO[/color]. Acelera quando estiver tranquilo!")
 
 	tutorial.visible = true
 	tutorial.fundo_escuro.visible = true
@@ -118,7 +118,7 @@ func iniciar_sequencia_tutorial():
 		tempo_carta += 0.05
 		carta = get_tree().root.find_child("CartaTutorial0", true, false)
 	if is_instance_valid(carta):
-		await tutorial.mostrar_dialogo("Berta: Cada noite vencida te dá uma [color=yellow]Carta[/color] de poder. Escolha uma pra ficar mais forte!")
+		await tutorial.mostrar_dialogo("Berta: A cada duas noites vencidas, nós ganhamos uma [color=yellow]Carta[/color] de poder! Escolha uma pra ficar mais forte!")
 		await tutorial.focar_em_ui_2d(carta, "Escolha esta carta de ajuda.")
 	
 	# Upgrade do Castelo usando passo_upgrade (mais confiável)
@@ -156,7 +156,7 @@ func iniciar_sequencia_tutorial():
 
 	# Quartel também tem caminhos — explica sem forçar a compra (mais cara)
 	if is_instance_valid(quartel):
-		await tutorial.apontar_e_falar_3d(quartel, "Berta: O Quartel também melhora! A [color=yellow]Guarda Real[/color] reforça os soldados, e mais pra frente aparece a [color=yellow]Taverna[/color], com pirata e bardo. Experimenta quando tiver ouro!")
+		await tutorial.apontar_e_falar_3d(quartel, "Berta: O Quartel também melhora! A [color=light_sky_blue]Guarda Real[/color] reforça os soldados, e mais pra frente aparece a [color=light_sky_blue]Taverna dos Piratas[/color], com pirata e bardo. Experimenta quando tiver ouro!")
 
 	await tutorial.mostrar_dialogo("Berta: Prontinho! Você já sabe o básico. Agora é só defender e resgatar nossos netos!")
 

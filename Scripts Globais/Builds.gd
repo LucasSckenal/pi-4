@@ -11,7 +11,7 @@ const _ICON_ESCUDO    = preload("res://Assets/Icons/Escudo.png")
 const _ICON_CASTELO   = preload("res://Assets/Icons/Castelo.png")
 const _ICON_CRANIO    = preload("res://Assets/Icons/Cranio.png")
 const _ICON_GUINDASTE = preload("res://Assets/Icons/Guindaste.png")
-const _ICON_CADEADO   = preload("res://Assets/Icons/cadeado.png")
+const _ICON_CADEADO   = preload("res://Assets/Icons/Trinco.png")
 const _FLECHA_BASE    = preload("res://Cenas Locais/flecha.tscn")  # BASE_ATIRADORA
 var _base_ataque_acum: float = 0.0  # acumulador de cadência do ataque da base
 

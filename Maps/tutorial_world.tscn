@@ -645,6 +645,9 @@ conquista_fim_tutorial = ExtResource("2_gtwgk")
 [node name="CaixaDialogo" parent="TutorialManager" index="1" unique_id=50702287]
 offset_top = -220.0
 
+[node name="Seta" parent="TutorialManager" index="2" unique_id=1808561704]
+mouse_filter = 2
+
 [node name="BotaoPular" parent="TutorialManager" index="3" unique_id=2055384221]
 anchor_left = 0.134
 anchor_top = 0.708
@@ -901,7 +904,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, -0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53709686, -0.33609104, 2.2315571)
 
 [node name="BuildSlot2" parent="BuildSlots" unique_id=793557631 instance=ExtResource("11_ro1kq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04100001, 0, 1.6783695)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04100001, 0, 1.8171614)
 nivel_necessario = 0
 
 [node name="BuildSlot7" parent="BuildSlots" unique_id=979164414 instance=ExtResource("11_ro1kq")]

@@ -162,7 +162,7 @@ func _gerar_botoes_armas():
 			btn.modulate = Color(0.25, 0.25, 0.25, 0.9)
 			btn.disabled = true
 			btn.mouse_default_cursor_shape = Control.CURSOR_ARROW
-			var cadeado = load("res://Icons/cadeado.png")
+			var cadeado = load("res://Assets/Icons/Trinco.png")
 			if cadeado: btn.icon = cadeado
 
 		btn.add_theme_stylebox_override("normal", estilo)
@@ -272,7 +272,7 @@ func _gerar_botoes_chapeus():
 			btn.add_theme_font_size_override("font_size", 16)
 			
 			# Usa a imagem de cadeado
-			var caminho_cadeado = "res://Icons/cadeado.png"
+			var caminho_cadeado = "res://Assets/Icons/Trinco.png"
 			if ResourceLoader.exists(caminho_cadeado):
 				btn.icon = load(caminho_cadeado)
 			

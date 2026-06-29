@@ -183,12 +183,14 @@ mesh = SubResource("ArrayMesh_1y2kb")
 disabled = true
 
 [node name="AreaTransparencia" type="Area3D" parent="." index="1" unique_id=302779720]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" index="0" unique_id=825667398]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 shape = SubResource("CylinderShape3D_xxacq")
 
 [node name="AreaAtaque" type="Area3D" parent="." index="2" unique_id=1159628060]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaAtaque" index="0" unique_id=696293045]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24301434, 0)

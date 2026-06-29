@@ -9,10 +9,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6vech"]
 render_priority = 0
 shader = ExtResource("5_3h8v1")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kq3ol"]
 resource_name = "colormap"
@@ -58,10 +56,8 @@ shadow_mesh = SubResource("ArrayMesh_m6af7")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2f3ck"]
 render_priority = 0
 shader = ExtResource("5_3h8v1")
-shader_parameter/scale = 1.0
-shader_parameter/outline_spread = 5.0
-shader_parameter/_Color = Color(0, 0, 0, 1)
-shader_parameter/_DepthThreshold = 1.5
+shader_parameter/weight = 0.01
+shader_parameter/color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j03e7"]
 resource_name = "colormap"
@@ -128,7 +124,6 @@ radius = 1.0
 script = ExtResource("2_5a1o0")
 tipo = 3
 custo_moedas = 3
-tem_barra_vida = false
 caminho_barra_vida = NodePath("HealthBar3D/SubViewport/TextureProgressBar")
 caminho_container_barra = NodePath("HealthBar3D")
 upgrade_custos = Array[int]([2])
@@ -136,13 +131,13 @@ upgrade_moedas_por_nivel = Array[int]([2])
 upgrade_vida_por_nivel = Array[int]([40])
 modelos_por_nivel = Array[PackedScene]([ExtResource("3_n4g08")])
 
-[node name="unit-mill" parent="." index="0" unique_id=2062257291]
+[node name="unit-mill" parent="." index="0" unique_id=1546043017]
 mesh = SubResource("ArrayMesh_yfluf")
 
-[node name="rotate-x" parent="unit-mill" index="0" unique_id=936371888]
+[node name="rotate-x" parent="unit-mill" index="0" unique_id=507266396]
 mesh = SubResource("ArrayMesh_0ii7m")
 
-[node name="CollisionShape3D" parent="unit-mill/StaticBody3D" parent_id_path=PackedInt32Array(313036443) index="0" unique_id=1292889382]
+[node name="CollisionShape3D" parent="unit-mill/StaticBody3D" parent_id_path=PackedInt32Array(1500641480) index="0" unique_id=1184493848]
 disabled = true
 
 [node name="Area3D" type="Area3D" parent="." index="2" unique_id=572346562]
@@ -152,8 +147,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2124086, 0)
 shape = SubResource("SphereShape3D_x5qa7")
 
 [node name="HealthBar3D" type="Sprite3D" parent="." index="3" unique_id=702624270]
-visible = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85420346, 0)
+visible = false
 billboard = 1
 texture = SubResource("ViewportTexture_5a1o0")
 
@@ -172,6 +167,7 @@ texture_progress = SubResource("GradientTexture2D_1n2p7")
 tint_progress = Color(0, 1, 0, 1)
 
 [node name="AreaTransparencia" type="Area3D" parent="." index="4" unique_id=1984507893]
+input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="AreaTransparencia" index="0" unique_id=1228006437]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
