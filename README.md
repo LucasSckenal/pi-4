@@ -12,17 +12,17 @@ _Avós heroicos atravessam mundos fantásticos para resgatar seus netos_
 
 [![Godot 4.7](https://img.shields.io/badge/Godot-4.7-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![GDScript](https://img.shields.io/badge/GDScript-informational?style=for-the-badge&logo=godot-engine&logoColor=white)](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/)
-[![Versão](https://img.shields.io/badge/versão-4.0-success?style=for-the-badge)](https://github.com/LucasSckenal/pi-4/releases/latest)
+[![Versão](https://img.shields.io/badge/versão-4.1-success?style=for-the-badge)](https://github.com/LucasSckenal/pi-4/releases/latest)
 [![Status](https://img.shields.io/badge/status-jogável-brightgreen?style=for-the-badge)](https://github.com/LucasSckenal/pi-4/releases/latest)
 
 <br/>
 
 ### ⬇️ Baixe e jogue agora
 
-[![Baixar para Windows](https://img.shields.io/badge/Baixar_para_Windows-.zip-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/LucasSckenal/pi-4/releases/download/v4.0/OndeEstaoOsNetos_Windows_v4.0.zip)
-[![Baixar para Android](https://img.shields.io/badge/Baixar_para_Android-.apk-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/LucasSckenal/pi-4/releases/download/v4.0/OndeEstaoOsNetos_Android_v4.0.apk)
+[![Baixar para Windows](https://img.shields.io/badge/Baixar_para_Windows-.zip-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/LucasSckenal/pi-4/releases/download/v4.1/OndeEstaoOsNetos_Windows_v4.1.zip)
+[![Baixar para Android](https://img.shields.io/badge/Baixar_para_Android-.apk-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/LucasSckenal/pi-4/releases/download/v4.1/OndeEstaoOsNetos_Android_v4.1.apk)
 
-<sub>Última versão: <b>v4.0</b> · <a href="https://github.com/LucasSckenal/pi-4/releases">ver todos os releases</a></sub>
+<sub>Última versão: <b>v4.1</b> · <a href="https://github.com/LucasSckenal/pi-4/releases">ver todos os releases</a></sub>
 
 </div>
 
@@ -77,8 +77,8 @@ A forma mais rápida de jogar — **sem precisar instalar o Godot**:
 
 | Plataforma     | Download                                                                                                                          | Como rodar                                                       |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| 🪟 **Windows** | [`OndeEstaoOsNetos_Windows_v4.0.zip`](https://github.com/LucasSckenal/pi-4/releases/download/v3.5/OndeEstaoOsNetos_Windows_v4.0.zip) | Extraia o `.zip` e execute o `.exe`                             |
-| 🤖 **Android** | [`OndeEstaoOsNetos_Android_v4.0.apk`](https://github.com/LucasSckenal/pi-4/releases/download/v3.5/OndeEstaoOsNetos_Android_v4.0.apk) | Baixe o `.apk` e instale (permita instalar de "fontes desconhecidas") |
+| 🪟 **Windows** | [`OndeEstaoOsNetos_Windows_v4.1.zip`](https://github.com/LucasSckenal/pi-4/releases/download/v4.1/OndeEstaoOsNetos_Windows_v4.1.zip) | Extraia o `.zip` e execute o `.exe`                             |
+| 🤖 **Android** | [`OndeEstaoOsNetos_Android_v4.1.apk`](https://github.com/LucasSckenal/pi-4/releases/download/v4.1/OndeEstaoOsNetos_Android_v4.1.apk) | Baixe o `.apk` e instale (permita instalar de "fontes desconhecidas") |
 
 > 📦 A versão mais recente fica sempre em **[Releases](https://github.com/LucasSckenal/pi-4/releases/latest)**.
 > Quer rodar a partir do código-fonte? Veja [Rodar a partir do código](#instalação).
